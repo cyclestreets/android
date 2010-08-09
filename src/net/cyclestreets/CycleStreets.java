@@ -2,7 +2,6 @@ package net.cyclestreets;
 
 import android.app.TabActivity;
 import android.content.Intent;
-import android.content.res.Resources;
 import android.os.Bundle;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -57,7 +56,7 @@ public class CycleStreets extends TabActivity {
 	    // when button pressed, switch to the appropriate tab
 		RadioGroup rg = (RadioGroup) findViewById(R.id.radiogroup);
 		rg.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-			public void onCheckedChanged(RadioGroup group, final int checkedId) {
+			public void onCheckedChanged(RadioGroup group, final int checkedId) {				
 				if (checkedId == R.id.radio0)
 					getTabHost().setCurrentTab(0);
 				else if (checkedId == R.id.radio1)

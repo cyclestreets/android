@@ -25,6 +25,7 @@
 			android:checkedButton="@+id/radio0">
 			<RadioButton android:id="@+id/radio0"
 				android:background="@drawable/red_button"
+				android:text="Plan route"
 			    android:layout_width="50dip"
 			    android:layout_height="50dip" />
 			<RadioButton android:id="@+id/radio1"
