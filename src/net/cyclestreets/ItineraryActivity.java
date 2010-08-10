@@ -10,42 +10,31 @@ import android.os.Bundle;
 import android.widget.SimpleAdapter;
 
 public class ItineraryActivity extends ListActivity {
-    /** Keys used for row Map */
-    private static final String ICON_KEY = "icon";
-    private static final String LABEL_KEY = "label";
-    private static final String DETAIL_KEY = "detail";
-
-    private static final int[] ICONS = new int[] { R.drawable.icon,
-    	R.drawable.icon};
-    private static final String[] LABELS = new String[] { "Apple", "Lime" };
-    private static final String[] DETAILS = new String[] {
-    	"The apple is the pomaceous fruit of the apple tree, species Malus domestica in the rose family Rosaceae. It is one of the most widely cultivated tree fruits.",
-    	"Lime is a term referring to a number of different fruits, both species and hybrids, citruses, which have their origin in the Himalayan region of India and which are typically round, green to yellow in color, 3–6 cm in diameter, and containing sour and acidic pulp."
-    };
+    /** Keys used to map data to view id's */
+    /** The specific values don't actually matter, as long as they're used consistently */
+	protected static String[] fromKeys = new String[] { "type", "street", "time", "dist", "cumdist" };
+	protected static int[] toIds = new int[] {
+		R.id.segment_type, R.id.segment_street, R.id.segment_time,
+		R.id.segment_distance, R.id.segment_cumulative_distance
+	};
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
 		// create the rows
-		List<Map<String, Object>> rows = new ArrayList<Map<String, Object>>();
-		for (int i = 0; i < ICONS.length; i++) {
-			rows.add(createIconDetailListItemMap(ICONS[i], LABELS[i],
-					DETAILS[i]));
-		}
+		List<Map<String,Object>> rows = new ArrayList<Map<String,Object>>();
+		rows.add(createRowMap(R.drawable.icon, "Coldhams Lane Cycle Bridge", "01m24", "213m", "(0.638km)"));
+		rows.add(createRowMap(R.drawable.icon, "Cromwell Road", "02m30", "7m", "(0.801km)"));
  
-		// set up SimpleAdapter for icon_detail_list_item
-		String[] fromKeys = new String[] { ICON_KEY, LABEL_KEY, DETAIL_KEY };
-		int[] toIds = new int[] { R.id.icon, R.id.firstLine, R.id.secondLine };
-		setListAdapter(new SimpleAdapter(this, rows,
-				R.layout.itinerary_item, fromKeys, toIds));
+		// set up SimpleAdapter for itinerary_item
+		setListAdapter(new SimpleAdapter(this, rows, R.layout.itinerary_item, fromKeys, toIds));
     }
     
-	public static Map<String, Object> createIconDetailListItemMap(int icon,
-			CharSequence label, CharSequence detail) {
-		Map<String, Object> row = new HashMap<String, Object>();
-		row.put(ICON_KEY, icon);
-		row.put(LABEL_KEY, label);
-		row.put(DETAIL_KEY, detail);
+	public static Map<String, Object> createRowMap(Object... items) {
+		Map<String,Object> row = new HashMap<String,Object>();
+		for (int i = 0; i < items.length; i++) {
+			row.put(fromKeys[i], items[i]);
+		}
 		return row;
 	}    
 }
