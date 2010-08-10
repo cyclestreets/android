@@ -10,40 +10,11 @@
         <TabWidget
             android:id="@android:id/tabs"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:visibility="gone"/>
+            android:layout_height="wrap_content"/>
         <FrameLayout
             android:id="@android:id/tabcontent"
             android:layout_weight="1"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content"/>
-	    <RadioGroup
-			android:id="@+id/radiogroup"
-			android:layout_width="fill_parent"
-			android:layout_height="wrap_content"
-			android:orientation="horizontal"
-			android:checkedButton="@+id/radio0">
-			<RadioButton android:id="@+id/radio0"
-				android:background="@drawable/red_button"
-				android:text="Plan route"
-			    android:layout_width="50dip"
-			    android:layout_height="50dip" />
-			<RadioButton android:id="@+id/radio1"
-				android:background="@drawable/red_button"
-			    android:layout_width="50dip"
-			    android:layout_height="50dip" />
-			<RadioButton android:id="@+id/radio2"
-				android:background="@drawable/red_button"
-			    android:layout_width="50dip"
-			    android:layout_height="50dip" />
-			<RadioButton android:id="@+id/radio3"
-				android:background="@drawable/red_button"
-			    android:layout_width="50dip"
-			    android:layout_height="50dip" />
-			<RadioButton android:id="@+id/radio4"
-				android:background="@drawable/red_button"
-			    android:layout_width="50dip"
-			    android:layout_height="50dip" />
-	    </RadioGroup>
+            android:layout_height="fill_parent"/>
     </LinearLayout>
 </TabHost>

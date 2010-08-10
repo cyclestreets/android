@@ -2,4 +2,8 @@
 <resources>
     <string name="hello">Hello World, CycleStreets!</string>
     <string name="app_name">CycleStreets</string>
+    <string name="savedroutes">Saved routes</string>
+    <string name="settings">Settings</string>
+    <string name="credits">Credits</string>
+
 </resources>

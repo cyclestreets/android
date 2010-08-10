@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="routetype">
+        <item>Fast</item>
+        <item>Balanced</item>
+        <item>Quietest</item>
+    </string-array>
+    <string-array name="routetype_values">
+        <item>fast</item>
+        <item>balanced</item>
+        <item>quietest</item>
+    </string-array>
+    <string-array name="speed">
+        <item>16 km/h</item>
+        <item>20 km/h</item>
+        <item>24 km/h</item>
+    </string-array>
+    <string-array name="speed_values">
+        <item>16</item>
+        <item>20</item>
+        <item>24</item>
+    </string-array>
+    <string-array name="mapstyle">
+        <item>OpenStreetMap</item>
+        <item>CloudMade</item>
+    </string-array>
+    <string-array name="mapstyle_values">
+        <item>openstreetmap</item>
+        <item>cloudmade</item>
+    </string-array>
+</resources>

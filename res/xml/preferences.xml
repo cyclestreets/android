@@ -1,0 +1,23 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+	<ListPreference
+		android:key="routetype"
+		android:title="Route type"
+		android:summary="Balanced"
+		android:defaultValue="balanced"
+		android:entries="@array/routetype"
+		android:entryValues="@array/routetype_values" />
+	<ListPreference
+		android:key="speed"
+		android:title="Cycling speed"
+		android:summary="20 km/h"
+		android:defaultValue="20"
+		android:entries="@array/speed"
+		android:entryValues="@array/speed_values" />
+	<ListPreference
+		android:key="mapstyle"
+		android:title="Map style"
+		android:summary="OpenStreetMap"
+		android:defaultValue="openstreetmap"
+		android:entries="@array/mapstyle"
+		android:entryValues="@array/mapstyle_values" />
+</PreferenceScreen>
