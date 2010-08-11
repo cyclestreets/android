@@ -3,7 +3,13 @@
       package="net.cyclestreets"
       android:versionCode="1"
       android:versionName="1.0">
+	<uses-permission android:name="android.permission.INTERNET" />
+	<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+	<uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/> 
+	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <application android:icon="@drawable/icon" android:label="@string/app_name">
+		<uses-library android:name="com.google.android.maps" />
+		<meta-data android:name="CLOUDMADE_KEY" android:value="13ed67dfecf44b5a8d9dc3ec49268ba0" />
         <activity android:name=".CycleStreets"
                   android:label="@string/app_name">
             <intent-filter>
@@ -31,4 +37,4 @@
 		</activity>
     </application>
     <uses-sdk android:minSdkVersion="3" />
-</manifest> 
+</manifest>
