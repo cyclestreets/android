@@ -1,10 +1,6 @@
 package net.cyclestreets;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import android.content.SharedPreferences;
-import android.content.res.Resources;
 import android.os.Bundle;
 import android.preference.ListPreference;
 import android.preference.Preference;

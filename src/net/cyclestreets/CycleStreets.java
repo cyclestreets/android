@@ -62,13 +62,13 @@ public class CycleStreets extends TabActivity {
 	public boolean onOptionsItemSelected(MenuItem item) {
 	    switch (item.getItemId()) {
 	    case R.id.savedroutes:
-	        //
+	        // not yet
 	        return true;
 	    case R.id.settings:
 	        startActivity(new Intent(this, SettingsActivity.class));
 	        return true;
 	    case R.id.credits:
-	    	//
+	    	// not yet
 	    	return true;
 	    default:
 	        return super.onOptionsItemSelected(item);

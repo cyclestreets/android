@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.telephony.TelephonyManager;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.ZoomControls;
@@ -26,26 +27,26 @@ public class PlanRouteActivity extends Activity {
     private BasicMapComponent mapComponent;
     private ZoomControls zoomControls;
     private boolean onRetainCalled;
+    
+    protected final static String NUTITEQ_API_KEY = "c7e1249ffc03eb9ded908c236bd1996d4c62dbae56a439.28554625";
+    protected final static String CLOUDMADE_API_KEY = "13ed67dfecf44b5a8d9dc3ec49268ba0";
 
     /** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        
-//        setContentView(R.layout.planroute_activity);
         onRetainCalled = false;
 
-        mapComponent = new BasicMapComponent("c7e1249ffc03eb9ded908c236bd1996d4c62dbae56a439.28554625", "CycleStreets", "CycleStreets", 1, 1,
+        mapComponent = new BasicMapComponent(NUTITEQ_API_KEY, "CycleStreets", "CycleStreets", 1, 1,
         		new WgsPoint(24.764580, 59.437420), 10);
-
-        mapComponent.setMap(new CloudMade("13ed67dfecf44b5a8d9dc3ec49268ba0", "DEVICE_UID", 64, 1));
+        String imei = ((TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE)).getDeviceId();
+        mapComponent.setMap(new CloudMade(CLOUDMADE_API_KEY, imei, 64, 1));
         mapComponent.setPanningStrategy(new ThreadDrivenPanning());
         mapComponent.setControlKeysHandler(new AndroidKeysHandler());
         mapComponent.startMapping();
         mapView = new MapView(this, mapComponent);
 
-        //Add ZoomControls
+        // Add ZoomControls
         zoomControls = new ZoomControls(this);
         zoomControls.setOnZoomInClickListener(new View.OnClickListener() {
         	public void onClick(final View v) {
@@ -66,6 +67,7 @@ public class PlanRouteActivity extends Activity {
         locationSource.setLocationMarker(marker);
         mapComponent.setLocationSource(locationSource);
 
+        // create layout
         final RelativeLayout relativeLayout = new RelativeLayout(this);
         setContentView(relativeLayout);
         final RelativeLayout.LayoutParams mapViewLayoutParams = new RelativeLayout.LayoutParams(
@@ -78,21 +80,7 @@ public class PlanRouteActivity extends Activity {
         zoomControlsLayoutParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
         zoomControlsLayoutParams.addRule(RelativeLayout.CENTER_HORIZONTAL);
         relativeLayout.addView(zoomControls, zoomControlsLayoutParams);  
-//
-//        
-//        final RelativeLayout rl = new RelativeLayout(this);
-//        
-//        OpenStreetMapView mOsmv = new OpenStreetMapView(this, OpenStreetMapRendererInfo.getDefault());
-//        mOsmv.setBuiltInZoomControls(true);
-//        mOsmv.setMultiTouchControls(true);
-//        rl.addView(mOsmv, new RelativeLayout.LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT));
-//        
-//        this.setContentView(rl);
     }
-
-//    protected boolean isRouteDisplayed() {
-//    	return false;
-//    }
 
     @Override
     public Object onRetainNonConfigurationInstance() {

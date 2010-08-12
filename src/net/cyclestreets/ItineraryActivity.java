@@ -22,6 +22,7 @@ public class ItineraryActivity extends ListActivity {
         super.onCreate(savedInstanceState);
 
 		// create the rows
+        // just test data for now
 		List<Map<String,Object>> rows = new ArrayList<Map<String,Object>>();
 		rows.add(createRowMap(R.drawable.icon, "Coldhams Lane Cycle Bridge", "01m24", "213m", "(0.638km)"));
 		rows.add(createRowMap(R.drawable.icon, "Cromwell Road", "02m30", "7m", "(0.801km)"));
