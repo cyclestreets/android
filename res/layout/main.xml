@@ -15,6 +15,21 @@
             android:id="@android:id/tabcontent"
             android:layout_weight="1"
             android:layout_width="fill_parent"
-            android:layout_height="fill_parent"/>
+            android:layout_height="fill_parent">
+            <RelativeLayout
+	            android:id="@+id/tab_planroute"
+	            android:layout_width="fill_parent"
+	            android:layout_height="fill_parent" />
+            <TextView 
+                android:id="@+id/tab_photomap"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent" 
+                android:text="this is the photomap tab" />
+            <TextView 
+                android:id="@+id/tab_addphoto"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent" 
+                android:text="this is the addphoto tab" />
+		</FrameLayout>
     </LinearLayout>
 </TabHost>
