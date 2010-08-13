@@ -127,6 +127,12 @@ public class CycleStreets extends TabActivity {
         zoomControlsLayoutParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
         zoomControlsLayoutParams.addRule(RelativeLayout.CENTER_HORIZONTAL);
         relativeLayout.addView(zoomControls, zoomControlsLayoutParams);  
+
+	
+        // add another mapview to photomap layout
+        MapView photomapView = new MapView(this, mapComponent);
+        RelativeLayout photomapLayout = (RelativeLayout) findViewById(R.id.tab_photomap);
+        photomapLayout.addView(photomapView, mapViewLayoutParams);
 	}
 	
 	@Override

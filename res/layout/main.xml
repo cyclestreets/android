@@ -20,11 +20,10 @@
 	            android:id="@+id/tab_planroute"
 	            android:layout_width="fill_parent"
 	            android:layout_height="fill_parent" />
-            <TextView 
+            <RelativeLayout 
                 android:id="@+id/tab_photomap"
                 android:layout_width="fill_parent"
-                android:layout_height="fill_parent" 
-                android:text="this is the photomap tab" />
+                android:layout_height="fill_parent" />
             <TextView 
                 android:id="@+id/tab_addphoto"
                 android:layout_width="fill_parent"
