@@ -76,7 +76,7 @@ public class CycleStreets extends TabActivity {
 	    tabHost.addTab(spec);
 
 	    // start with first tab
-	    tabHost.setCurrentTab(0);
+	    tabHost.setCurrentTab(0);	
 	}
 
 	

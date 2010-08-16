@@ -5,9 +5,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import net.cyclestreets.api.ApiClient;
+import net.cyclestreets.api.Journey;
+import net.cyclestreets.api.Marker;
 import android.app.ListActivity;
 import android.os.Bundle;
 import android.widget.SimpleAdapter;
+
+import com.nutiteq.components.WgsPoint;
 
 public class ItineraryActivity extends ListActivity {
     /** Keys used to map data to view id's */
@@ -21,14 +26,27 @@ public class ItineraryActivity extends ListActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-		// create the rows
-        // just test data for now
-		List<Map<String,Object>> rows = new ArrayList<Map<String,Object>>();
-		rows.add(createRowMap(R.drawable.icon, "Coldhams Lane Cycle Bridge", "01m24", "213m", "(0.638km)"));
-		rows.add(createRowMap(R.drawable.icon, "Cromwell Road", "02m30", "7m", "(0.801km)"));
- 
-		// set up SimpleAdapter for itinerary_item
-		setListAdapter(new SimpleAdapter(this, rows, R.layout.itinerary_item, fromKeys, toIds));
+        try {
+        	ApiClient client = new ApiClient();
+        	WgsPoint start = new WgsPoint(0.117950, 52.205302);
+        	WgsPoint finish = new WgsPoint(0.147324, 52.199650);
+        	Journey journey = client.getJourney("quietest", start, finish);        
+
+        	// create the rows
+        	List<Map<String,Object>> rows = new ArrayList<Map<String,Object>>();
+        	float cumdist = 0.0f;
+        	for (Marker m : journey.markers) {
+        		String type = m.provisionName;
+        		cumdist += m.distance;
+        		rows.add(createRowMap(R.drawable.icon, m.name, m.time + "m", m.distance + "m", "(" + (cumdist/1000) + "km)"));
+        	}
+
+        	// set up SimpleAdapter for itinerary_item
+        	setListAdapter(new SimpleAdapter(this, rows, R.layout.itinerary_item, fromKeys, toIds));
+        }
+        catch (Exception e) {
+        	throw new RuntimeException(e);
+        }
     }
     
 	public static Map<String, Object> createRowMap(Object... items) {
