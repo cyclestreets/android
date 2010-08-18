@@ -15,13 +15,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     
 	@Override
 	public void onCreate(SQLiteDatabase db) {
-        db.execSQL("CREATE TABLE " + NOTES_TABLE_NAME + " ("
-                + Notes._ID + " INTEGER PRIMARY KEY,"
-                + Notes.TITLE + " TEXT,"
-                + Notes.NOTE + " TEXT,"
-                + Notes.CREATED_DATE + " INTEGER,"
-                + Notes.MODIFIED_DATE + " INTEGER"
-                + ");");
+//        db.execSQL("CREATE TABLE " + NOTES_TABLE_NAME + " ("
+//                + Notes._ID + " INTEGER PRIMARY KEY,"
+//                + Notes.TITLE + " TEXT,"
+//                + Notes.NOTE + " TEXT,"
+//                + Notes.CREATED_DATE + " INTEGER,"
+//                + Notes.MODIFIED_DATE + " INTEGER"
+//                + ");");
 	}
 
 	@Override

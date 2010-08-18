@@ -27,7 +27,7 @@ public class CycleStreetsContentProvider extends ContentProvider {
     private static final int CALLS_ID = 12;
     private static final int CALLS_FILTER = 15;
 
-    private static final UriMatcher sURIMatcher = new UriMatcher();
+    private static final UriMatcher sURIMatcher = new UriMatcher(0);
 
     static
     {

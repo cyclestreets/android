@@ -6,7 +6,7 @@ import org.simpleframework.xml.ElementList;
 import org.simpleframework.xml.Root;
 
 @Root(strict=false)
-public class Journey {
+public class Photos {
 	@ElementList(inline=true, entry="marker")
-	public List<Segment> segments;
+	public List<Photo> photos;
 }

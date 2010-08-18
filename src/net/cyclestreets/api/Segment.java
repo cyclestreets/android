@@ -4,7 +4,7 @@ import org.simpleframework.xml.Attribute;
 import org.simpleframework.xml.Root;
 
 @Root(strict=false)
-public class Marker {
+public class Segment {
    @Attribute(required=false)
    public String name, points, flow, turn, elevations, distances, provisionName, color, type;
 
