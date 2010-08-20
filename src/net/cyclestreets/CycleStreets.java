@@ -8,6 +8,7 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.telephony.TelephonyManager;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -21,6 +22,7 @@ import com.nutiteq.android.MapView;
 import com.nutiteq.components.PlaceIcon;
 import com.nutiteq.components.WgsPoint;
 import com.nutiteq.controls.AndroidKeysHandler;
+import com.nutiteq.listeners.MapListener;
 import com.nutiteq.location.LocationMarker;
 import com.nutiteq.location.LocationSource;
 import com.nutiteq.location.NutiteqLocationMarker;
@@ -115,6 +117,15 @@ public class CycleStreets extends TabActivity {
         locationSource.setLocationMarker(marker);
         mapComponent.setLocationSource(locationSource);	
 
+        // listen for clicks
+        mapComponent.setMapListener(new MapListener() {
+        	 public void mapClicked(WgsPoint p) {
+        		 Log.d(getClass().getSimpleName(), "clicked at " + p.toString());
+        	 }
+        	 public void mapMoved() {}
+        	 public void needRepaint(boolean mapIsComplete) {}
+        });
+        
         // add to planroute layout
         RelativeLayout relativeLayout = (RelativeLayout) findViewById(R.id.tab_planroute);
         RelativeLayout.LayoutParams mapViewLayoutParams = new RelativeLayout.LayoutParams(
