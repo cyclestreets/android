@@ -19,11 +19,11 @@ public class PhotomapActivity extends Activity {
         super.onCreate(savedInstanceState);
 
         // add another mapview to photomap layout
-        MapView photomapView = new MapView(this, CycleStreets.mapComponent);
+//        MapView photomapView = new MapView(this, CycleStreets.mapComponent);
         RelativeLayout photomapLayout = new RelativeLayout(this);
         RelativeLayout.LayoutParams mapViewLayoutParams = new RelativeLayout.LayoutParams(
         		RelativeLayout.LayoutParams.FILL_PARENT, RelativeLayout.LayoutParams.FILL_PARENT);
-        photomapLayout.addView(photomapView, mapViewLayoutParams);
+//        photomapLayout.addView(photomapView, mapViewLayoutParams);
     	setContentView(photomapLayout);
 
     	Toast.makeText(this, "fetching photos", Toast.LENGTH_LONG).show();
