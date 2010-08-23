@@ -47,6 +47,7 @@ public class CycleStreetsContentProvider extends ContentProvider {
         sURIMatcher.addURI("call_log", "/calls/filter/*", CALLS_FILTER);
         sURIMatcher.addURI("call_log", "/calls/#", CALLS_ID);
     }
+<<<<<<< HEAD:src/net/cyclestreets/content/CycleStreetsContentProvider.java
     
 	@Override
 	public Cursor query(Uri uri, String[] projection, String selection,
@@ -58,6 +59,11 @@ public class CycleStreetsContentProvider extends ContentProvider {
 
 	@Override
 	public int delete(Uri arg0, String arg1, String[] arg2) {
+=======
+
+	@Override
+	public int delete(Uri uri, String selection, String[] selectionArgs) {
+>>>>>>> 2aafc4485f281df7d658e0c96dfc3aa0b4dbe320:src/net/cyclestreets/content/CycleStreetsContentProvider.java
 		// TODO Auto-generated method stub
 		return 0;
 	}
@@ -81,6 +87,16 @@ public class CycleStreetsContentProvider extends ContentProvider {
 	}
 
 	@Override
+<<<<<<< HEAD:src/net/cyclestreets/content/CycleStreetsContentProvider.java
+=======
+	public Cursor query(Uri uri, String[] projection, String selection,
+			String[] selectionArgs, String sortOrder) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+>>>>>>> 2aafc4485f281df7d658e0c96dfc3aa0b4dbe320:src/net/cyclestreets/content/CycleStreetsContentProvider.java
 	public int update(Uri uri, ContentValues values, String selection,
 			String[] selectionArgs) {
 		// TODO Auto-generated method stub

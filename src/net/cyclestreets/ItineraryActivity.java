@@ -7,7 +7,7 @@ import java.util.Map;
 
 import net.cyclestreets.api.ApiClient;
 import net.cyclestreets.api.Journey;
-import net.cyclestreets.api.Marker;
+import net.cyclestreets.api.Segment;
 import android.app.ListActivity;
 import android.os.Bundle;
 import android.widget.SimpleAdapter;
@@ -27,18 +27,17 @@ public class ItineraryActivity extends ListActivity {
         super.onCreate(savedInstanceState);
 
         try {
-        	ApiClient client = new ApiClient();
         	WgsPoint start = new WgsPoint(0.117950, 52.205302);
         	WgsPoint finish = new WgsPoint(0.147324, 52.199650);
-        	Journey journey = client.getJourney("quietest", start, finish);        
+        	Journey journey = CycleStreets.apiClient.getJourney("quietest", start, finish);        
 
         	// create the rows
         	List<Map<String,Object>> rows = new ArrayList<Map<String,Object>>();
-        	float cumdist = 0.0f;
-        	for (Marker m : journey.markers) {
-        		String type = m.provisionName;
-        		cumdist += m.distance;
-        		rows.add(createRowMap(R.drawable.icon, m.name, m.time + "m", m.distance + "m", "(" + (cumdist/1000) + "km)"));
+        	double cumdist = 0.0;
+        	for (Segment segment : journey.segments) {
+        		String type = segment.provisionName;
+        		cumdist += segment.distance;
+        		rows.add(createRowMap(R.drawable.icon, segment.name, segment.time + "m", segment.distance + "m", "(" + (cumdist/1000) + "km)"));
         	}
 
         	// set up SimpleAdapter for itinerary_item

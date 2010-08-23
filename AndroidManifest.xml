@@ -17,6 +17,9 @@
 		<activity android:name=".ItineraryActivity"
 				  android:label="@string/app_name">
 		</activity>
+		<activity android:name=".PhotomapActivity"
+				  android:label="@string/app_name">
+		</activity>
 		<activity android:name=".SettingsActivity"
 		          android:label="@string/app_name">
 		</activity>

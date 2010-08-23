@@ -1,5 +1,6 @@
 package net.cyclestreets;
 
+import net.cyclestreets.api.ApiClient;
 import android.app.TabActivity;
 import android.content.Context;
 import android.content.Intent;
@@ -33,13 +34,16 @@ import com.nutiteq.utils.Utils;
 
 
 public class CycleStreets extends TabActivity {
-    protected MapView mapView;
-    protected BasicMapComponent mapComponent;
+	protected static ApiClient apiClient = new ApiClient();
+    protected static BasicMapComponent mapComponent;
+	protected MapView mapView;
     protected boolean onRetainCalled;
+    
     
     protected final static String NUTITEQ_API_KEY = "c7e1249ffc03eb9ded908c236bd1996d4c62dbae56a439.28554625";
     protected final static String CLOUDMADE_API_KEY = "13ed67dfecf44b5a8d9dc3ec49268ba0";
 
+    protected final static WgsPoint CAMBRIDGE = new WgsPoint(-0.74483, 52.2099121);
     
     /** Called when the activity is first created. */
 	public void onCreate(Bundle savedInstanceState) {
@@ -48,7 +52,16 @@ public class CycleStreets extends TabActivity {
 
 	    // initialize default preferences
 	    PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
-	    
+
+	    // initialize mapcomponent
+        mapComponent = new BasicMapComponent(NUTITEQ_API_KEY, "CycleStreets", "CycleStreets", 1, 1,
+        		CAMBRIDGE, 7);
+        String imei = ((TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE)).getDeviceId();
+        mapComponent.setMap(new CloudMade(CLOUDMADE_API_KEY, imei, 64, 1));
+        mapComponent.setPanningStrategy(new ThreadDrivenPanning());
+        mapComponent.setControlKeysHandler(new AndroidKeysHandler());
+        mapComponent.startMapping();
+
         // build layout for planroute tab
         buildPlanRouteLayout();
 
@@ -69,7 +82,7 @@ public class CycleStreets extends TabActivity {
 
 	    // Photomap
 	    spec = tabHost.newTabSpec("Photomap").setIndicator("Photomap", res.getDrawable(R.drawable.ic_tab_photomap));
-	    spec.setContent(R.id.tab_photomap);
+	    spec.setContent(new Intent(this, PhotomapActivity.class));
 	    tabHost.addTab(spec);
 
 	    // Add photo
@@ -86,14 +99,7 @@ public class CycleStreets extends TabActivity {
 	public void buildPlanRouteLayout() {
         onRetainCalled = false;
 
-        // create MapComponent and MapView
-        mapComponent = new BasicMapComponent(NUTITEQ_API_KEY, "CycleStreets", "CycleStreets", 1, 1,
-        		new WgsPoint(24.764580, 59.437420), 10);
-        String imei = ((TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE)).getDeviceId();
-        mapComponent.setMap(new CloudMade(CLOUDMADE_API_KEY, imei, 64, 1));
-        mapComponent.setPanningStrategy(new ThreadDrivenPanning());
-        mapComponent.setControlKeysHandler(new AndroidKeysHandler());
-        mapComponent.startMapping();
+        // create MapView
         mapView = new MapView(this, mapComponent);
 
         // create ZoomControls
@@ -138,12 +144,6 @@ public class CycleStreets extends TabActivity {
         zoomControlsLayoutParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
         zoomControlsLayoutParams.addRule(RelativeLayout.CENTER_HORIZONTAL);
         relativeLayout.addView(zoomControls, zoomControlsLayoutParams);  
-
-	
-        // add another mapview to photomap layout
-        MapView photomapView = new MapView(this, mapComponent);
-        RelativeLayout photomapLayout = (RelativeLayout) findViewById(R.id.tab_photomap);
-        photomapLayout.addView(photomapView, mapViewLayoutParams);
 	}
 	
 	@Override
