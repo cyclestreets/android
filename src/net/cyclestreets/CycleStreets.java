@@ -8,11 +8,9 @@ import android.app.TabActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
-import android.location.LocationManager;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.telephony.TelephonyManager;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -21,22 +19,18 @@ import android.widget.RelativeLayout;
 import android.widget.TabHost;
 import android.widget.ZoomControls;
 
+import com.nutiteq.BasicMapComponent;
 import com.nutiteq.android.MapView;
-import com.nutiteq.components.PlaceIcon;
 import com.nutiteq.components.WgsPoint;
 import com.nutiteq.controls.AndroidKeysHandler;
-import com.nutiteq.listeners.MapListener;
-import com.nutiteq.location.LocationMarker;
-import com.nutiteq.location.LocationSource;
-import com.nutiteq.location.NutiteqLocationMarker;
-import com.nutiteq.location.providers.AndroidGPSProvider;
-import com.nutiteq.utils.Utils;
+import com.nutiteq.maps.CloudMade;
+import com.nutiteq.ui.ThreadDrivenPanning;
 
 
 public class CycleStreets extends TabActivity {
 	protected static ApiClient apiClient = new ApiClient();
-//    protected static BasicMapComponent mapComponent;
-//	protected MapView mapView;
+    protected static BasicMapComponent mapComponent;
+	protected MapView mapView;
 	protected OpenStreetMapView osmview;
 	protected boolean onRetainCalled;
     
@@ -55,13 +49,13 @@ public class CycleStreets extends TabActivity {
 	    PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
 
 	    // initialize mapcomponent
-//        mapComponent = new BasicMapComponent(NUTITEQ_API_KEY, "CycleStreets", "CycleStreets", 1, 1,
-//        		CAMBRIDGE, 7);
-//        String imei = ((TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE)).getDeviceId();
-//        mapComponent.setMap(new CloudMade(CLOUDMADE_API_KEY, imei, 64, 1));
-//        mapComponent.setPanningStrategy(new ThreadDrivenPanning());
-//        mapComponent.setControlKeysHandler(new AndroidKeysHandler());
-//        mapComponent.startMapping();
+        mapComponent = new BasicMapComponent(NUTITEQ_API_KEY, "CycleStreets", "CycleStreets", 1, 1,
+        		CAMBRIDGE, 7);
+        String imei = ((TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE)).getDeviceId();
+        mapComponent.setMap(new CloudMade(CLOUDMADE_API_KEY, imei, 64, 1));
+        mapComponent.setPanningStrategy(new ThreadDrivenPanning());
+        mapComponent.setControlKeysHandler(new AndroidKeysHandler());
+        mapComponent.startMapping();
 
         // build layout for planroute tab
         buildPlanRouteLayout();
