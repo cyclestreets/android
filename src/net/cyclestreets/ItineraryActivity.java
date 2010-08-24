@@ -5,11 +5,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import net.cyclestreets.api.ApiClient;
 import net.cyclestreets.api.Journey;
 import net.cyclestreets.api.Segment;
+import android.app.Dialog;
 import android.app.ListActivity;
-import android.os.Bundle;
+import android.app.ProgressDialog;
+import android.os.AsyncTask;
 import android.widget.SimpleAdapter;
 
 import com.nutiteq.components.WgsPoint;
@@ -23,36 +24,64 @@ public class ItineraryActivity extends ListActivity {
 		R.id.segment_distance, R.id.segment_cumulative_distance
 	};
 
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+	@Override
+	protected void onResume() {
+		super.onResume();
+		
+		// TODO: only recalculate if journey changed
+		setListAdapter(null);
+    	WgsPoint start = new WgsPoint(0.117950, 52.205302);
+    	WgsPoint finish = new WgsPoint(0.147324, 52.199650);
+        new GetJourneyTask().execute(start, finish);
+	}
 
-        try {
-        	WgsPoint start = new WgsPoint(0.117950, 52.205302);
-        	WgsPoint finish = new WgsPoint(0.147324, 52.199650);
-        	Journey journey = CycleStreets.apiClient.getJourney("quietest", start, finish);        
+	private class GetJourneyTask extends AsyncTask<WgsPoint,Void,List<Map<String,Object>>> {
+		protected ProgressDialog dialog = new ProgressDialog(ItineraryActivity.this);
 
-        	// create the rows
-        	List<Map<String,Object>> rows = new ArrayList<Map<String,Object>>();
-        	double cumdist = 0.0;
-        	for (Segment segment : journey.segments) {
-        		String type = segment.provisionName;
-        		cumdist += segment.distance;
-        		rows.add(createRowMap(R.drawable.icon, segment.name, segment.time + "m", segment.distance + "m", "(" + (cumdist/1000) + "km)"));
-        	}
-
-        	// set up SimpleAdapter for itinerary_item
-        	setListAdapter(new SimpleAdapter(this, rows, R.layout.itinerary_item, fromKeys, toIds));
-        }
-        catch (Exception e) {
-        	throw new RuntimeException(e);
-        }
-    }
-    
-	public static Map<String, Object> createRowMap(Object... items) {
-		Map<String,Object> row = new HashMap<String,Object>();
-		for (int i = 0; i < items.length; i++) {
-			row.put(fromKeys[i], items[i]);
+		protected void onPreExecute() {
+			// TODO Auto-generated method stub
+			super.onPreExecute();
+			dialog.setMessage("Calculating journey");
+			dialog.setIndeterminate(true);
+			dialog.setCancelable(false);
+			dialog.show();
 		}
-		return row;
-	}    
+
+		protected List<Map<String,Object>> doInBackground(WgsPoint... params) {
+			WgsPoint start = params[0];
+			WgsPoint finish = params[1];
+        	List<Map<String,Object>> rows = new ArrayList<Map<String,Object>>();
+	        try {
+	        	Journey journey = CycleStreets.apiClient.getJourney("quietest", start, finish);        
+
+	        	// create the rows
+	        	double cumdist = 0.0;
+	        	for (Segment segment : journey.segments) {
+	        		String type = segment.provisionName;
+	        		cumdist += segment.distance;
+	        		rows.add(createRowMap(R.drawable.icon, segment.name, segment.time + "m", segment.distance + "m", "(" + (cumdist/1000) + "km)"));
+	        	}
+	        }
+	        catch (Exception e) {
+	        	throw new RuntimeException(e);
+	        }
+			return rows;
+		}
+
+		@Override
+		protected void onPostExecute(List<Map<String,Object>> rows) {
+        	// set up SimpleAdapter for itinerary_item
+        	setListAdapter(new SimpleAdapter(ItineraryActivity.this, rows, R.layout.itinerary_item, fromKeys, toIds));
+        	dialog.dismiss();
+		}    	
+
+		// utility method to convert segments into rows
+		protected Map<String,Object> createRowMap(Object... items) {
+			Map<String,Object> row = new HashMap<String,Object>();
+			for (int i = 0; i < items.length; i++) {
+				row.put(fromKeys[i], items[i]);
+			}
+			return row;
+		}
+    }
 }

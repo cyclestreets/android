@@ -3,6 +3,7 @@ package net.cyclestreets;
 import java.util.List;
 
 import net.cyclestreets.api.Photo;
+import android.os.AsyncTask;
 import android.util.Log;
 
 import com.nutiteq.components.Place;
@@ -20,25 +21,36 @@ public class PhotomapListener extends MapAdapter {
 		double s = sw.getLat();
 		double e = ne.getLon();
 		double w = sw.getLon();
-		Log.d(getClass().getSimpleName(), "north: " + n);
-		Log.d(getClass().getSimpleName(), "south: " + s);
-		Log.d(getClass().getSimpleName(), "east: " + e);
-		Log.d(getClass().getSimpleName(), "west: " + w);
-
-		try {
-			// remove previous places, to prevent duplicates
-			// TODO: do incremental processing of photos
-			CycleStreets.mapComponent.removeAllPlaces();
-			
-			List<Photo> photos = CycleStreets.apiClient.getPhotos(center, zoom, n, s, e, w);
-			Log.d(getClass().getSimpleName(), "got photos: " + photos.size());
-			Log.d(getClass().getSimpleName(), photos.get(0).caption);
+		new GetPhotosTask().execute(center, zoom, n, s, e, w);
+	}
+	
+	private class GetPhotosTask extends AsyncTask<Object,Void,List<Photo>> {
+		protected List<Photo> doInBackground(Object... params) {
+			WgsPoint center = (WgsPoint) params[0];
+			int zoom = (Integer) params[1];
+			double n = (Double) params[2];
+			double s = (Double) params[3];
+			double e = (Double) params[4];
+			double w = (Double) params[5];
+			List<Photo> photos;
+			try {
+				// TODO: do incremental processing of photos
+				// TODO: reset photos when zoom level changes
+				photos = CycleStreets.apiClient.getPhotos(center, zoom, n, s, e, w);
+				Log.d(getClass().getSimpleName(), "got photos: " + photos.size());
+				Log.d(getClass().getSimpleName(), photos.get(0).caption);
+			}
+			catch (Exception ex) {
+				throw new RuntimeException(ex);
+			}
+			return photos;
+		}
+	
+		@Override
+		protected void onPostExecute(List<Photo> photos) {
 			for (Photo photo: photos) {
 				CycleStreets.mapComponent.addPlace(new Place(photo.id, photo.caption, Photomap.ICONS[photo.feature], new WgsPoint(photo.longitude, photo.latitude)));
 			}
-		}
-		catch (Exception ex) {
-			throw new RuntimeException(ex);
 		}
 	}
 }
