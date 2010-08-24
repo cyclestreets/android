@@ -44,10 +44,8 @@ public class PhotomapActivity extends Activity {
                 	List<Photo> photos = CycleStreets.apiClient.getPhotos(center, zoom, n, s, e, w);
                 	Log.d(getClass().getSimpleName(), "got photos: " + photos.size());
                 	Log.d(getClass().getSimpleName(), photos.get(0).caption);
-                	PlaceIcon icon = new PlaceIcon(Utils
-                            .createImage("/res/drawable-mdpi/icon.png"));
                 	for (Photo photo: photos) {
-                		CycleStreets.mapComponent.addPlace(new Place(photo.id, photo.caption, icon, new WgsPoint(photo.longitude, photo.latitude)));
+                		CycleStreets.mapComponent.addPlace(new Place(photo.id, photo.caption, Photomap.ICONS[photo.feature], new WgsPoint(photo.longitude, photo.latitude)));
                 	}
                 }
                 catch (Exception ex) {
