@@ -106,19 +106,21 @@ public class CycleStreets extends TabActivity {
 	    // create OpenStreetMapView
         osmview = new OpenStreetMapView(this);
 	    
-//        // create ZoomControls
-//        ZoomControls zoomControls = new ZoomControls(this);
-//        zoomControls.setOnZoomInClickListener(new View.OnClickListener() {
-//        	public void onClick(final View v) {
+        // create ZoomControls
+        ZoomControls zoomControls = new ZoomControls(this);
+        zoomControls.setOnZoomInClickListener(new View.OnClickListener() {
+        	public void onClick(final View v) {
+        		osmview.getController().zoomIn();
 //        		mapComponent.zoomIn();
-//        	}
-//        });
-//        zoomControls.setOnZoomOutClickListener(new View.OnClickListener() {
-//        	public void onClick(final View v) {
+        	}
+        });
+        zoomControls.setOnZoomOutClickListener(new View.OnClickListener() {
+        	public void onClick(final View v) {
+        		osmview.getController().zoomOut();
 //        		mapComponent.zoomOut();
-//        	}
-//        });
-//
+        	}
+        });
+
 //        // GPS Location
 //        LocationSource locationSource = new AndroidGPSProvider(
 //        		(LocationManager) getSystemService(Context.LOCATION_SERVICE), 1000L);
@@ -127,28 +129,28 @@ public class CycleStreets extends TabActivity {
 //        locationSource.setLocationMarker(marker);
 //        mapComponent.setLocationSource(locationSource);	
 
-        // listen for clicks
-        mapComponent.setMapListener(new MapListener() {
-        	 public void mapClicked(WgsPoint p) {
-        		 Log.d(getClass().getSimpleName(), "clicked at " + p.toString());
-        	 }
-        	 public void mapMoved() {}
-        	 public void needRepaint(boolean mapIsComplete) {}
-        });
+//        // listen for clicks
+//        mapComponent.setMapListener(new MapListener() {
+//        	 public void mapClicked(WgsPoint p) {
+//        		 Log.d(getClass().getSimpleName(), "clicked at " + p.toString());
+//        	 }
+//        	 public void mapMoved() {}
+//        	 public void needRepaint(boolean mapIsComplete) {}
+//        });
         
         // add to planroute layout
         RelativeLayout relativeLayout = (RelativeLayout) findViewById(R.id.tab_planroute);
         RelativeLayout.LayoutParams mapViewLayoutParams = new RelativeLayout.LayoutParams(
         		RelativeLayout.LayoutParams.FILL_PARENT, RelativeLayout.LayoutParams.FILL_PARENT);
-        relativeLayout.addView(osmview);
+        relativeLayout.addView(osmview, mapViewLayoutParams);
 //        relativeLayout.addView(mapView, mapViewLayoutParams);
 
         // add Zoom controls to the RelativeLayout
-//        RelativeLayout.LayoutParams zoomControlsLayoutParams = new RelativeLayout.LayoutParams(
-//        		RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
-//        zoomControlsLayoutParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
-//        zoomControlsLayoutParams.addRule(RelativeLayout.CENTER_HORIZONTAL);
-//        relativeLayout.addView(zoomControls, zoomControlsLayoutParams);  
+        RelativeLayout.LayoutParams zoomControlsLayoutParams = new RelativeLayout.LayoutParams(
+        		RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+        zoomControlsLayoutParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+        zoomControlsLayoutParams.addRule(RelativeLayout.CENTER_HORIZONTAL);
+        relativeLayout.addView(zoomControls, zoomControlsLayoutParams);  
 	}
 	
 	@Override
