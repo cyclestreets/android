@@ -29,7 +29,9 @@ public class DispatchingMapView extends MapView {
 	}
 
 	public void addMapListener(MapListener ml) {
+		Log.d(getClass().getSimpleName(), "registering listener: " + ml);
 		listeners.add(ml);
+		Log.d(getClass().getSimpleName(), "listeners = " + listeners);
 	}
 
 	public MapListener[] getMapListeners() {
@@ -37,7 +39,9 @@ public class DispatchingMapView extends MapView {
 	}
 	
 	public void removeMapListener(MapListener ml) {
+		Log.d(getClass().getSimpleName(), "removing listener: " + ml);
 		listeners.remove(ml);
+		Log.d(getClass().getSimpleName(), "listeners = " + listeners);
 	}
 	
 	@Override
