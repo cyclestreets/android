@@ -26,6 +26,9 @@
 		<activity android:name=".PhotomapActivity"
 				  android:label="@string/app_name">
 		</activity>
+		<activity android:name=".DisplayPhotoActivity"
+				  android:label="@string/app_name">
+		</activity>
 		<activity android:name=".AddPhotoActivity"
 				  android:label="@string/app_name">
 		</activity>

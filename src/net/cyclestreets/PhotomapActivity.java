@@ -1,12 +1,20 @@
 package net.cyclestreets;
 
 import android.app.Activity;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.ZoomControls;
 
-public class PhotomapActivity extends Activity {
+import com.nutiteq.components.OnMapElement;
+import com.nutiteq.components.Place;
+import com.nutiteq.listeners.MapListener;
+import com.nutiteq.listeners.OnMapElementListener;
+
+public class PhotomapActivity extends Activity implements OnMapElementListener {
 	protected PhotomapListener photomapListener;
 	protected DispatchingMapView photomapView;
 	
@@ -16,6 +24,10 @@ public class PhotomapActivity extends Activity {
         // create photomap
         photomapView = new DispatchingMapView(this, CycleStreets.mapComponent);
     	photomapListener = new PhotomapListener();
+        Log.d(getClass().getSimpleName(), "before: " + CycleStreets.mapComponent.getOnMapElementListener());
+    	// create listener for clicks on photos
+        CycleStreets.mapComponent.setOnMapElementListener(this);
+        Log.d(getClass().getSimpleName(), "after: " + CycleStreets.mapComponent.getOnMapElementListener());
 
         // create ZoomControls
         ZoomControls zoomControls = new ZoomControls(this);
@@ -92,4 +104,26 @@ public class PhotomapActivity extends Activity {
   	      photomapView = null;
   	    }
   	}
+
+	@Override
+	public void elementClicked(OnMapElement arg0) {
+		Log.d(getClass().getSimpleName(), "elementClicked " + ((Place) arg0).getLabel());
+		String url = photomapListener.photoMap.get(((Place) arg0).getId()).thumbnailUrl;
+		Log.d(getClass().getSimpleName(), "URL is " + url);
+		if (arg0 instanceof Place) {
+			startActivity(new Intent(Intent.ACTION_VIEW,
+					Uri.parse(url),
+					this, DisplayPhotoActivity.class));
+		}
+	}
+
+	@Override
+	public void elementEntered(OnMapElement arg0) {
+		// TODO: show tool tip
+	}
+
+	@Override
+	public void elementLeft(OnMapElement arg0) {
+		// TODO: hide tool tip
+	}
 }

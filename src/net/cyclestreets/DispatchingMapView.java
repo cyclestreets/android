@@ -46,6 +46,7 @@ public class DispatchingMapView extends MapView {
 	
 	@Override
 	public void mapClicked(WgsPoint arg0) {
+		Log.d(getClass().getSimpleName(), "map clicked! " + arg0);
 		super.mapClicked(arg0);
 		for (MapListener ml: listeners) {
 			ml.mapClicked(arg0);

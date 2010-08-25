@@ -8,17 +8,22 @@ import android.app.TabActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.telephony.TelephonyManager;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.TabHost;
 
 import com.nutiteq.BasicMapComponent;
+import com.nutiteq.components.OnMapElement;
+import com.nutiteq.components.Place;
 import com.nutiteq.components.WgsPoint;
 import com.nutiteq.controls.AndroidKeysHandler;
+import com.nutiteq.listeners.OnMapElementListener;
 import com.nutiteq.maps.CloudMade;
 import com.nutiteq.ui.ThreadDrivenPanning;
 

@@ -1,6 +1,8 @@
 package net.cyclestreets;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import net.cyclestreets.api.Photo;
 import android.os.AsyncTask;
@@ -11,6 +13,8 @@ import com.nutiteq.components.WgsBoundingBox;
 import com.nutiteq.components.WgsPoint;
 
 public class PhotomapListener extends MapAdapter {
+	public Map<Integer,Photo> photoMap = new HashMap<Integer,Photo>();
+	
 	public void mapMoved() {
 		WgsBoundingBox bounds = CycleStreets.mapComponent.getBoundingBox();
 		WgsPoint center = bounds.getBoundingBoxCenter();
@@ -50,6 +54,7 @@ public class PhotomapListener extends MapAdapter {
 		protected void onPostExecute(List<Photo> photos) {
 			for (Photo photo: photos) {
 				CycleStreets.mapComponent.addPlace(new Place(photo.id, photo.caption, Photomap.ICONS[photo.feature], new WgsPoint(photo.longitude, photo.latitude)));
+				photoMap.put(photo.id, photo);
 			}
 		}
 	}
