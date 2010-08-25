@@ -42,7 +42,9 @@ public class PhotomapListener extends MapAdapter {
 				// TODO: reset photos when zoom level changes
 				photos = CycleStreets.apiClient.getPhotos(center, zoom, n, s, e, w);
 				Log.d(getClass().getSimpleName(), "got photos: " + photos.size());
-				Log.d(getClass().getSimpleName(), photos.get(0).caption);
+				if (!photos.isEmpty()) {
+					Log.d(getClass().getSimpleName(), photos.get(0).caption);
+				}
 			}
 			catch (Exception ex) {
 				throw new RuntimeException(ex);
@@ -53,7 +55,10 @@ public class PhotomapListener extends MapAdapter {
 		@Override
 		protected void onPostExecute(List<Photo> photos) {
 			for (Photo photo: photos) {
-				CycleStreets.mapComponent.addPlace(new Place(photo.id, photo.caption, Photomap.ICONS[photo.feature], new WgsPoint(photo.longitude, photo.latitude)));
+				CycleStreets.mapComponent.addPlace(new Place(photo.id,
+						CycleStreetsUtils.truncate(photo.caption),
+						Photomap.ICONS[photo.feature],
+						new WgsPoint(photo.longitude, photo.latitude)));
 				photoMap.put(photo.id, photo);
 			}
 		}
