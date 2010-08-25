@@ -48,6 +48,7 @@ public class CycleStreets extends TabActivity {
         mapComponent.setMap(new CloudMade(CLOUDMADE_API_KEY, imei, 64, 1));
         mapComponent.setPanningStrategy(new ThreadDrivenPanning());
         mapComponent.setControlKeysHandler(new AndroidKeysHandler());
+        mapComponent.setTouchClickTolerance(BasicMapComponent.FINGER_CLICK_TOLERANCE);
         mapComponent.startMapping();
 
         // initialize objects
