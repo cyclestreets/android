@@ -1,6 +1,7 @@
 package net.cyclestreets;
 
 import net.cyclestreets.api.ApiClient;
+import uk.org.invisibility.cycloid.MapActivity;
 import android.app.TabActivity;
 import android.content.Context;
 import android.content.Intent;
@@ -58,7 +59,7 @@ public class CycleStreets extends TabActivity {
 	    
 	    // Plan route
 	    spec = tabHost.newTabSpec("Plan route").setIndicator("Plan Route", res.getDrawable(R.drawable.ic_tab_planroute));
-	    spec.setContent(new Intent(this, PlanRouteActivity.class));
+	    spec.setContent(new Intent(this, MapActivity.class));
 	    tabHost.addTab(spec);
 
 	    // Itinerary
