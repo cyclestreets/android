@@ -1,25 +1,23 @@
 package net.cyclestreets;
 
+import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
+
 import org.andnav.osm.ResourceProxy;
 import org.andnav.osm.views.OpenStreetMapView;
 import org.andnav.osm.views.overlay.MyLocationOverlay;
+import org.andnav.osm.views.overlay.OpenStreetMapViewItemizedOverlay;
 import org.andnav.osm.views.overlay.OpenStreetMapViewPathOverlay;
 import org.andnav.osm.views.util.OpenStreetMapRendererInfo;
 
 import uk.org.invisibility.cycloid.CycloidConstants;
 import uk.org.invisibility.cycloid.CycloidResourceProxy;
 import android.app.Activity;
-import android.content.Intent;
 import android.content.SharedPreferences;
-import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 import android.widget.RelativeLayout.LayoutParams;
-
-import com.nutiteq.components.OnMapElement;
-import com.nutiteq.components.Place;
-import com.nutiteq.listeners.OnMapElementListener;
 
 public class PhotomapActivity extends Activity implements CycloidConstants {
 	protected PhotomapListener photomapListener;
@@ -28,6 +26,8 @@ public class PhotomapActivity extends Activity implements CycloidConstants {
 	private OpenStreetMapView map; 
 	private OpenStreetMapViewPathOverlay path;
 	private MyLocationOverlay location;
+	private OpenStreetMapViewItemizedOverlay<PhotoItem> markers;
+	protected List<PhotoItem> photoList;
 	private ResourceProxy proxy;
 	private SharedPreferences prefs;
 
@@ -48,8 +48,17 @@ public class PhotomapActivity extends Activity implements CycloidConstants {
         map.getController().setZoom(prefs.getInt(PREFS_APP_ZOOM_LEVEL, 14));
         map.scrollTo(prefs.getInt(PREFS_APP_SCROLL_X, 0), prefs.getInt(PREFS_APP_SCROLL_Y, -701896)); /* Greenwich */
 
-        location = new MyLocationOverlay(this.getBaseContext(), map, proxy);
-        map.getOverlays().add(location);
+        photoList = new CopyOnWriteArrayList<PhotoItem>();
+        photoList.add(new PhotoItem("test", "description", map.getMapCenter()));
+        markers = new OpenStreetMapViewItemizedOverlay<PhotoItem>(this, photoList,
+        		new OpenStreetMapViewItemizedOverlay.OnItemTapListener<PhotoItem>() {
+					public boolean onItemTap(int index, PhotoItem photo) {
+						Toast.makeText(PhotomapActivity.this, photo.mTitle, Toast.LENGTH_SHORT).show();
+						// TODO act on tap
+						return false;
+					}
+        });
+        map.getOverlays().add(markers);
         
         final RelativeLayout rl = new RelativeLayout(this);
         rl.addView(this.map, new RelativeLayout.LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT));
