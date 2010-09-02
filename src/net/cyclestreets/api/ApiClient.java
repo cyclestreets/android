@@ -12,9 +12,16 @@ import org.apache.http.NameValuePair;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.utils.URIUtils;
 import org.apache.http.client.utils.URLEncodedUtils;
+import org.apache.http.conn.ClientConnectionManager;
+import org.apache.http.conn.scheme.PlainSocketFactory;
+import org.apache.http.conn.scheme.Scheme;
+import org.apache.http.conn.scheme.SchemeRegistry;
 import org.apache.http.impl.client.BasicResponseHandler;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.impl.conn.tsccm.ThreadSafeClientConnManager;
 import org.apache.http.message.BasicNameValuePair;
+import org.apache.http.params.BasicHttpParams;
+import org.apache.http.params.HttpParams;
 import org.apache.http.protocol.HttpContext;
 import org.simpleframework.xml.Serializer;
 import org.simpleframework.xml.core.Persister;
@@ -24,8 +31,16 @@ import android.util.Log;
 import com.nutiteq.components.WgsPoint;
 
 public class ApiClient {
-	protected static DefaultHttpClient httpclient = new DefaultHttpClient();
+	protected static DefaultHttpClient httpclient;
 	static {
+		SchemeRegistry schemeRegistry = new SchemeRegistry();
+		schemeRegistry.register(
+		        new Scheme("http", PlainSocketFactory.getSocketFactory(), 80));
+
+		HttpParams params = new BasicHttpParams();
+		ClientConnectionManager cm = new ThreadSafeClientConnManager(params, schemeRegistry);
+		httpclient = new DefaultHttpClient(cm, params);
+		
 		httpclient.addRequestInterceptor(new HttpRequestInterceptor() {            
 			public void process(
 					final HttpRequest request, 

@@ -5,42 +5,71 @@ import java.util.List;
 import java.util.Map;
 
 import net.cyclestreets.api.Photo;
+
+import org.andnav.osm.util.BoundingBoxE6;
+import org.andnav.osm.views.OpenStreetMapView;
+
 import android.os.AsyncTask;
 import android.util.Log;
 
 import com.nutiteq.components.Place;
-import com.nutiteq.components.WgsBoundingBox;
 import com.nutiteq.components.WgsPoint;
 
-public class PhotomapListener extends MapAdapter {
+public class PhotomapListener extends MapAdapter implements ScrollListener {
 	public Map<Integer,Photo> photoMap = new HashMap<Integer,Photo>();
-	
-	public void mapMoved() {
-		WgsBoundingBox bounds = CycleStreets.mapComponent.getBoundingBox();
-		WgsPoint center = bounds.getBoundingBoxCenter();
-		int zoom = CycleStreets.mapComponent.getZoom();
-		WgsPoint sw = bounds.getWgsMin();
-		WgsPoint ne = bounds.getWgsMax();
-		double n = ne.getLat();
-		double s = sw.getLat();
-		double e = ne.getLon();
-		double w = sw.getLon();
-		new GetPhotosTask().execute(center, zoom, n, s, e, w);
+
+	protected OpenStreetMapView map;
+	protected List<PhotoItem> photoList;
+
+	public PhotomapListener(OpenStreetMapView map, List<PhotoItem> photoList) {
+		this.map = map;
+		this.photoList = photoList;
 	}
 	
+//	public void mapMoved() {
+//		WgsBoundingBox bounds = CycleStreets.mapComponent.getBoundingBox();
+//		WgsPoint center = bounds.getBoundingBoxCenter();
+//		int zoom = CycleStreets.mapComponent.getZoom();
+//		WgsPoint sw = bounds.getWgsMin();
+//		WgsPoint ne = bounds.getWgsMax();
+//		double n = ne.getLat();
+//		double s = sw.getLat();
+//		double e = ne.getLon();
+//		double w = sw.getLon();
+//		new GetPhotosTask().execute(center, zoom, n, s, e, w);
+//	}
+//	
+	@Override
+	public void scrollTo(int x, int y) {
+		Log.i(getClass().getSimpleName(), "Scrolled to: " + x + "," + y);
+		
+		BoundingBoxE6 bounds = map.getVisibleBoundingBoxE6();
+		double n = bounds.getLatNorthE6() / 1000000.0;
+		double s = bounds.getLatSouthE6() / 1000000.0;
+		double e = bounds.getLonEastE6() / 1000000.0;
+		double w = bounds.getLonWestE6() / 1000000.0;
+		Log.i(getClass().getSimpleName(), "Bounding box: " + n + " " + s + " " + e + " " + w);
+		
+		int zoom = map.getZoomLevel();
+		double clat = map.getMapCenterLatitudeE6() / 1000000.0;
+		double clon = map.getMapCenterLongitudeE6() / 1000000.0;
+		new GetPhotosTask().execute(clat, clon, zoom, n, s, e, w);		
+	}
+
 	private class GetPhotosTask extends AsyncTask<Object,Void,List<Photo>> {
 		protected List<Photo> doInBackground(Object... params) {
-			WgsPoint center = (WgsPoint) params[0];
-			int zoom = (Integer) params[1];
-			double n = (Double) params[2];
-			double s = (Double) params[3];
-			double e = (Double) params[4];
-			double w = (Double) params[5];
+			double clat = (Double) params[0];
+			double clon = (Double) params[1];
+			int zoom = (Integer) params[2];
+			double n = (Double) params[3];
+			double s = (Double) params[4];
+			double e = (Double) params[5];
+			double w = (Double) params[6];
 			List<Photo> photos;
 			try {
 				// TODO: do incremental processing of photos
 				// TODO: reset photos when zoom level changes
-				photos = CycleStreets.apiClient.getPhotos(center, zoom, n, s, e, w);
+				photos = CycleStreets.apiClient.getPhotos(clat, clon, zoom, n, s, e, w);
 				Log.d(getClass().getSimpleName(), "got photos: " + photos.size());
 				if (!photos.isEmpty()) {
 					Log.d(getClass().getSimpleName(), photos.get(0).caption);
@@ -51,15 +80,19 @@ public class PhotomapListener extends MapAdapter {
 			}
 			return photos;
 		}
-	
+		
 		@Override
 		protected void onPostExecute(List<Photo> photos) {
+			photoList.clear();
+			
 			for (Photo photo: photos) {
-				CycleStreets.mapComponent.addPlace(new Place(photo.id,
-						CycleStreetsUtils.truncate(photo.caption),
-						Photomap.ICONS[photo.feature],
-						new WgsPoint(photo.longitude, photo.latitude)));
-				photoMap.put(photo.id, photo);
+				photoList.add(new PhotoItem(photo));
+				
+//				CycleStreets.mapComponent.addPlace(new Place(photo.id,
+//						CycleStreetsUtils.truncate(photo.caption),
+//						Photomap.ICONS[photo.feature],
+//						new WgsPoint(photo.longitude, photo.latitude)));
+//				photoMap.put(photo.id, photo);
 			}
 		}
 	}

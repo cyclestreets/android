@@ -9,7 +9,7 @@ public class Photo {
 	public int id, bearing, feature, rating, gridx, gridy;
 
 	@Attribute(required=false)
-	public float latitude, longitude;
+	public double latitude, longitude;
 
 	@Attribute(required=false)
 	public String proximity, caption, privacy, type, url, imageUrl, thumbnailUrl, thumbnailSizes;

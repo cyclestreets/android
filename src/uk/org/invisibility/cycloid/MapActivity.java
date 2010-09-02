@@ -44,7 +44,7 @@ import android.widget.RelativeLayout.LayoutParams;
 
 	private static final int DIALOG_ABOUT_ID = 1;
 	
-	private OpenStreetMapView map; 
+	public static OpenStreetMapView map; 
 	private OpenStreetMapViewPathOverlay path;
 	private MyLocationOverlay location;
 	private ResourceProxy proxy;
