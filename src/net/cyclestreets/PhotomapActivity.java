@@ -4,6 +4,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.andnav.osm.ResourceProxy;
+import org.andnav.osm.views.overlay.MarkerMap;
 import org.andnav.osm.views.overlay.MyLocationOverlay;
 import org.andnav.osm.views.overlay.OpenStreetMapViewItemizedOverlay;
 import org.andnav.osm.views.overlay.OpenStreetMapViewPathOverlay;
@@ -15,6 +16,7 @@ import uk.org.invisibility.cycloid.MapActivity;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Point;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -54,6 +56,7 @@ public class PhotomapActivity extends Activity implements CycloidConstants {
         map.addScrollListener(new PhotomapListener(map, photoSet));
 
         markers = new OpenStreetMapViewItemizedOverlay<PhotoItem>(this, photoSet,
+        		new PhotoMarkerMap(getResources()),
         		new OpenStreetMapViewItemizedOverlay.OnItemTapListener<PhotoItem>() {
         			public boolean onItemTap(int i, PhotoItem photo) {
         				return false;
