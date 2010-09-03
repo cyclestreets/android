@@ -1,10 +1,9 @@
 package net.cyclestreets;
 
-import java.util.List;
-import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.andnav.osm.ResourceProxy;
-import org.andnav.osm.views.OpenStreetMapView;
 import org.andnav.osm.views.overlay.MyLocationOverlay;
 import org.andnav.osm.views.overlay.OpenStreetMapViewItemizedOverlay;
 import org.andnav.osm.views.overlay.OpenStreetMapViewPathOverlay;
@@ -28,7 +27,7 @@ public class PhotomapActivity extends Activity implements CycloidConstants {
 	private OpenStreetMapViewPathOverlay path;
 	private MyLocationOverlay location;
 	private OpenStreetMapViewItemizedOverlay<PhotoItem> markers;
-	protected List<PhotoItem> photoList;
+	protected Set<PhotoItem> photoSet;
 	private ResourceProxy proxy;
 	private SharedPreferences prefs;
 
@@ -37,7 +36,7 @@ public class PhotomapActivity extends Activity implements CycloidConstants {
 
         proxy = new CycloidResourceProxy(getApplicationContext());
         prefs = getSharedPreferences(PREFS_APP_KEY, MODE_PRIVATE);
-        photoList = new CopyOnWriteArrayList<PhotoItem>();
+        photoSet = new HashSet<PhotoItem>();	// in java 1.6, use ConcurrentSkipListArraySet
 
         map = new ScrollListenerMapView
         (
@@ -50,12 +49,14 @@ public class PhotomapActivity extends Activity implements CycloidConstants {
         map.setMultiTouchControls(true);
         map.getController().setZoom(prefs.getInt(PREFS_APP_ZOOM_LEVEL, 14));
         map.scrollTo(prefs.getInt(PREFS_APP_SCROLL_X, 0), prefs.getInt(PREFS_APP_SCROLL_Y, -701896)); /* Greenwich */
-        photoList.add(new PhotoItem("test", "description", map.getMapCenter()));
-        map.addScrollListener(new PhotomapListener(map, photoList));
+        map.addScrollListener(new PhotomapListener(map, photoSet));
 
-        markers = new OpenStreetMapViewItemizedOverlay<PhotoItem>(this, photoList,
+        markers = new OpenStreetMapViewItemizedOverlay<PhotoItem>(this, photoSet,
         		new OpenStreetMapViewItemizedOverlay.OnItemTapListener<PhotoItem>() {
-					public boolean onItemTap(int index, PhotoItem photo) {
+        			public boolean onItemTap(int i, PhotoItem photo) {
+        				return false;
+        			}
+					public boolean onItemTap(PhotoItem photo) {
 						Toast.makeText(PhotomapActivity.this, photo.mDescription, Toast.LENGTH_SHORT).show();
 						// TODO act on tap
 						return false;

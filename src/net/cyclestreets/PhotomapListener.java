@@ -3,6 +3,7 @@ package net.cyclestreets;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import net.cyclestreets.api.Photo;
 
@@ -12,18 +13,15 @@ import org.andnav.osm.views.OpenStreetMapView;
 import android.os.AsyncTask;
 import android.util.Log;
 
-import com.nutiteq.components.Place;
-import com.nutiteq.components.WgsPoint;
-
 public class PhotomapListener extends MapAdapter implements ScrollListener {
 	public Map<Integer,Photo> photoMap = new HashMap<Integer,Photo>();
 
 	protected OpenStreetMapView map;
-	protected List<PhotoItem> photoList;
+	protected Set<PhotoItem> photoSet;
 
-	public PhotomapListener(OpenStreetMapView map, List<PhotoItem> photoList) {
+	public PhotomapListener(OpenStreetMapView map, Set<PhotoItem> photoSet) {
 		this.map = map;
-		this.photoList = photoList;
+		this.photoSet = photoSet;
 	}
 	
 //	public void mapMoved() {
@@ -83,10 +81,10 @@ public class PhotomapListener extends MapAdapter implements ScrollListener {
 		
 		@Override
 		protected void onPostExecute(List<Photo> photos) {
-			photoList.clear();
-			
+			Log.d(getClass().getSimpleName(), "photoset contains: [" + photoSet.size() + "] " + photoSet);
+			Log.d(getClass().getSimpleName(), "photos contains: [" + photos.size() + "] " + photos);
 			for (Photo photo: photos) {
-				photoList.add(new PhotoItem(photo));
+				photoSet.add(new PhotoItem(photo));
 				
 //				CycleStreets.mapComponent.addPlace(new Place(photo.id,
 //						CycleStreetsUtils.truncate(photo.caption),
@@ -94,6 +92,7 @@ public class PhotomapListener extends MapAdapter implements ScrollListener {
 //						new WgsPoint(photo.longitude, photo.latitude)));
 //				photoMap.put(photo.id, photo);
 			}
+			Log.d(getClass().getSimpleName(), "photoset contains: [" + photoSet.size() + "] " + photoSet);
 		}
 	}
 }
