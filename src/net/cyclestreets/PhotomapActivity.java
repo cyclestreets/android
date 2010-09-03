@@ -13,11 +13,13 @@ import uk.org.invisibility.cycloid.CycloidConstants;
 import uk.org.invisibility.cycloid.CycloidResourceProxy;
 import uk.org.invisibility.cycloid.MapActivity;
 import android.app.Activity;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.ViewGroup.LayoutParams;
 import android.widget.RelativeLayout;
-import android.widget.Toast;
-import android.widget.RelativeLayout.LayoutParams;
 
 public class PhotomapActivity extends Activity implements CycloidConstants {
 	protected PhotomapListener photomapListener;
@@ -56,10 +58,15 @@ public class PhotomapActivity extends Activity implements CycloidConstants {
         			public boolean onItemTap(int i, PhotoItem photo) {
         				return false;
         			}
-					public boolean onItemTap(PhotoItem photo) {
-						Toast.makeText(PhotomapActivity.this, photo.mDescription, Toast.LENGTH_SHORT).show();
-						// TODO act on tap
-						return false;
+					public boolean onItemTap(PhotoItem item) {
+						// extract thumbnail URL and display it in a DisplayPhotoActivity
+						Log.d(getClass().getSimpleName(), "onItemTap: " + item);
+						String url = item.photo.thumbnailUrl;
+						Log.d(getClass().getSimpleName(), "URL is " + url);
+						startActivity(new Intent(Intent.ACTION_VIEW,
+								Uri.parse(url),
+								PhotomapActivity.this, DisplayPhotoActivity.class));
+						return true;
 					}
         });
         map.getOverlays().add(markers);

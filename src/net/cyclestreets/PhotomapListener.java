@@ -93,6 +93,10 @@ public class PhotomapListener extends MapAdapter implements ScrollListener {
 //				photoMap.put(photo.id, photo);
 			}
 			Log.d(getClass().getSimpleName(), "photoset contains: [" + photoSet.size() + "] " + photoSet);
+
+			// force map redraw
+			Log.d(getClass().getSimpleName(), "invalidating map");
+			map.postInvalidate();
 		}
 	}
 }

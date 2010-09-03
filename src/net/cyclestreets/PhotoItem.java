@@ -6,11 +6,11 @@ import org.andnav.osm.util.GeoPoint;
 import org.andnav.osm.views.overlay.OpenStreetMapViewOverlayItem;
 
 public class PhotoItem extends OpenStreetMapViewOverlayItem {
-	protected int id;
+	protected Photo photo;
 	
 	public PhotoItem(Photo photo) {
 		super(photo.id + "", photo.caption, new GeoPoint(photo.latitude, photo.longitude));
-		id = photo.id;
+		this.photo = photo;
 	}
 
 	/*
@@ -19,7 +19,7 @@ public class PhotoItem extends OpenStreetMapViewOverlayItem {
 	@Override
 	public boolean equals(Object obj) {
 		if (obj instanceof PhotoItem) {
-			return id == ((PhotoItem) obj).id;
+			return photo.id == ((PhotoItem) obj).photo.id;
 		}
 		else {
 			return false;
@@ -28,10 +28,10 @@ public class PhotoItem extends OpenStreetMapViewOverlayItem {
 	
 	@Override
 	public int hashCode() {
-		return id;
+		return photo.id;
 	}
 	
 	public String toString() {
-		return mTitle + ":" + CycleStreetsUtils.truncate(mDescription);
+		return photo.toString();
 	}
 }
