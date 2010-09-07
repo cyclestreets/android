@@ -3,54 +3,25 @@ package net.cyclestreets;
 import net.cyclestreets.api.ApiClient;
 import uk.org.invisibility.cycloid.MapActivity;
 import android.app.TabActivity;
-import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.telephony.TelephonyManager;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.TabHost;
 
-import com.nutiteq.BasicMapComponent;
-import com.nutiteq.components.WgsPoint;
-import com.nutiteq.controls.AndroidKeysHandler;
-import com.nutiteq.maps.CloudMade;
-import com.nutiteq.ui.ThreadDrivenPanning;
-
 public class CycleStreets extends TabActivity {
 	protected static ApiClient apiClient = new ApiClient();
-    protected static BasicMapComponent mapComponent;
-//	protected static OpenStreetMapView osmview;
-	protected boolean onRetainCalled;
-    
-    
-    protected final static String NUTITEQ_API_KEY = "c7e1249ffc03eb9ded908c236bd1996d4c62dbae56a439.28554625";
-    protected final static String CLOUDMADE_API_KEY = "13ed67dfecf44b5a8d9dc3ec49268ba0";
-
-    protected final static WgsPoint CAMBRIDGE = new WgsPoint(-0.74483, 52.2099121);
-    
+        
     /** Called when the activity is first created. */
 	public void onCreate(Bundle savedInstanceState) {
 	    super.onCreate(savedInstanceState);
 	    setContentView(R.layout.main);
 
-        onRetainCalled = false;
-
         // initialize default preferences
 	    PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
-
-	    // initialize mapcomponent
-        mapComponent = new BasicMapComponent(NUTITEQ_API_KEY, "CycleStreets", "CycleStreets", 1, 1,
-        		CAMBRIDGE, 10);
-        String imei = ((TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE)).getDeviceId();
-        mapComponent.setMap(new CloudMade(CLOUDMADE_API_KEY, imei, 64, 1));
-        mapComponent.setPanningStrategy(new ThreadDrivenPanning());
-        mapComponent.setControlKeysHandler(new AndroidKeysHandler());
-        mapComponent.setTouchClickTolerance(BasicMapComponent.FINGER_CLICK_TOLERANCE);
-        mapComponent.startMapping();
 
         // initialize objects
 	    Resources res = getResources();
@@ -77,11 +48,9 @@ public class CycleStreets extends TabActivity {
 	    spec.setContent(new Intent(this, AddPhotoActivity.class));
 	    tabHost.addTab(spec);
 
-	    // start with photomap tab
-	    tabHost.setCurrentTab(2);
+	    // start with routing tab
+	    tabHost.setCurrentTab(0);
 	}
-
-	
 	
 	@Override
 	/** build options menu */
@@ -108,19 +77,4 @@ public class CycleStreets extends TabActivity {
 	        return super.onOptionsItemSelected(item);
 	    }
 	}
-
-    @Override
-    public Object onRetainNonConfigurationInstance() {
-      onRetainCalled = true;
-      return mapComponent;
-    }
-
-    @Override
-    protected void onDestroy() {
-  	  super.onDestroy();
-  	  if (!onRetainCalled) {
-  	      mapComponent.stopMapping();
-  	      mapComponent = null;
-  	    }
-  	}
 }

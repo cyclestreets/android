@@ -7,6 +7,6 @@ import org.simpleframework.xml.Root;
 
 @Root(strict=false)
 public class Journey {
-	@ElementList(inline=true, entry="marker")
+	@ElementList(inline=true, entry="marker", required=false)
 	public List<Segment> segments;
 }

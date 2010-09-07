@@ -76,7 +76,7 @@ import android.widget.RelativeLayout.LayoutParams;
         map.getOverlays().add(path);
         
         final RelativeLayout rl = new RelativeLayout(this);
-        rl.addView(this.map, new RelativeLayout.LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT));
+        rl.addView(map, new RelativeLayout.LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT));
         this.setContentView(rl);
 
         /*

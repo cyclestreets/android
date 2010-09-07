@@ -7,13 +7,13 @@ import java.util.Map;
 
 import net.cyclestreets.api.Journey;
 import net.cyclestreets.api.Segment;
-import android.app.Dialog;
+
+import org.andnav.osm.util.GeoPoint;
+
 import android.app.ListActivity;
 import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.widget.SimpleAdapter;
-
-import com.nutiteq.components.WgsPoint;
 
 public class ItineraryActivity extends ListActivity {
     /** Keys used to map data to view id's */
@@ -30,12 +30,12 @@ public class ItineraryActivity extends ListActivity {
 		
 		// TODO: only recalculate if journey changed
 		setListAdapter(null);
-    	WgsPoint start = new WgsPoint(0.117950, 52.205302);
-    	WgsPoint finish = new WgsPoint(0.147324, 52.199650);
+    	GeoPoint start = new GeoPoint(52.205302, 0.117950);
+    	GeoPoint finish = new GeoPoint(52.199650, 0.147324);
         new GetJourneyTask().execute(start, finish);
 	}
 
-	private class GetJourneyTask extends AsyncTask<WgsPoint,Void,List<Map<String,Object>>> {
+	private class GetJourneyTask extends AsyncTask<GeoPoint,Void,List<Map<String,Object>>> {
 		protected ProgressDialog dialog = new ProgressDialog(ItineraryActivity.this);
 
 		protected void onPreExecute() {
@@ -47,9 +47,9 @@ public class ItineraryActivity extends ListActivity {
 			dialog.show();
 		}
 
-		protected List<Map<String,Object>> doInBackground(WgsPoint... params) {
-			WgsPoint start = params[0];
-			WgsPoint finish = params[1];
+		protected List<Map<String,Object>> doInBackground(GeoPoint... params) {
+			GeoPoint start = params[0];
+			GeoPoint finish = params[1];
         	List<Map<String,Object>> rows = new ArrayList<Map<String,Object>>();
 	        try {
 	        	Journey journey = CycleStreets.apiClient.getJourney("quietest", start, finish);        

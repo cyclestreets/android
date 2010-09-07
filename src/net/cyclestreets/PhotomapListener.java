@@ -13,7 +13,7 @@ import org.andnav.osm.views.OpenStreetMapView;
 import android.os.AsyncTask;
 import android.util.Log;
 
-public class PhotomapListener extends MapAdapter implements ScrollListener {
+public class PhotomapListener implements ScrollListener {
 	public Map<Integer,Photo> photoMap = new HashMap<Integer,Photo>();
 
 	protected OpenStreetMapView map;
@@ -24,33 +24,20 @@ public class PhotomapListener extends MapAdapter implements ScrollListener {
 		this.photoSet = photoSet;
 	}
 	
-//	public void mapMoved() {
-//		WgsBoundingBox bounds = CycleStreets.mapComponent.getBoundingBox();
-//		WgsPoint center = bounds.getBoundingBoxCenter();
-//		int zoom = CycleStreets.mapComponent.getZoom();
-//		WgsPoint sw = bounds.getWgsMin();
-//		WgsPoint ne = bounds.getWgsMax();
-//		double n = ne.getLat();
-//		double s = sw.getLat();
-//		double e = ne.getLon();
-//		double w = sw.getLon();
-//		new GetPhotosTask().execute(center, zoom, n, s, e, w);
-//	}
-//	
 	@Override
 	public void scrollTo(int x, int y) {
 		Log.i(getClass().getSimpleName(), "Scrolled to: " + x + "," + y);
 		
 		BoundingBoxE6 bounds = map.getVisibleBoundingBoxE6();
-		double n = bounds.getLatNorthE6() / 1000000.0;
-		double s = bounds.getLatSouthE6() / 1000000.0;
-		double e = bounds.getLonEastE6() / 1000000.0;
-		double w = bounds.getLonWestE6() / 1000000.0;
+		double n = bounds.getLatNorthE6() / 1E6;
+		double s = bounds.getLatSouthE6() / 1E6;
+		double e = bounds.getLonEastE6() / 1E6;
+		double w = bounds.getLonWestE6() / 1E6;
 		Log.i(getClass().getSimpleName(), "Bounding box: " + n + " " + s + " " + e + " " + w);
 		
 		int zoom = map.getZoomLevel();
-		double clat = map.getMapCenterLatitudeE6() / 1000000.0;
-		double clon = map.getMapCenterLongitudeE6() / 1000000.0;
+		double clat = map.getMapCenterLatitudeE6() / 1E6;
+		double clon = map.getMapCenterLongitudeE6() / 1E6;
 		new GetPhotosTask().execute(clat, clon, zoom, n, s, e, w);		
 	}
 
@@ -85,12 +72,6 @@ public class PhotomapListener extends MapAdapter implements ScrollListener {
 			Log.d(getClass().getSimpleName(), "photos contains: [" + photos.size() + "] " + photos);
 			for (Photo photo: photos) {
 				photoSet.add(new PhotoItem(photo));
-				
-//				CycleStreets.mapComponent.addPlace(new Place(photo.id,
-//						CycleStreetsUtils.truncate(photo.caption),
-//						Photomap.ICONS[photo.feature],
-//						new WgsPoint(photo.longitude, photo.latitude)));
-//				photoMap.put(photo.id, photo);
 			}
 			Log.d(getClass().getSimpleName(), "photoset contains: [" + photoSet.size() + "] " + photoSet);
 

@@ -5,6 +5,7 @@ import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.andnav.osm.util.GeoPoint;
 import org.apache.http.HttpException;
 import org.apache.http.HttpRequest;
 import org.apache.http.HttpRequestInterceptor;
@@ -27,8 +28,6 @@ import org.simpleframework.xml.Serializer;
 import org.simpleframework.xml.core.Persister;
 
 import android.util.Log;
-
-import com.nutiteq.components.WgsPoint;
 
 public class ApiClient {
 	protected static DefaultHttpClient httpclient;
@@ -69,15 +68,17 @@ public class ApiClient {
 
 	public ApiClient() {}
 	
-	public Journey getJourney(String plan, WgsPoint start, WgsPoint finish) throws Exception {
+	public Journey getJourney(String plan, GeoPoint start, GeoPoint finish) throws Exception {
 		return getJourney(plan,
-				start.getLon(), start.getLat(),
-				finish.getLon(), finish.getLat(),
+				start.getLongitudeE6() / 1E6, start.getLatitudeE6() / 1E6,
+				finish.getLongitudeE6() / 1E6, finish.getLatitudeE6() / 1E6,
 				null, null, DEFAULT_SPEED);
 	}
 
-	public Journey getJourney(String plan, WgsPoint start, WgsPoint finish, int speed) throws Exception {
-		return getJourney(plan, start.getLon(), start.getLat(), finish.getLon(), finish.getLat(),
+	public Journey getJourney(String plan, GeoPoint start, GeoPoint finish, int speed) throws Exception {
+		return getJourney(plan,
+				start.getLongitudeE6() / 1E6, start.getLatitudeE6() / 1E6,
+				finish.getLongitudeE6() / 1E6, finish.getLatitudeE6() / 1E6,
 				null, null, speed);
 	}
 
@@ -95,9 +96,9 @@ public class ApiClient {
 				);
 	}
 	
-	public List<Photo> getPhotos(WgsPoint center,
+	public List<Photo> getPhotos(GeoPoint center,
 			int zoom, double n, double s, double e, double w) throws Exception {
-		return getPhotos(center.getLat(), center.getLon(), zoom, n, s, e, w);
+		return getPhotos(center.getLatitudeE6() / 1E6, center.getLongitudeE6() / 1E6, zoom, n, s, e, w);
 	}
 
 	public List<Photo> getPhotos(double latitude, double longitude,
