@@ -13,25 +13,39 @@ public class PhotoItem extends OpenStreetMapViewOverlayItem {
 		this.photo = photo;
 	}
 
+	@Override
+	public int hashCode() {
+		return ((photo == null) ? 0 : photo.id);
+	}
+	
 	/*
-	 * Photos are uniquely identified by their CycleStreets id
+	 * PhotoItems are equal if underlying Photos have the same id
 	 */
 	@Override
 	public boolean equals(Object obj) {
-		if (obj instanceof PhotoItem) {
-			return photo.id == ((PhotoItem) obj).photo.id;
-		}
-		else {
+		if (this == obj)
+			return true;
+		if (obj == null)
 			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		PhotoItem other = (PhotoItem) obj;
+		if (photo == null) {
+			if (other.photo != null)
+				return false;
+		} else {
+			if (other.photo == null)
+				return false;
+			else {
+				if (photo.id != other.photo.id)
+					return false;
+			}
 		}
+		return true;
 	}
-	
+
 	@Override
-	public int hashCode() {
-		return photo.id;
-	}
-	
 	public String toString() {
-		return photo.toString();
-	}
+		return "PhotoItem [photo=" + photo + "]";
+	}	
 }

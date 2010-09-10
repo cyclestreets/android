@@ -13,7 +13,7 @@ import android.view.MenuItem;
 import android.widget.TabHost;
 
 public class CycleStreets extends TabActivity {
-	protected static ApiClient apiClient = new ApiClient();
+	public static ApiClient apiClient = new ApiClient();
         
     /** Called when the activity is first created. */
 	public void onCreate(Bundle savedInstanceState) {

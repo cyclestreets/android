@@ -52,7 +52,7 @@ public class ItineraryActivity extends ListActivity {
 			GeoPoint finish = params[1];
         	List<Map<String,Object>> rows = new ArrayList<Map<String,Object>>();
 	        try {
-	        	Journey journey = CycleStreets.apiClient.getJourney("quietest", start, finish);        
+	        	Journey journey = CycleStreets.apiClient.getJourney("quietest", start, finish);
 
 	        	// create the rows
 	        	double cumdist = 0.0;

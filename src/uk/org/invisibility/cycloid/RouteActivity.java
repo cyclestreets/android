@@ -1,6 +1,8 @@
 package uk.org.invisibility.cycloid;
 
+import net.cyclestreets.CycleStreets;
 import net.cyclestreets.R;
+import net.cyclestreets.api.Journey;
 
 import org.andnav.osm.util.BoundingBoxE6;
 import org.andnav.osm.util.GeoPoint;
@@ -259,7 +261,7 @@ public class RouteActivity extends Activity implements CycloidConstants, View.On
 		findRoute();
 	}
 
-	public class RouteQueryTask extends AsyncTask<GeoPlace, Integer, RouteResult>
+	public class RouteQueryTask extends AsyncTask<GeoPlace, Integer, Journey>
 	{
 		public RouteQueryTask()
 		{
@@ -267,28 +269,38 @@ public class RouteActivity extends Activity implements CycloidConstants, View.On
 			execute(RouteActivity.this.placeFrom, RouteActivity.this.placeTo);
 		}
 
-	    protected RouteResult doInBackground(GeoPlace... ps)
+	    protected Journey doInBackground(GeoPlace... ps)
 	    {
-    		return RouteActivity.this.routeQuery.query(ps[0].coord, ps[1].coord, routeType);
+	    	try {
+		    	return CycleStreets.apiClient.getJourney(routeType, ps[0].coord, ps[1].coord);	    		
+	    	}
+	    	catch (Exception e) {
+	    		throw new RuntimeException(e);
+	    	}
+//    		return RouteActivity.this.routeQuery.query(ps[0].coord, ps[1].coord, routeType);
 	    }
 
-	    protected void onPostExecute(RouteResult result)
+	    protected void onPostExecute(Journey route)
 	    {
     		progress.dismiss();
-	    	if (!result.isValid())
-	    	{
-	    		Toast.makeText(RouteActivity.this, R.string.route_failed, Toast.LENGTH_SHORT).show();
-	    		Log.e(LOGTAG, "Route result error: " + result.getError());
-	    	}
-	    	else
-	    	{
-		    	/* 
-		    	 * Start a new activity to display the result
-		    	 */
-		    	Intent intent = new Intent(RouteActivity.this, MapActivity.class);
-		    	intent.putExtra("route", result);
-		    	startActivity(intent);
-	    	}
+	    	Intent intent = new Intent(RouteActivity.this, MapActivity.class);
+	    	intent.putExtra("route", route);
+	    	startActivity(intent);
+
+//	    	if (!result.isValid())
+//	    	{
+//	    		Toast.makeText(RouteActivity.this, R.string.route_failed, Toast.LENGTH_SHORT).show();
+//	    		Log.e(LOGTAG, "Route result error: " + result.getError());
+//	    	}
+//	    	else
+//	    	{
+//		    	/* 
+//		    	 * Start a new activity to display the result
+//		    	 */
+//		    	Intent intent = new Intent(RouteActivity.this, MapActivity.class);
+//		    	intent.putExtra("route", result);
+//		    	startActivity(intent);
+//	    	}
 	    }
 	}
 	
