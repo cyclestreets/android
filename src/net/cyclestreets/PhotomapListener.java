@@ -7,13 +7,16 @@ import java.util.Set;
 
 import net.cyclestreets.api.Photo;
 
+import org.andnav.osm.events.MapListener;
+import org.andnav.osm.events.ScrollEvent;
+import org.andnav.osm.events.ZoomEvent;
 import org.andnav.osm.util.BoundingBoxE6;
 import org.andnav.osm.views.OpenStreetMapView;
 
 import android.os.AsyncTask;
 import android.util.Log;
 
-public class PhotomapListener implements ScrollListener {
+public class PhotomapListener implements MapListener {
 	public Map<Integer,Photo> photoMap = new HashMap<Integer,Photo>();
 
 	protected OpenStreetMapView map;
@@ -25,9 +28,23 @@ public class PhotomapListener implements ScrollListener {
 	}
 	
 	@Override
-	public void scrollTo(int x, int y) {
+	public void onScroll(ScrollEvent event) {
+		int x = event.getX();
+		int y = event.getY();
 		Log.i(getClass().getSimpleName(), "Scrolled to: " + x + "," + y);
 		
+		refreshPhotos();
+	}
+	
+	@Override
+	public void onZoom(ZoomEvent event) {
+		int z = event.getZoomLevel();
+		Log.i(getClass().getSimpleName(), "Zoomed to: " + z);
+		
+		refreshPhotos();
+	}
+
+	protected void refreshPhotos() {
 		BoundingBoxE6 bounds = map.getVisibleBoundingBoxE6();
 		double n = bounds.getLatNorthE6() / 1E6;
 		double s = bounds.getLatSouthE6() / 1E6;

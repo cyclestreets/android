@@ -48,8 +48,8 @@ public class CycleStreets extends TabActivity {
 	    spec.setContent(new Intent(this, AddPhotoActivity.class));
 	    tabHost.addTab(spec);
 
-	    // start with routing tab
-	    tabHost.setCurrentTab(0);
+	    // start with photomap tab
+	    tabHost.setCurrentTab(2);
 	}
 	
 	@Override

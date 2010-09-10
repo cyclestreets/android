@@ -4,6 +4,8 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.andnav.osm.ResourceProxy;
+import org.andnav.osm.events.DelayedMapListener;
+import org.andnav.osm.views.OpenStreetMapView;
 import org.andnav.osm.views.overlay.MyLocationOverlay;
 import org.andnav.osm.views.overlay.OpenStreetMapViewItemizedOverlay;
 import org.andnav.osm.views.overlay.OpenStreetMapViewPathOverlay;
@@ -24,7 +26,7 @@ import android.widget.RelativeLayout;
 public class PhotomapActivity extends Activity implements CycloidConstants {
 	protected PhotomapListener photomapListener;
 	
-	private ScrollListenerMapView map; 
+	private OpenStreetMapView map; 
 	private OpenStreetMapViewPathOverlay path;
 	private MyLocationOverlay location;
 	private OpenStreetMapViewItemizedOverlay<PhotoItem> markers;
@@ -39,7 +41,7 @@ public class PhotomapActivity extends Activity implements CycloidConstants {
         prefs = getSharedPreferences(PREFS_APP_KEY, MODE_PRIVATE);
         photoSet = new HashSet<PhotoItem>();	// in java 1.6, use ConcurrentSkipListArraySet
 
-        map = new ScrollListenerMapView
+        map = new OpenStreetMapView
         (
     		this,
     		OpenStreetMapRendererInfo.values()[prefs.getInt(PREFS_APP_RENDERER, MAPTYPE.ordinal())],
@@ -50,7 +52,7 @@ public class PhotomapActivity extends Activity implements CycloidConstants {
         map.setMultiTouchControls(true);
         map.getController().setZoom(prefs.getInt(PREFS_APP_ZOOM_LEVEL, 14));
         map.scrollTo(prefs.getInt(PREFS_APP_SCROLL_X, 0), prefs.getInt(PREFS_APP_SCROLL_Y, -701896)); /* Greenwich */
-        map.addScrollListener(new PhotomapListener(map, photoSet));
+        map.setMapListener(new DelayedMapListener(new PhotomapListener(map, photoSet)));
 
         markers = new OpenStreetMapViewItemizedOverlay<PhotoItem>(this, photoSet,
         		new PhotoMarkerMap(getResources()),
