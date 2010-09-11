@@ -103,7 +103,7 @@ import android.widget.RelativeLayout.LayoutParams;
     protected void onPause()
     {
         SharedPreferences.Editor edit = prefs.edit();
-        edit.putInt(PREFS_APP_RENDERER, map.getRenderer().ordinal());
+        edit.putString(PREFS_APP_RENDERER, map.getRenderer().name());
         edit.putInt(PREFS_APP_SCROLL_X, map.getScrollX());
         edit.putInt(PREFS_APP_SCROLL_Y, map.getScrollY());
         edit.putInt(PREFS_APP_ZOOM_LEVEL, map.getZoomLevel());

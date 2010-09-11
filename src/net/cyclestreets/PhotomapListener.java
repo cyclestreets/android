@@ -7,7 +7,7 @@ import java.util.Set;
 
 import net.cyclestreets.api.Photo;
 
-import org.andnav.osm.events.MapListener;
+import org.andnav.osm.events.MapAdapter;
 import org.andnav.osm.events.ScrollEvent;
 import org.andnav.osm.events.ZoomEvent;
 import org.andnav.osm.util.BoundingBoxE6;
@@ -16,7 +16,7 @@ import org.andnav.osm.views.OpenStreetMapView;
 import android.os.AsyncTask;
 import android.util.Log;
 
-public class PhotomapListener implements MapListener {
+public class PhotomapListener extends MapAdapter {
 	public Map<Integer,Photo> photoMap = new HashMap<Integer,Photo>();
 
 	protected OpenStreetMapView map;
@@ -28,22 +28,39 @@ public class PhotomapListener implements MapListener {
 	}
 	
 	@Override
-	public void onScroll(ScrollEvent event) {
+	public boolean onScrollStart(ScrollEvent event) {
 		int x = event.getX();
 		int y = event.getY();
-		Log.i(getClass().getSimpleName(), "Scrolled to: " + x + "," + y);
+		Log.i(getClass().getSimpleName(), "Starting scroll to: " + x + "," + y);
 		
 		refreshPhotos();
+		return true;
 	}
 	
 	@Override
-	public void onZoom(ZoomEvent event) {
+	public boolean onZoomStart(ZoomEvent event) {
 		int z = event.getZoomLevel();
-		Log.i(getClass().getSimpleName(), "Zoomed to: " + z);
+		Log.i(getClass().getSimpleName(), "Starting zoom to: " + z);
 
 		// clear photos for new zoom level
 		photoSet.clear();
 		refreshPhotos();
+		return true;
+	}
+
+	@Override
+	public boolean onScrollFinish(ScrollEvent event) {
+		int x = event.getX();
+		int y = event.getY();
+		Log.i(getClass().getSimpleName(), "Finished scroll to: " + x + "," + y);
+		return true;
+	}
+	
+	@Override
+	public boolean onZoomFinish(ZoomEvent event) {
+		int z = event.getZoomLevel();
+		Log.i(getClass().getSimpleName(), "Finished zoom to: " + z);
+		return true;
 	}
 
 	protected void refreshPhotos() {

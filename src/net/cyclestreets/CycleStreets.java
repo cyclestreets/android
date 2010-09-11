@@ -1,5 +1,9 @@
 package net.cyclestreets;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
 import net.cyclestreets.api.ApiClient;
 import uk.org.invisibility.cycloid.MapActivity;
 import android.app.TabActivity;
@@ -14,7 +18,8 @@ import android.widget.TabHost;
 
 public class CycleStreets extends TabActivity {
 	public static ApiClient apiClient = new ApiClient();
-        
+	public static List<Map<String,Object>> itineraryRows = new ArrayList<Map<String,Object>>();
+	
     /** Called when the activity is first created. */
 	public void onCreate(Bundle savedInstanceState) {
 	    super.onCreate(savedInstanceState);

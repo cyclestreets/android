@@ -50,9 +50,7 @@ public class PhotomapActivity extends Activity implements CycloidConstants {
         map.setMultiTouchControls(true);
         map.getController().setZoom(prefs.getInt(PREFS_APP_ZOOM_LEVEL, 14));
         map.scrollTo(prefs.getInt(PREFS_APP_SCROLL_X, 0), prefs.getInt(PREFS_APP_SCROLL_Y, -701896)); /* Greenwich */
-
-        // use 200 ms delay in MapListener
-        map.setMapListener(new DelayedMapListener(new PhotomapListener(map, photoSet), 200));
+        map.setMapListener(new PhotomapListener(map, photoSet));
 
         markers = new OpenStreetMapViewItemizedOverlay<PhotoItem>(this, photoSet,
         		new PhotoMarkerMap(getResources()),

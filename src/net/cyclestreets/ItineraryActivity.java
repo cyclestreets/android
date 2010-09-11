@@ -12,11 +12,9 @@ import org.andnav.osm.util.GeoPoint;
 
 import android.app.ListActivity;
 import android.app.ProgressDialog;
-import android.content.Intent;
 import android.os.AsyncTask;
-import android.util.Log;
+import android.os.Bundle;
 import android.widget.SimpleAdapter;
-import android.widget.Toast;
 
 public class ItineraryActivity extends ListActivity {
 	/** Keys used to map data to view id's */
@@ -27,24 +25,25 @@ public class ItineraryActivity extends ListActivity {
 		R.id.segment_distance, R.id.segment_cumulative_distance
 	};
 
+	@Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+    	// set up SimpleAdapter for itinerary_item
+    	setListAdapter(new SimpleAdapter(ItineraryActivity.this, CycleStreets.itineraryRows, R.layout.itinerary_item, fromKeys, toIds));
+    }
+
     @Override
-	protected void onNewIntent(Intent intent) {
-		super.onNewIntent(intent);
-
-		Toast.makeText(this, "Got new intent: " + intent.getExtras(), Toast.LENGTH_SHORT);
-		Log.d(getClass().getSimpleName(), "Got new intent: " + intent.getExtras());
-	}
-
-//	@Override
-//	protected void onResume() {
-//		super.onResume();
-//		
-//		// TODO: only recalculate if journey changed
-//		setListAdapter(null);
+	protected void onResume() {
+		super.onResume();
+		
+		// TODO: only redisplay if journey changed
+		onContentChanged();
+		
 //    	GeoPoint start = new GeoPoint(52.205302, 0.117950);
 //    	GeoPoint finish = new GeoPoint(52.199650, 0.147324);
 //        new GetJourneyTask().execute(start, finish);
-//	}
+	}
 
 	private class GetJourneyTask extends AsyncTask<GeoPoint,Void,List<Map<String,Object>>> {
 		protected ProgressDialog dialog = new ProgressDialog(ItineraryActivity.this);

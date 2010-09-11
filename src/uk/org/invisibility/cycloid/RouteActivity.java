@@ -1,9 +1,12 @@
 package uk.org.invisibility.cycloid;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import net.cyclestreets.CycleStreets;
-import net.cyclestreets.ItineraryActivity;
 import net.cyclestreets.R;
 import net.cyclestreets.api.Journey;
+import net.cyclestreets.api.Segment;
 
 import org.andnav.osm.util.BoundingBoxE6;
 import org.andnav.osm.util.GeoPoint;
@@ -28,6 +31,14 @@ import android.widget.RelativeLayout.LayoutParams;
 
 public class RouteActivity extends Activity implements CycloidConstants, View.OnClickListener
 {
+	/** Keys used to map data to view id's */
+    /** The specific values don't actually matter, as long as they're used consistently */
+	protected static String[] fromKeys = new String[] { "type", "street", "time", "dist", "cumdist" };
+	protected static int[] toIds = new int[] {
+		R.id.segment_type, R.id.segment_street, R.id.segment_time,
+		R.id.segment_distance, R.id.segment_cumulative_distance
+	};
+	
 	private static final int MENU_REVERSE_ID = Menu.FIRST;
 
 	private static final int DIALOG_NO_FROM_ID = 1;
@@ -280,32 +291,30 @@ public class RouteActivity extends Activity implements CycloidConstants, View.On
 //    		return RouteActivity.this.routeQuery.query(ps[0].coord, ps[1].coord, routeType);
 	    }
 
-	    protected void onPostExecute(Journey route)
+	    protected void onPostExecute(Journey journey)
 	    {
     		progress.dismiss();
-	    	Intent intent = new Intent(RouteActivity.this, ItineraryActivity.class);
-	    	intent.putExtra("route", route);
-	    	intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-	    	startActivity(intent);
 
-//	    	if (!result.isValid())
-//	    	{
-//	    		Toast.makeText(RouteActivity.this, R.string.route_failed, Toast.LENGTH_SHORT).show();
-//	    		Log.e(LOGTAG, "Route result error: " + result.getError());
-//	    	}
-//	    	else
-//	    	{
-//		    	/* 
-//		    	 * Start a new activity to display the result
-//		    	 */
-//		    	Intent intent = new Intent(RouteActivity.this, MapActivity.class);
-//		    	intent.putExtra("route", result);
-//		    	startActivity(intent);
-//	    	}
+    		// parse journey into itinerary rows
+        	double cumdist = 0.0;
+        	CycleStreets.itineraryRows.clear();
+        	for (Segment segment : journey.segments) {
+        		String type = segment.provisionName;
+        		cumdist += segment.distance;
+        		CycleStreets.itineraryRows.add(createRowMap(R.drawable.icon, segment.name, segment.time + "m", segment.distance + "m", "(" + (cumdist/1000) + "km)"));
+        	}    		
 	    }
+
+		// utility method to convert segments into rows
+		protected Map<String,Object> createRowMap(Object... items) {
+			Map<String,Object> row = new HashMap<String,Object>();
+			for (int i = 0; i < items.length; i++) {
+				row.put(fromKeys[i], items[i]);
+			}
+			return row;
+		}
 	}
 	
-
     private class TypeChangedListener implements RadioGroup.OnCheckedChangeListener
     {
 		@Override
