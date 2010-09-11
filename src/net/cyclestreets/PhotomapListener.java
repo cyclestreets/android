@@ -40,7 +40,9 @@ public class PhotomapListener implements MapListener {
 	public void onZoom(ZoomEvent event) {
 		int z = event.getZoomLevel();
 		Log.i(getClass().getSimpleName(), "Zoomed to: " + z);
-		
+
+		// clear photos for new zoom level
+		photoSet.clear();
 		refreshPhotos();
 	}
 

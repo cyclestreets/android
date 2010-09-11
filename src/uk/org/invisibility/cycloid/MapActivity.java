@@ -8,7 +8,7 @@ import org.andnav.osm.util.GeoPoint;
 import org.andnav.osm.views.OpenStreetMapView;
 import org.andnav.osm.views.overlay.MyLocationOverlay;
 import org.andnav.osm.views.overlay.OpenStreetMapViewPathOverlay;
-import org.andnav.osm.views.util.OpenStreetMapRendererInfo;
+import org.andnav.osm.views.util.OpenStreetMapRendererFactory;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -61,7 +61,7 @@ import android.widget.RelativeLayout.LayoutParams;
         map = new OpenStreetMapView
         (
     		this,
-    		OpenStreetMapRendererInfo.values()[prefs.getInt(PREFS_APP_RENDERER, MAPTYPE.ordinal())]
+    		OpenStreetMapRendererFactory.getRenderer(prefs.getString(PREFS_APP_RENDERER, DEFAULT_MAPTYPE))
         );
         map.setResourceProxy(proxy);
         map.setBuiltInZoomControls(true);
@@ -120,7 +120,7 @@ import android.widget.RelativeLayout.LayoutParams;
     protected void onResume()
     {
     	super.onResume();
-        map.setRenderer(OpenStreetMapRendererInfo.values()[prefs.getInt(PREFS_APP_RENDERER, MAPTYPE.ordinal())]);
+        map.setRenderer(OpenStreetMapRendererFactory.getRenderer(prefs.getString(PREFS_APP_RENDERER, DEFAULT_MAPTYPE)));
         this.location.followLocation(prefs.getBoolean(PREFS_APP_FOLLOW_LOCATION, true));
     }
     

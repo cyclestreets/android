@@ -12,11 +12,14 @@ import org.andnav.osm.util.GeoPoint;
 
 import android.app.ListActivity;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.AsyncTask;
+import android.util.Log;
 import android.widget.SimpleAdapter;
+import android.widget.Toast;
 
 public class ItineraryActivity extends ListActivity {
-    /** Keys used to map data to view id's */
+	/** Keys used to map data to view id's */
     /** The specific values don't actually matter, as long as they're used consistently */
 	protected static String[] fromKeys = new String[] { "type", "street", "time", "dist", "cumdist" };
 	protected static int[] toIds = new int[] {
@@ -24,16 +27,24 @@ public class ItineraryActivity extends ListActivity {
 		R.id.segment_distance, R.id.segment_cumulative_distance
 	};
 
-	@Override
-	protected void onResume() {
-		super.onResume();
-		
-		// TODO: only recalculate if journey changed
-		setListAdapter(null);
-    	GeoPoint start = new GeoPoint(52.205302, 0.117950);
-    	GeoPoint finish = new GeoPoint(52.199650, 0.147324);
-        new GetJourneyTask().execute(start, finish);
+    @Override
+	protected void onNewIntent(Intent intent) {
+		super.onNewIntent(intent);
+
+		Toast.makeText(this, "Got new intent: " + intent.getExtras(), Toast.LENGTH_SHORT);
+		Log.d(getClass().getSimpleName(), "Got new intent: " + intent.getExtras());
 	}
+
+//	@Override
+//	protected void onResume() {
+//		super.onResume();
+//		
+//		// TODO: only recalculate if journey changed
+//		setListAdapter(null);
+//    	GeoPoint start = new GeoPoint(52.205302, 0.117950);
+//    	GeoPoint finish = new GeoPoint(52.199650, 0.147324);
+//        new GetJourneyTask().execute(start, finish);
+//	}
 
 	private class GetJourneyTask extends AsyncTask<GeoPoint,Void,List<Map<String,Object>>> {
 		protected ProgressDialog dialog = new ProgressDialog(ItineraryActivity.this);

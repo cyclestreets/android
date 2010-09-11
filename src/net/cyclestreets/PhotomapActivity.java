@@ -9,11 +9,10 @@ import org.andnav.osm.views.OpenStreetMapView;
 import org.andnav.osm.views.overlay.MyLocationOverlay;
 import org.andnav.osm.views.overlay.OpenStreetMapViewItemizedOverlay;
 import org.andnav.osm.views.overlay.OpenStreetMapViewPathOverlay;
-import org.andnav.osm.views.util.OpenStreetMapRendererInfo;
+import org.andnav.osm.views.util.OpenStreetMapRendererFactory;
 
 import uk.org.invisibility.cycloid.CycloidConstants;
 import uk.org.invisibility.cycloid.CycloidResourceProxy;
-import uk.org.invisibility.cycloid.MapActivity;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -44,15 +43,16 @@ public class PhotomapActivity extends Activity implements CycloidConstants {
         map = new OpenStreetMapView
         (
     		this,
-    		OpenStreetMapRendererInfo.values()[prefs.getInt(PREFS_APP_RENDERER, MAPTYPE.ordinal())],
-    		MapActivity.map
+    		OpenStreetMapRendererFactory.getRenderer(prefs.getString(PREFS_APP_RENDERER, DEFAULT_MAPTYPE))
         );
         map.setResourceProxy(proxy);
         map.setBuiltInZoomControls(true);
         map.setMultiTouchControls(true);
         map.getController().setZoom(prefs.getInt(PREFS_APP_ZOOM_LEVEL, 14));
         map.scrollTo(prefs.getInt(PREFS_APP_SCROLL_X, 0), prefs.getInt(PREFS_APP_SCROLL_Y, -701896)); /* Greenwich */
-        map.setMapListener(new DelayedMapListener(new PhotomapListener(map, photoSet)));
+
+        // use 200 ms delay in MapListener
+        map.setMapListener(new DelayedMapListener(new PhotomapListener(map, photoSet), 200));
 
         markers = new OpenStreetMapViewItemizedOverlay<PhotoItem>(this, photoSet,
         		new PhotoMarkerMap(getResources()),

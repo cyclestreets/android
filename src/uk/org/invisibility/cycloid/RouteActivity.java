@@ -1,6 +1,7 @@
 package uk.org.invisibility.cycloid;
 
 import net.cyclestreets.CycleStreets;
+import net.cyclestreets.ItineraryActivity;
 import net.cyclestreets.R;
 import net.cyclestreets.api.Journey;
 
@@ -15,7 +16,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -283,8 +283,9 @@ public class RouteActivity extends Activity implements CycloidConstants, View.On
 	    protected void onPostExecute(Journey route)
 	    {
     		progress.dismiss();
-	    	Intent intent = new Intent(RouteActivity.this, MapActivity.class);
+	    	Intent intent = new Intent(RouteActivity.this, ItineraryActivity.class);
 	    	intent.putExtra("route", route);
+	    	intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
 	    	startActivity(intent);
 
 //	    	if (!result.isValid())

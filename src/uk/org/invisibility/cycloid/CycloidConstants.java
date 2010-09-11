@@ -1,13 +1,15 @@
 package uk.org.invisibility.cycloid;
 
-import org.andnav.osm.views.util.OpenStreetMapRendererInfo;
+import org.andnav.osm.views.util.IOpenStreetMapRendererInfo;
+import org.andnav.osm.views.util.OpenStreetMapRendererFactory;
+
 
 public interface CycloidConstants
 {
 	public static final String LOGTAG = "CYCLOID";
 	
 	// Default map type
-	public static final OpenStreetMapRendererInfo MAPTYPE = OpenStreetMapRendererInfo.CYCLEMAP;
+	public static final String DEFAULT_MAPTYPE = "CYCLEMAP";
 	
 	// Preference strings for application
     public static final String PREFS_APP_KEY = "uk.org.invisibility.cycloid";
