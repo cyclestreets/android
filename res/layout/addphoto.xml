@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:orientation="vertical" android:layout_width="fill_parent"
+	android:layout_height="fill_parent">
+	<TextView android:id="@+id/addphoto_text"
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:text="Instructions on taking photos"
+		/>
+	<Button android:id="@+id/takephoto_button"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_below="@id/addphoto_text"
+		android:layout_centerHorizontal="true"
+		android:text="Take photo"/>
+	<Button android:id="@+id/chooseexisting_button"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_below="@id/takephoto_button"		
+		android:layout_centerHorizontal="true"
+		android:text="Use existing"/>
+</RelativeLayout>

@@ -30,6 +30,9 @@
 		<activity android:name=".AddPhotoActivity"
 				  android:label="@string/app_name">
 		</activity>
+		<activity android:name=".TakePhotoActivity"
+				  android:label="@string/app_name">
+		</activity>
 		<activity android:name=".PhotoTakenActivity"
 				  android:label="@string/app_name">
 		</activity>
