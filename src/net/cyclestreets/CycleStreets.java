@@ -19,6 +19,7 @@ import android.widget.TabHost;
 public class CycleStreets extends TabActivity {
 	public static ApiClient apiClient = new ApiClient();
 	public static List<Map<String,Object>> itineraryRows = new ArrayList<Map<String,Object>>();
+	public static final String EXTRA_PHOTO = "net.cyclestreets.extra.PHOTO";
 	
     /** Called when the activity is first created. */
 	public void onCreate(Bundle savedInstanceState) {
