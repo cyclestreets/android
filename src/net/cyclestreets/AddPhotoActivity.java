@@ -59,9 +59,8 @@ public class AddPhotoActivity extends Activity implements SurfaceHolder.Callback
 		// needs API level 5
 //        List<Size> sizes = params.getSupportedPreviewSizes();
 //        Size optimalSize = getOptimalPreviewSize(sizes, w, h);
-        params.setPreviewSize(width, height);
-
-        camera.setParameters(params);
+//        params.setPreviewSize(width, height);
+//        camera.setParameters(params);
         camera.startPreview();
 	}
 
