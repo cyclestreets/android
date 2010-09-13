@@ -1,11 +1,14 @@
 package uk.org.invisibility.cycloid;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import net.cyclestreets.CycleStreets;
 import net.cyclestreets.CycleStreetsConstants;
 import net.cyclestreets.ItineraryActivity;
 import net.cyclestreets.R;
 import net.cyclestreets.api.Journey;
-import net.cyclestreets.api.Segment;
+import net.cyclestreets.api.Marker;
 
 import org.andnav.osm.ResourceProxy;
 import org.andnav.osm.util.BoundingBoxE6;
@@ -85,25 +88,6 @@ import android.widget.RelativeLayout.LayoutParams;
         final RelativeLayout rl = new RelativeLayout(this);
         rl.addView(map, new RelativeLayout.LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT));
         this.setContentView(rl);
-
-        /*
-         * If a route was supplied with the launching intent then display it 
-         */
-		Intent intent = getIntent();
-		RouteResult route = intent.getParcelableExtra("route");
-		if (route != null)
-		{
-			boolean first = true;
-			for (GeoPoint p : route.getCoords())
-			{
-				if (first)
-				{
-					map.getController().setCenter(p);
-					first = false;
-				}
-				path.addPoint(p.getLatitudeE6(), p.getLongitudeE6());
-			}
-		}
     }
 
     @Override
@@ -269,18 +253,42 @@ import android.widget.RelativeLayout.LayoutParams;
 	    }
 
 	    protected void onPostExecute(Journey journey) {
-	    	// parse journey into itinerary rows
+	    	// display route on overlay
+	    	for (Marker marker: journey.markers) {
+	    		if (marker.type.equals("route")) {
+	    			// parse coordinates
+	    	    	boolean first = true;
+	    			String[] coords = marker.coordinates.split(" ");
+            		for (String coord : coords) {
+            			String[] xy = coord.split(",");
+            			GeoPoint p = new GeoPoint(Double.parseDouble(xy[1]), Double.parseDouble(xy[0]));
+	    	    		if (first) {
+	    	    			map.getController().setCenter(p);
+	    	    			first = false;
+	    	    		}
+	    	    		path.addPoint(p.getLatitudeE6(), p.getLongitudeE6());
+            		}
+            		map.postInvalidate();
+	    			break;
+	    		}
+	    	}
+	    	
+			// Parse route into itinerary rows
         	double cumdist = 0.0;
         	CycleStreets.itineraryRows.clear();
-        	for (Segment segment : journey.segments) {
-        		String type = segment.provisionName;
-        		cumdist += segment.distance;
-        		CycleStreets.itineraryRows.add(ItineraryActivity.createRowMap(
-        				R.drawable.icon,
-        				segment.name,
-        				segment.time + "m",
-        				segment.distance + "m", "(" + (cumdist/1000) + "km)"));
+        	for (Marker marker : journey.markers) {
+	    		if (marker.type.equals("segment")) {
+	    			String provision = marker.provisionName;
+	    			cumdist += marker.distance;
+	    			CycleStreets.itineraryRows.add(ItineraryActivity.createRowMap(
+	    					R.drawable.icon,		// TODO: use icon based on provision type
+	    					marker.name,
+	    					marker.time + "m",
+	    					marker.distance + "m", "(" + (cumdist/1000) + "km)"));
+	    		}
         	}
+        	
+        	// done
         	progress.dismiss();
 	    }
 	}   

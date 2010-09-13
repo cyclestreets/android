@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import net.cyclestreets.api.Journey;
-import net.cyclestreets.api.Segment;
+import net.cyclestreets.api.Marker;
 
 import org.andnav.osm.util.GeoPoint;
 
@@ -75,10 +75,10 @@ public class ItineraryActivity extends ListActivity {
 
 	        	// create the rows
 	        	double cumdist = 0.0;
-	        	for (Segment segment : journey.segments) {
-	        		String type = segment.provisionName;
-	        		cumdist += segment.distance;
-	        		rows.add(createRowMap(R.drawable.icon, segment.name, segment.time + "m", segment.distance + "m", "(" + (cumdist/1000) + "km)"));
+	        	for (Marker marker : journey.markers) {
+	        		String type = marker.provisionName;
+	        		cumdist += marker.distance;
+	        		rows.add(createRowMap(R.drawable.icon, marker.name, marker.time + "m", marker.distance + "m", "(" + (cumdist/1000) + "km)"));
 	        	}
 	        }
 	        catch (Exception e) {
