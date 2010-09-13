@@ -5,6 +5,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 import org.andnav.osm.DefaultResourceProxyImpl;
 import org.andnav.osm.ResourceProxy;
+import org.andnav.osm.events.DelayedMapListener;
 import org.andnav.osm.views.OpenStreetMapView;
 import org.andnav.osm.views.overlay.MyLocationOverlay;
 import org.andnav.osm.views.overlay.OpenStreetMapViewItemizedOverlay;
@@ -51,7 +52,7 @@ public class PhotomapActivity extends Activity implements CycloidConstants {
         map.setMultiTouchControls(true);
         map.getController().setZoom(prefs.getInt(PREFS_APP_ZOOM_LEVEL, 14));
         map.scrollTo(prefs.getInt(PREFS_APP_SCROLL_X, 0), prefs.getInt(PREFS_APP_SCROLL_Y, -701896)); /* Greenwich */
-        map.setMapListener(new PhotomapListener(this, map, photoList));
+        map.setMapListener(new DelayedMapListener(new PhotomapListener(this, map, photoList)));
 
         markers = new OpenStreetMapViewItemizedOverlay<PhotoItem>(
         		this, photoList,

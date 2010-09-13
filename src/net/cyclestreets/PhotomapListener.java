@@ -1,8 +1,10 @@
 package net.cyclestreets;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import net.cyclestreets.api.Photo;
 
@@ -21,47 +23,35 @@ public class PhotomapListener extends MapAdapter {
 	
 	protected OpenStreetMapView map;
 	protected List<PhotoItem> photoList;
+	protected Set<PhotoItem> photoSet;
 	protected PhotoMarkers photoMarkers;
 
 	public PhotomapListener(Context ctx, OpenStreetMapView map, List<PhotoItem> photoList) {
 		this.map = map;
 		this.photoList = photoList;
+		this.photoSet = new HashSet<PhotoItem>();
 		this.photoMarkers = new PhotoMarkers(ctx.getResources());
 	}
 	
 	@Override
-	public boolean onScrollStart(ScrollEvent event) {
+	public boolean onScroll(ScrollEvent event) {
 		int x = event.getX();
 		int y = event.getY();
-		Log.i(getClass().getSimpleName(), "Starting scroll to: " + x + "," + y);
+		Log.i(getClass().getSimpleName(), "scroll to: " + x + "," + y);
 		
 		refreshPhotos();
 		return true;
 	}
 	
 	@Override
-	public boolean onZoomStart(ZoomEvent event) {
+	public boolean onZoom(ZoomEvent event) {
 		int z = event.getZoomLevel();
-		Log.i(getClass().getSimpleName(), "Starting zoom to: " + z);
+		Log.i(getClass().getSimpleName(), "zoom to: " + z);
 
 		// clear photos for new zoom level
+		photoSet.clear();
 		photoList.clear();
 		refreshPhotos();
-		return true;
-	}
-
-	@Override
-	public boolean onScrollFinish(ScrollEvent event) {
-		int x = event.getX();
-		int y = event.getY();
-		Log.i(getClass().getSimpleName(), "Finished scroll to: " + x + "," + y);
-		return true;
-	}
-	
-	@Override
-	public boolean onZoomFinish(ZoomEvent event) {
-		int z = event.getZoomLevel();
-		Log.i(getClass().getSimpleName(), "Finished zoom to: " + z);
 		return true;
 	}
 
@@ -109,8 +99,17 @@ public class PhotomapListener extends MapAdapter {
 			Log.d(getClass().getSimpleName(), "photolist contains: [" + photoList.size() + "] " + photoList);
 			Log.d(getClass().getSimpleName(), "photos contains: [" + photos.size() + "] " + photos);
 			for (Photo photo: photos) {
-				// TODO check for duplicates
-				photoList.add(new PhotoItem(photo, photoMarkers));
+				// check for duplicates
+				// photoSet is only used internally for duplicate checking
+				// photoList is exported to the ItemizedOverlay
+				//
+				// This is needed since ItemizedOverlay takes a List but there is no way to 
+				// enforce uniqueness on a list.
+				PhotoItem item = new PhotoItem(photo, photoMarkers);
+				if (!photoSet.contains(item)) {
+					photoSet.add(item);
+					photoList.add(item);
+				}
 			}
 			Log.d(getClass().getSimpleName(), "photolist contains: [" + photoList.size() + "] " + photoList);
 
