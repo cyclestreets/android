@@ -1,11 +1,11 @@
 package net.cyclestreets;
 
+import net.cyclestreets.api.PhotomapCategories;
 import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
@@ -14,6 +14,7 @@ import android.widget.Button;
 
 public class AddPhotoActivity extends Activity {
 	public static final int CHOOSE_IMAGE = 1;
+	protected static PhotomapCategories photomapCategories;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -39,7 +40,10 @@ public class AddPhotoActivity extends Activity {
 			               android.provider.MediaStore.Images.Media.INTERNAL_CONTENT_URI);
 				startActivityForResult(i, CHOOSE_IMAGE);
 			}
-		});	
+		});
+		
+		// start reading categories
+		new GetPhotomapCategoriesTask().execute();
 	}
 	
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -62,5 +66,25 @@ public class AddPhotoActivity extends Activity {
 	        default:
 	            break;
 	    }
+	}
+
+	// TODO: use content provider
+	private class GetPhotomapCategoriesTask extends AsyncTask<Object,Void,PhotomapCategories> {
+		protected PhotomapCategories doInBackground(Object... params) {
+			PhotomapCategories photomapCategories;
+			try {
+				photomapCategories = CycleStreets.apiClient.getPhotomapCategories();
+			}
+			catch (Exception ex) {
+				throw new RuntimeException(ex);
+			}
+			return photomapCategories;
+		}
+		
+		@Override
+		protected void onPostExecute(PhotomapCategories photomapCategories) {
+			Log.d(getClass().getSimpleName(), "photomapcategories: " + photomapCategories);
+			AddPhotoActivity.photomapCategories = photomapCategories;
+		}
 	}
 }
