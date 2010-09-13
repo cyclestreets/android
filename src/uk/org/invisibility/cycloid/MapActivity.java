@@ -1,8 +1,5 @@
 package uk.org.invisibility.cycloid;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import net.cyclestreets.CycleStreets;
 import net.cyclestreets.CycleStreetsConstants;
 import net.cyclestreets.ItineraryActivity;
@@ -28,6 +25,7 @@ import android.content.SharedPreferences;
 import android.location.Location;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -244,8 +242,11 @@ import android.widget.RelativeLayout.LayoutParams;
 
 	    protected Journey doInBackground(GeoPoint... points) {
 	    	try {
-	    		// TODO read journey type from preferences
-		    	return CycleStreets.apiClient.getJourney("balanced", points[0], points[1]);
+	    		// calculate journey
+	    		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(MapActivity.this);
+	    		String routeType = prefs.getString("routetype", "balanced");
+				Log.d(getClass().getSimpleName(), "route type: " + routeType);
+	    		return CycleStreets.apiClient.getJourney(routeType, points[0], points[1]);
 	    	}
 	    	catch (Exception e) {
 	    		throw new RuntimeException(e);
@@ -253,27 +254,31 @@ import android.widget.RelativeLayout.LayoutParams;
 	    }
 
 	    protected void onPostExecute(Journey journey) {
+	    	if (journey.markers == null) {
+	    		// TODO: No route - something went wrong!
+	    	}
+
 	    	// display route on overlay
 	    	for (Marker marker: journey.markers) {
 	    		if (marker.type.equals("route")) {
 	    			// parse coordinates
-	    	    	boolean first = true;
+	    			boolean first = true;
 	    			String[] coords = marker.coordinates.split(" ");
-            		for (String coord : coords) {
-            			String[] xy = coord.split(",");
-            			GeoPoint p = new GeoPoint(Double.parseDouble(xy[1]), Double.parseDouble(xy[0]));
-	    	    		if (first) {
-	    	    			map.getController().setCenter(p);
-	    	    			first = false;
-	    	    		}
-	    	    		path.addPoint(p.getLatitudeE6(), p.getLongitudeE6());
-            		}
-            		map.postInvalidate();
+	    			for (String coord : coords) {
+	    				String[] xy = coord.split(",");
+	    				GeoPoint p = new GeoPoint(Double.parseDouble(xy[1]), Double.parseDouble(xy[0]));
+	    				if (first) {
+	    					map.getController().setCenter(p);
+	    					first = false;
+	    				}
+	    				path.addPoint(p.getLatitudeE6(), p.getLongitudeE6());
+	    			}
+	    			map.postInvalidate();
 	    			break;
 	    		}
 	    	}
-	    	
-			// Parse route into itinerary rows
+
+	    	// Parse route into itinerary rows
         	double cumdist = 0.0;
         	CycleStreets.itineraryRows.clear();
         	for (Marker marker : journey.markers) {
