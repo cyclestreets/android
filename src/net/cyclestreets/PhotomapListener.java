@@ -3,7 +3,6 @@ package net.cyclestreets;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import net.cyclestreets.api.Photo;
 
@@ -13,18 +12,21 @@ import org.andnav.osm.events.ZoomEvent;
 import org.andnav.osm.util.BoundingBoxE6;
 import org.andnav.osm.views.OpenStreetMapView;
 
+import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
 
 public class PhotomapListener extends MapAdapter {
 	public Map<Integer,Photo> photoMap = new HashMap<Integer,Photo>();
-
+	
 	protected OpenStreetMapView map;
-	protected Set<PhotoItem> photoSet;
+	protected List<PhotoItem> photoList;
+	protected PhotoMarkers photoMarkers;
 
-	public PhotomapListener(OpenStreetMapView map, Set<PhotoItem> photoSet) {
+	public PhotomapListener(Context ctx, OpenStreetMapView map, List<PhotoItem> photoList) {
 		this.map = map;
-		this.photoSet = photoSet;
+		this.photoList = photoList;
+		this.photoMarkers = new PhotoMarkers(ctx.getResources());
 	}
 	
 	@Override
@@ -43,7 +45,7 @@ public class PhotomapListener extends MapAdapter {
 		Log.i(getClass().getSimpleName(), "Starting zoom to: " + z);
 
 		// clear photos for new zoom level
-		photoSet.clear();
+		photoList.clear();
 		refreshPhotos();
 		return true;
 	}
@@ -104,12 +106,13 @@ public class PhotomapListener extends MapAdapter {
 		
 		@Override
 		protected void onPostExecute(List<Photo> photos) {
-			Log.d(getClass().getSimpleName(), "photoset contains: [" + photoSet.size() + "] " + photoSet);
+			Log.d(getClass().getSimpleName(), "photolist contains: [" + photoList.size() + "] " + photoList);
 			Log.d(getClass().getSimpleName(), "photos contains: [" + photos.size() + "] " + photos);
 			for (Photo photo: photos) {
-				photoSet.add(new PhotoItem(photo));
+				// TODO check for duplicates
+				photoList.add(new PhotoItem(photo, photoMarkers));
 			}
-			Log.d(getClass().getSimpleName(), "photoset contains: [" + photoSet.size() + "] " + photoSet);
+			Log.d(getClass().getSimpleName(), "photolist contains: [" + photoList.size() + "] " + photoList);
 
 			// force map redraw
 			Log.d(getClass().getSimpleName(), "invalidating map");

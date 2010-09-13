@@ -1,17 +1,19 @@
 package net.cyclestreets;
 
-import org.andnav.osm.views.overlay.MarkerMap;
-
 import android.content.res.Resources;
 import android.graphics.Point;
 import android.graphics.drawable.Drawable;
 
-public class PhotoMarkerMap extends MarkerMap<PhotoItem> {
-	protected Drawable[] icons;
+public class PhotoMarkers {
+	protected Drawable[] markers;
+	protected Drawable defaultMarker;
+	protected Point defaultMarkerHotspot;
 
-	public PhotoMarkerMap(Resources res) {
-		super(res.getDrawable(R.drawable.icon), new Point(13,47));
-		final Drawable[] iconInit = {
+	public PhotoMarkers(Resources res) {
+		defaultMarker = res.getDrawable(R.drawable.icon);
+		defaultMarkerHotspot = new Point(13,47);
+
+		Drawable[] markersInit = {
 			res.getDrawable(R.drawable.icon),						// 0
 			res.getDrawable(R.drawable.mm_20_white_wisp),			// 1
 			res.getDrawable(R.drawable.mm_20_bike),					// 2
@@ -31,21 +33,19 @@ public class PhotoMarkerMap extends MarkerMap<PhotoItem> {
 			res.getDrawable(R.drawable.mm_20_congestion),			// 16
 			res.getDrawable(R.drawable.mm_20_road),					// 17
 		};
-		icons = iconInit;
+		markers = markersInit;
 	}
 	
-	@Override
-	public Drawable getMarker(PhotoItem item) {
+	public Drawable getMarker(int feature, int stateBitset) {
 		try {
-			return icons[item.photo.feature];
+			return markers[feature];
 		}
 		catch (ArrayIndexOutOfBoundsException e) {
-			return super.getMarker(item);
+			return defaultMarker;
 		}
 	}
 
-	@Override
-	public Point getHotspot(PhotoItem item) {
-		return new Point(13, 47);
+	public Point getMarkerHotspot(int feature, int stateBitset) {
+		return defaultMarkerHotspot;
 	}
 }

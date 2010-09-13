@@ -1,10 +1,10 @@
 package net.cyclestreets;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
+import org.andnav.osm.DefaultResourceProxyImpl;
 import org.andnav.osm.ResourceProxy;
-import org.andnav.osm.events.DelayedMapListener;
 import org.andnav.osm.views.OpenStreetMapView;
 import org.andnav.osm.views.overlay.MyLocationOverlay;
 import org.andnav.osm.views.overlay.OpenStreetMapViewItemizedOverlay;
@@ -16,6 +16,7 @@ import uk.org.invisibility.cycloid.CycloidResourceProxy;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Point;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -29,7 +30,7 @@ public class PhotomapActivity extends Activity implements CycloidConstants {
 	private OpenStreetMapViewPathOverlay path;
 	private MyLocationOverlay location;
 	private OpenStreetMapViewItemizedOverlay<PhotoItem> markers;
-	protected Set<PhotoItem> photoSet;
+	protected List<PhotoItem> photoList;
 	private ResourceProxy proxy;
 	private SharedPreferences prefs;
 
@@ -38,8 +39,8 @@ public class PhotomapActivity extends Activity implements CycloidConstants {
 
         proxy = new CycloidResourceProxy(getApplicationContext());
         prefs = getSharedPreferences(PREFS_APP_KEY, MODE_PRIVATE);
-        photoSet = new HashSet<PhotoItem>();	// in java 1.6, use ConcurrentSkipListArraySet
-
+        photoList = new CopyOnWriteArrayList<PhotoItem>();
+        
         map = new OpenStreetMapView
         (
     		this,
@@ -50,29 +51,38 @@ public class PhotomapActivity extends Activity implements CycloidConstants {
         map.setMultiTouchControls(true);
         map.getController().setZoom(prefs.getInt(PREFS_APP_ZOOM_LEVEL, 14));
         map.scrollTo(prefs.getInt(PREFS_APP_SCROLL_X, 0), prefs.getInt(PREFS_APP_SCROLL_Y, -701896)); /* Greenwich */
-        map.setMapListener(new PhotomapListener(map, photoSet));
+        map.setMapListener(new PhotomapListener(this, map, photoList));
 
-        markers = new OpenStreetMapViewItemizedOverlay<PhotoItem>(this, photoSet,
-        		new PhotoMarkerMap(getResources()),
-        		new OpenStreetMapViewItemizedOverlay.OnItemTapListener<PhotoItem>() {
-        			public boolean onItemTap(int i, PhotoItem photo) {
-        				return false;
-        			}
-					public boolean onItemTap(PhotoItem item) {
-						// extract thumbnail URL and display it in a DisplayPhotoActivity
-						Log.d(getClass().getSimpleName(), "onItemTap: " + item);
-						String url = item.photo.thumbnailUrl;
-						Log.d(getClass().getSimpleName(), "URL is " + url);
-						startActivity(new Intent(Intent.ACTION_VIEW,
-								Uri.parse(url),
-								PhotomapActivity.this, DisplayPhotoActivity.class));
-						return true;
-					}
-        });
+        markers = new OpenStreetMapViewItemizedOverlay<PhotoItem>(
+        		this, photoList,
+        		getResources().getDrawable(R.drawable.icon),
+        		new Point(10,10),
+        		new PhotoTapListener(photoList),
+        		new DefaultResourceProxyImpl(this));
         map.getOverlays().add(markers);
         
         final RelativeLayout rl = new RelativeLayout(this);
         rl.addView(this.map, new RelativeLayout.LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT));
         this.setContentView(rl);        
     }
+
+	private class PhotoTapListener implements OpenStreetMapViewItemizedOverlay.OnItemTapListener<PhotoItem> {
+		private List<PhotoItem> photoList;
+		
+		public PhotoTapListener(List<PhotoItem> photoList) {
+			this.photoList = photoList;
+		}
+
+		public boolean onItemTap(int i, PhotoItem photo) {
+			// extract thumbnail URL and display it in a DisplayPhotoActivity
+			PhotoItem item = photoList.get(i);
+			Log.d(getClass().getSimpleName(), "onItemTap: " + item);
+			String url = item.photo.thumbnailUrl;
+			Log.d(getClass().getSimpleName(), "URL is " + url);
+			startActivity(new Intent(Intent.ACTION_VIEW,
+					Uri.parse(url),
+					PhotomapActivity.this, DisplayPhotoActivity.class));
+			return true;
+		}
+	}
 }

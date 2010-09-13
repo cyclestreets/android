@@ -5,14 +5,31 @@ import net.cyclestreets.api.Photo;
 import org.andnav.osm.util.GeoPoint;
 import org.andnav.osm.views.overlay.OpenStreetMapViewOverlayItem;
 
+import android.graphics.Point;
+import android.graphics.drawable.Drawable;
+
 public class PhotoItem extends OpenStreetMapViewOverlayItem {
 	protected Photo photo;
+	protected PhotoMarkers photoMarkers;
 	
-	public PhotoItem(Photo photo) {
+	public PhotoItem(Photo photo, PhotoMarkers photoMarkers) {
 		super(photo.id + "", photo.caption, new GeoPoint(photo.latitude, photo.longitude));
 		this.photo = photo;
+		this.photoMarkers = photoMarkers;
 	}
 
+	// Markers
+	@Override
+	public Drawable getMarker(int stateBitset) {
+		return photoMarkers.getMarker(photo.feature, stateBitset);
+	}
+
+	@Override
+	public Point getMarkerHotspot(int stateBitset) {
+		return photoMarkers.getMarkerHotspot(photo.feature, stateBitset);
+	}
+
+	// Equality testing
 	@Override
 	public int hashCode() {
 		return ((photo == null) ? 0 : photo.id);
