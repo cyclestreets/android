@@ -45,6 +45,15 @@ public class ItineraryActivity extends ListActivity {
 //        new GetJourneyTask().execute(start, finish);
 	}
 
+	// utility method to convert segments into rows
+	public static Map<String,Object> createRowMap(Object... items) {
+		Map<String,Object> row = new HashMap<String,Object>();
+		for (int i = 0; i < items.length; i++) {
+			row.put(fromKeys[i], items[i]);
+		}
+		return row;
+	}
+
 	private class GetJourneyTask extends AsyncTask<GeoPoint,Void,List<Map<String,Object>>> {
 		protected ProgressDialog dialog = new ProgressDialog(ItineraryActivity.this);
 
@@ -84,14 +93,5 @@ public class ItineraryActivity extends ListActivity {
         	setListAdapter(new SimpleAdapter(ItineraryActivity.this, rows, R.layout.itinerary_item, fromKeys, toIds));
         	dialog.dismiss();
 		}    	
-
-		// utility method to convert segments into rows
-		protected Map<String,Object> createRowMap(Object... items) {
-			Map<String,Object> row = new HashMap<String,Object>();
-			for (int i = 0; i < items.length; i++) {
-				row.put(fromKeys[i], items[i]);
-			}
-			return row;
-		}
-    }
+	}
 }

@@ -1,6 +1,11 @@
 package uk.org.invisibility.cycloid;
 
+import net.cyclestreets.CycleStreets;
+import net.cyclestreets.CycleStreetsConstants;
+import net.cyclestreets.ItineraryActivity;
 import net.cyclestreets.R;
+import net.cyclestreets.api.Journey;
+import net.cyclestreets.api.Segment;
 
 import org.andnav.osm.ResourceProxy;
 import org.andnav.osm.util.BoundingBoxE6;
@@ -13,10 +18,12 @@ import org.andnav.osm.views.util.OpenStreetMapRendererFactory;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.location.Location;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -36,9 +43,9 @@ import android.widget.RelativeLayout.LayoutParams;
  * TODO geocode in progress indicator in route to/from
  */
 
- public class MapActivity extends Activity implements CycloidConstants
+ public class MapActivity extends Activity implements CycloidConstants, CycleStreetsConstants
  {
-    private static final int MENU_MY_LOCATION = Menu.FIRST;
+	private static final int MENU_MY_LOCATION = Menu.FIRST;
     private static final int MENU_ROUTE = MENU_MY_LOCATION + 1;
     private static final int MENU_ABOUT = MENU_ROUTE + 1;
 
@@ -58,7 +65,7 @@ import android.widget.RelativeLayout.LayoutParams;
         proxy = new CycloidResourceProxy(getApplicationContext());
         prefs = getSharedPreferences(PREFS_APP_KEY, MODE_PRIVATE);
 
-        map = new OpenStreetMapView
+		map = new OpenStreetMapView
         (
     		this,
     		OpenStreetMapRendererFactory.getRenderer(prefs.getString(PREFS_APP_RENDERER, DEFAULT_MAPTYPE))
@@ -125,6 +132,23 @@ import android.widget.RelativeLayout.LayoutParams;
     }
     
     @Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+		if (requestCode == ACTIVITY_GET_ENDPOINTS) {
+			if (resultCode == RESULT_OK) {
+				// get start and finish points
+				GeoPoint placeFrom = data.getParcelableExtra(EXTRA_PLACE_FROM);
+				GeoPoint placeTo = data.getParcelableExtra(EXTRA_PLACE_TO);
+				Log.d(getClass().getSimpleName(), "got places! " + placeFrom + " " + placeTo);
+
+				// calculate journey
+				RouteQueryTask query = new RouteQueryTask();
+				query.execute(placeFrom, placeTo);
+			}
+		}
+	}
+
+    @Override
 	public boolean onCreateOptionsMenu(final Menu pMenu)
     {
     	pMenu.add(0, MENU_MY_LOCATION, Menu.NONE, R.string.my_location).setIcon(android.R.drawable.ic_menu_mylocation);
@@ -158,10 +182,10 @@ import android.widget.RelativeLayout.LayoutParams;
                 	intent.putExtra(GEO_LATITUDE, (int)(lastFix.getLatitude() * 1E6));
                 	intent.putExtra(GEO_LONGITUDE, (int)(lastFix.getLongitude() * 1E6));
                 }	
-                startActivity(intent);
+                startActivityForResult(intent, ACTIVITY_GET_ENDPOINTS);
                 return true;
-                                
-			case MENU_ABOUT:
+
+            case MENU_ABOUT:
 				showDialog(DIALOG_ABOUT_ID);
 				return true;
 		
@@ -222,4 +246,42 @@ import android.widget.RelativeLayout.LayoutParams;
        }
 
    };
+   
+	protected class RouteQueryTask extends AsyncTask<GeoPoint,Integer,Journey> {
+		protected ProgressDialog progress = new ProgressDialog(MapActivity.this);
+
+		protected void onPreExecute() {
+			super.onPreExecute();
+			progress.setMessage(getString(R.string.finding_route));
+			progress.setIndeterminate(true);
+			progress.setCancelable(false);
+			progress.show();
+		}
+
+	    protected Journey doInBackground(GeoPoint... points) {
+	    	try {
+	    		// TODO read journey type from preferences
+		    	return CycleStreets.apiClient.getJourney("balanced", points[0], points[1]);
+	    	}
+	    	catch (Exception e) {
+	    		throw new RuntimeException(e);
+	    	}
+	    }
+
+	    protected void onPostExecute(Journey journey) {
+	    	// parse journey into itinerary rows
+        	double cumdist = 0.0;
+        	CycleStreets.itineraryRows.clear();
+        	for (Segment segment : journey.segments) {
+        		String type = segment.provisionName;
+        		cumdist += segment.distance;
+        		CycleStreets.itineraryRows.add(ItineraryActivity.createRowMap(
+        				R.drawable.icon,
+        				segment.name,
+        				segment.time + "m",
+        				segment.distance + "m", "(" + (cumdist/1000) + "km)"));
+        	}
+        	progress.dismiss();
+	    }
+	}   
 }

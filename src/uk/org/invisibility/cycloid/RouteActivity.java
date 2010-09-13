@@ -1,12 +1,9 @@
 package uk.org.invisibility.cycloid;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import net.cyclestreets.CycleStreets;
+import net.cyclestreets.CycleStreetsConstants;
 import net.cyclestreets.R;
 import net.cyclestreets.api.Journey;
-import net.cyclestreets.api.Segment;
 
 import org.andnav.osm.util.BoundingBoxE6;
 import org.andnav.osm.util.GeoPoint;
@@ -29,16 +26,8 @@ import android.widget.Toast;
 import android.widget.RelativeLayout.LayoutParams;
 
 
-public class RouteActivity extends Activity implements CycloidConstants, View.OnClickListener
+public class RouteActivity extends Activity implements CycleStreetsConstants, CycloidConstants, View.OnClickListener
 {
-	/** Keys used to map data to view id's */
-    /** The specific values don't actually matter, as long as they're used consistently */
-	protected static String[] fromKeys = new String[] { "type", "street", "time", "dist", "cumdist" };
-	protected static int[] toIds = new int[] {
-		R.id.segment_type, R.id.segment_street, R.id.segment_time,
-		R.id.segment_distance, R.id.segment_cumulative_distance
-	};
-	
 	private static final int MENU_REVERSE_ID = Menu.FIRST;
 
 	private static final int DIALOG_NO_FROM_ID = 1;
@@ -106,9 +95,9 @@ public class RouteActivity extends Activity implements CycloidConstants, View.On
      	routeTypeGroup.setOnCheckedChangeListener(new TypeChangedListener());
     	routeTypeGroup.check(R.id.routeBalanced);
     	
-    	progress = new ProgressDialog(RouteActivity.this);
-		progress.setMessage(getString(R.string.finding_route));
-		progress.setIndeterminate(true);  	
+//    	progress = new ProgressDialog(RouteActivity.this);
+//		progress.setMessage(getString(R.string.finding_route));
+//		progress.setIndeterminate(true);  	
     }
     
     /*
@@ -225,10 +214,12 @@ public class RouteActivity extends Activity implements CycloidConstants, View.On
 			this.adapterFrom.addHistory(placeFrom);
 			this.adapterTo.addHistory(placeTo);
 			
-			/*
-			 * Start async route query
-			 */
-			new RouteQueryTask();
+			// return start and finish points to MapActivity and close
+        	Intent intent = new Intent(RouteActivity.this, MapActivity.class);
+        	intent.putExtra(EXTRA_PLACE_FROM, placeFrom.coord);
+        	intent.putExtra(EXTRA_PLACE_TO, placeTo.coord);
+        	setResult(RESULT_OK, intent);
+        	finish();
 		}
 	}
 
@@ -272,48 +263,29 @@ public class RouteActivity extends Activity implements CycloidConstants, View.On
 		findRoute();
 	}
 
-	public class RouteQueryTask extends AsyncTask<GeoPlace, Integer, Journey>
-	{
-		public RouteQueryTask()
-		{
-			progress.show();
-			execute(RouteActivity.this.placeFrom, RouteActivity.this.placeTo);
-		}
-
-	    protected Journey doInBackground(GeoPlace... ps)
-	    {
-	    	try {
-		    	return CycleStreets.apiClient.getJourney(routeType, ps[0].coord, ps[1].coord);	    		
-	    	}
-	    	catch (Exception e) {
-	    		throw new RuntimeException(e);
-	    	}
-//    		return RouteActivity.this.routeQuery.query(ps[0].coord, ps[1].coord, routeType);
-	    }
-
-	    protected void onPostExecute(Journey journey)
-	    {
-    		progress.dismiss();
-
-    		// parse journey into itinerary rows
-        	double cumdist = 0.0;
-        	CycleStreets.itineraryRows.clear();
-        	for (Segment segment : journey.segments) {
-        		String type = segment.provisionName;
-        		cumdist += segment.distance;
-        		CycleStreets.itineraryRows.add(createRowMap(R.drawable.icon, segment.name, segment.time + "m", segment.distance + "m", "(" + (cumdist/1000) + "km)"));
-        	}    		
-	    }
-
-		// utility method to convert segments into rows
-		protected Map<String,Object> createRowMap(Object... items) {
-			Map<String,Object> row = new HashMap<String,Object>();
-			for (int i = 0; i < items.length; i++) {
-				row.put(fromKeys[i], items[i]);
-			}
-			return row;
-		}
-	}
+//	public class RouteQueryTask extends AsyncTask<GeoPlace, Integer, Journey>
+//	{
+//		public RouteQueryTask()
+//		{
+//			progress.show();
+//			execute(RouteActivity.this.placeFrom, RouteActivity.this.placeTo);
+//		}
+//
+//	    protected Journey doInBackground(GeoPlace... ps)
+//	    {
+//	    	try {
+//		    	return CycleStreets.apiClient.getJourney(routeType, ps[0].coord, ps[1].coord);
+//	    	}
+//	    	catch (Exception e) {
+//	    		throw new RuntimeException(e);
+//	    	}
+//	    }
+//
+//	    protected void onPostExecute(Journey journey)
+//	    {
+//    		progress.dismiss();
+//	    }
+//	}
 	
     private class TypeChangedListener implements RadioGroup.OnCheckedChangeListener
     {

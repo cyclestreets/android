@@ -5,6 +5,8 @@ import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+import net.cyclestreets.CycleStreetsConstants;
+
 import org.andnav.osm.util.GeoPoint;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
