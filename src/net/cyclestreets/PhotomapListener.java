@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.Set;
 
 import net.cyclestreets.api.Photo;
+import net.cyclestreets.api.PhotomapCategories;
 
 import org.andnav.osm.events.MapAdapter;
 import org.andnav.osm.events.ScrollEvent;
@@ -80,8 +81,9 @@ public class PhotomapListener extends MapAdapter {
 			double w = (Double) params[6];
 			List<Photo> photos;
 			try {
-				// TODO: do incremental processing of photos
-				// TODO: reset photos when zoom level changes
+				PhotomapCategories photomapCategories = CycleStreets.apiClient.getPhotomapCategories();
+				Log.d(getClass().getSimpleName(), "photomapcategories: " + photomapCategories);
+				
 				photos = CycleStreets.apiClient.getPhotos(clat, clon, zoom, n, s, e, w);
 				Log.d(getClass().getSimpleName(), "got photos: " + photos.size());
 				if (!photos.isEmpty()) {

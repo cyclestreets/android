@@ -58,11 +58,9 @@ public class ApiClient {
 	protected final static String API_PATH = "/api/";
 	protected final static String API_KEY = "b26a0d6b45e00612";
 	
-	
-	
-	
 	protected final static String API_PATH_JOURNEY = API_PATH + "journey.xml";
 	protected final static String API_PATH_PHOTOS = API_PATH + "photos.xml";
+	protected final static String API_PATH_PHOTOMAP_CATEGORIES = API_PATH + "photomapcategories.xml";
 
 	protected final static int DEFAULT_SPEED = 20;
 
@@ -94,6 +92,11 @@ public class ApiClient {
 				"arriving", arriving,
 				"speed", Integer.toString(speed)
 				);
+	}
+
+	public PhotomapCategories getPhotomapCategories() throws Exception {
+		return (PhotomapCategories) callApi(PhotomapCategories.class,
+				API_PATH_PHOTOMAP_CATEGORIES);
 	}
 	
 	public List<Photo> getPhotos(GeoPoint center,
