@@ -1,5 +1,8 @@
 package uk.org.invisibility.cycloid;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import net.cyclestreets.CycleStreets;
 import net.cyclestreets.CycleStreetsConstants;
 import net.cyclestreets.ItineraryActivity;
@@ -7,11 +10,14 @@ import net.cyclestreets.R;
 import net.cyclestreets.api.Journey;
 import net.cyclestreets.api.Marker;
 
+import org.andnav.osm.DefaultResourceProxyImpl;
 import org.andnav.osm.ResourceProxy;
 import org.andnav.osm.util.BoundingBoxE6;
 import org.andnav.osm.util.GeoPoint;
 import org.andnav.osm.views.OpenStreetMapView;
 import org.andnav.osm.views.overlay.MyLocationOverlay;
+import org.andnav.osm.views.overlay.OpenStreetMapViewItemizedOverlay;
+import org.andnav.osm.views.overlay.OpenStreetMapViewOverlayItem;
 import org.andnav.osm.views.overlay.OpenStreetMapViewPathOverlay;
 import org.andnav.osm.views.util.OpenStreetMapRendererFactory;
 
@@ -22,6 +28,8 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Resources;
+import android.graphics.Point;
 import android.location.Location;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -51,9 +59,12 @@ import android.widget.RelativeLayout.LayoutParams;
     private static final int MENU_ABOUT = MENU_ROUTE + 1;
 
 	private static final int DIALOG_ABOUT_ID = 1;
-	
+
+	protected Resources res;
 	public static OpenStreetMapView map; 
 	private OpenStreetMapViewPathOverlay path;
+	private OpenStreetMapViewItemizedOverlay<OpenStreetMapViewOverlayItem> routemarkerOverlay;
+	private List<OpenStreetMapViewOverlayItem> routemarkerList;
 	private MyLocationOverlay location;
 	private ResourceProxy proxy;
 	private SharedPreferences prefs;
@@ -65,6 +76,7 @@ import android.widget.RelativeLayout.LayoutParams;
 
         proxy = new CycloidResourceProxy(getApplicationContext());
         prefs = getSharedPreferences(PREFS_APP_KEY, MODE_PRIVATE);
+		res = getResources();
 
 		map = new OpenStreetMapView
         (
@@ -82,6 +94,15 @@ import android.widget.RelativeLayout.LayoutParams;
         
         path = new MapActivityPathOverlay(0x80ff0000, proxy);
         map.getOverlays().add(path);
+
+        routemarkerList = new ArrayList<OpenStreetMapViewOverlayItem>();
+        routemarkerOverlay = new OpenStreetMapViewItemizedOverlay<OpenStreetMapViewOverlayItem>(
+        		this, routemarkerList,
+        		res.getDrawable(R.drawable.icon),
+        		new Point(10,10),
+        		null,
+        		new DefaultResourceProxyImpl(this));
+        map.getOverlays().add(routemarkerOverlay);
         
         final RelativeLayout rl = new RelativeLayout(this);
         rl.addView(map, new RelativeLayout.LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT));
@@ -123,6 +144,19 @@ import android.widget.RelativeLayout.LayoutParams;
 				GeoPoint placeTo = data.getParcelableExtra(EXTRA_PLACE_TO);
 				Log.d(getClass().getSimpleName(), "got places! " + placeFrom + " " + placeTo);
 
+				// show start & finish on map
+        		OpenStreetMapViewOverlayItem startItem = new OpenStreetMapViewOverlayItem("start", "start", placeFrom);
+				OpenStreetMapViewOverlayItem finishItem = new OpenStreetMapViewOverlayItem("finish", "finish", placeTo);
+				startItem.setMarker(res.getDrawable(R.drawable.green_wisp_36x30));
+				finishItem.setMarker(res.getDrawable(R.drawable.red_wisp_36x30));
+				startItem.setMarkerHotspot(new Point(0,30));
+				finishItem.setMarkerHotspot(new Point(0,30));
+				routemarkerList.clear();
+				routemarkerList.add(startItem);
+				routemarkerList.add(finishItem);
+				map.getController().setCenter(placeFrom);
+				map.invalidate();
+				
 				// calculate journey
 				RouteQueryTask query = new RouteQueryTask();
 				query.execute(placeFrom, placeTo);
@@ -254,11 +288,12 @@ import android.widget.RelativeLayout.LayoutParams;
 	    }
 
 	    protected void onPostExecute(Journey journey) {
-	    	if (journey.markers == null) {
+	    	if (journey.markers.isEmpty()) {
 	    		// TODO: No route - something went wrong!
 	    	}
 
 	    	// display route on overlay
+	    	path.clearPath();
 	    	for (Marker marker: journey.markers) {
 	    		if (marker.type.equals("route")) {
 	    			// parse coordinates
