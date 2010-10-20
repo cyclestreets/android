@@ -32,12 +32,17 @@ public class RouteActivity extends Activity implements CycleStreetsConstants, Cy
 
 	private static final int DIALOG_NO_FROM_ID = 1;
 	private static final int DIALOG_NO_TO_ID = 2;
+	protected static final int DIALOG_CHOOSE_START = 3;
+	protected static final int DIALOG_CHOOSE_END = 4;
+	
 	
 	private GeoAutoCompleteView routeFrom;
 	private GeoAutoCompleteView routeTo;
+	private Button optionsFrom;
+	private Button optionsTo;
 	private RadioGroup routeTypeGroup;
 	private String routeType;
-	private Button routeGet;
+	private Button routeGo;
 	private RouteQuery routeQuery = new RouteQuery();
 	private GeoPlace placeFrom;
 	private GeoPlace placeTo;
@@ -62,6 +67,8 @@ public class RouteActivity extends Activity implements CycleStreetsConstants, Cy
 
     	routeFrom = (GeoAutoCompleteView) findViewById(R.id.routeFrom);
     	routeTo   = (GeoAutoCompleteView) findViewById(R.id.routeTo);
+    	optionsFrom = (Button) findViewById(R.id.optionsFrom);
+    	optionsTo = (Button) findViewById(R.id.optionsTo);
         adapterFrom = new GeoAdapter(this, R.layout.geo_item_2line, routeFrom, bounds);
         adapterTo = new GeoAdapter(this, R.layout.geo_item_2line, routeTo, bounds);
     	routeFrom.setAdapter(adapterFrom);
@@ -88,8 +95,8 @@ public class RouteActivity extends Activity implements CycleStreetsConstants, Cy
     		routeTo.requestFocus();
     	}
     	
-    	routeGet = (Button) findViewById(R.id.routeGet);
-    	routeGet.setOnClickListener(this);
+    	routeGo = (Button) findViewById(R.id.routeGo);
+    	routeGo.setOnClickListener(this);
     	
     	routeTypeGroup = (RadioGroup) findViewById(R.id.routeTypeGroup);
      	routeTypeGroup.setOnCheckedChangeListener(new TypeChangedListener());
@@ -138,34 +145,52 @@ public class RouteActivity extends Activity implements CycleStreetsConstants, Cy
     }
 
     @Override
-    protected Dialog onCreateDialog(int id)
-    {
-    	int msg = R.string.app_name;
-        
-    	switch (id)
-        {
-        case DIALOG_NO_FROM_ID:
-            msg = R.string.no_from;
-            break;
-        case DIALOG_NO_TO_ID:
-            msg = R.string.no_to;
-            break;
-        }
-       	
-        Dialog dialog = new AlertDialog.Builder(this)
-        .setMessage(msg)        
-        .setPositiveButton
-        (
-    		"OK",
-    		new DialogInterface.OnClickListener()
-    		{
-    			@Override
-    			public void onClick(DialogInterface dialog, int whichButton) {}
-    		}
-        ).create();
+    protected Dialog onCreateDialog(int id) {
+    	switch (id) {
+    	case DIALOG_NO_FROM_ID:
+    		return createErrorDialog(R.string.no_from);
+
+    	case DIALOG_NO_TO_ID:
+    		return createErrorDialog(R.string.no_to);
+    		
+    	case DIALOG_CHOOSE_START:
+    		return createChoosePointDialog(R.string.choose_start, true);
+
+    	case DIALOG_CHOOSE_END:
+    		return createChoosePointDialog(R.string.choose_end, false);
+    	}
+
+    	// should not be reached
+    	return null;
+    }
+
+    protected Dialog createErrorDialog(int msg) {
+    	Dialog dialog = new AlertDialog.Builder(this)
+    	.setMessage(msg)        
+    	.setPositiveButton
+    	(
+    			"OK",
+    			new DialogInterface.OnClickListener()
+    			{
+    				@Override
+    				public void onClick(DialogInterface dialog, int whichButton) {}
+    			}
+    	).create();
+
         return dialog;
     }
-    	       	
+    
+    protected Dialog createChoosePointDialog(int title, boolean allowCurrentLocation) {
+    	AlertDialog.Builder builder = new AlertDialog.Builder(this);
+    	builder.setTitle(title);
+    	if (allowCurrentLocation) {
+    		builder.setItems(R.array.point_type3);
+    	}
+    	else {
+    		builder.setItems(R.array.point_type);
+    	}
+    }
+    
     @Override
 	public boolean onCreateOptionsMenu(final Menu pMenu)
     {
@@ -299,4 +324,16 @@ public class RouteActivity extends Activity implements CycleStreetsConstants, Cy
 				routeType = RouteQuery.PLAN_FASTEST;	
 		}
     };
+    
+    protected class EntryOptionListener implements Button.OnClickListener {
+		@Override
+		public void onClick(View button) {
+			if (button == optionsFrom) {
+				RouteActivity.this.showDialog(DIALOG_CHOOSE_START);
+			}
+			else if (button == optionsTo) {
+				RouteActivity.this.showDialog(DIALOG_CHOOSE_END);
+			}
+		}    	
+    }
 }

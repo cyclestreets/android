@@ -13,6 +13,8 @@
 	<string name="go">Go</string>
 	<string name="choose_from">Please choose a start location</string>
 	<string name="choose_to">Please choose an end location</string>
+	<string name="choose_start">Choose Start Point</string>
+	<string name="choose_end">Choose End Point</string>
 	<string name="finding_route">Contacting cyclestreets.net for route, please wait</string>
 	<string name="please_wait">Please wait</string>
 	<string name="not_found">Couldn\'t find</string>
