@@ -28,4 +28,13 @@
         <item>openstreetmap</item>
         <item>cloudmade</item>
     </string-array>
+    <string-array name="point_type3">
+        <item>My current location</item>
+        <item>Contacts</item>
+        <item>Point on map</item>
+    </string-array>
+    <string-array name="point_type">
+        <item>Contacts</item>
+        <item>Point on map</item>
+    </string-array>
 </resources>

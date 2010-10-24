@@ -1,9 +1,7 @@
 package uk.org.invisibility.cycloid;
 
-import net.cyclestreets.CycleStreets;
 import net.cyclestreets.CycleStreetsConstants;
 import net.cyclestreets.R;
-import net.cyclestreets.api.Journey;
 
 import org.andnav.osm.util.BoundingBoxE6;
 import org.andnav.osm.util.GeoPoint;
@@ -14,20 +12,21 @@ import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 import android.widget.RelativeLayout.LayoutParams;
 
 
-public class RouteActivity extends Activity implements CycleStreetsConstants, CycloidConstants, View.OnClickListener
-{
+public class RouteActivity extends Activity implements CycleStreetsConstants, CycloidConstants,
+		View.OnClickListener, DialogInterface.OnClickListener {
 	private static final int MENU_REVERSE_ID = Menu.FIRST;
 
 	private static final int DIALOG_NO_FROM_ID = 1;
@@ -38,8 +37,8 @@ public class RouteActivity extends Activity implements CycleStreetsConstants, Cy
 	
 	private GeoAutoCompleteView routeFrom;
 	private GeoAutoCompleteView routeTo;
-	private Button optionsFrom;
-	private Button optionsTo;
+	private ImageButton optionsFrom;
+	private ImageButton optionsTo;
 	private RadioGroup routeTypeGroup;
 	private String routeType;
 	private Button routeGo;
@@ -67,8 +66,8 @@ public class RouteActivity extends Activity implements CycleStreetsConstants, Cy
 
     	routeFrom = (GeoAutoCompleteView) findViewById(R.id.routeFrom);
     	routeTo   = (GeoAutoCompleteView) findViewById(R.id.routeTo);
-    	optionsFrom = (Button) findViewById(R.id.optionsFrom);
-    	optionsTo = (Button) findViewById(R.id.optionsTo);
+    	optionsFrom = (ImageButton) findViewById(R.id.optionsFrom);
+    	optionsTo = (ImageButton) findViewById(R.id.optionsTo);
         adapterFrom = new GeoAdapter(this, R.layout.geo_item_2line, routeFrom, bounds);
         adapterTo = new GeoAdapter(this, R.layout.geo_item_2line, routeTo, bounds);
     	routeFrom.setAdapter(adapterFrom);
@@ -94,6 +93,9 @@ public class RouteActivity extends Activity implements CycleStreetsConstants, Cy
     		routeFrom.setHint(R.string.my_location);
     		routeTo.requestFocus();
     	}
+
+    	optionsFrom.setOnClickListener(new EntryOptionListener());
+    	optionsTo.setOnClickListener(new EntryOptionListener());
     	
     	routeGo = (Button) findViewById(R.id.routeGo);
     	routeGo.setOnClickListener(this);
@@ -184,14 +186,20 @@ public class RouteActivity extends Activity implements CycleStreetsConstants, Cy
     	AlertDialog.Builder builder = new AlertDialog.Builder(this);
     	builder.setTitle(title);
     	if (allowCurrentLocation) {
-    		builder.setItems(R.array.point_type3);
+    		builder.setItems(R.array.point_type3, this);
     	}
     	else {
-    		builder.setItems(R.array.point_type);
+    		builder.setItems(R.array.point_type, this);
     	}
+    	return builder.create();
     }
     
     @Override
+	public void onClick(DialogInterface dialog, int which) {
+    	Log.d(getClass().getSimpleName(), "selected: " + which);
+	}
+
+	@Override
 	public boolean onCreateOptionsMenu(final Menu pMenu)
     {
     	pMenu.add(0, MENU_REVERSE_ID, Menu.NONE, "Reverse").setIcon(android.R.drawable.ic_menu_rotate);
