@@ -24,7 +24,7 @@ import android.util.Log;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.RelativeLayout;
 
-public class PhotomapActivity extends Activity implements CycloidConstants {
+public class PhotomapActivity extends Activity {
 	protected PhotomapListener photomapListener;
 	
 	private OpenStreetMapView map; 
@@ -39,19 +39,19 @@ public class PhotomapActivity extends Activity implements CycloidConstants {
         super.onCreate(savedInstanceState);
 
         proxy = new CycloidResourceProxy(getApplicationContext());
-        prefs = getSharedPreferences(PREFS_APP_KEY, MODE_PRIVATE);
+        prefs = getSharedPreferences(CycloidConstants.PREFS_APP_KEY, MODE_PRIVATE);
         photoList = new CopyOnWriteArrayList<PhotoItem>();
         
         map = new OpenStreetMapView
         (
     		this,
-    		OpenStreetMapRendererFactory.getRenderer(prefs.getString(PREFS_APP_RENDERER, DEFAULT_MAPTYPE))
+    		OpenStreetMapRendererFactory.getRenderer(prefs.getString(CycloidConstants.PREFS_APP_RENDERER, CycloidConstants.DEFAULT_MAPTYPE))
         );
         map.setResourceProxy(proxy);
         map.setBuiltInZoomControls(true);
         map.setMultiTouchControls(true);
-        map.getController().setZoom(prefs.getInt(PREFS_APP_ZOOM_LEVEL, 14));
-        map.scrollTo(prefs.getInt(PREFS_APP_SCROLL_X, 0), prefs.getInt(PREFS_APP_SCROLL_Y, -701896)); /* Greenwich */
+        map.getController().setZoom(prefs.getInt(CycloidConstants.PREFS_APP_ZOOM_LEVEL, 14));
+        map.scrollTo(prefs.getInt(CycloidConstants.PREFS_APP_SCROLL_X, 0), prefs.getInt(CycloidConstants.PREFS_APP_SCROLL_Y, -701896)); /* Greenwich */
         map.setMapListener(new DelayedMapListener(new PhotomapListener(this, map, photoList)));
 
         markers = new OpenStreetMapViewItemizedOverlay<PhotoItem>(
@@ -67,14 +67,18 @@ public class PhotomapActivity extends Activity implements CycloidConstants {
         this.setContentView(rl);        
     }
 
-	private class PhotoTapListener implements OpenStreetMapViewItemizedOverlay.OnItemTapListener<PhotoItem> {
+	private class PhotoTapListener implements OpenStreetMapViewItemizedOverlay.OnItemGestureListener<PhotoItem> {
 		private List<PhotoItem> photoList;
 		
 		public PhotoTapListener(List<PhotoItem> photoList) {
 			this.photoList = photoList;
 		}
 
-		public boolean onItemTap(int i, PhotoItem photo) {
+		public boolean onItemLongPress(int i, PhotoItem photo) {
+			return false;
+		}
+		
+		public boolean onItemSingleTapUp(int i, PhotoItem photo) {
 			// extract thumbnail URL and display it in a DisplayPhotoActivity
 			PhotoItem item = photoList.get(i);
 			Log.d(getClass().getSimpleName(), "onItemTap: " + item);

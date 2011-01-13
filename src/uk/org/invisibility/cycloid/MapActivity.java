@@ -52,7 +52,7 @@ import android.widget.RelativeLayout.LayoutParams;
  * TODO geocode in progress indicator in route to/from
  */
 
- public class MapActivity extends Activity implements CycloidConstants, CycleStreetsConstants
+ public class MapActivity extends Activity 
  {
 	private static final int MENU_MY_LOCATION = Menu.FIRST;
     private static final int MENU_ROUTE = MENU_MY_LOCATION + 1;
@@ -75,19 +75,19 @@ import android.widget.RelativeLayout.LayoutParams;
         super.onCreate(saved);
 
         proxy = new CycloidResourceProxy(getApplicationContext());
-        prefs = getSharedPreferences(PREFS_APP_KEY, MODE_PRIVATE);
+        prefs = getSharedPreferences(CycloidConstants.PREFS_APP_KEY, MODE_PRIVATE);
 		res = getResources();
 
 		map = new OpenStreetMapView
         (
     		this,
-    		OpenStreetMapRendererFactory.getRenderer(prefs.getString(PREFS_APP_RENDERER, DEFAULT_MAPTYPE))
+    		OpenStreetMapRendererFactory.getRenderer(prefs.getString(CycloidConstants.PREFS_APP_RENDERER, CycloidConstants.DEFAULT_MAPTYPE))
         );
         map.setResourceProxy(proxy);
         map.setBuiltInZoomControls(true);
         map.setMultiTouchControls(true);
-        map.getController().setZoom(prefs.getInt(PREFS_APP_ZOOM_LEVEL, 14));
-        map.scrollTo(prefs.getInt(PREFS_APP_SCROLL_X, 0), prefs.getInt(PREFS_APP_SCROLL_Y, -701896)); /* Greenwich */
+        map.getController().setZoom(prefs.getInt(CycloidConstants.PREFS_APP_ZOOM_LEVEL, 14));
+        map.scrollTo(prefs.getInt(CycloidConstants.PREFS_APP_SCROLL_X, 0), prefs.getInt(CycloidConstants.PREFS_APP_SCROLL_Y, -701896)); /* Greenwich */
 
         location = new MyLocationOverlay(this.getBaseContext(), map, proxy);
         map.getOverlays().add(location);
@@ -113,14 +113,14 @@ import android.widget.RelativeLayout.LayoutParams;
     protected void onPause()
     {
         SharedPreferences.Editor edit = prefs.edit();
-        edit.putString(PREFS_APP_RENDERER, map.getRenderer().name());
-        edit.putInt(PREFS_APP_SCROLL_X, map.getScrollX());
-        edit.putInt(PREFS_APP_SCROLL_Y, map.getScrollY());
-        edit.putInt(PREFS_APP_ZOOM_LEVEL, map.getZoomLevel());
-        edit.putBoolean(PREFS_APP_FOLLOW_LOCATION, location.isLocationFollowEnabled());
+        edit.putString(CycloidConstants.PREFS_APP_RENDERER, map.getRenderer().name());
+        edit.putInt(CycloidConstants.PREFS_APP_SCROLL_X, map.getScrollX());
+        edit.putInt(CycloidConstants.PREFS_APP_SCROLL_Y, map.getScrollY());
+        edit.putInt(CycloidConstants.PREFS_APP_ZOOM_LEVEL, map.getZoomLevel());
+        edit.putBoolean(CycloidConstants.PREFS_APP_FOLLOW_LOCATION, location.isLocationFollowEnabled());
         edit.commit();
 
-        Log.w(LOGTAG, "X: " + map.getScrollX() + " Y: " + map.getScrollY() + " Z: " + map.getZoomLevel());
+        Log.w(CycloidConstants.LOGTAG, "X: " + map.getScrollX() + " Y: " + map.getScrollY() + " Z: " + map.getZoomLevel());
         
         location.disableMyLocation();     
         super.onPause();
@@ -130,18 +130,20 @@ import android.widget.RelativeLayout.LayoutParams;
     protected void onResume()
     {
     	super.onResume();
-        map.setRenderer(OpenStreetMapRendererFactory.getRenderer(prefs.getString(PREFS_APP_RENDERER, DEFAULT_MAPTYPE)));
-        this.location.followLocation(prefs.getBoolean(PREFS_APP_FOLLOW_LOCATION, true));
+        map.setRenderer(OpenStreetMapRendererFactory.getRenderer(prefs.getString(CycloidConstants.PREFS_APP_RENDERER, CycloidConstants.DEFAULT_MAPTYPE)));
+        this.location.followLocation(prefs.getBoolean(CycloidConstants.PREFS_APP_FOLLOW_LOCATION, true));
     }
     
     @Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
-		if (requestCode == ACTIVITY_GET_ENDPOINTS) {
+		if (requestCode == CycleStreetsConstants.ACTIVITY_GET_ENDPOINTS) {
 			if (resultCode == RESULT_OK) {
 				// get start and finish points
-				GeoPoint placeFrom = data.getParcelableExtra(EXTRA_PLACE_FROM);
-				GeoPoint placeTo = data.getParcelableExtra(EXTRA_PLACE_TO);
+				GeoPoint placeFrom = new GeoPoint(data.getIntExtra(CycleStreetsConstants.EXTRA_PLACE_FROM_LAT, 0),
+												  data.getIntExtra(CycleStreetsConstants.EXTRA_PLACE_FROM_LONG, 0));
+				GeoPoint placeTo = new GeoPoint(data.getIntExtra(CycleStreetsConstants.EXTRA_PLACE_TO_LAT, 0),
+						                        data.getIntExtra(CycleStreetsConstants.EXTRA_PLACE_TO_LONG, 0));
 				Log.d(getClass().getSimpleName(), "got places! " + placeFrom + " " + placeTo);
 
 				// show start & finish on map
@@ -195,10 +197,10 @@ import android.widget.RelativeLayout.LayoutParams;
                 lastFix = location.getLastFix();
                 if (lastFix != null)
                 {
-                	intent.putExtra(GEO_LATITUDE, (int)(lastFix.getLatitude() * 1E6));
-                	intent.putExtra(GEO_LONGITUDE, (int)(lastFix.getLongitude() * 1E6));
+                	intent.putExtra(CycloidConstants.GEO_LATITUDE, (int)(lastFix.getLatitude() * 1E6));
+                	intent.putExtra(CycloidConstants.GEO_LONGITUDE, (int)(lastFix.getLongitude() * 1E6));
                 }	
-                startActivityForResult(intent, ACTIVITY_GET_ENDPOINTS);
+                startActivityForResult(intent, CycleStreetsConstants.ACTIVITY_GET_ENDPOINTS);
                 return true;
 
             case MENU_ABOUT:

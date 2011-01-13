@@ -21,7 +21,7 @@ import uk.org.invisibility.cycloid.GeoResults;
 
 /* http://cambridge.cyclestreets.net/api/geocoder.xml?key=120175c44303728f&w=0.1139374&s=52.2019365&e=0.1219626&n=52.2086693&z=16&street=thoday%20street */
 
-public class GeoQuery implements CycleStreetsConstants
+public class GeoQuery
 {  
 	BoundingBoxE6 bounds;
 	
@@ -46,7 +46,7 @@ public class GeoQuery implements CycleStreetsConstants
 			Uri.Builder builder = new Uri.Builder()
 				.scheme("http")
 				.path("//www.cyclestreets.net/api/geocoder.xml")
-				.appendQueryParameter("key", API_KEY)
+				.appendQueryParameter("key", CycleStreetsConstants.API_KEY)
 				.appendQueryParameter("street", q);
 			if (bounds != null)
 			{

@@ -5,8 +5,6 @@ import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-import net.cyclestreets.CycleStreetsConstants;
-
 import org.andnav.osm.util.GeoPoint;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
@@ -18,9 +16,11 @@ import android.sax.StartElementListener;
 import android.util.Xml;
 import uk.org.invisibility.cycloid.RouteResult;
 
+import net.cyclestreets.CycleStreetsConstants;
+
 /* http://www.cyclestreets.net/api/journey.xml?key=120175c44303728f%20&start_longitude=-0.169687&start_latitude=51.535231&finish_longitude=-0.115356&finish_latitude=51.521935&plan=quietest */
 
-public class RouteQuery implements CycleStreetsConstants
+public class RouteQuery
 {
 	RouteResult route;
 
@@ -33,7 +33,7 @@ public class RouteQuery implements CycleStreetsConstants
 			url = new URL (new Uri.Builder()
 				.scheme("http")
 				.path("//www.cyclestreets.net/api/journey.xml")
-				.appendQueryParameter("key", API_KEY)
+				.appendQueryParameter("key", CycleStreetsConstants.API_KEY)
 				.appendQueryParameter("start_longitude", "" + start.getLongitudeE6() / 1E6)
 				.appendQueryParameter("start_latitude", "" + start.getLatitudeE6() / 1E6)
 				.appendQueryParameter("finish_longitude", "" + finish.getLongitudeE6() / 1E6)

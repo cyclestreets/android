@@ -16,7 +16,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.TabHost;
 
-public class CycleStreets extends TabActivity implements CycleStreetsConstants {
+public class CycleStreets extends TabActivity {
 	public static ApiClient apiClient = new ApiClient();
 	public static List<Map<String,Object>> itineraryRows = new ArrayList<Map<String,Object>>();
 	

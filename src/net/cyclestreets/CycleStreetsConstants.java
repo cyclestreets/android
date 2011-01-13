@@ -1,14 +1,16 @@
 package net.cyclestreets;
 
-public interface CycleStreetsConstants {
+public class CycleStreetsConstants {
     // API Key
-    public final String API_KEY = "120175c44303728f";
+    public static final String API_KEY = "120175c44303728f";
 
     // Intent constants
     public static final int ACTIVITY_GET_ENDPOINTS = 1;
 	public static final String EXTRA_PHOTO = "net.cyclestreets.extra.PHOTO";
-	public static final String EXTRA_PLACE_FROM = "net.cyclestreets.extra.PLACE_FROM";
-	public static final String EXTRA_PLACE_TO = "net.cyclestreets.extra.PLACE_TO";
+	public static final String EXTRA_PLACE_FROM_LAT = "net.cyclestreets.extra.PLACE_FROM_LAT";
+	public static final String EXTRA_PLACE_FROM_LONG = "net.cyclestreets.extra.PLACE_FROM_LONG";
+	public static final String EXTRA_PLACE_TO_LAT = "net.cyclestreets.extra.PLACE_TO_LAT";
+	public static final String EXTRA_PLACE_TO_LONG = "net.cyclestreets.extra.PLACE_TO_LONG";
 	public static final String EXTRA_ROUTE = "net.cyclestreets.extra.ROUTE";
 
 	// Route types 

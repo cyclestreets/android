@@ -25,7 +25,7 @@ import android.widget.Toast;
 import android.widget.RelativeLayout.LayoutParams;
 
 
-public class RouteActivity extends Activity implements CycleStreetsConstants, CycloidConstants,
+public class RouteActivity extends Activity implements
 		View.OnClickListener, DialogInterface.OnClickListener {
 	private static final int MENU_REVERSE_ID = Menu.FIRST;
 
@@ -78,16 +78,17 @@ public class RouteActivity extends Activity implements CycleStreetsConstants, Cy
     	 * empty value for routeFrom
     	 */
     	Intent intent = getIntent();
-    	if (intent.hasExtra(GEO_LATITUDE) && intent.hasExtra(GEO_LONGITUDE))
+    	if (intent.hasExtra(CycloidConstants.GEO_LATITUDE) && 
+    		intent.hasExtra(CycloidConstants.GEO_LONGITUDE))
     	{
     		myLocation = new GeoPlace
     		(
 				new GeoPoint
 				(
-					intent.getIntExtra(GEO_LATITUDE, 0),
-					intent.getIntExtra(GEO_LONGITUDE, 0)
+					intent.getIntExtra(CycloidConstants.GEO_LATITUDE, 0),
+					intent.getIntExtra(CycloidConstants.GEO_LONGITUDE, 0)
 				),
-				MY_LOCATION,
+				CycloidConstants.MY_LOCATION,
 				""
     		);
     		routeFrom.setHint(R.string.my_location);
@@ -115,29 +116,29 @@ public class RouteActivity extends Activity implements CycleStreetsConstants, Cy
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent  data)
     {
-    	if (requestCode == GEO_REQUEST_FROM || requestCode == GEO_REQUEST_TO)
+    	if (requestCode == CycloidConstants.GEO_REQUEST_FROM || requestCode == CycloidConstants.GEO_REQUEST_TO)
     	{
     		if (resultCode != Activity.RESULT_OK)
     		{
-				if (requestCode == GEO_REQUEST_FROM)
+				if (requestCode == CycloidConstants.GEO_REQUEST_FROM)
 					showDialog(DIALOG_NO_FROM_ID);
-				else if (requestCode == GEO_REQUEST_TO)
+				else if (requestCode == CycloidConstants.GEO_REQUEST_TO)
 					showDialog(DIALOG_NO_TO_ID);
      		}
-    		else if (data != null && data.hasExtra(GEO_LATITUDE) && data.hasExtra(GEO_LONGITUDE))
+    		else if (data != null && data.hasExtra(CycloidConstants.GEO_LATITUDE) && data.hasExtra(CycloidConstants.GEO_LONGITUDE))
 			{
-				int lat = data.getIntExtra(GEO_LATITUDE, 0);
-				int lon = data.getIntExtra(GEO_LONGITUDE, 0);
-				String near = data.getStringExtra(GEO_NEAR);
+				int lat = data.getIntExtra(CycloidConstants.GEO_LATITUDE, 0);
+				int lon = data.getIntExtra(CycloidConstants.GEO_LONGITUDE, 0);
+				String near = data.getStringExtra(CycloidConstants.GEO_NEAR);
 				
 				//Log.e(LOGTAG, "Geocode result: lat: " + lat + " lon: " + lon);
 	
-				if (requestCode == GEO_REQUEST_FROM)
+				if (requestCode == CycloidConstants.GEO_REQUEST_FROM)
 				{
 					placeFrom = new GeoPlace(new GeoPoint(lat, lon), routeFrom.getText().toString(), near);
 					findRoute();
 				}
-				else if (requestCode == GEO_REQUEST_TO)
+				else if (requestCode == CycloidConstants.GEO_REQUEST_TO)
 				{
 					placeTo = new GeoPlace(new GeoPoint(lat, lon), routeTo.getText().toString(), near);
 					findRoute();
@@ -228,16 +229,16 @@ public class RouteActivity extends Activity implements CycleStreetsConstants, Cy
 		if (placeFrom == null || placeFrom.coord == null)
 		{
 			Intent intent = new Intent(RouteActivity.this, GeoActivity.class);
-			intent.putExtra(GEO_SEARCH, routeFrom.getText().toString());
-			intent.putExtra(GEO_TYPE, GEO_REQUEST_FROM);			
-	    	startActivityForResult(intent, GEO_REQUEST_FROM);		
+			intent.putExtra(CycloidConstants.GEO_SEARCH, routeFrom.getText().toString());
+			intent.putExtra(CycloidConstants.GEO_TYPE, CycloidConstants.GEO_REQUEST_FROM);			
+	    	startActivityForResult(intent, CycloidConstants.GEO_REQUEST_FROM);		
 		}
 		else if (placeTo == null || placeTo.coord == null)
 		{
 			Intent intent = new Intent(RouteActivity.this, GeoActivity.class);
-			intent.putExtra(GEO_SEARCH, routeTo.getText().toString());
-			intent.putExtra(GEO_TYPE, GEO_REQUEST_TO);			
-	    	startActivityForResult(intent, GEO_REQUEST_TO);		
+			intent.putExtra(CycloidConstants.GEO_SEARCH, routeTo.getText().toString());
+			intent.putExtra(CycloidConstants.GEO_TYPE, CycloidConstants.GEO_REQUEST_TO);			
+	    	startActivityForResult(intent, CycloidConstants.GEO_REQUEST_TO);		
 		}
 		else
 		{
@@ -249,8 +250,10 @@ public class RouteActivity extends Activity implements CycleStreetsConstants, Cy
 			
 			// return start and finish points to MapActivity and close
         	Intent intent = new Intent(RouteActivity.this, MapActivity.class);
-        	intent.putExtra(EXTRA_PLACE_FROM, placeFrom.coord);
-        	intent.putExtra(EXTRA_PLACE_TO, placeTo.coord);
+        	intent.putExtra(CycleStreetsConstants.EXTRA_PLACE_FROM_LAT, placeFrom.coord.getLatitudeE6());
+        	intent.putExtra(CycleStreetsConstants.EXTRA_PLACE_FROM_LONG, placeFrom.coord.getLongitudeE6());
+        	intent.putExtra(CycleStreetsConstants.EXTRA_PLACE_TO_LAT, placeTo.coord.getLatitudeE6());
+        	intent.putExtra(CycleStreetsConstants.EXTRA_PLACE_TO_LONG, placeTo.coord.getLongitudeE6());
         	setResult(RESULT_OK, intent);
         	finish();
 		}
@@ -325,11 +328,11 @@ public class RouteActivity extends Activity implements CycleStreetsConstants, Cy
 		@Override
 		public void onCheckedChanged(RadioGroup group, int checked) {
 			if (checked == R.id.routeQuietest)
-				routeType = RouteQuery.PLAN_QUIETEST;
+				routeType = CycleStreetsConstants.PLAN_QUIETEST;
 			else if (checked == R.id.routeBalanced)
-				routeType = RouteQuery.PLAN_BALANCED;
+				routeType = CycleStreetsConstants.PLAN_BALANCED;
 			else if (checked == R.id.routeFastest)
-				routeType = RouteQuery.PLAN_FASTEST;	
+				routeType = CycleStreetsConstants.PLAN_FASTEST;	
 		}
     };
     

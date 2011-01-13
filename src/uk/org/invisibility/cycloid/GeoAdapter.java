@@ -19,7 +19,7 @@ import android.widget.Filter;
 import android.widget.TextView;
 import android.widget.AdapterView.OnItemClickListener;
 
-public class GeoAdapter extends ArrayAdapter<GeoPlace> implements OnItemClickListener, CycloidConstants
+public class GeoAdapter extends ArrayAdapter<GeoPlace> implements OnItemClickListener
 {
 	private final GeocodeFilter filter;
 	private final GeoQuery query;
@@ -47,7 +47,7 @@ public class GeoAdapter extends ArrayAdapter<GeoPlace> implements OnItemClickLis
 		if (view != null)
 			view.setOnItemClickListener(this);
 		
-		prefs = context.getSharedPreferences(PREFS_GEO_KEY, Application.MODE_PRIVATE);
+		prefs = context.getSharedPreferences(CycloidConstants.PREFS_GEO_KEY, Application.MODE_PRIVATE);
 	}
 
 	/*
@@ -183,7 +183,7 @@ public class GeoAdapter extends ArrayAdapter<GeoPlace> implements OnItemClickLis
 		if (prefs == null)
 			return;
 		
-		String match = (PREFS_GEO_NAME_PREFIX + cs).toLowerCase();
+		String match = (CycloidConstants.PREFS_GEO_NAME_PREFIX + cs).toLowerCase();
 		TreeSet<String> sortedKeys = new TreeSet<String>(prefs.getAll().keySet());
 	
 		for (String s: sortedKeys)
@@ -198,11 +198,11 @@ public class GeoAdapter extends ArrayAdapter<GeoPlace> implements OnItemClickLis
 					(
 						new GeoPoint
 						(
-							prefs.getInt(PREFS_GEO_LATITUDE_PREFIX + key, 0),
-							prefs.getInt(PREFS_GEO_LONGITUDE_PREFIX + key, 0)
+							prefs.getInt(CycloidConstants.PREFS_GEO_LATITUDE_PREFIX + key, 0),
+							prefs.getInt(CycloidConstants.PREFS_GEO_LONGITUDE_PREFIX + key, 0)
 						),
-						prefs.getString(PREFS_GEO_NAME_PREFIX + key, ""),
-						prefs.getString(PREFS_GEO_NEAR_PREFIX + key, "")
+						prefs.getString(CycloidConstants.PREFS_GEO_NAME_PREFIX + key, ""),
+						prefs.getString(CycloidConstants.PREFS_GEO_NEAR_PREFIX + key, "")
 					)
 				);
 			}
@@ -217,16 +217,16 @@ public class GeoAdapter extends ArrayAdapter<GeoPlace> implements OnItemClickLis
 		if (prefs == null)
 			return;
 		
-		if (p.name.equals(MY_LOCATION))
+		if (p.name.equals(CycloidConstants.MY_LOCATION))
 			return;
 		
 		String key = p.name.toLowerCase();
 				
         SharedPreferences.Editor edit = prefs.edit();
-        edit.putString(PREFS_GEO_NAME_PREFIX + key, p.name);
-        edit.putString(PREFS_GEO_NEAR_PREFIX + key, p.near);
-        edit.putInt(PREFS_GEO_LATITUDE_PREFIX + key, p.coord.getLatitudeE6());
-        edit.putInt(PREFS_GEO_LONGITUDE_PREFIX + key, p.coord.getLongitudeE6());
+        edit.putString(CycloidConstants.PREFS_GEO_NAME_PREFIX + key, p.name);
+        edit.putString(CycloidConstants.PREFS_GEO_NEAR_PREFIX + key, p.near);
+        edit.putInt(CycloidConstants.PREFS_GEO_LATITUDE_PREFIX + key, p.coord.getLatitudeE6());
+        edit.putInt(CycloidConstants.PREFS_GEO_LONGITUDE_PREFIX + key, p.coord.getLongitudeE6());
         edit.commit();
 	}
 }

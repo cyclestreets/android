@@ -19,7 +19,7 @@ import android.widget.ListView;
  * Geocode activity. Used if user manually enters a location without selecting
  * GeoAdapter results.
  */
-public class GeoActivity extends ListActivity implements CycloidConstants
+public class GeoActivity extends ListActivity
 {
 	GeoAdapter adapter;
 	Dialog dialog;
@@ -50,7 +50,7 @@ public class GeoActivity extends ListActivity implements CycloidConstants
 		adapter.getFilter().filter(search);
 	    
         int msg = 0; 
-		if (getIntent().getIntExtra(GEO_TYPE, 0) == GEO_REQUEST_FROM)
+		if (getIntent().getIntExtra(CycloidConstants.GEO_TYPE, 0) == CycloidConstants.GEO_REQUEST_FROM)
 			msg = R.string.select_route_start;
 		else
 			msg = R.string.select_route_end;
@@ -94,9 +94,9 @@ public class GeoActivity extends ListActivity implements CycloidConstants
 	 */	
 	public void select(GeoPlace p)
 	{
-		result.putExtra(GEO_LATITUDE, p.coord.getLatitudeE6());
-		result.putExtra(GEO_LONGITUDE, p.coord.getLongitudeE6());
-		result.putExtra(GEO_NEAR, p.near);
+		result.putExtra(CycloidConstants.GEO_LATITUDE, p.coord.getLatitudeE6());
+		result.putExtra(CycloidConstants.GEO_LONGITUDE, p.coord.getLongitudeE6());
+		result.putExtra(CycloidConstants.GEO_NEAR, p.near);
 		setResult(Activity.RESULT_OK, result);
 		finish();		
 	}

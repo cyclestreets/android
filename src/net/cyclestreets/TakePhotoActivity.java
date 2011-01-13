@@ -121,7 +121,7 @@ public class TakePhotoActivity extends Activity implements SurfaceHolder.Callbac
 	public void onPictureTaken(byte[] data, Camera camera) {
 		Log.d(getClass().getSimpleName(), "picture taken!");
 		Intent intent = new Intent(this, PhotoTakenActivity.class);
-		intent.putExtra(CycleStreets.EXTRA_PHOTO, data);
+		intent.putExtra(CycleStreetsConstants.EXTRA_PHOTO, data);
 		startActivity(intent);
 	}
 }

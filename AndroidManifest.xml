@@ -10,7 +10,7 @@
 	<uses-permission android:name="android.permission.READ_PHONE_STATE"/>
 	<uses-permission android:name="android.permission.CAMERA"/>
 	<uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
-    <application android:icon="@drawable/icon" android:label="@string/app_name">
+    <application android:icon="@drawable/icon" android:label="@string/app_name" android:debuggable="true">
         <meta-data android:name="CLOUDMADE_KEY" android:value="BC9A493B41014CAABB98F0471D759707" />
         <activity android:name=".CycleStreets"
                   android:label="@string/app_name">
@@ -47,5 +47,5 @@
         <activity android:name="uk.org.invisibility.cycloid.GeoActivity" android:icon="@drawable/icon" android:label="Cycloid" android:theme="@android:style/Theme.NoDisplay">
         </activity>
     </application>
-    <uses-sdk android:minSdkVersion="3" />
+    <uses-sdk android:minSdkVersion="8" />
 </manifest>

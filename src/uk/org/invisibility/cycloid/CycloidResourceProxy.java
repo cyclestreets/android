@@ -27,7 +27,7 @@ public class CycloidResourceProxy extends DefaultResourceProxyImpl
 		case osmarender : return mContext.getString(R.string.osmarender);
 		case mapnik : return mContext.getString(R.string.mapnik);
 		case cyclemap : return mContext.getString(R.string.cyclemap);
-		case openareal_sat : return mContext.getString(R.string.openareal_sat);
+		//case openareal_sat : return mContext.getString(R.string.openareal_sat);
 		case base : return mContext.getString(R.string.base);
 		case topo : return mContext.getString(R.string.topo);
 		case hills : return mContext.getString(R.string.hills);

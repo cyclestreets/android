@@ -14,7 +14,7 @@ public class PhotoTakenActivity extends Activity {
 
 		// get photo data
 		Intent i = getIntent();
-		byte[] data = i.getByteArrayExtra(CycleStreets.EXTRA_PHOTO);
+		byte[] data = i.getByteArrayExtra(CycleStreetsConstants.EXTRA_PHOTO);
 		Bitmap bitmap = BitmapFactory.decodeByteArray(data, 0, data.length);
 
 		// show the photo
