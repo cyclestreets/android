@@ -254,6 +254,7 @@ public class RouteActivity extends Activity implements
         	intent.putExtra(CycleStreetsConstants.EXTRA_PLACE_FROM_LONG, placeFrom.coord.getLongitudeE6());
         	intent.putExtra(CycleStreetsConstants.EXTRA_PLACE_TO_LAT, placeTo.coord.getLatitudeE6());
         	intent.putExtra(CycleStreetsConstants.EXTRA_PLACE_TO_LONG, placeTo.coord.getLongitudeE6());
+        	intent.putExtra(CycleStreetsConstants.EXTRA_ROUTE_TYPE, routeType);
         	setResult(RESULT_OK, intent);
         	finish();
 		}

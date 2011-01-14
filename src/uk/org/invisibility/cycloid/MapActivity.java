@@ -33,7 +33,6 @@ import android.graphics.Point;
 import android.location.Location;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -144,7 +143,8 @@ import android.widget.RelativeLayout.LayoutParams;
 												  data.getIntExtra(CycleStreetsConstants.EXTRA_PLACE_FROM_LONG, 0));
 				GeoPoint placeTo = new GeoPoint(data.getIntExtra(CycleStreetsConstants.EXTRA_PLACE_TO_LAT, 0),
 						                        data.getIntExtra(CycleStreetsConstants.EXTRA_PLACE_TO_LONG, 0));
-				Log.d(getClass().getSimpleName(), "got places! " + placeFrom + " " + placeTo);
+				String routeType = data.getStringExtra(CycleStreetsConstants.EXTRA_ROUTE_TYPE);
+				Log.d(getClass().getSimpleName(), "got places: " + placeFrom + "->" + placeTo + " " + routeType);
 
 				// show start & finish on map
         		OpenStreetMapViewOverlayItem startItem = new OpenStreetMapViewOverlayItem("start", "start", placeFrom);
@@ -160,7 +160,7 @@ import android.widget.RelativeLayout.LayoutParams;
 				map.invalidate();
 				
 				// calculate journey
-				RouteQueryTask query = new RouteQueryTask();
+				RouteQueryTask query = new RouteQueryTask(routeType);
 				query.execute(placeFrom, placeTo);
 			}
 		}
@@ -266,6 +266,13 @@ import android.widget.RelativeLayout.LayoutParams;
    };
    
 	protected class RouteQueryTask extends AsyncTask<GeoPoint,Integer,Journey> {
+		private final String routeType;
+		
+		RouteQueryTask(String routeType)
+		{
+			this.routeType = routeType;
+		}
+		
 		protected ProgressDialog progress = new ProgressDialog(MapActivity.this);
 
 		protected void onPreExecute() {
@@ -278,10 +285,6 @@ import android.widget.RelativeLayout.LayoutParams;
 
 	    protected Journey doInBackground(GeoPoint... points) {
 	    	try {
-	    		// calculate journey
-	    		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(MapActivity.this);
-	    		String routeType = prefs.getString("routetype", "balanced");
-				Log.d(getClass().getSimpleName(), "route type: " + routeType);
 	    		return CycleStreets.apiClient.getJourney(routeType, points[0], points[1]);
 	    	}
 	    	catch (Exception e) {
