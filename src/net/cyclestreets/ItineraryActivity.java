@@ -1,18 +1,18 @@
 package net.cyclestreets;
 
-import java.util.ArrayList;
+//import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
+//import java.util.List;
 import java.util.Map;
 
-import net.cyclestreets.api.Journey;
-import net.cyclestreets.api.Marker;
+//import net.cyclestreets.api.Journey;
+//import net.cyclestreets.api.Marker;
 
-import org.andnav.osm.util.GeoPoint;
+//import org.andnav.osm.util.GeoPoint;
 
 import android.app.ListActivity;
-import android.app.ProgressDialog;
-import android.os.AsyncTask;
+//import android.app.ProgressDialog;
+//import android.os.AsyncTask;
 import android.os.Bundle;
 import android.widget.SimpleAdapter;
 
@@ -54,6 +54,7 @@ public class ItineraryActivity extends ListActivity {
 		return row;
 	}
 
+/*
 	private class GetJourneyTask extends AsyncTask<GeoPoint,Void,List<Map<String,Object>>> {
 		protected ProgressDialog dialog = new ProgressDialog(ItineraryActivity.this);
 
@@ -76,7 +77,7 @@ public class ItineraryActivity extends ListActivity {
 	        	// create the rows
 	        	double cumdist = 0.0;
 	        	for (Marker marker : journey.markers) {
-	        		String type = marker.provisionName;
+	        		//String type = marker.provisionName;
 	        		cumdist += marker.distance;
 	        		rows.add(createRowMap(R.drawable.icon, marker.name, marker.time + "m", marker.distance + "m", "(" + (cumdist/1000) + "km)"));
 	        	}
@@ -94,4 +95,5 @@ public class ItineraryActivity extends ListActivity {
         	dialog.dismiss();
 		}    	
 	}
+*/
 }

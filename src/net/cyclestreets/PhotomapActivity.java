@@ -7,9 +7,9 @@ import org.andnav.osm.DefaultResourceProxyImpl;
 import org.andnav.osm.ResourceProxy;
 import org.andnav.osm.events.DelayedMapListener;
 import org.andnav.osm.views.OpenStreetMapView;
-import org.andnav.osm.views.overlay.MyLocationOverlay;
+//import org.andnav.osm.views.overlay.MyLocationOverlay;
 import org.andnav.osm.views.overlay.OpenStreetMapViewItemizedOverlay;
-import org.andnav.osm.views.overlay.OpenStreetMapViewPathOverlay;
+//import org.andnav.osm.views.overlay.OpenStreetMapViewPathOverlay;
 import org.andnav.osm.views.util.OpenStreetMapRendererFactory;
 
 import uk.org.invisibility.cycloid.CycloidConstants;
@@ -28,8 +28,8 @@ public class PhotomapActivity extends Activity {
 	protected PhotomapListener photomapListener;
 	
 	private OpenStreetMapView map; 
-	private OpenStreetMapViewPathOverlay path;
-	private MyLocationOverlay location;
+	//private OpenStreetMapViewPathOverlay path;
+	//private MyLocationOverlay location;
 	private OpenStreetMapViewItemizedOverlay<PhotoItem> markers;
 	protected List<PhotoItem> photoList;
 	private ResourceProxy proxy;

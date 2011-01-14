@@ -320,7 +320,7 @@ import android.widget.RelativeLayout.LayoutParams;
         	CycleStreets.itineraryRows.clear();
         	for (Marker marker : journey.markers) {
 	    		if (marker.type.equals("segment")) {
-	    			String provision = marker.provisionName;
+	    			//String provision = marker.provisionName;
 	    			cumdist += marker.distance;
 	    			CycleStreets.itineraryRows.add(ItineraryActivity.createRowMap(
 	    					R.drawable.icon,		// TODO: use icon based on provision type

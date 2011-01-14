@@ -60,7 +60,7 @@ public class TakePhotoActivity extends Activity implements SurfaceHolder.Callbac
 	public void surfaceChanged(SurfaceHolder holder, int format, int width,
 			int height) {
         // set preview size
-		Camera.Parameters params = camera.getParameters();
+		//Camera.Parameters params = camera.getParameters();
 
 		// needs API level 5
 //        List<Size> sizes = params.getSupportedPreviewSizes();
