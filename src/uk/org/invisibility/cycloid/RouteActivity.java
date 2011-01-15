@@ -2,6 +2,7 @@ package uk.org.invisibility.cycloid;
 
 import net.cyclestreets.CycleStreetsConstants;
 import net.cyclestreets.R;
+import net.cyclestreets.util.RouteTypeMapper;
 
 import org.andnav.osm.util.BoundingBoxE6;
 import org.andnav.osm.util.GeoPoint;
@@ -12,7 +13,9 @@ import android.app.Dialog;
 //import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
@@ -24,7 +27,6 @@ import android.widget.RadioGroup;
 import android.widget.Toast;
 import android.widget.RelativeLayout.LayoutParams;
 
-
 public class RouteActivity extends Activity implements
 		View.OnClickListener, DialogInterface.OnClickListener {
 	private static final int MENU_REVERSE_ID = Menu.FIRST;
@@ -33,7 +35,6 @@ public class RouteActivity extends Activity implements
 	private static final int DIALOG_NO_TO_ID = 2;
 	protected static final int DIALOG_CHOOSE_START = 3;
 	protected static final int DIALOG_CHOOSE_END = 4;
-	
 	
 	private GeoAutoCompleteView routeFrom;
 	private GeoAutoCompleteView routeTo;
@@ -101,9 +102,12 @@ public class RouteActivity extends Activity implements
     	routeGo = (Button) findViewById(R.id.routeGo);
     	routeGo.setOnClickListener(this);
     	
+    	final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+    	final String routeType = prefs.getString("routetype", CycleStreetsConstants.PLAN_BALANCED);
+
     	routeTypeGroup = (RadioGroup) findViewById(R.id.routeTypeGroup);
      	routeTypeGroup.setOnCheckedChangeListener(new TypeChangedListener());
-    	routeTypeGroup.check(R.id.routeBalanced);
+    	routeTypeGroup.check(RouteTypeMapper.idFromName(routeType));
     	
 //    	progress = new ProgressDialog(RouteActivity.this);
 //		progress.setMessage(getString(R.string.finding_route));
@@ -328,12 +332,7 @@ public class RouteActivity extends Activity implements
     {
 		@Override
 		public void onCheckedChanged(RadioGroup group, int checked) {
-			if (checked == R.id.routeQuietest)
-				routeType = CycleStreetsConstants.PLAN_QUIETEST;
-			else if (checked == R.id.routeBalanced)
-				routeType = CycleStreetsConstants.PLAN_BALANCED;
-			else if (checked == R.id.routeFastest)
-				routeType = CycleStreetsConstants.PLAN_FASTEST;	
+			routeType = RouteTypeMapper.nameFromId(checked);
 		}
     };
     
