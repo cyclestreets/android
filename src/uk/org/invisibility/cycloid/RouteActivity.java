@@ -41,7 +41,6 @@ public class RouteActivity extends Activity implements
 	private ImageButton optionsFrom;
 	private ImageButton optionsTo;
 	private RadioGroup routeTypeGroup;
-	private String routeType;
 	private Button routeGo;
 	//private RouteQuery routeQuery = new RouteQuery();
 	private GeoPlace placeFrom;
@@ -106,7 +105,6 @@ public class RouteActivity extends Activity implements
     	final String routeType = prefs.getString("routetype", CycleStreetsConstants.PLAN_BALANCED);
 
     	routeTypeGroup = (RadioGroup) findViewById(R.id.routeTypeGroup);
-     	routeTypeGroup.setOnCheckedChangeListener(new TypeChangedListener());
     	routeTypeGroup.check(RouteTypeMapper.idFromName(routeType));
     	
 //    	progress = new ProgressDialog(RouteActivity.this);
@@ -258,6 +256,7 @@ public class RouteActivity extends Activity implements
         	intent.putExtra(CycleStreetsConstants.EXTRA_PLACE_FROM_LONG, placeFrom.coord.getLongitudeE6());
         	intent.putExtra(CycleStreetsConstants.EXTRA_PLACE_TO_LAT, placeTo.coord.getLatitudeE6());
         	intent.putExtra(CycleStreetsConstants.EXTRA_PLACE_TO_LONG, placeTo.coord.getLongitudeE6());
+        	final String routeType = RouteTypeMapper.nameFromId(routeTypeGroup.getCheckedRadioButtonId());
         	intent.putExtra(CycleStreetsConstants.EXTRA_ROUTE_TYPE, routeType);
         	setResult(RESULT_OK, intent);
         	finish();
@@ -328,14 +327,6 @@ public class RouteActivity extends Activity implements
 //	    }
 //	}
 	
-    private class TypeChangedListener implements RadioGroup.OnCheckedChangeListener
-    {
-		@Override
-		public void onCheckedChanged(RadioGroup group, int checked) {
-			routeType = RouteTypeMapper.nameFromId(checked);
-		}
-    };
-    
     protected class EntryOptionListener implements Button.OnClickListener {
 		@Override
 		public void onClick(View button) {
