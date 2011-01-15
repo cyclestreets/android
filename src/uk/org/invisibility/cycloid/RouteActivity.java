@@ -1,6 +1,7 @@
 package uk.org.invisibility.cycloid;
 
 import net.cyclestreets.CycleStreetsConstants;
+import net.cyclestreets.CycleStreetsPreferences;
 import net.cyclestreets.R;
 import net.cyclestreets.util.RouteTypeMapper;
 
@@ -13,9 +14,7 @@ import android.app.Dialog;
 //import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
@@ -100,12 +99,9 @@ public class RouteActivity extends Activity implements
     	
     	routeGo = (Button) findViewById(R.id.routeGo);
     	routeGo.setOnClickListener(this);
-    	
-    	final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-    	final String routeType = prefs.getString("routetype", CycleStreetsConstants.PLAN_BALANCED);
 
     	routeTypeGroup = (RadioGroup) findViewById(R.id.routeTypeGroup);
-    	routeTypeGroup.check(RouteTypeMapper.idFromName(routeType));
+    	routeTypeGroup.check(RouteTypeMapper.idFromName(CycleStreetsPreferences.routeType()));
     	
 //    	progress = new ProgressDialog(RouteActivity.this);
 //		progress.setMessage(getString(R.string.finding_route));

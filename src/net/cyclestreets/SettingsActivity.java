@@ -12,8 +12,9 @@ public class SettingsActivity extends PreferenceActivity implements SharedPrefer
 		super.onCreate(savedInstanceState); 
 
 		// inflate preferences screen
-		addPreferencesFromResource(R.xml.preferences); 
-	}
+		addPreferencesFromResource(R.xml.preferences);
+        setSummary(CycleStreetsPreferences.PREF_ROUTE_TYPE_KEY);
+	} 
 
     @Override
     protected void onResume() {
@@ -33,10 +34,13 @@ public class SettingsActivity extends PreferenceActivity implements SharedPrefer
 
 	// listen for preference changes
 	public void onSharedPreferenceChanged(SharedPreferences prefs, String key) {
-		// show new choice in summary field
-		Preference prefUI = findPreference(key);
-	    if (prefUI instanceof ListPreference) {
-			prefUI.setSummary(((ListPreference) prefUI).getEntry());
-	    }
+		setSummary(key);
 	}
+
+	private void setSummary(final String key) {
+		final Preference prefUI = findPreference(key);
+	    if (prefUI instanceof ListPreference) {
+			prefUI.setSummary(((ListPreference)prefUI).getEntry());
+	    }
+	} // setSummary
 }

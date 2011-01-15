@@ -10,7 +10,6 @@ import android.app.TabActivity;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -26,7 +25,7 @@ public class CycleStreets extends TabActivity {
 	    setContentView(R.layout.main);
 
         // initialize default preferences
-	    PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
+	    CycleStreetsPreferences.initialise(this);
 
         // initialize objects
 	    Resources res = getResources();
