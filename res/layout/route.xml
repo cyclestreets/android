@@ -60,7 +60,7 @@
 			<LinearLayout
 			    android:orientation="horizontal"
 			    android:layout_width="fill_parent"
-			    android:layout_height="48px"
+			    android:layout_height="wrap_content"
 			    android:layout_marginLeft="2.0dip" 
 			    android:layout_marginTop="1.0dip" 
 			    android:layout_marginRight="4.0dip" 
@@ -75,24 +75,24 @@
 				    >
 				    <RadioButton
 				    	android:id="@+id/routeQuietest"
-				    	android:layout_width="42px"
-					    android:layout_height="42px"
+				    	android:layout_width="65px"
+					    android:layout_height="65px"
 					    android:background="@drawable/route_quiet"
 					    android:button="@drawable/empty"
 					    android:layout_weight="1.0"
 					/>
 				    <RadioButton
 				    	android:id="@+id/routeBalanced"
-				    	android:layout_width="42px"
-					    android:layout_height="42px"
+				    	android:layout_width="65px"
+					    android:layout_height="65px"
 					    android:background="@drawable/route_balanced"
 					    android:button="@drawable/empty"
 					    android:layout_weight="1.0"
 					/>
 				    <RadioButton
 				    	android:id="@+id/routeFastest"
-				    	android:layout_width="42px"
-					    android:layout_height="42px"
+				    	android:layout_width="65px"
+					    android:layout_height="65px"
 					    android:background="@drawable/route_fast"
 					    android:button="@drawable/empty"
 					    android:layout_weight="1.0"
