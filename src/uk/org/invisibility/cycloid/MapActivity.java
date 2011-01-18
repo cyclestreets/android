@@ -9,6 +9,7 @@ import net.cyclestreets.ItineraryActivity;
 import net.cyclestreets.R;
 import net.cyclestreets.api.Journey;
 import net.cyclestreets.api.Marker;
+import net.cyclestreets.overlay.RouteOverlay;
 
 import org.andnav.osm.DefaultResourceProxyImpl;
 import org.andnav.osm.ResourceProxy;
@@ -51,7 +52,7 @@ import android.widget.RelativeLayout.LayoutParams;
  * TODO geocode in progress indicator in route to/from
  */
 
- public class MapActivity extends Activity 
+ public class MapActivity extends Activity implements RouteOverlay.Callback 
  {
 	private static final int MENU_MY_LOCATION = Menu.FIRST;
     private static final int MENU_ROUTE = MENU_MY_LOCATION + 1;
@@ -62,8 +63,7 @@ import android.widget.RelativeLayout.LayoutParams;
 	protected Resources res;
 	public static OpenStreetMapView map; 
 	private OpenStreetMapViewPathOverlay path;
-	private OpenStreetMapViewItemizedOverlay<OpenStreetMapViewOverlayItem> routemarkerOverlay;
-	private List<OpenStreetMapViewOverlayItem> routemarkerList;
+	private RouteOverlay routemarkerOverlay;
 	private MyLocationOverlay location;
 	private ResourceProxy proxy;
 	private SharedPreferences prefs;
@@ -94,19 +94,13 @@ import android.widget.RelativeLayout.LayoutParams;
         path = new MapActivityPathOverlay(0x80ff0000, proxy);
         map.getOverlays().add(path);
 
-        routemarkerList = new ArrayList<OpenStreetMapViewOverlayItem>();
-        routemarkerOverlay = new OpenStreetMapViewItemizedOverlay<OpenStreetMapViewOverlayItem>(
-        		this, routemarkerList,
-        		res.getDrawable(R.drawable.icon),
-        		new Point(10,10),
-        		null,
-        		new DefaultResourceProxyImpl(this));
+        routemarkerOverlay = new RouteOverlay(this, this);
         map.getOverlays().add(routemarkerOverlay);
         
         final RelativeLayout rl = new RelativeLayout(this);
         rl.addView(map, new RelativeLayout.LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT));
         this.setContentView(rl);
-    }
+    } // onCreate
 
     @Override
     protected void onPause()
@@ -123,7 +117,7 @@ import android.widget.RelativeLayout.LayoutParams;
         
         location.disableMyLocation();     
         super.onPause();
-    }
+    } // onPause
 
     @Override
     protected void onResume()
@@ -131,8 +125,8 @@ import android.widget.RelativeLayout.LayoutParams;
     	super.onResume();
         map.setRenderer(OpenStreetMapRendererFactory.getRenderer(prefs.getString(CycloidConstants.PREFS_APP_RENDERER, CycloidConstants.DEFAULT_MAPTYPE)));
         this.location.followLocation(prefs.getBoolean(CycloidConstants.PREFS_APP_FOLLOW_LOCATION, true));
-    }
-    
+    } // onResume
+     
     @Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
@@ -147,15 +141,7 @@ import android.widget.RelativeLayout.LayoutParams;
 				Log.d(getClass().getSimpleName(), "got places: " + placeFrom + "->" + placeTo + " " + routeType);
 
 				// show start & finish on map
-        		OpenStreetMapViewOverlayItem startItem = new OpenStreetMapViewOverlayItem("start", "start", placeFrom);
-				OpenStreetMapViewOverlayItem finishItem = new OpenStreetMapViewOverlayItem("finish", "finish", placeTo);
-				startItem.setMarker(res.getDrawable(R.drawable.green_wisp_36x30));
-				finishItem.setMarker(res.getDrawable(R.drawable.red_wisp_36x30));
-				startItem.setMarkerHotspot(new Point(0,30));
-				finishItem.setMarkerHotspot(new Point(0,30));
-				routemarkerList.clear();
-				routemarkerList.add(startItem);
-				routemarkerList.add(finishItem);
+				routemarkerOverlay.setRoute(placeFrom, placeTo);
 				map.getController().setCenter(placeFrom);
 				map.invalidate();
 				
@@ -166,6 +152,12 @@ import android.widget.RelativeLayout.LayoutParams;
 		}
 	}
 
+    public void onRouteNow(final GeoPoint start, final GeoPoint end)
+    {
+    	RouteQueryTask query = new RouteQueryTask(CycleStreetsConstants.PLAN_BALANCED);
+    	query.execute(start, end);
+    } // onRouteNow
+    
     @Override
 	public boolean onCreateOptionsMenu(final Menu pMenu)
     {
@@ -173,7 +165,7 @@ import android.widget.RelativeLayout.LayoutParams;
     	pMenu.add(0, MENU_ROUTE, Menu.NONE, R.string.route).setIcon(android.R.drawable.ic_menu_directions);
     	pMenu.add(0, MENU_ABOUT, Menu.NONE, R.string.about).setIcon(android.R.drawable.ic_menu_info_details);
     	return true;
-	}
+	} // onCreateOptionsMenu
     	
 	@Override
 	public boolean onMenuItemSelected(int featureId, MenuItem item)
@@ -209,7 +201,7 @@ import android.widget.RelativeLayout.LayoutParams;
 		
 		}
 		return false;
-	}
+	} // onMenuItemSelected
 	
    @Override
    protected Dialog onCreateDialog(int id)
@@ -239,13 +231,13 @@ import android.widget.RelativeLayout.LayoutParams;
             break;
         }
         return dialog;
-    }
+    } // onCreateDialog
    
    @Override
    public boolean onTrackballEvent(MotionEvent event)
    {
        return map.onTrackballEvent(event);
-   }
+   } // onTrackballEvent
   
    @Override
    public boolean onTouchEvent(MotionEvent event)
@@ -253,7 +245,7 @@ import android.widget.RelativeLayout.LayoutParams;
        if (event.getAction() == MotionEvent.ACTION_MOVE)
            location.followLocation(false);
        return super.onTouchEvent(event);
-   }
+   } // onTouchEvent
    
    private class MapActivityPathOverlay extends OpenStreetMapViewPathOverlay
    {
@@ -263,9 +255,9 @@ import android.widget.RelativeLayout.LayoutParams;
            mPaint.setStrokeWidth(6.0f);
        }
 
-   };
+   } // MapActivityPathOverlay
    
-	protected class RouteQueryTask extends AsyncTask<GeoPoint,Integer,Journey> {
+   protected class RouteQueryTask extends AsyncTask<GeoPoint,Integer,Journey> {
 		private final String routeType;
 		
 		RouteQueryTask(String routeType)
