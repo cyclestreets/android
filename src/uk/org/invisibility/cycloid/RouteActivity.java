@@ -41,10 +41,8 @@ public class RouteActivity extends Activity implements
 	private ImageButton optionsTo;
 	private RadioGroup routeTypeGroup;
 	private Button routeGo;
-	//private RouteQuery routeQuery = new RouteQuery();
 	private GeoPlace placeFrom;
 	private GeoPlace placeTo;
-	//private ProgressDialog progress; 
 	private GeoAdapter adapterFrom;
 	private GeoAdapter adapterTo;
 	private BoundingBoxE6 bounds;
@@ -59,8 +57,7 @@ public class RouteActivity extends Activity implements
     	getWindow().setGravity(Gravity.TOP|Gravity.FILL_HORIZONTAL);       
         getWindow().setLayout(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT);
         getWindow().setBackgroundDrawableResource(R.drawable.empty);
-	
-       
+	       
         bounds = GeoIntent.getBoundingBoxFromExtras(getIntent());
 
     	routeFrom = (GeoAutoCompleteView) findViewById(R.id.routeFrom);
@@ -101,11 +98,7 @@ public class RouteActivity extends Activity implements
     	routeGo.setOnClickListener(this);
 
     	routeTypeGroup = (RadioGroup) findViewById(R.id.routeTypeGroup);
-    	routeTypeGroup.check(RouteTypeMapper.idFromName(CycleStreetsPreferences.routeType()));
-    	
-//    	progress = new ProgressDialog(RouteActivity.this);
-//		progress.setMessage(getString(R.string.finding_route));
-//		progress.setIndeterminate(true);  	
+    	routeTypeGroup.check(RouteTypeMapper.idFromName(CycleStreetsPreferences.routeType()));  	
     }
     
     /*
@@ -298,30 +291,6 @@ public class RouteActivity extends Activity implements
 		 */
 		findRoute();
 	}
-
-//	public class RouteQueryTask extends AsyncTask<GeoPlace, Integer, Journey>
-//	{
-//		public RouteQueryTask()
-//		{
-//			progress.show();
-//			execute(RouteActivity.this.placeFrom, RouteActivity.this.placeTo);
-//		}
-//
-//	    protected Journey doInBackground(GeoPlace... ps)
-//	    {
-//	    	try {
-//		    	return CycleStreets.apiClient.getJourney(routeType, ps[0].coord, ps[1].coord);
-//	    	}
-//	    	catch (Exception e) {
-//	    		throw new RuntimeException(e);
-//	    	}
-//	    }
-//
-//	    protected void onPostExecute(Journey journey)
-//	    {
-//    		progress.dismiss();
-//	    }
-//	}
 	
     protected class EntryOptionListener implements Button.OnClickListener {
 		@Override
