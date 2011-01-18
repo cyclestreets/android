@@ -19,6 +19,7 @@ import android.view.MotionEvent;
 public class RouteOverlay extends OpenStreetMapViewItemizedOverlay<OpenStreetMapViewOverlayItem> {
 	public interface Callback {
 		void onRouteNow(final GeoPoint from, final GeoPoint to);
+		void onClearRoute();
 	}
 	
 	private final Callback callback_;
@@ -60,6 +61,18 @@ public class RouteOverlay extends OpenStreetMapViewItemizedOverlay<OpenStreetMap
 		marker.setMarkerHotspot(new Point(0,30));
 		mItemList.add(marker);
 	} // addMarker
+	
+	@Override
+	public boolean onLongPress(final MotionEvent event, final OpenStreetMapView mapView) {
+		if(mItemList.size() > 0)
+		{
+			mItemList.clear();
+	    	if(callback_ != null)
+	    		callback_.onClearRoute();
+		} // if ...
+		
+		return super.onLongPress(event, mapView);
+	} // onLongPress
 	
     @Override
     public boolean onSingleTapUp(final MotionEvent event, final OpenStreetMapView mapView) {

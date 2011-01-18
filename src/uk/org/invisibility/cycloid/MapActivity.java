@@ -158,6 +158,12 @@ import android.widget.RelativeLayout.LayoutParams;
     	query.execute(start, end);
     } // onRouteNow
     
+    public void onClearRoute()
+    {
+    	path.clearPath();
+    	map.invalidate();
+    } // onClearRoute
+    
     @Override
 	public boolean onCreateOptionsMenu(final Menu pMenu)
     {
