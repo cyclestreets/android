@@ -1,8 +1,5 @@
 package uk.org.invisibility.cycloid;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import net.cyclestreets.CycleStreets;
 import net.cyclestreets.CycleStreetsConstants;
 import net.cyclestreets.ItineraryActivity;
@@ -11,14 +8,11 @@ import net.cyclestreets.api.Journey;
 import net.cyclestreets.api.Marker;
 import net.cyclestreets.overlay.RouteOverlay;
 
-import org.andnav.osm.DefaultResourceProxyImpl;
 import org.andnav.osm.ResourceProxy;
 import org.andnav.osm.util.BoundingBoxE6;
 import org.andnav.osm.util.GeoPoint;
 import org.andnav.osm.views.OpenStreetMapView;
 import org.andnav.osm.views.overlay.MyLocationOverlay;
-import org.andnav.osm.views.overlay.OpenStreetMapViewItemizedOverlay;
-import org.andnav.osm.views.overlay.OpenStreetMapViewOverlayItem;
 import org.andnav.osm.views.overlay.OpenStreetMapViewPathOverlay;
 import org.andnav.osm.views.util.OpenStreetMapRendererFactory;
 
@@ -30,7 +24,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
-import android.graphics.Point;
 import android.location.Location;
 import android.os.AsyncTask;
 import android.os.Bundle;
