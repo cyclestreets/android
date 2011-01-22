@@ -87,7 +87,7 @@ import android.widget.RelativeLayout.LayoutParams;
         path = new MapActivityPathOverlay(0x80ff0000, proxy);
         map.getOverlays().add(path);
 
-        routemarkerOverlay = new RouteOverlay(this, this);
+        routemarkerOverlay = new RouteOverlay(this, map, this);
         map.getOverlays().add(routemarkerOverlay);
         
         final RelativeLayout rl = new RelativeLayout(this);

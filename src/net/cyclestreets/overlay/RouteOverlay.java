@@ -17,6 +17,7 @@ import android.graphics.Point;
 import android.graphics.Rect;
 import android.graphics.Paint.Style;
 import android.graphics.drawable.Drawable;
+import android.view.GestureDetector;
 import android.view.MotionEvent;
 
 
@@ -24,22 +25,31 @@ public class RouteOverlay extends OpenStreetMapViewOverlay {
 	public interface Callback {
 		void onRouteNow(final GeoPoint from, final GeoPoint to);
 		void onClearRoute();
-	}
-	
+	} // Callback
+
 	private final Callback callback_;
 	private final Resources res_;
+	private final GestureDetector gestureDetector_;
+	private final OpenStreetMapView mapView_;
 	private OpenStreetMapViewOverlayItem startItem_;
 	private OpenStreetMapViewOverlayItem endItem_;
     
 	public RouteOverlay(final Context context,
+						final OpenStreetMapView mapView,
 				        final Callback callback) {
 		super(new DefaultResourceProxyImpl(context));
+		mapView_ = mapView;
 		callback_ = callback;
 		res_ = context.getResources();
+		
+		final SingleTapDetector tapDetector = new SingleTapDetector(this);
+		gestureDetector_ = new GestureDetector(context, tapDetector);
+		gestureDetector_.setOnDoubleTapListener(tapDetector);
+		
 		startItem_ = null;
 		endItem_ = null;
 	} // RouteOverlay
-	
+		
 	public void setRoute(final GeoPoint start, final GeoPoint end)
 	{
 		setStart(start);
@@ -65,6 +75,14 @@ public class RouteOverlay extends OpenStreetMapViewOverlay {
 	} // addMarker
 	
 	@Override
+	public boolean onTouchEvent(final MotionEvent event, final OpenStreetMapView mapView)
+	{
+		if(gestureDetector_.onTouchEvent(event))
+			return true;
+		return super.onTouchEvent(event, mapView);
+	} // onTouchEvent
+	
+	@Override
 	public boolean onLongPress(final MotionEvent event, final OpenStreetMapView mapView) {
 		startItem_ = null;
 		endItem_ = null;
@@ -74,11 +92,11 @@ public class RouteOverlay extends OpenStreetMapViewOverlay {
 		return super.onLongPress(event, mapView);
 	} // onLongPress
 	
-    @Override
-    public boolean onSingleTapUp(final MotionEvent event, final OpenStreetMapView mapView) {
+    public boolean onSingleTapConfirmed(final MotionEvent event) {
     	if(startItem_ != null && endItem_ != null)
-    		return super.onSingleTapUp(event, mapView);
-    	final GeoPoint p = mapView.getProjection().fromPixels((int)event.getX(), (int)event.getY());
+    		return false;
+    	
+    	final GeoPoint p = mapView_.getProjection().fromPixels((int)event.getX(), (int)event.getY());
     	if(startItem_ == null)
     		setStart(p);
     	else {
@@ -87,7 +105,7 @@ public class RouteOverlay extends OpenStreetMapViewOverlay {
     			callback_.onRouteNow(startItem_.getPoint(), 
     								 endItem_.getPoint());
     	}
-    	mapView.invalidate();
+    	mapView_.invalidate();
     	return true;
     } // onSingleTapUp
 
@@ -127,4 +145,16 @@ public class RouteOverlay extends OpenStreetMapViewOverlay {
 	@Override
 	protected void onDrawFinished(final Canvas canvas, final OpenStreetMapView mapView) {
 	} // onDrawFinished
+	
+	static private class SingleTapDetector extends GestureDetector.SimpleOnGestureListener
+	{
+		final private RouteOverlay owner_;
+		SingleTapDetector(RouteOverlay owner) { owner_ = owner; }
+		
+		@Override
+		public boolean onSingleTapConfirmed(final MotionEvent event)
+		{
+			return owner_.onSingleTapConfirmed(event);
+		} // onSingleTapConfirmed
+	} // class SingleTapDetector
 } // class RouteOverlay
