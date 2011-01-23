@@ -47,5 +47,5 @@
         <activity android:name="uk.org.invisibility.cycloid.GeoActivity" android:icon="@drawable/icon" android:label="Cycloid" android:theme="@android:style/Theme.NoDisplay">
         </activity>
     </application>
-    <uses-sdk android:minSdkVersion="8" />
+    <uses-sdk android:minSdkVersion="4" />
 </manifest>
