@@ -49,7 +49,7 @@ import android.widget.RelativeLayout.LayoutParams;
 
 	private static final int DIALOG_ABOUT_ID = 1;
 
-	public static OpenStreetMapView map; 
+	private OpenStreetMapView map; 
 	private PathOfRouteOverlay path;
 	private RouteOverlay routemarkerOverlay;
 	private MyLocationOverlay location;
