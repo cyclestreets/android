@@ -7,13 +7,13 @@ import net.cyclestreets.R;
 import net.cyclestreets.api.Journey;
 import net.cyclestreets.api.Marker;
 import net.cyclestreets.overlay.RouteOverlay;
+import net.cyclestreets.overlay.PathOfRouteOverlay;
 
 import org.andnav.osm.ResourceProxy;
 import org.andnav.osm.util.BoundingBoxE6;
 import org.andnav.osm.util.GeoPoint;
 import org.andnav.osm.views.OpenStreetMapView;
 import org.andnav.osm.views.overlay.MyLocationOverlay;
-import org.andnav.osm.views.overlay.OpenStreetMapViewPathOverlay;
 import org.andnav.osm.views.util.OpenStreetMapRendererFactory;
 
 import android.app.Activity;
@@ -22,7 +22,6 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.res.Resources;
 import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
@@ -50,9 +49,8 @@ import android.widget.RelativeLayout.LayoutParams;
 
 	private static final int DIALOG_ABOUT_ID = 1;
 
-	protected Resources res;
 	public static OpenStreetMapView map; 
-	private MapActivityPathOverlay path;
+	private PathOfRouteOverlay path;
 	private RouteOverlay routemarkerOverlay;
 	private MyLocationOverlay location;
 	private ResourceProxy proxy;
@@ -65,7 +63,6 @@ import android.widget.RelativeLayout.LayoutParams;
 
         proxy = new CycloidResourceProxy(getApplicationContext());
         prefs = getSharedPreferences(CycloidConstants.PREFS_APP_KEY, MODE_PRIVATE);
-		res = getResources();
 
 		map = new OpenStreetMapView
         (
@@ -81,7 +78,7 @@ import android.widget.RelativeLayout.LayoutParams;
         location = new MyLocationOverlay(this.getBaseContext(), map, proxy);
         map.getOverlays().add(location);
         
-        path = new MapActivityPathOverlay(0x80ff0000, proxy);
+        path = new PathOfRouteOverlay(proxy);
         map.getOverlays().add(path);
 
         routemarkerOverlay = new RouteOverlay(this, map, this);
@@ -247,42 +244,6 @@ import android.widget.RelativeLayout.LayoutParams;
        return super.onTouchEvent(event);
    } // onTouchEvent
    
-   private class MapActivityPathOverlay extends OpenStreetMapViewPathOverlay
-   {
-	   private GeoPoint start_;
-	   
-       public MapActivityPathOverlay(final int colour, final ResourceProxy pResourceProxy)
-       {
-           super(colour, pResourceProxy);
-           mPaint.setStrokeWidth(6.0f);
-       } // MapActivityPathOverlay
-
-       public GeoPoint pathStart() 
-       {
-    	   return start_;
-       } // pathStart
-       
-       public void clearPath()
-       {
-    	   super.clearPath();
-    	   start_ = null;
-       } // clearPath
-       
-       public void addPoint(final GeoPoint pt)
-       {
-    	   if(start_ == null)
-    		   start_ = pt;
-    	   super.addPoint(pt);
-       } // addPoint
-       
-       public void addPoint(final int latitudeE6, final int longitudeE6) 
-       {
-    	   if(start_ == null)
-    		   start_ = new GeoPoint(latitudeE6, longitudeE6);
-    	   super.addPoint(latitudeE6, longitudeE6);
-       } // addPoint
-   } // MapActivityPathOverlay
-
    @Override
    public void onNewJourney() {
 	   Journey journey = CycleStreets.journey;
