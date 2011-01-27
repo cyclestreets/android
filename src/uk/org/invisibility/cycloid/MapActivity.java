@@ -14,6 +14,7 @@ import org.andnav.osm.util.BoundingBoxE6;
 import org.andnav.osm.util.GeoPoint;
 import org.andnav.osm.views.OpenStreetMapView;
 import org.andnav.osm.views.overlay.MyLocationOverlay;
+import org.andnav.osm.views.util.IOpenStreetMapRendererInfo;
 import org.andnav.osm.views.util.OpenStreetMapRendererFactory;
 
 import android.app.Activity;
@@ -64,11 +65,7 @@ import android.widget.RelativeLayout.LayoutParams;
         proxy = new CycloidResourceProxy(getApplicationContext());
         prefs = getSharedPreferences(CycloidConstants.PREFS_APP_KEY, MODE_PRIVATE);
 
-		map = new OpenStreetMapView
-        (
-    		this,
-    		OpenStreetMapRendererFactory.getRenderer(prefs.getString(CycloidConstants.PREFS_APP_RENDERER, CycloidConstants.DEFAULT_MAPTYPE))
-        );
+		map = new OpenStreetMapView(this, mapRenderer());
         map.setResourceProxy(proxy);
         map.setBuiltInZoomControls(true);
         map.setMultiTouchControls(true);
@@ -93,7 +90,6 @@ import android.widget.RelativeLayout.LayoutParams;
     protected void onPause()
     {
         SharedPreferences.Editor edit = prefs.edit();
-        edit.putString(CycloidConstants.PREFS_APP_RENDERER, map.getRenderer().name());
         edit.putInt(CycloidConstants.PREFS_APP_SCROLL_X, map.getScrollX());
         edit.putInt(CycloidConstants.PREFS_APP_SCROLL_Y, map.getScrollY());
         edit.putInt(CycloidConstants.PREFS_APP_ZOOM_LEVEL, map.getZoomLevel());
@@ -111,7 +107,6 @@ import android.widget.RelativeLayout.LayoutParams;
     {
     	super.onResume();
 
-    	map.setRenderer(OpenStreetMapRendererFactory.getRenderer(prefs.getString(CycloidConstants.PREFS_APP_RENDERER, CycloidConstants.DEFAULT_MAPTYPE)));
         map.scrollTo(prefs.getInt(CycloidConstants.PREFS_APP_SCROLL_X, 0), prefs.getInt(CycloidConstants.PREFS_APP_SCROLL_Y, -701896)); /* Greenwich */
         map.getController().setZoom(prefs.getInt(CycloidConstants.PREFS_APP_ZOOM_LEVEL, 14));
 
@@ -272,4 +267,8 @@ import android.widget.RelativeLayout.LayoutParams;
 	   } // for ...
    } // setJourneyPath
 
+   private IOpenStreetMapRendererInfo mapRenderer()
+   {
+	   return OpenStreetMapRendererFactory.getRenderer(prefs.getString(CycloidConstants.PREFS_APP_RENDERER, CycloidConstants.DEFAULT_MAPTYPE));
+   } // mapRenderer
 } // class MapActivity
