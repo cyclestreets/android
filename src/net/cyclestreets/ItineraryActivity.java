@@ -1,9 +1,14 @@
 package net.cyclestreets;
 
 //import java.util.ArrayList;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 //import java.util.List;
 import java.util.Map;
+
+import net.cyclestreets.api.Journey;
+import net.cyclestreets.api.Marker;
 
 //import net.cyclestreets.api.Journey;
 //import net.cyclestreets.api.Marker;
@@ -25,75 +30,52 @@ public class ItineraryActivity extends ListActivity {
 		R.id.segment_distance, R.id.segment_cumulative_distance
 	};
 
+	private List<Map<String,Object>> rows_;
+
+	
 	@Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        rows_ = new ArrayList<Map<String, Object>>(); 
+        setupRows(CycleStreets.journey);
     	// set up SimpleAdapter for itinerary_item
-    	setListAdapter(new SimpleAdapter(ItineraryActivity.this, CycleStreets.itineraryRows, R.layout.itinerary_item, fromKeys, toIds));
-    }
+    	setListAdapter(new SimpleAdapter(ItineraryActivity.this, rows_, R.layout.itinerary_item, fromKeys, toIds));
+    } // onCreate
 
     @Override
 	protected void onResume() {
 		super.onResume();
 		
-		// TODO: only redisplay if journey changed
 		onContentChanged();
-		
-//    	GeoPoint start = new GeoPoint(52.205302, 0.117950);
-//    	GeoPoint finish = new GeoPoint(52.199650, 0.147324);
-//        new GetJourneyTask().execute(start, finish);
-	}
+	} // onResume
 
 	// utility method to convert segments into rows
-	public static Map<String,Object> createRowMap(Object... items) {
+	private static Map<String,Object> createRowMap(Object... items) {
 		Map<String,Object> row = new HashMap<String,Object>();
 		for (int i = 0; i < items.length; i++) {
 			row.put(fromKeys[i], items[i]);
 		}
 		return row;
-	}
-
-/*
-	private class GetJourneyTask extends AsyncTask<GeoPoint,Void,List<Map<String,Object>>> {
-		protected ProgressDialog dialog = new ProgressDialog(ItineraryActivity.this);
-
-		protected void onPreExecute() {
-			// TODO Auto-generated method stub
-			super.onPreExecute();
-			dialog.setMessage("Calculating journey");
-			dialog.setIndeterminate(true);
-			dialog.setCancelable(false);
-			dialog.show();
-		}
-
-		protected List<Map<String,Object>> doInBackground(GeoPoint... params) {
-			GeoPoint start = params[0];
-			GeoPoint finish = params[1];
-        	List<Map<String,Object>> rows = new ArrayList<Map<String,Object>>();
-	        try {
-	        	Journey journey = CycleStreets.apiClient.getJourney("quietest", start, finish);
-
-	        	// create the rows
-	        	double cumdist = 0.0;
-	        	for (Marker marker : journey.markers) {
-	        		//String type = marker.provisionName;
-	        		cumdist += marker.distance;
-	        		rows.add(createRowMap(R.drawable.icon, marker.name, marker.time + "m", marker.distance + "m", "(" + (cumdist/1000) + "km)"));
-	        	}
-	        }
-	        catch (Exception e) {
-	        	throw new RuntimeException(e);
-	        }
-			return rows;
-		}
-
-		@Override
-		protected void onPostExecute(List<Map<String,Object>> rows) {
-        	// set up SimpleAdapter for itinerary_item
-        	setListAdapter(new SimpleAdapter(ItineraryActivity.this, rows, R.layout.itinerary_item, fromKeys, toIds));
-        	dialog.dismiss();
-		}    	
-	}
-*/
-}
+	} // createRowMap
+	
+	private void setupRows(final Journey journey)
+	{
+		rows_.clear();
+		
+		if(journey == null)
+			return;
+		
+		// Parse route into itinerary rows
+		double cumdist = 0.0;
+		for (Marker marker : journey.markers) {
+			if (marker.type.equals("segment")) {
+				cumdist += marker.distance;
+				rows_.add(createRowMap(R.drawable.icon,		// TODO: use icon based on provision type
+									   marker.name,
+									   marker.time + "m",
+									   marker.distance + "m", "(" + (cumdist/1000) + "km)"));
+			} // if ...
+		} // for ...
+	} // setupRows
+} // ItineraryActivity

@@ -2,7 +2,7 @@ package uk.org.invisibility.cycloid;
 
 import net.cyclestreets.CycleStreets;
 import net.cyclestreets.CycleStreetsConstants;
-import net.cyclestreets.ItineraryActivity;
+import net.cyclestreets.RoutingTask;
 import net.cyclestreets.R;
 import net.cyclestreets.api.Journey;
 import net.cyclestreets.api.Marker;
@@ -19,13 +19,11 @@ import org.andnav.osm.views.util.OpenStreetMapRendererFactory;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.location.Location;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -36,7 +34,6 @@ import android.widget.RelativeLayout.LayoutParams;
 
 /*
  * TODO update person picture
- * TODO constant refreshes after a my location
  * TODO add option for shortest plan type
  * TODO active icons for plan types
  * TODO implement search?
@@ -45,7 +42,7 @@ import android.widget.RelativeLayout.LayoutParams;
  * TODO geocode in progress indicator in route to/from
  */
 
- public class MapActivity extends Activity implements RouteOverlay.Callback 
+ public class MapActivity extends Activity implements RouteOverlay.Callback, RoutingTask.Callback
  {
 	private static final int MENU_MY_LOCATION = Menu.FIRST;
     private static final int MENU_ROUTE = MENU_MY_LOCATION + 1;
@@ -55,7 +52,7 @@ import android.widget.RelativeLayout.LayoutParams;
 
 	protected Resources res;
 	public static OpenStreetMapView map; 
-	private OpenStreetMapViewPathOverlay path;
+	private MapActivityPathOverlay path;
 	private RouteOverlay routemarkerOverlay;
 	private MyLocationOverlay location;
 	private ResourceProxy proxy;
@@ -116,8 +113,14 @@ import android.widget.RelativeLayout.LayoutParams;
     protected void onResume()
     {
     	super.onResume();
-        map.setRenderer(OpenStreetMapRendererFactory.getRenderer(prefs.getString(CycloidConstants.PREFS_APP_RENDERER, CycloidConstants.DEFAULT_MAPTYPE)));
-        this.location.followLocation(prefs.getBoolean(CycloidConstants.PREFS_APP_FOLLOW_LOCATION, true));
+
+    	map.setRenderer(OpenStreetMapRendererFactory.getRenderer(prefs.getString(CycloidConstants.PREFS_APP_RENDERER, CycloidConstants.DEFAULT_MAPTYPE)));
+        map.scrollTo(prefs.getInt(CycloidConstants.PREFS_APP_SCROLL_X, 0), prefs.getInt(CycloidConstants.PREFS_APP_SCROLL_Y, -701896)); /* Greenwich */
+        map.getController().setZoom(prefs.getInt(CycloidConstants.PREFS_APP_ZOOM_LEVEL, 14));
+
+        location.followLocation(prefs.getBoolean(CycloidConstants.PREFS_APP_FOLLOW_LOCATION, true));
+        
+       	setJourneyPath(CycleStreets.journey);
     } // onResume
      
     @Override
@@ -139,16 +142,14 @@ import android.widget.RelativeLayout.LayoutParams;
 				map.invalidate();
 				
 				// calculate journey
-				RouteQueryTask query = new RouteQueryTask(routeType);
-				query.execute(placeFrom, placeTo);
+				RoutingTask.PlotRoute(routeType, placeFrom, placeTo, this, this);
 			}
 		}
 	}
 
     public void onRouteNow(final GeoPoint start, final GeoPoint end)
     {
-    	RouteQueryTask query = new RouteQueryTask(CycleStreetsConstants.PLAN_BALANCED);
-    	query.execute(start, end);
+    	RoutingTask.PlotRoute(CycleStreetsConstants.PLAN_BALANCED, start, end, this, this);
     } // onRouteNow
     
     public void onClearRoute()
@@ -248,84 +249,66 @@ import android.widget.RelativeLayout.LayoutParams;
    
    private class MapActivityPathOverlay extends OpenStreetMapViewPathOverlay
    {
+	   private GeoPoint start_;
+	   
        public MapActivityPathOverlay(final int colour, final ResourceProxy pResourceProxy)
        {
            super(colour, pResourceProxy);
            mPaint.setStrokeWidth(6.0f);
-       }
+       } // MapActivityPathOverlay
 
+       public GeoPoint pathStart() 
+       {
+    	   return start_;
+       } // pathStart
+       
+       public void clearPath()
+       {
+    	   super.clearPath();
+    	   start_ = null;
+       } // clearPath
+       
+       public void addPoint(final GeoPoint pt)
+       {
+    	   if(start_ == null)
+    		   start_ = pt;
+    	   super.addPoint(pt);
+       } // addPoint
+       
+       public void addPoint(final int latitudeE6, final int longitudeE6) 
+       {
+    	   if(start_ == null)
+    		   start_ = new GeoPoint(latitudeE6, longitudeE6);
+    	   super.addPoint(latitudeE6, longitudeE6);
+       } // addPoint
    } // MapActivityPathOverlay
+
+   @Override
+   public void onNewJourney() {
+	   Journey journey = CycleStreets.journey;
+
+	   setJourneyPath(journey);
+	   map.getController().setCenter(path.pathStart());
+	   map.postInvalidate();
+   } // onNewJourney   
    
-   protected class RouteQueryTask extends AsyncTask<GeoPoint,Integer,Journey> {
-		private final String routeType;
-		
-		RouteQueryTask(String routeType)
-		{
-			this.routeType = routeType;
-		}
-		
-		protected ProgressDialog progress = new ProgressDialog(MapActivity.this);
+   private void setJourneyPath(final Journey journey)
+   {
+	   path.clearPath();
 
-		protected void onPreExecute() {
-			super.onPreExecute();
-			progress.setMessage(getString(R.string.finding_route));
-			progress.setIndeterminate(true);
-			progress.setCancelable(false);
-			progress.show();
-		}
+	   if(journey == null)
+		   return;
 
-	    protected Journey doInBackground(GeoPoint... points) {
-	    	try {
-	    		return CycleStreets.apiClient.getJourney(routeType, points[0], points[1]);
-	    	}
-	    	catch (Exception e) {
-	    		throw new RuntimeException(e);
-	    	}
-	    }
+	   for (Marker marker: journey.markers) {
+		   if (marker.type.equals("route")) {
+			   String[] coords = marker.coordinates.split(" ");
+			   for (String coord : coords) {
+				   String[] xy = coord.split(",");
+				   GeoPoint p = new GeoPoint(Double.parseDouble(xy[1]), Double.parseDouble(xy[0]));
+				   path.addPoint(p);
+			   }
+		   } // if ...
+	   } // for ...
+   } // setJourneyPath
 
-	    protected void onPostExecute(Journey journey) {
-	    	if (journey.markers.isEmpty()) {
-	    		// TODO: No route - something went wrong!
-	    	}
-
-	    	// display route on overlay
-	    	path.clearPath();
-	    	for (Marker marker: journey.markers) {
-	    		if (marker.type.equals("route")) {
-	    			// parse coordinates
-	    			boolean first = true;
-	    			String[] coords = marker.coordinates.split(" ");
-	    			for (String coord : coords) {
-	    				String[] xy = coord.split(",");
-	    				GeoPoint p = new GeoPoint(Double.parseDouble(xy[1]), Double.parseDouble(xy[0]));
-	    				if (first) {
-	    					map.getController().setCenter(p);
-	    					first = false;
-	    				}
-	    				path.addPoint(p.getLatitudeE6(), p.getLongitudeE6());
-	    			}
-	    			map.postInvalidate();
-	    			break;
-	    		}
-	    	}
-
-	    	// Parse route into itinerary rows
-        	double cumdist = 0.0;
-        	CycleStreets.itineraryRows.clear();
-        	for (Marker marker : journey.markers) {
-	    		if (marker.type.equals("segment")) {
-	    			//String provision = marker.provisionName;
-	    			cumdist += marker.distance;
-	    			CycleStreets.itineraryRows.add(ItineraryActivity.createRowMap(
-	    					R.drawable.icon,		// TODO: use icon based on provision type
-	    					marker.name,
-	    					marker.time + "m",
-	    					marker.distance + "m", "(" + (cumdist/1000) + "km)"));
-	    		}
-        	}
-        	
-        	// done
-        	progress.dismiss();
-	    }
-	}   
-}
+} // class MapActivity

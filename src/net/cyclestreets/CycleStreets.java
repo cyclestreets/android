@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import net.cyclestreets.api.ApiClient;
+import net.cyclestreets.api.Journey;
 import uk.org.invisibility.cycloid.MapActivity;
 import android.app.TabActivity;
 import android.content.Intent;
@@ -17,7 +18,7 @@ import android.widget.TabHost;
 
 public class CycleStreets extends TabActivity {
 	public static ApiClient apiClient = new ApiClient();
-	public static List<Map<String,Object>> itineraryRows = new ArrayList<Map<String,Object>>();
+	public static Journey journey;
 	
     /** Called when the activity is first created. */
 	public void onCreate(Bundle savedInstanceState) {
