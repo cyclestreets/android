@@ -1,9 +1,5 @@
 package net.cyclestreets;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-
 import net.cyclestreets.api.ApiClient;
 import net.cyclestreets.api.Journey;
 import uk.org.invisibility.cycloid.MapActivity;
