@@ -30,12 +30,16 @@ public class LocationOverlay extends MyLocationOverlay {
 		void onClearRoute();
 	} // Callback
 
-	private final Drawable locationButton_;
 	private final Drawable greenWisp_;
 	private final Drawable redWisp_;
 
 	private final int offset_;
+
+	private final Drawable locationButton_;
 	private final Rect locationButtonPos_;
+	
+	private final Drawable stepBackButton_;
+	private final Rect stepBackButtonPos_;
 	
 	private final Callback callback_;
 	
@@ -62,12 +66,17 @@ public class LocationOverlay extends MyLocationOverlay {
 		callback_ = callback;
 		
 		final Resources res = context.getResources();
-		locationButton_ = res.getDrawable(android.R.drawable.ic_menu_mylocation);
 		greenWisp_ = res.getDrawable(R.drawable.green_wisp_36x30);
 		redWisp_ = res.getDrawable(R.drawable.red_wisp_36x30);
 
 		offset_ = (int)(8.0 * context.getResources().getDisplayMetrics().density);		
+
+		locationButton_ = res.getDrawable(android.R.drawable.ic_menu_mylocation);
         locationButtonPos_ = new Rect(offset_, offset_, offset_ + locationButton_.getIntrinsicWidth(), offset_ + locationButton_.getIntrinsicHeight());
+        
+        stepBackButton_ = res.getDrawable(android.R.drawable.ic_menu_revert);
+        stepBackButtonPos_ = new Rect(locationButtonPos_);
+        stepBackButtonPos_.offset(locationButtonPos_.width() + offset_, 0);
 
 		greyBrush_ = createGreyBrush();
 		whiteBrush_ = createWhiteBrush();
@@ -107,6 +116,13 @@ public class LocationOverlay extends MyLocationOverlay {
 			return;
 		tapState_ = tapState_.next();
 	} // setRoute
+	
+	public void resetRoute()
+	{
+		setStart(null);
+		setEnd(null);
+		tapState_ = tapState_.reset();
+	} // resetRoute
 	
 	public GeoPoint getStart() { return getMarkerPoint(startItem_); }
 	public GeoPoint getEnd() { return getMarkerPoint(endItem_); }
@@ -153,21 +169,27 @@ public class LocationOverlay extends MyLocationOverlay {
         drawMarker(canvas, projection, startItem_);
         drawMarker(canvas, projection, endItem_);
 
-		drawLocationButton(canvas);
+		drawButtons(canvas);
 		drawTapState(canvas);
 	} // onDrawFinished
 	
-	private void drawLocationButton(final Canvas canvas)
+	private void drawButtons(final Canvas canvas)
+	{
+		drawButton(canvas, locationButton_, locationButtonPos_);
+		drawButton(canvas, stepBackButton_, stepBackButtonPos_);
+	} // drawLocationButton
+	
+	private void drawButton(final Canvas canvas, final Drawable button, final Rect pos)
 	{
         final Rect screen = canvas.getClipBounds();
-        screen.offset(locationButtonPos_.left, locationButtonPos_.top);
-        screen.right = screen.left + locationButtonPos_.width();
-        screen.bottom = screen.top + locationButtonPos_.height();
+        screen.offset(pos.left, pos.top);
+        screen.right = screen.left + pos.width();
+        screen.bottom = screen.top + pos.height();
         
-        canvas.drawCircle(screen.exactCenterX(), screen.exactCenterY(), screen.width()/2.0f, whiteBrush_);
-        locationButton_.setBounds(screen);
-        locationButton_.draw(canvas);
-	} // drawLocationButton
+        drawRoundRect(canvas, screen, whiteBrush_);
+        button.setBounds(screen);
+        button.draw(canvas);
+	} // drawButton
 
 	private void drawTapState(final Canvas canvas)
 	{
@@ -183,13 +205,19 @@ public class LocationOverlay extends MyLocationOverlay {
         screen.right -= offset_;
         screen.bottom = screen.top + locationButton_.getIntrinsicHeight();
 		
-		canvas.drawRoundRect(new RectF(screen), offset_/2.0f, offset_/2.0f, greyBrush_);
+		drawRoundRect(canvas, screen, greyBrush_);
 
 		final Rect bounds = new Rect();
 		textBrush_.getTextBounds(msg, 0, msg.length(), bounds);
 		
 		canvas.drawText(msg, screen.centerX(), screen.centerY() + bounds.bottom, textBrush_);
 	} // drawTapState
+	
+	private void drawRoundRect(final Canvas canvas, final Rect rect, final Paint brush)
+	{
+		float radius = offset_/2.0f;
+		canvas.drawRoundRect(new RectF(rect), radius, radius, brush);
+	} // drawRoundRect
 
 	private void drawMarker(final Canvas canvas, 
 							final Projection projection,
@@ -218,22 +246,65 @@ public class LocationOverlay extends MyLocationOverlay {
 		return super.onTouchEvent(event, mapView);
 	} // onTouchEvent
 	
-	@Override
-	public boolean onLongPress(final MotionEvent event, final MapView mapView) {
-		tapState_ = tapState_.reset();
-		
-		startItem_ = null;
-		endItem_ = null;
-		if(callback_ != null)
-	    	callback_.onClearRoute();
-		
-		return super.onLongPress(event, mapView);
-	} // onLongPress
-	
     public boolean onSingleTapConfirmed(final MotionEvent event) {
-    	return tapLocation(event) || tapMarker(event);
+    	return tapLocation(event) ||
+    		   tapStepBack(event) || 
+    		   tapMarker(event);
     } // onSingleTapUp
     
+	private boolean tapLocation(final MotionEvent event)
+	{
+		int x = (int)event.getX();
+		int y = (int)event.getY();
+		
+		if(!locationButtonPos_.contains(x, y))
+			return false;
+
+		if(!isMyLocationEnabled()) 
+		{
+			enableMyLocation();
+			followLocation(true);
+			final Location lastFix = getLastFix();
+			if (lastFix != null)
+				mapView_.getController().setCenter(new GeoPoint(lastFix));
+		}
+		else
+		{
+			followLocation(false);
+			disableMyLocation();
+		} // if ...
+		
+		mapView_.invalidate();
+
+		return true;
+	} // tapLocation
+	
+	private boolean tapStepBack(final MotionEvent event)
+	{
+		if(!stepBackButtonPos_.contains((int)event.getX(), (int)event.getY()))
+			return false;
+		
+		switch(tapState_)
+		{
+    	case WAITING_FOR_START:
+    		return true;
+    	case WAITING_FOR_END:
+    		setStart(null);
+    		break;
+    	case WAITING_TO_ROUTE:
+    		setEnd(null);
+    		break;
+    	case ALL_DONE:
+    		callback_.onClearRoute();
+    		break;
+    	} // switch ...
+		
+		mapView_.invalidate();
+		tapState_ = tapState_.previous();
+		
+		return true;
+	} // tapStepBack
+
     private boolean tapMarker(final MotionEvent event)
     {
     	final GeoPoint p = mapView_.getProjection().fromPixels((int)event.getX(), (int)event.getY());
@@ -260,33 +331,6 @@ public class LocationOverlay extends MyLocationOverlay {
     	return true;
     } // tapMarker
 	
-	private boolean tapLocation(final MotionEvent event)
-	{
-		int x = (int)event.getX();
-		int y = (int)event.getY();
-		
-		if(!locationButtonPos_.contains(x, y))
-			return false;
-
-		if(!isMyLocationEnabled()) 
-		{
-			enableMyLocation();
-			followLocation(true);
-			final Location lastFix = getLastFix();
-			if (lastFix != null)
-				mapView_.getController().setCenter(new GeoPoint(lastFix));
-		}
-		else
-		{
-			followLocation(false);
-			disableMyLocation();
-		} // if ...
-		
-		mapView_.invalidate();
-
-		return true;
-	} // onSingleTapUp
-
 	////////////////////////////////////
 	static private class SingleTapDetector extends GestureDetector.SimpleOnGestureListener
 	{
@@ -317,6 +361,21 @@ public class LocationOverlay extends MyLocationOverlay {
 			return WAITING_FOR_START;
 		} // reset
 		
+		public TapToRoute previous() 
+		{
+			switch(this) {
+			case WAITING_FOR_START:
+				break;
+			case WAITING_FOR_END:
+				return WAITING_FOR_START;
+			case WAITING_TO_ROUTE:
+				return WAITING_FOR_END;
+			case ALL_DONE:
+				break;
+			} // switch
+			return WAITING_FOR_START;				
+		} // previous()
+
 		public TapToRoute next() 
 		{
 			switch(this) {
