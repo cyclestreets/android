@@ -93,5 +93,12 @@ public class CycleStreets extends TabActivity {
 		from_ = from;
 		to_ = to;
 	} // onNewJourney
+	
+	static public void resetJourney()
+	{
+		journey_ = null;
+		from_ = null;
+		to_ = null;
+	} // resetJourney
 } // class CycleStreets
 

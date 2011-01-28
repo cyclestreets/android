@@ -141,6 +141,7 @@ import android.widget.RelativeLayout.LayoutParams;
     
     public void onClearRoute()
     {
+    	CycleStreets.resetJourney();
     	path.clearPath();
     	map.invalidate();
     } // onClearRoute
