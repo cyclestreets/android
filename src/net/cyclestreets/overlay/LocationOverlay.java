@@ -1,6 +1,7 @@
 package net.cyclestreets.overlay;
 
 import net.cyclestreets.R;
+import net.cyclestreets.util.Brush;
 
 import org.osmdroid.ResourceProxy;
 import org.osmdroid.util.GeoPoint;
@@ -16,9 +17,6 @@ import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.Rect;
 import android.graphics.RectF;
-import android.graphics.Typeface;
-import android.graphics.Paint.Align;
-import android.graphics.Paint.Style;
 import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.view.GestureDetector;
@@ -34,12 +32,10 @@ public class LocationOverlay extends MyLocationOverlay {
 	private final Drawable redWisp_;
 
 	private final int offset_;
+	private final float radius_;
 
-	private final Drawable locationButton_;
-	private final Rect locationButtonPos_;
-	
-	private final Drawable stepBackButton_;
-	private final Rect stepBackButtonPos_;
+	private final OverlayButton locationButton_;
+	private final OverlayButton stepBackButton_;
 	
 	private final Callback callback_;
 	
@@ -49,8 +45,6 @@ public class LocationOverlay extends MyLocationOverlay {
 	private OverlayItem startItem_;
 	private OverlayItem endItem_;
 
-	private Paint greyBrush_;
-	private Paint whiteBrush_;
 	private Paint textBrush_;
 
 	private TapToRoute tapState_;
@@ -70,17 +64,19 @@ public class LocationOverlay extends MyLocationOverlay {
 		redWisp_ = res.getDrawable(R.drawable.red_wisp_36x30);
 
 		offset_ = (int)(8.0 * context.getResources().getDisplayMetrics().density);		
+		radius_ = offset_ / 2.0f;
 
-		locationButton_ = res.getDrawable(android.R.drawable.ic_menu_mylocation);
-        locationButtonPos_ = new Rect(offset_, offset_, offset_ + locationButton_.getIntrinsicWidth(), offset_ + locationButton_.getIntrinsicHeight());
+		locationButton_ = new OverlayButton(res.getDrawable(android.R.drawable.ic_menu_mylocation),
+											offset_,
+											offset_,
+											radius_);
         
-        stepBackButton_ = res.getDrawable(android.R.drawable.ic_menu_revert);
-        stepBackButtonPos_ = new Rect(locationButtonPos_);
-        stepBackButtonPos_.offset(locationButtonPos_.width() + offset_, 0);
+        stepBackButton_ = new OverlayButton(res.getDrawable(android.R.drawable.ic_menu_revert),
+        									locationButton_.right() + offset_,
+        									offset_,
+        									radius_);
 
-		greyBrush_ = createGreyBrush();
-		whiteBrush_ = createWhiteBrush();
-		textBrush_ = createTextBrush(offset_);
+		textBrush_ = Brush.createTextBrush(offset_);
         
 		final SingleTapDetector tapDetector = new SingleTapDetector(this);
 		gestureDetector_ = new GestureDetector(context, tapDetector);
@@ -126,6 +122,7 @@ public class LocationOverlay extends MyLocationOverlay {
 	
 	public GeoPoint getStart() { return getMarkerPoint(startItem_); }
 	public GeoPoint getEnd() { return getMarkerPoint(endItem_); }
+
 	private GeoPoint getMarkerPoint(final OverlayItem marker)
 	{
 		return marker != null ? marker.getPoint() : null;
@@ -175,37 +172,24 @@ public class LocationOverlay extends MyLocationOverlay {
 	
 	private void drawButtons(final Canvas canvas)
 	{
-		drawButton(canvas, locationButton_, locationButtonPos_);
-		drawButton(canvas, stepBackButton_, stepBackButtonPos_);
+		locationButton_.draw(canvas);
+		stepBackButton_.draw(canvas);
 	} // drawLocationButton
-	
-	private void drawButton(final Canvas canvas, final Drawable button, final Rect pos)
-	{
-        final Rect screen = canvas.getClipBounds();
-        screen.offset(pos.left, pos.top);
-        screen.right = screen.left + pos.width();
-        screen.bottom = screen.top + pos.height();
-        
-        drawRoundRect(canvas, screen, whiteBrush_);
-        button.setBounds(screen);
-        button.draw(canvas);
-	} // drawButton
 
 	private void drawTapState(final Canvas canvas)
 	{
 		final String msg = tapState_.toString();
 		if(msg.length() == 0)
 			return;
-		
-		
+				
 		final Rect screen = canvas.getClipBounds();
 		final int halfWidth = screen.width() / 2;
         screen.left += halfWidth; 
         screen.top += offset_;
         screen.right -= offset_;
-        screen.bottom = screen.top + locationButton_.getIntrinsicHeight();
+        screen.bottom = screen.top + locationButton_.height();
 		
-		drawRoundRect(canvas, screen, greyBrush_);
+		drawRoundRect(canvas, screen, Brush.Grey);
 
 		final Rect bounds = new Rect();
 		textBrush_.getTextBounds(msg, 0, msg.length(), bounds);
@@ -215,8 +199,7 @@ public class LocationOverlay extends MyLocationOverlay {
 	
 	private void drawRoundRect(final Canvas canvas, final Rect rect, final Paint brush)
 	{
-		float radius = offset_/2.0f;
-		canvas.drawRoundRect(new RectF(rect), radius, radius, brush);
+		canvas.drawRoundRect(new RectF(rect), radius_, radius_, brush);
 	} // drawRoundRect
 
 	private void drawMarker(final Canvas canvas, 
@@ -254,12 +237,9 @@ public class LocationOverlay extends MyLocationOverlay {
     
 	private boolean tapLocation(final MotionEvent event)
 	{
-		int x = (int)event.getX();
-		int y = (int)event.getY();
-		
-		if(!locationButtonPos_.contains(x, y))
+		if(!locationButton_.hit(event))
 			return false;
-
+		
 		if(!isMyLocationEnabled()) 
 		{
 			enableMyLocation();
@@ -281,7 +261,7 @@ public class LocationOverlay extends MyLocationOverlay {
 	
 	private boolean tapStepBack(final MotionEvent event)
 	{
-		if(!stepBackButtonPos_.contains((int)event.getX(), (int)event.getY()))
+		if(!stepBackButton_.hit(event))
 			return false;
 		
 		switch(tapState_)
@@ -407,37 +387,4 @@ public class LocationOverlay extends MyLocationOverlay {
 		} // toString
 	}; // enum TapToRoute
 	
-	static private Paint createGreyBrush()
-	{
-		final Paint paint = new Paint();
-		paint.setAntiAlias(true);
-		paint.setStyle(Style.FILL_AND_STROKE);
-		paint.setTextAlign(Align.CENTER);
-		paint.setTypeface(Typeface.DEFAULT);
-
-		paint.setARGB(255, 127, 127, 127);
-		
-		return paint;
-	} // createBgBrush
-
-	static private Paint createWhiteBrush()
-	{
-		final Paint paint = createGreyBrush();
-
-		paint.setARGB(255, 255, 255, 255);
-		
-		return paint;
-	} // createTextBrush
-
-	static private Paint createTextBrush(final int offset)
-	{
-		final Paint paint = createGreyBrush();
-
-		paint.setTextAlign(Align.CENTER);
-		paint.setTypeface(Typeface.DEFAULT);
-		paint.setTextSize(offset * 2);
-		paint.setARGB(255, 255, 255, 255);
-		
-		return paint;
-	} // createTextBrush
 } // LocationOverlay
