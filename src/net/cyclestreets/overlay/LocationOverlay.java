@@ -91,24 +91,44 @@ public class LocationOverlay extends MyLocationOverlay {
 			disableMyLocation();
 	} // enableLocation
 	
-	public void setRoute(final GeoPoint start, final GeoPoint end)
+	public void setRoute(final GeoPoint start, final GeoPoint end, final boolean complete)
 	{
 		setStart(start);
 		setEnd(end);
+
+		tapState_ = tapState_.reset();
+		if(start == null)
+			return;
+		tapState_ = tapState_.next();
+		if(end == null)
+			return;
+		tapState_ = tapState_.next();
+		if(!complete)
+			return;
+		tapState_ = tapState_.next();
 	} // setRoute
 	
-	public void setStart(final GeoPoint point)
+	public GeoPoint getStart() { return getMarkerPoint(startItem_); }
+	public GeoPoint getEnd() { return getMarkerPoint(endItem_); }
+	private GeoPoint getMarkerPoint(final OverlayItem marker)
+	{
+		return marker != null ? marker.getPoint() : null;
+	} // getMarkerPoint
+	
+	private void setStart(final GeoPoint point)
 	{
 		startItem_ = addMarker(point, "start", greenWisp_);
 	} // setStart
 	
-	public void setEnd(final GeoPoint point)
+	private void setEnd(final GeoPoint point)
 	{
 		endItem_ = addMarker(point, "finish", redWisp_);
 	} // setEnd
 	
 	private OverlayItem addMarker(final GeoPoint point, final String label, final Drawable icon)
 	{
+		if(point == null)
+			return null;
 		final OverlayItem marker = new OverlayItem(label, label, point);
 		marker.setMarker(icon);
 		marker.setMarkerHotspot(new Point(0,30));
@@ -127,14 +147,15 @@ public class LocationOverlay extends MyLocationOverlay {
 	} // onDraw
 	
 	@Override
-	protected void onDrawFinished(final Canvas canvas, final MapView mapView) {
-		drawLocationButton(canvas);
-		drawTapState(canvas);
-		
+	protected void onDrawFinished(final Canvas canvas, final MapView mapView) 
+	{
         final Projection projection = mapView.getProjection();
         drawMarker(canvas, projection, startItem_);
         drawMarker(canvas, projection, endItem_);
- 	} // onDrawFinished
+
+		drawLocationButton(canvas);
+		drawTapState(canvas);
+	} // onDrawFinished
 	
 	private void drawLocationButton(final Canvas canvas)
 	{

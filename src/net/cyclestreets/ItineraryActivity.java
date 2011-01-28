@@ -38,7 +38,7 @@ public class ItineraryActivity extends ListActivity {
         super.onCreate(savedInstanceState);
 
         rows_ = new ArrayList<Map<String, Object>>(); 
-        setupRows(CycleStreets.journey);
+        setupRows(CycleStreets.journey());
     	// set up SimpleAdapter for itinerary_item
     	setListAdapter(new SimpleAdapter(ItineraryActivity.this, rows_, R.layout.itinerary_item, fromKeys, toIds));
     } // onCreate

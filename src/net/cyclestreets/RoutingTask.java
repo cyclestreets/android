@@ -29,6 +29,8 @@ public class RoutingTask extends AsyncTask<GeoPoint, Integer, Journey>
 	private final String routeType_;
 	private final Callback whoToTell_;
 	private final Context context_;
+	private GeoPoint from_;
+	private GeoPoint to_;
 	private ProgressDialog progress_;
 			
 	private	RoutingTask(final String routeType,
@@ -51,7 +53,9 @@ public class RoutingTask extends AsyncTask<GeoPoint, Integer, Journey>
 
 	protected Journey doInBackground(GeoPoint... points) {
 	   	try {
-	   		return CycleStreets.apiClient.getJourney(routeType_, points[0], points[1]);
+	   		from_ = points[0];
+	   		to_ = points[1];
+	   		return CycleStreets.apiClient.getJourney(routeType_, from_, to_);
 	   	}
 	   	catch (Exception e) {
 	   		throw new RuntimeException(e);
@@ -67,7 +71,7 @@ public class RoutingTask extends AsyncTask<GeoPoint, Integer, Journey>
        		return;
     	}
 
-   		CycleStreets.journey = journey;
+   		CycleStreets.onNewJourney(journey, from_, to_);
    		whoToTell_.onNewJourney();
 	} // onPostExecute  
 } // NewRouteTask

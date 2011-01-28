@@ -11,10 +11,13 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.TabHost;
+import org.osmdroid.util.GeoPoint;
 
 public class CycleStreets extends TabActivity {
 	public static ApiClient apiClient = new ApiClient();
-	public static Journey journey;
+	private static Journey journey_;
+	private static GeoPoint from_;
+	private static GeoPoint to_;
 	
     /** Called when the activity is first created. */
 	public void onCreate(Bundle savedInstanceState) {
@@ -78,4 +81,17 @@ public class CycleStreets extends TabActivity {
 	        return super.onOptionsItemSelected(item);
 	    }
 	}
-}
+	
+	//////////////////////////////////////////////////
+	static public Journey journey() { return journey_; }
+	static public GeoPoint from() { return from_; }
+	static public GeoPoint to() { return to_; }
+	
+	static public void onNewJourney(final Journey journey, final GeoPoint from, final GeoPoint to)
+	{
+		journey_ = journey;
+		from_ = from;
+		to_ = to;
+	} // onNewJourney
+} // class CycleStreets
+

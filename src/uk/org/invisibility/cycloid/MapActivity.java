@@ -95,7 +95,9 @@ import android.widget.RelativeLayout.LayoutParams;
 
         Log.w(CycloidConstants.LOGTAG, "X: " + map.getScrollX() + " Y: " + map.getScrollY() + " Z: " + map.getZoomLevel());
         
-        location.disableMyLocation();     
+        location.disableMyLocation();
+        
+        CycleStreets.onNewJourney(CycleStreets.journey(), location.getStart(), location.getEnd());
         super.onPause();
     } // onPause
 
@@ -110,7 +112,7 @@ import android.widget.RelativeLayout.LayoutParams;
         location.enableLocation(prefs.getBoolean(CycloidConstants.PREFS_APP_MY_LOCATION, false));
         location.followLocation(prefs.getBoolean(CycloidConstants.PREFS_APP_FOLLOW_LOCATION, false));
         
-       	setJourneyPath(CycleStreets.journey);
+       	setJourneyPath(CycleStreets.journey(), CycleStreets.from(), CycleStreets.to());
     } // onResume
      
     @Override
@@ -125,11 +127,6 @@ import android.widget.RelativeLayout.LayoutParams;
 						                        data.getIntExtra(CycleStreetsConstants.EXTRA_PLACE_TO_LONG, 0));
 				String routeType = data.getStringExtra(CycleStreetsConstants.EXTRA_ROUTE_TYPE);
 				Log.d(getClass().getSimpleName(), "got places: " + placeFrom + "->" + placeTo + " " + routeType);
-
-				// show start & finish on map
-				location.setRoute(placeFrom, placeTo);
-				map.getController().setCenter(placeFrom);
-				map.invalidate();
 				
 				// calculate journey
 				RoutingTask.PlotRoute(routeType, placeFrom, placeTo, this, this);
@@ -239,15 +236,18 @@ import android.widget.RelativeLayout.LayoutParams;
    
    @Override
    public void onNewJourney() {
-	   Journey journey = CycleStreets.journey;
+	   Journey journey = CycleStreets.journey();
 
-	   setJourneyPath(journey);
+	   setJourneyPath(journey, CycleStreets.from(), CycleStreets.to());
+	   
 	   map.getController().setCenter(path.pathStart());
 	   map.postInvalidate();
    } // onNewJourney   
    
-   private void setJourneyPath(final Journey journey)
+   private void setJourneyPath(final Journey journey, final GeoPoint from, final GeoPoint to)
    {
+	   location.setRoute(from, to, journey != null);
+	   
 	   path.clearPath();
 
 	   if(journey == null)
