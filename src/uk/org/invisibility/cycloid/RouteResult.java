@@ -2,7 +2,7 @@ package uk.org.invisibility.cycloid;
 
 import java.util.ArrayList;
 
-import org.andnav.osm.util.GeoPoint;
+import org.osmdroid.util.GeoPoint;
 
 import android.os.Parcel;
 import android.os.Parcelable;

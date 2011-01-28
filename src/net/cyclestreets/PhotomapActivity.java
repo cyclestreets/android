@@ -3,14 +3,14 @@ package net.cyclestreets;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-import org.andnav.osm.DefaultResourceProxyImpl;
-import org.andnav.osm.ResourceProxy;
-import org.andnav.osm.events.DelayedMapListener;
-import org.andnav.osm.views.OpenStreetMapView;
+import org.osmdroid.DefaultResourceProxyImpl;
+import org.osmdroid.ResourceProxy;
+import org.osmdroid.events.DelayedMapListener;
+import org.osmdroid.views.MapView;
 //import org.andnav.osm.views.overlay.MyLocationOverlay;
-import org.andnav.osm.views.overlay.OpenStreetMapViewItemizedOverlay;
+import org.osmdroid.views.overlay.ItemizedOverlay;
 //import org.andnav.osm.views.overlay.OpenStreetMapViewPathOverlay;
-import org.andnav.osm.views.util.OpenStreetMapRendererFactory;
+import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
 
 import uk.org.invisibility.cycloid.CycloidConstants;
 import uk.org.invisibility.cycloid.CycloidResourceProxy;
@@ -27,10 +27,10 @@ import android.widget.RelativeLayout;
 public class PhotomapActivity extends Activity {
 	protected PhotomapListener photomapListener;
 	
-	private OpenStreetMapView map; 
+	private MapView map; 
 	//private OpenStreetMapViewPathOverlay path;
 	//private MyLocationOverlay location;
-	private OpenStreetMapViewItemizedOverlay<PhotoItem> markers;
+	private ItemizedOverlay<PhotoItem> markers;
 	protected List<PhotoItem> photoList;
 	private ResourceProxy proxy;
 	private SharedPreferences prefs;
@@ -42,11 +42,8 @@ public class PhotomapActivity extends Activity {
         prefs = getSharedPreferences(CycloidConstants.PREFS_APP_KEY, MODE_PRIVATE);
         photoList = new CopyOnWriteArrayList<PhotoItem>();
         
-        map = new OpenStreetMapView
-        (
-    		this,
-    		OpenStreetMapRendererFactory.getRenderer(prefs.getString(CycloidConstants.PREFS_APP_RENDERER, CycloidConstants.DEFAULT_MAPTYPE))
-        );
+        map = new MapView(this, null);
+        map.setTileSource(TileSourceFactory.getTileSource(prefs.getString(CycloidConstants.PREFS_APP_RENDERER, CycloidConstants.DEFAULT_MAPTYPE)));
         map.setResourceProxy(proxy);
         map.setBuiltInZoomControls(true);
         map.setMultiTouchControls(true);
@@ -54,7 +51,7 @@ public class PhotomapActivity extends Activity {
         map.scrollTo(prefs.getInt(CycloidConstants.PREFS_APP_SCROLL_X, 0), prefs.getInt(CycloidConstants.PREFS_APP_SCROLL_Y, -701896)); /* Greenwich */
         map.setMapListener(new DelayedMapListener(new PhotomapListener(this, map, photoList)));
 
-        markers = new OpenStreetMapViewItemizedOverlay<PhotoItem>(
+        markers = new ItemizedOverlay<PhotoItem>(
         		this, photoList,
         		getResources().getDrawable(R.drawable.icon),
         		new Point(10,10),
@@ -67,7 +64,7 @@ public class PhotomapActivity extends Activity {
         this.setContentView(rl);        
     }
 
-	private class PhotoTapListener implements OpenStreetMapViewItemizedOverlay.OnItemGestureListener<PhotoItem> {
+	private class PhotoTapListener implements ItemizedOverlay.OnItemGestureListener<PhotoItem> {
 		private List<PhotoItem> photoList;
 		
 		public PhotoTapListener(List<PhotoItem> photoList) {

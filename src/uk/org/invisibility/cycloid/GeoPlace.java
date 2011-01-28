@@ -1,6 +1,6 @@
 package uk.org.invisibility.cycloid;
 
-import org.andnav.osm.util.GeoPoint;
+import org.osmdroid.util.GeoPoint;
 
 public class GeoPlace
 {

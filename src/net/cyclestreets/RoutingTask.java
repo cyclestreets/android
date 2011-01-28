@@ -2,7 +2,7 @@ package net.cyclestreets;
 
 import net.cyclestreets.api.Journey;
 
-import org.andnav.osm.util.GeoPoint;
+import org.osmdroid.util.GeoPoint;
 
 import android.app.ProgressDialog;
 import android.content.Context;

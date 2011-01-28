@@ -1,10 +1,10 @@
 package net.cyclestreets.overlay;
 
-import org.andnav.osm.ResourceProxy;
-import org.andnav.osm.util.GeoPoint;
-import org.andnav.osm.views.overlay.OpenStreetMapViewPathOverlay;
+import org.osmdroid.ResourceProxy;
+import org.osmdroid.util.GeoPoint;
+import org.osmdroid.views.overlay.PathOverlay;
 
-public class PathOfRouteOverlay extends OpenStreetMapViewPathOverlay {
+public class PathOfRouteOverlay extends PathOverlay {
 	static int PATH_COLOUR = 0x80ff0000;
 	
 	private GeoPoint start_;

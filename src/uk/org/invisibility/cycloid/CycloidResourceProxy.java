@@ -2,7 +2,7 @@ package uk.org.invisibility.cycloid;
 
 import net.cyclestreets.R;
 
-import org.andnav.osm.DefaultResourceProxyImpl;
+import org.osmdroid.DefaultResourceProxyImpl;
 
 import android.content.Context;
 import android.graphics.Bitmap;

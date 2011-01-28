@@ -7,8 +7,8 @@ import java.net.URL;
 
 import net.cyclestreets.CycleStreetsConstants;
 
-import org.andnav.osm.util.BoundingBoxE6;
-import org.andnav.osm.util.GeoPoint;
+import org.osmdroid.util.BoundingBoxE6;
+import org.osmdroid.util.GeoPoint;
 import org.xml.sax.SAXException;
 import android.net.Uri;
 import android.sax.Element;

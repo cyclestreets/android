@@ -1,7 +1,7 @@
 package uk.org.invisibility.cycloid;
 
 import java.util.ArrayList;
-import org.andnav.osm.util.GeoPoint;
+import org.osmdroid.util.GeoPoint;
 
 public class GeoResults
 {

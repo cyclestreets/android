@@ -3,8 +3,8 @@ package uk.org.invisibility.cycloid;
 import java.util.ArrayList;
 import java.util.TreeSet;
 
-import org.andnav.osm.util.BoundingBoxE6;
-import org.andnav.osm.util.GeoPoint;
+import org.osmdroid.util.BoundingBoxE6;
+import org.osmdroid.util.GeoPoint;
 
 import android.app.Application;
 import android.content.Context;

@@ -2,13 +2,13 @@ package net.cyclestreets;
 
 import net.cyclestreets.api.Photo;
 
-import org.andnav.osm.util.GeoPoint;
-import org.andnav.osm.views.overlay.OpenStreetMapViewOverlayItem;
+import org.osmdroid.util.GeoPoint;
+import org.osmdroid.views.overlay.OverlayItem;
 
 import android.graphics.Point;
 import android.graphics.drawable.Drawable;
 
-public class PhotoItem extends OpenStreetMapViewOverlayItem {
+public class PhotoItem extends OverlayItem {
 	protected Photo photo;
 	protected PhotoMarkers photoMarkers;
 	

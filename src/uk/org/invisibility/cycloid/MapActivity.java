@@ -9,12 +9,12 @@ import net.cyclestreets.api.Marker;
 import net.cyclestreets.overlay.LocationOverlay;
 import net.cyclestreets.overlay.PathOfRouteOverlay;
 
-import org.andnav.osm.ResourceProxy;
-import org.andnav.osm.util.BoundingBoxE6;
-import org.andnav.osm.util.GeoPoint;
-import org.andnav.osm.views.OpenStreetMapView;
-import org.andnav.osm.views.util.IOpenStreetMapRendererInfo;
-import org.andnav.osm.views.util.OpenStreetMapRendererFactory;
+import org.osmdroid.ResourceProxy;
+import org.osmdroid.util.BoundingBoxE6;
+import org.osmdroid.util.GeoPoint;
+import org.osmdroid.views.MapView;
+import org.osmdroid.tileprovider.tilesource.ITileSource;
+import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -49,7 +49,7 @@ import android.widget.RelativeLayout.LayoutParams;
 
 	private static final int DIALOG_ABOUT_ID = 1;
 
-	private OpenStreetMapView map; 
+	private MapView map; 
 	private PathOfRouteOverlay path;
 	private LocationOverlay location;
 	private ResourceProxy proxy;
@@ -63,7 +63,8 @@ import android.widget.RelativeLayout.LayoutParams;
         proxy = new CycloidResourceProxy(getApplicationContext());
         prefs = getSharedPreferences(CycloidConstants.PREFS_APP_KEY, MODE_PRIVATE);
 
-		map = new OpenStreetMapView(this, mapRenderer());
+		map = new MapView(this, null);
+		map.setTileSource(mapRenderer());
         map.setResourceProxy(proxy);
         map.setBuiltInZoomControls(true);
         map.setMultiTouchControls(true);
@@ -171,7 +172,7 @@ import android.widget.RelativeLayout.LayoutParams;
 
             case MENU_ROUTE:
             	Intent intent = new Intent(this, RouteActivity.class);
-            	BoundingBoxE6 bounds = map.getDrawnBoundingBoxE6();
+            	BoundingBoxE6 bounds = map.getBoundingBox();
             	GeoIntent.setBoundingBoxInExtras(intent, bounds);
                 lastFix = location.getLastFix();
                 if (lastFix != null)
@@ -262,8 +263,8 @@ import android.widget.RelativeLayout.LayoutParams;
 	   } // for ...
    } // setJourneyPath
 
-   private IOpenStreetMapRendererInfo mapRenderer()
+   private ITileSource mapRenderer()
    {
-	   return OpenStreetMapRendererFactory.getRenderer(prefs.getString(CycloidConstants.PREFS_APP_RENDERER, CycloidConstants.DEFAULT_MAPTYPE));
+	   return TileSourceFactory.getTileSource(prefs.getString(CycloidConstants.PREFS_APP_RENDERER, CycloidConstants.DEFAULT_MAPTYPE));
    } // mapRenderer
 } // class MapActivity

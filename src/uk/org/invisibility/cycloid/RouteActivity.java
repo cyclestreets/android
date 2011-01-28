@@ -5,8 +5,8 @@ import net.cyclestreets.CycleStreetsPreferences;
 import net.cyclestreets.R;
 import net.cyclestreets.util.RouteTypeMapper;
 
-import org.andnav.osm.util.BoundingBoxE6;
-import org.andnav.osm.util.GeoPoint;
+import org.osmdroid.util.BoundingBoxE6;
+import org.osmdroid.util.GeoPoint;
 
 import android.app.Activity;
 import android.app.AlertDialog;

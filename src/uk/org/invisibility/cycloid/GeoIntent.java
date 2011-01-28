@@ -1,6 +1,6 @@
 package uk.org.invisibility.cycloid;
 
-import org.andnav.osm.util.BoundingBoxE6;
+import org.osmdroid.util.BoundingBoxE6;
 
 import android.content.Intent;
 

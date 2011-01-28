@@ -9,11 +9,11 @@ import java.util.Set;
 import net.cyclestreets.api.Photo;
 import net.cyclestreets.api.PhotomapCategories;
 
-import org.andnav.osm.events.MapAdapter;
-import org.andnav.osm.events.ScrollEvent;
-import org.andnav.osm.events.ZoomEvent;
-import org.andnav.osm.util.BoundingBoxE6;
-import org.andnav.osm.views.OpenStreetMapView;
+import org.osmdroid.events.ScrollEvent;
+import org.osmdroid.events.ZoomEvent;
+import org.osmdroid.util.BoundingBoxE6;
+import org.osmdroid.views.MapView;
+import org.osmdroid.events.MapAdapter;
 
 import android.content.Context;
 import android.os.AsyncTask;
@@ -22,12 +22,12 @@ import android.util.Log;
 public class PhotomapListener extends MapAdapter {
 	public Map<Integer,Photo> photoMap = new HashMap<Integer,Photo>();
 	
-	protected OpenStreetMapView map;
+	protected MapView map;
 	protected List<PhotoItem> photoList;
 	protected Set<PhotoItem> photoSet;
 	protected PhotoMarkers photoMarkers;
 
-	public PhotomapListener(Context ctx, OpenStreetMapView map, List<PhotoItem> photoList) {
+	public PhotomapListener(Context ctx, MapView map, List<PhotoItem> photoList) {
 		this.map = map;
 		this.photoList = photoList;
 		this.photoSet = new HashSet<PhotoItem>();
@@ -57,7 +57,7 @@ public class PhotomapListener extends MapAdapter {
 	}
 
 	protected void refreshPhotos() {
-		BoundingBoxE6 bounds = map.getVisibleBoundingBoxE6();
+		BoundingBoxE6 bounds = map.getBoundingBox();
 		double n = bounds.getLatNorthE6() / 1E6;
 		double s = bounds.getLatSouthE6() / 1E6;
 		double e = bounds.getLonEastE6() / 1E6;

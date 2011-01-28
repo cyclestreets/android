@@ -2,12 +2,12 @@ package net.cyclestreets.overlay;
 
 import net.cyclestreets.R;
 
-import org.andnav.osm.ResourceProxy;
-import org.andnav.osm.util.GeoPoint;
-import org.andnav.osm.views.OpenStreetMapView;
-import org.andnav.osm.views.OpenStreetMapView.OpenStreetMapViewProjection;
-import org.andnav.osm.views.overlay.MyLocationOverlay;
-import org.andnav.osm.views.overlay.OpenStreetMapViewOverlayItem;
+import org.osmdroid.ResourceProxy;
+import org.osmdroid.util.GeoPoint;
+import org.osmdroid.views.MapView;
+import org.osmdroid.views.MapView.Projection;
+import org.osmdroid.views.overlay.MyLocationOverlay;
+import org.osmdroid.views.overlay.OverlayItem;
 
 import android.content.Context;
 import android.content.res.Resources;
@@ -36,14 +36,14 @@ public class LocationOverlay extends MyLocationOverlay {
 	private final Callback callback_;
 	
 	private final GestureDetector gestureDetector_;
-	private final OpenStreetMapView mapView_;
+	private final MapView mapView_;
 	
-	private OpenStreetMapViewOverlayItem startItem_;
-	private OpenStreetMapViewOverlayItem endItem_;
+	private OverlayItem startItem_;
+	private OverlayItem endItem_;
 
 	
 	public LocationOverlay(final Context context, 
-						   final OpenStreetMapView mapView,
+						   final MapView mapView,
 						   final Callback callback,
 						   final ResourceProxy resProxy) {
 		super(context, mapView, resProxy);
@@ -83,9 +83,9 @@ public class LocationOverlay extends MyLocationOverlay {
 		endItem_ = addMarker(point, "finish", redWisp_);
 	} // setEnd
 	
-	private OpenStreetMapViewOverlayItem addMarker(final GeoPoint point, final String label, final Drawable icon)
+	private OverlayItem addMarker(final GeoPoint point, final String label, final Drawable icon)
 	{
-		final OpenStreetMapViewOverlayItem marker = new OpenStreetMapViewOverlayItem(label, label, point);
+		final OverlayItem marker = new OverlayItem(label, label, point);
 		marker.setMarker(icon);
 		marker.setMarkerHotspot(new Point(0,30));
 		return marker;
@@ -93,10 +93,10 @@ public class LocationOverlay extends MyLocationOverlay {
 
 	////////////////////////////////////////////
 	@Override
-	protected void onDrawFinished(final Canvas canvas, final OpenStreetMapView mapView) {
+	protected void onDrawFinished(final Canvas canvas, final MapView mapView) {
 		drawLocationButton(canvas);
 		
-        final OpenStreetMapViewProjection projection = mapView.getProjection();
+        final Projection projection = mapView.getProjection();
         drawMarker(canvas, projection, startItem_);
         drawMarker(canvas, projection, endItem_);
  	} // onDrawFinished
@@ -113,8 +113,8 @@ public class LocationOverlay extends MyLocationOverlay {
 	} // drawLocationButton
 
 	private void drawMarker(final Canvas canvas, 
-							final OpenStreetMapViewProjection projection,
-							final OpenStreetMapViewOverlayItem marker)
+							final Projection projection,
+							final OverlayItem marker)
 	{
 		if(marker == null)
 			return;
@@ -139,7 +139,7 @@ public class LocationOverlay extends MyLocationOverlay {
 
 	//////////////////////////////////////////////
 	@Override
-	public boolean onTouchEvent(final MotionEvent event, final OpenStreetMapView mapView)
+	public boolean onTouchEvent(final MotionEvent event, final MapView mapView)
 	{
 		if(gestureDetector_.onTouchEvent(event))
 			return true;
@@ -147,7 +147,7 @@ public class LocationOverlay extends MyLocationOverlay {
 	} // onTouchEvent
 	
 	@Override
-	public boolean onLongPress(final MotionEvent event, final OpenStreetMapView mapView) {
+	public boolean onLongPress(final MotionEvent event, final MapView mapView) {
 		startItem_ = null;
 		endItem_ = null;
 		if(callback_ != null)

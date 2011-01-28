@@ -2,7 +2,7 @@ package uk.org.invisibility.cycloid;
 
 import net.cyclestreets.R;
 
-import org.andnav.osm.util.BoundingBoxE6;
+import org.osmdroid.util.BoundingBoxE6;
 
 import android.app.Activity;
 import android.app.AlertDialog;
