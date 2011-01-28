@@ -15,6 +15,9 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.Rect;
+import android.graphics.RectF;
+import android.graphics.Typeface;
+import android.graphics.Paint.Align;
 import android.graphics.Paint.Style;
 import android.graphics.drawable.Drawable;
 import android.location.Location;
@@ -26,11 +29,12 @@ public class LocationOverlay extends MyLocationOverlay {
 		void onRouteNow(final GeoPoint from, final GeoPoint to);
 		void onClearRoute();
 	} // Callback
-	
+
 	private final Drawable locationButton_;
 	private final Drawable greenWisp_;
 	private final Drawable redWisp_;
 
+	private final int offset_;
 	private final Rect locationButtonPos_;
 	
 	private final Callback callback_;
@@ -41,39 +45,10 @@ public class LocationOverlay extends MyLocationOverlay {
 	private OverlayItem startItem_;
 	private OverlayItem endItem_;
 
-	private enum TapToRoute 
-	{ 
-		WAITING_FOR_START, 
-		WAITING_FOR_END, 
-		WAITING_TO_ROUTE, 
-		ALL_DONE;
-		
-		static public TapToRoute start()
-		{
-			return WAITING_FOR_START;
-		} // start
-		
-		public TapToRoute reset()
-		{
-			return WAITING_FOR_START;
-		} // reset
-		
-		public TapToRoute next() 
-		{
-			switch(this) {
-			case WAITING_FOR_START:
-				return WAITING_FOR_END;
-			case WAITING_FOR_END:
-				return WAITING_TO_ROUTE;
-			case WAITING_TO_ROUTE:
-				return ALL_DONE;
-			case ALL_DONE:
-				break;
-			} // switch
-			return ALL_DONE;				
-		} // next() 
-	}; // enum TapToRoute
-	
+	private Paint greyBrush_;
+	private Paint whiteBrush_;
+	private Paint textBrush_;
+
 	private TapToRoute tapState_;
 	
 	public LocationOverlay(final Context context, 
@@ -91,8 +66,12 @@ public class LocationOverlay extends MyLocationOverlay {
 		greenWisp_ = res.getDrawable(R.drawable.green_wisp_36x30);
 		redWisp_ = res.getDrawable(R.drawable.red_wisp_36x30);
 
-		final int offset = (int)(8.0 * context.getResources().getDisplayMetrics().density);		
-        locationButtonPos_ = new Rect(offset, offset, offset + locationButton_.getIntrinsicWidth(), offset + locationButton_.getIntrinsicHeight());
+		offset_ = (int)(8.0 * context.getResources().getDisplayMetrics().density);		
+        locationButtonPos_ = new Rect(offset_, offset_, offset_ + locationButton_.getIntrinsicWidth(), offset_ + locationButton_.getIntrinsicHeight());
+
+		greyBrush_ = createGreyBrush();
+		whiteBrush_ = createWhiteBrush();
+		textBrush_ = createTextBrush(offset_);
         
 		final SingleTapDetector tapDetector = new SingleTapDetector(this);
 		gestureDetector_ = new GestureDetector(context, tapDetector);
@@ -103,7 +82,7 @@ public class LocationOverlay extends MyLocationOverlay {
 		
 		tapState_ = TapToRoute.start();
 	} // LocationOverlay
-
+	
 	public void enableLocation(final boolean enable)
 	{
 		if(enable)
@@ -150,6 +129,7 @@ public class LocationOverlay extends MyLocationOverlay {
 	@Override
 	protected void onDrawFinished(final Canvas canvas, final MapView mapView) {
 		drawLocationButton(canvas);
+		drawTapState(canvas);
 		
         final Projection projection = mapView.getProjection();
         drawMarker(canvas, projection, startItem_);
@@ -163,9 +143,32 @@ public class LocationOverlay extends MyLocationOverlay {
         screen.right = screen.left + locationButtonPos_.width();
         screen.bottom = screen.top + locationButtonPos_.height();
         
+        canvas.drawCircle(screen.exactCenterX(), screen.exactCenterY(), screen.width()/2.0f, whiteBrush_);
         locationButton_.setBounds(screen);
         locationButton_.draw(canvas);
 	} // drawLocationButton
+
+	private void drawTapState(final Canvas canvas)
+	{
+		final String msg = tapState_.toString();
+		if(msg.length() == 0)
+			return;
+		
+		
+		final Rect screen = canvas.getClipBounds();
+		final int halfWidth = screen.width() / 2;
+        screen.left += halfWidth; 
+        screen.top += offset_;
+        screen.right -= offset_;
+        screen.bottom = screen.top + locationButton_.getIntrinsicHeight();
+		
+		canvas.drawRoundRect(new RectF(screen), offset_/2.0f, offset_/2.0f, greyBrush_);
+
+		final Rect bounds = new Rect();
+		textBrush_.getTextBounds(msg, 0, msg.length(), bounds);
+		
+		canvas.drawText(msg, screen.centerX(), screen.centerY() + bounds.bottom, textBrush_);
+	} // drawTapState
 
 	private void drawMarker(final Canvas canvas, 
 							final Projection projection,
@@ -183,13 +186,6 @@ public class LocationOverlay extends MyLocationOverlay {
 									   screenPos.x + (quarterWidth*3), 
 									   screenPos.y));
 		thingToDraw.draw(canvas);
-
-		final Paint paint = new Paint();
-		paint.setARGB(0, 100, 100, 255);
-		paint.setAntiAlias(true);
-		paint.setAlpha(50);
-		paint.setStyle(Style.FILL);        
-		canvas.drawCircle(screenPos.x, screenPos.y, 30, paint);
 	} // drawMarker
 
 	//////////////////////////////////////////////
@@ -225,9 +221,11 @@ public class LocationOverlay extends MyLocationOverlay {
     	{
     	case WAITING_FOR_START:
     		setStart(p);
+    		mapView_.invalidate();
     		break;
     	case WAITING_FOR_END:
     		setEnd(p);
+    		mapView_.invalidate();
     		break;
     	case WAITING_TO_ROUTE:
 			callback_.onRouteNow(startItem_.getPoint(), endItem_.getPoint());
@@ -280,4 +278,86 @@ public class LocationOverlay extends MyLocationOverlay {
 			return owner_.onSingleTapConfirmed(event);
 		} // onSingleTapConfirmed
 	} // class SingleTapDetector
+	
+	private enum TapToRoute 
+	{ 
+		WAITING_FOR_START, 
+		WAITING_FOR_END, 
+		WAITING_TO_ROUTE, 
+		ALL_DONE;
+		
+		static public TapToRoute start()
+		{
+			return WAITING_FOR_START;
+		} // start
+		
+		public TapToRoute reset()
+		{
+			return WAITING_FOR_START;
+		} // reset
+		
+		public TapToRoute next() 
+		{
+			switch(this) {
+			case WAITING_FOR_START:
+				return WAITING_FOR_END;
+			case WAITING_FOR_END:
+				return WAITING_TO_ROUTE;
+			case WAITING_TO_ROUTE:
+				return ALL_DONE;
+			case ALL_DONE:
+				break;
+			} // switch
+			return ALL_DONE;				
+		} // next()
+		
+		public String toString()
+		{
+			switch(this) {
+			case WAITING_FOR_START:
+				return "Tap to set Start";
+			case WAITING_FOR_END:
+				return "Tap to set End";
+			case WAITING_TO_ROUTE:
+				return "Tap to plan route";
+			case ALL_DONE:
+				break;
+			} // switch
+			return "";				
+		} // toString
+	}; // enum TapToRoute
+	
+	static private Paint createGreyBrush()
+	{
+		final Paint paint = new Paint();
+		paint.setAntiAlias(true);
+		paint.setStyle(Style.FILL_AND_STROKE);
+		paint.setTextAlign(Align.CENTER);
+		paint.setTypeface(Typeface.DEFAULT);
+
+		paint.setARGB(255, 127, 127, 127);
+		
+		return paint;
+	} // createBgBrush
+
+	static private Paint createWhiteBrush()
+	{
+		final Paint paint = createGreyBrush();
+
+		paint.setARGB(255, 255, 255, 255);
+		
+		return paint;
+	} // createTextBrush
+
+	static private Paint createTextBrush(final int offset)
+	{
+		final Paint paint = createGreyBrush();
+
+		paint.setTextAlign(Align.CENTER);
+		paint.setTypeface(Typeface.DEFAULT);
+		paint.setTextSize(offset * 2);
+		paint.setARGB(255, 255, 255, 255);
+		
+		return paint;
+	} // createTextBrush
 } // LocationOverlay
