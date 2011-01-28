@@ -6,6 +6,7 @@ import net.cyclestreets.RoutingTask;
 import net.cyclestreets.R;
 import net.cyclestreets.api.Journey;
 import net.cyclestreets.api.Marker;
+import net.cyclestreets.overlay.LocationOverlay;
 import net.cyclestreets.overlay.RouteOverlay;
 import net.cyclestreets.overlay.PathOfRouteOverlay;
 
@@ -13,7 +14,6 @@ import org.andnav.osm.ResourceProxy;
 import org.andnav.osm.util.BoundingBoxE6;
 import org.andnav.osm.util.GeoPoint;
 import org.andnav.osm.views.OpenStreetMapView;
-import org.andnav.osm.views.overlay.MyLocationOverlay;
 import org.andnav.osm.views.util.IOpenStreetMapRendererInfo;
 import org.andnav.osm.views.util.OpenStreetMapRendererFactory;
 
@@ -53,7 +53,7 @@ import android.widget.RelativeLayout.LayoutParams;
 	private OpenStreetMapView map; 
 	private PathOfRouteOverlay path;
 	private RouteOverlay routemarkerOverlay;
-	private MyLocationOverlay location;
+	private LocationOverlay location;
 	private ResourceProxy proxy;
 	private SharedPreferences prefs;
 	
@@ -72,14 +72,14 @@ import android.widget.RelativeLayout.LayoutParams;
         map.getController().setZoom(prefs.getInt(CycloidConstants.PREFS_APP_ZOOM_LEVEL, 14));
         map.scrollTo(prefs.getInt(CycloidConstants.PREFS_APP_SCROLL_X, 0), prefs.getInt(CycloidConstants.PREFS_APP_SCROLL_Y, -701896)); /* Greenwich */
 
-        location = new MyLocationOverlay(this.getBaseContext(), map, proxy);
-        map.getOverlays().add(location);
-        
         path = new PathOfRouteOverlay(proxy);
         map.getOverlays().add(path);
 
         routemarkerOverlay = new RouteOverlay(this, map, this);
         map.getOverlays().add(routemarkerOverlay);
+        
+        location = new LocationOverlay(this.getBaseContext(), map, proxy);
+        map.getOverlays().add(location);
         
         final RelativeLayout rl = new RelativeLayout(this);
         rl.addView(map, new RelativeLayout.LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT));
