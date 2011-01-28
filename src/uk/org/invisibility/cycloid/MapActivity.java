@@ -7,7 +7,6 @@ import net.cyclestreets.R;
 import net.cyclestreets.api.Journey;
 import net.cyclestreets.api.Marker;
 import net.cyclestreets.overlay.LocationOverlay;
-import net.cyclestreets.overlay.RouteOverlay;
 import net.cyclestreets.overlay.PathOfRouteOverlay;
 
 import org.andnav.osm.ResourceProxy;
@@ -42,7 +41,7 @@ import android.widget.RelativeLayout.LayoutParams;
  * TODO geocode in progress indicator in route to/from
  */
 
- public class MapActivity extends Activity implements RouteOverlay.Callback, RoutingTask.Callback
+ public class MapActivity extends Activity implements LocationOverlay.Callback, RoutingTask.Callback
  {
 	private static final int MENU_MY_LOCATION = Menu.FIRST;
     private static final int MENU_ROUTE = MENU_MY_LOCATION + 1;
@@ -52,7 +51,6 @@ import android.widget.RelativeLayout.LayoutParams;
 
 	private OpenStreetMapView map; 
 	private PathOfRouteOverlay path;
-	private RouteOverlay routemarkerOverlay;
 	private LocationOverlay location;
 	private ResourceProxy proxy;
 	private SharedPreferences prefs;
@@ -75,10 +73,7 @@ import android.widget.RelativeLayout.LayoutParams;
         path = new PathOfRouteOverlay(proxy);
         map.getOverlays().add(path);
 
-        routemarkerOverlay = new RouteOverlay(this, map, this);
-        map.getOverlays().add(routemarkerOverlay);
-        
-        location = new LocationOverlay(this.getBaseContext(), map, proxy);
+        location = new LocationOverlay(this.getBaseContext(), map, this, proxy);
         map.getOverlays().add(location);
         
         final RelativeLayout rl = new RelativeLayout(this);
@@ -129,7 +124,7 @@ import android.widget.RelativeLayout.LayoutParams;
 				Log.d(getClass().getSimpleName(), "got places: " + placeFrom + "->" + placeTo + " " + routeType);
 
 				// show start & finish on map
-				routemarkerOverlay.setRoute(placeFrom, placeTo);
+				location.setRoute(placeFrom, placeTo);
 				map.getController().setCenter(placeFrom);
 				map.invalidate();
 				
