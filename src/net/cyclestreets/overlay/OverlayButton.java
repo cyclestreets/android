@@ -12,6 +12,7 @@ class OverlayButton
 	private final Drawable img_;
 	private final Rect pos_;
 	private final float radius_;
+	private boolean enabled_;
 	
 	public OverlayButton(final Drawable image, final int left, final int top, final float curveRadius)
 	{
@@ -21,7 +22,11 @@ class OverlayButton
         				left + image.getIntrinsicWidth(), 
         				top + image.getIntrinsicHeight());
         radius_ = curveRadius;
+        enabled_ = true;
 	} // OverlayButton
+	
+	public void enable() { enabled_ = true; }
+	public void disable() { enabled_ = false; }
 	
 	public int right() { return pos_.right;	}
 	public int height() { return pos_.height(); }
@@ -33,7 +38,7 @@ class OverlayButton
         screen.right = screen.left + pos_.width();
         screen.bottom = screen.top + pos_.height();
 	        
-		canvas.drawRoundRect(new RectF(screen), radius_, radius_, Brush.White);
+		canvas.drawRoundRect(new RectF(screen), radius_, radius_, enabled_ ? Brush.White : Brush.LightGrey);
 
         img_.setBounds(screen);
         img_.draw(canvas);
