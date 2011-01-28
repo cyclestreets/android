@@ -13,6 +13,7 @@ public class CycloidConstants
     public static final String PREFS_APP_SCROLL_X = "scrollX";
     public static final String PREFS_APP_SCROLL_Y = "scrollY";
     public static final String PREFS_APP_ZOOM_LEVEL = "zoomLevel";
+    public static final String PREFS_APP_MY_LOCATION = "myLocation";
     public static final String PREFS_APP_FOLLOW_LOCATION = "followLocation";
 
 	// Preference strings for geocoding

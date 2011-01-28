@@ -89,6 +89,7 @@ import android.widget.RelativeLayout.LayoutParams;
         edit.putInt(CycloidConstants.PREFS_APP_SCROLL_X, map.getScrollX());
         edit.putInt(CycloidConstants.PREFS_APP_SCROLL_Y, map.getScrollY());
         edit.putInt(CycloidConstants.PREFS_APP_ZOOM_LEVEL, map.getZoomLevel());
+        edit.putBoolean(CycloidConstants.PREFS_APP_MY_LOCATION, location.isMyLocationEnabled());
         edit.putBoolean(CycloidConstants.PREFS_APP_FOLLOW_LOCATION, location.isLocationFollowEnabled());
         edit.commit();
 
@@ -106,7 +107,8 @@ import android.widget.RelativeLayout.LayoutParams;
         map.scrollTo(prefs.getInt(CycloidConstants.PREFS_APP_SCROLL_X, 0), prefs.getInt(CycloidConstants.PREFS_APP_SCROLL_Y, -701896)); /* Greenwich */
         map.getController().setZoom(prefs.getInt(CycloidConstants.PREFS_APP_ZOOM_LEVEL, 14));
 
-        location.followLocation(prefs.getBoolean(CycloidConstants.PREFS_APP_FOLLOW_LOCATION, true));
+        location.enableLocation(prefs.getBoolean(CycloidConstants.PREFS_APP_MY_LOCATION, false));
+        location.followLocation(prefs.getBoolean(CycloidConstants.PREFS_APP_FOLLOW_LOCATION, false));
         
        	setJourneyPath(CycleStreets.journey);
     } // onResume

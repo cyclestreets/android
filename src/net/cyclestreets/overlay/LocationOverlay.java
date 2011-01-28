@@ -41,11 +41,46 @@ public class LocationOverlay extends MyLocationOverlay {
 	private OverlayItem startItem_;
 	private OverlayItem endItem_;
 
+	private enum TapToRoute 
+	{ 
+		WAITING_FOR_START, 
+		WAITING_FOR_END, 
+		WAITING_TO_ROUTE, 
+		ALL_DONE;
+		
+		static public TapToRoute start()
+		{
+			return WAITING_FOR_START;
+		} // start
+		
+		public TapToRoute reset()
+		{
+			return WAITING_FOR_START;
+		} // reset
+		
+		public TapToRoute next() 
+		{
+			switch(this) {
+			case WAITING_FOR_START:
+				return WAITING_FOR_END;
+			case WAITING_FOR_END:
+				return WAITING_TO_ROUTE;
+			case WAITING_TO_ROUTE:
+				return ALL_DONE;
+			case ALL_DONE:
+				break;
+			} // switch
+			return ALL_DONE;				
+		} // next() 
+	}; // enum TapToRoute
+	
+	private TapToRoute tapState_;
 	
 	public LocationOverlay(final Context context, 
 						   final MapView mapView,
 						   final Callback callback,
-						   final ResourceProxy resProxy) {
+						   final ResourceProxy resProxy) 
+	{
 		super(context, mapView, resProxy);
 		
 		mapView_ = mapView;
@@ -65,8 +100,18 @@ public class LocationOverlay extends MyLocationOverlay {
 		
 		startItem_ = null;
 		endItem_ = null;
+		
+		tapState_ = TapToRoute.start();
 	} // LocationOverlay
 
+	public void enableLocation(final boolean enable)
+	{
+		if(enable)
+			enableMyLocation();
+		else
+			disableMyLocation();
+	} // enableLocation
+	
 	public void setRoute(final GeoPoint start, final GeoPoint end)
 	{
 		setStart(start);
@@ -92,6 +137,16 @@ public class LocationOverlay extends MyLocationOverlay {
 	} // addMarker
 
 	////////////////////////////////////////////
+	@Override
+	public void onDraw(final Canvas canvas, final MapView mapView) {
+		// I'm not thrilled about this but there isn't any other way (short of killing
+		// and recreating the overlay) of turning off the little here-you-are man
+		if(!isMyLocationEnabled())
+			return;
+		
+		super.onDraw(canvas, mapView);
+	} // onDraw
+	
 	@Override
 	protected void onDrawFinished(final Canvas canvas, final MapView mapView) {
 		drawLocationButton(canvas);
@@ -148,6 +203,8 @@ public class LocationOverlay extends MyLocationOverlay {
 	
 	@Override
 	public boolean onLongPress(final MotionEvent event, final MapView mapView) {
+		tapState_ = tapState_.reset();
+		
 		startItem_ = null;
 		endItem_ = null;
 		if(callback_ != null)
@@ -162,19 +219,25 @@ public class LocationOverlay extends MyLocationOverlay {
     
     private boolean tapMarker(final MotionEvent event)
     {
-    	if(startItem_ != null && endItem_ != null)
-    		return false;
-    	
     	final GeoPoint p = mapView_.getProjection().fromPixels((int)event.getX(), (int)event.getY());
-    	if(startItem_ == null)
+
+    	switch(tapState_)
+    	{
+    	case WAITING_FOR_START:
     		setStart(p);
-    	else {
+    		break;
+    	case WAITING_FOR_END:
     		setEnd(p);
-    		if(callback_ != null)
-    			callback_.onRouteNow(startItem_.getPoint(), 
-    								 endItem_.getPoint());
-    	}
-    	mapView_.invalidate();
+    		break;
+    	case WAITING_TO_ROUTE:
+			callback_.onRouteNow(startItem_.getPoint(), endItem_.getPoint());
+    		break;
+    	case ALL_DONE:
+    		break;
+    	} // switch ...
+
+    	tapState_ = tapState_.next();
+
     	return true;
     } // tapMarker
 	
