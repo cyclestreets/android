@@ -17,9 +17,6 @@ import org.osmdroid.tileprovider.tilesource.ITileSource;
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
 
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.app.Dialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.location.Location;
@@ -44,9 +41,6 @@ import android.widget.RelativeLayout.LayoutParams;
  public class MapActivity extends Activity implements LocationOverlay.Callback, RoutingTask.Callback
  {
     private static final int MENU_ROUTE = Menu.FIRST;
-    private static final int MENU_ABOUT = MENU_ROUTE + 1;
-
-	private static final int DIALOG_ABOUT_ID = 1;
 
 	private MapView map; 
 	private PathOfRouteOverlay path;
@@ -150,7 +144,6 @@ import android.widget.RelativeLayout.LayoutParams;
 	public boolean onCreateOptionsMenu(final Menu pMenu)
     {
     	pMenu.add(0, MENU_ROUTE, Menu.NONE, R.string.route).setIcon(android.R.drawable.ic_menu_directions);
-    	pMenu.add(0, MENU_ABOUT, Menu.NONE, R.string.about).setIcon(android.R.drawable.ic_menu_info_details);
     	return true;
 	} // onCreateOptionsMenu
     	
@@ -173,43 +166,9 @@ import android.widget.RelativeLayout.LayoutParams;
                 startActivityForResult(intent, CycleStreetsConstants.ACTIVITY_GET_ENDPOINTS);
                 return true;
             }
-            case MENU_ABOUT:
-				showDialog(DIALOG_ABOUT_ID);
-				return true;
-		
 		}
 		return false;
 	} // onMenuItemSelected
-	
-   @Override
-   protected Dialog onCreateDialog(int id)
-   {
-        Dialog dialog;
-
-        switch (id)
-        {
-        case DIALOG_ABOUT_ID:
-        	dialog = new AlertDialog.Builder(MapActivity.this)
-            .setIcon(R.drawable.icon)
-            .setTitle(R.string.app_name)
-            .setMessage(R.string.about_message)
-            .setPositiveButton
-            (
-        		"OK",
-        		new DialogInterface.OnClickListener()
-	            {
-	                @Override
-	                public void onClick(DialogInterface dialog, int whichButton) {}
-	            }
-        	).create();
-        	break;
-
-        default:
-            dialog = null;
-            break;
-        }
-        return dialog;
-    } // onCreateDialog
    
    @Override
    public boolean onTrackballEvent(MotionEvent event)
