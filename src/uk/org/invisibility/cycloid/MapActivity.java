@@ -43,8 +43,7 @@ import android.widget.RelativeLayout.LayoutParams;
 
  public class MapActivity extends Activity implements LocationOverlay.Callback, RoutingTask.Callback
  {
-	private static final int MENU_MY_LOCATION = Menu.FIRST;
-    private static final int MENU_ROUTE = MENU_MY_LOCATION + 1;
+    private static final int MENU_ROUTE = Menu.FIRST;
     private static final int MENU_ABOUT = MENU_ROUTE + 1;
 
 	private static final int DIALOG_ABOUT_ID = 1;
@@ -150,7 +149,6 @@ import android.widget.RelativeLayout.LayoutParams;
     @Override
 	public boolean onCreateOptionsMenu(final Menu pMenu)
     {
-    	pMenu.add(0, MENU_MY_LOCATION, Menu.NONE, R.string.my_location).setIcon(android.R.drawable.ic_menu_mylocation);
     	pMenu.add(0, MENU_ROUTE, Menu.NONE, R.string.route).setIcon(android.R.drawable.ic_menu_directions);
     	pMenu.add(0, MENU_ABOUT, Menu.NONE, R.string.about).setIcon(android.R.drawable.ic_menu_info_details);
     	return true;
@@ -159,23 +157,14 @@ import android.widget.RelativeLayout.LayoutParams;
 	@Override
 	public boolean onMenuItemSelected(int featureId, MenuItem item)
 	{
-		Location lastFix;
-		
 		switch (item.getItemId())
 		{
-            case MENU_MY_LOCATION:
-                location.followLocation(true);
-                location.enableMyLocation();
-                lastFix = location.getLastFix();
-                if (lastFix != null)
-                    map.getController().setCenter(new GeoPoint(lastFix));
-                return true;
-
             case MENU_ROUTE:
+            {
             	Intent intent = new Intent(this, RouteActivity.class);
             	BoundingBoxE6 bounds = map.getBoundingBox();
             	GeoIntent.setBoundingBoxInExtras(intent, bounds);
-                lastFix = location.getLastFix();
+                Location lastFix = location.getLastFix();
                 if (lastFix != null)
                 {
                 	intent.putExtra(CycloidConstants.GEO_LATITUDE, (int)(lastFix.getLatitude() * 1E6));
@@ -183,7 +172,7 @@ import android.widget.RelativeLayout.LayoutParams;
                 }	
                 startActivityForResult(intent, CycleStreetsConstants.ACTIVITY_GET_ENDPOINTS);
                 return true;
-
+            }
             case MENU_ABOUT:
 				showDialog(DIALOG_ABOUT_ID);
 				return true;
