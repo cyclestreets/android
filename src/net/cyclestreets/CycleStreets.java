@@ -1,11 +1,7 @@
 package net.cyclestreets;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import net.cyclestreets.api.ApiClient;
 import net.cyclestreets.api.Journey;
-import net.cyclestreets.api.Marker;
 import uk.org.invisibility.cycloid.MapActivity;
 import android.app.TabActivity;
 import android.content.Intent;
@@ -76,12 +72,6 @@ public class CycleStreets extends TabActivity {
 	    case R.id.savedroutes:
 	        // not yet
 	        return true;
-	    case R.id.settings:
-	        startActivity(new Intent(this, SettingsActivity.class));
-	        return true;
-	    case R.id.credits:
-	    	// not yet
-	    	return true;
 	    default:
 	        return super.onOptionsItemSelected(item);
 	    }
