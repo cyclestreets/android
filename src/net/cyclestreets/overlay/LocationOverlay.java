@@ -103,7 +103,7 @@ public class LocationOverlay extends MyLocationOverlay {
 
 		tapState_ = tapState_.reset();
 		if(start == null)
-			return;
+			return;		
 		tapState_ = tapState_.next();
 		if(end == null)
 			return;
@@ -173,6 +173,8 @@ public class LocationOverlay extends MyLocationOverlay {
 	private void drawButtons(final Canvas canvas)
 	{
 		locationButton_.draw(canvas);
+		
+		stepBackButton_.enable(tapState_ != TapToRoute.WAITING_FOR_START);
 		stepBackButton_.draw(canvas);
 	} // drawLocationButton
 
@@ -242,11 +244,16 @@ public class LocationOverlay extends MyLocationOverlay {
 		
 		if(!isMyLocationEnabled()) 
 		{
-			enableMyLocation();
-			followLocation(true);
-			final Location lastFix = getLastFix();
-			if (lastFix != null)
-				mapView_.getController().setCenter(new GeoPoint(lastFix));
+			try {
+				enableMyLocation();
+				followLocation(true);
+				final Location lastFix = getLastFix();
+				if (lastFix != null)
+					mapView_.getController().setCenter(new GeoPoint(lastFix));
+			}
+			catch(RuntimeException e) {
+				// might not have location service
+			}
 		}
 		else
 		{
@@ -263,7 +270,7 @@ public class LocationOverlay extends MyLocationOverlay {
 	{
 		if(!stepBackButton_.hit(event))
 			return false;
-		
+
 		switch(tapState_)
 		{
     	case WAITING_FOR_START:
@@ -289,7 +296,7 @@ public class LocationOverlay extends MyLocationOverlay {
     {
     	final GeoPoint p = mapView_.getProjection().fromPixels((int)event.getX(), (int)event.getY());
 
-    	switch(tapState_)
+		switch(tapState_)
     	{
     	case WAITING_FOR_START:
     		setStart(p);

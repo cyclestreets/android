@@ -25,8 +25,7 @@ class OverlayButton
         enabled_ = true;
 	} // OverlayButton
 	
-	public void enable() { enabled_ = true; }
-	public void disable() { enabled_ = false; }
+	public void enable(final boolean on) { enabled_ = on; }
 	
 	public int right() { return pos_.right;	}
 	public int height() { return pos_.height(); }
