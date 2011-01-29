@@ -1,7 +1,11 @@
 package net.cyclestreets;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import net.cyclestreets.api.ApiClient;
 import net.cyclestreets.api.Journey;
+import net.cyclestreets.api.Marker;
 import uk.org.invisibility.cycloid.MapActivity;
 import android.app.TabActivity;
 import android.content.Intent;
@@ -15,9 +19,6 @@ import org.osmdroid.util.GeoPoint;
 
 public class CycleStreets extends TabActivity {
 	public static ApiClient apiClient = new ApiClient();
-	private static Journey journey_;
-	private static GeoPoint from_;
-	private static GeoPoint to_;
 	
     /** Called when the activity is first created. */
 	public void onCreate(Bundle savedInstanceState) {
@@ -52,6 +53,10 @@ public class CycleStreets extends TabActivity {
 	    spec.setContent(new Intent(this, AddPhotoActivity.class));
 	    tabHost.addTab(spec);
 
+	    spec = tabHost.newTabSpec("More").setIndicator("More", res.getDrawable(android.R.drawable.ic_menu_info_details));
+	    spec.setContent(new Intent(this, MoreActivity.class));
+	    tabHost.addTab(spec);
+	    
 	    // start with route tab
 	    tabHost.setCurrentTab(0);
 	}
@@ -83,6 +88,10 @@ public class CycleStreets extends TabActivity {
 	}
 	
 	//////////////////////////////////////////////////
+	private static Journey journey_;
+	private static GeoPoint from_;
+	private static GeoPoint to_;
+
 	static public Journey journey() { return journey_; }
 	static public GeoPoint from() { return from_; }
 	static public GeoPoint to() { return to_; }
@@ -96,9 +105,7 @@ public class CycleStreets extends TabActivity {
 	
 	static public void resetJourney()
 	{
-		journey_ = null;
-		from_ = null;
-		to_ = null;
+		onNewJourney(null, null, null);
 	} // resetJourney
 } // class CycleStreets
 

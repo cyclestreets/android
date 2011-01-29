@@ -5,7 +5,7 @@
     <string name="savedroutes">Saved routes</string>
     <string name="settings">Settings</string>
     <string name="credits">Credits</string>
-	<string name="about_message">Cycloid is an open source cycle map application. It uses OpenStreetMap mapping data, the osmdroid library and the CycleStreets route planing API.</string>
+	<string name="about_message">Cycloid is an open source cycle map application. It uses OpenStreetMap mapping data, the osmdroid library and the CycleStreets route planning API.</string>
 	<string name="about">About</string>
 	<string name="unknown">Unknown</string>
 	<string name="route_from">Route From</string>
