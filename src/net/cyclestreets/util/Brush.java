@@ -7,11 +7,11 @@ import android.graphics.Paint.Style;
 
 public class Brush 
 {
-	static public Paint Grey = createColourBrush(127, 127, 127);
-	static public Paint LightGrey = createColourBrush(192, 192, 192);
-	static public Paint White = createColourBrush(255, 255, 255);
+	static public Paint Grey = createColourBrush(127, 127, 127, 127);
+	static public Paint LightGrey = createColourBrush(255, 192, 192, 192);
+	static public Paint White = createColourBrush(255, 255, 255, 255);
 
-	static private Paint createColourBrush(final int r, final int g, final int b)
+	static private Paint createColourBrush(final int a, final int r, final int g, final int b)
 	{
 		final Paint paint = new Paint();
 		paint.setAntiAlias(true);
@@ -19,14 +19,14 @@ public class Brush
 		paint.setTextAlign(Align.CENTER);
 		paint.setTypeface(Typeface.DEFAULT);
 
-		paint.setARGB(255, r, g, b);
+		paint.setARGB(a, r, g, b);
 		
 		return paint;
 	} // createBgBrush
 
 	static public Paint createTextBrush(final int size)
 	{
-		final Paint paint = createColourBrush(255, 255, 255);
+		final Paint paint = createColourBrush(255, 255, 255, 255);
 
 		paint.setTextAlign(Align.CENTER);
 		paint.setTypeface(Typeface.DEFAULT);
