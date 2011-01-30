@@ -1,7 +1,6 @@
 package net.cyclestreets;
 
 import net.cyclestreets.api.ApiClient;
-import net.cyclestreets.api.Journey;
 import uk.org.invisibility.cycloid.MapActivity;
 import android.app.TabActivity;
 import android.content.Intent;
@@ -11,7 +10,6 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.TabHost;
-import org.osmdroid.util.GeoPoint;
 
 public class CycleStreets extends TabActivity {
 	public static ApiClient apiClient = new ApiClient();
@@ -77,25 +75,5 @@ public class CycleStreets extends TabActivity {
 	    }
 	}
 	
-	//////////////////////////////////////////////////
-	private static Journey journey_;
-	private static GeoPoint from_;
-	private static GeoPoint to_;
-
-	static public Journey journey() { return journey_; }
-	static public GeoPoint from() { return from_; }
-	static public GeoPoint to() { return to_; }
-	
-	static public void onNewJourney(final Journey journey, final GeoPoint from, final GeoPoint to)
-	{
-		journey_ = journey;
-		from_ = from;
-		to_ = to;
-	} // onNewJourney
-	
-	static public void resetJourney()
-	{
-		onNewJourney(null, null, null);
-	} // resetJourney
 } // class CycleStreets
 

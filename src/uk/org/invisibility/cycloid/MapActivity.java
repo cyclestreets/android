@@ -1,6 +1,5 @@
 package uk.org.invisibility.cycloid;
 
-import net.cyclestreets.CycleStreets;
 import net.cyclestreets.CycleStreetsConstants;
 import net.cyclestreets.RoutingTask;
 import net.cyclestreets.R;
@@ -8,6 +7,7 @@ import net.cyclestreets.api.Journey;
 import net.cyclestreets.api.Marker;
 import net.cyclestreets.overlay.LocationOverlay;
 import net.cyclestreets.overlay.PathOfRouteOverlay;
+import net.cyclestreets.planned.Route;
 
 import org.osmdroid.ResourceProxy;
 import org.osmdroid.util.BoundingBoxE6;
@@ -90,7 +90,7 @@ import android.widget.RelativeLayout.LayoutParams;
         
         location.disableMyLocation();
         
-        CycleStreets.onNewJourney(CycleStreets.journey(), location.getStart(), location.getEnd());
+        Route.onNewJourney(Route.journey(), location.getStart(), location.getEnd());
         super.onPause();
     } // onPause
 
@@ -107,7 +107,7 @@ import android.widget.RelativeLayout.LayoutParams;
         map.scrollTo(prefs.getInt(CycloidConstants.PREFS_APP_SCROLL_X, 0), prefs.getInt(CycloidConstants.PREFS_APP_SCROLL_Y, -701896)); /* Greenwich */
         map.getController().setZoom(prefs.getInt(CycloidConstants.PREFS_APP_ZOOM_LEVEL, 14));
 
-       	setJourneyPath(CycleStreets.journey(), CycleStreets.from(), CycleStreets.to());
+       	setJourneyPath(Route.journey(), Route.from(), Route.to());
     } // onResume
      
     @Override
@@ -137,7 +137,7 @@ import android.widget.RelativeLayout.LayoutParams;
     public void onClearRoute()
     {
     	location.resetRoute();
-    	CycleStreets.resetJourney();
+    	Route.resetJourney();
     	path.clearPath();
     	map.invalidate();
     } // onClearRoute
@@ -195,9 +195,9 @@ import android.widget.RelativeLayout.LayoutParams;
    
    @Override
    public void onNewJourney() {
-	   Journey journey = CycleStreets.journey();
+	   Journey journey = Route.journey();
 
-	   setJourneyPath(journey, CycleStreets.from(), CycleStreets.to());
+	   setJourneyPath(journey, Route.from(), Route.to());
 	   
 	   map.getController().setCenter(path.pathStart());
 	   map.postInvalidate();

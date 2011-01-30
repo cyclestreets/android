@@ -1,25 +1,17 @@
 package net.cyclestreets;
 
-//import java.util.ArrayList;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-//import java.util.List;
-import java.util.Map;
-
-import net.cyclestreets.api.Journey;
-import net.cyclestreets.api.Marker;
-
-//import net.cyclestreets.api.Journey;
-//import net.cyclestreets.api.Marker;
-
-//import org.andnav.osm.util.GeoPoint;
+import net.cyclestreets.planned.Route;
+import net.cyclestreets.planned.Segment;
 
 import android.app.ListActivity;
-//import android.app.ProgressDialog;
-//import android.os.AsyncTask;
+import android.content.Context;
 import android.os.Bundle;
-import android.widget.SimpleAdapter;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.BaseAdapter;
+import android.widget.TextView;
 
 public class ItineraryActivity extends ListActivity {
 	/** Keys used to map data to view id's */
@@ -29,53 +21,61 @@ public class ItineraryActivity extends ListActivity {
 		R.id.segment_type, R.id.segment_street, R.id.segment_time,
 		R.id.segment_distance, R.id.segment_cumulative_distance
 	};
-
-	private List<Map<String,Object>> rows_;
-
 	
 	@Override
-    public void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) 
+	{
         super.onCreate(savedInstanceState);
 
-        rows_ = new ArrayList<Map<String, Object>>(); 
-        setupRows(CycleStreets.journey());
-    	// set up SimpleAdapter for itinerary_item
-    	setListAdapter(new SimpleAdapter(ItineraryActivity.this, rows_, R.layout.itinerary_item, fromKeys, toIds));
+        setListAdapter(new SegmentAdapter(this, Route.segments()));
     } // onCreate
 
     @Override
-	protected void onResume() {
+	protected void onResume() 
+    {
 		super.onResume();
 		
 		onContentChanged();
-	} // onResume
+	} // onResume	
+    
+    static class SegmentAdapter extends BaseAdapter
+    {
+    	private final LayoutInflater inflater_;
+    	private final List<Segment> segments_;
+    	
+    	SegmentAdapter(final Context context, final List<Segment> segments)
+    	{
+    		inflater_ = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+    		segments_ = segments;
+    	} // SegmentAdaptor    	
 
-	// utility method to convert segments into rows
-	private static Map<String,Object> createRowMap(Object... items) {
-		Map<String,Object> row = new HashMap<String,Object>();
-		for (int i = 0; i < items.length; i++) {
-			row.put(fromKeys[i], items[i]);
+		@Override
+		public int getCount() 
+		{ 
+			return (segments_ != null) ? segments_.size() : 0; 
 		}
-		return row;
-	} // createRowMap
-	
-	private void setupRows(final Journey journey)
-	{
-		rows_.clear();
-		
-		if(journey == null)
-			return;
-		
-		// Parse route into itinerary rows
-		double cumdist = 0.0;
-		for (Marker marker : journey.markers) {
-			if (marker.type.equals("segment")) {
-				cumdist += marker.distance;
-				rows_.add(createRowMap(R.drawable.icon,		// TODO: use icon based on provision type
-									   marker.name,
-									   marker.time + "m",
-									   marker.distance + "m", "(" + (cumdist/1000) + "km)"));
-			} // if ...
-		} // for ...
-	} // setupRows
+
+		@Override
+		public Object getItem(int position) 
+		{ 
+			return segments_.get(position); 
+		}
+
+		@Override
+		public long getItemId(int position) 
+		{ 
+			return position; 
+		}
+
+		@Override
+		public View getView(int position, View convertView, ViewGroup parent) 
+		{
+			final Segment seg = segments_.get(position);
+			final View v = inflater_.inflate(R.layout.itinerary_item, parent, false);
+			
+			final TextView n = (TextView)v.findViewById(R.id.segment_street);
+			n.setText(seg.street());
+			return v;
+		} // getView
+    } // class SegmentAdaptor
 } // ItineraryActivity

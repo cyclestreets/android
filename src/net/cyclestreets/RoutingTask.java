@@ -1,6 +1,7 @@
 package net.cyclestreets;
 
 import net.cyclestreets.api.Journey;
+import net.cyclestreets.planned.Route;
 
 import org.osmdroid.util.GeoPoint;
 
@@ -71,7 +72,7 @@ public class RoutingTask extends AsyncTask<GeoPoint, Integer, Journey>
        		return;
     	}
 
-   		CycleStreets.onNewJourney(journey, from_, to_);
+   		Route.onNewJourney(journey, from_, to_);
    		whoToTell_.onNewJourney();
 	} // onPostExecute  
 } // NewRouteTask
