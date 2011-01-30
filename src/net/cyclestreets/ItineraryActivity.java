@@ -68,14 +68,22 @@ public class ItineraryActivity extends ListActivity {
 		}
 
 		@Override
-		public View getView(int position, View convertView, ViewGroup parent) 
+		public View getView(final int position, final View convertView, final ViewGroup parent) 
 		{
 			final Segment seg = segments_.get(position);
 			final View v = inflater_.inflate(R.layout.itinerary_item, parent, false);
 			
-			final TextView n = (TextView)v.findViewById(R.id.segment_street);
-			n.setText(seg.street());
+			setText(v, R.id.segment_street, seg.street());
+			setText(v, R.id.segment_distance, seg.distance() + "m");
+			setText(v, R.id.segment_time, seg.time() + "m");
+			
 			return v;
 		} // getView
+		
+		private void setText(final View v, final int id, final String t)
+		{
+			final TextView n = (TextView)v.findViewById(id);
+			n.setText(t);
+		} // setText
     } // class SegmentAdaptor
 } // ItineraryActivity
