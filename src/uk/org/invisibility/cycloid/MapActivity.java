@@ -99,12 +99,14 @@ import android.widget.RelativeLayout.LayoutParams;
     {
     	super.onResume();
 
-        map.scrollTo(prefs.getInt(CycloidConstants.PREFS_APP_SCROLL_X, 0), prefs.getInt(CycloidConstants.PREFS_APP_SCROLL_Y, -701896)); /* Greenwich */
-        map.getController().setZoom(prefs.getInt(CycloidConstants.PREFS_APP_ZOOM_LEVEL, 14));
-
         location.enableLocation(prefs.getBoolean(CycloidConstants.PREFS_APP_MY_LOCATION, false));
         location.followLocation(prefs.getBoolean(CycloidConstants.PREFS_APP_FOLLOW_LOCATION, false));
         
+        map.getScroller().abortAnimation();
+        
+        map.scrollTo(prefs.getInt(CycloidConstants.PREFS_APP_SCROLL_X, 0), prefs.getInt(CycloidConstants.PREFS_APP_SCROLL_Y, -701896)); /* Greenwich */
+        map.getController().setZoom(prefs.getInt(CycloidConstants.PREFS_APP_ZOOM_LEVEL, 14));
+
        	setJourneyPath(CycleStreets.journey(), CycleStreets.from(), CycleStreets.to());
     } // onResume
      
