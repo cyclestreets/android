@@ -36,6 +36,9 @@ public class Route
 	
 		segments_.clear();
 		
+		if(journey_ == null)
+			return;
+		
 		for (final Marker marker : journey.markers) {
 			if (marker.type.equals("segment")) 
 			{
