@@ -171,6 +171,13 @@ import android.widget.RelativeLayout.LayoutParams;
 		}
 		return false;
 	} // onMenuItemSelected
+	
+	@Override 
+	public void onBackPressed()
+	{
+		if(!location.onBackButton())
+			super.onBackPressed();
+	} // onBackPressed
    
    @Override
    public boolean onTrackballEvent(MotionEvent event)

@@ -237,6 +237,11 @@ public class LocationOverlay extends MyLocationOverlay {
     		   tapMarker(event);
     } // onSingleTapUp
     
+    public boolean onBackButton()
+    {
+    	return stepBack(false);
+    } // onBackButton
+    
 	private boolean tapLocation(final MotionEvent event)
 	{
 		if(!locationButton_.hit(event))
@@ -271,6 +276,14 @@ public class LocationOverlay extends MyLocationOverlay {
 		if(!stepBackButton_.hit(event))
 			return false;
 
+		return stepBack(true);
+	} // tapStepBack
+	
+	private boolean stepBack(final boolean tap)
+	{
+		if(!tap && tapState_.isAtEnd())
+			return false;
+				
 		switch(tapState_)
 		{
     	case WAITING_FOR_START:
@@ -347,6 +360,12 @@ public class LocationOverlay extends MyLocationOverlay {
 		{
 			return WAITING_FOR_START;
 		} // reset
+		
+		public boolean isAtEnd()
+		{
+			return (this == previous()) ||
+				   (this == next());
+		} // isAtEnd
 		
 		public TapToRoute previous() 
 		{
