@@ -1,10 +1,10 @@
 package uk.org.invisibility.cycloid;
 
+import java.util.Iterator;
+
 import net.cyclestreets.CycleStreetsConstants;
 import net.cyclestreets.RoutingTask;
 import net.cyclestreets.R;
-import net.cyclestreets.api.Journey;
-import net.cyclestreets.api.Marker;
 import net.cyclestreets.overlay.LocationOverlay;
 import net.cyclestreets.overlay.PathOfRouteOverlay;
 import net.cyclestreets.planned.Route;
@@ -90,7 +90,7 @@ import android.widget.RelativeLayout.LayoutParams;
         
         location.disableMyLocation();
         
-        Route.onNewJourney(Route.journey(), location.getStart(), location.getEnd());
+        Route.setTerminals(location.getStart(), location.getEnd());
         super.onPause();
     } // onPause
 
@@ -107,7 +107,7 @@ import android.widget.RelativeLayout.LayoutParams;
         map.scrollTo(prefs.getInt(CycloidConstants.PREFS_APP_SCROLL_X, 0), prefs.getInt(CycloidConstants.PREFS_APP_SCROLL_Y, -701896)); /* Greenwich */
         map.getController().setZoom(prefs.getInt(CycloidConstants.PREFS_APP_ZOOM_LEVEL, 14));
 
-       	setJourneyPath(Route.journey(), Route.from(), Route.to());
+       	setJourneyPath(Route.points(), Route.from(), Route.to());
     } // onResume
      
     @Override
@@ -195,33 +195,19 @@ import android.widget.RelativeLayout.LayoutParams;
    
    @Override
    public void onNewJourney() {
-	   Journey journey = Route.journey();
-
-	   setJourneyPath(journey, Route.from(), Route.to());
+	   setJourneyPath(Route.points(), Route.from(), Route.to());
 	   
 	   map.getController().setCenter(path.pathStart());
 	   map.postInvalidate();
    } // onNewJourney   
    
-   private void setJourneyPath(final Journey journey, final GeoPoint from, final GeoPoint to)
+   private void setJourneyPath(final Iterator<GeoPoint> points, final GeoPoint from, final GeoPoint to)
    {
-	   location.setRoute(from, to, journey != null);
+	   location.setRoute(from, to, points.hasNext());
 	   
 	   path.clearPath();
-
-	   if(journey == null)
-		   return;
-
-	   for (Marker marker: journey.markers) {
-		   if (marker.type.equals("route")) {
-			   String[] coords = marker.coordinates.split(" ");
-			   for (String coord : coords) {
-				   String[] xy = coord.split(",");
-				   GeoPoint p = new GeoPoint(Double.parseDouble(xy[1]), Double.parseDouble(xy[0]));
-				   path.addPoint(p);
-			   }
-		   } // if ...
-	   } // for ...
+	   while(points.hasNext())
+		   path.addPoint(points.next());
    } // setJourneyPath
 
    private ITileSource mapRenderer()

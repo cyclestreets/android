@@ -16,9 +16,14 @@ public class Route
 	private static GeoPoint from_;
 	private static GeoPoint to_;
 
-	static public Journey journey() { return journey_; }
 	static public GeoPoint from() { return from_; }
 	static public GeoPoint to() { return to_; }
+	
+	static public void setTerminals(final GeoPoint from, final GeoPoint to)
+	{
+		from_ = from;
+		to_ = to;
+	} // setTerminals
 	
 	static public void resetJourney()
 	{
@@ -39,12 +44,16 @@ public class Route
 		if(journey_ == null)
 			return;
 		
+		int total_time = 0;
+		int total_distance = 0;
 		for (final Marker marker : journey.markers) {
 			if (marker.type.equals("segment")) 
 			{
+				total_time += marker.time;
+				total_distance += marker.distance;
 				final Segment seg = new Segment(marker.name,
-												marker.time,
-												marker.distance,
+												total_time,
+												total_distance,
 												grabPoints(marker));
 				segments_.add(seg);
 			} // if ...
@@ -109,8 +118,12 @@ public class Route
 			final GeoPoint p = points_.next();
 			
 			if(!hasNext())
+			{
 				if(segments_.hasNext())
 					points_ = segments_.next().points();
+				else
+					points_ = null;
+			} // if ...
 			
 			return p;
 		} // next
