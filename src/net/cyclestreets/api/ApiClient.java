@@ -113,7 +113,8 @@ public class ApiClient {
 				"n", Double.toString(n),
 				"s", Double.toString(s),
 				"e", Double.toString(e),
-				"w", Double.toString(w)
+				"w", Double.toString(w),
+				"suppressplaceholders", "1"
 				);
 		return photos.photos;
 	}
