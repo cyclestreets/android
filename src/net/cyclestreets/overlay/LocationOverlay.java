@@ -172,6 +172,7 @@ public class LocationOverlay extends MyLocationOverlay {
 	
 	private void drawButtons(final Canvas canvas)
 	{
+		locationButton_.pressed(isMyLocationEnabled());
 		locationButton_.draw(canvas);
 		
 		stepBackButton_.enable(tapState_ != TapToRoute.WAITING_FOR_START);
