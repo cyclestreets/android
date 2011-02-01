@@ -52,8 +52,13 @@ public class CycleStreets extends TabActivity {
 	    tabHost.addTab(spec);
 	    
 	    // start with route tab
-	    tabHost.setCurrentTab(0);
-	}
+	    showMap();
+	} // onCreate
+	
+	public void showMap()
+	{
+		getTabHost().setCurrentTab(0);
+	} // showMap
 	
 	@Override
 	/** build options menu */

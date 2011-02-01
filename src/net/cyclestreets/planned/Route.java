@@ -15,10 +15,8 @@ public class Route
 	private static Journey journey_;
 	private static GeoPoint from_;
 	private static GeoPoint to_;
+	private static int activeSegment_;
 
-	static public GeoPoint from() { return from_; }
-	static public GeoPoint to() { return to_; }
-	
 	static public void setTerminals(final GeoPoint from, final GeoPoint to)
 	{
 		from_ = from;
@@ -40,6 +38,7 @@ public class Route
 		to_ = to;
 	
 		segments_.clear();
+		activeSegment_ = 0;
 		
 		if(journey_ == null)
 			return;
@@ -61,6 +60,12 @@ public class Route
 		} // for ...
 
 	} // onNewJourney
+	
+	static public GeoPoint from() { return from_; }
+	static public GeoPoint to() { return to_; }
+	
+	static public void setActiveSegmentIndex(int index) { activeSegment_ = index; }
+	static public Segment activeSegment() { return activeSegment_ >= 0 ? segments_.get(activeSegment_) : null; }
 	
 	static public List<Segment> segments()
 	{

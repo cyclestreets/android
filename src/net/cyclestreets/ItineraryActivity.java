@@ -1,6 +1,7 @@
 package net.cyclestreets;
 
 import java.util.List;
+
 import net.cyclestreets.planned.Route;
 import net.cyclestreets.planned.Segment;
 
@@ -11,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 
 public class ItineraryActivity extends ListActivity 
@@ -30,7 +32,15 @@ public class ItineraryActivity extends ListActivity
 		
 		onContentChanged();
 	} // onResume	
+
+    @Override
+    protected void onListItemClick(ListView l, View v, int position, long id)
+    {
+    	Route.setActiveSegmentIndex(position);
+    	((CycleStreets)getParent()).showMap();
+    } // onListItemClick
     
+    //////////////////////////////////
     static class SegmentAdapter extends BaseAdapter
     {
     	private final LayoutInflater inflater_;
