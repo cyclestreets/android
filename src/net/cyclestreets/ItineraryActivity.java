@@ -75,7 +75,8 @@ public class ItineraryActivity extends ListActivity {
 			
 			setText(v, R.id.segment_street, seg.street());
 			setText(v, R.id.segment_distance, seg.distance() + "m");
-			setText(v, R.id.segment_time, seg.time());
+			setText(v, R.id.segment_cumulative_distance, seg.runningDistance() + "m");
+			setText(v, R.id.segment_time, seg.runningTime());
 			
 			return v;
 		} // getView

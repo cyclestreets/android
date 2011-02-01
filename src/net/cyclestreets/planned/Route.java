@@ -53,6 +53,7 @@ public class Route
 				total_distance += marker.distance;
 				final Segment seg = new Segment(marker.name,
 												total_time,
+												marker.distance,
 												total_distance,
 												grabPoints(marker));
 				segments_.add(seg);
