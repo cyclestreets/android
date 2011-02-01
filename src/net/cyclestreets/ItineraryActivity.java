@@ -53,19 +53,19 @@ public class ItineraryActivity extends ListActivity {
 		public int getCount() 
 		{ 
 			return (segments_ != null) ? segments_.size() : 0; 
-		}
+		} // getCount
 
 		@Override
 		public Object getItem(int position) 
 		{ 
 			return segments_.get(position); 
-		}
+		} // getItem
 
 		@Override
 		public long getItemId(int position) 
 		{ 
 			return position; 
-		}
+		} // getItemId
 
 		@Override
 		public View getView(final int position, final View convertView, final ViewGroup parent) 
@@ -74,12 +74,26 @@ public class ItineraryActivity extends ListActivity {
 			final View v = inflater_.inflate(R.layout.itinerary_item, parent, false);
 			
 			setText(v, R.id.segment_street, seg.street());
-			setText(v, R.id.segment_distance, seg.distance() + "m");
-			setText(v, R.id.segment_cumulative_distance, seg.runningDistance() + "m");
+			setText(v, R.id.segment_distance, formatDistance(seg.distance()));
+			setText(v, R.id.segment_cumulative_distance, formatRunningDistance(seg.runningDistance()));
 			setText(v, R.id.segment_time, seg.runningTime());
 			
 			return v;
 		} // getView
+		
+		private String formatDistance(int distance)
+		{
+			if(distance < 2000)
+				return String.format("%dm", distance);
+			return formatRunningDistance(distance);
+		} // formatDistance
+		
+		private String formatRunningDistance(int distance)
+		{
+			int km = distance / 1000;
+			int frackm = (int)((distance % 1000) / 10.0);
+			return String.format("%d.%02dkm", km, frackm);
+		} // formatRunningDistance
 		
 		private void setText(final View v, final int id, final String t)
 		{
