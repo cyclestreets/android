@@ -13,15 +13,8 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-public class ItineraryActivity extends ListActivity {
-	/** Keys used to map data to view id's */
-    /** The specific values don't actually matter, as long as they're used consistently */
-	protected static String[] fromKeys = new String[] { "type", "street", "time", "dist", "cumdist" };
-	protected static int[] toIds = new int[] {
-		R.id.segment_type, R.id.segment_street, R.id.segment_time,
-		R.id.segment_distance, R.id.segment_cumulative_distance
-	};
-	
+public class ItineraryActivity extends ListActivity 
+{
 	@Override
     public void onCreate(Bundle savedInstanceState) 
 	{
