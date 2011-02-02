@@ -66,6 +66,10 @@ public class Route
 	
 	static public void setActiveSegmentIndex(int index) { activeSegment_ = index; }
 	static public Segment activeSegment() { return activeSegment_ >= 0 ? segments_.get(activeSegment_) : null; }
+	static public boolean atStart() { return activeSegment_ == 0; }
+	static public boolean atEnd() { return activeSegment_ == segments_.size()-1; }
+	static public void regressActiveSegment() { if(!atStart()) --activeSegment_; }
+	static public void advanceActiveSegment() { if(!atEnd()) ++activeSegment_; }
 	
 	static public List<Segment> segments()
 	{

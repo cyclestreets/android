@@ -133,8 +133,8 @@ import android.widget.RelativeLayout.LayoutParams;
 				RoutingTask.PlotRoute(routeType, placeFrom, placeTo, this, this);
 			}
 		}
-	}
-
+	} // onActivityResult
+    
     public void onRouteNow(final GeoPoint start, final GeoPoint end)
     {
     	RoutingTask.PlotRoute(CycleStreetsConstants.PLAN_BALANCED, start, end, this, this);
@@ -145,6 +145,7 @@ import android.widget.RelativeLayout.LayoutParams;
     	location.resetRoute();
     	Route.resetJourney();
     	path.clearPath();
+    	highlight.clearPath();
     	map.invalidate();
     } // onClearRoute
     

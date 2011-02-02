@@ -16,6 +16,8 @@ class OverlayButton
 	private boolean enabled_;
 	private boolean pressed_;
 	
+	private boolean rightAlign_;
+	
 	public OverlayButton(final Drawable image, final int left, final int top, final float curveRadius)
 	{
 		img_ = image;
@@ -26,10 +28,13 @@ class OverlayButton
         radius_ = curveRadius;
         enabled_ = true;
         pressed_ = false;
+        rightAlign_ = false;
 	} // OverlayButton
 	
 	public void enable(final boolean on) { enabled_ = on; }
 	public void pressed(final boolean on) { pressed_ = on; }
+	
+	public void rightAlign() { rightAlign_ = true; }
 	
 	public int right() { return pos_.right;	}
 	public int height() { return pos_.height(); }
@@ -37,6 +42,10 @@ class OverlayButton
 	public void draw(final Canvas canvas)
 	{
         final Rect screen = canvas.getClipBounds();
+        
+        if(rightAlign_)
+        	reflectPosition(screen);
+        
         screen.offset(pos_.left, pos_.top);
         screen.right = screen.left + pos_.width();
         screen.bottom = screen.top + pos_.height();
@@ -53,6 +62,14 @@ class OverlayButton
         img_.setBounds(screen);
         img_.draw(canvas);
 	} // drawButton
+	
+	private void reflectPosition(final Rect screen) 
+	{
+		int width = pos_.width();
+		pos_.left = (screen.width() - pos_.width()) - pos_.left;
+		pos_.right = pos_.left + width;
+		rightAlign_ = false;
+	} // leftOffset
 	
 	private void shrinkAndDrawInner(final Canvas canvas, final RectF rect, final Paint brush)
 	{
