@@ -35,6 +35,7 @@ public class LocationOverlay extends MyLocationOverlay {
 	private final float radius_;
 
 	private final OverlayButton locationButton_;
+	private final OverlayButton findPlaceButton_;
 	private final OverlayButton stepBackButton_;
 	
 	private final Callback callback_;
@@ -70,9 +71,12 @@ public class LocationOverlay extends MyLocationOverlay {
 											offset_,
 											offset_,
 											radius_);
-        
+        findPlaceButton_ = new OverlayButton(res.getDrawable(android.R.drawable.ic_menu_search),
+        									 locationButton_.right() + offset_,
+        									 offset_,
+        									 radius_);
         stepBackButton_ = new OverlayButton(res.getDrawable(android.R.drawable.ic_menu_revert),
-        									locationButton_.right() + offset_,
+        									findPlaceButton_.right() + offset_,
         									offset_,
         									radius_);
 
@@ -174,6 +178,9 @@ public class LocationOverlay extends MyLocationOverlay {
 	{
 		locationButton_.pressed(isMyLocationEnabled());
 		locationButton_.draw(canvas);
+
+		findPlaceButton_.enable(false);
+		findPlaceButton_.draw(canvas);
 		
 		stepBackButton_.enable(tapState_ != TapToRoute.WAITING_FOR_START);
 		stepBackButton_.draw(canvas);
@@ -186,8 +193,8 @@ public class LocationOverlay extends MyLocationOverlay {
 			return;
 				
 		final Rect screen = canvas.getClipBounds();
-		final int halfWidth = screen.width() / 2;
-        screen.left += halfWidth; 
+		final int leftEdge = screen.width() * 3 / 5;
+        screen.left += leftEdge; 
         screen.top += offset_;
         screen.right -= offset_;
         screen.bottom = screen.top + locationButton_.height();
@@ -406,7 +413,7 @@ public class LocationOverlay extends MyLocationOverlay {
 			case WAITING_FOR_END:
 				return "Tap to set End";
 			case WAITING_TO_ROUTE:
-				return "Tap to plan route";
+				return "Tap to Route";
 			case ALL_DONE:
 				break;
 			} // switch
