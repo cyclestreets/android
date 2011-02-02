@@ -43,5 +43,5 @@ public class Segment
 	public String runningTime() { return running_time_; }
 	public int distance() { return distance_; }
 	public int runningDistance() { return running_distance_; }
-	Iterator<GeoPoint> points() { return points_.iterator(); }
+	public Iterator<GeoPoint> points() { return points_.iterator(); }
 } // class Segment

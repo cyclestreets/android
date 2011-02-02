@@ -15,7 +15,7 @@ public class Route
 	private static Journey journey_;
 	private static GeoPoint from_;
 	private static GeoPoint to_;
-	private static int activeSegment_;
+	private static int activeSegment_ = -1;
 
 	static public void setTerminals(final GeoPoint from, final GeoPoint to)
 	{
@@ -38,7 +38,7 @@ public class Route
 		to_ = to;
 	
 		segments_.clear();
-		activeSegment_ = 0;
+		activeSegment_ = -1;
 		
 		if(journey_ == null)
 			return;

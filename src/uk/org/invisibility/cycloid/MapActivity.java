@@ -8,6 +8,7 @@ import net.cyclestreets.R;
 import net.cyclestreets.overlay.LocationOverlay;
 import net.cyclestreets.overlay.PathOfRouteOverlay;
 import net.cyclestreets.planned.Route;
+import net.cyclestreets.planned.Segment;
 
 import org.osmdroid.ResourceProxy;
 import org.osmdroid.util.BoundingBoxE6;
@@ -44,6 +45,7 @@ import android.widget.RelativeLayout.LayoutParams;
 
 	private MapView map; 
 	private PathOfRouteOverlay path;
+	private PathOfRouteOverlay highlight;
 	private LocationOverlay location;
 	private ResourceProxy proxy;
 	private SharedPreferences prefs;
@@ -67,6 +69,9 @@ import android.widget.RelativeLayout.LayoutParams;
         path = new PathOfRouteOverlay(proxy);
         map.getOverlays().add(path);
 
+        highlight = new PathOfRouteOverlay(PathOfRouteOverlay.HIGHLIGHT_COLOUR, proxy);
+        map.getOverlays().add(highlight);
+        
         location = new LocationOverlay(this.getBaseContext(), map, this, proxy);
         map.getOverlays().add(location);
         
@@ -108,6 +113,7 @@ import android.widget.RelativeLayout.LayoutParams;
         map.getController().setZoom(prefs.getInt(CycloidConstants.PREFS_APP_ZOOM_LEVEL, 14));
 
        	setJourneyPath(Route.points(), Route.from(), Route.to());
+       	setHighlightPath(Route.activeSegment());
     } // onResume
      
     @Override
@@ -197,7 +203,7 @@ import android.widget.RelativeLayout.LayoutParams;
    public void onNewJourney() {
 	   setJourneyPath(Route.points(), Route.from(), Route.to());
 	   
-	   map.getController().setCenter(path.pathStart());
+	   map.getController().setCenter(Route.from());
 	   map.postInvalidate();
    } // onNewJourney   
    
@@ -205,10 +211,18 @@ import android.widget.RelativeLayout.LayoutParams;
    {
 	   location.setRoute(from, to, points.hasNext());
 	   
-	   path.clearPath();
-	   while(points.hasNext())
-		   path.addPoint(points.next());
+	   path.setRoute(points);
    } // setJourneyPath
+   
+   private void setHighlightPath(final Segment segToHighlight)
+   {
+	   highlight.clearPath();
+	   
+	   if(segToHighlight == null)
+		   return;
+	   
+	   highlight.setRoute(segToHighlight.points());
+   } // setHighlightPath
 
    private ITileSource mapRenderer()
    {
