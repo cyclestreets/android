@@ -63,7 +63,7 @@ public class RouteHighlightOverlay extends PathOverlay
 	public void onDraw(final Canvas canvas, final MapView mapView)
 	{
 		if(current_ != Route.activeSegment())
-			refresh(false);
+			refresh();
 		super.onDraw(canvas, mapView);
 	} // onDraw
 	
@@ -78,7 +78,7 @@ public class RouteHighlightOverlay extends PathOverlay
 		nextButton_.draw(canvas);
 	} // onDrawFinished
 
-	private void refresh(final boolean centre)
+	private void refresh()
 	{
 		clearPath();
 		current_ = Route.activeSegment();
@@ -87,10 +87,6 @@ public class RouteHighlightOverlay extends PathOverlay
 		
 		for(final Iterator<GeoPoint> points = current_.points(); points.hasNext(); )
 			addPoint(points.next());
-		
-		if(!centre)
-			return;
-		
 		mapView_.getController().animateTo(current_.start());
 	} // refresh
 
@@ -116,14 +112,12 @@ public class RouteHighlightOverlay extends PathOverlay
 		if(prevButton_.hit(event))
 		{
 			Route.regressActiveSegment();
-			refresh(true);
 			mapView_.invalidate();
 			return true;
 		} // if ...
 		if(nextButton_.hit(event))
 		{
 			Route.advanceActiveSegment();
-			refresh(true);
 			mapView_.invalidate();
 			return true;
 		} // if ...
