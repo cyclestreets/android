@@ -39,6 +39,9 @@ public class Segment
 		return String.format("%d:%02d:%02d", hours, minutes, seconds);
 	} // formatTime
 	
+	public GeoPoint start() { return points_.get(0); }
+	public GeoPoint end() { return points_.get(points_.size()-1); }
+	
 	public String street() { return name_; }
 	public String runningTime() { return running_time_; }
 	public int distance() { return distance_; }

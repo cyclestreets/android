@@ -7,8 +7,8 @@ import net.cyclestreets.RoutingTask;
 import net.cyclestreets.R;
 import net.cyclestreets.overlay.LocationOverlay;
 import net.cyclestreets.overlay.PathOfRouteOverlay;
+import net.cyclestreets.overlay.RouteHighlightOverlay;
 import net.cyclestreets.planned.Route;
-import net.cyclestreets.planned.Segment;
 
 import org.osmdroid.ResourceProxy;
 import org.osmdroid.util.BoundingBoxE6;
@@ -44,9 +44,11 @@ import android.widget.RelativeLayout.LayoutParams;
     private static final int MENU_ROUTE = Menu.FIRST;
 
 	private MapView map; 
+	
 	private PathOfRouteOverlay path;
-	private PathOfRouteOverlay highlight;
+	private RouteHighlightOverlay highlight;
 	private LocationOverlay location;
+	
 	private ResourceProxy proxy;
 	private SharedPreferences prefs;
 	
@@ -69,7 +71,7 @@ import android.widget.RelativeLayout.LayoutParams;
         path = new PathOfRouteOverlay(proxy);
         map.getOverlays().add(path);
 
-        highlight = new PathOfRouteOverlay(PathOfRouteOverlay.HIGHLIGHT_COLOUR, proxy);
+        highlight = new RouteHighlightOverlay(this.getBaseContext(), map, proxy);
         map.getOverlays().add(highlight);
         
         location = new LocationOverlay(this.getBaseContext(), map, this, proxy);
@@ -113,7 +115,6 @@ import android.widget.RelativeLayout.LayoutParams;
         map.getController().setZoom(prefs.getInt(CycloidConstants.PREFS_APP_ZOOM_LEVEL, 14));
 
        	setJourneyPath(Route.points(), Route.from(), Route.to());
-       	setHighlightPath(Route.activeSegment());
     } // onResume
      
     @Override
@@ -145,7 +146,6 @@ import android.widget.RelativeLayout.LayoutParams;
     	location.resetRoute();
     	Route.resetJourney();
     	path.clearPath();
-    	highlight.clearPath();
     	map.invalidate();
     } // onClearRoute
     
@@ -215,16 +215,6 @@ import android.widget.RelativeLayout.LayoutParams;
 	   path.setRoute(points);
    } // setJourneyPath
    
-   private void setHighlightPath(final Segment segToHighlight)
-   {
-	   highlight.clearPath();
-	   
-	   if(segToHighlight == null)
-		   return;
-	   
-	   highlight.setRoute(segToHighlight.points());
-   } // setHighlightPath
-
    private ITileSource mapRenderer()
    {
 	   return TileSourceFactory.getTileSource(prefs.getString(CycloidConstants.PREFS_APP_RENDERER, CycloidConstants.DEFAULT_MAPTYPE));

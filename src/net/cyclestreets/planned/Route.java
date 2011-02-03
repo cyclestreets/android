@@ -64,12 +64,20 @@ public class Route
 	static public GeoPoint from() { return from_; }
 	static public GeoPoint to() { return to_; }
 	
+	static public boolean available() { return journey_ != null; }
 	static public void setActiveSegmentIndex(int index) { activeSegment_ = index; }
 	static public Segment activeSegment() { return activeSegment_ >= 0 ? segments_.get(activeSegment_) : null; }
-	static public boolean atStart() { return activeSegment_ == 0; }
+	static public boolean atStart() { return activeSegment_ <= 0; }
 	static public boolean atEnd() { return activeSegment_ == segments_.size()-1; }
-	static public void regressActiveSegment() { if(!atStart()) --activeSegment_; }
-	static public void advanceActiveSegment() { if(!atEnd()) ++activeSegment_; }
+	static public void regressActiveSegment() 
+	{ 
+		if(!atStart()) --activeSegment_; 
+	} // regressActiveSegment
+	static public void advanceActiveSegment() 
+	{ 
+		if(!atEnd()) 
+			++activeSegment_; 
+	} // advanceActiveSegment
 	
 	static public List<Segment> segments()
 	{

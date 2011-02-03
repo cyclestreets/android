@@ -1,7 +1,6 @@
 package net.cyclestreets.overlay;
 
 import net.cyclestreets.R;
-import net.cyclestreets.planned.Route;
 import net.cyclestreets.util.Brush;
 
 import org.osmdroid.ResourceProxy;
@@ -38,8 +37,6 @@ public class LocationOverlay extends MyLocationOverlay {
 	private final OverlayButton locationButton_;
 	private final OverlayButton findPlaceButton_;
 	private final OverlayButton stepBackButton_;
-	private final OverlayButton prevButton_;
-	private final OverlayButton nextButton_;
 	
 	private final Callback callback_;
 	
@@ -83,17 +80,6 @@ public class LocationOverlay extends MyLocationOverlay {
         									offset_,
         									radius_);
         
-        nextButton_ = new OverlayButton(res.getDrawable(android.R.drawable.ic_media_next),
-        								offset_,
-        								offset_,
-        								radius_);
-        nextButton_.rightAlign();
-        prevButton_ = new OverlayButton(res.getDrawable(android.R.drawable.ic_media_previous),
-        								nextButton_.right() + offset_,
-        								offset_,
-        								radius_);
-        prevButton_.rightAlign();
-
 		textBrush_ = Brush.createTextBrush(offset_);
         
 		final SingleTapDetector tapDetector = new SingleTapDetector(this);
@@ -201,11 +187,6 @@ public class LocationOverlay extends MyLocationOverlay {
 		
 		if(tapState_ != TapToRoute.ALL_DONE)
 			return;
-		
-		prevButton_.enable(Route.atStart());
-		prevButton_.draw(canvas);
-		nextButton_.enable(Route.atEnd());
-		nextButton_.draw(canvas);
 	} // drawLocationButton
 
 	private void drawTapState(final Canvas canvas)
@@ -264,7 +245,6 @@ public class LocationOverlay extends MyLocationOverlay {
     public boolean onSingleTapConfirmed(final MotionEvent event) {
     	return tapLocation(event) ||
     		   tapStepBack(event) || 
-    		   tapPrevNext(event) ||
     		   tapMarker(event);
     } // onSingleTapUp
     
@@ -309,23 +289,6 @@ public class LocationOverlay extends MyLocationOverlay {
 
 		return stepBack(true);
 	} // tapStepBack
-	
-	private boolean tapPrevNext(final MotionEvent event)
-	{
-		if(prevButton_.hit(event))
-		{
-			Route.regressActiveSegment();
-			mapView_.invalidate();
-			return true;
-		} // if ...
-		if(nextButton_.hit(event))
-		{
-			Route.advanceActiveSegment();
-			mapView_.invalidate();
-			return true;
-		} // if ...
-		return false;
-	} // tapPrevNext
 	
 	private boolean stepBack(final boolean tap)
 	{
