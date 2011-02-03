@@ -19,10 +19,11 @@ import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.drawable.Drawable;
 import android.location.Location;
-import android.view.GestureDetector;
 import android.view.MotionEvent;
 
-public class LocationOverlay extends MyLocationOverlay {
+public class LocationOverlay extends MyLocationOverlay 
+							 implements SingleTapListener
+{
 	public interface Callback {
 		void onRouteNow(final GeoPoint from, final GeoPoint to);
 		void onClearRoute();
@@ -40,7 +41,6 @@ public class LocationOverlay extends MyLocationOverlay {
 	
 	private final Callback callback_;
 	
-	private final GestureDetector gestureDetector_;
 	private final MapView mapView_;
 	
 	private OverlayItem startItem_;
@@ -82,10 +82,6 @@ public class LocationOverlay extends MyLocationOverlay {
         
 		textBrush_ = Brush.createTextBrush(offset_);
         
-		final SingleTapDetector tapDetector = new SingleTapDetector(this);
-		gestureDetector_ = new GestureDetector(context, tapDetector);
-		gestureDetector_.setOnDoubleTapListener(tapDetector);
-		
 		startItem_ = null;
 		endItem_ = null;
 		
@@ -166,6 +162,9 @@ public class LocationOverlay extends MyLocationOverlay {
 	@Override
 	protected void onDrawFinished(final Canvas canvas, final MapView mapView) 
 	{
+		if(mapView.isAnimating())
+			return;
+		
         final Projection projection = mapView.getProjection();
         drawMarker(canvas, projection, startItem_);
         drawMarker(canvas, projection, endItem_);
@@ -235,14 +234,8 @@ public class LocationOverlay extends MyLocationOverlay {
 
 	//////////////////////////////////////////////
 	@Override
-	public boolean onTouchEvent(final MotionEvent event, final MapView mapView)
+    public boolean onSingleTap(final MotionEvent event) 
 	{
-		if(gestureDetector_.onTouchEvent(event))
-			return true;
-		return super.onTouchEvent(event, mapView);
-	} // onTouchEvent
-	
-    public boolean onSingleTapConfirmed(final MotionEvent event) {
     	return tapLocation(event) ||
     		   tapStepBack(event) || 
     		   tapMarker(event);
@@ -343,18 +336,6 @@ public class LocationOverlay extends MyLocationOverlay {
     } // tapMarker
 	
 	////////////////////////////////////
-	static private class SingleTapDetector extends GestureDetector.SimpleOnGestureListener
-	{
-		final private LocationOverlay owner_;
-		SingleTapDetector(final LocationOverlay owner) { owner_ = owner; }
-		
-		@Override
-		public boolean onSingleTapConfirmed(final MotionEvent event)
-		{
-			return owner_.onSingleTapConfirmed(event);
-		} // onSingleTapConfirmed
-	} // class SingleTapDetector
-	
 	private enum TapToRoute 
 	{ 
 		WAITING_FOR_START, 

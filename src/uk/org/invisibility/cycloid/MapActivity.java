@@ -8,6 +8,8 @@ import net.cyclestreets.R;
 import net.cyclestreets.overlay.LocationOverlay;
 import net.cyclestreets.overlay.PathOfRouteOverlay;
 import net.cyclestreets.overlay.RouteHighlightOverlay;
+import net.cyclestreets.overlay.SingleTapOverlay;
+import net.cyclestreets.overlay.ZoomButtonsOverlay;
 import net.cyclestreets.planned.Route;
 
 import org.osmdroid.ResourceProxy;
@@ -63,19 +65,22 @@ import android.widget.RelativeLayout.LayoutParams;
 		map = new MapView(this, null);
 		map.setTileSource(mapRenderer());
         map.setResourceProxy(proxy);
-        map.setBuiltInZoomControls(true);
+        map.setBuiltInZoomControls(false);
         map.setMultiTouchControls(true);
         map.getController().setZoom(prefs.getInt(CycloidConstants.PREFS_APP_ZOOM_LEVEL, 14));
         map.scrollTo(prefs.getInt(CycloidConstants.PREFS_APP_SCROLL_X, 0), prefs.getInt(CycloidConstants.PREFS_APP_SCROLL_Y, -701896)); /* Greenwich */
 
         path = new PathOfRouteOverlay(proxy);
         map.getOverlays().add(path);
-
+        map.getOverlays().add(new ZoomButtonsOverlay(this.getBaseContext(), map, proxy));
+        
         highlight = new RouteHighlightOverlay(this.getBaseContext(), map, proxy);
         map.getOverlays().add(highlight);
         
         location = new LocationOverlay(this.getBaseContext(), map, this, proxy);
         map.getOverlays().add(location);
+
+        map.getOverlays().add(new SingleTapOverlay(this.getBaseContext(), map));
         
         final RelativeLayout rl = new RelativeLayout(this);
         rl.addView(map, new RelativeLayout.LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT));

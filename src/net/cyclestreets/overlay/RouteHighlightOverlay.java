@@ -13,20 +13,16 @@ import org.osmdroid.views.overlay.PathOverlay;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Canvas;
-import android.view.GestureDetector;
 import android.view.MotionEvent;
 
 public class RouteHighlightOverlay extends PathOverlay 
+								   implements SingleTapListener
 {
 	static public int HIGHLIGHT_COLOUR = 0x8000ff00;
 
 	private final MapView mapView_;
-	private final GestureDetector gestureDetector_;
 
 	private Segment current_;
-
-	private final int offset_;
-	private final float radius_;
 
 	private final OverlayButton prevButton_;
 	private final OverlayButton nextButton_;	
@@ -40,23 +36,19 @@ public class RouteHighlightOverlay extends PathOverlay
 		current_ = null;
 
 		final Resources res = context.getResources();
-		offset_ = (int)(8.0 * res.getDisplayMetrics().density);		
-		radius_ = offset_ / 2.0f;
+		final int offset = (int)(8.0 * res.getDisplayMetrics().density);		
+		final float radius = offset / 2.0f;
 
-		nextButton_ = new OverlayButton(res.getDrawable(android.R.drawable.ic_media_next),
-				offset_,
-				offset_,
-				radius_);
-        nextButton_.rightAlign();
-        prevButton_ = new OverlayButton(res.getDrawable(android.R.drawable.ic_media_previous),
-        		nextButton_.right() + offset_,
-				offset_,
-				radius_);
-        prevButton_.rightAlign();
-	
-		final SingleTapDetector tapDetector = new SingleTapDetector(this);
-		gestureDetector_ = new GestureDetector(context, tapDetector);
-		gestureDetector_.setOnDoubleTapListener(tapDetector);
+        prevButton_ = new OverlayButton(res.getDrawable(android.R.drawable.btn_minus),
+        		offset,
+				offset,
+				radius);
+        prevButton_.bottomAlign();
+		nextButton_ = new OverlayButton(res.getDrawable(android.R.drawable.btn_plus),
+				prevButton_.right() + offset,
+				offset,
+				radius);
+        nextButton_.bottomAlign();
 	} // MapActivityPathOverlay
 	
 	@Override
@@ -70,8 +62,12 @@ public class RouteHighlightOverlay extends PathOverlay
 	@Override
 	public void onDrawFinished(final Canvas canvas, final MapView mapView)
 	{
+		if(mapView.isAnimating())
+			return;
+		
 		if(!Route.available())
 			return;
+		
 		prevButton_.enable(!Route.atStart());
 		prevButton_.draw(canvas);
 		nextButton_.enable(!Route.atEnd());
@@ -91,16 +87,9 @@ public class RouteHighlightOverlay extends PathOverlay
 	} // refresh
 
 	//////////////////////////////////////////////
-	//////////////////////////////////////////////
 	@Override
-	public boolean onTouchEvent(final MotionEvent event, final MapView mapView)
+    public boolean onSingleTap(final MotionEvent event) 
 	{
-		if(gestureDetector_.onTouchEvent(event))
-			return true;
-		return super.onTouchEvent(event, mapView);
-	} // onTouchEvent
-	
-    public boolean onSingleTapConfirmed(final MotionEvent event) {
     	return tapPrevNext(event);
     } // onSingleTapUp
 
@@ -124,18 +113,4 @@ public class RouteHighlightOverlay extends PathOverlay
 		
 		return false;
 	} // tapPrevNext
-    
-	////////////////////////////////////
-	static private class SingleTapDetector extends GestureDetector.SimpleOnGestureListener
-	{
-		final private RouteHighlightOverlay owner_;
-		SingleTapDetector(final RouteHighlightOverlay owner) { owner_ = owner; }
-		
-		@Override
-		public boolean onSingleTapConfirmed(final MotionEvent event)
-		{
-			return owner_.onSingleTapConfirmed(event);
-		} // onSingleTapConfirmed
-	} // class SingleTapDetector
-
 } // RouteHighlightOverlay
