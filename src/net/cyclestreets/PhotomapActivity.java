@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import org.osmdroid.DefaultResourceProxyImpl;
-import org.osmdroid.ResourceProxy;
 import org.osmdroid.events.DelayedMapListener;
 import org.osmdroid.views.MapView;
 //import org.andnav.osm.views.overlay.MyLocationOverlay;
@@ -13,7 +12,6 @@ import org.osmdroid.views.overlay.ItemizedOverlay;
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
 
 import uk.org.invisibility.cycloid.CycloidConstants;
-import uk.org.invisibility.cycloid.CycloidResourceProxy;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -32,19 +30,16 @@ public class PhotomapActivity extends Activity {
 	//private MyLocationOverlay location;
 	private ItemizedOverlay<PhotoItem> markers;
 	protected List<PhotoItem> photoList;
-	private ResourceProxy proxy;
 	private SharedPreferences prefs;
 
 	public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        proxy = new CycloidResourceProxy(getApplicationContext());
         prefs = getSharedPreferences(CycloidConstants.PREFS_APP_KEY, MODE_PRIVATE);
         photoList = new CopyOnWriteArrayList<PhotoItem>();
         
         map = new MapView(this, null);
         map.setTileSource(TileSourceFactory.getTileSource(prefs.getString(CycloidConstants.PREFS_APP_RENDERER, CycloidConstants.DEFAULT_MAPTYPE)));
-        map.setResourceProxy(proxy);
         map.setBuiltInZoomControls(true);
         map.setMultiTouchControls(true);
         map.getController().setZoom(prefs.getInt(CycloidConstants.PREFS_APP_ZOOM_LEVEL, 14));

@@ -12,7 +12,6 @@ import net.cyclestreets.overlay.SingleTapOverlay;
 import net.cyclestreets.overlay.ZoomButtonsOverlay;
 import net.cyclestreets.planned.Route;
 
-import org.osmdroid.ResourceProxy;
 import org.osmdroid.util.BoundingBoxE6;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
@@ -51,7 +50,6 @@ import android.widget.RelativeLayout.LayoutParams;
 	private RouteHighlightOverlay highlight;
 	private LocationOverlay location;
 	
-	private ResourceProxy proxy;
 	private SharedPreferences prefs;
 	
     @Override
@@ -59,28 +57,26 @@ import android.widget.RelativeLayout.LayoutParams;
     {
         super.onCreate(saved);
 
-        proxy = new CycloidResourceProxy(getApplicationContext());
         prefs = getSharedPreferences(CycloidConstants.PREFS_APP_KEY, MODE_PRIVATE);
 
 		map = new MapView(this, null);
 		map.setTileSource(mapRenderer());
-        map.setResourceProxy(proxy);
         map.setBuiltInZoomControls(false);
         map.setMultiTouchControls(true);
         map.getController().setZoom(prefs.getInt(CycloidConstants.PREFS_APP_ZOOM_LEVEL, 14));
         map.scrollTo(prefs.getInt(CycloidConstants.PREFS_APP_SCROLL_X, 0), prefs.getInt(CycloidConstants.PREFS_APP_SCROLL_Y, -701896)); /* Greenwich */
 
-        path = new PathOfRouteOverlay(proxy);
+        path = new PathOfRouteOverlay(getApplicationContext());
         map.getOverlays().add(path);
-        map.getOverlays().add(new ZoomButtonsOverlay(this.getBaseContext(), map, proxy));
+        map.getOverlays().add(new ZoomButtonsOverlay(getApplicationContext(), map));
         
-        highlight = new RouteHighlightOverlay(this.getBaseContext(), map, proxy);
+        highlight = new RouteHighlightOverlay(getApplicationContext(), map);
         map.getOverlays().add(highlight);
         
-        location = new LocationOverlay(this.getBaseContext(), map, this, proxy);
+        location = new LocationOverlay(getApplicationContext(), map, this);
         map.getOverlays().add(location);
 
-        map.getOverlays().add(new SingleTapOverlay(this.getBaseContext(), map));
+        map.getOverlays().add(new SingleTapOverlay(getApplicationContext(), map));
         
         final RelativeLayout rl = new RelativeLayout(this);
         rl.addView(map, new RelativeLayout.LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT));

@@ -6,7 +6,6 @@ import net.cyclestreets.planned.Route;
 import net.cyclestreets.planned.Segment;
 
 import org.osmdroid.util.GeoPoint;
-import org.osmdroid.ResourceProxy;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.PathOverlay;
 
@@ -27,9 +26,9 @@ public class RouteHighlightOverlay extends PathOverlay
 	private final OverlayButton prevButton_;
 	private final OverlayButton nextButton_;	
 
-	public RouteHighlightOverlay(final Context context, final MapView map, final ResourceProxy resProxy)
+	public RouteHighlightOverlay(final Context context, final MapView map)
 	{
-		super(HIGHLIGHT_COLOUR, resProxy);
+		super(HIGHLIGHT_COLOUR, context);
 		mPaint.setStrokeWidth(6.0f);
 
 		mapView_ = map;

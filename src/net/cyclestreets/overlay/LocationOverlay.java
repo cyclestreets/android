@@ -3,7 +3,6 @@ package net.cyclestreets.overlay;
 import net.cyclestreets.R;
 import net.cyclestreets.util.Brush;
 
-import org.osmdroid.ResourceProxy;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.MapView.Projection;
@@ -52,10 +51,9 @@ public class LocationOverlay extends MyLocationOverlay
 	
 	public LocationOverlay(final Context context, 
 						   final MapView mapView,
-						   final Callback callback,
-						   final ResourceProxy resProxy) 
+						   final Callback callback) 
 	{
-		super(context, mapView, resProxy);
+		super(context, mapView);
 		
 		mapView_ = mapView;
 		callback_ = callback;

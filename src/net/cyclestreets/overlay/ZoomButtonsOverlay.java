@@ -1,6 +1,5 @@
 package net.cyclestreets.overlay;
 
-import org.osmdroid.ResourceProxy;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.Overlay;
 
@@ -17,10 +16,9 @@ public class ZoomButtonsOverlay extends Overlay
 	private final OverlayButton zoomOut_;
 	
 	public ZoomButtonsOverlay(final Context context, 
-							  final MapView mapView,
-							  final ResourceProxy resProxy)
+							  final MapView mapView)
 	{
-		super(resProxy);
+		super(context);
 		
 		mapView_ = mapView;
 
