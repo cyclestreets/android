@@ -1,5 +1,7 @@
 package net.cyclestreets.overlay;
 
+import net.cyclestreets.R;
+
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.Overlay;
 
@@ -26,13 +28,13 @@ public class ZoomButtonsOverlay extends Overlay
 		final int offset = (int)(8.0 * context.getResources().getDisplayMetrics().density);		
 		final float radius = offset / 2.0f;
 		
-		zoomIn_ = new OverlayButton(res.getDrawable(android.R.drawable.btn_plus),
+		zoomIn_ = new OverlayButton(res.getDrawable(R.drawable.btn_plus),
 				offset,
 				offset,
 				radius);
 		zoomIn_.rightAlign().bottomAlign();
 
-		zoomOut_ = new OverlayButton(res.getDrawable(android.R.drawable.btn_minus),
+		zoomOut_ = new OverlayButton(res.getDrawable(R.drawable.btn_minus),
 				 zoomIn_.right() + offset,
 				 offset,
 				 radius);

@@ -65,15 +65,15 @@ public class LocationOverlay extends MyLocationOverlay
 		offset_ = (int)(8.0 * context.getResources().getDisplayMetrics().density);		
 		radius_ = offset_ / 2.0f;
 
-		locationButton_ = new OverlayButton(res.getDrawable(android.R.drawable.ic_menu_mylocation),
+		locationButton_ = new OverlayButton(res.getDrawable(R.drawable.ic_menu_mylocation),
 											offset_,
 											offset_,
 											radius_);
-        findPlaceButton_ = new OverlayButton(res.getDrawable(android.R.drawable.ic_menu_search),
+        findPlaceButton_ = new OverlayButton(res.getDrawable(R.drawable.ic_menu_search),
         									 locationButton_.right() + offset_,
         									 offset_,
         									 radius_);
-        stepBackButton_ = new OverlayButton(res.getDrawable(android.R.drawable.ic_menu_revert),
+        stepBackButton_ = new OverlayButton(res.getDrawable(R.drawable.ic_menu_revert),
         									findPlaceButton_.right() + offset_,
         									offset_,
         									radius_);

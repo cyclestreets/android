@@ -194,7 +194,7 @@ public class RouteActivity extends Activity implements
 	@Override
 	public boolean onCreateOptionsMenu(final Menu pMenu)
     {
-    	pMenu.add(0, MENU_REVERSE_ID, Menu.NONE, "Reverse").setIcon(android.R.drawable.ic_menu_rotate);
+    	pMenu.add(0, MENU_REVERSE_ID, Menu.NONE, "Reverse").setIcon(R.drawable.ic_menu_rotate);
     	return true;
 	}
     	

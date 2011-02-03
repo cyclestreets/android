@@ -2,6 +2,7 @@ package net.cyclestreets.overlay;
 
 import java.util.Iterator;
 
+import net.cyclestreets.R;
 import net.cyclestreets.planned.Route;
 import net.cyclestreets.planned.Segment;
 
@@ -38,12 +39,12 @@ public class RouteHighlightOverlay extends PathOverlay
 		final int offset = (int)(8.0 * res.getDisplayMetrics().density);		
 		final float radius = offset / 2.0f;
 
-        prevButton_ = new OverlayButton(res.getDrawable(android.R.drawable.btn_minus),
+        prevButton_ = new OverlayButton(res.getDrawable(R.drawable.btn_previous),
         		offset,
 				offset,
 				radius);
         prevButton_.bottomAlign();
-		nextButton_ = new OverlayButton(res.getDrawable(android.R.drawable.btn_plus),
+		nextButton_ = new OverlayButton(res.getDrawable(R.drawable.btn_next),
 				prevButton_.right() + offset,
 				offset,
 				radius);

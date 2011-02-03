@@ -153,7 +153,7 @@ import android.widget.RelativeLayout.LayoutParams;
     @Override
 	public boolean onCreateOptionsMenu(final Menu pMenu)
     {
-    	pMenu.add(0, MENU_ROUTE, Menu.NONE, R.string.route).setIcon(android.R.drawable.ic_menu_directions);
+    	pMenu.add(0, MENU_ROUTE, Menu.NONE, R.string.route).setIcon(R.drawable.ic_menu_directions);
     	return true;
 	} // onCreateOptionsMenu
     	
