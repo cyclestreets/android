@@ -25,7 +25,7 @@ public class Segment
 		running_distance_ = running_distance;
 		points_ = points;
 	} // Segment
-	
+			
 	static private String formatTime(int time)
 	{
 		int hours = time/3600;

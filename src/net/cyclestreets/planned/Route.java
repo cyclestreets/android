@@ -45,7 +45,9 @@ public class Route
 		
 		int total_time = 0;
 		int total_distance = 0;
-		for (final Marker marker : journey.markers) {
+		
+		for (final Marker marker : journey.markers) 
+		{
 			if (marker.type.equals("segment")) 
 			{
 				total_time += marker.time;
@@ -59,7 +61,26 @@ public class Route
 			} // if ...
 		} // for ...
 
+		for (final Marker marker : journey.markers) 
+		{ 
+			if(marker.type.equals("route"))			
+			{
+				final Segment startSeg = new Segment(marker.name, 0, 0, 0, makeList(from_, segments_.get(0).start()));
+				final Segment endSeg = new Segment(marker.finish, total_time, 0, total_distance, makeList(segments_.get(segments_.size()-1).end(), to_));
+				segments_.add(0, startSeg);
+				segments_.add(endSeg);
+				break;
+			} // if ... 
+		} // for ...
 	} // onNewJourney
+	
+	static private List<GeoPoint> makeList(final GeoPoint g1, final GeoPoint g2)
+	{
+		final List<GeoPoint> l = new ArrayList<GeoPoint>();
+		l.add(g1);
+		l.add(g2);
+		return l;
+	} // makeList
 	
 	static public GeoPoint from() { return from_; }
 	static public GeoPoint to() { return to_; }
