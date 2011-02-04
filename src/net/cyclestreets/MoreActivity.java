@@ -1,27 +1,25 @@
 package net.cyclestreets;
 
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.app.Dialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.webkit.WebView;
 import android.widget.Button;
 
 public class MoreActivity extends Activity implements View.OnClickListener
 {
-	private static final int DIALOG_ABOUT_ID = 1;
-
 	@Override
 	protected void onCreate(Bundle savedInstanceState) 
 	{
-		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.more);
 		
 		setButtonListener(R.id.settings_button);
 		setButtonListener(R.id.about_button);
+		
+		final WebView donate = (WebView)findViewById(R.id.donate_view);
+		donate.loadUrl("file:///android_asset/donate.html");
 	} // onCreate
 			
 	private void setButtonListener(final int id)
@@ -39,39 +37,15 @@ public class MoreActivity extends Activity implements View.OnClickListener
 				startActivity(new Intent(this, SettingsActivity.class));
 				break;
 			case R.id.about_button:
-				showDialog(DIALOG_ABOUT_ID);
+				startActivity(htmlIntent("credits.html"));
 				break;
 		} // switch
 	} // onClick
 	
-	@Override
-	protected Dialog onCreateDialog(int id)
+	private Intent htmlIntent(final String asset)
 	{
-		Dialog dialog;
-
-		switch (id)
-		{
-			case DIALOG_ABOUT_ID:
-	        	dialog = new AlertDialog.Builder(MoreActivity.this)
-	            .setIcon(R.drawable.icon)
-	            .setTitle(R.string.app_name)
-	            .setMessage(R.string.about_message)
-	            .setPositiveButton
-	            (
-	        		"OK",
-	        		new DialogInterface.OnClickListener()
-		            {
-		                @Override
-		                public void onClick(DialogInterface dialog, int whichButton) {}
-		            }
-	        	).create();
-	        	break;
-
-	        default:
-	            dialog = null;
-	            break;
-		}
-	    
-		return dialog;
-	} // onCreateDialog
+		final Intent intent = new Intent(this, HtmlActivity.class);
+		intent.putExtra("page-to-open", asset);
+		return intent;
+	} // htmlIntent
 } // class MoreActivity

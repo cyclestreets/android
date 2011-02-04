@@ -27,4 +27,5 @@
 	<string name="no_from">Unable to find route start location</string>
 	<string name="no_to">Unable to find route end location</string>
 	<string name="route_failed">Route finding failed</string>
+	<string name="donate">Donate</string>
 </resources>
