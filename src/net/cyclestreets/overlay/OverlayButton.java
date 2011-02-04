@@ -4,7 +4,6 @@ import net.cyclestreets.util.Brush;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Rect;
-import android.graphics.RectF;
 import android.graphics.drawable.Drawable;
 import android.view.MotionEvent;
 
@@ -52,13 +51,12 @@ class OverlayButton
         screen.right = screen.left + pos_.width();
         screen.bottom = screen.top + pos_.height();
 	    
-        final RectF rounded = new RectF(screen);
-		canvas.drawRoundRect(rounded, radius_, radius_, enabled_ ? Brush.White : Brush.LightGrey);
+        OverlayHelper.drawRoundRect(canvas, screen, radius_, enabled_ ? Brush.White : Brush.LightGrey);
 		
 		if(enabled_ && pressed_)
 		{
-			shrinkAndDrawInner(canvas, rounded, Brush.LightGrey);
-			shrinkAndDrawInner(canvas, rounded, Brush.White);
+			shrinkAndDrawInner(canvas, screen, Brush.LightGrey);
+			shrinkAndDrawInner(canvas, screen, Brush.White);
 		} // if ...
 
         img_.setBounds(screen);
@@ -83,13 +81,13 @@ class OverlayButton
 		} // if ...
 	} // reflectPosition
 	
-	private void shrinkAndDrawInner(final Canvas canvas, final RectF rect, final Paint brush)
+	private void shrinkAndDrawInner(final Canvas canvas, final Rect rect, final Paint brush)
 	{
 		rect.left += 4;
 		rect.top += 4;
 		rect.right -= 4;
 		rect.bottom -= 4;
-        canvas.drawRoundRect(rect, radius_, radius_, brush);	 
+        OverlayHelper.drawRoundRect(canvas, rect, radius_, brush);	 
 	} // shrinkAndDrawInner
 	
 	public boolean hit(final MotionEvent event)

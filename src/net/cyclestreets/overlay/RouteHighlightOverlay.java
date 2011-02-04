@@ -5,6 +5,7 @@ import java.util.Iterator;
 import net.cyclestreets.R;
 import net.cyclestreets.planned.Route;
 import net.cyclestreets.planned.Segment;
+import net.cyclestreets.util.Brush;
 
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
@@ -13,6 +14,8 @@ import org.osmdroid.views.overlay.PathOverlay;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Canvas;
+import android.graphics.Paint;
+import android.graphics.Rect;
 import android.view.MotionEvent;
 
 public class RouteHighlightOverlay extends PathOverlay 
@@ -27,6 +30,11 @@ public class RouteHighlightOverlay extends PathOverlay
 	private final OverlayButton prevButton_;
 	private final OverlayButton nextButton_;	
 
+	private final int offset_;
+	private final float radius_;
+	
+	private Paint textBrush_;
+
 	public RouteHighlightOverlay(final Context context, final MapView map)
 	{
 		super(HIGHLIGHT_COLOUR, context);
@@ -35,20 +43,22 @@ public class RouteHighlightOverlay extends PathOverlay
 		mapView_ = map;
 		current_ = null;
 
-		final Resources res = context.getResources();
-		final int offset = (int)(8.0 * res.getDisplayMetrics().density);		
-		final float radius = offset / 2.0f;
+		offset_ = OverlayHelper.offset(context);
+		radius_ = OverlayHelper.cornerRadius(context);
 
+		final Resources res = context.getResources();
         prevButton_ = new OverlayButton(res.getDrawable(R.drawable.btn_previous),
-        		offset,
-				offset,
-				radius);
+        		offset_,
+				offset_,
+				radius_);
         prevButton_.bottomAlign();
 		nextButton_ = new OverlayButton(res.getDrawable(R.drawable.btn_next),
-				prevButton_.right() + offset,
-				offset,
-				radius);
+				prevButton_.right() + offset_,
+				offset_,
+				radius_);
         nextButton_.bottomAlign();
+
+		textBrush_ = Brush.createTextBrush(offset_);
 	} // MapActivityPathOverlay
 	
 	@Override
@@ -68,11 +78,37 @@ public class RouteHighlightOverlay extends PathOverlay
 		if(!Route.available())
 			return;
 		
+		drawButtons(canvas);
+		drawSegmentInfo(canvas);
+	} // onDrawFinished
+	
+	private void drawButtons(final Canvas canvas)
+	{
 		prevButton_.enable(!Route.atStart());
 		prevButton_.draw(canvas);
 		nextButton_.enable(!Route.atEnd());
 		nextButton_.draw(canvas);
-	} // onDrawFinished
+	} // drawButtons
+	
+	private void drawSegmentInfo(final Canvas canvas)
+	{
+		final Segment seg = Route.activeSegment();
+		if(seg == null)
+			return;
+		
+		final Rect screen = canvas.getClipBounds();
+        screen.left += offset_; 
+        screen.right -= offset_;
+        screen.bottom -= (prevButton_.height() - offset_);
+        screen.top = screen.bottom - prevButton_.height();
+		
+		OverlayHelper.drawRoundRect(canvas, screen, radius_, Brush.Grey);
+
+		canvas.drawText(seg.street(), screen.centerX(), screen.centerY() - offset_, textBrush_);
+		final Rect bounds = new Rect();
+		textBrush_.getTextBounds(seg.turn(), 0, seg.turn().length(), bounds);
+		canvas.drawText(seg.turn(), screen.centerX(), screen.centerY() + bounds.height(), textBrush_);
+	} // drawSegmentInfo
 
 	private void refresh()
 	{

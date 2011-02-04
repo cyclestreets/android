@@ -10,12 +10,12 @@ public class OverlayHelper
 {
 	static int offset(final Context context)
 	{
-		return 8;
+		return (int)(8 * context.getResources().getDisplayMetrics().density);
  	} // offset
 	
 	static float cornerRadius(final Context context)
 	{
-		return 4.0f;
+		return 4.0f * context.getResources().getDisplayMetrics().density;
 	} // cornerRadius
 	
 	static void drawRoundRect(final Canvas canvas, 

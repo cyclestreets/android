@@ -53,6 +53,7 @@ public class Route
 				total_time += marker.time;
 				total_distance += marker.distance;
 				final Segment seg = new Segment(marker.name,
+												marker.turn,
 												total_time,
 												marker.distance,
 												total_distance,
@@ -65,8 +66,8 @@ public class Route
 		{ 
 			if(marker.type.equals("route"))			
 			{
-				final Segment startSeg = new Segment(marker.name, 0, 0, 0, makeList(from_, segments_.get(0).start()));
-				final Segment endSeg = new Segment(marker.finish, total_time, 0, total_distance, makeList(segments_.get(segments_.size()-1).end(), to_));
+				final Segment startSeg = new Segment(marker.name, "", 0, 0, 0, makeList(from_, segments_.get(0).start()));
+				final Segment endSeg = new Segment(marker.finish, "", total_time, 0, total_distance, makeList(segments_.get(segments_.size()-1).end(), to_));
 				segments_.add(0, startSeg);
 				segments_.add(endSeg);
 				break;

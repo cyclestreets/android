@@ -15,7 +15,6 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.Rect;
-import android.graphics.RectF;
 import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.view.MotionEvent;
@@ -62,8 +61,8 @@ public class LocationOverlay extends MyLocationOverlay
 		greenWisp_ = res.getDrawable(R.drawable.green_wisp_36x30);
 		redWisp_ = res.getDrawable(R.drawable.red_wisp_36x30);
 
-		offset_ = (int)(8.0 * context.getResources().getDisplayMetrics().density);		
-		radius_ = offset_ / 2.0f;
+		offset_ = OverlayHelper.offset(context);
+		radius_ = OverlayHelper.cornerRadius(context);
 
 		locationButton_ = new OverlayButton(res.getDrawable(R.drawable.ic_menu_mylocation),
 											offset_,
@@ -199,7 +198,7 @@ public class LocationOverlay extends MyLocationOverlay
         screen.right -= offset_;
         screen.bottom = screen.top + locationButton_.height();
 		
-		drawRoundRect(canvas, screen, Brush.Grey);
+		OverlayHelper.drawRoundRect(canvas, screen, radius_, Brush.Grey);
 
 		final Rect bounds = new Rect();
 		textBrush_.getTextBounds(msg, 0, msg.length(), bounds);
@@ -207,11 +206,6 @@ public class LocationOverlay extends MyLocationOverlay
 		canvas.drawText(msg, screen.centerX(), screen.centerY() + bounds.bottom, textBrush_);
 	} // drawTapState
 	
-	private void drawRoundRect(final Canvas canvas, final Rect rect, final Paint brush)
-	{
-		canvas.drawRoundRect(new RectF(rect), radius_, radius_, brush);
-	} // drawRoundRect
-
 	private void drawMarker(final Canvas canvas, 
 							final Projection projection,
 							final OverlayItem marker)

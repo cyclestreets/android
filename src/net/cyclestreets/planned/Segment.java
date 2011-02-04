@@ -8,18 +8,21 @@ import org.osmdroid.util.GeoPoint;
 public class Segment 
 {
 	private final String name_;
+	private final String turn_;
 	private final String running_time_;
 	private final int distance_;
 	private final int running_distance_;
 	private final List<GeoPoint> points_;
 	
 	Segment(final String name,
+			final String turn,
 			final int time,
 			final int distance,
 			final int running_distance,
 			final List<GeoPoint> points)
 	{	
 		name_ = name;
+		turn_ = turn;
 		running_time_ = formatTime(time);
 		distance_ = distance;
 		running_distance_ = running_distance;
@@ -43,6 +46,7 @@ public class Segment
 	public GeoPoint end() { return points_.get(points_.size()-1); }
 	
 	public String street() { return name_; }
+	public String turn() { return turn_; }
 	public String runningTime() { return running_time_; }
 	public int distance() { return distance_; }
 	public int runningDistance() { return running_distance_; }
