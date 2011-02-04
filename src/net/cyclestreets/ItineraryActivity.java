@@ -7,6 +7,7 @@ import net.cyclestreets.planned.Segment;
 
 import android.app.ListActivity;
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -31,6 +32,8 @@ public class ItineraryActivity extends ListActivity
 		super.onResume();
 		
 		onContentChanged();
+		
+		setSelection(Route.activeSegmentIndex());
 	} // onResume	
 
     @Override
@@ -75,11 +78,17 @@ public class ItineraryActivity extends ListActivity
 		{
 			final Segment seg = segments_.get(position);
 			final View v = inflater_.inflate(R.layout.itinerary_item, parent, false);
+
+			final boolean highlight = (position == Route.activeSegmentIndex());
+
 			
-			setText(v, R.id.segment_street, seg.street());
-			setText(v, R.id.segment_distance, formatDistance(seg.distance()));
-			setText(v, R.id.segment_cumulative_distance, formatRunningDistance(seg.runningDistance()));
-			setText(v, R.id.segment_time, seg.runningTime());
+			setText(v, R.id.segment_street, seg.street(), highlight);
+			setText(v, R.id.segment_distance, formatDistance(seg.distance()), highlight);
+			setText(v, R.id.segment_cumulative_distance, formatRunningDistance(seg.runningDistance()), highlight);
+			setText(v, R.id.segment_time, seg.runningTime(), highlight);
+
+			if(highlight)
+				v.setBackgroundColor(Color.GREEN);
 			
 			return v;
 		} // getView
@@ -98,10 +107,12 @@ public class ItineraryActivity extends ListActivity
 			return String.format("%d.%02dkm", km, frackm);
 		} // formatRunningDistance
 		
-		private void setText(final View v, final int id, final String t)
+		private void setText(final View v, final int id, final String t, final boolean highlight)
 		{
 			final TextView n = (TextView)v.findViewById(id);
 			n.setText(t);
+			if(highlight)
+				n.setTextColor(Color.BLACK);
 		} // setText
     } // class SegmentAdaptor
 } // ItineraryActivity

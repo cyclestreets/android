@@ -19,7 +19,7 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
         android:gravity="center_vertical"
-        android:singleLine="true"
+        android:singleLine="false"
         android:ellipsize="marquee"
         android:text="Street" />
     <LinearLayout

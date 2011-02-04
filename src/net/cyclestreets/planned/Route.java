@@ -87,6 +87,7 @@ public class Route
 	
 	static public boolean available() { return journey_ != null; }
 	static public void setActiveSegmentIndex(int index) { activeSegment_ = index; }
+	static public int activeSegmentIndex() { return activeSegment_; }
 	static public Segment activeSegment() { return activeSegment_ >= 0 ? segments_.get(activeSegment_) : null; }
 	static public boolean atStart() { return activeSegment_ <= 0; }
 	static public boolean atEnd() { return activeSegment_ == segments_.size()-1; }
