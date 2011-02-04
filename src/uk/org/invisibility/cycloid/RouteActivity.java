@@ -2,6 +2,7 @@ package uk.org.invisibility.cycloid;
 
 import net.cyclestreets.CycleStreetsConstants;
 import net.cyclestreets.CycleStreetsPreferences;
+import net.cyclestreets.MapActivity;
 import net.cyclestreets.R;
 import net.cyclestreets.util.RouteTypeMapper;
 

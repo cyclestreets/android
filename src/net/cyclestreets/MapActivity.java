@@ -1,4 +1,4 @@
-package uk.org.invisibility.cycloid;
+package net.cyclestreets;
 
 import java.util.Iterator;
 
@@ -18,6 +18,10 @@ import org.osmdroid.views.MapView;
 import org.osmdroid.tileprovider.tilesource.ITileSource;
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
 
+import uk.org.invisibility.cycloid.CycloidConstants;
+import uk.org.invisibility.cycloid.GeoIntent;
+import uk.org.invisibility.cycloid.RouteActivity;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -29,16 +33,6 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.widget.RelativeLayout;
 import android.widget.RelativeLayout.LayoutParams;
-
-/*
- * TODO update person picture
- * TODO add option for shortest plan type
- * TODO active icons for plan types
- * TODO implement search?
- * TODO option to toggle cycle / normal map on and off?
- * TODO geocoding postcodes doesn't work very well
- * TODO geocode in progress indicator in route to/from
- */
 
  public class MapActivity extends Activity implements LocationOverlay.Callback, RoutingTask.Callback
  {

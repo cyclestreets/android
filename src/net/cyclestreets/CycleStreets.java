@@ -1,7 +1,6 @@
 package net.cyclestreets;
 
 import net.cyclestreets.api.ApiClient;
-import uk.org.invisibility.cycloid.MapActivity;
 import android.app.TabActivity;
 import android.content.Intent;
 import android.content.res.Resources;
