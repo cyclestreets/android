@@ -73,7 +73,7 @@ public class LocationOverlay extends MyLocationOverlay
         									offset_,
         									radius_);
         stepBackButton_.bottomAlign();
-        restartButton_ = new OverlayButton(res.getDrawable(android.R.drawable.ic_menu_rotate),
+        restartButton_ = new OverlayButton(res.getDrawable(R.drawable.ic_menu_rotate),
         								   0, 
         								   offset_,
         								   radius_);
