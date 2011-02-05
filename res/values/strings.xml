@@ -20,7 +20,6 @@
 	<string name="not_found">Couldn\'t find</string>
 	<string name="error_route">Unable to find route</string>
 	<string name="my_location">My Location</string>
-	<string name="route">Route</string>
 	<string name="geocoding">Searching for location</string>
 	<string name="select_route_start">Please select route start location:</string>
 	<string name="select_route_end">Please select route end location:</string>
@@ -28,4 +27,8 @@
 	<string name="no_to">Unable to find route end location</string>
 	<string name="route_failed">Route finding failed</string>
 	<string name="donate">Donate</string>
+
+	<!-- Map menu -->
+	<string name="ic_menu_directions">Route</string>
+	<string name="ic_menu_mylocation">Show location</string>
 </resources>

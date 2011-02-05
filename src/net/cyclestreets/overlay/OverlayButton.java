@@ -16,6 +16,7 @@ class OverlayButton
 	private boolean pressed_;
 
 	private boolean bottomAlign_;
+	private boolean centreAlign_;
 	private boolean rightAlign_;
 	
 	public OverlayButton(final Drawable image, final int left, final int top, final float curveRadius)
@@ -36,6 +37,7 @@ class OverlayButton
 	public void pressed(final boolean on) { pressed_ = on; }
 	
 	public OverlayButton bottomAlign() { bottomAlign_ = true; return this; }
+	public OverlayButton centreAlign() { centreAlign_ = true; return this; }
 	public OverlayButton rightAlign() { rightAlign_ = true; return this; }
 	
 	public int right() { return pos_.right;	}
@@ -72,6 +74,13 @@ class OverlayButton
 			pos_.left = (screen.width() - width) - pos_.left;
 			pos_.right = pos_.left + width;
 			rightAlign_ = false;
+		} // if ...
+		if(centreAlign_)
+		{
+			int width = pos_.width();
+			pos_.left = (screen.width() / 2)  - (width / 2);
+			pos_.right = pos_.left + width;
+			centreAlign_ = false;
 		} // if ...
 		if(bottomAlign_)
 		{

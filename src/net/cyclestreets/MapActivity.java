@@ -36,8 +36,6 @@ import android.widget.RelativeLayout.LayoutParams;
 
  public class MapActivity extends Activity implements LocationOverlay.Callback, RoutingTask.Callback
  {
-    private static final int MENU_ROUTE = Menu.FIRST;
-
 	private MapView map; 
 	
 	private PathOfRouteOverlay path;
@@ -113,7 +111,8 @@ import android.widget.RelativeLayout.LayoutParams;
     } // onResume
      
     @Override
-	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) 
+    {
 		super.onActivityResult(requestCode, resultCode, data);
 		if (requestCode == CycleStreetsConstants.ACTIVITY_GET_ENDPOINTS) {
 			if (resultCode == RESULT_OK) {
@@ -145,9 +144,10 @@ import android.widget.RelativeLayout.LayoutParams;
     } // onClearRoute
     
     @Override
-	public boolean onCreateOptionsMenu(final Menu pMenu)
+	public boolean onCreateOptionsMenu(final Menu menu)
     {
-    	pMenu.add(0, MENU_ROUTE, Menu.NONE, R.string.route).setIcon(R.drawable.ic_menu_directions);
+    	menu.add(0, R.string.ic_menu_directions, Menu.NONE, R.string.ic_menu_directions).setIcon(R.drawable.ic_menu_directions);
+    	menu.add(0, R.string.ic_menu_mylocation, Menu.NONE, R.string.ic_menu_mylocation).setIcon(R.drawable.ic_menu_mylocation);
     	return true;
 	} // onCreateOptionsMenu
     	
@@ -156,12 +156,12 @@ import android.widget.RelativeLayout.LayoutParams;
 	{
 		switch (item.getItemId())
 		{
-            case MENU_ROUTE:
+            case R.string.ic_menu_directions:
             {
-            	Intent intent = new Intent(this, RouteActivity.class);
-            	BoundingBoxE6 bounds = map.getBoundingBox();
+            	final Intent intent = new Intent(this, RouteActivity.class);
+            	final BoundingBoxE6 bounds = map.getBoundingBox();
             	GeoIntent.setBoundingBoxInExtras(intent, bounds);
-                Location lastFix = location.getLastFix();
+            	final Location lastFix = location.getLastFix();
                 if (lastFix != null)
                 {
                 	intent.putExtra(CycloidConstants.GEO_LATITUDE, (int)(lastFix.getLatitude() * 1E6));
@@ -169,8 +169,11 @@ import android.widget.RelativeLayout.LayoutParams;
                 }	
                 startActivityForResult(intent, CycleStreetsConstants.ACTIVITY_GET_ENDPOINTS);
                 return true;
-            }
-		}
+            } // case
+            case R.string.ic_menu_mylocation:
+            	location.enableLocation(!location.isMyLocationEnabled());
+            	break;
+		} // switch
 		return false;
 	} // onMenuItemSelected
 	

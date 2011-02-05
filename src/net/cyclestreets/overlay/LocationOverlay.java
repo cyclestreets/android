@@ -33,9 +33,9 @@ public class LocationOverlay extends MyLocationOverlay
 	private final int offset_;
 	private final float radius_;
 
-	private final OverlayButton locationButton_;
-	private final OverlayButton findPlaceButton_;
+	private final OverlayButton locationButton_;	
 	private final OverlayButton stepBackButton_;
+	private final OverlayButton restartButton_;
 	
 	private final Callback callback_;
 	
@@ -67,15 +67,18 @@ public class LocationOverlay extends MyLocationOverlay
 		locationButton_ = new OverlayButton(res.getDrawable(R.drawable.ic_menu_mylocation),
 											offset_,
 											offset_,
-											radius_);
-        findPlaceButton_ = new OverlayButton(res.getDrawable(R.drawable.ic_menu_search),
-        									 locationButton_.right() + offset_,
-        									 offset_,
-        									 radius_);
+											radius_);		
         stepBackButton_ = new OverlayButton(res.getDrawable(R.drawable.ic_menu_revert),
-        									findPlaceButton_.right() + offset_,
+        									offset_,
         									offset_,
         									radius_);
+        stepBackButton_.bottomAlign();
+        restartButton_ = new OverlayButton(res.getDrawable(android.R.drawable.ic_menu_rotate),
+        								   0, 
+        								   offset_,
+        								   radius_);
+        restartButton_.centreAlign();
+        restartButton_.bottomAlign();
         
 		textBrush_ = Brush.createTextBrush(offset_);
         
@@ -92,6 +95,30 @@ public class LocationOverlay extends MyLocationOverlay
 		else
 			disableMyLocation();
 	} // enableLocation
+	
+	public void enableAndFollowLocation(final boolean enable)
+	{
+		if(enable) 
+		{
+			try {
+				enableMyLocation();
+				followLocation(true);
+				final Location lastFix = getLastFix();
+				if (lastFix != null)
+					mapView_.getController().setCenter(new GeoPoint(lastFix));
+			}
+			catch(RuntimeException e) {
+				// might not have location service
+			}
+		}
+		else
+		{
+			followLocation(false);
+			disableMyLocation();
+		} // if ...
+		
+		mapView_.invalidate();
+	} // enableAndFollowLocation
 	
 	public void setRoute(final GeoPoint start, final GeoPoint end, final boolean complete)
 	{
@@ -175,14 +202,13 @@ public class LocationOverlay extends MyLocationOverlay
 		locationButton_.pressed(isMyLocationEnabled());
 		locationButton_.draw(canvas);
 
-		findPlaceButton_.enable(false);
-		findPlaceButton_.draw(canvas);
-		
-		stepBackButton_.enable(tapState_ != TapToRoute.WAITING_FOR_START);
-		stepBackButton_.draw(canvas);
-		
+		stepBackButton_.enable(tapState_ != TapToRoute.ALL_DONE);
 		if(tapState_ != TapToRoute.ALL_DONE)
-			return;
+			stepBackButton_.draw(canvas);
+
+		restartButton_.enable(tapState_ == TapToRoute.ALL_DONE);
+		if(tapState_ == TapToRoute.ALL_DONE)
+			restartButton_.draw(canvas);
 	} // drawLocationButton
 
 	private void drawTapState(final Canvas canvas)
@@ -192,8 +218,7 @@ public class LocationOverlay extends MyLocationOverlay
 			return;
 				
 		final Rect screen = canvas.getClipBounds();
-		final int leftEdge = screen.width() * 3 / 5;
-        screen.left += leftEdge; 
+        screen.left += locationButton_.right() + offset_; 
         screen.top += offset_;
         screen.right -= offset_;
         screen.bottom = screen.top + locationButton_.height();
@@ -230,6 +255,7 @@ public class LocationOverlay extends MyLocationOverlay
 	{
     	return tapLocation(event) ||
     		   tapStepBack(event) || 
+    		   tapRestart(event) ||
     		   tapMarker(event);
     } // onSingleTapUp
 	
@@ -250,38 +276,26 @@ public class LocationOverlay extends MyLocationOverlay
 		if(!locationButton_.hit(event))
 			return false;
 		
-		if(!isMyLocationEnabled()) 
-		{
-			try {
-				enableMyLocation();
-				followLocation(true);
-				final Location lastFix = getLastFix();
-				if (lastFix != null)
-					mapView_.getController().setCenter(new GeoPoint(lastFix));
-			}
-			catch(RuntimeException e) {
-				// might not have location service
-			}
-		}
-		else
-		{
-			followLocation(false);
-			disableMyLocation();
-		} // if ...
-		
-		mapView_.invalidate();
+		enableAndFollowLocation(!isMyLocationEnabled()); 
 
 		return true;
 	} // tapLocation
 	
 	private boolean tapStepBack(final MotionEvent event)
 	{
-		if(!stepBackButton_.hit(event))
+		if(!stepBackButton_.enabled() || !stepBackButton_.hit(event))
 			return false;
-		if(!stepBackButton_.enabled())
-			return true;
+
 		return stepBack(true);
 	} // tapStepBack
+	
+	private boolean tapRestart(final MotionEvent event)
+	{
+		if(!restartButton_.enabled() || !restartButton_.hit(event))
+			return false;
+
+		return stepBack(true);
+	} // tapRestart
 	
 	private boolean stepBack(final boolean tap)
 	{
