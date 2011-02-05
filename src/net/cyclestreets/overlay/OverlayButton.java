@@ -54,8 +54,9 @@ class OverlayButton
         screen.right = screen.left + pos_.width();
         screen.bottom = screen.top + pos_.height();
 	    
+		drawOutLine(canvas, screen);
         OverlayHelper.drawRoundRect(canvas, screen, radius_, enabled_ ? Brush.White : Brush.LightGrey);
-		
+        
 		if(enabled_ && pressed_)
 		{
 			shrinkAndDrawInner(canvas, screen, Brush.LightGrey);
@@ -65,7 +66,34 @@ class OverlayButton
         img_.setBounds(screen);
         img_.draw(canvas);
 	} // drawButton
+
+	private void drawOutLine(final Canvas canvas, final Rect button)
+	{
+		final Rect outline = new Rect(button);
+		--outline.left;
+		--outline.top;
+		++outline.right;
+		++outline.bottom;
+		OverlayHelper.drawRoundRect(canvas, outline, radius_, Brush.LightGrey);
+	} // drawOutLine
 	
+	private void shrinkAndDrawInner(final Canvas canvas, final Rect rect, final Paint brush)
+	{
+		rect.left += 4;
+		rect.top += 4;
+		rect.right -= 4;
+		rect.bottom -= 4;
+        OverlayHelper.drawRoundRect(canvas, rect, radius_, brush);	 
+	} // shrinkAndDrawInner
+	
+	public boolean hit(final MotionEvent event)
+	{
+		int x = (int)event.getX();
+		int y = (int)event.getY();
+		
+		return pos_.contains(x, y);
+	} // contains
+
 	private void reflectPosition(final Rect screen) 
 	{
 		if(rightAlign_) 
@@ -91,20 +119,4 @@ class OverlayButton
 		} // if ...
 	} // reflectPosition
 	
-	private void shrinkAndDrawInner(final Canvas canvas, final Rect rect, final Paint brush)
-	{
-		rect.left += 4;
-		rect.top += 4;
-		rect.right -= 4;
-		rect.bottom -= 4;
-        OverlayHelper.drawRoundRect(canvas, rect, radius_, brush);	 
-	} // shrinkAndDrawInner
-	
-	public boolean hit(final MotionEvent event)
-	{
-		int x = (int)event.getX();
-		int y = (int)event.getY();
-		
-		return pos_.contains(x, y);
-	} // contains
 } // class OverlayButton
