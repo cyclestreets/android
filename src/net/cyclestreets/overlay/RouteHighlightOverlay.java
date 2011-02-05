@@ -97,10 +97,10 @@ public class RouteHighlightOverlay extends PathOverlay
 			return;
 		
 		final Rect screen = canvas.getClipBounds();
-        screen.left += offset_; 
+        screen.left += prevButton_.right() + offset_; 
+        screen.top += offset_;
         screen.right -= offset_;
-        screen.bottom -= (prevButton_.height() - offset_);
-        screen.top = screen.bottom - prevButton_.height();
+        screen.bottom = screen.top + prevButton_.height();
 		
 		OverlayHelper.drawRoundRect(canvas, screen, radius_, Brush.Grey);
 
