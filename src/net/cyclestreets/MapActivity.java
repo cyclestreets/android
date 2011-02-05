@@ -8,7 +8,7 @@ import net.cyclestreets.R;
 import net.cyclestreets.overlay.LocationOverlay;
 import net.cyclestreets.overlay.PathOfRouteOverlay;
 import net.cyclestreets.overlay.RouteHighlightOverlay;
-import net.cyclestreets.overlay.SingleTapOverlay;
+import net.cyclestreets.overlay.TapOverlay;
 import net.cyclestreets.overlay.ZoomButtonsOverlay;
 import net.cyclestreets.planned.Route;
 
@@ -70,7 +70,7 @@ import android.widget.RelativeLayout.LayoutParams;
         location = new LocationOverlay(getApplicationContext(), map, this);
         map.getOverlays().add(location);
 
-        map.getOverlays().add(new SingleTapOverlay(getApplicationContext(), map));
+        map.getOverlays().add(new TapOverlay(getApplicationContext(), map));
         
         final RelativeLayout rl = new RelativeLayout(this);
         rl.addView(map, new RelativeLayout.LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT));
@@ -138,8 +138,8 @@ import android.widget.RelativeLayout.LayoutParams;
     
     public void onClearRoute()
     {
-    	location.resetRoute();
     	Route.resetJourney();
+    	location.resetRoute();
     	path.clearPath();
     	map.invalidate();
     } // onClearRoute

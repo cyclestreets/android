@@ -10,12 +10,12 @@ import android.view.MotionEvent;
 import android.view.GestureDetector.OnDoubleTapListener;
 import android.view.GestureDetector.OnGestureListener;
 
-public class SingleTapOverlay extends Overlay implements OnDoubleTapListener, OnGestureListener 
+public class TapOverlay extends Overlay implements OnDoubleTapListener, OnGestureListener 
 {
 	private final GestureDetector gestureDetector_;
 	private final MapView mapView_;
 	
-	public SingleTapOverlay(final Context context, final MapView mapView)
+	public TapOverlay(final Context context, final MapView mapView)
 	{
 		super(context);
 		
@@ -38,21 +38,33 @@ public class SingleTapOverlay extends Overlay implements OnDoubleTapListener, On
 	{
 		for(final Overlay overlay : mapView_.getOverlays())
 		{
-			if(!(overlay instanceof SingleTapListener))
+			if(!(overlay instanceof TapListener))
 				continue;
-			final SingleTapListener l = (SingleTapListener)overlay;
+			final TapListener l = (TapListener)overlay;
 			if(l.onSingleTap(e))
 				return true;
 		}
 		return false;
 	} // onSingleTapConfirmed
+
+	@Override
+	public boolean onDoubleTap(final MotionEvent e) 
+	{ 
+		for(final Overlay overlay : mapView_.getOverlays())
+		{
+			if(!(overlay instanceof TapListener))
+				continue;
+			final TapListener l = (TapListener)overlay;
+			if(l.onDoubleTap(e))
+				return true;
+		}
+		return false; 
+	} // onDoubleTap
 	
 	@Override
 	protected void onDraw(final Canvas canvas, final MapView mapView) {	}
 	@Override
 	protected void onDrawFinished(final Canvas canvas, final MapView mapView) { }
-	@Override
-	public boolean onDoubleTap(final MotionEvent e) { return false; }
 	@Override
 	public boolean onDoubleTapEvent(MotionEvent e) { return false; }
 	@Override

@@ -20,7 +20,7 @@ import android.location.Location;
 import android.view.MotionEvent;
 
 public class LocationOverlay extends MyLocationOverlay 
-							 implements SingleTapListener
+							 implements TapListener
 {
 	public interface Callback {
 		void onRouteNow(final GeoPoint from, final GeoPoint to);
@@ -232,6 +232,13 @@ public class LocationOverlay extends MyLocationOverlay
     		   tapStepBack(event) || 
     		   tapMarker(event);
     } // onSingleTapUp
+	
+	@Override
+	public boolean onDoubleTap(final MotionEvent event)
+	{
+		return locationButton_.hit(event) ||
+			   stepBackButton_.hit(event);
+	} // onDoubleTap
     
     public boolean onBackButton()
     {
@@ -271,7 +278,8 @@ public class LocationOverlay extends MyLocationOverlay
 	{
 		if(!stepBackButton_.hit(event))
 			return false;
-
+		if(!stepBackButton_.enabled())
+			return true;
 		return stepBack(true);
 	} // tapStepBack
 	

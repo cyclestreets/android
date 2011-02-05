@@ -19,7 +19,7 @@ import android.graphics.Rect;
 import android.view.MotionEvent;
 
 public class RouteHighlightOverlay extends PathOverlay 
-								   implements SingleTapListener
+								   implements TapListener
 {
 	static public int HIGHLIGHT_COLOUR = 0x8000ff00;
 
@@ -128,25 +128,47 @@ public class RouteHighlightOverlay extends PathOverlay
 	{
     	return tapPrevNext(event);
     } // onSingleTapUp
+	
+	public boolean onDoubleTap(final MotionEvent event)
+	{
+		return doubleTapPrevNext(event);
+	} // onDoubleTap
 
     private boolean tapPrevNext(final MotionEvent event)
 	{
 		if(!Route.available())
 			return false;
 		
-		if(prevButton_.hit(event))
-		{
-			Route.regressActiveSegment();
-			mapView_.invalidate();
-			return true;
-		} // if ...
-		if(nextButton_.hit(event))
-		{
-			Route.advanceActiveSegment();
-			mapView_.invalidate();
-			return true;
-		} // if ...
+		if(!prevButton_.hit(event) && !nextButton_.hit(event))
+			return false;
 		
-		return false;
+		if(prevButton_.hit(event))
+			Route.regressActiveSegment();
+
+		if(nextButton_.hit(event))
+			Route.advanceActiveSegment();
+
+		mapView_.invalidate();
+		return true;
 	} // tapPrevNext
+    
+    private boolean doubleTapPrevNext(final MotionEvent event)
+    {
+    	if(!Route.available())
+    		return false;
+    	
+		if(!prevButton_.hit(event) && !nextButton_.hit(event))
+			return false;
+
+		if(prevButton_.hit(event))
+    		while(!Route.atStart())
+    			Route.regressActiveSegment();
+
+		if(nextButton_.hit(event))
+			while(!Route.atEnd())
+				Route.advanceActiveSegment();
+		
+		mapView_.invalidate();
+		return true;
+    } // doubleTapPrevNext
 } // RouteHighlightOverlay

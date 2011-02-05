@@ -11,7 +11,7 @@ import android.graphics.Canvas;
 import android.view.MotionEvent;
 
 public class ZoomButtonsOverlay extends Overlay 
-							    implements SingleTapListener
+							    implements TapListener
 {
 	private final MapView mapView_;
 	private final OverlayButton zoomIn_;
@@ -69,17 +69,24 @@ public class ZoomButtonsOverlay extends Overlay
 	{
     	return tapZoom(event);
     } // onSingleTapUp
+	
+	public boolean onDoubleTap(final MotionEvent event)
+	{
+		return zoomIn_.hit(event) || zoomOut_.hit(event);
+	} // onDoubleTap
 
     private boolean tapZoom(final MotionEvent event)
 	{
 		if(zoomIn_.hit(event))
 		{
-			mapView_.getController().zoomIn();
+			if(zoomIn_.enabled())
+				mapView_.getController().zoomIn();
 			return true;
 		} // if ...
 		if(zoomOut_.hit(event))
 		{
-			mapView_.getController().zoomOut();
+			if(zoomOut_.enabled())
+				mapView_.getController().zoomOut();
 			return true;
 		} // if ...
 		

@@ -32,6 +32,7 @@ class OverlayButton
 	} // OverlayButton
 	
 	public void enable(final boolean on) { enabled_ = on; }
+	public boolean enabled() { return enabled_; }
 	public void pressed(final boolean on) { pressed_ = on; }
 	
 	public OverlayButton bottomAlign() { bottomAlign_ = true; return this; }
@@ -92,9 +93,6 @@ class OverlayButton
 	
 	public boolean hit(final MotionEvent event)
 	{
-		if(!enabled_)
-			return false;
-		
 		int x = (int)event.getX();
 		int y = (int)event.getY();
 		
