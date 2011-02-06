@@ -6,6 +6,7 @@ import net.cyclestreets.R;
 import net.cyclestreets.planned.Route;
 import net.cyclestreets.planned.Segment;
 import net.cyclestreets.util.Brush;
+import net.cyclestreets.util.Draw;
 
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
@@ -16,6 +17,7 @@ import android.content.res.Resources;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.graphics.Paint.Align;
 import android.view.MotionEvent;
 
 public class RouteHighlightOverlay extends PathOverlay 
@@ -59,6 +61,8 @@ public class RouteHighlightOverlay extends PathOverlay
         nextButton_.bottomAlign();
 
 		textBrush_ = Brush.createTextBrush(offset_);
+		textBrush_.setTextAlign(Align.LEFT);
+
 	} // MapActivityPathOverlay
 	
 	@Override
@@ -96,18 +100,23 @@ public class RouteHighlightOverlay extends PathOverlay
 		if(seg == null)
 			return;
 		
-		final Rect screen = canvas.getClipBounds();
-        screen.left += prevButton_.right() + offset_; 
-        screen.top += offset_;
-        screen.right -= offset_;
-        screen.bottom = screen.top + prevButton_.height();
+		final Rect box = canvas.getClipBounds();
+		box.left += prevButton_.right() + offset_; 
+		box.top += offset_;
+		box.right -= offset_;
+		box.bottom = box.top + prevButton_.height();
+        
+        final Rect textBox = new Rect(box);
+        textBox.left += offset_;
+        textBox.right -= offset_;
+		int bottom = Draw.measureTextInRect(canvas, textBrush_, textBox, seg.toString());
 		
-		OverlayHelper.drawRoundRect(canvas, screen, radius_, Brush.Grey);
+		if(bottom >= box.bottom)
+			box.bottom = bottom + offset_;
+		
+		OverlayHelper.drawRoundRect(canvas, box, radius_, Brush.Grey);
 
-		canvas.drawText(seg.street(), screen.centerX(), screen.centerY() - offset_, textBrush_);
-		final Rect bounds = new Rect();
-		textBrush_.getTextBounds(seg.turn(), 0, seg.turn().length(), bounds);
-		canvas.drawText(seg.turn(), screen.centerX(), screen.centerY() + bounds.height(), textBrush_);
+		Draw.drawTextInRect(canvas, textBrush_, textBox, seg.toString());
 	} // drawSegmentInfo
 
 	private void refresh()

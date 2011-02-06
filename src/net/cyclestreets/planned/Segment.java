@@ -22,7 +22,7 @@ public class Segment
 			final List<GeoPoint> points)
 	{	
 		name_ = name;
-		turn_ = turn;
+		turn_ = turn.length() != 0 ? turn.substring(0,1).toUpperCase() + turn.substring(1) : turn;
 		running_time_ = formatTime(time);
 		distance_ = distance;
 		running_distance_ = running_distance;
@@ -41,6 +41,13 @@ public class Segment
 		
 		return String.format("%d:%02d:%02d", hours, minutes, seconds);
 	} // formatTime
+	
+	public String toString() 
+	{
+		if(turn_.length() == 0)
+			return street();
+		return turn() + " into " + street();
+	} // toString
 	
 	public GeoPoint start() { return points_.get(0); }
 	public GeoPoint end() { return points_.get(points_.size()-1); }

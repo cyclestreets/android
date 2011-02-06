@@ -11,7 +11,6 @@ import net.cyclestreets.api.Marker;
 
 public class Route 
 {
-	//////////////////////////////////////////////////
 	private static Journey journey_;
 	private static GeoPoint from_;
 	private static GeoPoint to_;
@@ -73,6 +72,8 @@ public class Route
 				break;
 			} // if ... 
 		} // for ...
+		
+		activeSegment_ = 0;
 	} // onNewJourney
 	
 	static private List<GeoPoint> makeList(final GeoPoint g1, final GeoPoint g2)
