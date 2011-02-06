@@ -17,10 +17,6 @@ public final class RouteTypeMapper {
 		return map;
 	} // initialiseMappings
 
-	private RouteTypeMapper() {
-		// prevent instantiation
-	} // RouteTypeMapper
-	
 	static public String nameFromId(int id) {
 		return mappings.get(id);
 	} // nameFromId
@@ -30,5 +26,9 @@ public final class RouteTypeMapper {
 			if(entry.getValue().equals(name))
 				return entry.getKey();
 		return -1;
-	}
+	} // idFromName
+
+	private RouteTypeMapper() {
+		// prevent instantiation
+	} // RouteTypeMapper	
 } // class RouteTypeMapper

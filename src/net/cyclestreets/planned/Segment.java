@@ -5,7 +5,7 @@ import java.util.List;
 
 import org.osmdroid.util.GeoPoint;
 
-public class Segment 
+public abstract class Segment 
 {
 	private final String name_;
 	private final String turn_;
@@ -58,4 +58,41 @@ public class Segment
 	public int distance() { return distance_; }
 	public int runningDistance() { return running_distance_; }
 	public Iterator<GeoPoint> points() { return points_.iterator(); }
+
+	static public class Start extends Segment 
+	{
+		Start(final String journey, final List<GeoPoint> points)
+		{
+			super(journey, "", 0, 0, 0, points);
+		} // Start
+	} // class Start
+	
+	static public class End extends Segment
+	{
+		End(final String destination, 
+			final int total_time, 
+			final int total_distance, 
+			final List<GeoPoint> points)	
+		{
+			super("Destination " + destination, "", total_time, 0, total_distance, points);
+		} // End
+	} // End
+	
+	static public class Journey extends Segment
+	{
+		Journey(final String name,
+				final String turn,
+				final int time,
+				final int distance,
+				final int running_distance,
+				final List<GeoPoint> points)
+		{
+			super(name, 
+				  turn.length() != 0 ? turn.substring(0,1).toUpperCase() + turn.substring(1) : turn,
+				  time,
+				  distance,
+				  running_distance,
+				  points);
+		} // JourneySegment
+	} // class Journey
 } // class Segment
