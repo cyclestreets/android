@@ -28,9 +28,12 @@ public abstract class Segment
 		running_distance_ = running_distance;
 		points_ = points;
 	} // Segment
-			
+	
 	static private String formatTime(int time)
 	{
+		if(time == 0)
+			return "";
+		
 		int hours = time/3600;
 		int remainder = time%3600;
 		int minutes = remainder/60;

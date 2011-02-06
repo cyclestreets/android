@@ -80,15 +80,16 @@ public class ItineraryActivity extends ListActivity
 			final View v = inflater_.inflate(R.layout.itinerary_item, parent, false);
 
 			final boolean highlight = (position == Route.activeSegmentIndex());
-
-			
+		
 			setText(v, R.id.segment_street, seg.street(), highlight);
 			setText(v, R.id.segment_distance, formatDistance(seg.distance()), highlight);
 			setText(v, R.id.segment_cumulative_distance, formatRunningDistance(seg.runningDistance()), highlight);
 			setText(v, R.id.segment_time, seg.runningTime(), highlight);
 
-			if(highlight)
+			if(highlight && (position != 0) && (position != getCount()-1))
 				v.setBackgroundColor(Color.GREEN);
+			else
+				v.setBackgroundColor(getColour(seg));
 			
 			return v;
 		} // getView
@@ -114,5 +115,14 @@ public class ItineraryActivity extends ListActivity
 			if(highlight)
 				n.setTextColor(Color.BLACK);
 		} // setText
+		
+		private int getColour(final Segment s)
+		{
+			if(s instanceof Segment.Start)
+				return Color.rgb(0, 128, 0);
+			if(s instanceof Segment.End)
+				return Color.rgb(128, 0, 0);
+			return Color.BLACK;
+		} // getColour
     } // class SegmentAdaptor
 } // ItineraryActivity
