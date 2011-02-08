@@ -48,6 +48,8 @@ public class LocationOverlay extends MyLocationOverlay
 
 	private TapToRoute tapState_;
 	
+	private GeoPoint centreOn_ = null;
+	
 	public LocationOverlay(final Context context, 
 						   final MapView mapView,
 						   final Callback callback) 
@@ -96,6 +98,12 @@ public class LocationOverlay extends MyLocationOverlay
 			disableMyLocation();
 	} // enableLocation
 	
+	public void centreOn(final GeoPoint place)
+	{
+		centreOn_ = place;
+		mapView_.invalidate();
+	} // centreOn
+	
 	public void enableAndFollowLocation(final boolean enable)
 	{
 		if(enable) 
@@ -106,11 +114,11 @@ public class LocationOverlay extends MyLocationOverlay
 				final Location lastFix = getLastFix();
 				if (lastFix != null)
 					mapView_.getController().setCenter(new GeoPoint(lastFix));
-			}
+			} // try
 			catch(RuntimeException e) {
 				// might not have location service
-			}
-		}
+			} // catch
+		} 
 		else
 		{
 			followLocation(false);
@@ -174,7 +182,14 @@ public class LocationOverlay extends MyLocationOverlay
 
 	////////////////////////////////////////////
 	@Override
-	public void onDraw(final Canvas canvas, final MapView mapView) {
+	public void onDraw(final Canvas canvas, final MapView mapView) 
+	{
+		if(centreOn_  != null)
+		{
+			mapView_.getController().animateTo(new GeoPoint(centreOn_));
+			centreOn_ = null;
+		} // if ..
+		
 		// I'm not thrilled about this but there isn't any other way (short of killing
 		// and recreating the overlay) of turning off the little here-you-are man
 		if(!isMyLocationEnabled())

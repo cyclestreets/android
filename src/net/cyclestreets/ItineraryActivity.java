@@ -82,8 +82,8 @@ public class ItineraryActivity extends ListActivity
 			final boolean highlight = (position == Route.activeSegmentIndex());
 		
 			setText(v, R.id.segment_street, seg.street(), highlight);
-			setText(v, R.id.segment_distance, formatDistance(seg.distance()), highlight);
-			setText(v, R.id.segment_cumulative_distance, formatRunningDistance(seg.runningDistance()), highlight);
+			setText(v, R.id.segment_distance, seg.distance(), highlight);
+			setText(v, R.id.segment_cumulative_distance, seg.runningDistance(), highlight);
 			setText(v, R.id.segment_time, seg.runningTime(), highlight);
 
 			if(highlight && (position != 0) && (position != getCount()-1))
@@ -93,20 +93,6 @@ public class ItineraryActivity extends ListActivity
 			
 			return v;
 		} // getView
-		
-		private String formatDistance(int distance)
-		{
-			if(distance < 2000)
-				return String.format("%dm", distance);
-			return formatRunningDistance(distance);
-		} // formatDistance
-		
-		private String formatRunningDistance(int distance)
-		{
-			int km = distance / 1000;
-			int frackm = (int)((distance % 1000) / 10.0);
-			return String.format("%d.%02dkm", km, frackm);
-		} // formatRunningDistance
 		
 		private void setText(final View v, final int id, final String t, final boolean highlight)
 		{

@@ -10,9 +10,9 @@ public class GeoPlace
 	  this.name = name;
 	  this.near = near;	  
 	}
-	GeoPoint coord;
-	String name;
-	String near;
+	public final GeoPoint coord;
+	public final String name;
+	public final String near;
 	
 	@Override
 	public String toString()

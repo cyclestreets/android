@@ -12,7 +12,6 @@ import net.cyclestreets.overlay.TapOverlay;
 import net.cyclestreets.overlay.ZoomButtonsOverlay;
 import net.cyclestreets.planned.Route;
 
-import org.osmdroid.util.BoundingBoxE6;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
 import org.osmdroid.tileprovider.tilesource.ITileSource;
@@ -72,7 +71,7 @@ import android.widget.RelativeLayout.LayoutParams;
         
         final RelativeLayout rl = new RelativeLayout(this);
         rl.addView(map, new RelativeLayout.LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT));
-        this.setContentView(rl);
+        setContentView(rl);
     } // onCreate
 
     @Override
@@ -110,26 +109,6 @@ import android.widget.RelativeLayout.LayoutParams;
        	setJourneyPath(Route.points(), Route.from(), Route.to());
     } // onResume
      
-    @Override
-	protected void onActivityResult(int requestCode, int resultCode, Intent data) 
-    {
-		super.onActivityResult(requestCode, resultCode, data);
-		if (requestCode == CycleStreetsConstants.ACTIVITY_GET_ENDPOINTS) {
-			if (resultCode == RESULT_OK) {
-				// get start and finish points
-				GeoPoint placeFrom = new GeoPoint(data.getIntExtra(CycleStreetsConstants.EXTRA_PLACE_FROM_LAT, 0),
-												  data.getIntExtra(CycleStreetsConstants.EXTRA_PLACE_FROM_LONG, 0));
-				GeoPoint placeTo = new GeoPoint(data.getIntExtra(CycleStreetsConstants.EXTRA_PLACE_TO_LAT, 0),
-						                        data.getIntExtra(CycleStreetsConstants.EXTRA_PLACE_TO_LONG, 0));
-				String routeType = data.getStringExtra(CycleStreetsConstants.EXTRA_ROUTE_TYPE);
-				Log.d(getClass().getSimpleName(), "got places: " + placeFrom + "->" + placeTo + " " + routeType);
-				
-				// calculate journey
-				RoutingTask.PlotRoute(routeType, placeFrom, placeTo, this, this);
-			}
-		}
-	} // onActivityResult
-    
     public void onRouteNow(final GeoPoint start, final GeoPoint end)
     {
     	RoutingTask.PlotRoute(CycleStreetsConstants.PLAN_BALANCED, start, end, this, this);
@@ -148,6 +127,7 @@ import android.widget.RelativeLayout.LayoutParams;
     {
     	menu.add(0, R.string.ic_menu_directions, Menu.NONE, R.string.ic_menu_directions).setIcon(R.drawable.ic_menu_directions);
     	menu.add(0, R.string.ic_menu_mylocation, Menu.NONE, R.string.ic_menu_mylocation).setIcon(R.drawable.ic_menu_mylocation);
+    	menu.add(0, R.string.ic_menu_findplace, Menu.NONE, R.string.ic_menu_findplace).setIcon(R.drawable.ic_menu_search);
     	return true;
 	} // onCreateOptionsMenu
     	
@@ -157,25 +137,70 @@ import android.widget.RelativeLayout.LayoutParams;
 		switch (item.getItemId())
 		{
             case R.string.ic_menu_directions:
-            {
-            	final Intent intent = new Intent(this, RouteActivity.class);
-            	final BoundingBoxE6 bounds = map.getBoundingBox();
-            	GeoIntent.setBoundingBoxInExtras(intent, bounds);
-            	final Location lastFix = location.getLastFix();
-                if (lastFix != null)
-                {
-                	intent.putExtra(CycloidConstants.GEO_LATITUDE, (int)(lastFix.getLatitude() * 1E6));
-                	intent.putExtra(CycloidConstants.GEO_LONGITUDE, (int)(lastFix.getLongitude() * 1E6));
-                }	
-                startActivityForResult(intent, CycleStreetsConstants.ACTIVITY_GET_ENDPOINTS);
+            	launchRouteDialog();
                 return true;
-            } // case
+            case R.string.ic_menu_findplace:
+            	launchFindDialog();
+            	return true;
             case R.string.ic_menu_mylocation:
             	location.enableLocation(!location.isMyLocationEnabled());
-            	break;
+            	return true;
 		} // switch
 		return false;
 	} // onMenuItemSelected
+	
+    @Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) 
+    {
+		super.onActivityResult(requestCode, resultCode, data);
+		
+		if(resultCode != RESULT_OK)
+			return;
+		
+		switch(requestCode)
+		{
+		case R.string.ic_menu_directions:
+			{
+				// get start and finish points
+				final GeoPoint placeFrom = new GeoPoint(data.getIntExtra(CycleStreetsConstants.EXTRA_PLACE_FROM_LAT, 0),
+														data.getIntExtra(CycleStreetsConstants.EXTRA_PLACE_FROM_LONG, 0));
+				final GeoPoint placeTo = new GeoPoint(data.getIntExtra(CycleStreetsConstants.EXTRA_PLACE_TO_LAT, 0),
+													  data.getIntExtra(CycleStreetsConstants.EXTRA_PLACE_TO_LONG, 0));
+				final String routeType = data.getStringExtra(CycleStreetsConstants.EXTRA_ROUTE_TYPE);
+				RoutingTask.PlotRoute(routeType, placeFrom, placeTo, this, this);
+			}
+			break;
+		case R.string.ic_menu_findplace:
+			{
+				final GeoPoint place = new GeoPoint(data.getIntExtra(CycleStreetsConstants.EXTRA_PLACE_FROM_LAT, 0),
+													data.getIntExtra(CycleStreetsConstants.EXTRA_PLACE_FROM_LONG, 0));
+				// we're in the wrong thread, so pop this away for later and force a refresh
+				location.centreOn(place);
+				map.invalidate();
+			}
+			break;
+		} // switch
+	} // onActivityResult
+    
+	private void launchRouteDialog()
+	{
+    	final Intent intent = new Intent(this, RouteActivity.class);
+    	GeoIntent.setBoundingBoxInExtras(intent, map.getBoundingBox());
+    	final Location lastFix = location.getLastFix();
+        if (lastFix != null)
+        {
+        	intent.putExtra(CycloidConstants.GEO_LATITUDE, (int)(lastFix.getLatitude() * 1E6));
+        	intent.putExtra(CycloidConstants.GEO_LONGITUDE, (int)(lastFix.getLongitude() * 1E6));
+        } // if ...	
+        startActivityForResult(intent, R.string.ic_menu_directions);
+	} // launchRouteDialog
+	
+	private void launchFindDialog()
+	{
+		final Intent intent = new Intent(this, FindPlaceActivity.class);
+    	GeoIntent.setBoundingBoxInExtras(intent, map.getBoundingBox());
+    	startActivityForResult(intent, R.string.ic_menu_findplace);
+	} // launchFindDialog
 	
 	@Override 
 	public void onBackPressed()
@@ -199,7 +224,8 @@ import android.widget.RelativeLayout.LayoutParams;
    } // onTouchEvent
    
    @Override
-   public void onNewJourney() {
+   public void onNewJourney() 
+   {
 	   setJourneyPath(Route.points(), Route.from(), Route.to());
 	   
 	   map.getController().setCenter(Route.from());

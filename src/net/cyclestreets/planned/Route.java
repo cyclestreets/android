@@ -65,7 +65,7 @@ public class Route
 		{ 
 			if(marker.type.equals("route"))			
 			{
-				final Segment startSeg = new Segment.Start(marker.name, makeList(from_, segments_.get(0).start()));
+				final Segment startSeg = new Segment.Start(marker.name, marker.plan, total_distance, makeList(from_, segments_.get(0).start()));
 				final Segment endSeg = new Segment.End(marker.finish, total_time, total_distance, makeList(segments_.get(segments_.size()-1).end(), to_));
 				segments_.add(0, startSeg);
 				segments_.add(endSeg);

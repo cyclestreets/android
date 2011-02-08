@@ -8,24 +8,21 @@
 	    android:paddingRight="9dip"
 	    android:paddingTop="12dip"
 	    android:paddingBottom="6dip"
-	    android:background="@drawable/route_bg"
-	    >            
-			<LinearLayout
-			    android:orientation="horizontal"
-			    android:layout_width="fill_parent"
-			    android:layout_height="wrap_content"
-			    android:layout_marginBottom="2dip"
-			    >
-				<uk.org.invisibility.cycloid.GeoAutoCompleteView
-				    android:id="@+id/routeFrom"
-				    android:layout_height="wrap_content" 
-				    android:hint="@string/route_from"
-				    android:layout_weight="1.0"
-				    android:layout_width="0.0dip"
-				    android:freezesText="true"
-				    android:imeOptions="actionNext"
-				    android:nextFocusDown="@+id/routeTo"	    		    
-			    />
+	    android:background="@drawable/route_bg">            
+  <LinearLayout
+	android:orientation="horizontal"
+	android:layout_width="fill_parent"
+	android:layout_height="wrap_content"
+	android:layout_marginBottom="2dip">
+	<uk.org.invisibility.cycloid.GeoAutoCompleteView
+	  android:id="@+id/routeFrom"
+	  android:layout_height="wrap_content" 
+	  android:hint="@string/route_from"
+	  android:layout_weight="1.0"
+	  android:layout_width="0.0dip"
+	  android:freezesText="true"
+	  android:imeOptions="actionNext"
+	  android:nextFocusDown="@+id/routeTo"/>
                 <ImageButton
                         android:id="@+id/optionsFrom"
                         android:layout_width="40.0dip"

@@ -22,12 +22,17 @@ public abstract class Segment
 			final List<GeoPoint> points)
 	{	
 		name_ = name;
-		turn_ = turn.length() != 0 ? turn.substring(0,1).toUpperCase() + turn.substring(1) : turn;
+		turn_ = initCap(turn);
 		running_time_ = formatTime(time);
 		distance_ = distance;
 		running_distance_ = running_distance;
 		points_ = points;
 	} // Segment
+	
+	static protected String initCap(final String s)
+	{
+		return s.length() != 0 ? s.substring(0,1).toUpperCase() + s.substring(1) : s;
+	} // initCap
 	
 	static private String formatTime(int time)
 	{
@@ -45,10 +50,22 @@ public abstract class Segment
 		return String.format("%d:%02d:%02d", hours, minutes, seconds);
 	} // formatTime
 	
+	private String formatDistance(int distance)
+	{
+		if(distance < 2000)
+			return String.format("%dm", distance);
+		return formatRunningDistance(distance);
+	} // formatDistance
+	
+	private String formatRunningDistance(int distance)
+	{
+		int km = distance / 1000;
+		int frackm = (int)((distance % 1000) / 10.0);
+		return String.format("%d.%02dkm", km, frackm);
+	} // formatRunningDistance
+	
 	public String toString() 
 	{
-		if(turn_.length() == 0)
-			return street();
 		return turn() + " into " + street();
 	} // toString
 	
@@ -58,16 +75,31 @@ public abstract class Segment
 	public String street() { return name_; }
 	public String turn() { return turn_; }
 	public String runningTime() { return running_time_; }
-	public int distance() { return distance_; }
-	public int runningDistance() { return running_distance_; }
+	public String distance() { return formatDistance(distance_); }
+	public String runningDistance() { return formatRunningDistance(running_distance_); }
 	public Iterator<GeoPoint> points() { return points_.iterator(); }
 
 	static public class Start extends Segment 
 	{
-		Start(final String journey, final List<GeoPoint> points)
+		private final String type_;
+		
+		Start(final String journey, final String type, final int running_distance, final List<GeoPoint> points)
 		{
-			super(journey, "", 0, 0, 0, points);
+			super(journey, "", 0, 0, running_distance, points);
+			type_ = initCap(type);
 		} // Start
+		
+		public String toString() 
+		{
+			return super.street();
+		} // toString
+		
+		public String street() 
+		{
+			return super.street() + "\n" + type_ + " route, " + super.runningDistance();
+		}
+		public String distance() { return ""; }
+		public String runningDistance() { return ""; }
 	} // class Start
 	
 	static public class End extends Segment
@@ -79,6 +111,9 @@ public abstract class Segment
 		{
 			super("Destination " + destination, "", total_time, 0, total_distance, points);
 		} // End
+
+		public String toString() { return street(); }
+		public String distance() { return ""; }
 	} // End
 	
 	static public class Journey extends Segment
