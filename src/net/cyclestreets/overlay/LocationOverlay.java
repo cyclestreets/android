@@ -104,9 +104,6 @@ public class LocationOverlay extends MyLocationOverlay
 	
 	public void drawButtons(final Canvas canvas, final MapView mapView)
 	{
-		if(mapView.isAnimating())
-			return;
-		
 		drawButtons(canvas);
 	} // onDrawFinished
 	

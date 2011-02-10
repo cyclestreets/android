@@ -143,9 +143,6 @@ public class TapToRouteOverlay extends Overlay
 	@Override
 	protected void onDrawFinished(final Canvas canvas, final MapView mapView) 
 	{
-		if(mapView.isAnimating())
-			return;
-		
         final Projection projection = mapView.getProjection();
         drawMarker(canvas, projection, startItem_);
         drawMarker(canvas, projection, endItem_);

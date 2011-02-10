@@ -80,9 +80,6 @@ public class RouteHighlightOverlay extends PathOverlay
 	
 	public void drawButtons(final Canvas canvas, final MapView mapView)
 	{
-		if(mapView.isAnimating())
-			return;
-		
 		if(!Route.available())
 			return;
 		
