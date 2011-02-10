@@ -9,6 +9,7 @@ import net.cyclestreets.overlay.LocationOverlay;
 import net.cyclestreets.overlay.PathOfRouteOverlay;
 import net.cyclestreets.overlay.RouteHighlightOverlay;
 import net.cyclestreets.overlay.TapOverlay;
+import net.cyclestreets.overlay.TapToRouteOverlay;
 import net.cyclestreets.overlay.ZoomButtonsOverlay;
 import net.cyclestreets.planned.Route;
 
@@ -33,11 +34,12 @@ import android.view.MotionEvent;
 import android.widget.RelativeLayout;
 import android.widget.RelativeLayout.LayoutParams;
 
- public class MapActivity extends Activity implements LocationOverlay.Callback, RoutingTask.Callback
+ public class MapActivity extends Activity implements TapToRouteOverlay.Callback, RoutingTask.Callback
  {
 	private MapView map; 
 	
 	private PathOfRouteOverlay path;
+	private TapToRouteOverlay routeSetter_;
 	private LocationOverlay location;
 	
 	private SharedPreferences prefs;
@@ -63,9 +65,12 @@ import android.widget.RelativeLayout.LayoutParams;
         
         map.getOverlays().add(new ZoomButtonsOverlay(getApplicationContext(), map));
 
-        location = new LocationOverlay(getApplicationContext(), map, this);
+        location = new LocationOverlay(getApplicationContext(), map);
         map.getOverlays().add(location);
 
+        routeSetter_ = new TapToRouteOverlay(getApplicationContext(), map, this);
+        map.getOverlays().add(routeSetter_);
+        
         map.getOverlays().add(new TapOverlay(getApplicationContext(), map));
         
         final RelativeLayout rl = new RelativeLayout(this);
@@ -88,7 +93,7 @@ import android.widget.RelativeLayout.LayoutParams;
         
         location.disableMyLocation();
         
-        Route.setTerminals(location.getStart(), location.getEnd());
+        Route.setTerminals(routeSetter_.getStart(), routeSetter_.getEnd());
         super.onPause();
     } // onPause
 
@@ -116,7 +121,7 @@ import android.widget.RelativeLayout.LayoutParams;
     public void onClearRoute()
     {
     	Route.resetJourney();
-    	location.resetRoute();
+    	routeSetter_.resetRoute();
     	path.clearPath();
     	map.invalidate();
     } // onClearRoute
@@ -204,9 +209,16 @@ import android.widget.RelativeLayout.LayoutParams;
 	@Override 
 	public void onBackPressed()
 	{
-		if(!location.onBackButton())
+		if(!routeSetter_.onBackButton())
 			super.onBackPressed();
 	} // onBackPressed
+	
+	@Override
+	public boolean onSearchRequested()
+	{
+		launchFindDialog();
+		return true;
+	} // onSearchRequested
    
    @Override
    public boolean onTrackballEvent(MotionEvent event)
@@ -233,7 +245,7 @@ import android.widget.RelativeLayout.LayoutParams;
    
    private void setJourneyPath(final Iterator<GeoPoint> points, final GeoPoint from, final GeoPoint to)
    {
-	   location.setRoute(from, to, points.hasNext());
+	   routeSetter_.setRoute(from, to, points.hasNext());
 	   
 	   path.setRoute(points);
    } // setJourneyPath
