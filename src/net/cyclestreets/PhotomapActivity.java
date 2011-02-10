@@ -3,6 +3,10 @@ package net.cyclestreets;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
+import net.cyclestreets.overlay.LocationOverlay;
+import net.cyclestreets.overlay.TapOverlay;
+import net.cyclestreets.overlay.ZoomButtonsOverlay;
+
 import org.osmdroid.DefaultResourceProxyImpl;
 import org.osmdroid.events.DelayedMapListener;
 import org.osmdroid.views.MapView;
@@ -32,7 +36,8 @@ public class PhotomapActivity extends Activity {
 	protected List<PhotoItem> photoList;
 	private SharedPreferences prefs;
 
-	public void onCreate(Bundle savedInstanceState) {
+	public void onCreate(Bundle savedInstanceState) 
+	{
         super.onCreate(savedInstanceState);
 
         prefs = getSharedPreferences(CycloidConstants.PREFS_APP_KEY, MODE_PRIVATE);
@@ -40,7 +45,7 @@ public class PhotomapActivity extends Activity {
         
         map = new MapView(this, null);
         map.setTileSource(TileSourceFactory.getTileSource(prefs.getString(CycloidConstants.PREFS_APP_RENDERER, CycloidConstants.DEFAULT_MAPTYPE)));
-        map.setBuiltInZoomControls(true);
+        map.setBuiltInZoomControls(false);
         map.setMultiTouchControls(true);
         map.getController().setZoom(prefs.getInt(CycloidConstants.PREFS_APP_ZOOM_LEVEL, 14));
         map.scrollTo(prefs.getInt(CycloidConstants.PREFS_APP_SCROLL_X, 0), prefs.getInt(CycloidConstants.PREFS_APP_SCROLL_Y, -701896)); /* Greenwich */
@@ -53,6 +58,13 @@ public class PhotomapActivity extends Activity {
         		new PhotoTapListener(photoList),
         		new DefaultResourceProxyImpl(this));
         map.getOverlays().add(markers);
+    
+        map.getOverlays().add(new ZoomButtonsOverlay(getApplicationContext(), map));
+
+        map.getOverlays().add(new LocationOverlay(getApplicationContext(), map));
+        
+        map.getOverlays().add(new TapOverlay(getApplicationContext(), map));
+
         
         final RelativeLayout rl = new RelativeLayout(this);
         rl.addView(this.map, new RelativeLayout.LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT));
