@@ -76,18 +76,18 @@ public class RouteHighlightOverlay extends PathOverlay
 	@Override
 	public void onDrawFinished(final Canvas canvas, final MapView mapView)
 	{
+	} // onDrawFinished
+	
+	public void drawButtons(final Canvas canvas, final MapView mapView)
+	{
 		if(mapView.isAnimating())
 			return;
 		
 		if(!Route.available())
 			return;
 		
-		drawButtons(canvas);
 		drawSegmentInfo(canvas);
-	} // onDrawFinished
-	
-	private void drawButtons(final Canvas canvas)
-	{
+
 		prevButton_.enable(!Route.atStart());
 		prevButton_.draw(canvas);
 		nextButton_.enable(!Route.atEnd());

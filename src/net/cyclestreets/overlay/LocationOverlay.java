@@ -207,7 +207,10 @@ public class LocationOverlay extends MyLocationOverlay
         final Projection projection = mapView.getProjection();
         drawMarker(canvas, projection, startItem_);
         drawMarker(canvas, projection, endItem_);
-
+	} // onDrawFinished
+	
+	public void drawButtons(final Canvas canvas, final MapView mapView)
+	{
 		drawButtons(canvas);
 		drawTapState(canvas);
 	} // onDrawFinished

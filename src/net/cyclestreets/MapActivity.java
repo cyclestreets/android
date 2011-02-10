@@ -38,7 +38,6 @@ import android.widget.RelativeLayout.LayoutParams;
 	private MapView map; 
 	
 	private PathOfRouteOverlay path;
-	private RouteHighlightOverlay highlight;
 	private LocationOverlay location;
 	
 	private SharedPreferences prefs;
@@ -59,11 +58,11 @@ import android.widget.RelativeLayout.LayoutParams;
 
         path = new PathOfRouteOverlay(getApplicationContext());
         map.getOverlays().add(path);
+        
+        map.getOverlays().add(new RouteHighlightOverlay(getApplicationContext(), map));
+        
         map.getOverlays().add(new ZoomButtonsOverlay(getApplicationContext(), map));
-        
-        highlight = new RouteHighlightOverlay(getApplicationContext(), map);
-        map.getOverlays().add(highlight);
-        
+
         location = new LocationOverlay(getApplicationContext(), map, this);
         map.getOverlays().add(location);
 

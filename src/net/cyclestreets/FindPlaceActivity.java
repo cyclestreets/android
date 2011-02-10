@@ -100,7 +100,7 @@ public class FindPlaceActivity extends Activity
     
     protected Dialog createChoosePointDialog(int title)
     {
-    	AlertDialog.Builder builder = new AlertDialog.Builder(this);
+    	final AlertDialog.Builder builder = new AlertDialog.Builder(this);
     	builder.setTitle(title);
     	builder.setItems(R.array.point_type, this);
     	return builder.create();

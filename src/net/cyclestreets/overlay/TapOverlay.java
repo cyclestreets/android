@@ -64,7 +64,17 @@ public class TapOverlay extends Overlay implements OnDoubleTapListener, OnGestur
 	@Override
 	protected void onDraw(final Canvas canvas, final MapView mapView) {	}
 	@Override
-	protected void onDrawFinished(final Canvas canvas, final MapView mapView) { }
+	protected void onDrawFinished(final Canvas canvas, final MapView mapView) 
+	{ 
+		for(final Overlay overlay : mapView_.getOverlays())
+		{
+			if(!(overlay instanceof TapListener))
+				continue;
+			final TapListener l = (TapListener)overlay;
+			l.drawButtons(canvas, mapView);
+		}
+	} // onDrawFinished
+	
 	@Override
 	public boolean onDoubleTapEvent(MotionEvent e) { return false; }
 	@Override
