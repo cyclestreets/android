@@ -9,6 +9,7 @@ public abstract class Segment
 {
 	private final String name_;
 	private final String turn_;
+	private final boolean walk_;
 	private final String running_time_;
 	private final int distance_;
 	private final int running_distance_;
@@ -16,6 +17,7 @@ public abstract class Segment
 	
 	Segment(final String name,
 			final String turn,
+			final boolean walk,
 			final int time,
 			final int distance,
 			final int running_distance,
@@ -23,6 +25,7 @@ public abstract class Segment
 	{	
 		name_ = name;
 		turn_ = initCap(turn);
+		walk_ = walk;
 		running_time_ = formatTime(time);
 		distance_ = distance;
 		running_distance_ = running_distance;
@@ -66,7 +69,10 @@ public abstract class Segment
 	
 	public String toString() 
 	{
-		return turn() + " into " + street();
+		String s = turn() + " into " + street();
+		if(walk())
+			s += "\nPlease dismount and walk.";
+		return s;
 	} // toString
 	
 	public GeoPoint start() { return points_.get(0); }
@@ -74,6 +80,7 @@ public abstract class Segment
 	
 	public String street() { return name_; }
 	public String turn() { return turn_; }
+	public boolean walk() { return walk_; }
 	public String runningTime() { return running_time_; }
 	public String distance() { return formatDistance(distance_); }
 	public String runningDistance() { return formatRunningDistance(running_distance_); }
@@ -85,7 +92,7 @@ public abstract class Segment
 		
 		Start(final String journey, final String type, final int running_distance, final List<GeoPoint> points)
 		{
-			super(journey, "", 0, 0, running_distance, points);
+			super(journey, "", false, 0, 0, running_distance, points);
 			type_ = initCap(type);
 		} // Start
 		
@@ -109,7 +116,7 @@ public abstract class Segment
 			final int total_distance, 
 			final List<GeoPoint> points)	
 		{
-			super("Destination " + destination, "", total_time, 0, total_distance, points);
+			super("Destination " + destination, "", false, total_time, 0, total_distance, points);
 		} // End
 
 		public String toString() { return street(); }
@@ -120,6 +127,7 @@ public abstract class Segment
 	{
 		Journey(final String name,
 				final String turn,
+				final boolean walk,
 				final int time,
 				final int distance,
 				final int running_distance,
@@ -127,6 +135,7 @@ public abstract class Segment
 		{
 			super(name, 
 				  turn.length() != 0 ? turn.substring(0,1).toUpperCase() + turn.substring(1) : turn,
+				  walk,
 				  time,
 				  distance,
 				  running_distance,

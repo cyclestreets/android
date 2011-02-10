@@ -53,6 +53,7 @@ public class Route
 				total_distance += marker.distance;
 				final Segment seg = new Segment.Journey(marker.name,
 													    marker.turn,
+													    (marker.walk == 1),
 													    total_time,
 													    marker.distance,
 													    total_distance,
