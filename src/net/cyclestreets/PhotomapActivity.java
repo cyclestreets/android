@@ -10,9 +10,7 @@ import net.cyclestreets.overlay.ZoomButtonsOverlay;
 import org.osmdroid.DefaultResourceProxyImpl;
 import org.osmdroid.events.DelayedMapListener;
 import org.osmdroid.views.MapView;
-//import org.andnav.osm.views.overlay.MyLocationOverlay;
 import org.osmdroid.views.overlay.ItemizedOverlay;
-//import org.andnav.osm.views.overlay.OpenStreetMapViewPathOverlay;
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
 
 import uk.org.invisibility.cycloid.CycloidConstants;
@@ -22,7 +20,6 @@ import android.content.SharedPreferences;
 import android.graphics.Point;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.RelativeLayout;
 
@@ -30,8 +27,6 @@ public class PhotomapActivity extends Activity {
 	protected PhotomapListener photomapListener;
 	
 	private MapView map; 
-	//private OpenStreetMapViewPathOverlay path;
-	//private MyLocationOverlay location;
 	private ItemizedOverlay<PhotoItem> markers;
 	protected List<PhotoItem> photoList;
 	private SharedPreferences prefs;
@@ -82,16 +77,16 @@ public class PhotomapActivity extends Activity {
 			return false;
 		}
 		
-		public boolean onItemSingleTapUp(int i, PhotoItem photo) {
+		public boolean onItemSingleTapUp(int i, PhotoItem photo) 
+		{
 			// extract thumbnail URL and display it in a DisplayPhotoActivity
-			PhotoItem item = photoList.get(i);
-			Log.d(getClass().getSimpleName(), "onItemTap: " + item);
-			String url = item.photo.thumbnailUrl;
-			Log.d(getClass().getSimpleName(), "URL is " + url);
-			startActivity(new Intent(Intent.ACTION_VIEW,
-					Uri.parse(url),
-					PhotomapActivity.this, DisplayPhotoActivity.class));
+			final PhotoItem item = photoList.get(i);
+			final Intent intent = new Intent(PhotomapActivity.this, 
+											 DisplayPhotoActivity.class);
+			intent.setData(Uri.parse(item.photo.thumbnailUrl));
+			intent.putExtra("caption", item.photo.caption);
+			startActivity(intent);
 			return true;
-		}
+		} // onItemSingleTapUp
 	}
 }
