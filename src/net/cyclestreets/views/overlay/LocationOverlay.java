@@ -20,8 +20,6 @@ public class LocationOverlay extends MyLocationOverlay
 
 	private final OverlayButton locationButton_;	
 	
-	private GeoPoint centreOn_ = null;
-	
 	private final MapView mapView_;
 	
 	public LocationOverlay(final Context context, 
@@ -48,12 +46,6 @@ public class LocationOverlay extends MyLocationOverlay
 		else
 			disableMyLocation();
 	} // enableLocation
-	
-	public void centreOn(final GeoPoint place)
-	{
-		centreOn_ = place;
-		mapView_.invalidate();
-	} // centreOn
 	
 	public void enableAndFollowLocation(final boolean enable)
 	{
@@ -83,12 +75,6 @@ public class LocationOverlay extends MyLocationOverlay
 	@Override
 	public void onDraw(final Canvas canvas, final MapView mapView) 
 	{
-		if(centreOn_  != null)
-		{
-			mapView_.getController().animateTo(new GeoPoint(centreOn_));
-			centreOn_ = null;
-		} // if ..
-		
 		// I'm not thrilled about this but there isn't any other way (short of killing
 		// and recreating the overlay) of turning off the little here-you-are man
 		if(!isMyLocationEnabled())

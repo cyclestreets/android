@@ -14,6 +14,7 @@ import uk.org.invisibility.cycloid.CycloidConstants;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Canvas;
 import android.location.Location;
 
 public class CycleMapView extends MapView
@@ -22,6 +23,8 @@ public class CycleMapView extends MapView
 	private final LocationOverlay location_;
 	private final int overlayBottomIndex_;
 	
+	private GeoPoint centreOn_ = null;
+
 	public CycleMapView(final Context context, final String name)
 	{
 		super(context, null);
@@ -31,9 +34,6 @@ public class CycleMapView extends MapView
 		setTileSource(mapRenderer());
         setBuiltInZoomControls(false);
         setMultiTouchControls(true);
-        getController().setZoom(prefs_.getInt(CycloidConstants.PREFS_APP_ZOOM_LEVEL, 14));
-        scrollTo(prefs_.getInt(CycloidConstants.PREFS_APP_SCROLL_X, 0), 
-        		 prefs_.getInt(CycloidConstants.PREFS_APP_SCROLL_Y, -701896)); /* Greenwich */
 	
         overlayBottomIndex_ = getOverlays().size();
         
@@ -76,13 +76,14 @@ public class CycleMapView extends MapView
 
 	public void onResume()
 	{
-        location_.enableLocation(prefs_.getBoolean(CycloidConstants.PREFS_APP_MY_LOCATION, false));
-        location_.followLocation(prefs_.getBoolean(CycloidConstants.PREFS_APP_FOLLOW_LOCATION, false));
+        location_.enableLocation(pref(CycloidConstants.PREFS_APP_MY_LOCATION, false));
+        location_.followLocation(pref(CycloidConstants.PREFS_APP_FOLLOW_LOCATION, false));
         
         getScroller().abortAnimation();
         
-        scrollTo(prefs_.getInt(CycloidConstants.PREFS_APP_SCROLL_X, 0), prefs_.getInt(CycloidConstants.PREFS_APP_SCROLL_Y, -701896)); /* Greenwich */
-        getController().setZoom(prefs_.getInt(CycloidConstants.PREFS_APP_ZOOM_LEVEL, 14));
+        scrollTo(pref(CycloidConstants.PREFS_APP_SCROLL_X, 0), 
+        		 pref(CycloidConstants.PREFS_APP_SCROLL_Y, -701896)); /* Greenwich */
+        getController().setZoom(pref(CycloidConstants.PREFS_APP_ZOOM_LEVEL, 14));
 	} // onResume 
 	
 	/////////////////////////////////////////
@@ -92,12 +93,35 @@ public class CycleMapView extends MapView
 	public void disableMyLocation() { location_.disableMyLocation(); }
 	public void disableFollowLocation() { location_.followLocation(false); }
 	
-	public void centreOn(final GeoPoint centre)
+	///////////////////////////////////////////////////////
+	public void centreOn(final GeoPoint place)
 	{
-		location_.centreOn(centre);
+		centreOn_ = place;
 		invalidate();
 	} // centreOn
 		
+	@Override
+	public void onDraw(final Canvas canvas)
+	{
+		if(centreOn_  != null)
+		{
+			getController().animateTo(new GeoPoint(centreOn_));
+			centreOn_ = null;
+		} // if ..
+		
+		super.onDraw(canvas);
+	} // onDraw
+
+	///////////////////////////////////////////////////////
+	private int pref(final String key, int defValue)
+	{
+		return prefs_.getInt(key, defValue);
+	} // pref
+	private boolean pref(final String key, boolean defValue)
+	{
+		return prefs_.getBoolean(key, defValue);
+	} // pref
+	
 	private ITileSource mapRenderer()
 	{
 		return TileSourceFactory.getTileSource(prefs_.getString(CycloidConstants.PREFS_APP_RENDERER, CycloidConstants.DEFAULT_MAPTYPE));
