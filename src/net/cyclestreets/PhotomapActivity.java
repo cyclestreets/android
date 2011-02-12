@@ -52,17 +52,23 @@ public class PhotomapActivity extends Activity
 	//////////////////////////////////////////////
 	public boolean onItemLongPress(int i, final PhotoItem item) 
 	{
-		return false;
+		showPhoto(item);
+		return true;
 	} // onItemLongPress
 		
 	public boolean onItemSingleTapUp(int i, final PhotoItem item) 
+	{
+		showPhoto(item);
+		return true;
+	} // onItemSingleTapUp
+	
+	private void showPhoto(final PhotoItem item)
 	{
 		final Intent intent = new Intent(PhotomapActivity.this, DisplayPhotoActivity.class);
 		intent.setData(Uri.parse(item.photo.thumbnailUrl));
 		intent.putExtra("caption", item.photo.caption);
 		startActivity(intent);
-		return true;
-	} // onItemSingleTapUp
+	} // showPhoto
 
 	/////////////////////////////////////////////////////
     @Override
