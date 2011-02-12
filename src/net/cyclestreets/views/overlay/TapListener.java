@@ -1,4 +1,4 @@
-package net.cyclestreets.overlay;
+package net.cyclestreets.views.overlay;
 
 import org.osmdroid.views.MapView;
 

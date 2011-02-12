@@ -1,7 +1,6 @@
 package net.cyclestreets;
 
 import net.cyclestreets.CycleStreetsConstants;
-import net.cyclestreets.MapActivity;
 import net.cyclestreets.R;
 
 import org.osmdroid.util.BoundingBoxE6;
@@ -123,7 +122,7 @@ public class FindPlaceActivity extends Activity
 		{
 			adapterFrom_.addHistory(place);
 			
-        	Intent intent = new Intent(this, MapActivity.class);
+        	Intent intent = new Intent(this, RouteMapActivity.class);
         	intent.putExtra(CycleStreetsConstants.EXTRA_PLACE_FROM_LAT, place.coord.getLatitudeE6());
         	intent.putExtra(CycleStreetsConstants.EXTRA_PLACE_FROM_LONG, place.coord.getLongitudeE6());
         	setResult(RESULT_OK, intent);

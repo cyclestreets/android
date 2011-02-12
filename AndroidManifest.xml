@@ -50,7 +50,7 @@
 		<activity android:name=".HtmlActivity"
 				  android:label="@string/app_name">
 		</activity>
-    	<activity android:name=".MapActivity"  
+    	<activity android:name=".RouteMapActivity"  
     			  android:label="@string/app_name">
         </activity>
         <activity android:name=".FindPlaceActivity"

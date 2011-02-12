@@ -1,4 +1,4 @@
-package net.cyclestreets.overlay;
+package net.cyclestreets.views.overlay;
 
 import net.cyclestreets.util.Brush;
 import android.graphics.Canvas;

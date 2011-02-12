@@ -1,4 +1,4 @@
-package net.cyclestreets.overlay;
+package net.cyclestreets.views.overlay;
 
 import net.cyclestreets.R;
 import net.cyclestreets.util.Brush;

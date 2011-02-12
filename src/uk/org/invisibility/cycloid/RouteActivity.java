@@ -2,8 +2,8 @@ package uk.org.invisibility.cycloid;
 
 import net.cyclestreets.CycleStreetsConstants;
 import net.cyclestreets.CycleStreetsPreferences;
-import net.cyclestreets.MapActivity;
 import net.cyclestreets.R;
+import net.cyclestreets.RouteMapActivity;
 import net.cyclestreets.util.RouteTypeMapper;
 
 import org.osmdroid.util.BoundingBoxE6;
@@ -240,8 +240,8 @@ public class RouteActivity extends Activity implements
 			this.adapterFrom.addHistory(placeFrom);
 			this.adapterTo.addHistory(placeTo);
 			
-			// return start and finish points to MapActivity and close
-        	Intent intent = new Intent(RouteActivity.this, MapActivity.class);
+			// return start and finish points to RouteMapActivity and close
+        	Intent intent = new Intent(RouteActivity.this, RouteMapActivity.class);
         	intent.putExtra(CycleStreetsConstants.EXTRA_PLACE_FROM_LAT, placeFrom.coord.getLatitudeE6());
         	intent.putExtra(CycleStreetsConstants.EXTRA_PLACE_FROM_LONG, placeFrom.coord.getLongitudeE6());
         	intent.putExtra(CycleStreetsConstants.EXTRA_PLACE_TO_LAT, placeTo.coord.getLatitudeE6());

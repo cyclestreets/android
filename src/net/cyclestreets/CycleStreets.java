@@ -29,7 +29,7 @@ public class CycleStreets extends TabActivity {
 	    
 	    // Plan route
 	    spec = tabHost.newTabSpec("Plan route").setIndicator("", res.getDrawable(R.drawable.ic_tab_planroute));
-	    spec.setContent(new Intent(this, MapActivity.class));
+	    spec.setContent(new Intent(this, RouteMapActivity.class));
 	    tabHost.addTab(spec);
 
 	    // Itinerary
