@@ -17,7 +17,8 @@ import android.os.Bundle;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.RelativeLayout;
 
-public class PhotomapActivity extends Activity 
+public class PhotomapActivity extends Activity
+							implements ItemizedOverlay.OnItemGestureListener<PhotoItem> 	
 {
 	protected PhotomapListener photomapListener;
 	
@@ -37,7 +38,7 @@ public class PhotomapActivity extends Activity
         		this, photoList,
         		getResources().getDrawable(R.drawable.icon),
         		new Point(10,10),
-        		new PhotoTapListener(photoList),
+        		this,
         		new DefaultResourceProxyImpl(this));
         map_.overlayPushBottom(markers);
         
@@ -46,32 +47,24 @@ public class PhotomapActivity extends Activity
         final RelativeLayout rl = new RelativeLayout(this);
         rl.addView(this.map_, new RelativeLayout.LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT));
         this.setContentView(rl);        
-    }
+    } // onCreate
 
-	private class PhotoTapListener implements ItemizedOverlay.OnItemGestureListener<PhotoItem> {
-		private List<PhotoItem> photoList;
+	//////////////////////////////////////////////
+	public boolean onItemLongPress(int i, final PhotoItem item) 
+	{
+		return false;
+	} // onItemLongPress
 		
-		public PhotoTapListener(List<PhotoItem> photoList) {
-			this.photoList = photoList;
-		}
+	public boolean onItemSingleTapUp(int i, final PhotoItem item) 
+	{
+		final Intent intent = new Intent(PhotomapActivity.this, DisplayPhotoActivity.class);
+		intent.setData(Uri.parse(item.photo.thumbnailUrl));
+		intent.putExtra("caption", item.photo.caption);
+		startActivity(intent);
+		return true;
+	} // onItemSingleTapUp
 
-		public boolean onItemLongPress(int i, PhotoItem photo) {
-			return false;
-		}
-		
-		public boolean onItemSingleTapUp(int i, PhotoItem photo) 
-		{
-			// extract thumbnail URL and display it in a DisplayPhotoActivity
-			final PhotoItem item = photoList.get(i);
-			final Intent intent = new Intent(PhotomapActivity.this, 
-											 DisplayPhotoActivity.class);
-			intent.setData(Uri.parse(item.photo.thumbnailUrl));
-			intent.putExtra("caption", item.photo.caption);
-			startActivity(intent);
-			return true;
-		} // onItemSingleTapUp
-	}
-	
+	/////////////////////////////////////////////////////
     @Override
     protected void onPause()
     {
@@ -83,7 +76,6 @@ public class PhotomapActivity extends Activity
     protected void onResume()
     {
     	super.onResume();
-
     	map_.onResume();
     } // onResume
 } // PhotomapActivity
