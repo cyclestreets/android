@@ -1,38 +1,32 @@
 package net.cyclestreets;
 
-import java.net.URL;
+import net.cyclestreets.util.ImageDownloader;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-public class DisplayPhotoActivity extends Activity {
+public class DisplayPhotoActivity extends Activity 
+{
+	private ImageDownloader loader_;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) 
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.showphoto);
 		
-		Intent i = getIntent();
-		Uri uri = i.getData();
+		final Intent i = getIntent();
+		final Uri uri = i.getData();
 
-		// TODO: load the image through a ContentProvider using AndroidHttpClient
-    	try {
-    		final URL url = new URL(uri.toString());
-    		final Bitmap photo = BitmapFactory.decodeStream(url.openConnection().getInputStream());
-    		final ImageView iv = (ImageView)findViewById(R.id.photo);
-    		iv.setImageBitmap(photo);
-    	}
-    	catch (Exception e) {
-    		throw new RuntimeException(e);
-    	}
+		final ImageView iv = (ImageView)findViewById(R.id.photo);
+		loader_ = new ImageDownloader();		
+		loader_.get(uri.toString(), iv);
     	
     	final TextView text = (TextView)findViewById(R.id.photo_text);
     	text.setText(i.getStringExtra("caption"));
-	}
-}
+	} // onCreate
+} // DiasplayPhotoActivity

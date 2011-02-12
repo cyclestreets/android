@@ -43,6 +43,8 @@ public class CycleMapView extends MapView
         getOverlays().add(location_);
 
         getOverlays().add(new TapOverlay(context, this));
+        
+        onResume();
 	} // CycleMapView
 	
 	public Overlay overlayPushBottom(final Overlay overlay)
