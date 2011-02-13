@@ -1,13 +1,9 @@
 package net.cyclestreets;
 
-import java.util.HashMap;
-import java.util.HashSet;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 import net.cyclestreets.api.Photo;
-import net.cyclestreets.api.PhotomapCategories;
 
 import org.osmdroid.events.ScrollEvent;
 import org.osmdroid.events.ZoomEvent;
@@ -17,61 +13,70 @@ import org.osmdroid.events.MapAdapter;
 
 import android.content.Context;
 import android.os.AsyncTask;
-import android.util.Log;
 
-public class PhotomapListener extends MapAdapter {
-	public Map<Integer,Photo> photoMap = new HashMap<Integer,Photo>();
-	
-	protected MapView map;
-	protected List<PhotoItem> photoList;
-	protected Set<PhotoItem> photoSet;
-	protected PhotoMarkers photoMarkers;
+public class PhotomapListener extends MapAdapter 
+{
+	private MapView map_;
+	private List<PhotoItem> photoList_;
+	private PhotoMarkers photoMarkers_;
 
-	public PhotomapListener(Context ctx, MapView map, List<PhotoItem> photoList) {
-		this.map = map;
-		this.photoList = photoList;
-		this.photoSet = new HashSet<PhotoItem>();
-		this.photoMarkers = new PhotoMarkers(ctx.getResources());
-	}
+	public PhotomapListener(final Context ctx, final MapView map, final List<PhotoItem> photoList) 
+	{
+		map_ = map;
+		photoList_ = photoList;
+		photoMarkers_ = new PhotoMarkers(ctx.getResources());
+	} // PhotomapListener
 	
 	@Override
-	public boolean onScroll(ScrollEvent event) {
-		int x = event.getX();
-		int y = event.getY();
-		Log.i(getClass().getSimpleName(), "scroll to: " + x + "," + y);
-		
+	public boolean onScroll(final ScrollEvent event) 
+	{
 		refreshPhotos();
 		return true;
-	}
+	} // onScroll
 	
 	@Override
-	public boolean onZoom(ZoomEvent event) {
-		int z = event.getZoomLevel();
-		Log.i(getClass().getSimpleName(), "zoom to: " + z);
-
-		// clear photos for new zoom level
-		photoSet.clear();
-		photoList.clear();
+	public boolean onZoom(final ZoomEvent event) 
+	{
+		photoList_.clear();
 		refreshPhotos();
 		return true;
-	}
+	} // onZoom
 
-	protected void refreshPhotos() {
-		BoundingBoxE6 bounds = map.getBoundingBox();
+	protected void refreshPhotos() 
+	{
+		final BoundingBoxE6 bounds = map_.getBoundingBox();
 		double n = bounds.getLatNorthE6() / 1E6;
 		double s = bounds.getLatSouthE6() / 1E6;
 		double e = bounds.getLonEastE6() / 1E6;
 		double w = bounds.getLonWestE6() / 1E6;
-		Log.i(getClass().getSimpleName(), "Bounding box: " + n + " " + s + " " + e + " " + w);
 		
-		int zoom = map.getZoomLevel();
-		double clat = map.getMapCenterLatitudeE6() / 1E6;
-		double clon = map.getMapCenterLongitudeE6() / 1E6;
-		new GetPhotosTask().execute(clat, clon, zoom, n, s, e, w);		
-	}
+		int zoom = map_.getZoomLevel();
+		double clat = map_.getMapCenterLatitudeE6() / 1E6;
+		double clon = map_.getMapCenterLongitudeE6() / 1E6;
+		new GetPhotosTask(this).execute(clat, clon, zoom, n, s, e, w);		
+	} // refreshPhotos
+	
+	private void setPhotos(final List<PhotoItem> items)
+	{
+		for(final PhotoItem item : items)
+			if(!photoList_.contains(item))
+				photoList_.add(item);
+		if(photoList_.size() > 500)  // arbitrary figure
+			photoList_ = new ArrayList<PhotoItem>(photoList_.subList(100, 500));
+		map_.postInvalidate();
+	} // setPhotos
 
-	private class GetPhotosTask extends AsyncTask<Object,Void,List<Photo>> {
-		protected List<Photo> doInBackground(Object... params) {
+	static private class GetPhotosTask extends AsyncTask<Object,Void,List<Photo>> 
+	{
+		private final PhotomapListener listener_;
+		
+		public GetPhotosTask(final PhotomapListener listener)
+		{
+			listener_ = listener;
+		} // GetPhotosTask
+		
+		protected List<Photo> doInBackground(Object... params) 
+		{
 			double clat = (Double) params[0];
 			double clon = (Double) params[1];
 			int zoom = (Integer) params[2];
@@ -79,45 +84,30 @@ public class PhotomapListener extends MapAdapter {
 			double s = (Double) params[4];
 			double e = (Double) params[5];
 			double w = (Double) params[6];
-			List<Photo> photos;
+			final List<Photo> photos;
 			try {
-				PhotomapCategories photomapCategories = CycleStreets.apiClient.getPhotomapCategories();
-				Log.d(getClass().getSimpleName(), "photomapcategories: " + photomapCategories);
-				
 				photos = CycleStreets.apiClient.getPhotos(clat, clon, zoom, n, s, e, w);
-				Log.d(getClass().getSimpleName(), "got photos: " + photos.size());
-				if (!photos.isEmpty()) {
-					Log.d(getClass().getSimpleName(), photos.get(0).caption);
-				}
 			}
 			catch (Exception ex) {
 				throw new RuntimeException(ex);
 			}
 			return photos;
-		}
+		} // doInBackground
 		
 		@Override
-		protected void onPostExecute(List<Photo> photos) {
-			Log.d(getClass().getSimpleName(), "photolist contains: [" + photoList.size() + "] " + photoList);
-			Log.d(getClass().getSimpleName(), "photos contains: [" + photos.size() + "] " + photos);
-			for (Photo photo: photos) {
-				// check for duplicates
-				// photoSet is only used internally for duplicate checking
-				// photoList is exported to the ItemizedOverlay
-				//
-				// This is needed since ItemizedOverlay takes a List but there is no way to 
-				// enforce uniqueness on a list.
-				PhotoItem item = new PhotoItem(photo, photoMarkers);
-				if (!photoSet.contains(item)) {
-					photoSet.add(item);
-					photoList.add(item);
-				}
-			}
-			Log.d(getClass().getSimpleName(), "photolist contains: [" + photoList.size() + "] " + photoList);
-
-			// force map redraw
-			Log.d(getClass().getSimpleName(), "invalidating map");
-			map.postInvalidate();
-		}
-	}
-}
+		protected void onPostExecute(List<Photo> photos) 
+		{
+			if(photos.isEmpty())
+				return;
+			
+			final List<PhotoItem> items = new ArrayList<PhotoItem>();
+			for (final Photo photo: photos) 
+			{
+				final PhotoItem item = new PhotoItem(photo, listener_.photoMarkers_);
+				items.add(item);
+			} // for ...
+			
+			listener_.setPhotos(items);
+		} // onPostExecute
+	} // GetPhotosTask
+} // class PhotomapListener

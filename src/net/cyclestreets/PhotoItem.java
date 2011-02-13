@@ -8,30 +8,28 @@ import org.osmdroid.views.overlay.OverlayItem;
 import android.graphics.Point;
 import android.graphics.drawable.Drawable;
 
-public class PhotoItem extends OverlayItem {
+public class PhotoItem extends OverlayItem 
+{
 	protected Photo photo;
-	protected PhotoMarkers photoMarkers;
+	private PhotoMarkers photoMarkers;
 	
-	public PhotoItem(Photo photo, PhotoMarkers photoMarkers) {
+	public PhotoItem(final Photo photo, final PhotoMarkers photoMarkers) 
+	{
 		super(photo.id + "", photo.caption, new GeoPoint(photo.latitude, photo.longitude));
 		this.photo = photo;
 		this.photoMarkers = photoMarkers;
-	}
+	} // PhotoItem
 
 	// Markers
 	@Override
-	public Drawable getMarker(int stateBitset) {
-		return photoMarkers.getMarker(photo.feature, stateBitset);
-	}
+	public Drawable getMarker(int stateBitset) { return photoMarkers.getMarker(photo.feature, stateBitset);	}
 
 	@Override
-	public Point getMarkerHotspot(int stateBitset) {
-		return photoMarkers.getMarkerHotspot(photo.feature, stateBitset);
-	}
+	public Point getMarkerHotspot(int stateBitset) { return photoMarkers.getMarkerHotspot(photo.feature, stateBitset); }
 
 	// Equality testing
 	@Override
-	public int hashCode() {
+	public int hashCode() { 
 		return ((photo == null) ? 0 : photo.id);
 	}
 	
@@ -39,7 +37,7 @@ public class PhotoItem extends OverlayItem {
 	 * PhotoItems are equal if underlying Photos have the same id
 	 */
 	@Override
-	public boolean equals(Object obj) {
+	public boolean equals(final Object obj) {
 		if (this == obj)
 			return true;
 		if (obj == null)
@@ -47,18 +45,13 @@ public class PhotoItem extends OverlayItem {
 		if (getClass() != obj.getClass())
 			return false;
 		PhotoItem other = (PhotoItem) obj;
-		if (photo == null) {
-			if (other.photo != null)
-				return false;
-		} else {
-			if (other.photo == null)
-				return false;
-			else {
-				if (photo.id != other.photo.id)
-					return false;
-			}
-		}
-		return true;
+		if ((photo == null) && (other.photo != null))
+			return false;
+
+		if (other.photo == null)
+			return false;
+
+		return (photo.id == other.photo.id);
 	}
 
 	@Override

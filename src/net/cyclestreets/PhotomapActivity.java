@@ -1,7 +1,7 @@
 package net.cyclestreets;
 
 import java.util.List;
-import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.ArrayList;
 
 import net.cyclestreets.views.CycleMapView;
 
@@ -20,29 +20,27 @@ import android.widget.RelativeLayout;
 public class PhotomapActivity extends Activity
 							implements ItemizedOverlay.OnItemGestureListener<PhotoItem> 	
 {
-	protected PhotomapListener photomapListener;
-	
 	private CycleMapView map_; 
-	private ItemizedOverlay<PhotoItem> markers;
-	protected List<PhotoItem> photoList;
+	private ItemizedOverlay<PhotoItem> markers_;
+	private List<PhotoItem> photoList_;
 
 	public void onCreate(Bundle savedInstanceState) 
 	{
         super.onCreate(savedInstanceState);
 
-        photoList = new CopyOnWriteArrayList<PhotoItem>();
-        
         map_ = new CycleMapView(this, "photo");
 
-        markers = new ItemizedOverlay<PhotoItem>(
-        		this, photoList,
+        photoList_ = new ArrayList<PhotoItem>();
+        
+        markers_ = new ItemizedOverlay<PhotoItem>(this, 
+        		photoList_,
         		getResources().getDrawable(R.drawable.icon),
         		new Point(10,10),
         		this,
         		new DefaultResourceProxyImpl(this));
-        map_.overlayPushBottom(markers);
+        map_.overlayPushBottom(markers_);
         
-        map_.setMapListener(new DelayedMapListener(new PhotomapListener(this, map_, photoList)));
+        map_.setMapListener(new DelayedMapListener(new PhotomapListener(this, map_, photoList_)));
         
         final RelativeLayout rl = new RelativeLayout(this);
         rl.addView(this.map_, new RelativeLayout.LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT));
