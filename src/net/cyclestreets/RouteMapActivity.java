@@ -73,7 +73,7 @@ import android.widget.RelativeLayout.LayoutParams;
      
     public void onRouteNow(final GeoPoint start, final GeoPoint end)
     {
-    	RoutingTask.PlotRoute(CycleStreetsConstants.PLAN_BALANCED, start, end, this, this);
+    	RoutingTask.PlotRoute(CycleStreetsPreferences.routeType(), start, end, this, this);
     } // onRouteNow
     
     public void onClearRoute()
