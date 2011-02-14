@@ -14,6 +14,8 @@ public abstract class Segment
 	private final int distance_;
 	private final int running_distance_;
 	private final List<GeoPoint> points_;
+
+	static public DistanceFormatter formatter;
 	
 	Segment(final String name,
 			final String turn,
@@ -53,20 +55,6 @@ public abstract class Segment
 		return String.format("%d:%02d:%02d", hours, minutes, seconds);
 	} // formatTime
 	
-	private String formatDistance(int distance)
-	{
-		if(distance < 2000)
-			return String.format("%dm", distance);
-		return formatRunningDistance(distance);
-	} // formatDistance
-	
-	private String formatRunningDistance(int distance)
-	{
-		int km = distance / 1000;
-		int frackm = (int)((distance % 1000) / 10.0);
-		return String.format("%d.%02dkm", km, frackm);
-	} // formatRunningDistance
-	
 	public String toString() 
 	{
 		String s = turn() + " into " + street();
@@ -82,8 +70,8 @@ public abstract class Segment
 	public String turn() { return turn_; }
 	public boolean walk() { return walk_; }
 	public String runningTime() { return running_time_; }
-	public String distance() { return formatDistance(distance_); }
-	public String runningDistance() { return formatRunningDistance(running_distance_); }
+	public String distance() { return formatter.distance(distance_); }
+	public String runningDistance() { return formatter.total_distance(running_distance_); }
 	public Iterator<GeoPoint> points() { return points_.iterator(); }
 
 	static public class Start extends Segment 

@@ -1,5 +1,12 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 	<ListPreference
+		android:key="units"
+		android:title="Units"
+		android:summary="Kilometres"
+		android:defaultValue="km"
+		android:entries="@array/units"
+		android:entryValues="@array/unit_values"/>
+	<ListPreference
 		android:key="routetype"
 		android:title="Route type"
 		android:summary="Balanced"

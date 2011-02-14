@@ -38,6 +38,7 @@ public class ItineraryActivity extends ListActivity
 		
 		onContentChanged();
 		
+		Route.onResume();
 		setSelection(Route.activeSegmentIndex());
 	} // onResume	
 

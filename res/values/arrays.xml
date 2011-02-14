@@ -1,5 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+	<string-array name="units">
+		<item>Kilometres</item>
+		<item>Miles</item>
+	</string-array>
+	<string-array name="unit_values">
+		<item>km</item>
+		<item>miles</item>
+	</string-array>
     <string-array name="routetype">
         <item>Fastest</item>
         <item>Balanced</item>

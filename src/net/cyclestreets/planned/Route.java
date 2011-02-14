@@ -6,6 +6,7 @@ import java.util.ArrayList;
 
 import org.osmdroid.util.GeoPoint;
 
+import net.cyclestreets.CycleStreetsPreferences;
 import net.cyclestreets.api.Journey;
 import net.cyclestreets.api.Marker;
 
@@ -27,6 +28,11 @@ public class Route
 		onNewJourney(null, null, null);
 	} // resetJourney
 
+	static public void onResume()
+	{
+		Segment.formatter = DistanceFormatter.formatter(CycleStreetsPreferences.units());
+	} // onResult
+	
 	/////////////////////////////////////
 	static private List<Segment> segments_ = new ArrayList<Segment>();
 	
@@ -44,6 +50,8 @@ public class Route
 		
 		int total_time = 0;
 		int total_distance = 0;
+		
+		Segment.formatter = DistanceFormatter.formatter(CycleStreetsPreferences.units());
 		
 		for (final Marker marker : journey.markers) 
 		{

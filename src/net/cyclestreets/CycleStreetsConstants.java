@@ -19,6 +19,4 @@ public class CycleStreetsConstants {
     public final static String PLAN_FASTEST = "fastest";
     public final static String PLAN_QUIETEST = "quietest";
     public final static String PLAN_SHORTEST = "shortest";       
-
-}
-;
+};
