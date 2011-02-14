@@ -98,13 +98,13 @@ public abstract class Segment
 		
 		public String toString() 
 		{
-			return super.street();
+			return street();
 		} // toString
 		
 		public String street() 
 		{
 			return super.street() + "\n" + type_ + " route, " + super.runningDistance();
-		}
+		} // street
 		public String distance() { return ""; }
 		public String runningDistance() { return ""; }
 	} // class Start
