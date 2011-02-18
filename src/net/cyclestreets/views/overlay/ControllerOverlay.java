@@ -10,12 +10,12 @@ import android.view.MotionEvent;
 import android.view.GestureDetector.OnDoubleTapListener;
 import android.view.GestureDetector.OnGestureListener;
 
-public class TapOverlay extends Overlay implements OnDoubleTapListener, OnGestureListener 
+public class ControllerOverlay extends Overlay implements OnDoubleTapListener, OnGestureListener 
 {
 	private final GestureDetector gestureDetector_;
 	private final MapView mapView_;
 	
-	public TapOverlay(final Context context, final MapView mapView)
+	public ControllerOverlay(final Context context, final MapView mapView)
 	{
 		super(context);
 		

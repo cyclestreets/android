@@ -1,7 +1,7 @@
 package net.cyclestreets.views;
 
 import net.cyclestreets.views.overlay.LocationOverlay;
-import net.cyclestreets.views.overlay.TapOverlay;
+import net.cyclestreets.views.overlay.ControllerOverlay;
 import net.cyclestreets.views.overlay.ZoomButtonsOverlay;
 
 import org.osmdroid.tileprovider.tilesource.ITileSource;
@@ -42,7 +42,7 @@ public class CycleMapView extends MapView
         location_ = new LocationOverlay(context, this);
         getOverlays().add(location_);
 
-        getOverlays().add(new TapOverlay(context, this));
+        getOverlays().add(new ControllerOverlay(context, this));
         
         onResume();
 	} // CycleMapView
