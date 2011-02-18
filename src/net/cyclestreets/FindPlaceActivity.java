@@ -52,9 +52,6 @@ public class FindPlaceActivity extends Activity
     	
     	final Button findButton = (Button)findViewById(R.id.find_place);
     	findButton.setOnClickListener(this);
-    	
-    	final Button cancelButton = (Button)findViewById(R.id.cancel);
-    	cancelButton.setOnClickListener(this); 
     } // onCreate
     
     @Override
@@ -133,23 +130,13 @@ public class FindPlaceActivity extends Activity
 	@Override
 	public void onClick(final View view)
 	{
-		switch(view.getId())
+		final String from = routeFrom_.getText().toString();	
+		if (from.equals(""))
 		{
-		case R.id.find_place:
-			{
-				final String from = routeFrom_.getText().toString();	
-				if (from.equals(""))
-				{
-					Toast.makeText(this, R.string.lbl_choose_place, Toast.LENGTH_SHORT).show();
-					return;
-				}
+			Toast.makeText(this, R.string.lbl_choose_place, Toast.LENGTH_SHORT).show();
+			return;
+		}
 
-				findPlace(adapterFrom_.getSelected());
-			} //
-			break;
-		case R.id.cancel:
-			finish();
-			break;
-		} // switch ...
+		findPlace(adapterFrom_.getSelected());
 	} // onClick
 } // class FindPlaceActivity

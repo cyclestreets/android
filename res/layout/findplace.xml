@@ -33,19 +33,10 @@
      android:layout_marginRight="4.0dip" 
      android:layout_marginBottom="5.0dip" 
      android:layout_weight="8.0">
-                     <View
-                        android:layout_width="0.0dip"
-                        android:layout_height="fill_parent"
-                        android:layout_weight="1.0"
-                        >
-                </View>				
-     
-    <Button
-       android:id="@+id/cancel"
-       android:layout_width="30dip"
-       android:layout_height="wrap_content"     	
-       android:text="@string/btn_cancel"
-       android:layout_weight="1.0"/>
+	<View
+        android:layout_width="0.0dip"
+        android:layout_height="fill_parent"
+        android:layout_weight="1.0"/>				
     <Button
        android:id="@+id/find_place"
        android:layout_width="30dip"
