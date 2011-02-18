@@ -94,7 +94,7 @@ import android.widget.RelativeLayout.LayoutParams;
 	} // onCreateOptionsMenu
     	
 	@Override
-	public boolean onMenuItemSelected(int featureId, MenuItem item)
+	public boolean onMenuItemSelected(final int featureId, final MenuItem item)
 	{
 		switch (item.getItemId())
 		{

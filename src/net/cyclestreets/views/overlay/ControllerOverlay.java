@@ -1,16 +1,21 @@
 package net.cyclestreets.views.overlay;
 
+import java.util.Iterator;
+
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.Overlay;
 
 import android.content.Context;
 import android.graphics.Canvas;
 import android.view.GestureDetector;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.GestureDetector.OnDoubleTapListener;
 import android.view.GestureDetector.OnGestureListener;
 
-public class ControllerOverlay extends Overlay implements OnDoubleTapListener, OnGestureListener 
+public class ControllerOverlay extends Overlay implements OnDoubleTapListener, 
+														  OnGestureListener 
 {
 	private final GestureDetector gestureDetector_;
 	private final MapView mapView_;
@@ -23,8 +28,26 @@ public class ControllerOverlay extends Overlay implements OnDoubleTapListener, O
 		
 		gestureDetector_ = new GestureDetector(context, this);
 		gestureDetector_.setOnDoubleTapListener(this);
-	} // SingleTapOveraly
+	} // SingleTapOverlay
 
+	public boolean onCreateOptionsMenu(final Menu menu)
+	{
+		boolean ret = false;
+		
+		for(final Iterator<MenuListener> overlays = menuOverlays(); overlays.hasNext(); )
+			ret |= overlays.next().onCreateOptionsMenu(menu);
+		
+		return ret;
+	} // onCreateOptionsMenu
+	
+	public boolean onMenuItemSelected(final int featureId, final MenuItem item)
+	{
+		for(final Iterator<MenuListener> overlays = menuOverlays(); overlays.hasNext(); )
+			if(overlays.next().onMenuItemSelected(featureId, item))
+				return true;
+		return false;		
+	} // onMenuItemSelected
+	
 	@Override
 	public boolean onTouchEvent(final MotionEvent event, final MapView mapView)
 	{
@@ -36,28 +59,18 @@ public class ControllerOverlay extends Overlay implements OnDoubleTapListener, O
 	@Override
 	public boolean onSingleTapConfirmed(final MotionEvent e) 
 	{
-		for(final Overlay overlay : mapView_.getOverlays())
-		{
-			if(!(overlay instanceof TapListener))
-				continue;
-			final TapListener l = (TapListener)overlay;
-			if(l.onSingleTap(e))
+		for(final Iterator<TapListener> overlays = tapOverlays(); overlays.hasNext(); )
+			if(overlays.next().onSingleTap(e))
 				return true;
-		}
 		return false;
 	} // onSingleTapConfirmed
 
 	@Override
 	public boolean onDoubleTap(final MotionEvent e) 
 	{ 
-		for(final Overlay overlay : mapView_.getOverlays())
-		{
-			if(!(overlay instanceof TapListener))
-				continue;
-			final TapListener l = (TapListener)overlay;
-			if(l.onDoubleTap(e))
+		for(final Iterator<TapListener> overlays = tapOverlays(); overlays.hasNext(); )
+			if(overlays.next().onDoubleTap(e))
 				return true;
-		}
 		return false; 
 	} // onDoubleTap
 	
@@ -69,13 +82,8 @@ public class ControllerOverlay extends Overlay implements OnDoubleTapListener, O
 		if(mapView.isAnimating())
 			return;
 
-		for(final Overlay overlay : mapView_.getOverlays())
-		{
-			if(!(overlay instanceof TapListener))
-				continue;
-			final TapListener l = (TapListener)overlay;
-			l.drawButtons(canvas, mapView);
-		}
+		for(final Iterator<TapListener> overlays = tapOverlays(); overlays.hasNext(); )
+			overlays.next().drawButtons(canvas, mapView);
 	} // onDrawFinished
 	
 	@Override
@@ -92,4 +100,14 @@ public class ControllerOverlay extends Overlay implements OnDoubleTapListener, O
 	public void onShowPress(MotionEvent e) { }
 	@Override
 	public boolean onSingleTapUp(MotionEvent e) { return false; }
-} // class SingleTapOverlay
+	
+	//////////////////////////////////////////////////////
+	private Iterator<TapListener> tapOverlays()
+	{
+		return new OverlayIterator<TapListener>(mapView_, TapListener.class);
+	} // overlays
+	private Iterator<MenuListener> menuOverlays()
+	{
+		return new OverlayIterator<MenuListener>(mapView_, MenuListener.class);
+	} // overlays
+} // class ControllerOverlay
