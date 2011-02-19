@@ -29,7 +29,7 @@ import android.view.MenuItem;
 	private TapToRouteOverlay routeSetter_;
 	
     @Override
-    public void onCreate(Bundle saved)
+    public void onCreate(final Bundle saved)
     {
         super.onCreate(saved);
 
