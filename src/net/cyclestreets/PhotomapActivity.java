@@ -15,24 +15,22 @@ import android.os.Bundle;
 public class PhotomapActivity extends CycleMapActivity
 							implements ItemizedOverlay.OnItemGestureListener<PhotoItem> 	
 {
-	private ItemizedOverlay<PhotoItem> markers_;
-	private List<PhotoItem> photoList_;
-
 	public void onCreate(Bundle savedInstanceState) 
 	{
         super.onCreate(savedInstanceState);
 
-        photoList_ = new ArrayList<PhotoItem>();
+        final List<PhotoItem> photoList = new ArrayList<PhotoItem>();
         
-        markers_ = new ItemizedOverlay<PhotoItem>(this, 
-        		photoList_,
-        		getResources().getDrawable(R.drawable.icon),
-        		new Point(10,10),
-        		this,
-        		new DefaultResourceProxyImpl(this));
-        overlayPushBottom(markers_);
+        final ItemizedOverlay<PhotoItem> markers = 
+        			new ItemizedOverlay<PhotoItem>(this, 
+        										   photoList,
+        										   getResources().getDrawable(R.drawable.icon),
+        										   new Point(10,10),
+        										   this,
+        										   new DefaultResourceProxyImpl(this));
+        overlayPushBottom(markers);
         
-        mapView().setMapListener(new DelayedMapListener(new PhotomapListener(this, mapView(), photoList_)));
+        mapView().setMapListener(new DelayedMapListener(new PhotomapListener(this, mapView(), photoList)));
     } // onCreate
 
 	//////////////////////////////////////////////
