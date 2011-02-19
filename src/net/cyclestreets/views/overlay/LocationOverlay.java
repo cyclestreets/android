@@ -10,10 +10,12 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Canvas;
 import android.location.Location;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 
 public class LocationOverlay extends MyLocationOverlay 
-							 implements TapListener
+							 implements TapListener, MenuListener
 {
 	private final int offset_;
 	private final float radius_;
@@ -99,6 +101,21 @@ public class LocationOverlay extends MyLocationOverlay
 		locationButton_.draw(canvas);
 	} // drawLocationButton
 
+	////////////////////////////////////////////////
+	public boolean onCreateOptionsMenu(final Menu menu)
+    {
+    	menu.add(0, R.string.ic_menu_mylocation, Menu.NONE, R.string.ic_menu_mylocation).setIcon(R.drawable.ic_menu_mylocation);
+    	return true;
+	} // onCreateOptionsMenu
+
+	public boolean onMenuItemSelected(final int featureId, final MenuItem item)
+	{
+        if(featureId != R.string.ic_menu_mylocation)
+        	return false;
+        
+        enableLocation(!isMyLocationEnabled()); 
+        return true;
+	} // onMenuItemSelected
 	//////////////////////////////////////////////
 	@Override
     public boolean onSingleTap(final MotionEvent event) 

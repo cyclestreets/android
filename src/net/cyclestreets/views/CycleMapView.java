@@ -16,10 +16,13 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Canvas;
 import android.location.Location;
+import android.view.Menu;
+import android.view.MenuItem;
 
 public class CycleMapView extends MapView
 {
 	private final SharedPreferences prefs_;
+	private final ControllerOverlay controllerOverlay_;
 	private final LocationOverlay location_;
 	private final int overlayBottomIndex_;
 	
@@ -42,7 +45,8 @@ public class CycleMapView extends MapView
         location_ = new LocationOverlay(context, this);
         getOverlays().add(location_);
 
-        getOverlays().add(new ControllerOverlay(context, this));
+        controllerOverlay_ = new ControllerOverlay(context, this);
+        getOverlays().add(controllerOverlay_);
         
         onResume();
 	} // CycleMapView
@@ -87,6 +91,16 @@ public class CycleMapView extends MapView
         		 pref(CycloidConstants.PREFS_APP_SCROLL_Y, -701896)); /* Greenwich */
         getController().setZoom(pref(CycloidConstants.PREFS_APP_ZOOM_LEVEL, 14));
 	} // onResume 
+	
+	public boolean onCreateOptionsMenu(final Menu menu)
+	{
+		return controllerOverlay_.onCreateOptionsMenu(menu);		
+	} // onCreateOptionsMenu
+	
+	public boolean onMenuItemSelected(final int featureId, final MenuItem item)
+	{
+		return controllerOverlay_.onMenuItemSelected(featureId, item);
+	} // onMenuItemSelected
 	
 	/////////////////////////////////////////
 	// location

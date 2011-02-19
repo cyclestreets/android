@@ -87,8 +87,8 @@ import android.widget.RelativeLayout.LayoutParams;
     @Override
 	public boolean onCreateOptionsMenu(final Menu menu)
     {
+    	map_.onCreateOptionsMenu(menu);
     	menu.add(0, R.string.ic_menu_directions, Menu.NONE, R.string.ic_menu_directions).setIcon(R.drawable.ic_menu_directions);
-    	menu.add(0, R.string.ic_menu_mylocation, Menu.NONE, R.string.ic_menu_mylocation).setIcon(R.drawable.ic_menu_mylocation);
     	menu.add(0, R.string.ic_menu_findplace, Menu.NONE, R.string.ic_menu_findplace).setIcon(R.drawable.ic_menu_search);
     	return true;
 	} // onCreateOptionsMenu
@@ -96,6 +96,9 @@ import android.widget.RelativeLayout.LayoutParams;
 	@Override
 	public boolean onMenuItemSelected(final int featureId, final MenuItem item)
 	{
+		if(map_.onMenuItemSelected(featureId, item))
+			return true;
+		
 		switch (item.getItemId())
 		{
             case R.string.ic_menu_directions:
@@ -103,9 +106,6 @@ import android.widget.RelativeLayout.LayoutParams;
                 return true;
             case R.string.ic_menu_findplace:
             	launchFindDialog();
-            	return true;
-            case R.string.ic_menu_mylocation:
-            	map_.toggleMyLocation();
             	return true;
 		} // switch
 		return false;

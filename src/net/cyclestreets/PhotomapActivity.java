@@ -14,6 +14,8 @@ import android.content.Intent;
 import android.graphics.Point;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.RelativeLayout;
 
@@ -68,6 +70,23 @@ public class PhotomapActivity extends Activity
 		startActivity(intent);
 	} // showPhoto
 
+	/////////////////////////////////////////////////////
+    @Override
+	public boolean onCreateOptionsMenu(final Menu menu)
+    {
+    	map_.onCreateOptionsMenu(menu);
+    	return true;
+	} // onCreateOptionsMenu
+    	
+	@Override
+	public boolean onMenuItemSelected(final int featureId, final MenuItem item)
+	{
+		if(map_.onMenuItemSelected(featureId, item))
+			return true;
+		return false;
+	} // onMenuItemSelected
+
+	
 	/////////////////////////////////////////////////////
     @Override
     protected void onPause()
