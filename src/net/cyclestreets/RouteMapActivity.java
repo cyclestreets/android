@@ -5,7 +5,6 @@ import java.util.Iterator;
 import net.cyclestreets.CycleStreetsConstants;
 import net.cyclestreets.RoutingTask;
 import net.cyclestreets.R;
-import net.cyclestreets.views.CycleMapView;
 import net.cyclestreets.views.overlay.PathOfRouteOverlay;
 import net.cyclestreets.views.overlay.RouteHighlightOverlay;
 import net.cyclestreets.views.overlay.TapToRouteOverlay;
@@ -17,20 +16,15 @@ import uk.org.invisibility.cycloid.CycloidConstants;
 import uk.org.invisibility.cycloid.GeoIntent;
 import uk.org.invisibility.cycloid.RouteActivity;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.location.Location;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.MotionEvent;
-import android.widget.RelativeLayout;
-import android.widget.RelativeLayout.LayoutParams;
 
- public class RouteMapActivity extends Activity implements TapToRouteOverlay.Callback, RoutingTask.Callback
+ public class RouteMapActivity extends CycleMapActivity 
+ 							   implements TapToRouteOverlay.Callback, RoutingTask.Callback
  {
-	private CycleMapView map_; 
-	
 	private PathOfRouteOverlay path;
 	private TapToRouteOverlay routeSetter_;
 	
@@ -39,25 +33,18 @@ import android.widget.RelativeLayout.LayoutParams;
     {
         super.onCreate(saved);
 
-		map_ = new CycleMapView(this, "route");
-
-        map_.overlayPushBottom(new RouteHighlightOverlay(getApplicationContext(), map_));
+        overlayPushBottom(new RouteHighlightOverlay(getApplicationContext(), mapView()));
         
         path = new PathOfRouteOverlay(getApplicationContext());
-        map_.overlayPushBottom(path);
+        overlayPushBottom(path);
 
-        routeSetter_ = new TapToRouteOverlay(getApplicationContext(), map_, this);
-        map_.overlayPushTop(routeSetter_);
-        
-        final RelativeLayout rl = new RelativeLayout(this);
-        rl.addView(map_, new RelativeLayout.LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT));
-        setContentView(rl);
+        routeSetter_ = new TapToRouteOverlay(getApplicationContext(), mapView(), this);
+        overlayPushTop(routeSetter_);
     } // onCreate
 
     @Override
     protected void onPause()
     {
-    	map_.onPause();
         Route.setTerminals(routeSetter_.getStart(), routeSetter_.getEnd());
         super.onPause();
     } // onPause
@@ -66,8 +53,6 @@ import android.widget.RelativeLayout.LayoutParams;
     protected void onResume()
     {
     	super.onResume();
-
-    	map_.onResume();
        	setJourneyPath(Route.points(), Route.from(), Route.to());
     } // onResume
      
@@ -81,33 +66,29 @@ import android.widget.RelativeLayout.LayoutParams;
     	Route.resetJourney();
     	routeSetter_.resetRoute();
     	path.clearPath();
-    	map_.invalidate();
+    	mapView().invalidate();
     } // onClearRoute
     
     @Override
 	public boolean onCreateOptionsMenu(final Menu menu)
     {
-    	map_.onCreateOptionsMenu(menu);
     	menu.add(0, R.string.ic_menu_directions, Menu.NONE, R.string.ic_menu_directions).setIcon(R.drawable.ic_menu_directions);
-    	menu.add(0, R.string.ic_menu_findplace, Menu.NONE, R.string.ic_menu_findplace).setIcon(R.drawable.ic_menu_search);
+    	super.onCreateOptionsMenu(menu);
     	return true;
 	} // onCreateOptionsMenu
     	
 	@Override
 	public boolean onMenuItemSelected(final int featureId, final MenuItem item)
 	{
-		if(map_.onMenuItemSelected(featureId, item))
+		if(super.onMenuItemSelected(featureId, item))
 			return true;
 		
-		switch (item.getItemId())
+		if(item.getItemId() == R.string.ic_menu_directions)
 		{
-            case R.string.ic_menu_directions:
-            	launchRouteDialog();
-                return true;
-            case R.string.ic_menu_findplace:
-            	launchFindDialog();
-            	return true;
-		} // switch
+			launchRouteDialog();
+			return true;
+		} // if ...
+		
 		return false;
 	} // onMenuItemSelected
 	
@@ -119,35 +100,23 @@ import android.widget.RelativeLayout.LayoutParams;
 		if(resultCode != RESULT_OK)
 			return;
 		
-		switch(requestCode)
+		if(requestCode == R.string.ic_menu_directions)
 		{
-		case R.string.ic_menu_directions:
-			{
-				// get start and finish points
-				final GeoPoint placeFrom = new GeoPoint(data.getIntExtra(CycleStreetsConstants.EXTRA_PLACE_FROM_LAT, 0),
-														data.getIntExtra(CycleStreetsConstants.EXTRA_PLACE_FROM_LONG, 0));
-				final GeoPoint placeTo = new GeoPoint(data.getIntExtra(CycleStreetsConstants.EXTRA_PLACE_TO_LAT, 0),
-													  data.getIntExtra(CycleStreetsConstants.EXTRA_PLACE_TO_LONG, 0));
-				final String routeType = data.getStringExtra(CycleStreetsConstants.EXTRA_ROUTE_TYPE);
-				RoutingTask.PlotRoute(routeType, placeFrom, placeTo, this, this);
-			}
-			break;
-		case R.string.ic_menu_findplace:
-			{
-				final GeoPoint place = new GeoPoint(data.getIntExtra(CycleStreetsConstants.EXTRA_PLACE_FROM_LAT, 0),
-													data.getIntExtra(CycleStreetsConstants.EXTRA_PLACE_FROM_LONG, 0));
-				// we're in the wrong thread, so pop this away for later and force a refresh
-				map_.centreOn(place);
-			}
-			break;
-		} // switch
+			// get start and finish points
+			final GeoPoint placeFrom = new GeoPoint(data.getIntExtra(CycleStreetsConstants.EXTRA_PLACE_FROM_LAT, 0),
+					data.getIntExtra(CycleStreetsConstants.EXTRA_PLACE_FROM_LONG, 0));
+			final GeoPoint placeTo = new GeoPoint(data.getIntExtra(CycleStreetsConstants.EXTRA_PLACE_TO_LAT, 0),
+					data.getIntExtra(CycleStreetsConstants.EXTRA_PLACE_TO_LONG, 0));
+			final String routeType = data.getStringExtra(CycleStreetsConstants.EXTRA_ROUTE_TYPE);
+			RoutingTask.PlotRoute(routeType, placeFrom, placeTo, this, this);
+		}
 	} // onActivityResult
     
 	private void launchRouteDialog()
 	{
     	final Intent intent = new Intent(this, RouteActivity.class);
-    	GeoIntent.setBoundingBoxInExtras(intent, map_.getBoundingBox());
-    	final Location lastFix = map_.getLastFix();
+    	GeoIntent.setBoundingBoxInExtras(intent, mapView().getBoundingBox());
+    	final Location lastFix = mapView().getLastFix();
         if (lastFix != null)
         {
         	intent.putExtra(CycloidConstants.GEO_LATITUDE, (int)(lastFix.getLatitude() * 1E6));
@@ -155,14 +124,7 @@ import android.widget.RelativeLayout.LayoutParams;
         } // if ...	
         startActivityForResult(intent, R.string.ic_menu_directions);
 	} // launchRouteDialog
-	
-	private void launchFindDialog()
-	{
-		final Intent intent = new Intent(this, FindPlaceActivity.class);
-    	GeoIntent.setBoundingBoxInExtras(intent, map_.getBoundingBox());
-    	startActivityForResult(intent, R.string.ic_menu_findplace);
-	} // launchFindDialog
-	
+
 	@Override 
 	public void onBackPressed()
 	{
@@ -170,34 +132,13 @@ import android.widget.RelativeLayout.LayoutParams;
 			super.onBackPressed();
 	} // onBackPressed
 	
-	@Override
-	public boolean onSearchRequested()
-	{
-		launchFindDialog();
-		return true;
-	} // onSearchRequested
-   
-   @Override
-   public boolean onTrackballEvent(MotionEvent event)
-   {
-       return map_.onTrackballEvent(event);
-   } // onTrackballEvent
-  
-   @Override
-   public boolean onTouchEvent(MotionEvent event)
-   {
-       if (event.getAction() == MotionEvent.ACTION_MOVE)
-           map_.disableFollowLocation();
-       return super.onTouchEvent(event);
-   } // onTouchEvent
-   
    @Override
    public void onNewJourney() 
    {
 	   setJourneyPath(Route.points(), Route.from(), Route.to());
 	   
-	   map_.getController().setCenter(Route.from());
-	   map_.postInvalidate();
+	   mapView().getController().setCenter(Route.from());
+	   mapView().postInvalidate();
    } // onNewJourney   
    
    private void setJourneyPath(final Iterator<GeoPoint> points, final GeoPoint from, final GeoPoint to)
