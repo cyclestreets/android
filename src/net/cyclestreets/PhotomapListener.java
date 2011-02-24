@@ -3,6 +3,7 @@ package net.cyclestreets;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.cyclestreets.api.ApiClient;
 import net.cyclestreets.api.Photo;
 
 import org.osmdroid.events.ScrollEvent;
@@ -86,7 +87,7 @@ public class PhotomapListener extends MapAdapter
 			double w = (Double) params[6];
 			final List<Photo> photos;
 			try {
-				photos = CycleStreets.apiClient.getPhotos(clat, clon, zoom, n, s, e, w);
+				photos = ApiClient.getPhotos(clat, clon, zoom, n, s, e, w);
 			}
 			catch (Exception ex) {
 				throw new RuntimeException(ex);

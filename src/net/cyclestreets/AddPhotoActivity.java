@@ -1,5 +1,6 @@
 package net.cyclestreets;
 
+import net.cyclestreets.api.ApiClient;
 import net.cyclestreets.api.PhotomapCategories;
 import android.app.Activity;
 import android.content.Intent;
@@ -73,7 +74,7 @@ public class AddPhotoActivity extends Activity {
 		protected PhotomapCategories doInBackground(Object... params) {
 			PhotomapCategories photomapCategories;
 			try {
-				photomapCategories = CycleStreets.apiClient.getPhotomapCategories();
+				photomapCategories = ApiClient.getPhotomapCategories();
 			}
 			catch (Exception ex) {
 				throw new RuntimeException(ex);

@@ -1,6 +1,6 @@
 package net.cyclestreets;
 
-import net.cyclestreets.api.Journey;
+import net.cyclestreets.api.ApiClient;
 import net.cyclestreets.planned.Route;
 
 import org.osmdroid.util.GeoPoint;
@@ -8,9 +8,8 @@ import org.osmdroid.util.GeoPoint;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
-import android.widget.Toast;
 
-public class RoutingTask extends AsyncTask<GeoPoint, Integer, Journey>
+public class RoutingTask extends AsyncTask<GeoPoint, Integer, String>
 {
 	public interface Callback {
 		public void onNewJourney();
@@ -29,7 +28,6 @@ public class RoutingTask extends AsyncTask<GeoPoint, Integer, Journey>
 	/////////////////////////////////////////////////////
 	private final String routeType_;
 	private final Callback whoToTell_;
-	private final Context context_;
 	private GeoPoint from_;
 	private GeoPoint to_;
 	private ProgressDialog progress_;
@@ -39,7 +37,6 @@ public class RoutingTask extends AsyncTask<GeoPoint, Integer, Journey>
 						 final Context context) {
 		routeType_ = routeType;
 		whoToTell_ = whoToTell;
-		context_ = context;
 
 		progress_ = new ProgressDialog(context);
 		progress_.setMessage(context.getString(R.string.finding_route));
@@ -52,25 +49,19 @@ public class RoutingTask extends AsyncTask<GeoPoint, Integer, Journey>
 		progress_.show();
 	} // onPreExecute
 
-	protected Journey doInBackground(GeoPoint... points) {
+	protected String doInBackground(GeoPoint... points) {
 	   	try {
 	   		from_ = points[0];
 	   		to_ = points[1];
-	   		return CycleStreets.apiClient.getJourney(routeType_, from_, to_);
+	   		return ApiClient.getJourneyXml(routeType_, from_, to_);
 	   	}
 	   	catch (Exception e) {
 	   		throw new RuntimeException(e);
 	   	}
 	} // doInBackground
 
-    protected void onPostExecute(final Journey journey) {
+    protected void onPostExecute(final String journey) {
        	progress_.dismiss();
-
-       	if (journey.markers.isEmpty()) {
-    		// TODO: No route - something went wrong!
-       		Toast.makeText(context_, R.string.route_failed, Toast.LENGTH_SHORT).show();
-       		return;
-    	}
 
    		Route.onNewJourney(journey, from_, to_);
    		whoToTell_.onNewJourney();

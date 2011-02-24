@@ -7,8 +7,11 @@ import java.util.ArrayList;
 import org.osmdroid.util.GeoPoint;
 
 import android.content.Context;
+import android.widget.Toast;
 
 import net.cyclestreets.CycleStreetsPreferences;
+import net.cyclestreets.R;
+import net.cyclestreets.api.ApiClient;
 import net.cyclestreets.api.Journey;
 import net.cyclestreets.api.Marker;
 import net.cyclestreets.content.RouteDatabase;
@@ -20,9 +23,11 @@ public class Route
 	private static GeoPoint to_;
 	private static int activeSegment_ = -1;
 	private static RouteDatabase db_;
+	private static Context context_;
 
 	static public void initialise(final Context context)
 	{
+		context_ = context;
 		db_ = new RouteDatabase(context);
 	} // initialise
 
@@ -45,24 +50,38 @@ public class Route
 	/////////////////////////////////////
 	static private List<Segment> segments_ = new ArrayList<Segment>();
 	
-	static public void onNewJourney(final Journey journey, final GeoPoint from, final GeoPoint to)
+	static public void onNewJourney(final String journeyXml, final GeoPoint from, final GeoPoint to)
 	{
-		journey_ = journey;
+		try {
+			doOnNewJourney(journeyXml, from, to);
+		} // try
+		catch(Exception e) {
+       		Toast.makeText(context_, R.string.route_failed, Toast.LENGTH_SHORT).show();
+		}
+	} // onNewJourney
+	
+	static private void doOnNewJourney(final String journeyXml, final GeoPoint from, final GeoPoint to)
+		throws Exception
+	{
 		from_ = from;
 		to_ = to;
 	
 		segments_.clear();
 		activeSegment_ = -1;
 		
-		if(journey_ == null)
+		if(journeyXml == null)
 			return;
 		
+		journey_ = ApiClient.loadRaw(Journey.class, journeyXml);
+		if(journey_.markers.isEmpty())
+			throw new RuntimeException();
+				
 		int total_time = 0;
 		int total_distance = 0;
 		
 		Segment.formatter = DistanceFormatter.formatter(CycleStreetsPreferences.units());
 		
-		for (final Marker marker : journey.markers) 
+		for (final Marker marker : journey_.markers) 
 		{
 			if (marker.type.equals("segment")) 
 			{
@@ -79,7 +98,7 @@ public class Route
 			} // if ...
 		} // for ...
 
-		for (final Marker marker : journey.markers) 
+		for (final Marker marker : journey_.markers) 
 		{ 
 			if(marker.type.equals("route"))			
 			{
@@ -87,11 +106,13 @@ public class Route
 				final Segment endSeg = new Segment.End(marker.finish, total_time, total_distance, makeList(segments_.get(segments_.size()-1).end(), to_));
 				segments_.add(0, startSeg);
 				segments_.add(endSeg);
+				
+				db_.addRoute(marker.itinerary, marker.name, journeyXml);
 				break;
 			} // if ... 
 		} // for ...
 		
-		activeSegment_ = 0;
+		activeSegment_ = 0;		
 	} // onNewJourney
 	
 	static private List<GeoPoint> makeList(final GeoPoint g1, final GeoPoint g2)

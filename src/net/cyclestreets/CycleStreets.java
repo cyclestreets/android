@@ -1,6 +1,5 @@
 package net.cyclestreets;
 
-import net.cyclestreets.api.ApiClient;
 import android.app.TabActivity;
 import android.content.Intent;
 import android.content.res.Resources;
@@ -12,8 +11,6 @@ import android.view.ViewGroup;
 import android.widget.TabHost;
 
 public class CycleStreets extends TabActivity {
-	public static ApiClient apiClient = new ApiClient();
-	
     /** Called when the activity is first created. */
 	public void onCreate(Bundle savedInstanceState) {
 	    super.onCreate(savedInstanceState);
