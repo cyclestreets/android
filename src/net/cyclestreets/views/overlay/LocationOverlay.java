@@ -110,7 +110,7 @@ public class LocationOverlay extends MyLocationOverlay
 
 	public boolean onMenuItemSelected(final int featureId, final MenuItem item)
 	{
-        if(featureId != R.string.ic_menu_mylocation)
+        if(item.getItemId() != R.string.ic_menu_mylocation)
         	return false;
         
         enableLocation(!isMyLocationEnabled()); 
