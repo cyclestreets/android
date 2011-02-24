@@ -95,7 +95,7 @@ public class PhotomapListener extends MapAdapter
 		} // doInBackground
 		
 		@Override
-		protected void onPostExecute(List<Photo> photos) 
+		protected void onPostExecute(final List<Photo> photos) 
 		{
 			if(photos.isEmpty())
 				return;

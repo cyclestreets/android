@@ -6,9 +6,12 @@ import java.util.ArrayList;
 
 import org.osmdroid.util.GeoPoint;
 
+import android.content.Context;
+
 import net.cyclestreets.CycleStreetsPreferences;
 import net.cyclestreets.api.Journey;
 import net.cyclestreets.api.Marker;
+import net.cyclestreets.content.RouteDatabase;
 
 public class Route 
 {
@@ -16,6 +19,12 @@ public class Route
 	private static GeoPoint from_;
 	private static GeoPoint to_;
 	private static int activeSegment_ = -1;
+	private static RouteDatabase db_;
+
+	static public void initialise(final Context context)
+	{
+		db_ = new RouteDatabase(context);
+	} // initialise
 
 	static public void setTerminals(final GeoPoint from, final GeoPoint to)
 	{

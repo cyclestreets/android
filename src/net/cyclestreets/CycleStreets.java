@@ -19,9 +19,6 @@ public class CycleStreets extends TabActivity {
 	    super.onCreate(savedInstanceState);
 	    setContentView(R.layout.main);
 
-        // initialize default preferences
-	    CycleStreetsPreferences.initialise(this);
-
         // initialize objects
 	    final Resources res = getResources();
 	    final TabHost tabHost = getTabHost();
