@@ -17,6 +17,9 @@ import android.view.MotionEvent;
 public class LocationOverlay extends MyLocationOverlay 
 							 implements TapListener, MenuListener
 {
+	static private String LOCATION_ON = "Show Location";
+	static private String LOCATION_OFF = "Location Off";
+
 	private final int offset_;
 	private final float radius_;
 
@@ -104,7 +107,7 @@ public class LocationOverlay extends MyLocationOverlay
 	////////////////////////////////////////////////
 	public boolean onCreateOptionsMenu(final Menu menu)
     {
-    	menu.add(0, R.string.ic_menu_mylocation, Menu.NONE, R.string.ic_menu_mylocation).setIcon(R.drawable.ic_menu_mylocation);
+    	menu.add(0, R.string.ic_menu_mylocation, Menu.NONE, isMyLocationEnabled() ? LOCATION_OFF : LOCATION_ON).setIcon(R.drawable.ic_menu_mylocation);
     	return true;
 	} // onCreateOptionsMenu
 
@@ -113,7 +116,10 @@ public class LocationOverlay extends MyLocationOverlay
         if(item.getItemId() != R.string.ic_menu_mylocation)
         	return false;
         
-        enableLocation(!isMyLocationEnabled()); 
+        enableLocation(!isMyLocationEnabled());
+        
+        item.setTitle(isMyLocationEnabled() ? LOCATION_OFF : LOCATION_ON);
+        
         return true;
 	} // onMenuItemSelected
 	//////////////////////////////////////////////
