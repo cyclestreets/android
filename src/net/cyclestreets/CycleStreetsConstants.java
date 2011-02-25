@@ -12,6 +12,7 @@ public class CycleStreetsConstants {
 	public static final String EXTRA_PLACE_TO_LAT = "net.cyclestreets.extra.PLACE_TO_LAT";
 	public static final String EXTRA_PLACE_TO_LONG = "net.cyclestreets.extra.PLACE_TO_LONG";
 	public static final String EXTRA_ROUTE_TYPE = "net.cyclestreets.extra.ROUTE_TYPE";
+	public static final String EXTRA_ROUTE_SPEED = "net.cyclestreets.extra.ROUTE_SPEED";
 	public static final String EXTRA_ROUTE = "net.cyclestreets.extra.ROUTE";
 
 	// Route types 

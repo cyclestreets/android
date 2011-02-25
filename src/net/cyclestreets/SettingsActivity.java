@@ -16,6 +16,8 @@ public class SettingsActivity extends PreferenceActivity
 		addPreferencesFromResource(R.xml.preferences);
         setSummary(CycleStreetsPreferences.PREF_ROUTE_TYPE_KEY);
         setSummary(CycleStreetsPreferences.PREF_UNITS_KEY);
+        setSummary(CycleStreetsPreferences.PREF_SPEED_KEY);
+        setSummary(CycleStreetsPreferences.PREF_MAPSTYLE_KEY);
 	} // onCreate
 
     @Override

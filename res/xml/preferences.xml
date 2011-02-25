@@ -24,7 +24,7 @@
 		android:key="mapstyle"
 		android:title="Map style"
 		android:summary="OpenStreetMap"
-		android:defaultValue="openstreetmap"
+		android:defaultValue="CycleMap"
 		android:entries="@array/mapstyle"
 		android:entryValues="@array/mapstyle_values" />
 </PreferenceScreen>

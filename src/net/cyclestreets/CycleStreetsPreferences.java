@@ -8,6 +8,8 @@ public class CycleStreetsPreferences {
 	private static Context context_;
     public final static String PREF_ROUTE_TYPE_KEY = "routetype";
     public final static String PREF_UNITS_KEY = "units";
+    public final static String PREF_SPEED_KEY = "speed";
+    public final static String PREF_MAPSTYLE_KEY = "mapstyle";
 
     static public void initialise(final Context context) {
     	context_ = context;
@@ -21,6 +23,14 @@ public class CycleStreetsPreferences {
 	static public String units() {
 		return getString(PREF_UNITS_KEY, "km");
 	} // units
+	
+	static public int speed() {
+		return Integer.parseInt(getString(PREF_SPEED_KEY, "20"));
+	}
+	
+	static public String mapstyle() {
+		return getString(PREF_MAPSTYLE_KEY, "CycleMap");	
+	}
 	
 	static private String getString(final String key, final String defVal) {
     	final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context_);

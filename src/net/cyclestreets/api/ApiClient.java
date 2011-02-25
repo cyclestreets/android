@@ -100,6 +100,14 @@ public class ApiClient {
 				null, null, DEFAULT_SPEED);
 	} // getJourneyXml
 	
+	static public String getJourneyXml(String plan, GeoPoint start, GeoPoint finish, int speed) throws Exception 
+	{
+		return getJourneyXml(plan,
+				start.getLongitudeE6() / 1E6, start.getLatitudeE6() / 1E6,
+				finish.getLongitudeE6() / 1E6, finish.getLatitudeE6() / 1E6,
+				null, null, speed);
+	} // getJourneyXml
+	
 	static public String getJourneyXml(String plan, double startLon, double startLat, double finishLon, double finishLat,
 									   String leaving, String arriving, int speed) throws Exception
 	{

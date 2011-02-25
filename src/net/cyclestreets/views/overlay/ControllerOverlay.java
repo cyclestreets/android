@@ -40,6 +40,16 @@ public class ControllerOverlay extends Overlay implements OnDoubleTapListener,
 		return ret;
 	} // onCreateOptionsMenu
 	
+	public boolean onPrepareOptionsMenu(final Menu menu)
+	{
+		boolean ret = false;
+		
+		for(final Iterator<DynamicMenuListener> overlays = dynamicMenuOverlays(); overlays.hasNext(); )
+			ret |= overlays.next().onPrepareOptionsMenu(menu);
+		
+		return ret;
+	} // onPrepareOptionsMenu
+	
 	public boolean onMenuItemSelected(final int featureId, final MenuItem item)
 	{
 		for(final Iterator<MenuListener> overlays = menuOverlays(); overlays.hasNext(); )
@@ -109,5 +119,9 @@ public class ControllerOverlay extends Overlay implements OnDoubleTapListener,
 	private Iterator<MenuListener> menuOverlays()
 	{
 		return new OverlayIterator<MenuListener>(mapView_, MenuListener.class);
+	} // overlays
+	private Iterator<DynamicMenuListener> dynamicMenuOverlays()
+	{
+		return new OverlayIterator<DynamicMenuListener>(mapView_, DynamicMenuListener.class);
 	} // overlays
 } // class ControllerOverlay

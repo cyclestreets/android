@@ -18,24 +18,29 @@ public class RoutingTask extends AsyncTask<GeoPoint, Integer, String>
 	static public void PlotRoute(final String routeType,
 								 final GeoPoint placeFrom, 
 								 final GeoPoint placeTo,
+								 final int speed,
 								 final Callback whoToTell,
 								 final Context context)
 	{
-		final RoutingTask query = new RoutingTask(routeType, whoToTell, context);
+		final RoutingTask query = new RoutingTask(routeType, speed, whoToTell, context);
 		query.execute(placeFrom, placeTo);
 	} // GetRoute
 	
 	/////////////////////////////////////////////////////
 	private final String routeType_;
+	private final int speed_;
 	private final Callback whoToTell_;
 	private GeoPoint from_;
 	private GeoPoint to_;
 	private ProgressDialog progress_;
 			
 	private	RoutingTask(final String routeType,
-						 final Callback whoToTell,
-						 final Context context) {
+						final int speed,
+					    final Callback whoToTell,
+						final Context context) 
+	{
 		routeType_ = routeType;
+		speed_ = speed;
 		whoToTell_ = whoToTell;
 
 		progress_ = new ProgressDialog(context);
@@ -53,7 +58,7 @@ public class RoutingTask extends AsyncTask<GeoPoint, Integer, String>
 	   	try {
 	   		from_ = points[0];
 	   		to_ = points[1];
-	   		return ApiClient.getJourneyXml(routeType_, from_, to_);
+	   		return ApiClient.getJourneyXml(routeType_, from_, to_, speed_);
 	   	}
 	   	catch (Exception e) {
 	   		throw new RuntimeException(e);

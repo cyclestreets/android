@@ -1,5 +1,6 @@
 package net.cyclestreets.views;
 
+import net.cyclestreets.CycleStreetsPreferences;
 import net.cyclestreets.views.overlay.LocationOverlay;
 import net.cyclestreets.views.overlay.ControllerOverlay;
 import net.cyclestreets.views.overlay.ZoomButtonsOverlay;
@@ -21,6 +22,7 @@ import android.view.MenuItem;
 
 public class CycleMapView extends MapView
 {
+	private ITileSource renderer_;
 	private final SharedPreferences prefs_;
 	private final ControllerOverlay controllerOverlay_;
 	private final LocationOverlay location_;
@@ -34,7 +36,6 @@ public class CycleMapView extends MapView
 
 		prefs_ = context.getSharedPreferences(CycloidConstants.PREFS_APP_KEY+"."+name, Context.MODE_PRIVATE);
 		
-		setTileSource(mapRenderer());
         setBuiltInZoomControls(false);
         setMultiTouchControls(true);
 	
@@ -82,6 +83,14 @@ public class CycleMapView extends MapView
 
 	public void onResume()
 	{
+		ITileSource tileSource = mapRenderer();
+		if(!tileSource.equals(renderer_))
+		{
+			renderer_ = tileSource;
+			setTileSource(renderer_);
+		} // if ...
+		
+		
         location_.enableLocation(pref(CycloidConstants.PREFS_APP_MY_LOCATION, false));
         location_.followLocation(pref(CycloidConstants.PREFS_APP_FOLLOW_LOCATION, false));
         
@@ -96,6 +105,11 @@ public class CycleMapView extends MapView
 	{
 		return controllerOverlay_.onCreateOptionsMenu(menu);		
 	} // onCreateOptionsMenu
+	
+	public boolean onPrepareOptionsMenu(final Menu menu)
+	{
+		return controllerOverlay_.onPrepareOptionsMenu(menu);
+	} // onPrepareOptionsMenu
 	
 	public boolean onMenuItemSelected(final int featureId, final MenuItem item)
 	{
@@ -140,6 +154,12 @@ public class CycleMapView extends MapView
 	
 	private ITileSource mapRenderer()
 	{
-		return TileSourceFactory.getTileSource(prefs_.getString(CycloidConstants.PREFS_APP_RENDERER, CycloidConstants.DEFAULT_MAPTYPE));
+		try { 
+			return TileSourceFactory.getTileSource(CycleStreetsPreferences.mapstyle());
+		} // try
+		catch(Exception e) {
+			/* oh dear */
+		} // catch
+		return TileSourceFactory.getTileSource("CycleMap");
 	} // mapRenderer
 } // CycleMapView

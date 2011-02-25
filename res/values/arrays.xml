@@ -19,9 +19,9 @@
         <item>quietest</item>
     </string-array>
     <string-array name="speed">
-        <item>16 km/h</item>
-        <item>20 km/h</item>
-        <item>24 km/h</item>
+        <item>Unhurried 10mph (16km/h)</item>
+        <item>Cruising 12mph (20km/h)</item>
+        <item>Quick 15mph (24km/h)</item>
     </string-array>
     <string-array name="speed_values">
         <item>16</item>
@@ -29,12 +29,14 @@
         <item>24</item>
     </string-array>
     <string-array name="mapstyle">
+    	<item>OpenCycleMap</item>
         <item>OpenStreetMap</item>
-        <item>CloudMade</item>
+        <item>Mapnik</item>
     </string-array>
     <string-array name="mapstyle_values">
-        <item>openstreetmap</item>
-        <item>cloudmade</item>
+        <item>CycleMap</item>
+        <item>Osmarender</item>
+        <item>Mapnik</item>
     </string-array>
     <string-array name="point_type3">
         <item>My current location</item>

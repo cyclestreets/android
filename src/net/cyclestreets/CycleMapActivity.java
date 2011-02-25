@@ -61,6 +61,13 @@ import android.widget.RelativeLayout.LayoutParams;
     	menu.add(0, R.string.ic_menu_findplace, Menu.NONE, R.string.ic_menu_findplace).setIcon(R.drawable.ic_menu_search);
     	return true;
 	} // onCreateOptionsMenu
+    
+    @Override
+	public boolean onPrepareOptionsMenu(final Menu menu)
+    {
+    	map_.onPrepareOptionsMenu(menu);
+    	return true;
+    } // onPrepareOptionsMenu
     	
 	@Override
 	public boolean onMenuItemSelected(final int featureId, final MenuItem item)

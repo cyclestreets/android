@@ -58,7 +58,12 @@ import android.view.MenuItem;
      
     public void onRouteNow(final GeoPoint start, final GeoPoint end)
     {
-    	RoutingTask.PlotRoute(CycleStreetsPreferences.routeType(), start, end, this, this);
+    	RoutingTask.PlotRoute(CycleStreetsPreferences.routeType(), 
+    						  start, 
+    						  end,
+    						  CycleStreetsPreferences.speed(),
+    						  this, 
+    						  this);
     } // onRouteNow
     
     public void onClearRoute()
@@ -76,7 +81,7 @@ import android.view.MenuItem;
     	super.onCreateOptionsMenu(menu);
     	return true;
 	} // onCreateOptionsMenu
-    	
+    
 	@Override
 	public boolean onMenuItemSelected(final int featureId, final MenuItem item)
 	{
@@ -108,7 +113,14 @@ import android.view.MenuItem;
 			final GeoPoint placeTo = new GeoPoint(data.getIntExtra(CycleStreetsConstants.EXTRA_PLACE_TO_LAT, 0),
 					data.getIntExtra(CycleStreetsConstants.EXTRA_PLACE_TO_LONG, 0));
 			final String routeType = data.getStringExtra(CycleStreetsConstants.EXTRA_ROUTE_TYPE);
-			RoutingTask.PlotRoute(routeType, placeFrom, placeTo, this, this);
+			final int speed = data.getIntExtra(CycleStreetsConstants.EXTRA_ROUTE_SPEED, 
+					                           CycleStreetsPreferences.speed());
+			RoutingTask.PlotRoute(routeType, 
+								  placeFrom, 
+								  placeTo,
+								  speed,
+								  this, 
+								  this);
 		}
 	} // onActivityResult
     
