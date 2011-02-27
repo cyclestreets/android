@@ -32,6 +32,7 @@
 	<string name="ic_menu_directions">Route</string>
 	<string name="ic_menu_mylocation">Show location</string>
 	<string name="ic_menu_findplace">Find place</string>
+	<string name="ic_menu_saved_routes">Saved routes</string>
 	
 	<!-- find place dialog -->
 	<string name="btn_find_place">Find</string>

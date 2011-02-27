@@ -31,12 +31,10 @@
     <string-array name="mapstyle">
     	<item>OpenCycleMap</item>
         <item>OpenStreetMap</item>
-        <item>Mapnik</item>
     </string-array>
     <string-array name="mapstyle_values">
         <item>CycleMap</item>
         <item>Osmarender</item>
-        <item>Mapnik</item>
     </string-array>
     <string-array name="point_type3">
         <item>My current location</item>
