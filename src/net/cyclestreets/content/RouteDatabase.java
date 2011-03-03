@@ -7,6 +7,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteStatement;
+import android.provider.BaseColumns;
 
 public class RouteDatabase 
 {
@@ -18,11 +19,42 @@ public class RouteDatabase
 		db_ = dh.getWritableDatabase();
 	} // RouteDatabase
 	
-	public void addRoute(final int id, final String name, final String xml)
+	public int routeCount()
+	{
+		final Cursor cursor = db_.query(DatabaseHelper.ROUTE_TABLE_NAME, 
+										new String[] { "count(" + BaseColumns._ID +")" },
+										null, 
+										null,
+										null,
+										null,
+										null);
+		int c = 0;
+        if(cursor.moveToFirst()) 
+            do 
+            {
+         	   c = cursor.getInt(0);
+            } 
+            while (cursor.moveToNext());
+  
+         if(!cursor.isClosed()) 
+            cursor.close();
+         
+         return c;
+	} // count
+		
+	public void saveRoute(final int id, final String name, final String xml)
+	{
+		if(route(id) == null)
+			addRoute(id, name, xml);
+		else
+			updateRoute(id);
+	} // saveRoute
+	
+	private void addRoute(final int id, final String name, final String xml)
 	{
 	    final String ROUTE_TABLE_INSERT = 
-    	    "INSERT INTO route (journey, name, xml, use_count) " +
-    	    "  VALUES(?, ?, ?, 1)";
+    	    "INSERT INTO route (journey, name, xml, last_used) " +
+    	    "  VALUES(?, ?, ?, datetime())";
     
     	final SQLiteStatement insertRoute = db_.compileStatement(ROUTE_TABLE_INSERT);
     	insertRoute.bindLong(1, id);
@@ -30,27 +62,61 @@ public class RouteDatabase
     	insertRoute.bindString(3, xml);
 		insertRoute.executeInsert();
 	} // addRoute
-	
-	public List<String> savedRoutes()
+
+	private void updateRoute(final int id)
 	{
-        final List<String> routes = new ArrayList<String>();
+		final String ROUTE_TABLE_UPDATE = 
+			"UPDATE route SET last_used = datetime() WHERE journey = ?";
+		
+		final SQLiteStatement update = db_.compileStatement(ROUTE_TABLE_UPDATE);
+		update.bindLong(1, id);
+		update.execute();
+	} // updateRoute
+	
+	public List<RouteSummary> savedRoutes()
+	{
+        final List<RouteSummary> routes = new ArrayList<RouteSummary>();
         final Cursor cursor = db_.query(DatabaseHelper.ROUTE_TABLE_NAME, 
-        								new String[] { "name" },
+        								new String[] { "journey", "name" },
         								null, 
         								null, 
         								null, 
         								null, 
-        								"use_count desc");
+        								"last_used desc");
         if(cursor.moveToFirst()) 
            do 
            {
-        	   routes.add(cursor.getString(0));
+        	   routes.add(new RouteSummary(cursor.getInt(0), cursor.getString(1)));
            } 
            while (cursor.moveToNext());
  
-        if(cursor != null && !cursor.isClosed()) 
+        if(!cursor.isClosed()) 
            cursor.close();
         
         return routes;
 	} // savedRoutes
+
+	public String route(final int routeId)
+	{
+        String r = null;
+        final Cursor cursor = db_.query(DatabaseHelper.ROUTE_TABLE_NAME, 
+        								new String[] { "xml" },
+        								"journey=?", 
+        								new String[] { Integer.toString(routeId) }, 
+        								null, 
+        								null, 
+        								null);
+        if(cursor.moveToFirst()) 
+           do 
+           {
+        	   r = cursor.getString(0);
+           } 
+           while (cursor.moveToNext());
+ 
+        if(!cursor.isClosed()) 
+           cursor.close();
+        
+        return r;
+	} // route
+
 } // class RouteDatabase

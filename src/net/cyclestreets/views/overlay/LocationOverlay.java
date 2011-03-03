@@ -15,7 +15,7 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 
 public class LocationOverlay extends MyLocationOverlay 
-							 implements TapListener, MenuListener
+							 implements TapListener, DynamicMenuListener
 {
 	static private String LOCATION_ON = "Show Location";
 	static private String LOCATION_OFF = "Location Off";
@@ -110,6 +110,14 @@ public class LocationOverlay extends MyLocationOverlay
     	menu.add(0, R.string.ic_menu_mylocation, Menu.NONE, isMyLocationEnabled() ? LOCATION_OFF : LOCATION_ON).setIcon(R.drawable.ic_menu_mylocation);
     	return true;
 	} // onCreateOptionsMenu
+	
+	public boolean onPrepareOptionsMenu(final Menu menu)
+	{
+		final MenuItem item = menu.findItem(R.string.ic_menu_mylocation);
+		if(item != null)
+			item.setTitle(isMyLocationEnabled() ? LOCATION_OFF : LOCATION_ON);
+		return true;
+	} // onPrepareOptionsMenu
 
 	public boolean onMenuItemSelected(final int featureId, final MenuItem item)
 	{
@@ -117,8 +125,6 @@ public class LocationOverlay extends MyLocationOverlay
         	return false;
         
         enableLocation(!isMyLocationEnabled());
-        
-        item.setTitle(isMyLocationEnabled() ? LOCATION_OFF : LOCATION_ON);
         
         return true;
 	} // onMenuItemSelected

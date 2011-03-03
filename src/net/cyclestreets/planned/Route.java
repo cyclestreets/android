@@ -15,9 +15,34 @@ import net.cyclestreets.api.ApiClient;
 import net.cyclestreets.api.Journey;
 import net.cyclestreets.api.Marker;
 import net.cyclestreets.content.RouteDatabase;
+import net.cyclestreets.content.RouteSummary;
 
 public class Route 
 {
+	public interface Callback {
+		public void onNewJourney();
+	}
+
+	static public void PlotRoute(final String routeType,
+								 final GeoPoint placeFrom, 
+								 final GeoPoint placeTo,
+								 final int speed,
+								 final Callback whoToTell,
+								 final Context context)
+	{
+		final RoutingTask query = new RoutingTask(routeType, speed, whoToTell, context);
+		query.execute(placeFrom, placeTo);
+	} // PlotRoute
+
+	static public void PlotRoute(final int routeId,
+								 final Callback whoToTell,
+								 final Context context)
+	{
+		final StoredRoutingTask query = new StoredRoutingTask(whoToTell, context);
+		query.execute(routeId);
+	} // PlotRoute
+	
+	/////////////////////////////////////////	
 	private static Journey journey_;
 	private static GeoPoint from_;
 	private static GeoPoint to_;
@@ -46,6 +71,17 @@ public class Route
 	{
 		Segment.formatter = DistanceFormatter.formatter(CycleStreetsPreferences.units());
 	} // onResult
+	
+	/////////////////////////////////////
+	static public int storedCount()
+	{
+		return db_.routeCount();
+	} // storedCount
+
+	static public List<RouteSummary> storedRoutes()
+	{
+		return db_.savedRoutes();
+	} // storedNames
 	
 	/////////////////////////////////////
 	static private List<Segment> segments_ = new ArrayList<Segment>();
@@ -98,6 +134,11 @@ public class Route
 			} // if ...
 		} // for ...
 
+		if(from_ == null)
+			from_ = segments_.get(0).start();
+		if(to_ == null)
+			to_ = segments_.get(segments_.size()-1).end();
+		
 		for (final Marker marker : journey_.markers) 
 		{ 
 			if(marker.type.equals("route"))			
@@ -107,7 +148,7 @@ public class Route
 				segments_.add(0, startSeg);
 				segments_.add(endSeg);
 				
-				db_.addRoute(marker.itinerary, marker.name, journeyXml);
+				db_.saveRoute(marker.itinerary, marker.name, journeyXml);
 				break;
 			} // if ... 
 		} // for ...
@@ -134,7 +175,8 @@ public class Route
 	static public boolean atEnd() { return activeSegment_ == segments_.size()-1; }
 	static public void regressActiveSegment() 
 	{ 
-		if(!atStart()) --activeSegment_; 
+		if(!atStart()) 
+			--activeSegment_; 
 	} // regressActiveSegment
 	static public void advanceActiveSegment() 
 	{ 

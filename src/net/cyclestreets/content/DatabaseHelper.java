@@ -14,7 +14,7 @@ class DatabaseHelper extends SQLiteOpenHelper
     private static final String ROUTE_TABLE_CREATE = 
     		"CREATE TABLE route (" + BaseColumns._ID + " INTEGER PRIMARY KEY, " +
     		                     " journey INTEGER, " +
-    		                     " use_count INTEGER, " +
+    		                     " last_used DATE, " +
     		                     " name TEXT, " +
     		                     " xml TEXT) ";
     DatabaseHelper(final Context context) 

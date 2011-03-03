@@ -1,5 +1,6 @@
-package net.cyclestreets;
+package net.cyclestreets.planned;
 
+import net.cyclestreets.R;
 import net.cyclestreets.api.ApiClient;
 import net.cyclestreets.planned.Route;
 
@@ -9,35 +10,20 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
 
-public class RoutingTask extends AsyncTask<GeoPoint, Integer, String>
+class RoutingTask extends AsyncTask<GeoPoint, Integer, String>
 {
-	public interface Callback {
-		public void onNewJourney();
-	}
-
-	static public void PlotRoute(final String routeType,
-								 final GeoPoint placeFrom, 
-								 final GeoPoint placeTo,
-								 final int speed,
-								 final Callback whoToTell,
-								 final Context context)
-	{
-		final RoutingTask query = new RoutingTask(routeType, speed, whoToTell, context);
-		query.execute(placeFrom, placeTo);
-	} // GetRoute
-	
 	/////////////////////////////////////////////////////
 	private final String routeType_;
 	private final int speed_;
-	private final Callback whoToTell_;
+	private final Route.Callback whoToTell_;
 	private GeoPoint from_;
 	private GeoPoint to_;
 	private ProgressDialog progress_;
 			
-	private	RoutingTask(final String routeType,
-						final int speed,
-					    final Callback whoToTell,
-						final Context context) 
+	RoutingTask(final String routeType,
+				final int speed,
+				final Route.Callback whoToTell,
+				final Context context) 
 	{
 		routeType_ = routeType;
 		speed_ = speed;

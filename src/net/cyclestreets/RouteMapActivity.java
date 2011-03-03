@@ -3,10 +3,10 @@ package net.cyclestreets;
 import java.util.Iterator;
 
 import net.cyclestreets.CycleStreetsConstants;
-import net.cyclestreets.RoutingTask;
 import net.cyclestreets.R;
 import net.cyclestreets.views.overlay.PathOfRouteOverlay;
 import net.cyclestreets.views.overlay.RouteHighlightOverlay;
+import net.cyclestreets.views.overlay.StoredRouteOverlay;
 import net.cyclestreets.views.overlay.TapToRouteOverlay;
 import net.cyclestreets.planned.Route;
 
@@ -23,7 +23,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 
  public class RouteMapActivity extends CycleMapActivity 
- 							   implements TapToRouteOverlay.Callback, RoutingTask.Callback
+ 							   implements TapToRouteOverlay.Callback, 
+ 							   			  StoredRouteOverlay.Callback,
+ 							   			  Route.Callback
  {
 	private PathOfRouteOverlay path;
 	private TapToRouteOverlay routeSetter_;
@@ -38,6 +40,8 @@ import android.view.MenuItem;
         path = new PathOfRouteOverlay(getApplicationContext());
         overlayPushBottom(path);
 
+        overlayPushTop(new StoredRouteOverlay(getApplicationContext(), this));
+        
         routeSetter_ = new TapToRouteOverlay(getApplicationContext(), mapView(), this);
         overlayPushTop(routeSetter_);
     } // onCreate
@@ -58,13 +62,18 @@ import android.view.MenuItem;
      
     public void onRouteNow(final GeoPoint start, final GeoPoint end)
     {
-    	RoutingTask.PlotRoute(CycleStreetsPreferences.routeType(), 
-    						  start, 
-    						  end,
-    						  CycleStreetsPreferences.speed(),
-    						  this, 
-    						  this);
+    	Route.PlotRoute(CycleStreetsPreferences.routeType(), 
+    					start, 
+    					end,
+    					CycleStreetsPreferences.speed(),
+    					this, 
+    					this);
     } // onRouteNow
+    
+    public void onStoredRouteNow(final int routeId)
+    {
+    	Route.PlotRoute(routeId, this, this);
+    } // onStoredRouteNow
     
     public void onClearRoute()
     {
@@ -115,12 +124,12 @@ import android.view.MenuItem;
 			final String routeType = data.getStringExtra(CycleStreetsConstants.EXTRA_ROUTE_TYPE);
 			final int speed = data.getIntExtra(CycleStreetsConstants.EXTRA_ROUTE_SPEED, 
 					                           CycleStreetsPreferences.speed());
-			RoutingTask.PlotRoute(routeType, 
-								  placeFrom, 
-								  placeTo,
-								  speed,
-								  this, 
-								  this);
+			Route.PlotRoute(routeType, 
+							placeFrom, 
+							placeTo,
+							speed,
+							this, 
+							this);
 		}
 	} // onActivityResult
     
