@@ -37,6 +37,10 @@
 				  android:label="@string/app_name"
 				  android:theme="@style/Theme.Photo">
 		</activity>
+		<activity android:name=".StoredRoutesActivity"
+				  android:label="@string/app_name"
+				  android:theme="@style/Theme.Menu">
+		</activity>
 		<activity android:name=".AddPhotoActivity"
 				  android:label="@string/app_name">
 		</activity>

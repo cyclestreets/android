@@ -80,7 +80,7 @@ import android.widget.RelativeLayout.LayoutParams;
 			launchFindDialog();
 			return true;
 		} // if ...
-		
+
 		return false;
 	} // onMenuItemSelected
 	

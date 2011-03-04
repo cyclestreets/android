@@ -6,7 +6,6 @@ import net.cyclestreets.CycleStreetsConstants;
 import net.cyclestreets.R;
 import net.cyclestreets.views.overlay.PathOfRouteOverlay;
 import net.cyclestreets.views.overlay.RouteHighlightOverlay;
-import net.cyclestreets.views.overlay.StoredRouteOverlay;
 import net.cyclestreets.views.overlay.TapToRouteOverlay;
 import net.cyclestreets.planned.Route;
 
@@ -24,7 +23,6 @@ import android.view.MenuItem;
 
  public class RouteMapActivity extends CycleMapActivity 
  							   implements TapToRouteOverlay.Callback, 
- 							   			  StoredRouteOverlay.Callback,
  							   			  Route.Callback
  {
 	private PathOfRouteOverlay path;
@@ -40,8 +38,6 @@ import android.view.MenuItem;
         path = new PathOfRouteOverlay(getApplicationContext());
         overlayPushBottom(path);
 
-        overlayPushTop(new StoredRouteOverlay(getApplicationContext(), this));
-        
         routeSetter_ = new TapToRouteOverlay(getApplicationContext(), mapView(), this);
         overlayPushTop(routeSetter_);
     } // onCreate
@@ -87,9 +83,19 @@ import android.view.MenuItem;
 	public boolean onCreateOptionsMenu(final Menu menu)
     {
     	menu.add(0, R.string.ic_menu_directions, Menu.NONE, R.string.ic_menu_directions).setIcon(R.drawable.ic_menu_directions);
+    	menu.add(0, R.string.ic_menu_saved_routes, Menu.NONE, R.string.ic_menu_saved_routes).setIcon(R.drawable.ic_menu_places);
     	super.onCreateOptionsMenu(menu);
     	return true;
 	} // onCreateOptionsMenu
+    
+    @Override
+	public boolean onPrepareOptionsMenu(final Menu menu)
+    {
+		final MenuItem i = menu.findItem(R.string.ic_menu_saved_routes);
+		i.setVisible(Route.storedCount() != 0);
+    	super.onPrepareOptionsMenu(menu);
+    	return true;
+    } // onPrepareOptionsMenu
     
 	@Override
 	public boolean onMenuItemSelected(final int featureId, final MenuItem item)
@@ -101,6 +107,13 @@ import android.view.MenuItem;
 		{
 			launchRouteDialog();
 			return true;
+		} // if ...
+		
+		if(item.getItemId() == R.string.ic_menu_saved_routes)
+		{
+			final Intent intent = new Intent(this, StoredRoutesActivity.class);
+    		startActivityForResult(intent, R.string.ic_menu_saved_routes);
+    		return true;
 		} // if ...
 		
 		return false;
