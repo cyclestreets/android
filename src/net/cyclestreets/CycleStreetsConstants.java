@@ -14,6 +14,8 @@ public class CycleStreetsConstants {
 	public static final String EXTRA_ROUTE_TYPE = "net.cyclestreets.extra.ROUTE_TYPE";
 	public static final String EXTRA_ROUTE_SPEED = "net.cyclestreets.extra.ROUTE_SPEED";
 	public static final String EXTRA_ROUTE = "net.cyclestreets.extra.ROUTE";
+	
+	public static final String ROUTE_ID = "net.cyclestreets.extra.ROUTE_ID";
 
 	// Route types 
     public final static String PLAN_BALANCED = "balanced";

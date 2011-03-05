@@ -127,6 +127,14 @@ import android.view.MenuItem;
 		if(resultCode != RESULT_OK)
 			return;
 		
+		if(requestCode == R.string.ic_menu_saved_routes)
+		{
+			final int routeId = data.getIntExtra(CycleStreetsConstants.ROUTE_ID, 0);
+			if(routeId != 0)
+				onStoredRouteNow(routeId);
+			return;
+		} // if ...
+		
 		if(requestCode == R.string.ic_menu_directions)
 		{
 			// get start and finish points
@@ -143,7 +151,7 @@ import android.view.MenuItem;
 							speed,
 							this, 
 							this);
-		}
+		} // if ...
 	} // onActivityResult
     
 	private void launchRouteDialog()
