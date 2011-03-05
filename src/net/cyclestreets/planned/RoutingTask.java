@@ -18,7 +18,7 @@ class RoutingTask extends AsyncTask<GeoPoint, Integer, String>
 	private final Route.Callback whoToTell_;
 	private GeoPoint from_;
 	private GeoPoint to_;
-	private ProgressDialog progress_;
+	private final ProgressDialog progress_;
 			
 	RoutingTask(final String routeType,
 				final int speed,
@@ -34,12 +34,14 @@ class RoutingTask extends AsyncTask<GeoPoint, Integer, String>
 		progress_.setIndeterminate(true);
 		progress_.setCancelable(false);
 	} // NewRouteTask
-			
+	
+	@Override
 	protected void onPreExecute() {
 		super.onPreExecute();
 		progress_.show();
 	} // onPreExecute
 
+	@Override
 	protected String doInBackground(GeoPoint... points) {
 	   	try {
 	   		from_ = points[0];
@@ -51,6 +53,7 @@ class RoutingTask extends AsyncTask<GeoPoint, Integer, String>
 	   	}
 	} // doInBackground
 
+	@Override
     protected void onPostExecute(final String journey) {
        	progress_.dismiss();
 
