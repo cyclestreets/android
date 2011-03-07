@@ -109,6 +109,7 @@ public class Route
 	
 		segments_.clear();
 		activeSegment_ = -1;
+		journey_ = null;
 		
 		if(journeyXml == null)
 			return;
