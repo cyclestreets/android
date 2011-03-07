@@ -73,6 +73,16 @@ public class RouteDatabase
 		update.execute();
 	} // updateRoute
 	
+	public void deleteRoute(final int id)
+	{
+		final String ROUTE_TABLE_DELETE = 
+			"DELETE FROM route WHERE journey = ?";
+		
+		final SQLiteStatement delete = db_.compileStatement(ROUTE_TABLE_DELETE);
+		delete.bindLong(1, id);
+		delete.execute();
+	} // deleteRoute
+	
 	public List<RouteSummary> savedRoutes()
 	{
         final List<RouteSummary> routes = new ArrayList<RouteSummary>();

@@ -13,11 +13,12 @@ public class StoredRoutingTask extends AsyncTask<Integer, Integer, String>
 	private final RouteDatabase db_;
 	private ProgressDialog progress_;
 
-	StoredRoutingTask(final Route.Callback whoToTell,
+	StoredRoutingTask(final RouteDatabase db,
+					  final Route.Callback whoToTell,
 					  final Context context) 
 	{
 		whoToTell_ = whoToTell;
-		db_ = new RouteDatabase(context);
+		db_ = db;
 
 		progress_ = new ProgressDialog(context);
 		progress_.setMessage(context.getString(R.string.loading_route));

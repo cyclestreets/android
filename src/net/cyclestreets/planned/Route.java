@@ -38,9 +38,14 @@ public class Route
 								 final Callback whoToTell,
 								 final Context context)
 	{
-		final StoredRoutingTask query = new StoredRoutingTask(whoToTell, context);
+		final StoredRoutingTask query = new StoredRoutingTask(db_, whoToTell, context);
 		query.execute(routeId);
 	} // PlotRoute
+	
+	static public void DeleteRoute(final int routeId)
+	{
+		db_.deleteRoute(routeId);
+	} // DeleteRoute
 	
 	/////////////////////////////////////////	
 	private static Journey journey_;

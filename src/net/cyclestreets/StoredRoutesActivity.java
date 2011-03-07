@@ -19,11 +19,15 @@ import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 import android.widget.RelativeLayout.LayoutParams;
 
 public class StoredRoutesActivity extends ListActivity 
 {
+	private static final int MENU_OPEN = 1;
+	private static final int MENU_DELETE = 2;
+	
+	private RouteSummaryAdaptor listAdaptor_;
+	
 	@Override
     public void onCreate(final Bundle savedInstanceState) 
 	{
@@ -34,7 +38,8 @@ public class StoredRoutesActivity extends ListActivity
         getWindow().setLayout(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT);
         getWindow().setBackgroundDrawableResource(R.drawable.empty);
 
-        setListAdapter(new RouteSummaryAdaptor(this, Route.storedRoutes()));
+        listAdaptor_ = new RouteSummaryAdaptor(this, Route.storedRoutes());
+        setListAdapter(listAdaptor_);
         registerForContextMenu(getListView());
     } // onCreate
 	
@@ -43,50 +48,71 @@ public class StoredRoutesActivity extends ListActivity
 									final View v, 
 									final ContextMenu.ContextMenuInfo menuInfo) 
 	{
-		 menu.add(0, Menu.NONE, Menu.NONE, "Open");
-		 menu.add(0, Menu.NONE, Menu.NONE, "Delete");
+		 menu.add(0, MENU_OPEN, Menu.NONE, "Open");
+		 menu.add(0, MENU_DELETE, Menu.NONE, "Delete");
 	}  // onCreateContextMenu
 
 	@Override
 	public boolean onContextItemSelected(final MenuItem item) 
 	{
-		AdapterView.AdapterContextMenuInfo info;
 		try {
-			info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+			final AdapterView.AdapterContextMenuInfo info 
+					= (AdapterView.AdapterContextMenuInfo)item.getMenuInfo();
+		    int id = (int)getListAdapter().getItemId(info.position);
+
+		    switch(item.getItemId())
+		    {
+		    case MENU_OPEN:
+		    	openRoute(id);
+		    	break;
+		    case MENU_DELETE:
+		    	deleteRoute(id);
+		    	break;
+		    } // switch
+		    
+		    return true;
 	    } catch (ClassCastException e) {
 	    	 return false;
 	    }
-	    long id = getListAdapter().getItemId(info.position);
-	    Toast.makeText(this, "id = " + id, Toast.LENGTH_SHORT).show();
-	    return true;
 	} // onContextItemSelected
-
 	 
 	@Override
 	protected void onListItemClick(ListView l, View v, int position, long id)
 	{
-		routeSelected((int)id);
+		openRoute((int)id);
 	} // onListItemClick
 	
-	private void routeSelected(final int id)
+	private void openRoute(final int id)
 	{
 		Intent intent = new Intent();
     	intent.putExtra(CycleStreetsConstants.ROUTE_ID, id);
     	setResult(RESULT_OK, intent);
     	finish();
 	} // routeSelected
+	
+	private void deleteRoute(final int id)
+	{
+		Route.DeleteRoute(id);
+		listAdaptor_.refresh(Route.storedRoutes());
+	} // deleteRoute
 	 
 	//////////////////////////////////
 	static class RouteSummaryAdaptor extends BaseAdapter
 	{
 		private final LayoutInflater inflater_;
-		private final List<RouteSummary> routes_;
+		private List<RouteSummary> routes_;
     		
 		RouteSummaryAdaptor(final Context context, final List<RouteSummary> routes)
 		{
 			inflater_ = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 			routes_ = routes;
-		} // SegmentAdaptor    	
+		} // SegmentAdaptor   
+		
+		public void refresh(final List<RouteSummary> routes)
+		{
+			routes_ = routes;
+			notifyDataSetChanged();
+		} // refresh
 
 		@Override
 		public int getCount() { return routes_.size(); }
