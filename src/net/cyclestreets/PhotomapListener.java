@@ -18,12 +18,14 @@ import android.os.AsyncTask;
 public class PhotomapListener extends MapAdapter 
 {
 	private MapView map_;
+	private int zoomLevel_;
 	private List<PhotoItem> photoList_;
 	private PhotoMarkers photoMarkers_;
 
 	public PhotomapListener(final Context ctx, final MapView map, final List<PhotoItem> photoList) 
 	{
 		map_ = map;
+		zoomLevel_ = map_.getZoomLevel();		
 		photoList_ = photoList;
 		photoMarkers_ = new PhotoMarkers(ctx.getResources());
 	} // PhotomapListener
@@ -38,7 +40,9 @@ public class PhotomapListener extends MapAdapter
 	@Override
 	public boolean onZoom(final ZoomEvent event) 
 	{
-		photoList_.clear();
+		if(event.getZoomLevel() < zoomLevel_)
+			photoList_.clear();
+		zoomLevel_ = event.getZoomLevel();
 		refreshPhotos();
 		return true;
 	} // onZoom
