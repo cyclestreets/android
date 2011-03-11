@@ -3,6 +3,8 @@ package net.cyclestreets.content;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.osmdroid.util.GeoPoint;
+
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -42,24 +44,36 @@ public class RouteDatabase
          return c;
 	} // count
 		
-	public void saveRoute(final int id, final String name, final String xml)
+	public void saveRoute(final int id, 
+						  final String name, 
+						  final String xml, 
+						  final GeoPoint start, 
+						  final GeoPoint end)
 	{
 		if(route(id) == null)
-			addRoute(id, name, xml);
+			addRoute(id, name, xml, start, end);
 		else
 			updateRoute(id);
 	} // saveRoute
 	
-	private void addRoute(final int id, final String name, final String xml)
+	private void addRoute(final int id, 
+						  final String name, 
+						  final String xml,
+						  final GeoPoint start,
+						  final GeoPoint end)
 	{
 	    final String ROUTE_TABLE_INSERT = 
-    	    "INSERT INTO route (journey, name, xml, last_used) " +
-    	    "  VALUES(?, ?, ?, datetime())";
+    	    "INSERT INTO route (journey, name, xml, start_lat, start_long, end_lat, end_long, last_used) " +
+    	    "  VALUES(?, ?, ?, ?, ?, ?, ?, datetime())";
     
     	final SQLiteStatement insertRoute = db_.compileStatement(ROUTE_TABLE_INSERT);
     	insertRoute.bindLong(1, id);
     	insertRoute.bindString(2, name);
     	insertRoute.bindString(3, xml);
+    	insertRoute.bindLong(4, start.getLatitudeE6());
+    	insertRoute.bindLong(5, start.getLongitudeE6());
+    	insertRoute.bindLong(6, end.getLatitudeE6());
+    	insertRoute.bindLong(7, end.getLongitudeE6());
 		insertRoute.executeInsert();
 	} // addRoute
 
@@ -106,11 +120,13 @@ public class RouteDatabase
         return routes;
 	} // savedRoutes
 
-	public String route(final int routeId)
+	public RouteData route(final int routeId)
 	{
-        String r = null;
+        RouteData r = null;
         final Cursor cursor = db_.query(DatabaseHelper.ROUTE_TABLE_NAME, 
-        								new String[] { "xml" },
+        								new String[] { "xml", 
+        											   "start_lat", "start_long", 
+        											   "end_lat", "end_long" },
         								"journey=?", 
         								new String[] { Integer.toString(routeId) }, 
         								null, 
@@ -119,7 +135,9 @@ public class RouteDatabase
         if(cursor.moveToFirst()) 
            do 
            {
-        	   r = cursor.getString(0);
+        	   r = new RouteData(cursor.getString(0),
+        			   			 new GeoPoint(cursor.getInt(1), cursor.getInt(2)),
+        			   			 new GeoPoint(cursor.getInt(3), cursor.getInt(4)));
            } 
            while (cursor.moveToNext());
  

@@ -140,11 +140,6 @@ public class Route
 			} // if ...
 		} // for ...
 
-		if(from_ == null)
-			from_ = segments_.get(0).start();
-		if(to_ == null)
-			to_ = segments_.get(segments_.size()-1).end();
-		
 		for (final Marker marker : journey_.markers) 
 		{ 
 			if(marker.type.equals("route"))			
@@ -154,7 +149,7 @@ public class Route
 				segments_.add(0, startSeg);
 				segments_.add(endSeg);
 				
-				db_.saveRoute(marker.itinerary, marker.name, journeyXml);
+				db_.saveRoute(marker.itinerary, marker.name, journeyXml, from_, to_);
 				break;
 			} // if ... 
 		} // for ...

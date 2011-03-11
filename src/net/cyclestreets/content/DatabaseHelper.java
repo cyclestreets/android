@@ -16,7 +16,11 @@ class DatabaseHelper extends SQLiteOpenHelper
     		                     " journey INTEGER, " +
     		                     " last_used DATE, " +
     		                     " name TEXT, " +
-    		                     " xml TEXT) ";
+    		                     " xml TEXT, " +
+    		                     " start_lat INTEGER, " + 
+    		                     " start_long INTEGER, " + 
+    		                     " end_lat INTEGER, " + 
+    		                     " end_long INTEGER ) ";
     DatabaseHelper(final Context context) 
     {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);

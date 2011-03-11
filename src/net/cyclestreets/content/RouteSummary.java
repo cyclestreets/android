@@ -5,7 +5,8 @@ public class RouteSummary
 	private int id_;
 	private String title_;
 	
-	RouteSummary(final int id, final String title)
+	RouteSummary(final int id, 
+				 final String title)
 	{
 		id_ = id;
 		title_ = title;

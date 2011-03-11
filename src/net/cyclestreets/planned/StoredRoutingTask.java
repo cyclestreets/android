@@ -1,13 +1,14 @@
 package net.cyclestreets.planned;
 
 import net.cyclestreets.R;
+import net.cyclestreets.content.RouteData;
 import net.cyclestreets.content.RouteDatabase;
 
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
 
-public class StoredRoutingTask extends AsyncTask<Integer, Integer, String> 
+public class StoredRoutingTask extends AsyncTask<Integer, Integer, RouteData> 
 {
 	private final Route.Callback whoToTell_;
 	private final RouteDatabase db_;
@@ -33,16 +34,16 @@ public class StoredRoutingTask extends AsyncTask<Integer, Integer, String>
 	} // onPreExecute
 
 	@Override
-	protected String doInBackground(Integer... params) 
+	protected RouteData doInBackground(Integer... params) 
 	{
 		return db_.route(params[0]);
 	} // doInBackground
 
 	@Override
-    protected void onPostExecute(final String journey) 
+    protected void onPostExecute(final RouteData route) 
     {
        	progress_.dismiss();
-   		Route.onNewJourney(journey, null, null);
+   		Route.onNewJourney(route.xml(), route.start(), route.end());
    		whoToTell_.onNewJourney();
 	} // onPostExecute  
 }
