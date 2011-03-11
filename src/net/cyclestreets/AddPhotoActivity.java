@@ -13,43 +13,58 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
-public class AddPhotoActivity extends Activity {
+public class AddPhotoActivity extends Activity 
+								implements View.OnClickListener
+{
 	public static final int CHOOSE_IMAGE = 1;
 	protected static PhotomapCategories photomapCategories;
 	
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		// TODO Auto-generated method stub
+	protected void onCreate(final Bundle savedInstanceState) 
+	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.addphoto);
 
 		// setup take photo button
-		Button takephoto = (Button) findViewById(R.id.takephoto_button);
-		takephoto.setOnClickListener(new View.OnClickListener() {			
-			@Override
-			public void onClick(View v) {
-				startActivity(new Intent(AddPhotoActivity.this, TakePhotoActivity.class));
-			}
-		});
-
-		// setup choose existing button
-		Button chooseexisting = (Button) findViewById(R.id.chooseexisting_button);
-		chooseexisting.setOnClickListener(new View.OnClickListener() {			
-			@Override
-			public void onClick(View v) {
-				Intent i = new Intent(Intent.ACTION_PICK,
-			               android.provider.MediaStore.Images.Media.INTERNAL_CONTENT_URI);
-				startActivityForResult(i, CHOOSE_IMAGE);
-			}
-		});
+		for(int id : new int[] { R.id.takephoto_button, R.id.chooseexisting_button })
+		{
+			final Button b = (Button)findViewById(id);
+			b.setOnClickListener(this);
+		} // for ...
 		
 		// start reading categories
 		new GetPhotomapCategoriesTask().execute();
-	}
+	} // class AddPhotoActivity
 	
-	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+	@Override
+	public void onClick(final View v) 
+	{
+		Intent i = null;
+		
+		switch(v.getId())
+		{
+			case R.id.takephoto_button:
+				i = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+				break;
+			case R.id.chooseexisting_button:
+				i = new Intent(Intent.ACTION_PICK,
+							   android.provider.MediaStore.Images.Media.INTERNAL_CONTENT_URI);
+				break;
+		} // switch
+		
+		if(i == null)
+			return;
+		
+		startActivityForResult(i, v.getId());
+	} // onClick
+	
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) 
+	{
 	    // See which child activity is calling us back.
 	    switch (resultCode) {
+	    	case R.id.takephoto_button:
+	    		break;
 	        case CHOOSE_IMAGE:
 	            if (resultCode == RESULT_OK) {
 	                Uri selectedImage = data.getData();
@@ -67,11 +82,12 @@ public class AddPhotoActivity extends Activity {
 	        default:
 	            break;
 	    }
-	}
+	} // onActivityResult
 
-	// TODO: use content provider
-	private class GetPhotomapCategoriesTask extends AsyncTask<Object,Void,PhotomapCategories> {
-		protected PhotomapCategories doInBackground(Object... params) {
+	private class GetPhotomapCategoriesTask extends AsyncTask<Object,Void,PhotomapCategories> 
+	{
+		protected PhotomapCategories doInBackground(Object... params) 
+		{
 			PhotomapCategories photomapCategories;
 			try {
 				photomapCategories = ApiClient.getPhotomapCategories();
@@ -80,12 +96,13 @@ public class AddPhotoActivity extends Activity {
 				throw new RuntimeException(ex);
 			}
 			return photomapCategories;
-		}
+		} // PhotomapCategories
 		
 		@Override
-		protected void onPostExecute(PhotomapCategories photomapCategories) {
+		protected void onPostExecute(PhotomapCategories photomapCategories) 
+		{
 			Log.d(getClass().getSimpleName(), "photomapcategories: " + photomapCategories);
 			AddPhotoActivity.photomapCategories = photomapCategories;
-		}
-	}
-}
+		} // onPostExecute
+	} // class GetPhotomapCategoriesTask
+} // class AddPhotoActivity
