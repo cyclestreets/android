@@ -9,6 +9,7 @@
 		android:layout_height="wrap_content"></ImageView>
 	<TextView 
 		android:id="@+id/photo_text"
+		android:gravity="center"
 		android:layout_height="wrap_content" 
 		android:layout_width="fill_parent"></TextView>
 </LinearLayout>
