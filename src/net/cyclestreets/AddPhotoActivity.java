@@ -5,34 +5,109 @@ import net.cyclestreets.api.PhotomapCategories;
 import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 
 public class AddPhotoActivity extends Activity 
 							  implements View.OnClickListener
 {
-	protected static PhotomapCategories photomapCategories;
+	private static PhotomapCategories photomapCategories;
+	
+	private enum AddStep
+	{
+		PHOTO(null),
+		CAPTION(PHOTO),
+		LOCATION(CAPTION),
+		DETAILS(LOCATION),
+		SUBMIT(DETAILS);
+		
+		private AddStep(AddStep p)
+		{
+			prev_ = p;
+			if(prev_ != null)
+				prev_.next_ = this;
+		} // AddStep
+
+		public AddStep prev() { return prev_; }
+		public AddStep next() { return next_; }
+		
+		private AddStep prev_;
+		private AddStep next_;
+	} // AddStep
+	
+	private AddStep step_;
+	private Bitmap photo_ = null;
 	
 	@Override
 	protected void onCreate(final Bundle savedInstanceState) 
 	{
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.addphoto);
-
-		// setup take photo button
-		for(int id : new int[] { R.id.takephoto_button, R.id.chooseexisting_button })
-		{
-			final Button b = (Button)findViewById(id);
-			b.setOnClickListener(this);
-		} // for ...
 		
 		// start reading categories
-		new GetPhotomapCategoriesTask().execute();
+		if(photomapCategories == null)
+			new GetPhotomapCategoriesTask().execute();
+		
+		step_ = AddStep.PHOTO;
+		setupView();
 	} // class AddPhotoActivity
+
+	@Override 
+	public void onBackPressed()
+	{
+		if(step_== AddStep.PHOTO)
+		{
+			super.onBackPressed();
+			return;
+		} // if ...
+		
+		step_ = step_.prev();
+		setupView();
+	} // onBackPressed
+	
+
+	private void nextStep()
+	{
+		switch(step_)
+		{
+		} // nextStep
+		
+		step_ = step_.next();
+		setupView();
+	} // nextStep
+	
+	private void setupView()
+	{
+		switch(step_)
+		{
+		case PHOTO:
+			setContentView(R.layout.addphoto);
+			setupButtonListener(R.id.takephoto_button);
+			setupButtonListener(R.id.chooseexisting_button);
+			break;
+		case CAPTION:
+			{
+				setContentView(R.layout.addphotocaption);
+				setupButtonListener(R.id.next);
+				final ImageView iv = (ImageView)findViewById(R.id.photo);
+				iv.setImageBitmap(photo_);
+			}
+			break;
+		} // switch ...
+	} // setupView
+	
+	private void setupButtonListener(int id)
+	{
+		final Button b = (Button)findViewById(id);
+		if(b != null)
+			b.setOnClickListener(this);		
+	} // setupButtonListener
 	
 	@Override
 	public void onClick(final View v) 
@@ -47,6 +122,9 @@ public class AddPhotoActivity extends Activity
 			case R.id.chooseexisting_button:
 				i = new Intent(Intent.ACTION_PICK,
 							   android.provider.MediaStore.Images.Media.INTERNAL_CONTENT_URI);
+				break;
+			case R.id.next:
+				nextStep();
 				break;
 		} // switch
 		
@@ -63,12 +141,28 @@ public class AddPhotoActivity extends Activity
 	{
         if (resultCode != RESULT_OK)
         	return;
-        
-        // so let's bounce things on to our next activity
-        data.setClass(this, AddPhotoLocateActivity.class);
-        startActivity(data);
-	} // onActivityResult
 
+        final String photoPath = getImageFilePath(data);
+		photo_ = BitmapFactory.decodeFile(photoPath);
+		
+        nextStep();
+	} // onActivityResult
+	
+	
+
+	/*
+	// get photo data
+	Intent i = getIntent();
+	byte[] data = i.getByteArrayExtra(CycleStreetsConstants.EXTRA_PHOTO);
+	Bitmap bitmap = BitmapFactory.decodeByteArray(data, 0, data.length);
+
+	// show the photo
+	ImageView iv = new ImageView(this);
+	iv.setImageBitmap(bitmap);
+	setContentView(iv);
+	*/
+
+	
 	private String getImageFilePath(final Intent data)
 	{
         final Uri selectedImage = data.getData();
