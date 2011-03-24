@@ -14,6 +14,8 @@ import android.provider.MediaStore;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.Toast;
 
 public class AddPhotoActivity extends Activity 
 							  implements View.OnClickListener
@@ -97,6 +99,12 @@ public class AddPhotoActivity extends Activity
 				setupButtonListener(R.id.next);
 				final ImageView iv = (ImageView)findViewById(R.id.photo);
 				iv.setImageBitmap(photo_);
+				int newHeight = getWindowManager().getDefaultDisplay().getHeight() / 2;
+				int newWidth = getWindowManager().getDefaultDisplay().getWidth();
+
+				iv.setLayoutParams(new LinearLayout.LayoutParams(newWidth, newHeight));
+				iv.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
+
 			}
 			break;
 		} // switch ...
@@ -142,10 +150,18 @@ public class AddPhotoActivity extends Activity
         if (resultCode != RESULT_OK)
         	return;
 
-        final String photoPath = getImageFilePath(data);
-		photo_ = BitmapFactory.decodeFile(photoPath);
+        try {
+        	final String photoPath = getImageFilePath(data);
+        	if(photo_ != null)
+        		photo_.recycle();
+        	photo_ = BitmapFactory.decodeFile(photoPath);
 		
-        nextStep();
+        	nextStep();
+        }
+        catch(Exception e)
+        {
+        	Toast.makeText(this, "There was a problem grabbing the photo : " + e.getMessage(), Toast.LENGTH_LONG).show();
+        }
 	} // onActivityResult
 	
 	
