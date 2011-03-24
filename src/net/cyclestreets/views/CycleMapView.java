@@ -122,6 +122,8 @@ public class CycleMapView extends MapView
 	public void toggleMyLocation() { location_.enableLocation(!location_.isMyLocationEnabled()); }
 	public void disableMyLocation() { location_.disableMyLocation(); }
 	public void disableFollowLocation() { location_.followLocation(false); }
+
+	public void enableAndFollowLocation() { location_.enableAndFollowLocation(true); }
 	
 	///////////////////////////////////////////////////////
 	public void centreOn(final GeoPoint place)

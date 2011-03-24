@@ -1,0 +1,34 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:orientation="vertical" 
+	android:layout_width="fill_parent"
+	android:layout_height="fill_parent">
+	<LinearLayout 
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:orientation="vertical"
+		android:layout_weight="5.0"
+		android:padding="4.0dip">
+		<ImageView android:id="@+id/photo" 
+			android:layout_weight="1.0"
+			android:layout_width="fill_parent" 
+			android:layout_height="wrap_content"
+			android:cropToPadding="true"/>
+	  	<TextView
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content"
+			android:text="Does this photo show a problem or good practice?"/>
+		<Spinner 
+			android:id="@+id/metacat"
+			android:layout_width="fill_parent" 
+			android:layout_height="wrap_content"/>
+	  	<TextView
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content"
+			android:text="What type of feature is being illustrated?"/>
+		<Spinner 
+			android:id="@+id/category"
+			android:layout_width="fill_parent" 
+			android:layout_height="wrap_content"/>
+	</LinearLayout>		
+	<include layout="@layout/addphotonext"/>
+</LinearLayout>

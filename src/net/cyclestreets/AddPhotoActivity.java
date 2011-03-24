@@ -2,7 +2,10 @@ package net.cyclestreets;
 
 import net.cyclestreets.api.ApiClient;
 import net.cyclestreets.api.PhotomapCategories;
+import net.cyclestreets.api.ICategory;
+import net.cyclestreets.views.CycleMapView;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -11,22 +14,30 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.RelativeLayout.LayoutParams;
+
+import java.util.List;
 
 public class AddPhotoActivity extends Activity 
 							  implements View.OnClickListener
 {
-	private static PhotomapCategories photomapCategories;
-	
 	private enum AddStep
 	{
 		PHOTO(null),
 		CAPTION(PHOTO),
-		LOCATION(CAPTION),
+		CATEGORY(CAPTION),
+		LOCATION(CATEGORY),
 		DETAILS(LOCATION),
 		SUBMIT(DETAILS);
 		
@@ -46,6 +57,18 @@ public class AddPhotoActivity extends Activity
 	
 	private AddStep step_;
 	private Bitmap photo_ = null;
+	private String caption_ = null;
+	private int metaCat_ = -1;
+	private int category_ = -1;
+	
+	private View photoView_;
+	private View photoCaption_;
+	private View photoCategory_;
+	private View photoLocation_;
+	
+	private CycleMapView map_ = null;
+	private static PhotomapCategories photomapCategories;
+	
 	
 	@Override
 	protected void onCreate(final Bundle savedInstanceState) 
@@ -57,6 +80,20 @@ public class AddPhotoActivity extends Activity
 			new GetPhotomapCategoriesTask().execute();
 		
 		step_ = AddStep.PHOTO;
+
+		LayoutInflater inflater = (LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+
+		photoView_ = inflater.inflate(R.layout.addphoto, null);
+		photoCaption_ = inflater.inflate(R.layout.addphotocaption, null);
+		photoCategory_ = inflater.inflate(R.layout.addphotocategory, null);
+		photoLocation_ = inflater.inflate(R.layout.addphotolocation, null);
+		map_ = new CycleMapView(this, this.getClass().getName());
+		map_.enableAndFollowLocation();
+		map_.getController().setZoom(map_.getMaxZoomLevel());
+	
+		final LinearLayout v = (LinearLayout)(photoLocation_.findViewById(R.id.mapholder));
+		v.addView(map_, new LinearLayout.LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT));
+		
 		setupView();
 	} // class AddPhotoActivity
 
@@ -78,6 +115,13 @@ public class AddPhotoActivity extends Activity
 	{
 		switch(step_)
 		{
+		case CAPTION:
+			caption_ = captionEditText().getText().toString();
+			break;
+		case CATEGORY:
+			metaCat_ = metaCategorySpinner().getSelectedItemPosition();
+			category_ = categorySpinner().getSelectedItemPosition();
+			break;
 		} // nextStep
 		
 		step_ = step_.next();
@@ -89,32 +133,69 @@ public class AddPhotoActivity extends Activity
 		switch(step_)
 		{
 		case PHOTO:
-			setContentView(R.layout.addphoto);
+			setContentView(photoView_);
 			setupButtonListener(R.id.takephoto_button);
 			setupButtonListener(R.id.chooseexisting_button);
 			break;
 		case CAPTION:
-			{
-				setContentView(R.layout.addphotocaption);
-				setupButtonListener(R.id.next);
-				final ImageView iv = (ImageView)findViewById(R.id.photo);
-				iv.setImageBitmap(photo_);
-				int newHeight = getWindowManager().getDefaultDisplay().getHeight() / 2;
-				int newWidth = getWindowManager().getDefaultDisplay().getWidth();
-
-				iv.setLayoutParams(new LinearLayout.LayoutParams(newWidth, newHeight));
-				iv.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
-
+			setContentView(photoCaption_);
+			if(caption_ != null)
+				captionEditText().setText(caption_);
+			break;
+		case CATEGORY:
+			setContentView(photoCategory_);
+			try {
+				if(photomapCategories == null)
+					Thread.sleep(1000);
 			}
+			catch(Exception e) {
+			}
+						
+			metaCategorySpinner().setAdapter(new CategoryAdapter(this, photomapCategories.metacategories));
+			if(metaCat_ != -1)
+				metaCategorySpinner().setSelection(metaCat_);
+			categorySpinner().setAdapter(new CategoryAdapter(this, photomapCategories.categories));
+			if(category_ != -1)
+				categorySpinner().setSelection(category_);
+			break;
+		case LOCATION:
+			setContentView(photoLocation_);
 			break;
 		} // switch ...
+		
+		previewPhoto();
+		hookUpNext();
 	} // setupView
+	
+	private void previewPhoto()
+	{
+		final ImageView iv = (ImageView)findViewById(R.id.photo);
+		if(iv == null)
+			return;
+		iv.setImageBitmap(photo_);
+		int newHeight = getWindowManager().getDefaultDisplay().getHeight() / 10 * 4;
+		int newWidth = getWindowManager().getDefaultDisplay().getWidth();
+
+		iv.setLayoutParams(new LinearLayout.LayoutParams(newWidth, newHeight));
+		iv.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
+	} // previewPhoto
+	
+	private void hookUpNext()
+	{
+		setupButtonListener(R.id.next);
+	} // hookUpNext
+	
+	private EditText captionEditText() { return (EditText)findViewById(R.id.caption); }
+	private Spinner metaCategorySpinner() { return (Spinner)findViewById(R.id.metacat); }
+	private Spinner categorySpinner() { return (Spinner)findViewById(R.id.category); }
 	
 	private void setupButtonListener(int id)
 	{
 		final Button b = (Button)findViewById(id);
-		if(b != null)
-			b.setOnClickListener(this);		
+		if(b == null)
+			return;
+		
+		b.setOnClickListener(this);		
 	} // setupButtonListener
 	
 	@Override
@@ -164,21 +245,6 @@ public class AddPhotoActivity extends Activity
         }
 	} // onActivityResult
 	
-	
-
-	/*
-	// get photo data
-	Intent i = getIntent();
-	byte[] data = i.getByteArrayExtra(CycleStreetsConstants.EXTRA_PHOTO);
-	Bitmap bitmap = BitmapFactory.decodeByteArray(data, 0, data.length);
-
-	// show the photo
-	ImageView iv = new ImageView(this);
-	iv.setImageBitmap(bitmap);
-	setContentView(iv);
-	*/
-
-	
 	private String getImageFilePath(final Intent data)
 	{
         final Uri selectedImage = data.getData();
@@ -214,4 +280,46 @@ public class AddPhotoActivity extends Activity
 			AddPhotoActivity.photomapCategories = photomapCategories;
 		} // onPostExecute
 	} // class GetPhotomapCategoriesTask
+	
+	static private class CategoryAdapter extends BaseAdapter
+	{
+		private final LayoutInflater inflater_;
+		private final List<?> list_;
+		
+		public CategoryAdapter(final Context context,
+							   final List<?> list)
+		{
+			inflater_ = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+			list_ = list;
+		} // CategoryAdapter
+		
+		@Override
+		public int getCount()
+		{
+			return list_.size();
+		} // getCount
+		
+		@Override
+		public String getItem(final int position)
+		{
+			final ICategory c = (ICategory)list_.get(position);
+			return c.getName();
+		} // getItem
+		
+		@Override
+		public long getItemId(final int position)
+		{
+			return position;
+		} // getItemId
+		
+		@Override
+		public View getView(final int position, final View convertView, final ViewGroup parent)
+		{
+			final int id = (parent instanceof Spinner) ? android.R.layout.simple_spinner_item : android.R.layout.simple_spinner_dropdown_item;
+			final TextView tv = (TextView)inflater_.inflate(id, parent, false);
+			tv.setText(getItem(position));
+			return tv;
+		} // getView
+	} // CategoryAdapter
+	
 } // class AddPhotoActivity
