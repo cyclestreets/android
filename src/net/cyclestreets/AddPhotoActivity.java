@@ -4,6 +4,7 @@ import net.cyclestreets.api.ApiClient;
 import net.cyclestreets.api.PhotomapCategories;
 import net.cyclestreets.api.ICategory;
 import net.cyclestreets.views.CycleMapView;
+import net.cyclestreets.views.overlay.ThereOverlay;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -66,7 +67,8 @@ public class AddPhotoActivity extends Activity
 	private View photoCategory_;
 	private View photoLocation_;
 	
-	private CycleMapView map_ = null;
+	private CycleMapView map_;
+	private ThereOverlay there_;
 	private static PhotomapCategories photomapCategories;
 	
 	
@@ -87,9 +89,12 @@ public class AddPhotoActivity extends Activity
 		photoCaption_ = inflater.inflate(R.layout.addphotocaption, null);
 		photoCategory_ = inflater.inflate(R.layout.addphotocategory, null);
 		photoLocation_ = inflater.inflate(R.layout.addphotolocation, null);
+
 		map_ = new CycleMapView(this, this.getClass().getName());
 		map_.enableAndFollowLocation();
 		map_.getController().setZoom(map_.getMaxZoomLevel());
+		there_ = new ThereOverlay(this, map_);
+		map_.overlayPushTop(there_);
 	
 		final LinearLayout v = (LinearLayout)(photoLocation_.findViewById(R.id.mapholder));
 		v.addView(map_, new LinearLayout.LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT));
