@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="hello">Hello World, CycleStreets!</string>
     <string name="app_name">CycleStreets</string>
     <string name="savedroutes">Saved routes</string>
     <string name="settings">Settings</string>
     <string name="credits">Credits</string>
-	<string name="about_message">Cycloid is an open source cycle map application. It uses OpenStreetMap mapping data, the osmdroid library and the CycleStreets route planning API.</string>
 	<string name="about">About</string>
 	<string name="unknown">Unknown</string>
 	<string name="route_from">Route From</string>
@@ -17,6 +15,7 @@
 	<string name="choose_end">Choose End Point</string>
 	<string name="finding_route">Contacting cyclestreets.net for route, please wait</string>
 	<string name="loading_route">Loading route, please wait</string>
+	<string name="uploading_photo">Uploading photo to cyclestreets.net, please wait</string>
 	<string name="please_wait">Please wait</string>
 	<string name="not_found">Couldn\'t find</string>
 	<string name="error_route">Unable to find route</string>

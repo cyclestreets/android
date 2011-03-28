@@ -32,8 +32,6 @@ import org.apache.http.protocol.HttpContext;
 import org.simpleframework.xml.Serializer;
 import org.simpleframework.xml.core.Persister;
 
-import android.widget.Toast;
-
 public class ApiClient {
 	protected static DefaultHttpClient httpclient;
 	static {
@@ -184,14 +182,14 @@ public class ApiClient {
     	return serializer.read(returnClass, xml);
 	} // loadRaw
 	
-	static public void uploadPhoto(final String filename,
-								   final String username,
-								   final String password,
-								   final GeoPoint location,
-								   final String metaCat,
-								   final String category,
-								   final String dateTime,
-								   final String caption) 
+	static public String uploadPhoto(final String filename,
+									 final String username,
+									 final String password,
+									 final GeoPoint location,
+									 final String metaCat,
+									 final String category,
+									 final String dateTime,
+									 final String caption) 
 	{
 		try {
 			final List<NameValuePair> params = new ArrayList<NameValuePair>();
@@ -211,11 +209,11 @@ public class ApiClient {
 			entity.addPart("caption", new StringBody(caption));
 			entity.addPart("mediaupload", new FileBody(new File(filename)));
 			httppost.setEntity(entity);
-			String xml = httpclient.execute(httppost, new BasicResponseHandler());
-			xml = xml;
+			final String xml = httpclient.execute(httppost, new BasicResponseHandler());
+			return xml;
 		}
 		catch(Exception e) {
-			;
+			return null;
 		}
 
 	

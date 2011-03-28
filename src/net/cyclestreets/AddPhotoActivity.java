@@ -6,6 +6,7 @@ import net.cyclestreets.api.ICategory;
 import net.cyclestreets.views.CycleMapView;
 import net.cyclestreets.views.overlay.ThereOverlay;
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
@@ -271,9 +272,17 @@ public class AddPhotoActivity extends Activity
 		final String category = photomapCategories.categories.get((int)categorySpinner().getSelectedItemId()).getTag();
 		final String dateTime = photoTimestamp();
 		final String caption = captionEditText().getText().toString();
-		Toast.makeText(this, "Uploading", Toast.LENGTH_LONG).show();
-		
-		ApiClient.uploadPhoto(filename, username, password, location, metaCat, category, dateTime, caption);
+
+		final UploadPhotoTask uploader = new UploadPhotoTask(this,
+															 filename,
+															 username,
+															 password,
+															 location,
+															 metaCat,
+															 category,
+															 dateTime,
+															 caption);
+		uploader.execute();
 	} // upload
 	
 	private GeoPoint photoLocation()
@@ -281,7 +290,9 @@ public class AddPhotoActivity extends Activity
 		final float[] coords = new float[2];
 		if(!photoExif_.getLatLong(coords))
 			return null;
-		return new GeoPoint(coords[0] * 1E6, coords[1] * 1E6);
+		int lat = (int)(((double)coords[0]) * 1E6);
+		int lon = (int)(((double)coords[1]) * 1E6);
+		return new GeoPoint(lat, lon);
 	} // photoLocation
 	
 	private String photoTimestamp()
@@ -302,7 +313,7 @@ public class AddPhotoActivity extends Activity
 	} // photoTimestamp
 
 	///////////////////////////////////////////////////////////////////////////
-	private class GetPhotomapCategoriesTask extends AsyncTask<Object,Void,PhotomapCategories> 
+	private class GetPhotomapCategoriesTask extends AsyncTask<Object, Void, PhotomapCategories> 
 	{
 		protected PhotomapCategories doInBackground(Object... params) 
 		{
@@ -322,6 +333,74 @@ public class AddPhotoActivity extends Activity
 			AddPhotoActivity.photomapCategories = photomapCategories;
 		} // onPostExecute
 	} // class GetPhotomapCategoriesTask
+	
+	//////////////////////////////////////////////////////////////////////////
+	private class UploadPhotoTask extends AsyncTask<Object, Void, String>
+	{
+		private final String filename_;
+		private final String username_;
+		private final String password_;
+		private final GeoPoint location_;
+		private final String metaCat_;
+		private final String category_;
+		private final String dateTime_;
+		private final String caption_;
+		private final ProgressDialog progress_;
+		
+		private String result_ = null;
+
+		UploadPhotoTask(final Context context,
+						final String filename,
+	 				   	final String username,
+	 				   	final String password,
+	 				   	final GeoPoint location,
+	 				   	final String metaCat,
+	 				   	final String category,
+	 				   	final String dateTime,
+	 				   	final String caption) 
+	    {
+			filename_ = filename;
+			username_ = username;
+			password_ = password;
+			location_ = location;
+			metaCat_ = metaCat;
+			category_ = category;
+			dateTime_ = dateTime;
+			caption_ = caption;
+			
+			progress_ = new ProgressDialog(context);
+			progress_.setMessage(context.getString(R.string.uploading_photo));
+			progress_.setIndeterminate(true);
+			progress_.setCancelable(false);
+	    } // UploadPhotoTask
+		
+		public String result() { return result_; }
+		
+		@Override
+		protected void onPreExecute() {
+			super.onPreExecute();
+			progress_.show();
+		} // onPreExecute
+		
+		protected String doInBackground(Object... params)
+		{
+			result_ = ApiClient.uploadPhoto(filename_, 
+											username_, 
+											password_, 
+											location_, 
+											metaCat_, 
+											category_, 
+											dateTime_, 
+											caption_);
+			return result_;
+		} // doInBackground
+		
+		@Override
+	    protected void onPostExecute(final String journey) 
+		{
+	       	progress_.dismiss();
+		} // onPostExecute
+	} // class UploadPhotoTask
 	
 	//////////////////////////////////////////////////////////
 	static private class CategoryAdapter extends BaseAdapter
