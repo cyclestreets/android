@@ -303,13 +303,13 @@ public class AddPhotoActivity extends Activity
 			final DateFormat df = new SimpleDateFormat("yyyy:MM:dd HH:mm:ss");
 			final String dateString = photoExif_.getAttribute(ExifInterface.TAG_DATETIME);
 			if(dateString != null && dateString.length() > 0)
-				date = df.parse(photoExif_.getAttribute(ExifInterface.TAG_DATETIME));
+				date = df.parse(dateString);
 		} // try
 		catch(Exception e) {
 			// ah well
 		} // catch
 
-		return Long.toString(date.getTime());
+		return Long.toString(date.getTime() / 1000);
 	} // photoTimestamp
 
 	///////////////////////////////////////////////////////////////////////////
