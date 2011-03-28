@@ -30,9 +30,16 @@ public class ThereOverlay extends Overlay
 		mapView_ = mapView;
 		
 		final Resources res = context.getResources();
-		thereMarker_  = res.getDrawable(R.drawable.green_wisp_36x30);
+		thereMarker_  = res.getDrawable(R.drawable.x_marks_spot);
 
 	} // ThereOverlay
+	
+	public GeoPoint there() { return there_; }
+	public void noOverThere(final GeoPoint there)
+	{
+		there_ = there;
+		mapView_.invalidate();		
+	} // noOverThere
 	
 	@Override
 	protected void onDraw(final Canvas canvas, final MapView mapView) 
@@ -49,11 +56,12 @@ public class ThereOverlay extends Overlay
         final Projection projection = mapView.getProjection();
 		projection.toMapPixels(there_, screenPos);
 
-		final int quarterWidth = thereMarker_.getIntrinsicWidth()/4;
-		thereMarker_.setBounds(new Rect(screenPos.x - quarterWidth, 
-									   screenPos.y - thereMarker_.getIntrinsicHeight(), 
-									   screenPos.x + (quarterWidth*3), 
-									   screenPos.y));
+		final int halfWidth = thereMarker_.getIntrinsicWidth()/2;
+		final int halfHeight = thereMarker_.getIntrinsicHeight()/2;
+		thereMarker_.setBounds(new Rect(screenPos.x - halfWidth, 
+									    screenPos.y - halfHeight, 
+									    screenPos.x + halfWidth, 
+									    screenPos.y + halfHeight));
 		thereMarker_.draw(canvas);
 	} // onDrawFinished
 
@@ -72,8 +80,7 @@ public class ThereOverlay extends Overlay
 	public boolean onSingleTap(final MotionEvent event) 
 	{
     	final GeoPoint p = mapView_.getProjection().fromPixels((int)event.getX(), (int)event.getY());
-    	there_ = p;
-		mapView_.invalidate();
+    	noOverThere(p);
     	return true;
 	} // onSingleTap
 } // class ThereOverlay

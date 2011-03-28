@@ -27,4 +27,14 @@
 		android:defaultValue="CycleMap"
 		android:entries="@array/mapstyle"
 		android:entryValues="@array/mapstyle_values" />
+	<PreferenceCategory
+        android:title="CycleStreets account">
+		<EditTextPreference
+			android:key="username"
+			android:title="Username"/>
+		<EditTextPreference
+			android:key="password"
+			android:title="Password"
+			android:password="true"/>
+	</PreferenceCategory>
 </PreferenceScreen>

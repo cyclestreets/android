@@ -10,6 +10,8 @@ public class CycleStreetsPreferences {
     public final static String PREF_UNITS_KEY = "units";
     public final static String PREF_SPEED_KEY = "speed";
     public final static String PREF_MAPSTYLE_KEY = "mapstyle";
+    public final static String PREF_USERNAME_KEY = "username";
+    public final static String PREF_PASSWORD_KEY = "password";
 
     static public void initialise(final Context context) {
     	context_ = context;
@@ -31,6 +33,14 @@ public class CycleStreetsPreferences {
 	static public String mapstyle() {
 		return getString(PREF_MAPSTYLE_KEY, "CycleMap");	
 	}
+	
+	static public String username() { 
+		return getString(PREF_USERNAME_KEY, "");
+	} 
+	
+	static public String password() { 
+		return getString(PREF_PASSWORD_KEY, "");
+	} // password
 	
 	static private String getString(final String key, final String defVal) {
     	final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context_);

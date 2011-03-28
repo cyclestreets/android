@@ -1,5 +1,6 @@
 package net.cyclestreets.api;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URI;
 import java.util.ArrayList;
@@ -11,12 +12,16 @@ import org.apache.http.HttpRequest;
 import org.apache.http.HttpRequestInterceptor;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.utils.URIUtils;
 import org.apache.http.client.utils.URLEncodedUtils;
 import org.apache.http.conn.ClientConnectionManager;
 import org.apache.http.conn.scheme.PlainSocketFactory;
 import org.apache.http.conn.scheme.Scheme;
 import org.apache.http.conn.scheme.SchemeRegistry;
+import org.apache.http.entity.mime.MultipartEntity;
+import org.apache.http.entity.mime.content.FileBody;
+import org.apache.http.entity.mime.content.StringBody;
 import org.apache.http.impl.client.BasicResponseHandler;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.impl.conn.tsccm.ThreadSafeClientConnManager;
@@ -26,6 +31,8 @@ import org.apache.http.params.HttpParams;
 import org.apache.http.protocol.HttpContext;
 import org.simpleframework.xml.Serializer;
 import org.simpleframework.xml.core.Persister;
+
+import android.widget.Toast;
 
 public class ApiClient {
 	protected static DefaultHttpClient httpclient;
@@ -59,6 +66,8 @@ public class ApiClient {
 	protected final static String API_PATH_JOURNEY = API_PATH + "journey.xml";
 	protected final static String API_PATH_PHOTOS = API_PATH + "photos.xml";
 	protected final static String API_PATH_PHOTOMAP_CATEGORIES = API_PATH + "photomapcategories.xml";
+	protected final static String API_PATH_ADDPHOTO = API_PATH + "addphoto.xml";
+	
 
 	protected final static int DEFAULT_SPEED = 20;
 
@@ -174,4 +183,41 @@ public class ApiClient {
     	final Serializer serializer = new Persister();
     	return serializer.read(returnClass, xml);
 	} // loadRaw
+	
+	static public void uploadPhoto(final String filename,
+								   final String username,
+								   final String password,
+								   final GeoPoint location,
+								   final String metaCat,
+								   final String category,
+								   final String dateTime,
+								   final String caption) 
+	{
+		try {
+			final List<NameValuePair> params = new ArrayList<NameValuePair>();
+			params.add(new BasicNameValuePair("key", API_KEY));
+			final URI uri = URIUtils.createURI(API_SCHEME, API_HOST, API_PORT, API_PATH_ADDPHOTO,
+    									   	   URLEncodedUtils.format(params, "UTF-8"), null);
+    	
+			final HttpPost httppost = new HttpPost(uri);
+			final MultipartEntity entity = new MultipartEntity();
+			entity.addPart("username", new StringBody(username));
+			entity.addPart("password", new StringBody(password));
+			entity.addPart("latitude", new StringBody(Double.toString(location.getLatitudeE6() / 1E6)));
+			entity.addPart("longitude", new StringBody(Double.toString(location.getLongitudeE6() / 1E6)));
+			entity.addPart("datetime", new StringBody(dateTime));
+			entity.addPart("category", new StringBody(category));
+			entity.addPart("metacategory", new StringBody(metaCat));
+			entity.addPart("caption", new StringBody(caption));
+			entity.addPart("mediaupload", new FileBody(new File(filename)));
+			httppost.setEntity(entity);
+			String xml = httpclient.execute(httppost, new BasicResponseHandler());
+			xml = xml;
+		}
+		catch(Exception e) {
+			;
+		}
+
+	
+	} // uploadPhoto
 } // ApiClient

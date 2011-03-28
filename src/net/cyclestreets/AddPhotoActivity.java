@@ -11,6 +11,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -28,7 +29,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.RelativeLayout.LayoutParams;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+
+import org.osmdroid.util.GeoPoint;
 
 public class AddPhotoActivity extends Activity 
 							  implements View.OnClickListener
@@ -57,10 +63,10 @@ public class AddPhotoActivity extends Activity
 	} // AddStep
 	
 	private AddStep step_;
+	
+	private String photoFile_ = null;
 	private Bitmap photo_ = null;
-	private String caption_ = null;
-	private int metaCat_ = -1;
-	private int category_ = -1;
+	private ExifInterface photoExif_ = null;
 	
 	private View photoView_;
 	private View photoCaption_;
@@ -118,17 +124,6 @@ public class AddPhotoActivity extends Activity
 
 	private void nextStep()
 	{
-		switch(step_)
-		{
-		case CAPTION:
-			caption_ = captionEditText().getText().toString();
-			break;
-		case CATEGORY:
-			metaCat_ = metaCategorySpinner().getSelectedItemPosition();
-			category_ = categorySpinner().getSelectedItemPosition();
-			break;
-		} // nextStep
-		
 		step_ = step_.next();
 		setupView();
 	} // nextStep
@@ -144,8 +139,6 @@ public class AddPhotoActivity extends Activity
 			break;
 		case CAPTION:
 			setContentView(photoCaption_);
-			if(caption_ != null)
-				captionEditText().setText(caption_);
 			break;
 		case CATEGORY:
 			setContentView(photoCategory_);
@@ -157,15 +150,14 @@ public class AddPhotoActivity extends Activity
 			}
 						
 			metaCategorySpinner().setAdapter(new CategoryAdapter(this, photomapCategories.metacategories));
-			if(metaCat_ != -1)
-				metaCategorySpinner().setSelection(metaCat_);
 			categorySpinner().setAdapter(new CategoryAdapter(this, photomapCategories.categories));
-			if(category_ != -1)
-				categorySpinner().setSelection(category_);
 			break;
 		case LOCATION:
 			setContentView(photoLocation_);
+			there_.noOverThere(photoLocation());
 			break;
+		case DETAILS:
+			upload();
 		} // switch ...
 		
 		previewPhoto();
@@ -190,9 +182,9 @@ public class AddPhotoActivity extends Activity
 		setupButtonListener(R.id.next);
 	} // hookUpNext
 	
-	private EditText captionEditText() { return (EditText)findViewById(R.id.caption); }
-	private Spinner metaCategorySpinner() { return (Spinner)findViewById(R.id.metacat); }
-	private Spinner categorySpinner() { return (Spinner)findViewById(R.id.category); }
+	private EditText captionEditText() { return (EditText)photoCaption_.findViewById(R.id.caption); }
+	private Spinner metaCategorySpinner() { return (Spinner)photoCategory_.findViewById(R.id.metacat); }
+	private Spinner categorySpinner() { return (Spinner)photoCategory_.findViewById(R.id.category); }
 	
 	private void setupButtonListener(int id)
 	{
@@ -237,11 +229,15 @@ public class AddPhotoActivity extends Activity
         	return;
 
         try {
-        	final String photoPath = getImageFilePath(data);
+        	photoFile_ = getImageFilePath(data);
         	if(photo_ != null)
         		photo_.recycle();
-        	photo_ = BitmapFactory.decodeFile(photoPath);
-		
+        	final BitmapFactory.Options decodeOptions = new BitmapFactory.Options();
+        	decodeOptions.inPurgeable = true;
+        	decodeOptions.inSampleSize = 4;
+        	photo_ = BitmapFactory.decodeFile(photoFile_, decodeOptions);
+        	
+        	photoExif_ = new ExifInterface(photoFile_);
         	nextStep();
         }
         catch(Exception e)
@@ -264,7 +260,48 @@ public class AddPhotoActivity extends Activity
         	cursor.close();
         } // finally
 	} // getImageFilePath
+	
+	private void upload()
+	{
+		final String filename = photoFile_;
+		final String username = CycleStreetsPreferences.username();
+		final String password = CycleStreetsPreferences.password();
+		final GeoPoint location = there_.there();
+		final String metaCat = photomapCategories.metacategories.get((int)metaCategorySpinner().getSelectedItemId()).getTag();
+		final String category = photomapCategories.categories.get((int)categorySpinner().getSelectedItemId()).getTag();
+		final String dateTime = photoTimestamp();
+		final String caption = captionEditText().getText().toString();
+		Toast.makeText(this, "Uploading", Toast.LENGTH_LONG).show();
+		
+		ApiClient.uploadPhoto(filename, username, password, location, metaCat, category, dateTime, caption);
+	} // upload
+	
+	private GeoPoint photoLocation()
+	{
+		final float[] coords = new float[2];
+		if(!photoExif_.getLatLong(coords))
+			return null;
+		return new GeoPoint(coords[0] * 1E6, coords[1] * 1E6);
+	} // photoLocation
+	
+	private String photoTimestamp()
+	{
+		Date date = new Date();
+		
+		try {
+			final DateFormat df = new SimpleDateFormat("yyyy:MM:dd HH:mm:ss");
+			final String dateString = photoExif_.getAttribute(ExifInterface.TAG_DATETIME);
+			if(dateString != null && dateString.length() > 0)
+				date = df.parse(photoExif_.getAttribute(ExifInterface.TAG_DATETIME));
+		} // try
+		catch(Exception e) {
+			// ah well
+		} // catch
 
+		return Long.toString(date.getTime());
+	} // photoTimestamp
+
+	///////////////////////////////////////////////////////////////////////////
 	private class GetPhotomapCategoriesTask extends AsyncTask<Object,Void,PhotomapCategories> 
 	{
 		protected PhotomapCategories doInBackground(Object... params) 
@@ -286,6 +323,7 @@ public class AddPhotoActivity extends Activity
 		} // onPostExecute
 	} // class GetPhotomapCategoriesTask
 	
+	//////////////////////////////////////////////////////////
 	static private class CategoryAdapter extends BaseAdapter
 	{
 		private final LayoutInflater inflater_;
