@@ -1,0 +1,18 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:orientation="vertical" 
+	android:layout_width="fill_parent"
+	android:layout_height="fill_parent">
+	<LinearLayout 
+		android:id="@+id/mapholder"
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:orientation="vertical"
+		android:layout_weight="5.0"
+		android:padding="4.0dip">
+	  	<WebView
+	  		android:id="@+id/webview"
+			android:layout_width="fill_parent"
+			android:layout_height="fill_parent"/>
+	</LinearLayout>		
+	<include layout="@layout/addphotonext"/>
+</LinearLayout>

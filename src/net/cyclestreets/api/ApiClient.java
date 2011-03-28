@@ -182,14 +182,14 @@ public class ApiClient {
     	return serializer.read(returnClass, xml);
 	} // loadRaw
 	
-	static public String uploadPhoto(final String filename,
-									 final String username,
-									 final String password,
-									 final GeoPoint location,
-									 final String metaCat,
-									 final String category,
-									 final String dateTime,
-									 final String caption) 
+	static public UploadResult uploadPhoto(final String filename,
+										   final String username,
+										   final String password,
+										   final GeoPoint location,
+										   final String metaCat,
+										   final String category,
+										   final String dateTime,
+										   final String caption) 
 	{
 		try {
 			final List<NameValuePair> params = new ArrayList<NameValuePair>();
@@ -210,7 +210,7 @@ public class ApiClient {
 			entity.addPart("mediaupload", new FileBody(new File(filename)));
 			httppost.setEntity(entity);
 			final String xml = httpclient.execute(httppost, new BasicResponseHandler());
-			return xml;
+			return loadRaw(UploadResult.class, xml);
 		}
 		catch(Exception e) {
 			return null;

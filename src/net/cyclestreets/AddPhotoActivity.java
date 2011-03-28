@@ -3,6 +3,7 @@ package net.cyclestreets;
 import net.cyclestreets.api.ApiClient;
 import net.cyclestreets.api.PhotomapCategories;
 import net.cyclestreets.api.ICategory;
+import net.cyclestreets.api.UploadResult;
 import net.cyclestreets.views.CycleMapView;
 import net.cyclestreets.views.overlay.ThereOverlay;
 import android.app.Activity;
@@ -20,6 +21,7 @@ import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -46,8 +48,9 @@ public class AddPhotoActivity extends Activity
 		CAPTION(PHOTO),
 		CATEGORY(CAPTION),
 		LOCATION(CATEGORY),
-		DETAILS(LOCATION),
-		SUBMIT(DETAILS);
+		SUBMIT(LOCATION),
+		VIEW(SUBMIT),
+		DONE(VIEW);
 		
 		private AddStep(AddStep p)
 		{
@@ -73,20 +76,16 @@ public class AddPhotoActivity extends Activity
 	private View photoCaption_;
 	private View photoCategory_;
 	private View photoLocation_;
+	private View photoWebView_;
 	
 	private CycleMapView map_;
 	private ThereOverlay there_;
 	private static PhotomapCategories photomapCategories;
 	
-	
 	@Override
 	protected void onCreate(final Bundle savedInstanceState) 
 	{
 		super.onCreate(savedInstanceState);
-		
-		// start reading categories
-		if(photomapCategories == null)
-			new GetPhotomapCategoriesTask().execute();
 		
 		step_ = AddStep.PHOTO;
 
@@ -96,7 +95,16 @@ public class AddPhotoActivity extends Activity
 		photoCaption_ = inflater.inflate(R.layout.addphotocaption, null);
 		photoCategory_ = inflater.inflate(R.layout.addphotocategory, null);
 		photoLocation_ = inflater.inflate(R.layout.addphotolocation, null);
+		photoWebView_ = inflater.inflate(R.layout.addphotoview, null);
+		final Button b = (Button)photoWebView_.findViewById(R.id.next);
+		b.setText("Upload another");
 
+		// start reading categories
+		if(photomapCategories == null)
+			new GetPhotomapCategoriesTask().execute();
+		else
+			setupSpinners();
+		
 		map_ = new CycleMapView(this, this.getClass().getName());
 		map_.enableAndFollowLocation();
 		map_.getController().setZoom(map_.getMaxZoomLevel());
@@ -112,7 +120,10 @@ public class AddPhotoActivity extends Activity
 	@Override 
 	public void onBackPressed()
 	{
-		if(step_== AddStep.PHOTO)
+		if(step_ == AddStep.SUBMIT)
+			return;
+		
+		if(step_ == AddStep.PHOTO || step_ == AddStep.VIEW)
 		{
 			super.onBackPressed();
 			return;
@@ -125,6 +136,12 @@ public class AddPhotoActivity extends Activity
 
 	private void nextStep()
 	{
+		if((step_ == AddStep.LOCATION) && (there_.there() == null))
+		{
+			Toast.makeText(this, "Please set photo location", Toast.LENGTH_LONG).show();
+			return;
+		} // if ...
+			
 		step_ = step_.next();
 		setupView();
 	} // nextStep
@@ -143,22 +160,23 @@ public class AddPhotoActivity extends Activity
 			break;
 		case CATEGORY:
 			setContentView(photoCategory_);
-			try {
-				if(photomapCategories == null)
-					Thread.sleep(1000);
-			}
-			catch(Exception e) {
-			}
-						
-			metaCategorySpinner().setAdapter(new CategoryAdapter(this, photomapCategories.metacategories));
-			categorySpinner().setAdapter(new CategoryAdapter(this, photomapCategories.categories));
 			break;
 		case LOCATION:
 			setContentView(photoLocation_);
-			there_.noOverThere(photoLocation());
 			break;
-		case DETAILS:
+		case SUBMIT:
 			upload();
+			break;
+		case VIEW:
+			setContentView(photoWebView_);
+			break;
+		case DONE:
+			captionEditText().setText("");
+			metaCategorySpinner().setSelection(0);
+			categorySpinner().setSelection(0);
+			step_ = AddStep.PHOTO;
+			setupView();
+			break;
 		} // switch ...
 		
 		previewPhoto();
@@ -186,6 +204,12 @@ public class AddPhotoActivity extends Activity
 	private EditText captionEditText() { return (EditText)photoCaption_.findViewById(R.id.caption); }
 	private Spinner metaCategorySpinner() { return (Spinner)photoCategory_.findViewById(R.id.metacat); }
 	private Spinner categorySpinner() { return (Spinner)photoCategory_.findViewById(R.id.category); }
+
+	private void setupSpinners()
+	{
+		metaCategorySpinner().setAdapter(new CategoryAdapter(this, photomapCategories.metacategories));
+		categorySpinner().setAdapter(new CategoryAdapter(this, photomapCategories.categories));
+	} // setupSpinners
 	
 	private void setupButtonListener(int id)
 	{
@@ -239,6 +263,9 @@ public class AddPhotoActivity extends Activity
         	photo_ = BitmapFactory.decodeFile(photoFile_, decodeOptions);
         	
         	photoExif_ = new ExifInterface(photoFile_);
+
+        	there_.noOverThere(photoLocation());
+        	
         	nextStep();
         }
         catch(Exception e)
@@ -284,6 +311,22 @@ public class AddPhotoActivity extends Activity
 															 caption);
 		uploader.execute();
 	} // upload
+	
+	private void uploadComplete(final String url)
+	{
+		final WebView wv = (WebView)photoWebView_.findViewById(R.id.webview);
+		wv.loadUrl(url);
+
+       	nextStep();
+	} // uploadComplete
+	
+	private void uploadFailed(final String msg)
+	{
+		Toast.makeText(this, "Upload failed: " + msg, Toast.LENGTH_LONG).show();
+		
+		step_ = AddStep.LOCATION;
+		setupView();
+	} // uploadFailed
 	
 	private GeoPoint photoLocation()
 	{
@@ -331,11 +374,12 @@ public class AddPhotoActivity extends Activity
 		protected void onPostExecute(PhotomapCategories photomapCategories) 
 		{
 			AddPhotoActivity.photomapCategories = photomapCategories;
+			setupSpinners();
 		} // onPostExecute
 	} // class GetPhotomapCategoriesTask
 	
 	//////////////////////////////////////////////////////////////////////////
-	private class UploadPhotoTask extends AsyncTask<Object, Void, String>
+	private class UploadPhotoTask extends AsyncTask<Object, Void, UploadResult>
 	{
 		private final String filename_;
 		private final String username_;
@@ -347,8 +391,6 @@ public class AddPhotoActivity extends Activity
 		private final String caption_;
 		private final ProgressDialog progress_;
 		
-		private String result_ = null;
-
 		UploadPhotoTask(final Context context,
 						final String filename,
 	 				   	final String username,
@@ -374,31 +416,32 @@ public class AddPhotoActivity extends Activity
 			progress_.setCancelable(false);
 	    } // UploadPhotoTask
 		
-		public String result() { return result_; }
-		
 		@Override
 		protected void onPreExecute() {
 			super.onPreExecute();
 			progress_.show();
 		} // onPreExecute
 		
-		protected String doInBackground(Object... params)
+		protected UploadResult doInBackground(Object... params)
 		{
-			result_ = ApiClient.uploadPhoto(filename_, 
-											username_, 
-											password_, 
-											location_, 
-											metaCat_, 
-											category_, 
-											dateTime_, 
-											caption_);
-			return result_;
+			return ApiClient.uploadPhoto(filename_, 
+										 username_, 
+										 password_, 
+										 location_, 
+										 metaCat_, 
+										 category_, 
+										 dateTime_, 
+										 caption_);
 		} // doInBackground
 		
 		@Override
-	    protected void onPostExecute(final String journey) 
+	    protected void onPostExecute(final UploadResult result) 
 		{
 	       	progress_.dismiss();
+	       	if(result.errorMessage() == null)
+	       		uploadComplete(result.url());
+	       	else
+	       		uploadFailed(result.errorMessage());
 		} // onPostExecute
 	} // class UploadPhotoTask
 	
