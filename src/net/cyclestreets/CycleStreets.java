@@ -4,9 +4,6 @@ import android.app.TabActivity;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.ViewGroup;
 import android.widget.TabHost;
 
@@ -60,26 +57,6 @@ public class CycleStreets extends TabActivity {
 	{
 		getTabHost().setCurrentTab(0);
 	} // showMap
-	
-	@Override
-	/** build options menu */
-	public boolean onCreateOptionsMenu(Menu menu) {
-	    MenuInflater inflater = getMenuInflater();
-	    inflater.inflate(R.menu.toplevel_menu, menu);
-	    return true;
-	}
 
-	@Override
-	/** listener for menu selections */
-	public boolean onOptionsItemSelected(MenuItem item) {
-	    switch (item.getItemId()) {
-	    case R.id.savedroutes:
-	        // not yet
-	        return true;
-	    default:
-	        return super.onOptionsItemSelected(item);
-	    }
-	}
-	
 } // class CycleStreets
 
