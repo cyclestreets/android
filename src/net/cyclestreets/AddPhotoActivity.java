@@ -90,7 +90,7 @@ public class AddPhotoActivity extends Activity
 		
 		step_ = AddStep.PHOTO;
 
-		LayoutInflater inflater = (LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		final LayoutInflater inflater = (LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
 		photoView_ = inflater.inflate(R.layout.addphoto, null);
 		{

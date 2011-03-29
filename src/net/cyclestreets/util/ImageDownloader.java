@@ -15,24 +15,33 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
+import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 public class ImageDownloader 
 {
-	public void get(final String url, final ImageView imageView) 
+	static public void get(final String url, 
+						   final ImageView imageView,
+						   final WindowManager wm) 
 	{
-		final BitmapDownloaderTask task = new BitmapDownloaderTask(imageView);
+		final BitmapDownloaderTask task = new BitmapDownloaderTask(imageView, wm);
 		task.execute(url);
 	} // get
 
 	//////////////////////////
-	class BitmapDownloaderTask extends AsyncTask<String, Void, Bitmap> 
+	static class BitmapDownloaderTask extends AsyncTask<String, Void, Bitmap> 
 	{
 		private final WeakReference<ImageView> imageViewReference;
+		private final int height_;
+		private final int width_;
 
-		public BitmapDownloaderTask(final ImageView imageView) 
+		public BitmapDownloaderTask(final ImageView imageView,
+									final WindowManager wm) 
 		{
 			imageViewReference = new WeakReference<ImageView>(imageView);
+			height_ = wm.getDefaultDisplay().getHeight() / 10 * 4;
+			width_ = wm.getDefaultDisplay().getWidth();
 		} // BitmapDownloaderTask
 
 		@Override
@@ -55,6 +64,8 @@ public class ImageDownloader
 				return;
 			
 			imageView.setImageBitmap(bitmap);
+			imageView.setLayoutParams(new LinearLayout.LayoutParams(width_, height_));
+			imageView.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
 		} // onPostExecute
 
 		private Bitmap downloadBitmap(final String url) 

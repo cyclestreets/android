@@ -11,8 +11,6 @@ import android.widget.TextView;
 
 public class DisplayPhotoActivity extends Activity 
 {
-	private ImageDownloader loader_;
-	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) 
 	{
@@ -23,8 +21,7 @@ public class DisplayPhotoActivity extends Activity
 		final Uri uri = i.getData();
 
 		final ImageView iv = (ImageView)findViewById(R.id.photo);
-		loader_ = new ImageDownloader();		
-		loader_.get(uri.toString(), iv);
+		ImageDownloader.get(uri.toString(), iv, getWindowManager());
     	
     	final TextView text = (TextView)findViewById(R.id.photo_text);
     	text.setText(i.getStringExtra("caption"));
