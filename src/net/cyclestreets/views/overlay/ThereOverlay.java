@@ -42,12 +42,7 @@ public class ThereOverlay extends Overlay
 	} // noOverThere
 	
 	@Override
-	protected void onDraw(final Canvas canvas, final MapView mapView) 
-	{
-	} // onDraw
-
-	@Override
-	protected void onDrawFinished(final Canvas canvas, final MapView mapView) 
+	protected void draw(final Canvas canvas, final MapView mapView, final boolean shadow) 
 	{
 		if(there_ == null)
 			return;

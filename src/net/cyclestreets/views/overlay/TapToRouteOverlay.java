@@ -130,23 +130,18 @@ public class TapToRouteOverlay extends Overlay
 			return null;
 		final OverlayItem marker = new OverlayItem(label, label, point);
 		marker.setMarker(icon);
-		marker.setMarkerHotspot(new Point(0,30));
+		marker.setMarkerHotspot(OverlayItem.HotspotPlace.BOTTOM_CENTER);
 		return marker;
 	} // addMarker
 
 	////////////////////////////////////////////
 	@Override
-	public void onDraw(final Canvas canvas, final MapView mapView) 
-	{
-	} // onDraw
-	
-	@Override
-	protected void onDrawFinished(final Canvas canvas, final MapView mapView) 
+	public void draw(final Canvas canvas, final MapView mapView, final boolean shadow) 
 	{
         final Projection projection = mapView.getProjection();
         drawMarker(canvas, projection, startItem_);
         drawMarker(canvas, projection, endItem_);
-	} // onDrawFinished
+	} // draw
 	
 	public void drawButtons(final Canvas canvas, final MapView mapView)
 	{

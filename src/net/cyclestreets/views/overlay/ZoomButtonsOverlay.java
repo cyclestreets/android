@@ -42,14 +42,9 @@ public class ZoomButtonsOverlay extends Overlay
 	} // ZoomButtonsOverlay
 	
 	@Override
-	protected void onDraw(final Canvas canvas, final MapView mapView) 
+	protected void draw(final Canvas canvas, final MapView mapView, final boolean shadow) 
 	{
-	} // onDraw
-
-	@Override
-	protected void onDrawFinished(final Canvas canvas, MapView mapView) 
-	{
-	} // onDrawFinished
+	} // draw
 	
 	public void drawButtons(final Canvas canvas, final MapView mapView)
 	{

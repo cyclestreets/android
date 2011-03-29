@@ -3,12 +3,10 @@ package net.cyclestreets;
 import java.util.List;
 import java.util.ArrayList;
 
-import org.osmdroid.DefaultResourceProxyImpl;
 import org.osmdroid.events.DelayedMapListener;
-import org.osmdroid.views.overlay.ItemizedOverlay;
+import net.cyclestreets.views.overlay.ItemizedOverlay;
 
 import android.content.Intent;
-import android.graphics.Point;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -22,12 +20,9 @@ public class PhotomapActivity extends CycleMapActivity
         final List<PhotoItem> photoList = new ArrayList<PhotoItem>();
         
         final ItemizedOverlay<PhotoItem> markers = 
-        			new ItemizedOverlay<PhotoItem>(this, 
+        			new ItemizedOverlay<PhotoItem>(this,
         										   photoList,
-        										   getResources().getDrawable(R.drawable.icon),
-        										   new Point(10,10),
-        										   this,
-        										   new DefaultResourceProxyImpl(this));
+       										   	   this);
         overlayPushBottom(markers);
         
         mapView().setMapListener(new DelayedMapListener(new PhotomapListener(this, mapView(), photoList)));

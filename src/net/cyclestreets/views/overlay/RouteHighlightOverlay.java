@@ -66,17 +66,12 @@ public class RouteHighlightOverlay extends PathOverlay
 	} // MapActivityPathOverlay
 	
 	@Override
-	public void onDraw(final Canvas canvas, final MapView mapView)
+	public void draw(final Canvas canvas, final MapView mapView, final boolean shadow)
 	{
 		if(current_ != Route.activeSegment())
 			refresh();
-		super.onDraw(canvas, mapView);
+		super.draw(canvas, mapView, shadow);
 	} // onDraw
-	
-	@Override
-	public void onDrawFinished(final Canvas canvas, final MapView mapView)
-	{
-	} // onDrawFinished
 	
 	public void drawButtons(final Canvas canvas, final MapView mapView)
 	{

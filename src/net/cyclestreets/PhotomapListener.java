@@ -9,6 +9,7 @@ import net.cyclestreets.api.Photo;
 import org.osmdroid.events.ScrollEvent;
 import org.osmdroid.events.ZoomEvent;
 import org.osmdroid.util.BoundingBoxE6;
+import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
 import org.osmdroid.events.MapAdapter;
 
@@ -56,8 +57,9 @@ public class PhotomapListener extends MapAdapter
 		double w = bounds.getLonWestE6() / 1E6;
 		
 		int zoom = map_.getZoomLevel();
-		double clat = map_.getMapCenterLatitudeE6() / 1E6;
-		double clon = map_.getMapCenterLongitudeE6() / 1E6;
+		final GeoPoint centre = map_.getMapCenter();
+		double clat = (double)centre.getLatitudeE6() / 1E6;
+		double clon = (double)centre.getLongitudeE6() / 1E6;
 		new GetPhotosTask(this).execute(clat, clon, zoom, n, s, e, w);		
 	} // refreshPhotos
 	

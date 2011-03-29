@@ -75,7 +75,7 @@ public class CycleMapView extends MapView
         edit.putInt(CycloidConstants.PREFS_APP_SCROLL_Y, getScrollY());
         edit.putInt(CycloidConstants.PREFS_APP_ZOOM_LEVEL, getZoomLevel());
         edit.putBoolean(CycloidConstants.PREFS_APP_MY_LOCATION, location_.isMyLocationEnabled());
-        edit.putBoolean(CycloidConstants.PREFS_APP_FOLLOW_LOCATION, location_.isLocationFollowEnabled());
+        edit.putBoolean(CycloidConstants.PREFS_APP_FOLLOW_LOCATION, location_.isFollowLocationEnabled());
         edit.commit();
 
         disableMyLocation();
@@ -92,7 +92,10 @@ public class CycleMapView extends MapView
 		
 		
         location_.enableLocation(pref(CycloidConstants.PREFS_APP_MY_LOCATION, false));
-        location_.followLocation(pref(CycloidConstants.PREFS_APP_FOLLOW_LOCATION, false));
+        if(pref(CycloidConstants.PREFS_APP_FOLLOW_LOCATION, false))
+        	location_.enableFollowLocation();
+        else
+        	location_.disableFollowLocation();
         
         getScroller().abortAnimation();
         
@@ -121,7 +124,7 @@ public class CycleMapView extends MapView
 	public Location getLastFix() { return location_.getLastFix(); }
 	public void toggleMyLocation() { location_.enableLocation(!location_.isMyLocationEnabled()); }
 	public void disableMyLocation() { location_.disableMyLocation(); }
-	public void disableFollowLocation() { location_.followLocation(false); }
+	public void disableFollowLocation() { location_.disableFollowLocation(); }
 
 	public void enableAndFollowLocation() { location_.enableAndFollowLocation(true); }
 	
@@ -133,16 +136,17 @@ public class CycleMapView extends MapView
 	} // centreOn
 		
 	@Override
-	public void onDraw(final Canvas canvas)
+	protected void dispatchDraw(final Canvas canvas)
 	{
 		if(centreOn_  != null)
 		{
 			getController().animateTo(new GeoPoint(centreOn_));
 			centreOn_ = null;
+			return;
 		} // if ..
 		
-		super.onDraw(canvas);
-	} // onDraw
+		super.dispatchDraw(canvas);
+	} // dispatchDraw
 
 	///////////////////////////////////////////////////////
 	private int pref(final String key, int defValue)

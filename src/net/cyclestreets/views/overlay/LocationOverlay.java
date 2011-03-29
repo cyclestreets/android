@@ -58,7 +58,7 @@ public class LocationOverlay extends MyLocationOverlay
 		{
 			try {
 				enableMyLocation();
-				followLocation(true);
+				enableFollowLocation();
 				final Location lastFix = getLastFix();
 				if (lastFix != null)
 					mapView_.getController().setCenter(new GeoPoint(lastFix));
@@ -69,7 +69,7 @@ public class LocationOverlay extends MyLocationOverlay
 		} 
 		else
 		{
-			followLocation(false);
+			disableFollowLocation();
 			disableMyLocation();
 		} // if ...
 		
@@ -78,20 +78,15 @@ public class LocationOverlay extends MyLocationOverlay
 	
 	////////////////////////////////////////////
 	@Override
-	public void onDraw(final Canvas canvas, final MapView mapView) 
+	public void draw(final Canvas canvas, final MapView mapView, final boolean shadow) 
 	{
 		// I'm not thrilled about this but there isn't any other way (short of killing
 		// and recreating the overlay) of turning off the little here-you-are man
 		if(!isMyLocationEnabled())
 			return;
 		
-		super.onDraw(canvas, mapView);
+		super.draw(canvas, mapView, shadow);
 	} // onDraw
-	
-	@Override
-	protected void onDrawFinished(final Canvas canvas, final MapView mapView) 
-	{
-	} // onDrawFinished
 	
 	public void drawButtons(final Canvas canvas, final MapView mapView)
 	{

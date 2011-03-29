@@ -5,7 +5,6 @@ import net.cyclestreets.api.Photo;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.overlay.OverlayItem;
 
-import android.graphics.Point;
 import android.graphics.drawable.Drawable;
 
 public class PhotoItem extends OverlayItem 
@@ -22,10 +21,10 @@ public class PhotoItem extends OverlayItem
 
 	// Markers
 	@Override
-	public Drawable getMarker(int stateBitset) { return photoMarkers.getMarker(photo.feature, stateBitset);	}
-
-	@Override
-	public Point getMarkerHotspot(int stateBitset) { return photoMarkers.getMarkerHotspot(photo.feature, stateBitset); }
+	public Drawable getMarker(int stateBitset) 
+	{ 
+		return photoMarkers.getMarker(photo.feature, stateBitset);	
+	} // getMarker
 
 	// Equality testing
 	@Override
