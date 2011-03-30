@@ -7,7 +7,7 @@ import android.graphics.Paint.Style;
 
 public class Brush 
 {
-	static public Paint Grey = createColourBrush(127, 127, 127, 127);
+	static public Paint Grey = createColourBrush(192, 127, 127, 127);
 	static public Paint LightGrey = createColourBrush(255, 192, 192, 192);
 	static public Paint White = createColourBrush(255, 255, 255, 255);
 
