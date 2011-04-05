@@ -347,7 +347,7 @@ public class TapToRouteOverlay extends Overlay
 			case WAITING_FOR_START:
 				return "Tap to set Start";
 			case WAITING_FOR_END:
-				return "Tap to set End";
+				return "Tap to set Finish";
 			case WAITING_TO_ROUTE:
 				return "Tap to Route";
 			case ALL_DONE:

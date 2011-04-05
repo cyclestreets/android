@@ -51,9 +51,9 @@ public class GeoActivity extends ListActivity
 	    
         int msg = 0; 
 		if (getIntent().getIntExtra(CycloidConstants.GEO_TYPE, 0) == CycloidConstants.GEO_REQUEST_FROM)
-			msg = R.string.select_route_start;
+			msg = R.string.select_route_from;
 		else
-			msg = R.string.select_route_end;
+			msg = R.string.select_route_to;
 
 		dialog = new AlertDialog.Builder(this)
         .setTitle(msg)        

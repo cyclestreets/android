@@ -10,9 +10,9 @@
 	<string name="route_to">Route To</string>
 	<string name="go">Go</string>
 	<string name="choose_from">Please choose a start location</string>
-	<string name="choose_to">Please choose an end location</string>
+	<string name="choose_to">Please choose a finish location</string>
 	<string name="choose_start">Choose Start Point</string>
-	<string name="choose_end">Choose End Point</string>
+	<string name="choose_end">Choose Finish Point</string>
 	<string name="finding_route">Contacting cyclestreets.net for route, please wait</string>
 	<string name="loading_route">Loading route, please wait</string>
 	<string name="uploading_photo">Uploading photo to cyclestreets.net, please wait</string>
@@ -21,10 +21,10 @@
 	<string name="error_route">Unable to find route</string>
 	<string name="my_location">My Location</string>
 	<string name="geocoding">Searching for location</string>
-	<string name="select_route_start">Please select route start location:</string>
-	<string name="select_route_end">Please select route end location:</string>
+	<string name="select_route_from">Please select route start location:</string>
+	<string name="select_route_to">Please select route finish location:</string>
 	<string name="no_from">Unable to find route start location</string>
-	<string name="no_to">Unable to find route end location</string>
+	<string name="no_to">Unable to find route finish location</string>
 	<string name="route_failed">Route finding failed</string>
 	<string name="donate">Donate</string>
 
