@@ -2,6 +2,7 @@ package net.cyclestreets;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.EditTextPreference;
 import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
@@ -18,6 +19,8 @@ public class SettingsActivity extends PreferenceActivity
         setSummary(CycleStreetsPreferences.PREF_UNITS_KEY);
         setSummary(CycleStreetsPreferences.PREF_SPEED_KEY);
         setSummary(CycleStreetsPreferences.PREF_MAPSTYLE_KEY);
+        setSummary(CycleStreetsPreferences.PREF_USERNAME_KEY);
+        setSummary(CycleStreetsPreferences.PREF_PASSWORD_KEY);
 	} // onCreate
 
     @Override
@@ -49,5 +52,12 @@ public class SettingsActivity extends PreferenceActivity
 		final Preference prefUI = findPreference(key);
 	    if (prefUI instanceof ListPreference) 
 			prefUI.setSummary(((ListPreference)prefUI).getEntry());
-	} // setSummary
+	    if (prefUI instanceof EditTextPreference)
+	    {
+	    	String t = ((EditTextPreference)prefUI).getText();
+	    	if((key.equals(CycleStreetsPreferences.PREF_PASSWORD_KEY)) && (t.length() != 0))
+	    		t = "********";
+	    	prefUI.setSummary(t);
+	    }
+    } // setSummary
 } // class SettingsActivity
