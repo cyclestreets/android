@@ -6,6 +6,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.MotionEvent;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -25,5 +26,14 @@ public class DisplayPhotoActivity extends Activity
     	
     	final TextView text = (TextView)findViewById(R.id.photo_text);
     	text.setText(i.getStringExtra("caption"));
+    	
 	} // onCreate
-} // DiasplayPhotoActivity
+	
+	@Override
+	public boolean onTouchEvent(final MotionEvent event)
+	{
+		if(event.getAction() == MotionEvent.ACTION_UP)
+			finish();
+		return false;
+	} // onTouchEvent
+} // DisplayPhotoActivity
