@@ -29,8 +29,8 @@
         <item>24</item>
     </string-array>
     <string-array name="mapstyle">
-    	<item>OpenCycleMap</item>
-        <item>OpenStreetMap</item>
+    	<item>OpenCycleMap (shows hills)</item>
+        <item>OpenStreetMap default style</item>
     </string-array>
     <string-array name="mapstyle_values">
         <item>CycleMap</item>
