@@ -56,8 +56,8 @@ public class TapToRouteOverlay extends Overlay
 		callback_ = callback;
 		
 		final Resources res = context.getResources();
-		greenWisp_ = res.getDrawable(R.drawable.green_wisp_36x30);
-		redWisp_ = res.getDrawable(R.drawable.red_wisp_36x30);
+		greenWisp_ = res.getDrawable(R.drawable.green_wisp_shadow_centred_big);
+		redWisp_ = res.getDrawable(R.drawable.red_wisp_shadow_centred_big);
 
 		offset_ = OverlayHelper.offset(context);
 		radius_ = OverlayHelper.cornerRadius(context);
@@ -191,11 +191,12 @@ public class TapToRouteOverlay extends Overlay
 		projection.toMapPixels(marker.mGeoPoint, screenPos);
 
 		final Drawable thingToDraw = marker.getDrawable();
-		final int quarterWidth = thingToDraw.getIntrinsicWidth()/4;
-		thingToDraw.setBounds(new Rect(screenPos.x - quarterWidth, 
-									   screenPos.y - thingToDraw.getIntrinsicHeight(), 
-									   screenPos.x + (quarterWidth*3), 
-									   screenPos.y));
+		final int halfWidth = thingToDraw.getIntrinsicWidth()/2;
+		final int halfHeight = thingToDraw.getIntrinsicHeight()/2;
+		thingToDraw.setBounds(new Rect(screenPos.x - halfWidth, 
+									   screenPos.y - halfHeight, 
+									   screenPos.x + halfWidth, 
+									   screenPos.y + halfHeight));
 		thingToDraw.draw(canvas);
 	} // drawMarker
 
