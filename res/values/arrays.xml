@@ -9,14 +9,16 @@
 		<item>miles</item>
 	</string-array>
     <string-array name="routetype">
-        <item>Fastest</item>
-        <item>Balanced</item>
         <item>Quietest</item>
+        <item>Balanced</item>
+        <item>Fastest</item>
+        <item>Shortest</item>
     </string-array>
     <string-array name="routetype_values">
-        <item>fastest</item>
-        <item>balanced</item>
         <item>quietest</item>
+        <item>balanced</item>
+        <item>fastest</item>
+        <item>shortest</item>
     </string-array>
     <string-array name="speed">
         <item>Unhurried 10mph (16km/h)</item>

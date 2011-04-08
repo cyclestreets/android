@@ -14,6 +14,7 @@ public final class RouteTypeMapper {
 		map.put(R.id.routeQuietest, CycleStreetsConstants.PLAN_QUIETEST);
 		map.put(R.id.routeBalanced, CycleStreetsConstants.PLAN_BALANCED);
 		map.put(R.id.routeFastest, CycleStreetsConstants.PLAN_FASTEST);
+		map.put(R.id.routeShortest, CycleStreetsConstants.PLAN_SHORTEST);
 		return map;
 	} // initialiseMappings
 

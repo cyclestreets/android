@@ -94,6 +94,14 @@
 					    android:button="@drawable/empty"
 					    android:layout_weight="1.0"
 					/>
+				    <RadioButton
+				    	android:id="@+id/routeShortest"
+				    	android:layout_width="65px"
+					    android:layout_height="65px"
+					    android:background="@drawable/route_short"
+					    android:button="@drawable/empty"
+					    android:layout_weight="1.0"
+					/>
 				</RadioGroup>
                 <View
                         android:layout_width="0.0dip"
