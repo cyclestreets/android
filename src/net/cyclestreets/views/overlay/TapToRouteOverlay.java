@@ -12,9 +12,11 @@ import org.osmdroid.views.overlay.OverlayItem;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Canvas;
+import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.Rect;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.view.MotionEvent;
 
@@ -28,6 +30,11 @@ public class TapToRouteOverlay extends Overlay
 
 	private final Drawable greenWisp_;
 	private final Drawable redWisp_;
+	private final Point screenPos_ = new Point();
+	private final Matrix canvasTransform_ = new Matrix();
+	private final float[] transformValues_ = new float[9];
+	private final Matrix bitmapTransform_ = new Matrix();
+	private final Paint bitmapPaint_ = new Paint();
 
 	private final int offset_;
 	private final float radius_;
@@ -187,17 +194,19 @@ public class TapToRouteOverlay extends Overlay
 	{
 		if(marker == null)
 			return;
-		final Point screenPos = new Point();
-		projection.toMapPixels(marker.mGeoPoint, screenPos);
 
-		final Drawable thingToDraw = marker.getDrawable();
+		projection.toMapPixels(marker.mGeoPoint, screenPos_);
+		
+		canvas.getMatrix(canvasTransform_);
+		canvasTransform_.getValues(transformValues_);
+		
+		final BitmapDrawable thingToDraw = (BitmapDrawable)marker.getDrawable();
 		final int halfWidth = thingToDraw.getIntrinsicWidth()/2;
 		final int halfHeight = thingToDraw.getIntrinsicHeight()/2;
-		thingToDraw.setBounds(new Rect(screenPos.x - halfWidth, 
-									   screenPos.y - halfHeight, 
-									   screenPos.x + halfWidth, 
-									   screenPos.y + halfHeight));
-		thingToDraw.draw(canvas);
+		bitmapTransform_.setTranslate(-halfWidth, -halfHeight);
+		bitmapTransform_.postScale(1/transformValues_[Matrix.MSCALE_X], 1/transformValues_[Matrix.MSCALE_Y]);
+		bitmapTransform_.postTranslate(screenPos_.x, screenPos_.y);
+		canvas.drawBitmap(thingToDraw.getBitmap(), bitmapTransform_, bitmapPaint_);
 	} // drawMarker
 
 	//////////////////////////////////////////////
