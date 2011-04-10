@@ -7,9 +7,10 @@ import android.os.Bundle;
 import android.view.ViewGroup;
 import android.widget.TabHost;
 
-public class CycleStreets extends TabActivity {
-    /** Called when the activity is first created. */
-	public void onCreate(Bundle savedInstanceState) {
+public class CycleStreets extends TabActivity 
+{
+	public void onCreate(Bundle savedInstanceState) 
+	{
 	    super.onCreate(savedInstanceState);
 	    setContentView(R.layout.main);
 
@@ -57,6 +58,5 @@ public class CycleStreets extends TabActivity {
 	{
 		getTabHost().setCurrentTab(0);
 	} // showMap
-
 } // class CycleStreets
 
