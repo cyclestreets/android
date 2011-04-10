@@ -8,7 +8,8 @@ import android.preference.Preference;
 import android.preference.PreferenceActivity;
 
 public class SettingsActivity extends PreferenceActivity 
-							  implements SharedPreferences.OnSharedPreferenceChangeListener {
+							  implements SharedPreferences.OnSharedPreferenceChangeListener 
+{
 	@Override 
 	public void onCreate(final Bundle savedInstanceState) 
 	{ 
@@ -28,7 +29,6 @@ public class SettingsActivity extends PreferenceActivity
     {
         super.onResume();
 
-		// register self as preferences change listener
         getPreferenceScreen().getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
     } // onResume
 
@@ -40,9 +40,8 @@ public class SettingsActivity extends PreferenceActivity
         // stop listening while paused
         getPreferenceScreen().getSharedPreferences().unregisterOnSharedPreferenceChangeListener(this);    
     } // onPause
-
-	// listen for preference changes
-	public void onSharedPreferenceChanged(SharedPreferences prefs, String key) 
+    
+    public void onSharedPreferenceChanged(final SharedPreferences prefs, final String key) 
 	{
 		setSummary(key);
 	} // onSharedPreferencesChanged
