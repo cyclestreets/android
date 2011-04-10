@@ -1,15 +1,17 @@
 package net.cyclestreets.views.overlay;
 
 import net.cyclestreets.util.Brush;
+import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.view.MotionEvent;
 
 class OverlayButton
 {
-	private final Drawable img_;
+	private final Bitmap img_;
 	private final Rect pos_;
 	private final float radius_;
 	private boolean enabled_;
@@ -21,7 +23,7 @@ class OverlayButton
 	
 	public OverlayButton(final Drawable image, final int left, final int top, final float curveRadius)
 	{
-		img_ = image;
+		img_ = ((BitmapDrawable)image).getBitmap();
         pos_ = new Rect(left, 
         				top, 
         				left + image.getIntrinsicWidth(), 
@@ -53,7 +55,7 @@ class OverlayButton
         screen.offset(pos_.left, pos_.top);
         screen.right = screen.left + pos_.width();
         screen.bottom = screen.top + pos_.height();
-	    
+        
 		drawOutLine(canvas, screen);
         OverlayHelper.drawRoundRect(canvas, screen, radius_, enabled_ ? Brush.White : Brush.LightGrey);
         
@@ -63,8 +65,7 @@ class OverlayButton
 			shrinkAndDrawInner(canvas, screen, Brush.White);
 		} // if ...
 
-        img_.setBounds(screen);
-        img_.draw(canvas);
+		OverlayHelper.drawBitmap(canvas, img_, screen);
 	} // drawButton
 
 	private void drawOutLine(final Canvas canvas, final Rect button)

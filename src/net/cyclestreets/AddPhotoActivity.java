@@ -4,6 +4,7 @@ import net.cyclestreets.api.ApiClient;
 import net.cyclestreets.api.PhotomapCategories;
 import net.cyclestreets.api.ICategory;
 import net.cyclestreets.api.UploadResult;
+import net.cyclestreets.util.ImageDownloader;
 import net.cyclestreets.views.CycleMapView;
 import net.cyclestreets.views.overlay.ThereOverlay;
 import android.app.Activity;
@@ -22,7 +23,6 @@ import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.WebView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -178,6 +178,10 @@ public class AddPhotoActivity extends Activity
 			break;
 		case VIEW:
 			setContentView(photoWebView_);
+			{
+				final TextView text = (TextView)photoWebView_.findViewById(R.id.photo_text);
+				text.setText(captionEditText().getText().toString());
+			}
 			break;
 		case DONE:
 			captionEditText().setText("");
@@ -317,9 +321,6 @@ public class AddPhotoActivity extends Activity
 	
 	private void uploadComplete(final String url)
 	{
-		final WebView wv = (WebView)photoWebView_.findViewById(R.id.webview);
-		wv.loadUrl(url);
-
        	nextStep();
 	} // uploadComplete
 	
@@ -420,7 +421,8 @@ public class AddPhotoActivity extends Activity
 	    } // UploadPhotoTask
 		
 		@Override
-		protected void onPreExecute() {
+		protected void onPreExecute() 
+		{
 			super.onPreExecute();
 			progress_.show();
 		} // onPreExecute
