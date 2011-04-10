@@ -4,7 +4,8 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
-public class CycleStreetsPreferences {
+public class CycleStreetsPreferences 
+{
 	private static Context context_;
     public final static String PREF_ROUTE_TYPE_KEY = "routetype";
     public final static String PREF_UNITS_KEY = "units";
