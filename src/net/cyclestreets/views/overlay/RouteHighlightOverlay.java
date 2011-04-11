@@ -106,7 +106,8 @@ public class RouteHighlightOverlay extends PathOverlay
 		if(bottom >= box.bottom)
 			box.bottom = bottom + offset_;
 		
-		OverlayHelper.drawRoundRect(canvas, box, radius_, Brush.Grey);
+		if(!OverlayHelper.drawRoundRect(canvas, box, radius_, Brush.Grey))
+			return;
 
 		Draw.drawTextInRect(canvas, textBrush_, textBox, seg.toString());
 	} // drawSegmentInfo

@@ -87,9 +87,6 @@ public class ControllerOverlay extends Overlay implements OnDoubleTapListener,
 	@Override
 	protected void draw(final Canvas canvas, final MapView mapView, final boolean shadow) 
 	{	
-		if(mapView.isAnimating())
-			return;
-
 		for(final Iterator<TapListener> overlays = tapOverlays(); overlays.hasNext(); )
 			overlays.next().drawButtons(canvas, mapView);
 	} // draw

@@ -180,7 +180,8 @@ public class TapToRouteOverlay extends Overlay
         screen.right -= offset_;
         screen.bottom = screen.top + stepBackButton_.height();
 		
-		OverlayHelper.drawRoundRect(canvas, screen, radius_, Brush.Grey);
+		if(!OverlayHelper.drawRoundRect(canvas, screen, radius_, Brush.Grey))
+			return;
 
 		final Rect bounds = new Rect();
 		textBrush_.getTextBounds(msg, 0, msg.length(), bounds);

@@ -22,26 +22,22 @@ public class OverlayHelper
 	
 	static private final Matrix canvasTransform_ = new Matrix();
 	static private final float[] transformValues_ = new float[9];
-	static private final Matrix bitmapTransform_ = new Matrix();
-	static private final Paint bitmapPaint_ = new Paint();
-
-	static void drawRoundRect(final Canvas canvas, 
+	
+	static boolean drawRoundRect(final Canvas canvas, 
 							  final Rect rect, 
 							  final float cornerRadius, 
 							  final Paint brush)
 	{
 		canvas.getMatrix(canvasTransform_);
 		canvasTransform_.getValues(transformValues_);
+		if(transformValues_[Matrix.MSCALE_X] != 1.0)
+			return false;
 
-		float newWidth = rect.width() / transformValues_[Matrix.MSCALE_X];
-		float newHeight = rect.height() / transformValues_[Matrix.MSCALE_Y];
-		
-		final RectF rf = new RectF(rect);
-		rf.right = rf.left + newWidth;
-		rf.bottom = rf.top + newHeight;
-		
-		canvas.drawRoundRect(rf, cornerRadius, cornerRadius, brush);
+		canvas.drawRoundRect(new RectF(rect), cornerRadius, cornerRadius, brush);
+		return true;
 	} // drawRoundRect
+	
+	static private Matrix bitmapTransform_ = new Matrix();
 	
 	static void drawBitmap(final Canvas canvas,
 						   final Bitmap bitmap,
@@ -49,10 +45,11 @@ public class OverlayHelper
 	{
 		canvas.getMatrix(canvasTransform_);
 		canvasTransform_.getValues(transformValues_);
-		
+		if(transformValues_[Matrix.MSCALE_X] != 1.0)
+			return;
+
 		bitmapTransform_.setTranslate(0, 0);
-		bitmapTransform_.postScale(1/transformValues_[Matrix.MSCALE_X], 1/transformValues_[Matrix.MSCALE_Y]);
 		bitmapTransform_.postTranslate(position.left, position.top);
-		canvas.drawBitmap(bitmap, bitmapTransform_, bitmapPaint_);
+		canvas.drawBitmap(bitmap, bitmapTransform_, null);
 	} // drawBitmap
 } // class OverlayHelper

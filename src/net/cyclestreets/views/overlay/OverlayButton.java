@@ -61,8 +61,9 @@ class OverlayButton
         
 		if(enabled_ && pressed_)
 		{
-			shrinkAndDrawInner(canvas, screen, Brush.LightGrey);
-			shrinkAndDrawInner(canvas, screen, Brush.White);
+			final Rect inner = new Rect(screen);
+			shrinkAndDrawInner(canvas, inner, Brush.LightGrey);
+			shrinkAndDrawInner(canvas, inner, Brush.White);
 		} // if ...
 
 		OverlayHelper.drawBitmap(canvas, img_, screen);
