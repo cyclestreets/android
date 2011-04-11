@@ -7,10 +7,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.osmdroid.util.GeoPoint;
+import org.apache.http.HttpEntity;
 import org.apache.http.HttpException;
 import org.apache.http.HttpRequest;
 import org.apache.http.HttpRequestInterceptor;
+import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
+import org.apache.http.StatusLine;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpResponseException;
+import org.apache.http.client.ResponseHandler;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.utils.URIUtils;
@@ -22,13 +28,13 @@ import org.apache.http.conn.scheme.SchemeRegistry;
 import org.apache.http.entity.mime.MultipartEntity;
 import org.apache.http.entity.mime.content.FileBody;
 import org.apache.http.entity.mime.content.StringBody;
-import org.apache.http.impl.client.BasicResponseHandler;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.impl.conn.tsccm.ThreadSafeClientConnManager;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.params.BasicHttpParams;
 import org.apache.http.params.HttpParams;
 import org.apache.http.protocol.HttpContext;
+import org.apache.http.util.EntityUtils;
 import org.simpleframework.xml.Serializer;
 import org.simpleframework.xml.core.Persister;
 
@@ -167,7 +173,7 @@ public class ApiClient {
     									   URLEncodedUtils.format(params, "UTF-8"), null);
     	
     	final HttpGet httpget = new HttpGet(uri);
-    	return httpclient.execute(httpget, new BasicResponseHandler());
+    	return httpclient.execute(httpget, new UTF8ResponseHandler());
 	} // callApiRaw
 	
 	static public <T> T callApi(final Class<T> returnClass, final String path, String... args) throws Exception 
@@ -209,13 +215,29 @@ public class ApiClient {
 			entity.addPart("caption", new StringBody(caption));
 			entity.addPart("mediaupload", new FileBody(new File(filename)));
 			httppost.setEntity(entity);
-			final String xml = httpclient.execute(httppost, new BasicResponseHandler());
+			final String xml = httpclient.execute(httppost, new UTF8ResponseHandler());
 			return loadRaw(UploadResult.class, xml);
 		}
 		catch(Exception e) {
 			return null;
 		}
-
-	
 	} // uploadPhoto
+
+	static private class UTF8ResponseHandler implements ResponseHandler<String> 
+	{
+		public String handleResponse(final HttpResponse response) 
+			throws ClientProtocolException, IOException 
+		{
+			final HttpEntity entity = response.getEntity();
+		 	if (entity == null) 
+		 		return null;
+		 	
+	 		final StatusLine statusLine = response.getStatusLine();
+	 		if (statusLine.getStatusCode() < 300) 
+	 			return EntityUtils.toString(entity, "UTF-8");
+
+ 			entity.consumeContent();
+ 			throw new HttpResponseException(statusLine.getStatusCode(), statusLine.getReasonPhrase());
+		} // handleResponse
+	} // class UTF8ResponseHandler 
 } // ApiClient
