@@ -4,7 +4,6 @@ import net.cyclestreets.api.ApiClient;
 import net.cyclestreets.api.PhotomapCategories;
 import net.cyclestreets.api.ICategory;
 import net.cyclestreets.api.UploadResult;
-import net.cyclestreets.util.ImageDownloader;
 import net.cyclestreets.views.CycleMapView;
 import net.cyclestreets.views.overlay.ThereOverlay;
 import android.app.Activity;
