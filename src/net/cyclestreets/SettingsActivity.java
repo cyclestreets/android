@@ -54,7 +54,9 @@ public class SettingsActivity extends PreferenceActivity
 	    if (prefUI instanceof EditTextPreference)
 	    {
 	    	String t = ((EditTextPreference)prefUI).getText();
-	    	if((key.equals(CycleStreetsPreferences.PREF_PASSWORD_KEY)) && (t.length() != 0))
+	    	if((key.equals(CycleStreetsPreferences.PREF_PASSWORD_KEY)) &&
+	    	   (t != null) &&
+	    	   (t.length() != 0))
 	    		t = "********";
 	    	prefUI.setSummary(t);
 	    }
