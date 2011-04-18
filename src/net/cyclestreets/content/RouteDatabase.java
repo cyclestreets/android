@@ -46,44 +46,56 @@ public class RouteDatabase
 		
 	public void saveRoute(final int id, 
 						  final String name, 
+						  final String plan,
+						  final int distance,
 						  final String xml, 
 						  final GeoPoint start, 
 						  final GeoPoint end)
 	{
 		if(route(id) == null)
-			addRoute(id, name, xml, start, end);
+			addRoute(id, name, plan, distance, xml, start, end);
 		else
-			updateRoute(id);
+			updateRoute(id, plan, distance, xml);
 	} // saveRoute
 	
 	private void addRoute(final int id, 
 						  final String name, 
+						  final String plan,
+						  final int distance,
 						  final String xml,
 						  final GeoPoint start,
 						  final GeoPoint end)
 	{
 	    final String ROUTE_TABLE_INSERT = 
-    	    "INSERT INTO route (journey, name, xml, start_lat, start_long, end_lat, end_long, last_used) " +
-    	    "  VALUES(?, ?, ?, ?, ?, ?, ?, datetime())";
+    	    "INSERT INTO route (journey, name, plan, distance, xml, start_lat, start_long, end_lat, end_long, last_used) " +
+    	    "  VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, datetime())";
     
     	final SQLiteStatement insertRoute = db_.compileStatement(ROUTE_TABLE_INSERT);
     	insertRoute.bindLong(1, id);
     	insertRoute.bindString(2, name);
-    	insertRoute.bindString(3, xml);
-    	insertRoute.bindLong(4, start.getLatitudeE6());
-    	insertRoute.bindLong(5, start.getLongitudeE6());
-    	insertRoute.bindLong(6, end.getLatitudeE6());
-    	insertRoute.bindLong(7, end.getLongitudeE6());
+    	insertRoute.bindString(3, plan);
+    	insertRoute.bindLong(4, distance);
+    	insertRoute.bindString(5, xml);
+    	insertRoute.bindLong(6, start.getLatitudeE6());
+    	insertRoute.bindLong(7, start.getLongitudeE6());
+    	insertRoute.bindLong(8, end.getLatitudeE6());
+    	insertRoute.bindLong(9, end.getLongitudeE6());
 		insertRoute.executeInsert();
 	} // addRoute
 
-	private void updateRoute(final int id)
+	private void updateRoute(final int id,
+							 final String plan,
+							 final int distance,
+							 final String xml)
 	{
 		final String ROUTE_TABLE_UPDATE = 
-			"UPDATE route SET last_used = datetime() WHERE journey = ?";
+			"UPDATE route SET last_used = datetime(), plan = ?, distance = ?, xml = ? WHERE journey = ?";
 		
 		final SQLiteStatement update = db_.compileStatement(ROUTE_TABLE_UPDATE);
-		update.bindLong(1, id);
+		update.bindString(1, plan);
+		update.bindLong(2, distance);
+		update.bindString(3, xml);
+		update.bindLong(4, id);
 		update.execute();
 	} // updateRoute
 	
@@ -101,7 +113,7 @@ public class RouteDatabase
 	{
         final List<RouteSummary> routes = new ArrayList<RouteSummary>();
         final Cursor cursor = db_.query(DatabaseHelper.ROUTE_TABLE_NAME, 
-        								new String[] { "journey", "name" },
+        								new String[] { "journey", "name", "plan", "distance" },
         								null, 
         								null, 
         								null, 
@@ -110,7 +122,10 @@ public class RouteDatabase
         if(cursor.moveToFirst()) 
            do 
            {
-        	   routes.add(new RouteSummary(cursor.getInt(0), cursor.getString(1)));
+        	   routes.add(new RouteSummary(cursor.getInt(0), 
+        			   					   cursor.getString(1),
+        			   					   cursor.getString(2),
+        			   					   cursor.getInt(3)));
            } 
            while (cursor.moveToNext());
  

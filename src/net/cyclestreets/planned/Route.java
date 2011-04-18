@@ -149,7 +149,13 @@ public class Route
 				segments_.add(0, startSeg);
 				segments_.add(endSeg);
 				
-				db_.saveRoute(marker.itinerary, marker.name, journeyXml, from_, to_);
+				db_.saveRoute(marker.itinerary, 
+							  marker.name, 
+							  marker.plan,
+							  total_distance,
+							  journeyXml, 
+							  from_, 
+							  to_);
 				break;
 			} // if ... 
 		} // for ...

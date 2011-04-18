@@ -4,6 +4,7 @@ import java.util.List;
 
 import net.cyclestreets.content.RouteSummary;
 import net.cyclestreets.planned.Route;
+import net.cyclestreets.planned.Segment;
 import android.app.ListActivity;
 import android.content.Context;
 import android.content.Intent;
@@ -129,8 +130,14 @@ public class StoredRoutesActivity extends ListActivity
 			final RouteSummary summary = routes_.get(position);
 			final View v = inflater_.inflate(R.layout.storedroutes_item, parent, false);
 
-			final TextView n = (TextView)v.findViewById(R.id.route_title);	
-			n.setText(summary.title());
+			final TextView n = (TextView)v.findViewById(R.id.route_title);
+			
+			final String p = summary.plan();
+			final String plan = p.substring(0,1).toUpperCase() + p.substring(1);
+			
+			n.setText(summary.title() + "\n" + 
+					  plan + " route, " + 
+					  Segment.formatter.total_distance(summary.distance()));
 			
 			return v;
 		} // getView

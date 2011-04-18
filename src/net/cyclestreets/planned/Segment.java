@@ -3,6 +3,8 @@ package net.cyclestreets.planned;
 import java.util.Iterator;
 import java.util.List;
 
+import net.cyclestreets.CycleStreetsPreferences;
+
 import org.osmdroid.util.GeoPoint;
 
 public abstract class Segment 
@@ -15,7 +17,7 @@ public abstract class Segment
 	private final int running_distance_;
 	private final List<GeoPoint> points_;
 
-	static public DistanceFormatter formatter;
+	static public DistanceFormatter formatter = DistanceFormatter.formatter(CycleStreetsPreferences.units());
 	
 	Segment(final String name,
 			final String turn,

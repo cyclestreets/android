@@ -16,6 +16,8 @@ class DatabaseHelper extends SQLiteOpenHelper
     		                     " journey INTEGER, " +
     		                     " last_used DATE, " +
     		                     " name TEXT, " +
+    		                     " plan TEXT, " +
+    		                     " distance INTEGER, " +
     		                     " xml TEXT, " +
     		                     " start_lat INTEGER, " + 
     		                     " start_long INTEGER, " + 
