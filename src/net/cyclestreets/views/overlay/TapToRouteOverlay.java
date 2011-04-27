@@ -232,9 +232,11 @@ public class TapToRouteOverlay extends Overlay
     
 	private boolean tapStepBack(final MotionEvent event)
 	{
-		if(!stepBackButton_.enabled() || !stepBackButton_.hit(event))
+		if(!stepBackButton_.hit(event))
 			return false;
-
+		if(!stepBackButton_.enabled())
+			return true;
+		
 		return stepBack(true);
 	} // tapStepBack
 	
