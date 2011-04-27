@@ -11,6 +11,7 @@ public class CycleStreetsPreferences
     public final static String PREF_UNITS_KEY = "units";
     public final static String PREF_SPEED_KEY = "speed";
     public final static String PREF_MAPSTYLE_KEY = "mapstyle";
+    public final static String PREF_CONFIRM_NEW_ROUTE = "confirm-new-route";
     public final static String PREF_USERNAME_KEY = "username";
     public final static String PREF_PASSWORD_KEY = "password";
 
@@ -43,8 +44,17 @@ public class CycleStreetsPreferences
 		return getString(PREF_PASSWORD_KEY, "");
 	} // password
 	
+	static public boolean confirmNewRoute() {
+		return getBoolean(PREF_CONFIRM_NEW_ROUTE, true);
+	}
+	
 	static private String getString(final String key, final String defVal) {
     	final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context_);
     	return prefs.getString(key, defVal);
-	}
-}
+	} // getStirng
+	
+	static private boolean getBoolean(final String key, boolean defVal) {
+    	final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context_);
+    	return prefs.getBoolean(key, defVal);
+	} // getBoolean		
+} // class CycleStreetsPreferences

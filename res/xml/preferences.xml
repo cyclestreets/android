@@ -17,7 +17,7 @@
 			android:entryValues="@array/speed_values" />
 	</PreferenceCategory>
     <PreferenceCategory
-    	android:title="Map">
+    	android:title="User Interface">
 		<ListPreference
 			android:key="units"
 			android:title="Units"
@@ -32,6 +32,10 @@
 			android:defaultValue="CycleMap"
 			android:entries="@array/mapstyle"
 			android:entryValues="@array/mapstyle_values" />
+		<CheckBoxPreference
+			android:key="confirm-new-route"
+			android:title="Confirm Start New Route"
+			android:defaultValue="true"/>
 	</PreferenceCategory>
     <PreferenceCategory
     	android:title="CycleStreets">
