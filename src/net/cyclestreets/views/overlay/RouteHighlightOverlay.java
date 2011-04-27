@@ -23,7 +23,7 @@ import android.view.MotionEvent;
 public class RouteHighlightOverlay extends PathOverlay 
 								   implements TapListener
 {
-	static public int HIGHLIGHT_COLOUR = 0x8000ff00;
+	static public int HIGHLIGHT_COLOUR = 0xff00ff00;
 
 	private final MapView mapView_;
 
@@ -40,7 +40,7 @@ public class RouteHighlightOverlay extends PathOverlay
 	public RouteHighlightOverlay(final Context context, final MapView map)
 	{
 		super(HIGHLIGHT_COLOUR, context);
-		mPaint.setStrokeWidth(6.0f);
+		mPaint.setStrokeWidth(8.0f);
 
 		mapView_ = map;
 		current_ = null;
