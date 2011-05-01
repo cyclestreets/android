@@ -8,7 +8,8 @@ import android.preference.Preference;
 import android.preference.PreferenceActivity;
 
 public class SettingsActivity extends PreferenceActivity 
-							  implements SharedPreferences.OnSharedPreferenceChangeListener 
+							  implements SharedPreferences.OnSharedPreferenceChangeListener
+							  
 {
 	@Override 
 	public void onCreate(final Bundle savedInstanceState) 
@@ -20,8 +21,6 @@ public class SettingsActivity extends PreferenceActivity
         setSummary(CycleStreetsPreferences.PREF_UNITS_KEY);
         setSummary(CycleStreetsPreferences.PREF_SPEED_KEY);
         setSummary(CycleStreetsPreferences.PREF_MAPSTYLE_KEY);
-        setSummary(CycleStreetsPreferences.PREF_USERNAME_KEY);
-        setSummary(CycleStreetsPreferences.PREF_PASSWORD_KEY);
 	} // onCreate
 
     @Override
@@ -45,7 +44,7 @@ public class SettingsActivity extends PreferenceActivity
 	{
 		setSummary(key);
 	} // onSharedPreferencesChanged
-
+    
 	private void setSummary(final String key) 
 	{
 		final Preference prefUI = findPreference(key);
@@ -53,11 +52,7 @@ public class SettingsActivity extends PreferenceActivity
 			prefUI.setSummary(((ListPreference)prefUI).getEntry());
 	    if (prefUI instanceof EditTextPreference)
 	    {
-	    	String t = ((EditTextPreference)prefUI).getText();
-	    	if((key.equals(CycleStreetsPreferences.PREF_PASSWORD_KEY)) &&
-	    	   (t != null) &&
-	    	   (t.length() != 0))
-	    		t = "********";
+	    	final String t = ((EditTextPreference)prefUI).getText();
 	    	prefUI.setSummary(t);
 	    }
     } // setSummary

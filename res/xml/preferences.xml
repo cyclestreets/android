@@ -40,14 +40,18 @@
     <PreferenceCategory
     	android:title="CycleStreets">
 		<PreferenceScreen
-    	    android:title="Account">
+    	    android:title="Account"
+    		android:key="cyclestreets-account">
+    		<intent android:action="android.intent.action.MAIN"
+                    android:targetPackage="net.cyclestreets"
+                    android:targetClass="net.cyclestreets.AccountDetailsActivity"/>
 			<EditTextPreference
-				android:key="username"
-				android:title="Username"/>
-			<EditTextPreference
-				android:key="password"
-				android:title="Password"
-				android:password="true"/>
+                    android:key="username"
+                    android:title="Username"/>
+            <EditTextPreference
+                    android:key="password"
+                    android:title="Password"
+                    android:password="true"/>
 		</PreferenceScreen>
 	</PreferenceCategory>
 </PreferenceScreen>

@@ -14,6 +14,7 @@ public class CycleStreetsPreferences
     public final static String PREF_CONFIRM_NEW_ROUTE = "confirm-new-route";
     public final static String PREF_USERNAME_KEY = "username";
     public final static String PREF_PASSWORD_KEY = "password";
+    public final static String PREF_ACCOUNT_KEY = "cyclestreets-account";
 
     static public void initialise(final Context context) {
     	context_ = context;
