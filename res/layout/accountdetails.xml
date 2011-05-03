@@ -2,46 +2,42 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
 	    android:orientation="vertical"
 	    android:layout_width="fill_parent"
-	    android:layout_height="fill_parent">            
-  <LinearLayout
+	    android:layout_height="fill_parent">
+	<TextView
 		android:layout_width="fill_parent"
 		android:layout_height="wrap_content"
-		android:orientation="vertical"
-		android:layout_weight="5.0"
-		android:padding="4.0dip">
-	 <TextView
+		android:text="  "
+		/>
+	<TextView 
 		android:layout_width="fill_parent"
 		android:layout_height="wrap_content"
-		android:text="Username"/>
-	<EditText
-		android:id="@+id/username"
-    	android:layout_height="wrap_content" 
-    	android:layout_width="fill_parent"/>	
-	 <TextView
+		android:gravity="center"
+		android:text="To upload photos to CycleStreets you need a user account."
+		/>
+	<TextView
 		android:layout_width="fill_parent"
 		android:layout_height="wrap_content"
-		android:text="Password"/>
-	<EditText
-		android:id="@+id/password"
-    	android:layout_height="wrap_content" 
-    	android:layout_width="fill_parent"/>	
-  </LinearLayout>
-  <LinearLayout
-	android:orientation="horizontal" 
-	android:layout_width="fill_parent"
-	android:layout_height="wrap_content"
-	android:gravity="bottom">
-    <Button 
-       android:id="@+id/create"
-       android:layout_width="30dip"
-       android:layout_height="wrap_content"     	
-       android:text="Create account"
-       android:layout_weight="1.0"/>
-    <Button
-       android:id="@+id/signin"
-       android:layout_width="30dip"
-       android:layout_height="wrap_content"     	
-       android:text="Sign in"
-       android:layout_weight="1.0"/>
-  </LinearLayout>
+		android:text="  "
+		/>
+	<TextView 
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:gravity="center"
+		android:text="Registering for an account is free."
+		/>		
+	<TextView
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:text="  "
+		/>
+	<Button android:id="@+id/newaccount_button"
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:layout_centerHorizontal="true"
+		android:text="Register for an account"/>
+	<Button android:id="@+id/existingaccount_button"
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:layout_centerHorizontal="true"
+		android:text="Signin with an existing account"/>
 </LinearLayout>

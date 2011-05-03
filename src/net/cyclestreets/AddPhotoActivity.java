@@ -42,7 +42,7 @@ import org.osmdroid.util.GeoPoint;
 public class AddPhotoActivity extends Activity 
 							  implements View.OnClickListener
 {
-	private enum AddStep
+	public enum AddStep
 	{
 		PHOTO(null),
 		CAPTION(PHOTO),
@@ -100,8 +100,7 @@ public class AddPhotoActivity extends Activity
 				takePhoto.setEnabled(false);
 		}
 		((Button)photoView_.findViewById(R.id.chooseexisting_button)).setOnClickListener(this);		
-		
-		
+				
 		photoCaption_ = inflater.inflate(R.layout.addphotocaption, null);
 		photoCategory_ = inflater.inflate(R.layout.addphotocategory, null);
 		photoLocation_ = inflater.inflate(R.layout.addphotolocation, null);
