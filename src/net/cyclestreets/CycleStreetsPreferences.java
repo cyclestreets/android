@@ -2,6 +2,7 @@ package net.cyclestreets;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.preference.PreferenceManager;
 
 public class CycleStreetsPreferences 
@@ -14,6 +15,7 @@ public class CycleStreetsPreferences
     public final static String PREF_CONFIRM_NEW_ROUTE = "confirm-new-route";
     public final static String PREF_USERNAME_KEY = "username";
     public final static String PREF_PASSWORD_KEY = "password";
+    public final static String PREF_VALIDATED_KEY = "signed-in";
     public final static String PREF_ACCOUNT_KEY = "cyclestreets-account";
 
     static public void initialise(final Context context) {
@@ -45,6 +47,10 @@ public class CycleStreetsPreferences
 		return getString(PREF_PASSWORD_KEY, "");
 	} // password
 	
+	static public boolean accountOK() { 
+		return getBoolean(PREF_VALIDATED_KEY, false);
+	}
+	
 	static public boolean confirmNewRoute() {
 		return getBoolean(PREF_CONFIRM_NEW_ROUTE, true);
 	}
@@ -58,4 +64,17 @@ public class CycleStreetsPreferences
     	final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context_);
     	return prefs.getBoolean(key, defVal);
 	} // getBoolean		
+	
+	static public void setUsernamePassword(final String username, final String password, final boolean signedin) {
+		final Editor editor = editor();
+		editor.putString(PREF_USERNAME_KEY, username);
+		editor.putString(PREF_PASSWORD_KEY, password);
+		editor.putBoolean(PREF_VALIDATED_KEY, signedin);
+		editor.commit();
+	} // setUsernamePassword
+	
+	static private Editor editor() {
+    	final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context_);
+    	return prefs.edit();
+	} // editor
 } // class CycleStreetsPreferences

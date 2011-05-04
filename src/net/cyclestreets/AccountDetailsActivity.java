@@ -1,10 +1,12 @@
 package net.cyclestreets;
 
+import net.cyclestreets.api.ApiClient;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,12 +25,8 @@ public class AccountDetailsActivity extends Activity
 		REGISTERED_OK(REGISTER),
 
 		SIGNIN_DETAILS(ACCOUNT),
-		SIGNIN(SIGNIN_DETAILS),
-		SIGNEDIN_OK(SIGNIN),
 		
-		EXISTING_SIGNIN_DETAILS(null),
-		EXISTING_SIGNIN(EXISTING_SIGNIN_DETAILS),
-		EXISTING_SIGNEDIN_OK(EXISTING_SIGNIN);
+		EXISTING_SIGNIN_DETAILS(null),;
 		
 		private RegisterStep(final RegisterStep p)
 		{
@@ -61,7 +59,7 @@ public class AccountDetailsActivity extends Activity
 		registerDetails_ = inflater.inflate(R.layout.accountregister, null);
 		signinDetails_ = inflater.inflate(R.layout.accountsignin, null);
 
-		step_ = (CycleStreetsPreferences.username() != null) ? RegisterStep.ACCOUNT : RegisterStep.EXISTING_SIGNIN;
+		step_ = (CycleStreetsPreferences.accountOK()) ? RegisterStep.EXISTING_SIGNIN_DETAILS : RegisterStep.ACCOUNT;
 		
 		setupView();
     } // onCreate
@@ -92,8 +90,9 @@ public class AccountDetailsActivity extends Activity
 		case SIGNIN_DETAILS:
 		case EXISTING_SIGNIN_DETAILS:
 			setContentView(signinDetails_);
-			setText(R.id.username, CycleStreetsPreferences.username());
-			setText(R.id.password, CycleStreetsPreferences.password());
+			setText(signinDetails_, R.id.username, CycleStreetsPreferences.username());
+			setText(signinDetails_, R.id.password, CycleStreetsPreferences.password());
+			hookUpButton(signinDetails_, R.id.signin_button);
 			hookUpButton(signinDetails_, R.id.cleardetails_button);
 			break;
 		} // switch
@@ -107,19 +106,23 @@ public class AccountDetailsActivity extends Activity
 		b.setOnClickListener(this);		
 	} // hookUpNext
 	
-	private void setText(final int id, final String value)
+	private void setText(final View v, final int id, final String value)
 	{
-		final TextView tv = (TextView)findViewById(id);
+		final TextView tv = (TextView)v.findViewById(id);
 		if(tv == null)
 			return;
 		tv.setText(value);
 	} // setText
 	
+	private String getText(final View v, final int id)
+	{
+		final TextView tv = (TextView)v.findViewById(id);
+		return tv.getText().toString();
+	} // getText
+	
 	@Override
 	public void onClick(final View v) 
 	{
-		Intent i = null;
-		
 		switch(v.getId())
 		{
 			case R.id.newaccount_button:
@@ -131,15 +134,12 @@ public class AccountDetailsActivity extends Activity
 			case R.id.cleardetails_button:
 				confirmClear();
 				break;
-//			case R.id.next:
-//				nextStep();
-//				break;
+			case R.id.signin_button:
+				signin();
+				return;
 		} // switch
 		
-		if(i != null)
-			startActivityForResult(i, v.getId());
-		else
-			setupView();
+		setupView();
 	} // onClick
 	
 	private void confirmClear()
@@ -149,8 +149,7 @@ public class AccountDetailsActivity extends Activity
         alertbox.setMessage("Are you sure you want to clear the stored account details?");
         alertbox.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
         	public void onClick(DialogInterface arg0, int arg1) {
-        		// clear the details
-        		step_ = step_.prev();
+        		CycleStreetsPreferences.setUsernamePassword("", "", false);
         		setupView();
         	}
         });
@@ -161,4 +160,101 @@ public class AccountDetailsActivity extends Activity
         final AlertDialog ab = alertbox.create();
         ab.show();
 	} // confirmClear
+
+	////////////////////////////////////////////////////////
+	private void signin()
+	{
+		final SignInTask task = new SignInTask(this,
+											   getText(signinDetails_, R.id.username),
+											   getText(signinDetails_, R.id.password));
+		task.execute();
+	} // signin
+	
+	private void signinOK(final String username, final String password)
+	{
+		CycleStreetsPreferences.setUsernamePassword(username, password, true);
+		
+        final AlertDialog.Builder alertbox = new AlertDialog.Builder(signinDetails_.getContext());
+        alertbox.setTitle("CycleStreets");
+        alertbox.setMessage("You have successfully signed into CycleStreets.");
+        alertbox.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+        	public void onClick(DialogInterface arg0, int arg1) {
+        	}
+        });
+        final AlertDialog ab = alertbox.create();
+        ab.show();
+        finish();
+	} // signinOK
+	
+	private void signinFailed(final String msg, final String username, final String password)
+	{
+		CycleStreetsPreferences.setUsernamePassword(username, password, false);
+
+		final AlertDialog.Builder alertbox = new AlertDialog.Builder(signinDetails_.getContext());
+        alertbox.setTitle("CycleStreets");
+        alertbox.setMessage(msg);
+        alertbox.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+        	public void onClick(DialogInterface arg0, int arg1) {
+        	}
+        });
+        final AlertDialog ab = alertbox.create();
+        ab.show();
+	} // signinFailed
+	
+	private class SignInTask extends AsyncTask<Object, Void, String>
+	{
+		private final String username_;
+		private final String password_;
+		private final ProgressDialog progress_;
+		
+		SignInTask(final Context context,
+	 			   final String username,
+	 			   final String password) 
+	    {
+			username_ = username;
+			password_ = password;
+			
+			progress_ = new ProgressDialog(context);
+			progress_.setMessage(context.getString(R.string.signing_in));
+			progress_.setIndeterminate(true);
+			progress_.setCancelable(false);
+	    } // UploadPhotoTask
+		
+		@Override
+		protected void onPreExecute() 
+		{
+			super.onPreExecute();
+			progress_.show();
+		} // onPreExecute
+		
+		protected String doInBackground(Object... params)
+		{
+			try {
+				return ApiClient.signin(username_, 
+						                password_);
+			} // try
+			catch(final Exception e) {
+				return "Error: " + e.getMessage();
+			} // catch
+		} // doInBackground
+		
+		@Override
+	    protected void onPostExecute(final String result) 
+		{
+	       	progress_.dismiss();
+	       	
+	       	// I don't usually condone doing this kind of thing
+	       	// with XML
+	       	if(result.indexOf("<id>") != -1)
+	       	{
+	       		signinOK(username_, password_);
+	       		return;
+	       	} // if ...
+
+	       	final String msg = result.startsWith("Error:") ? result : "Could not sign into CycleStreets.  Please check your username and password.";
+	       	signinFailed(msg, username_, password_);
+		} // onPostExecute
+	} // class UploadPhotoTask
+	
+
 } // class AccountDetailsActivity

@@ -27,6 +27,7 @@
 	<string name="no_to">Unable to find route finish location</string>
 	<string name="route_failed">Route finding failed</string>
 	<string name="donate">Donate</string>
+	<string name="signing_in">Signing into cyclestreets.net</string>
 
 	<!-- Map menu -->
 	<string name="ic_menu_directions">Route</string>

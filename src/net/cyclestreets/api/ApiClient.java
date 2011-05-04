@@ -71,6 +71,7 @@ public class ApiClient {
 	protected final static String API_PATH_PHOTOS = API_PATH + "photos.xml";
 	protected final static String API_PATH_PHOTOMAP_CATEGORIES = API_PATH + "photomapcategories.xml";
 	protected final static String API_PATH_ADDPHOTO = API_PATH + "addphoto.xml";
+	protected final static String API_PATH_SIGNIN = API_PATH + "uservalidate.xml";
 	
 
 	protected final static int DEFAULT_SPEED = 20;
@@ -105,7 +106,7 @@ public class ApiClient {
 				);
 	} // getJourney
 
-	static public String getJourneyXml(String plan, GeoPoint start, GeoPoint finish) throws Exception 
+	static public String getJoGurneyXml(String plan, GeoPoint start, GeoPoint finish) throws Exception 
 	{
 		return getJourneyXml(plan,
 				start.getLongitudeE6() / 1E6, start.getLatitudeE6() / 1E6,
@@ -222,6 +223,26 @@ public class ApiClient {
 			return null;
 		}
 	} // uploadPhoto
+	
+	static public String signin(final String username, final String password) throws Exception {
+		try {
+			final List<NameValuePair> params = new ArrayList<NameValuePair>();
+			params.add(new BasicNameValuePair("key", API_KEY));
+			final URI uri = URIUtils.createURI(API_SCHEME, API_HOST, API_PORT, API_PATH_SIGNIN,
+    									   	   URLEncodedUtils.format(params, "UTF-8"), null);
+    	
+			final HttpPost httppost = new HttpPost(uri);
+			final MultipartEntity entity = new MultipartEntity();
+			entity.addPart("username", new StringBody(username));
+			entity.addPart("password", new StringBody(password));
+			httppost.setEntity(entity);
+			final String xml = httpclient.execute(httppost, new UTF8ResponseHandler());
+			return xml;
+		}
+		catch(Exception e) {
+			return null;
+		}
+    } // signin
 
 	static private class UTF8ResponseHandler implements ResponseHandler<String> 
 	{

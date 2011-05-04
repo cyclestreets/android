@@ -12,7 +12,7 @@
 		android:layout_width="fill_parent"
 		android:layout_height="wrap_content"
 		android:gravity="center"
-		android:text="To upload photos to CycleStreets you need a user account."
+		android:text="To upload photos you must have a CycleStreets signin account."
 		/>
 	<TextView
 		android:layout_width="fill_parent"

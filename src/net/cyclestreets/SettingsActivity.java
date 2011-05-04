@@ -6,6 +6,7 @@ import android.preference.EditTextPreference;
 import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
+import android.preference.PreferenceScreen;
 
 public class SettingsActivity extends PreferenceActivity 
 							  implements SharedPreferences.OnSharedPreferenceChangeListener
@@ -21,7 +22,7 @@ public class SettingsActivity extends PreferenceActivity
         setSummary(CycleStreetsPreferences.PREF_UNITS_KEY);
         setSummary(CycleStreetsPreferences.PREF_SPEED_KEY);
         setSummary(CycleStreetsPreferences.PREF_MAPSTYLE_KEY);
-	} // onCreate
+   	} // onCreate
 
     @Override
     protected void onResume() 
@@ -29,6 +30,12 @@ public class SettingsActivity extends PreferenceActivity
         super.onResume();
 
         getPreferenceScreen().getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
+        
+		final PreferenceScreen account = (PreferenceScreen)findPreference(CycleStreetsPreferences.PREF_ACCOUNT_KEY);
+		if(CycleStreetsPreferences.accountOK())
+			account.setSummary("Signed in to CycleStreets");
+		else
+			account.setSummary("");
     } // onResume
 
     @Override
