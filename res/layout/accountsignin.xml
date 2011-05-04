@@ -3,6 +3,23 @@
 	    android:orientation="vertical"
 	    android:layout_width="fill_parent"
 	    android:layout_height="fill_parent">
+	<TextView
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:text="  "
+		/>
+	<TextView 
+		android:id="@+id/signin_message"
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:gravity="center"
+		android:text="Please enter your account username and password to sign in."
+		/>
+	<TextView
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:text="  "
+		/>
 	<LinearLayout
 		    android:orientation="vertical"
 	    	android:layout_width="fill_parent"

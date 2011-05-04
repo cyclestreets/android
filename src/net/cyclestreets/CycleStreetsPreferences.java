@@ -15,6 +15,8 @@ public class CycleStreetsPreferences
     public final static String PREF_CONFIRM_NEW_ROUTE = "confirm-new-route";
     public final static String PREF_USERNAME_KEY = "username";
     public final static String PREF_PASSWORD_KEY = "password";
+    public final static String PREF_EMAIL_KEY = "email";
+    public final static String PREF_NAME_KEY = "name";
     public final static String PREF_VALIDATED_KEY = "signed-in";
     public final static String PREF_ACCOUNT_KEY = "cyclestreets-account";
 
@@ -46,6 +48,14 @@ public class CycleStreetsPreferences
 	static public String password() { 
 		return getString(PREF_PASSWORD_KEY, "");
 	} // password
+	
+	static public String name() { 
+		return getString(PREF_NAME_KEY, "");
+	} // name
+	
+	static public String email() { 
+		return getString(PREF_EMAIL_KEY, "");
+	} // email
 	
 	static public boolean accountOK() { 
 		return getBoolean(PREF_VALIDATED_KEY, false);

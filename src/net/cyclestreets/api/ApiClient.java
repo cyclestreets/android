@@ -26,6 +26,7 @@ import org.apache.http.conn.scheme.PlainSocketFactory;
 import org.apache.http.conn.scheme.Scheme;
 import org.apache.http.conn.scheme.SchemeRegistry;
 import org.apache.http.entity.mime.MultipartEntity;
+import org.apache.http.entity.mime.content.ContentBody;
 import org.apache.http.entity.mime.content.FileBody;
 import org.apache.http.entity.mime.content.StringBody;
 import org.apache.http.impl.client.DefaultHttpClient;
@@ -72,7 +73,7 @@ public class ApiClient {
 	protected final static String API_PATH_PHOTOMAP_CATEGORIES = API_PATH + "photomapcategories.xml";
 	protected final static String API_PATH_ADDPHOTO = API_PATH + "addphoto.xml";
 	protected final static String API_PATH_SIGNIN = API_PATH + "uservalidate.xml";
-	
+	protected final static String API_PATH_REGISTER = API_PATH + "usercreate.xml";
 
 	protected final static int DEFAULT_SPEED = 20;
 
@@ -199,24 +200,16 @@ public class ApiClient {
 										   final String caption) 
 	{
 		try {
-			final List<NameValuePair> params = new ArrayList<NameValuePair>();
-			params.add(new BasicNameValuePair("key", API_KEY));
-			final URI uri = URIUtils.createURI(API_SCHEME, API_HOST, API_PORT, API_PATH_ADDPHOTO,
-    									   	   URLEncodedUtils.format(params, "UTF-8"), null);
-    	
-			final HttpPost httppost = new HttpPost(uri);
-			final MultipartEntity entity = new MultipartEntity();
-			entity.addPart("username", new StringBody(username));
-			entity.addPart("password", new StringBody(password));
-			entity.addPart("latitude", new StringBody(Double.toString(location.getLatitudeE6() / 1E6)));
-			entity.addPart("longitude", new StringBody(Double.toString(location.getLongitudeE6() / 1E6)));
-			entity.addPart("datetime", new StringBody(dateTime));
-			entity.addPart("category", new StringBody(category));
-			entity.addPart("metacategory", new StringBody(metaCat));
-			entity.addPart("caption", new StringBody(caption));
-			entity.addPart("mediaupload", new FileBody(new File(filename)));
-			httppost.setEntity(entity);
-			final String xml = httpclient.execute(httppost, new UTF8ResponseHandler());
+			final String xml = postApiRaw(API_PATH_ADDPHOTO,
+							  			  "username", username,
+							  			  "password", password,
+							  			  "latitude", Double.toString(location.getLatitudeE6() / 1E6),
+							  			  "longitude", Double.toString(location.getLongitudeE6() / 1E6),
+							  			  "datetime", dateTime,
+							  			  "category", category,
+							  			  "metacategory", metaCat,
+							  			  "caption", caption,
+							  			  "mediaupload", new FileBody(new File(filename)));
 			return loadRaw(UploadResult.class, xml);
 		}
 		catch(Exception e) {
@@ -224,25 +217,48 @@ public class ApiClient {
 		}
 	} // uploadPhoto
 	
-	static public String signin(final String username, final String password) throws Exception {
-		try {
-			final List<NameValuePair> params = new ArrayList<NameValuePair>();
-			params.add(new BasicNameValuePair("key", API_KEY));
-			final URI uri = URIUtils.createURI(API_SCHEME, API_HOST, API_PORT, API_PATH_SIGNIN,
-    									   	   URLEncodedUtils.format(params, "UTF-8"), null);
-    	
-			final HttpPost httppost = new HttpPost(uri);
-			final MultipartEntity entity = new MultipartEntity();
-			entity.addPart("username", new StringBody(username));
-			entity.addPart("password", new StringBody(password));
-			httppost.setEntity(entity);
-			final String xml = httpclient.execute(httppost, new UTF8ResponseHandler());
-			return xml;
-		}
-		catch(Exception e) {
-			return null;
-		}
+	static public String signin(final String username, final String password) throws Exception 
+	{
+		return postApiRaw(API_PATH_SIGNIN, 
+						  "username", username,
+						  "password", password);
     } // signin
+
+	static public String register(final String username, 
+								  final String password,
+								  final String name,
+								  final String email) throws Exception 
+	{
+		return postApiRaw(API_PATH_REGISTER, 
+				  		  "username", username,
+				  		  "password", password,
+				  		  "name", name,
+				  		  "email", email);
+    } // register
+	
+	static private String postApiRaw(final String path, Object... args) throws Exception
+	{
+		final List<NameValuePair> params = new ArrayList<NameValuePair>();
+		params.add(new BasicNameValuePair("key", API_KEY));
+		final URI uri = URIUtils.createURI(API_SCHEME, API_HOST, API_PORT, path,
+									   	   URLEncodedUtils.format(params, "UTF-8"), null);
+		
+		final MultipartEntity entity = new MultipartEntity();
+    	for (int i = 0; i < args.length; i += 2) 
+    	{
+    		final String name = (String)args[i];
+    		final Object value = args[i+1];
+    		if(value instanceof String)
+    			entity.addPart(name, new StringBody((String)value));
+    		else
+    			entity.addPart(name, (ContentBody)value);
+    	} // for ...
+    	
+    	final HttpPost httppost = new HttpPost(uri);
+    	httppost.setEntity(entity);
+    	
+    	return httpclient.execute(httppost, new UTF8ResponseHandler());
+	} // postApiRaw
 
 	static private class UTF8ResponseHandler implements ResponseHandler<String> 
 	{

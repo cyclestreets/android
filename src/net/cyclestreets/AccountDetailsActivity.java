@@ -86,17 +86,30 @@ public class AccountDetailsActivity extends Activity
 			break;
 		case REGISTER_DETAILS:
 			setContentView(registerDetails_);
+			setText(registerDetails_, R.id.username, CycleStreetsPreferences.username());
+			setText(registerDetails_, R.id.password, CycleStreetsPreferences.password());
+			setText(registerDetails_, R.id.name, CycleStreetsPreferences.name());
+			setText(registerDetails_, R.id.email, CycleStreetsPreferences.email());
+			hookUpButton(registerDetails_, R.id.register_button);
 			break;
 		case SIGNIN_DETAILS:
 		case EXISTING_SIGNIN_DETAILS:
 			setContentView(signinDetails_);
 			setText(signinDetails_, R.id.username, CycleStreetsPreferences.username());
 			setText(signinDetails_, R.id.password, CycleStreetsPreferences.password());
+			setText(signinDetails_, R.id.signin_message, signinMessage());
 			hookUpButton(signinDetails_, R.id.signin_button);
 			hookUpButton(signinDetails_, R.id.cleardetails_button);
 			break;
 		} // switch
 	} // setupView
+	
+	private String signinMessage()
+	{
+		if(CycleStreetsPreferences.accountOK())
+			return "You are already signed in.";
+		return "Please enter your account username and password to sign in.";
+	} // signinMessage
 	
 	private void hookUpButton(final View v, final int id)
 	{
@@ -136,6 +149,9 @@ public class AccountDetailsActivity extends Activity
 				break;
 			case R.id.signin_button:
 				signin();
+				return;
+			case R.id.register_button:
+				register();
 				return;
 		} // switch
 		
@@ -179,11 +195,11 @@ public class AccountDetailsActivity extends Activity
         alertbox.setMessage("You have successfully signed into CycleStreets.");
         alertbox.setPositiveButton("OK", new DialogInterface.OnClickListener() {
         	public void onClick(DialogInterface arg0, int arg1) {
+                finish();
         	}
         });
         final AlertDialog ab = alertbox.create();
         ab.show();
-        finish();
 	} // signinOK
 	
 	private void signinFailed(final String msg, final String username, final String password)
@@ -218,7 +234,7 @@ public class AccountDetailsActivity extends Activity
 			progress_.setMessage(context.getString(R.string.signing_in));
 			progress_.setIndeterminate(true);
 			progress_.setCancelable(false);
-	    } // UploadPhotoTask
+	    } // SigninTask
 		
 		@Override
 		protected void onPreExecute() 
@@ -254,7 +270,114 @@ public class AccountDetailsActivity extends Activity
 	       	final String msg = result.startsWith("Error:") ? result : "Could not sign into CycleStreets.  Please check your username and password.";
 	       	signinFailed(msg, username_, password_);
 		} // onPostExecute
+	} // class SignInTask
+	
+	////////////////////////////////////////////////////////
+	private void register()
+	{
+		final RegisterTask task = new RegisterTask(this,
+												   getText(registerDetails_, R.id.username),
+												   getText(registerDetails_, R.id.password),
+												   getText(registerDetails_, R.id.name),
+												   getText(registerDetails_, R.id.email));
+		task.execute();
+	} // signin
+	
+	private void registeredOK(final String username, 
+							  final String password,
+							  final String name,
+							  final String email)
+	{
+        final AlertDialog.Builder alertbox = new AlertDialog.Builder(signinDetails_.getContext());
+        alertbox.setTitle("CycleStreets");
+        alertbox.setMessage("You have successfully signed into CycleStreets.");
+        alertbox.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+        	public void onClick(DialogInterface arg0, int arg1) {
+        	}
+        });
+        final AlertDialog ab = alertbox.create();
+        ab.show();
+        finish();
+	} // signinOK
+	
+	private void registrationFailed(final String msg, 
+									final String username, 
+									final String password,
+									final String name,
+									final String email)
+	{
+		final AlertDialog.Builder alertbox = new AlertDialog.Builder(signinDetails_.getContext());
+        alertbox.setTitle("CycleStreets");
+        alertbox.setMessage(msg);
+        alertbox.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+        	public void onClick(DialogInterface arg0, int arg1) {
+        	}
+        });
+        final AlertDialog ab = alertbox.create();
+        ab.show();
+	} // signinFailed
+	
+	private class RegisterTask extends AsyncTask<Object, Void, String>
+	{
+		private final String username_;
+		private final String password_;
+		private final String name_;
+		private final String email_;
+		private final ProgressDialog progress_;
+		
+		RegisterTask(final Context context,
+					 final String username,
+					 final String password,
+					 final String name,
+					 final String email) 
+	    {
+			username_ = username;
+			password_ = password;
+			name_ = name;
+			email_ = email;
+			
+			progress_ = new ProgressDialog(context);
+			progress_.setMessage(context.getString(R.string.signing_in));
+			progress_.setIndeterminate(true);
+			progress_.setCancelable(false);
+	    } // RegisterTask
+		
+		@Override
+		protected void onPreExecute() 
+		{
+			super.onPreExecute();
+			progress_.show();
+		} // onPreExecute
+		
+		protected String doInBackground(Object... params)
+		{
+			try {
+				return ApiClient.register(username_, 
+						                  password_,
+						                  name_,
+						                  email_);
+			} // try
+			catch(final Exception e) {
+				return "Error: " + e.getMessage();
+			} // catch
+		} // doInBackground
+		
+		@Override
+	    protected void onPostExecute(final String result) 
+		{
+	       	progress_.dismiss();
+	       	
+	       	// I don't usually condone doing this kind of thing
+	       	// with XML
+	       	if(result.indexOf("<id>") != -1)
+	       	{
+	       		registeredOK(username_, password_, name_, email_);
+	       		return;
+	       	} // if ...
+
+	       	final String msg = result.startsWith("Error:") ? result : "Could not sign into CycleStreets.  Please check your username and password.";
+	       	registrationFailed(msg, username_, password_, name_, email_);
+		} // onPostExecute
 	} // class UploadPhotoTask
 	
-
 } // class AccountDetailsActivity
