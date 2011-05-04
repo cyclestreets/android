@@ -1,6 +1,7 @@
 package net.cyclestreets;
 
 import net.cyclestreets.api.ApiClient;
+import net.cyclestreets.api.RegistrationResult;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
@@ -21,12 +22,10 @@ public class AccountDetailsActivity extends Activity
 		ACCOUNT(null),
 		
 		REGISTER_DETAILS(ACCOUNT),
-		REGISTER(REGISTER_DETAILS),
-		REGISTERED_OK(REGISTER),
 
 		SIGNIN_DETAILS(ACCOUNT),
 		
-		EXISTING_SIGNIN_DETAILS(null),;
+		EXISTING_SIGNIN_DETAILS(null);
 		
 		private RegisterStep(final RegisterStep p)
 		{
@@ -90,6 +89,7 @@ public class AccountDetailsActivity extends Activity
 			setText(registerDetails_, R.id.password, CycleStreetsPreferences.password());
 			setText(registerDetails_, R.id.name, CycleStreetsPreferences.name());
 			setText(registerDetails_, R.id.email, CycleStreetsPreferences.email());
+			setText(registerDetails_, R.id.registration_message, registrationMessage());
 			hookUpButton(registerDetails_, R.id.register_button);
 			break;
 		case SIGNIN_DETAILS:
@@ -110,6 +110,14 @@ public class AccountDetailsActivity extends Activity
 			return "You are already signed in.";
 		return "Please enter your account username and password to sign in.";
 	} // signinMessage
+	
+	private String registrationMessage()
+	{
+		if(CycleStreetsPreferences.accountPending())
+			return "You have already registered an account.  Please check your email for the verification email.";
+		return "Registration is free and registered users can add photos. To start " + 
+		       "the registration process please enter your details in the form below.";
+	} // registrationMessage
 	
 	private void hookUpButton(final View v, final int id)
 	{
@@ -178,45 +186,36 @@ public class AccountDetailsActivity extends Activity
 	} // confirmClear
 
 	////////////////////////////////////////////////////////
-	private void signin()
+	private void MessageBox(final String message, final boolean finishOnOK)
 	{
-		final SignInTask task = new SignInTask(this,
-											   getText(signinDetails_, R.id.username),
-											   getText(signinDetails_, R.id.password));
-		task.execute();
-	} // signin
-	
-	private void signinOK(final String username, final String password)
-	{
-		CycleStreetsPreferences.setUsernamePassword(username, password, true);
-		
         final AlertDialog.Builder alertbox = new AlertDialog.Builder(signinDetails_.getContext());
         alertbox.setTitle("CycleStreets");
-        alertbox.setMessage("You have successfully signed into CycleStreets.");
+        alertbox.setMessage(message);
         alertbox.setPositiveButton("OK", new DialogInterface.OnClickListener() {
         	public void onClick(DialogInterface arg0, int arg1) {
-                finish();
+        		if(finishOnOK)
+        			finish();
         	}
         });
         final AlertDialog ab = alertbox.create();
         ab.show();
-	} // signinOK
+	} // MessageBox
 	
-	private void signinFailed(final String msg, final String username, final String password)
+	////////////////////////////////////////////////////////
+	private void signin()
 	{
-		CycleStreetsPreferences.setUsernamePassword(username, password, false);
-
-		final AlertDialog.Builder alertbox = new AlertDialog.Builder(signinDetails_.getContext());
-        alertbox.setTitle("CycleStreets");
-        alertbox.setMessage(msg);
-        alertbox.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-        	public void onClick(DialogInterface arg0, int arg1) {
-        	}
-        });
-        final AlertDialog ab = alertbox.create();
-        ab.show();
-	} // signinFailed
-	
+		final String username = getText(signinDetails_, R.id.username);
+		final String password = getText(signinDetails_, R.id.password);
+		
+		if((username.length() == 0) || (password.length() == 0))
+		{
+			MessageBox("Please enter username and password.", false);
+			return;
+		} // if ...
+		final SignInTask task = new SignInTask(this, username, password);
+		task.execute();
+	} // signin
+		
 	private class SignInTask extends AsyncTask<Object, Void, String>
 	{
 		private final String username_;
@@ -259,65 +258,53 @@ public class AccountDetailsActivity extends Activity
 		{
 	       	progress_.dismiss();
 	       	
-	       	// I don't usually condone doing this kind of thing
-	       	// with XML
-	       	if(result.indexOf("<id>") != -1)
-	       	{
-	       		signinOK(username_, password_);
-	       		return;
-	       	} // if ...
-
-	       	final String msg = result.startsWith("Error:") ? result : "Could not sign into CycleStreets.  Please check your username and password.";
-	       	signinFailed(msg, username_, password_);
+	       	// I don't usually condone doing this kind of thing with XML
+	       	final boolean ok = (result.indexOf("<id>") != -1);
+			CycleStreetsPreferences.setUsernamePassword(username_, password_, ok);
+			setText(signinDetails_, R.id.signin_message, signinMessage());
+			
+			String msg = "You have successfully signed into CycleStreets.";
+			if(!ok)
+				msg = result.startsWith("Error:") ? result : "Could not sign into CycleStreets.  Please check your username and password.";				
+			MessageBox(msg, ok);
 		} // onPostExecute
 	} // class SignInTask
 	
 	////////////////////////////////////////////////////////
 	private void register()
 	{
+		final String emailRegex = "^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$";
+		
+		final String username = getText(registerDetails_, R.id.username);
+		final String password = getText(registerDetails_, R.id.password);
+		final String password2 = getText(registerDetails_, R.id.confirm_password);
+		final String name = getText(registerDetails_, R.id.name);
+		final String email = getText(registerDetails_, R.id.email);
+			
+		String oops = null;
+		
+		if(!email.toLowerCase().matches(emailRegex))
+			oops = "The email address entered is not a properly formatted address.";
+		if(!password.equals(password2))
+			oops = "Password and confirmation password do not match.";
+		if(username.length() < 5)
+			oops = "Username must be at least five letters/numbers long.";
+		
+		if(oops != null)
+		{
+			MessageBox(oops, false);
+			return;
+		} // if(oops)
+		
 		final RegisterTask task = new RegisterTask(this,
-												   getText(registerDetails_, R.id.username),
-												   getText(registerDetails_, R.id.password),
-												   getText(registerDetails_, R.id.name),
-												   getText(registerDetails_, R.id.email));
+												   username,
+												   password,
+												   name,
+												   email);
 		task.execute();
-	} // signin
+	} // register
 	
-	private void registeredOK(final String username, 
-							  final String password,
-							  final String name,
-							  final String email)
-	{
-        final AlertDialog.Builder alertbox = new AlertDialog.Builder(signinDetails_.getContext());
-        alertbox.setTitle("CycleStreets");
-        alertbox.setMessage("You have successfully signed into CycleStreets.");
-        alertbox.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-        	public void onClick(DialogInterface arg0, int arg1) {
-        	}
-        });
-        final AlertDialog ab = alertbox.create();
-        ab.show();
-        finish();
-	} // signinOK
-	
-	private void registrationFailed(final String msg, 
-									final String username, 
-									final String password,
-									final String name,
-									final String email)
-	{
-		final AlertDialog.Builder alertbox = new AlertDialog.Builder(signinDetails_.getContext());
-        alertbox.setTitle("CycleStreets");
-        alertbox.setMessage(msg);
-        alertbox.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-        	public void onClick(DialogInterface arg0, int arg1) {
-        	}
-        });
-        final AlertDialog ab = alertbox.create();
-        ab.show();
-	} // signinFailed
-	
-	private class RegisterTask extends AsyncTask<Object, Void, String>
+	private class RegisterTask extends AsyncTask<Object, Void, RegistrationResult>
 	{
 		private final String username_;
 		private final String password_;
@@ -337,7 +324,7 @@ public class AccountDetailsActivity extends Activity
 			email_ = email;
 			
 			progress_ = new ProgressDialog(context);
-			progress_.setMessage(context.getString(R.string.signing_in));
+			progress_.setMessage(context.getString(R.string.registering));
 			progress_.setIndeterminate(true);
 			progress_.setCancelable(false);
 	    } // RegisterTask
@@ -349,7 +336,7 @@ public class AccountDetailsActivity extends Activity
 			progress_.show();
 		} // onPreExecute
 		
-		protected String doInBackground(Object... params)
+		protected RegistrationResult doInBackground(Object... params)
 		{
 			try {
 				return ApiClient.register(username_, 
@@ -358,26 +345,16 @@ public class AccountDetailsActivity extends Activity
 						                  email_);
 			} // try
 			catch(final Exception e) {
-				return "Error: " + e.getMessage();
+				return new RegistrationResult(e.getMessage());
 			} // catch
 		} // doInBackground
 		
 		@Override
-	    protected void onPostExecute(final String result) 
+	    protected void onPostExecute(final RegistrationResult result) 
 		{
 	       	progress_.dismiss();
-	       	
-	       	// I don't usually condone doing this kind of thing
-	       	// with XML
-	       	if(result.indexOf("<id>") != -1)
-	       	{
-	       		registeredOK(username_, password_, name_, email_);
-	       		return;
-	       	} // if ...
-
-	       	final String msg = result.startsWith("Error:") ? result : "Could not sign into CycleStreets.  Please check your username and password.";
-	       	registrationFailed(msg, username_, password_, name_, email_);
+			CycleStreetsPreferences.setPendingUsernamePassword(username_, password_, name_, email_, result.ok());
+			MessageBox(result.message(), result.ok());
 		} // onPostExecute
-	} // class UploadPhotoTask
-	
+	} // class RegisterTask	
 } // class AccountDetailsActivity

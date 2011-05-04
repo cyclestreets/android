@@ -224,16 +224,17 @@ public class ApiClient {
 						  "password", password);
     } // signin
 
-	static public String register(final String username, 
+	static public RegistrationResult register(final String username, 
 								  final String password,
 								  final String name,
 								  final String email) throws Exception 
 	{
-		return postApiRaw(API_PATH_REGISTER, 
-				  		  "username", username,
-				  		  "password", password,
-				  		  "name", name,
-				  		  "email", email);
+		final String xml =  postApiRaw(API_PATH_REGISTER, 
+				  		  			   "username", username,
+				  		  			   "password", password,
+				  		  			   "name", name,
+				  		  			   "email", email);
+		return loadRaw(RegistrationResult.class, xml);
     } // register
 	
 	static private String postApiRaw(final String path, Object... args) throws Exception

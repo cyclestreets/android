@@ -18,6 +18,7 @@ public class CycleStreetsPreferences
     public final static String PREF_EMAIL_KEY = "email";
     public final static String PREF_NAME_KEY = "name";
     public final static String PREF_VALIDATED_KEY = "signed-in";
+    public final static String PREF_PENDING_KEY = "pending";
     public final static String PREF_ACCOUNT_KEY = "cyclestreets-account";
 
     static public void initialise(final Context context) {
@@ -61,6 +62,10 @@ public class CycleStreetsPreferences
 		return getBoolean(PREF_VALIDATED_KEY, false);
 	}
 	
+	static public boolean accountPending() { 
+		return getBoolean(PREF_PENDING_KEY, false);
+	}
+	
 	static public boolean confirmNewRoute() {
 		return getBoolean(PREF_CONFIRM_NEW_ROUTE, true);
 	}
@@ -80,8 +85,25 @@ public class CycleStreetsPreferences
 		editor.putString(PREF_USERNAME_KEY, username);
 		editor.putString(PREF_PASSWORD_KEY, password);
 		editor.putBoolean(PREF_VALIDATED_KEY, signedin);
+		if(signedin)
+			editor.putBoolean(PREF_PENDING_KEY, false);
 		editor.commit();
 	} // setUsernamePassword
+	
+	static public void setPendingUsernamePassword(final String username, 
+												  final String password,
+												  final String name,
+												  final String email,
+												  final boolean pending) {
+		final Editor editor = editor();
+		editor.putString(PREF_USERNAME_KEY, username);
+		editor.putString(PREF_PASSWORD_KEY, password);
+		editor.putString(PREF_NAME_KEY, name);
+		editor.putString(PREF_EMAIL_KEY, email);
+		editor.putBoolean(PREF_PENDING_KEY, pending);
+		editor.putBoolean(PREF_VALIDATED_KEY, false);
+		editor.commit();
+	} // setPendingUsernamePassword
 	
 	static private Editor editor() {
     	final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context_);

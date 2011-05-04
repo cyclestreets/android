@@ -20,12 +20,15 @@
 		android:layout_height="wrap_content"
 		android:text="  "
 		/>
-	<LinearLayout
-		    android:orientation="vertical"
+	<ScrollView
 	    	android:layout_width="fill_parent"
 	    	android:layout_height="fill_parent"
 			android:layout_weight="5.0"
 			android:padding="4.0dip">
+		<LinearLayout
+		    android:orientation="vertical"
+	    	android:layout_width="fill_parent"
+	    	android:layout_height="fill_parent">
 		<TextView
 			android:layout_width="fill_parent"
 			android:layout_height="wrap_content"
@@ -42,7 +45,8 @@
 			android:id="@+id/password"
 	    	android:layout_height="wrap_content" 
 	    	android:layout_width="fill_parent"/>	
-	</LinearLayout>    	
+		</LinearLayout>    	
+	</ScrollView>
 	<LinearLayout
 		android:orientation="horizontal" 
 		android:layout_width="fill_parent"

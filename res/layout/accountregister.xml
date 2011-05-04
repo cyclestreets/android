@@ -3,12 +3,32 @@
 	    android:orientation="vertical"
 	    android:layout_width="fill_parent"
 	    android:layout_height="fill_parent">
-	<LinearLayout
-	    android:orientation="vertical"
-	    android:layout_width="fill_parent"
-	    android:layout_height="fill_parent"
-		android:layout_weight="5.0"
-		android:padding="4.0dip">
+	<TextView
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:text="  "
+		/>
+	<TextView 
+		android:id="@+id/registration_message"
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:gravity="center"
+		android:text=" "
+		/>
+	<TextView
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:text="  "
+		/>
+	<ScrollView
+	    	android:layout_width="fill_parent"
+	    	android:layout_height="fill_parent"
+			android:layout_weight="5.0"
+			android:padding="4.0dip">
+		<LinearLayout
+		    android:orientation="vertical"
+	    	android:layout_width="fill_parent"
+	    	android:layout_height="fill_parent">
 		<TextView
 			android:layout_width="fill_parent"
 			android:layout_height="wrap_content"
@@ -25,6 +45,10 @@
 			android:id="@+id/email"
 	    	android:layout_height="wrap_content" 
 	    	android:layout_width="fill_parent"/>	
+		<TextView
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content"
+			android:text=" "/>
 		<TextView
 			android:layout_width="fill_parent"
 			android:layout_height="wrap_content"
@@ -49,8 +73,8 @@
 			android:id="@+id/confirm_password"
 	    	android:layout_height="wrap_content" 
 	    	android:layout_width="fill_parent"/>	
-	</LinearLayout>       
-       
+		</LinearLayout>       
+    </ScrollView>   
 	<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" 
 		android:orientation="horizontal" 
 		android:layout_width="fill_parent"

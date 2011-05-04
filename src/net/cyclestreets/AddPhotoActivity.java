@@ -48,6 +48,7 @@ public class AddPhotoActivity extends Activity
 		CAPTION(PHOTO),
 		CATEGORY(CAPTION),
 		LOCATION(CATEGORY),
+		ACCOUNT(LOCATION),
 		SUBMIT(LOCATION),
 		VIEW(SUBMIT),
 		DONE(VIEW);
@@ -104,6 +105,8 @@ public class AddPhotoActivity extends Activity
 		photoCaption_ = inflater.inflate(R.layout.addphotocaption, null);
 		photoCategory_ = inflater.inflate(R.layout.addphotocategory, null);
 		photoLocation_ = inflater.inflate(R.layout.addphotolocation, null);
+		final Button u = (Button)photoLocation_.findViewById(R.id.next);
+		u.setText("Upload");
 		photoWebView_ = inflater.inflate(R.layout.addphotoview, null);
 		final Button b = (Button)photoWebView_.findViewById(R.id.next);
 		b.setText("Upload another");
@@ -240,7 +243,10 @@ public class AddPhotoActivity extends Activity
 							   android.provider.MediaStore.Images.Media.INTERNAL_CONTENT_URI);
 				break;
 			case R.id.next:
-				nextStep();
+				if(step_ == AddStep.LOCATION && !CycleStreetsPreferences.accountOK())
+					i = new Intent(this, AccountDetailsActivity.class);
+				else
+					nextStep();
 				break;
 		} // switch
 		
