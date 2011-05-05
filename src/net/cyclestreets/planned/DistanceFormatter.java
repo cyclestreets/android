@@ -48,7 +48,7 @@ public abstract class DistanceFormatter
 		{
 			int yards = metresToYards(metres);
 			int miles = yards / 1760;
-			int frackm = (int)((yards % 1760) / 10.0);
+			int frackm = (int)((yards % 1760) / 17.6);
 			return String.format("%d.%02d miles", miles, frackm);
 		} // total_distance
 	} // class MilesFormatter
