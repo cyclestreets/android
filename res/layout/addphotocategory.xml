@@ -13,6 +13,13 @@
 			android:layout_width="fill_parent" 
 			android:layout_height="wrap_content"
 			android:cropToPadding="true"/>
+		<ScrollView
+	    	android:layout_width="fill_parent"
+	    	android:layout_height="wrap_content">
+	    <LinearLayout
+			android:orientation="vertical"
+	    	android:layout_width="fill_parent"
+	    	android:layout_height="fill_parent">
 	  	<TextView
 			android:layout_width="fill_parent"
 			android:layout_height="wrap_content"
@@ -29,6 +36,8 @@
 			android:id="@+id/category"
 			android:layout_width="fill_parent" 
 			android:layout_height="wrap_content"/>
+		</LinearLayout>
+		</ScrollView>
 	</LinearLayout>		
 	<include layout="@layout/addphotonext"/>
 </LinearLayout>
