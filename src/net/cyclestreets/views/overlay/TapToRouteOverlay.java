@@ -4,6 +4,7 @@ import net.cyclestreets.CycleStreetsConstants;
 import net.cyclestreets.CycleStreetsPreferences;
 import net.cyclestreets.R;
 import net.cyclestreets.util.Brush;
+import net.cyclestreets.views.CycleMapView;
 
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
@@ -22,6 +23,7 @@ import android.graphics.Point;
 import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.location.Location;
 import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -50,7 +52,7 @@ public class TapToRouteOverlay extends Overlay
 	private final OverlayButton stepBackButton_;
 	private final OverlayButton restartButton_;
 
-	private final MapView mapView_;
+	private final CycleMapView mapView_;
 	
 	private final Callback callback_;
 	
@@ -62,7 +64,7 @@ public class TapToRouteOverlay extends Overlay
 	private TapToRoute tapState_;
 	
 	public TapToRouteOverlay(final Context context, 
-						   	 final MapView mapView,
+						   	 final CycleMapView mapView,
 						   	 final Callback callback) 
 	{
 		super(context);
@@ -163,6 +165,8 @@ public class TapToRouteOverlay extends Overlay
 		menu.add(0, R.string.ic_menu_replan_balanced, 0, R.string.ic_menu_replan_balanced);
 		menu.add(0, R.string.ic_menu_replan_fastest, 0, R.string.ic_menu_replan_fastest);
 		menu.add(0, R.string.ic_menu_replan_shortest, 0, R.string.ic_menu_replan_shortest);
+		if(mapView_.isMyLocationEnabled())
+			menu.add(0, R.string.ic_menu_reroute_from_here, 0, R.string.ic_menu_reroute_from_here);
 		menu.add(0, R.string.ic_menu_reverse, 0, R.string.ic_menu_reverse);
 	} // onCreateContextMenu
 
@@ -182,6 +186,14 @@ public class TapToRouteOverlay extends Overlay
 			break;
 		case R.string.ic_menu_replan_shortest:
 			callback_.reRouteNow(CycleStreetsConstants.PLAN_SHORTEST);
+			break;
+		case R.string.ic_menu_reroute_from_here:
+			{
+				final Location lastFix = mapView_.getLastFix();
+				final GeoPoint from = new GeoPoint((int)(lastFix.getLatitude() * 1E6),
+						                           (int)(lastFix.getLongitude() * 1E6));
+				callback_.onRouteNow(from, endItem_.getPoint());
+			}
 			break;
 		case R.string.ic_menu_reverse:
 			callback_.onRouteNow(endItem_.getPoint(), startItem_.getPoint());

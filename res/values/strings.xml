@@ -50,4 +50,5 @@
 	<string name="ic_menu_replan_balanced">Replan as balanced</string>
 	<string name="ic_menu_replan_quietest">Replan as quietest</string>
 	<string name="ic_menu_replan_shortest">Replan as shortest</string>
+	<string name="ic_menu_reroute_from_here">Reroute from current location</string>
 </resources>

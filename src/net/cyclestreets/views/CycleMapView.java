@@ -132,6 +132,7 @@ public class CycleMapView extends MapView
 	/////////////////////////////////////////
 	// location
 	public Location getLastFix() { return location_.getLastFix(); }
+	public boolean isMyLocationEnabled() { return location_.isMyLocationEnabled(); }
 	public void toggleMyLocation() { location_.enableLocation(!location_.isMyLocationEnabled()); }
 	public void disableMyLocation() { location_.disableMyLocation(); }
 	public void disableFollowLocation() { location_.disableFollowLocation(); }
