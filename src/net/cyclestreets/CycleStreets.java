@@ -6,8 +6,10 @@ import android.content.res.Resources;
 import android.os.Bundle;
 import android.view.ViewGroup;
 import android.widget.TabHost;
+import android.widget.TabHost.OnTabChangeListener;
 
 public class CycleStreets extends TabActivity 
+						  implements OnTabChangeListener 
 {
 	public void onCreate(Bundle savedInstanceState) 
 	{
@@ -17,10 +19,11 @@ public class CycleStreets extends TabActivity
         // initialize objects
 	    final Resources res = getResources();
 	    final TabHost tabHost = getTabHost();
+	    tabHost.setOnTabChangedListener(this);
 	    TabHost.TabSpec spec;
 	    
 	    // Plan route
-	    spec = tabHost.newTabSpec("Plan route").setIndicator("", res.getDrawable(R.drawable.ic_tab_planroute));
+	    spec = tabHost.newTabSpec("Route Map").setIndicator("", res.getDrawable(R.drawable.ic_tab_planroute));
 	    spec.setContent(new Intent(this, RouteMapActivity.class));
 	    tabHost.addTab(spec);
 
@@ -35,11 +38,11 @@ public class CycleStreets extends TabActivity
 	    tabHost.addTab(spec);
 
 	    // Add photo
-	    spec = tabHost.newTabSpec("Add photo").setIndicator("", res.getDrawable(R.drawable.ic_tab_addphoto));
+	    spec = tabHost.newTabSpec("Photo Upload").setIndicator("", res.getDrawable(R.drawable.ic_tab_addphoto));
 	    spec.setContent(new Intent(this, AddPhotoActivity.class));
 	    tabHost.addTab(spec);
 
-	    spec = tabHost.newTabSpec("More").setIndicator("", res.getDrawable(R.drawable.ic_menu_info_details));
+	    spec = tabHost.newTabSpec("More ...").setIndicator("", res.getDrawable(R.drawable.ic_menu_info_details));
 	    spec.setContent(new Intent(this, MoreActivity.class));
 	    tabHost.addTab(spec);
 	    
@@ -58,5 +61,12 @@ public class CycleStreets extends TabActivity
 	{
 		getTabHost().setCurrentTab(0);
 	} // showMap
+
+	@Override
+	public void onTabChanged(String tabId) 
+	{
+		setTitle("CycleStreets : " + tabId);
+	} // OnTabChanged
+	
 } // class CycleStreets
 
