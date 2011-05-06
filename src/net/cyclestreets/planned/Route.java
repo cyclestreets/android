@@ -30,8 +30,17 @@ public class Route
 								 final Callback whoToTell,
 								 final Context context)
 	{
-		final RoutingTask query = new RoutingTask(routeType, speed, whoToTell, context);
+		final RoutingTask query = new RoutingTask(routeType, speed, whoToTell, context, -1);
 		query.execute(placeFrom, placeTo);
+	} // PlotRoute
+
+	static public void RePlotRoute(final String routeType,
+								   final int speed,
+								   final Callback whoToTell,
+								   final Context context)
+	{
+		final RoutingTask query = new RoutingTask(routeType, speed, whoToTell, context, journey_.markers.get(0).itinerary);
+		query.execute(from(), to());
 	} // PlotRoute
 
 	static public void PlotRoute(final int routeId,

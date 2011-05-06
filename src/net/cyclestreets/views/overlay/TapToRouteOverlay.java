@@ -1,5 +1,6 @@
 package net.cyclestreets.views.overlay;
 
+import net.cyclestreets.CycleStreetsConstants;
 import net.cyclestreets.CycleStreetsPreferences;
 import net.cyclestreets.R;
 import net.cyclestreets.util.Brush;
@@ -21,13 +22,17 @@ import android.graphics.Point;
 import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.view.ContextMenu;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 
 public class TapToRouteOverlay extends Overlay 
-							   implements TapListener
+							   implements TapListener, ContextMenuListener
 {
 	public interface Callback {
 		void onRouteNow(final GeoPoint from, final GeoPoint to);
+		void reRouteNow(final String plan);
 		void onClearRoute();
 	} // Callback
 
@@ -144,6 +149,47 @@ public class TapToRouteOverlay extends Overlay
 		return marker;
 	} // addMarker
 
+	////////////////////////////////////////////
+	@Override
+	public boolean onCreateOptionsMenu(final Menu menu) { return false; }
+	
+	@Override
+	public void onCreateContextMenu(final ContextMenu menu) 
+	{
+		if(tapState_ != TapToRoute.ALL_DONE)
+			return;
+		
+		menu.add(0, R.string.ic_menu_replan_quietest, 0, R.string.ic_menu_replan_quietest);
+		menu.add(0, R.string.ic_menu_replan_balanced, 0, R.string.ic_menu_replan_balanced);
+		menu.add(0, R.string.ic_menu_replan_fastest, 0, R.string.ic_menu_replan_fastest);
+		menu.add(0, R.string.ic_menu_replan_shortest, 0, R.string.ic_menu_replan_shortest);
+		menu.add(0, R.string.ic_menu_reverse, 0, R.string.ic_menu_reverse);
+	} // onCreateContextMenu
+
+	@Override
+	public boolean onMenuItemSelected(int featureId, final MenuItem item)
+	{
+		switch(item.getItemId())
+		{
+		case R.string.ic_menu_replan_quietest:
+			callback_.reRouteNow(CycleStreetsConstants.PLAN_QUIETEST);
+			break;
+		case R.string.ic_menu_replan_balanced:
+			callback_.reRouteNow(CycleStreetsConstants.PLAN_BALANCED);
+			break;
+		case R.string.ic_menu_replan_fastest:
+			callback_.reRouteNow(CycleStreetsConstants.PLAN_FASTEST);
+			break;
+		case R.string.ic_menu_replan_shortest:
+			callback_.reRouteNow(CycleStreetsConstants.PLAN_SHORTEST);
+			break;
+		case R.string.ic_menu_reverse:
+			callback_.onRouteNow(endItem_.getPoint(), startItem_.getPoint());
+			break;
+		} // switch(featureId)
+		return false;
+	} 
+	
 	////////////////////////////////////////////
 	@Override
 	public void draw(final Canvas canvas, final MapView mapView, final boolean shadow) 

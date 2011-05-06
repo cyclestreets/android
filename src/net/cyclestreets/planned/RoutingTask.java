@@ -18,16 +18,19 @@ class RoutingTask extends AsyncTask<GeoPoint, Integer, String>
 	private final Route.Callback whoToTell_;
 	private GeoPoint from_;
 	private GeoPoint to_;
+	private int itinerary_;
 	private final ProgressDialog progress_;
 			
 	RoutingTask(final String routeType,
 				final int speed,
 				final Route.Callback whoToTell,
-				final Context context) 
+				final Context context,
+				final int itinerary) 
 	{
 		routeType_ = routeType;
 		speed_ = speed;
 		whoToTell_ = whoToTell;
+		itinerary_ = itinerary;
 
 		progress_ = new ProgressDialog(context);
 		progress_.setMessage(context.getString(R.string.finding_route));
@@ -46,6 +49,9 @@ class RoutingTask extends AsyncTask<GeoPoint, Integer, String>
 	   	try {
 	   		from_ = points[0];
 	   		to_ = points[1];
+	   		
+	   		if(itinerary_ != -1)
+	   			return ApiClient.getJourneyXml(routeType_, itinerary_, speed_);
 	   		return ApiClient.getJourneyXml(routeType_, from_, to_, speed_);
 	   	}
 	   	catch (Exception e) {

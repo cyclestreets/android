@@ -66,6 +66,14 @@ import android.view.MenuItem;
     					this);
     } // onRouteNow
     
+    public void reRouteNow(final String plan)
+    {
+    	Route.RePlotRoute(plan,
+    					  CycleStreetsPreferences.speed(),
+    					  this, 
+    					  this);
+    } // onRouteNow
+
     public void onStoredRouteNow(final int routeId)
     {
     	Route.PlotRoute(routeId, this, this);

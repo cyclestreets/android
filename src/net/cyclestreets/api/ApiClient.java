@@ -107,7 +107,7 @@ public class ApiClient {
 				);
 	} // getJourney
 
-	static public String getJoGurneyXml(String plan, GeoPoint start, GeoPoint finish) throws Exception 
+	static public String getJourneyXml(String plan, GeoPoint start, GeoPoint finish) throws Exception 
 	{
 		return getJourneyXml(plan,
 				start.getLongitudeE6() / 1E6, start.getLatitudeE6() / 1E6,
@@ -138,6 +138,16 @@ public class ApiClient {
 				);
 	} // getJourneyXml
 	
+	static public String getJourneyXml(String plan, int itinerary, int speed) 
+		throws Exception
+	{
+		return callApiRaw(API_PATH_JOURNEY,
+				"plan", plan,
+				"itinerary", Integer.toString(itinerary),
+				"speed", Integer.toString(speed)
+		);
+	} // getJourneyXml
+		
 	static public PhotomapCategories getPhotomapCategories() throws Exception {
 		return callApi(PhotomapCategories.class, API_PATH_PHOTOMAP_CATEGORIES);
 	}

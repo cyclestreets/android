@@ -7,6 +7,7 @@ import org.osmdroid.views.overlay.Overlay;
 
 import android.content.Context;
 import android.graphics.Canvas;
+import android.view.ContextMenu;
 import android.view.GestureDetector;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -49,6 +50,12 @@ public class ControllerOverlay extends Overlay implements OnDoubleTapListener,
 		
 		return ret;
 	} // onPrepareOptionsMenu
+	
+	public void onCreateContextMenu(final ContextMenu menu)
+	{
+		for(final Iterator<ContextMenuListener> overlays = contextMenuOverlays(); overlays.hasNext(); )
+			overlays.next().onCreateContextMenu(menu);
+	} // onPrepareContextMenu
 	
 	public boolean onMenuItemSelected(final int featureId, final MenuItem item)
 	{
@@ -98,7 +105,10 @@ public class ControllerOverlay extends Overlay implements OnDoubleTapListener,
 	@Override
 	public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) { return false; }
 	@Override
-	public void onLongPress(MotionEvent e) { }
+	public void onLongPress(final MotionEvent e) 
+	{ 
+		mapView_.showContextMenu();
+	} // onLongPress
 	@Override
 	public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) { return false; }
 	@Override
@@ -118,5 +128,9 @@ public class ControllerOverlay extends Overlay implements OnDoubleTapListener,
 	private Iterator<DynamicMenuListener> dynamicMenuOverlays()
 	{
 		return new OverlayIterator<DynamicMenuListener>(mapView_, DynamicMenuListener.class);
+	} // overlays
+	private Iterator<ContextMenuListener> contextMenuOverlays()
+	{
+		return new OverlayIterator<ContextMenuListener>(mapView_, ContextMenuListener.class);
 	} // overlays
 } // class ControllerOverlay

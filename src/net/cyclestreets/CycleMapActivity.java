@@ -12,9 +12,11 @@ import uk.org.invisibility.cycloid.GeoIntent;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
+import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.RelativeLayout.LayoutParams;
 
@@ -68,7 +70,13 @@ import android.widget.RelativeLayout.LayoutParams;
     	map_.onPrepareOptionsMenu(menu);
     	return true;
     } // onPrepareOptionsMenu
-    	
+    
+    @Override
+    public void onCreateContextMenu (ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo)
+    {
+    	super.onCreateContextMenu(menu, v, menuInfo);
+    } // onCreateContextMenu
+   
 	@Override
 	public boolean onMenuItemSelected(final int featureId, final MenuItem item)
 	{

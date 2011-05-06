@@ -22,6 +22,7 @@ import android.graphics.Canvas;
 import android.location.Location;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.ContextMenu;
 
 public class CycleMapView extends MapView
 {
@@ -116,11 +117,17 @@ public class CycleMapView extends MapView
 	{
 		return controllerOverlay_.onPrepareOptionsMenu(menu);
 	} // onPrepareOptionsMenu
-	
+
 	public boolean onMenuItemSelected(final int featureId, final MenuItem item)
 	{
 		return controllerOverlay_.onMenuItemSelected(featureId, item);
 	} // onMenuItemSelected
+	
+	@Override
+    public void onCreateContextMenu(final ContextMenu menu) 
+    {
+    	controllerOverlay_.onCreateContextMenu(menu);
+    } //  onCreateContextMenu
 	
 	/////////////////////////////////////////
 	// location

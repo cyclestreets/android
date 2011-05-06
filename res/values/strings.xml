@@ -43,4 +43,11 @@
 	<string name="lbl_no_place">Unable to find location</string>
 	
 	<string name="btn_cancel">Cancel</string>
+	
+	<!-- route context menu -->
+	<string name="ic_menu_reverse">Reverse route</string>
+	<string name="ic_menu_replan_fastest">Replan as fastest</string>
+	<string name="ic_menu_replan_balanced">Replan as balanced</string>
+	<string name="ic_menu_replan_quietest">Replan as quietest</string>
+	<string name="ic_menu_replan_shortest">Replan as shortest</string>
 </resources>
