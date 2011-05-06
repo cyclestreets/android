@@ -35,7 +35,7 @@
         <item>OpenStreetMap default style</item>
     </string-array>
     <string-array name="mapstyle_values">
-        <item>CycleMap</item>
+        <item>CycleStreets</item>
         <item>Osmarender</item>
     </string-array>
     <string-array name="point_type3">

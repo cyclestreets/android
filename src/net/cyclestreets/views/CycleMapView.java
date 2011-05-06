@@ -6,8 +6,11 @@ import net.cyclestreets.views.overlay.ControllerOverlay;
 import net.cyclestreets.views.overlay.ZoomButtonsOverlay;
 
 import org.osmdroid.tileprovider.tilesource.ITileSource;
+import org.osmdroid.tileprovider.tilesource.OnlineTileSourceBase;
+import org.osmdroid.tileprovider.tilesource.XYTileSource;
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
 import org.osmdroid.util.GeoPoint;
+import org.osmdroid.ResourceProxy;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.Overlay;
 
@@ -159,13 +162,26 @@ public class CycleMapView extends MapView
 	} // pref
 	
 	private ITileSource mapRenderer()
-	{
+	{		
 		try { 
 			return TileSourceFactory.getTileSource(CycleStreetsPreferences.mapstyle());
 		} // try
 		catch(Exception e) {
-			/* oh dear */
+			// oh dear 
 		} // catch
-		return TileSourceFactory.getTileSource("CycleMap");
+		return TileSourceFactory.getTileSource("CycleStreets");
+		
+		//return OPENCYCLEMAP;
 	} // mapRenderer
+	
+	static 
+	{ 
+		final OnlineTileSourceBase OPENCYCLEMAP = new XYTileSource("CycleStreets",
+	            			ResourceProxy.string.cyclemap, 0, 17, 256, ".png",
+	            			"http://a.tile.opencyclemap.org/cycle/",
+	            			"http://b.tile.opencyclemap.org/cycle/",
+	            			"http://c.tile.opencyclemap.org/cycle/");
+		TileSourceFactory.addTileSource(OPENCYCLEMAP);
+	}
+	 
 } // CycleMapView
