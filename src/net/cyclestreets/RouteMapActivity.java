@@ -137,9 +137,9 @@ import android.view.MenuItem;
 		
 		if(requestCode == R.string.ic_menu_saved_routes)
 		{
-			final int routeId = data.getIntExtra(CycleStreetsConstants.ROUTE_ID, 0);
-			if(routeId != 0)
-				onStoredRouteNow(routeId);
+			final int itinerary = data.getIntExtra(CycleStreetsConstants.ROUTE_ITINERARY, 0);
+			if(itinerary != 0)
+				onStoredRouteNow(itinerary);
 			return;
 		} // if ...
 		

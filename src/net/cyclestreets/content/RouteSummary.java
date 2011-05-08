@@ -2,23 +2,23 @@ package net.cyclestreets.content;
 
 public class RouteSummary 
 {
-	private int id_;
+	private int itinerary_;
 	private String title_;
 	private String plan_;
 	private int distance_;
 	
-	RouteSummary(final int id, 
+	RouteSummary(final int itinerary, 
 				 final String title,
 				 final String plan,
 				 final int distance)
 	{
-		id_ = id;
+		itinerary_ = itinerary;
 		title_ = title;
 		plan_ = plan;
 		distance_ = distance;
 	} // RouteSummary
 	
-	public int id() { return id_; }
+	public int itinerary() { return itinerary_; }
 	public String title() { return title_; }
 	public String plan() { return plan_; }
 	public int distance() { return distance_; }

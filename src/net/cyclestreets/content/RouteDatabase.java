@@ -44,7 +44,7 @@ public class RouteDatabase
          return c;
 	} // count
 		
-	public void saveRoute(final int id, 
+	public void saveRoute(final int itinerary, 
 						  final String name, 
 						  final String plan,
 						  final int distance,
@@ -52,13 +52,13 @@ public class RouteDatabase
 						  final GeoPoint start, 
 						  final GeoPoint end)
 	{
-		if(route(id) == null)
-			addRoute(id, name, plan, distance, xml, start, end);
+		if(route(itinerary) == null)
+			addRoute(itinerary, name, plan, distance, xml, start, end);
 		else
-			updateRoute(id, plan, distance, xml);
+			updateRoute(itinerary, plan, distance, xml);
 	} // saveRoute
 	
-	private void addRoute(final int id, 
+	private void addRoute(final int itinerary, 
 						  final String name, 
 						  final String plan,
 						  final int distance,
@@ -71,7 +71,7 @@ public class RouteDatabase
     	    "  VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, datetime())";
     
     	final SQLiteStatement insertRoute = db_.compileStatement(ROUTE_TABLE_INSERT);
-    	insertRoute.bindLong(1, id);
+    	insertRoute.bindLong(1, itinerary);
     	insertRoute.bindString(2, name);
     	insertRoute.bindString(3, plan);
     	insertRoute.bindLong(4, distance);
@@ -83,7 +83,7 @@ public class RouteDatabase
 		insertRoute.executeInsert();
 	} // addRoute
 
-	private void updateRoute(final int id,
+	private void updateRoute(final int itinerary,
 							 final String plan,
 							 final int distance,
 							 final String xml)
@@ -95,17 +95,17 @@ public class RouteDatabase
 		update.bindString(1, plan);
 		update.bindLong(2, distance);
 		update.bindString(3, xml);
-		update.bindLong(4, id);
+		update.bindLong(4, itinerary);
 		update.execute();
 	} // updateRoute
 	
-	public void deleteRoute(final int id)
+	public void deleteRoute(final int itinerary)
 	{
 		final String ROUTE_TABLE_DELETE = 
 			"DELETE FROM route WHERE journey = ?";
 		
 		final SQLiteStatement delete = db_.compileStatement(ROUTE_TABLE_DELETE);
-		delete.bindLong(1, id);
+		delete.bindLong(1, itinerary);
 		delete.execute();
 	} // deleteRoute
 	
@@ -135,7 +135,7 @@ public class RouteDatabase
         return routes;
 	} // savedRoutes
 
-	public RouteData route(final int routeId)
+	public RouteData route(final int itinerary)
 	{
         RouteData r = null;
         final Cursor cursor = db_.query(DatabaseHelper.ROUTE_TABLE_NAME, 
@@ -143,7 +143,7 @@ public class RouteDatabase
         											   "start_lat", "start_long", 
         											   "end_lat", "end_long" },
         								"journey=?", 
-        								new String[] { Integer.toString(routeId) }, 
+        								new String[] { Integer.toString(itinerary) }, 
         								null, 
         								null, 
         								null);
