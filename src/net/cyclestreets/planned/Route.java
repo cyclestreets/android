@@ -23,23 +23,25 @@ public class Route
 		public void onNewJourney();
 	}
 
-	static public void PlotRoute(final String routeType,
+	static public void PlotRoute(final String plan,
 								 final GeoPoint placeFrom, 
 								 final GeoPoint placeTo,
 								 final int speed,
 								 final Callback whoToTell,
 								 final Context context)
 	{
-		final RoutingTask query = new RoutingTask(routeType, speed, whoToTell, context, -1);
+		final CycleStreetsRoutingTask query = new CycleStreetsRoutingTask(plan, speed, whoToTell, context, -1);
 		query.execute(placeFrom, placeTo);
 	} // PlotRoute
 
-	static public void RePlotRoute(final String routeType,
+	static public void RePlotRoute(final String plan,
 								   final int speed,
 								   final Callback whoToTell,
 								   final Context context)
 	{
-		final RoutingTask query = new RoutingTask(routeType, speed, whoToTell, context, journey_.markers.get(0).itinerary);
+		// check database first
+		
+		final CycleStreetsRoutingTask query = new CycleStreetsRoutingTask(plan, speed, whoToTell, context, journey_.markers.get(0).itinerary);
 		query.execute(from(), to());
 	} // PlotRoute
 
