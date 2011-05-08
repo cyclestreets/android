@@ -74,9 +74,9 @@ import android.view.MenuItem;
     					  this);
     } // onRouteNow
 
-    public void onStoredRouteNow(final int routeId)
+    public void onStoredRouteNow(final int localId)
     {
-    	Route.PlotRoute(routeId, this, this);
+    	Route.PlotRoute(localId, this, this);
     } // onStoredRouteNow
     
     public void onClearRoute()
@@ -137,9 +137,9 @@ import android.view.MenuItem;
 		
 		if(requestCode == R.string.ic_menu_saved_routes)
 		{
-			final int itinerary = data.getIntExtra(CycleStreetsConstants.ROUTE_ITINERARY, 0);
-			if(itinerary != 0)
-				onStoredRouteNow(itinerary);
+			final int localId = data.getIntExtra(CycleStreetsConstants.ROUTE_ID, 0);
+			if(localId != 0)
+				onStoredRouteNow(localId);
 			return;
 		} // if ...
 		

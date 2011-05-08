@@ -59,15 +59,15 @@ public class StoredRoutesActivity extends ListActivity
 		try {
 			final AdapterView.AdapterContextMenuInfo info 
 					= (AdapterView.AdapterContextMenuInfo)item.getMenuInfo();
-		    int itinerary = (int)getListAdapter().getItemId(info.position);
+		    int localId = (int)getListAdapter().getItemId(info.position);
 
 		    switch(item.getItemId())
 		    {
 		    case MENU_OPEN:
-		    	openRoute(itinerary);
+		    	openRoute(localId);
 		    	break;
 		    case MENU_DELETE:
-		    	deleteRoute(itinerary);
+		    	deleteRoute(localId);
 		    	break;
 		    } // switch
 		    
@@ -83,17 +83,17 @@ public class StoredRoutesActivity extends ListActivity
 		openRoute((int)id);
 	} // onListItemClick
 	
-	private void openRoute(final int itinerary)
+	private void openRoute(final int localId)
 	{
 		Intent intent = new Intent();
-    	intent.putExtra(CycleStreetsConstants.ROUTE_ITINERARY, itinerary);
+    	intent.putExtra(CycleStreetsConstants.ROUTE_ID, localId);
     	setResult(RESULT_OK, intent);
     	finish();
 	} // routeSelected
 	
-	private void deleteRoute(final int itinerary)
+	private void deleteRoute(final int localId)
 	{
-		Route.DeleteRoute(itinerary);
+		Route.DeleteRoute(localId);
 		listAdaptor_.refresh(Route.storedRoutes());
 	} // deleteRoute
 	 
@@ -122,7 +122,7 @@ public class StoredRoutesActivity extends ListActivity
 		public Object getItem(int position) { return routes_.get(position); }
 
 		@Override
-		public long getItemId(int position) { return routes_.get(position).itinerary(); } 
+		public long getItemId(int position) { return routes_.get(position).localId(); } 
 		
 		@Override
 		public View getView(final int position, final View convertView, final ViewGroup parent) 

@@ -43,17 +43,17 @@ public class Route
 		query.execute(from(), to());
 	} // PlotRoute
 
-	static public void PlotRoute(final int routeId,
+	static public void PlotRoute(final int localId,
 								 final Callback whoToTell,
 								 final Context context)
 	{
 		final StoredRoutingTask query = new StoredRoutingTask(db_, whoToTell, context);
-		query.execute(routeId);
+		query.execute(localId);
 	} // PlotRoute
 	
-	static public void DeleteRoute(final int routeId)
+	static public void DeleteRoute(final int localId)
 	{
-		db_.deleteRoute(routeId);
+		db_.deleteRoute(localId);
 	} // DeleteRoute
 	
 	/////////////////////////////////////////	
