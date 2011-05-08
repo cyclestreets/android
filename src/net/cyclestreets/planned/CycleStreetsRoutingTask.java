@@ -2,19 +2,18 @@ package net.cyclestreets.planned;
 
 import net.cyclestreets.R;
 import net.cyclestreets.api.ApiClient;
+import net.cyclestreets.content.RouteData;
 import net.cyclestreets.planned.Route;
 
 import org.osmdroid.util.GeoPoint;
 
 import android.content.Context;
 
-class CycleStreetsRoutingTask extends RoutingTask<GeoPoint, String>
+class CycleStreetsRoutingTask extends RoutingTask<GeoPoint>
 {
 	/////////////////////////////////////////////////////
 	private final String routeType_;
 	private final int speed_;
-	private GeoPoint from_;
-	private GeoPoint to_;
 	private int itinerary_;
 			
 	CycleStreetsRoutingTask(final String routeType,
@@ -30,23 +29,23 @@ class CycleStreetsRoutingTask extends RoutingTask<GeoPoint, String>
 	} // NewRouteTask
 	
 	@Override
-	protected String doInBackground(GeoPoint... points) {
-	   	try {
-	   		from_ = points[0];
-	   		to_ = points[1];
-	   		
+	protected RouteData doInBackground(GeoPoint... points)
+	{
+		final GeoPoint start = points[0];
+		final GeoPoint finish = points[1];
+		final String xml = fetchRoute(start, finish);
+		return new RouteData(xml, start, finish);
+	} // doInBackgroud
+	
+	protected String fetchRoute(final GeoPoint start, final GeoPoint finish) 
+	{
+		try {
 	   		if(itinerary_ != -1)
 	   			return ApiClient.getJourneyXml(routeType_, itinerary_, speed_);
-	   		return ApiClient.getJourneyXml(routeType_, from_, to_, speed_);
-	   	}
+	   		return ApiClient.getJourneyXml(routeType_, start, finish, speed_);
+	   	} // try
 	   	catch (Exception e) {
 	   		throw new RuntimeException(e);
-	   	}
+	   	} // catch
 	} // doInBackground
-
-	@Override
-    protected void onPostExecute(final String journey) 
-	{
-   		postExecuteNotify(journey, from_, to_);
-	} // onPostExecute  
 } // NewRouteTask

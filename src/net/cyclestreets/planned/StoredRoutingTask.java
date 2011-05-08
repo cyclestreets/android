@@ -6,7 +6,7 @@ import net.cyclestreets.content.RouteDatabase;
 
 import android.content.Context;
 
-public class StoredRoutingTask extends RoutingTask<Integer, RouteData> 
+public class StoredRoutingTask extends RoutingTask<Integer> 
 {
 	private final RouteDatabase db_;
 
@@ -23,10 +23,4 @@ public class StoredRoutingTask extends RoutingTask<Integer, RouteData>
 	{
 		return db_.route(params[0]);
 	} // doInBackground
-
-	@Override
-    protected void onPostExecute(final RouteData route) 
-    {
-       	postExecuteNotify(route.xml(), route.start(), route.end());
-	} // onPostExecute  
 } // StoredRoutingTask

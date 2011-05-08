@@ -1,13 +1,13 @@
 package net.cyclestreets.planned;
 
-import org.osmdroid.util.GeoPoint;
+import net.cyclestreets.content.RouteData;
 
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
 
-public abstract class RoutingTask<Params, Result> extends
-		AsyncTask<Params, Integer, Result> 
+public abstract class RoutingTask<Params> extends
+		AsyncTask<Params, Integer, RouteData> 
 {
 	private final Route.Callback whoToTell_;
 	private ProgressDialog progress_;
@@ -37,11 +37,10 @@ public abstract class RoutingTask<Params, Result> extends
 		progress_.show();
 	} // onPreExecute
 
-    protected void postExecuteNotify(final String xml, 
-    								 final GeoPoint start,
-    								 final GeoPoint finish) 
+	@Override
+    protected void onPostExecute(final RouteData route) 
     {
-   		Route.onNewJourney(xml, start, finish);
+   		Route.onNewJourney(route.xml(), route.start(), route.finish());
    		whoToTell_.onNewJourney();
        	progress_.dismiss();
 	} // onPostExecute  
