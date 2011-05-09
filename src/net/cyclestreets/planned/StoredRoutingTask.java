@@ -16,7 +16,7 @@ public class StoredRoutingTask extends RoutingTask<Integer>
 	{
 		super(R.string.loading_route, whoToTell, context);
 		db_ = db;
-	} // NewRouteTask
+	} // StoredRoutingTask
 
 	@Override
 	protected RouteData doInBackground(Integer... params) 

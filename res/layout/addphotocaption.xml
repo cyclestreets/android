@@ -2,24 +2,21 @@
 	android:orientation="vertical"
 	android:layout_width="fill_parent"
 	android:layout_height="fill_parent">
-	<LinearLayout 
+	<ScrollView 
 		android:layout_width="fill_parent"
 		android:layout_height="wrap_content"
 		android:orientation="vertical"
 		android:layout_weight="5.0"
 		android:padding="4.0dip">
+	    <LinearLayout
+	    	android:orientation="vertical"
+	       	android:layout_width="fill_parent"
+	    	android:layout_height="fill_parent">
 		<ImageView android:id="@+id/photo" 
 			android:layout_weight="1.0"
 			android:layout_width="fill_parent" 
 			android:layout_height="wrap_content"
 			android:cropToPadding="true"/>
-		<ScrollView
-	    	android:layout_width="fill_parent"
-	    	android:layout_height="wrap_content">
-	    <LinearLayout
-	    	android:orientation="vertical"
-	       	android:layout_width="fill_parent"
-	    	android:layout_height="fill_parent">
 	  	<TextView
 			android:layout_width="fill_parent"
 			android:layout_height="wrap_content"
@@ -35,7 +32,6 @@
     		android:layout_width="fill_parent" 
     		android:scrollbars="none"/>
     	</LinearLayout>
-    	</ScrollView>	
-	</LinearLayout>		
+   	</ScrollView>	
 	<include layout="@layout/addphotonext"/>
 </LinearLayout>

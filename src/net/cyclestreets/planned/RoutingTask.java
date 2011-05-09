@@ -11,6 +11,7 @@ public abstract class RoutingTask<Params> extends
 {
 	private final Route.Callback whoToTell_;
 	private ProgressDialog progress_;
+	private Context context_;
 
 	protected RoutingTask(final int progressMessageId,
 						  final Route.Callback whoToTell,
@@ -24,12 +25,18 @@ public abstract class RoutingTask<Params> extends
 						  final Context context)
 	{
 		whoToTell_ = whoToTell;
+		context_ = context;
 
 		progress_ = new ProgressDialog(context);
 		progress_.setMessage(progressMessage);
 		progress_.setIndeterminate(true);
 		progress_.setCancelable(false);
 	} // Routing Task
+	
+	protected void setMessage(int msgId)
+	{
+		progress_.setMessage(context_.getString(msgId));
+	} // setMessage
 	
 	@Override
 	protected void onPreExecute() {

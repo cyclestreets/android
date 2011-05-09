@@ -53,7 +53,7 @@ import android.view.MenuItem;
     protected void onResume()
     {
     	super.onResume();
-       	setJourneyPath(Route.points(), Route.from(), Route.to());
+       	setJourneyPath(Route.points(), Route.start(), Route.finish());
     } // onResume
      
     public void onRouteNow(final GeoPoint start, final GeoPoint end)
@@ -69,10 +69,9 @@ import android.view.MenuItem;
     public void reRouteNow(final String plan)
     {
     	Route.RePlotRoute(plan,
-    					  CycleStreetsPreferences.speed(),
     					  this, 
     					  this);
-    } // onRouteNow
+    } // reRouteNow
 
     public void onStoredRouteNow(final int localId)
     {
@@ -185,15 +184,15 @@ import android.view.MenuItem;
    @Override
    public void onNewJourney() 
    {
-	   setJourneyPath(Route.points(), Route.from(), Route.to());
+	   setJourneyPath(Route.points(), Route.start(), Route.finish());
 	   
-	   mapView().getController().setCenter(Route.from());
+	   mapView().getController().setCenter(Route.start());
 	   mapView().postInvalidate();
    } // onNewJourney   
    
-   private void setJourneyPath(final Iterator<GeoPoint> points, final GeoPoint from, final GeoPoint to)
+   private void setJourneyPath(final Iterator<GeoPoint> points, final GeoPoint start, final GeoPoint finish)
    {
-	   routeSetter_.setRoute(from, to, points.hasNext());
+	   routeSetter_.setRoute(start, finish, points.hasNext());
 	   
 	   path.setRoute(points);
    } // setJourneyPath

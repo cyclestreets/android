@@ -138,7 +138,7 @@ public class RouteDatabase
 				  		  new String[] { Integer.toString(localId) });
 	} // route		
 	
-	private RouteData route(final int itinerary, final String plan)
+	public RouteData route(final int itinerary, final String plan)
 	{
 		return fetchRoute("journey=? and plan=?", 
         				  new String[] { Integer.toString(itinerary), plan });

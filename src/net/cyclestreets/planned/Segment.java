@@ -98,17 +98,28 @@ public abstract class Segment
 
 	static public class Start extends Segment 
 	{
-		private final String type_;
+		private final int itinerary_;
+		private final int speed_; 
+		private final String plan_;
 		
-		Start(final String journey, 
-			  final String type, 
+		Start(final int itinerary,
+			  final String journey, 
+			  final String plan, 
+			  final int speed,
 			  final int total_time,
 			  final int total_distance, 
 			  final List<GeoPoint> points)
 		{
 			super(journey, "", false, total_time, 0, total_distance, points, true);
-			type_ = initCap(type);
+			itinerary_ = itinerary;
+			plan_ = plan;
+			speed_ = speed;
 		} // Start
+		
+		public String name() { return super.street(); }
+		public int itinerary() { return itinerary_; }
+		public String plan() { return plan_; }
+		public int speed() { return speed_; }
 		
 		public String toString() 
 		{
@@ -117,7 +128,7 @@ public abstract class Segment
 		
 		public String street() 
 		{
-			return String.format("%s\n%s route %s\nJourney time %s", super.street(), type_, super.runningDistance(), super.runningTime());
+			return String.format("%s\n%s route %s\nJourney time %s", super.street(), initCap(plan_), super.runningDistance(), super.runningTime());
 		} // street
 		public String distance() { return ""; }
 		public String runningDistance() { return ""; }
@@ -126,27 +137,31 @@ public abstract class Segment
 	
 	static public class End extends Segment
 	{
+		final int total_distance_; 
+		
 		End(final String destination, 
 			final int total_time, 
 			final int total_distance, 
 			final List<GeoPoint> points)	
 		{
 			super("Destination " + destination, "", false, total_time, 0, total_distance, points, true);
+			total_distance_ = total_distance;
 		} // End
 
 		public String toString() { return street(); }
 		public String distance() { return ""; }
+		public int total_distance() { return total_distance_; }
 	} // End
 	
-	static public class Journey extends Segment
+	static public class Step extends Segment
 	{
-		Journey(final String name,
-				final String turn,
-				final boolean walk,
-				final int time,
-				final int distance,
-				final int running_distance,
-				final List<GeoPoint> points)
+		Step(final String name,
+			 final String turn,
+			 final boolean walk,
+			 final int time,
+			 final int distance,
+			 final int running_distance,
+			 final List<GeoPoint> points)
 		{
 			super(name, 
 				  turn.length() != 0 ? turn.substring(0,1).toUpperCase() + turn.substring(1) : turn,
@@ -156,6 +171,6 @@ public abstract class Segment
 				  running_distance,
 				  points,
 				  false);
-		} // JourneySegment
-	} // class Journey
+		} // Step
+	} // class Step
 } // class Segment
