@@ -1,10 +1,14 @@
 package net.cyclestreets.views.overlay;
 
+import java.util.Map;
+
 import net.cyclestreets.CycleStreetsConstants;
+
 import net.cyclestreets.CycleStreetsPreferences;
 import net.cyclestreets.R;
 import net.cyclestreets.util.Brush;
 import net.cyclestreets.views.CycleMapView;
+import net.cyclestreets.util.Collections;
 
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
@@ -38,6 +42,16 @@ public class TapToRouteOverlay extends Overlay
 		void onClearRoute();
 	} // Callback
 
+	private static int[] Replan_Menu_Ids = { R.string.ic_menu_replan_quietest, 
+											 R.string.ic_menu_replan_balanced, 
+											 R.string.ic_menu_replan_fastest,
+											 R.string.ic_menu_replan_shortest };
+	private static Map<Integer, String> Replan_Menu_Plans = 
+			Collections.map(R.string.ic_menu_replan_quietest, CycleStreetsConstants.PLAN_QUIETEST)
+			           .map(R.string.ic_menu_replan_balanced, CycleStreetsConstants.PLAN_BALANCED)
+			           .map(R.string.ic_menu_replan_fastest, CycleStreetsConstants.PLAN_FASTEST)
+			           .map(R.string.ic_menu_replan_shortest, CycleStreetsConstants.PLAN_SHORTEST);
+	
 	private final Drawable greenWisp_;
 	private final Drawable redWisp_;
 	private final Point screenPos_ = new Point();
@@ -160,11 +174,9 @@ public class TapToRouteOverlay extends Overlay
 	{
 		if(tapState_ != TapToRoute.ALL_DONE)
 			return;
-		
-		menu.add(0, R.string.ic_menu_replan_quietest, 0, R.string.ic_menu_replan_quietest);
-		menu.add(0, R.string.ic_menu_replan_balanced, 0, R.string.ic_menu_replan_balanced);
-		menu.add(0, R.string.ic_menu_replan_fastest, 0, R.string.ic_menu_replan_fastest);
-		menu.add(0, R.string.ic_menu_replan_shortest, 0, R.string.ic_menu_replan_shortest);
+
+		for(int id : Replan_Menu_Ids)
+			menu.add(0, id, 0, id);
 		if(mapView_.isMyLocationEnabled())
 			menu.add(0, R.string.ic_menu_reroute_from_here, 0, R.string.ic_menu_reroute_from_here);
 		menu.add(0, R.string.ic_menu_reverse, 0, R.string.ic_menu_reverse);
@@ -173,20 +185,16 @@ public class TapToRouteOverlay extends Overlay
 	@Override
 	public boolean onMenuItemSelected(int featureId, final MenuItem item)
 	{
-		switch(item.getItemId())
+		final int menuId = item.getItemId();
+		
+		if(Replan_Menu_Plans.containsKey(menuId))
 		{
-		case R.string.ic_menu_replan_quietest:
-			callback_.reRouteNow(CycleStreetsConstants.PLAN_QUIETEST);
-			break;
-		case R.string.ic_menu_replan_balanced:
-			callback_.reRouteNow(CycleStreetsConstants.PLAN_BALANCED);
-			break;
-		case R.string.ic_menu_replan_fastest:
-			callback_.reRouteNow(CycleStreetsConstants.PLAN_FASTEST);
-			break;
-		case R.string.ic_menu_replan_shortest:
-			callback_.reRouteNow(CycleStreetsConstants.PLAN_SHORTEST);
-			break;
+			callback_.reRouteNow(Replan_Menu_Plans.get(menuId));
+			return false;
+		}
+		
+		switch(menuId)
+		{
 		case R.string.ic_menu_reroute_from_here:
 			{
 				final Location lastFix = mapView_.getLastFix();
