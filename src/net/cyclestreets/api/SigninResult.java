@@ -43,6 +43,7 @@ public class SigninResult
 		
 	@Element(required=false)
 	private Result result;
+	@SuppressWarnings("unused")
 	@Element(required=false)
 	private String request;
 	
