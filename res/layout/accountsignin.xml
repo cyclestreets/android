@@ -44,7 +44,8 @@
 		<EditText
 			android:id="@+id/password"
 	    	android:layout_height="wrap_content" 
-	    	android:layout_width="fill_parent"/>	
+	    	android:layout_width="fill_parent"
+	    	android:password="true"/>	
 		</LinearLayout>    	
 	</ScrollView>
 	<LinearLayout

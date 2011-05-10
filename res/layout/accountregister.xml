@@ -64,7 +64,8 @@
 		<EditText
 			android:id="@+id/password"
 	    	android:layout_height="wrap_content" 
-	    	android:layout_width="fill_parent"/>	
+	    	android:layout_width="fill_parent"
+	    	android:password="true"/>	
 		<TextView
 			android:layout_width="fill_parent"
 			android:layout_height="wrap_content"
@@ -72,7 +73,8 @@
 		<EditText
 			android:id="@+id/confirm_password"
 	    	android:layout_height="wrap_content" 
-	    	android:layout_width="fill_parent"/>	
+	    	android:layout_width="fill_parent"
+	    	android:password="true"/>	
 		</LinearLayout>       
     </ScrollView>   
 	<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" 
