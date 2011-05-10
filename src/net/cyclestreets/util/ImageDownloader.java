@@ -14,6 +14,7 @@ import org.apache.http.impl.client.DefaultHttpClient;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.view.WindowManager;
 import android.widget.ImageView;
@@ -59,6 +60,7 @@ public class ImageDownloader
 				return;
 
 			imageView.setAnimation(null);
+			imageView.setBackgroundColor(Color.BLACK);
 			imageView.setImageBitmap(bitmap);
 		} // onPostExecute
 
