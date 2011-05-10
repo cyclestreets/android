@@ -2,6 +2,7 @@ package net.cyclestreets;
 
 import net.cyclestreets.api.ApiClient;
 import net.cyclestreets.api.RegistrationResult;
+import net.cyclestreets.api.SigninResult;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
@@ -107,7 +108,9 @@ public class AccountDetailsActivity extends Activity
 	private String signinMessage()
 	{
 		if(CycleStreetsPreferences.accountOK())
-			return "You are already signed in.";
+			return String.format("You are already signed in as\n%s, %s", 
+								 CycleStreetsPreferences.name(),
+								 CycleStreetsPreferences.email());
 		return "Please enter your account username and password to sign in.";
 	} // signinMessage
 	
@@ -173,7 +176,7 @@ public class AccountDetailsActivity extends Activity
         alertbox.setMessage("Are you sure you want to clear the stored account details?");
         alertbox.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
         	public void onClick(DialogInterface arg0, int arg1) {
-        		CycleStreetsPreferences.setUsernamePassword("", "", false);
+        		CycleStreetsPreferences.clearUsernamePassword();
         		setupView();
         	}
         });
@@ -216,7 +219,7 @@ public class AccountDetailsActivity extends Activity
 		task.execute();
 	} // signin
 		
-	private class SignInTask extends AsyncTask<Object, Void, String>
+	private class SignInTask extends AsyncTask<Object, Void, SigninResult>
 	{
 		private final String username_;
 		private final String password_;
@@ -242,31 +245,33 @@ public class AccountDetailsActivity extends Activity
 			progress_.show();
 		} // onPreExecute
 		
-		protected String doInBackground(Object... params)
+		protected SigninResult doInBackground(Object... params)
 		{
 			try {
 				return ApiClient.signin(username_, 
 						                password_);
 			} // try
 			catch(final Exception e) {
-				return "Error: " + e.getMessage();
+				return new SigninResult("Error: " + e.getMessage());
 			} // catch
 		} // doInBackground
 		
 		@Override
-	    protected void onPostExecute(final String result) 
+	    protected void onPostExecute(final SigninResult result) 
 		{
 	       	progress_.dismiss();
 	       	
-	       	// I don't usually condone doing this kind of thing with XML
-	       	final boolean ok = (result.indexOf("<id>") != -1);
-			CycleStreetsPreferences.setUsernamePassword(username_, password_, ok);
+			CycleStreetsPreferences.setUsernamePassword(username_, 
+														password_,
+														result.name(),
+														result.email(),
+														result.ok());
 			setText(signinDetails_, R.id.signin_message, signinMessage());
 			
 			String msg = "You have successfully signed into CycleStreets.";
-			if(!ok)
-				msg = result.startsWith("Error:") ? result : "Could not sign into CycleStreets.  Please check your username and password.";				
-			MessageBox(msg, ok);
+			if(!result.ok())
+				msg = result.error().startsWith("Error:") ? result.error() : "Could not sign into CycleStreets.  Please check your username and password.";				
+			MessageBox(msg, result.ok());
 		} // onPostExecute
 	} // class SignInTask
 	

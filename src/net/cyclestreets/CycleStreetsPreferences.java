@@ -80,13 +80,22 @@ public class CycleStreetsPreferences
     	return prefs.getBoolean(key, defVal);
 	} // getBoolean		
 	
-	static public void setUsernamePassword(final String username, final String password, final boolean signedin) {
+	static public void setUsernamePassword(final String username, 
+									       final String password,
+									       final String name, 
+									       final String email,
+									       final boolean signedin) 
+	{
 		final Editor editor = editor();
 		editor.putString(PREF_USERNAME_KEY, username);
 		editor.putString(PREF_PASSWORD_KEY, password);
 		editor.putBoolean(PREF_VALIDATED_KEY, signedin);
 		if(signedin)
+		{
+			editor.putString(PREF_NAME_KEY, name);
+			editor.putString(PREF_EMAIL_KEY, email);
 			editor.putBoolean(PREF_PENDING_KEY, false);
+		}
 		editor.commit();
 	} // setUsernamePassword
 	
@@ -104,6 +113,18 @@ public class CycleStreetsPreferences
 		editor.putBoolean(PREF_VALIDATED_KEY, false);
 		editor.commit();
 	} // setPendingUsernamePassword
+	
+	static public void clearUsernamePassword()
+	{
+		final Editor editor = editor();
+		editor.putString(PREF_USERNAME_KEY, "");
+		editor.putString(PREF_PASSWORD_KEY, "");
+		editor.putString(PREF_NAME_KEY, "");
+		editor.putString(PREF_EMAIL_KEY, "");
+		editor.putBoolean(PREF_PENDING_KEY, false);
+		editor.putBoolean(PREF_VALIDATED_KEY, false);
+		editor.commit();
+	} // clearUsernamePassword
 	
 	static private Editor editor() {
     	final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context_);

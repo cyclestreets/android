@@ -227,11 +227,12 @@ public class ApiClient {
 		}
 	} // uploadPhoto
 	
-	static public String signin(final String username, final String password) throws Exception 
+	static public SigninResult signin(final String username, final String password) throws Exception 
 	{
-		return postApiRaw(API_PATH_SIGNIN, 
-						  "username", username,
-						  "password", password);
+		final String xml = postApiRaw(API_PATH_SIGNIN, 
+						  			  "username", username,
+						  			  "password", password);
+		return loadRaw(SigninResult.class, xml);
     } // signin
 
 	static public RegistrationResult register(final String username, 
