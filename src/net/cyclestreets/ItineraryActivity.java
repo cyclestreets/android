@@ -1,7 +1,6 @@
 package net.cyclestreets;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import net.cyclestreets.planned.Route;
@@ -27,8 +26,7 @@ public class ItineraryActivity extends ListActivity
     public void onCreate(Bundle savedInstanceState) 
 	{
         super.onCreate(savedInstanceState);
-
-        setListAdapter(new SegmentAdapter(this, Route.segments()));
+        setListAdapter(new SegmentAdapter(this));
     } // onCreate
 
     @Override
@@ -41,10 +39,13 @@ public class ItineraryActivity extends ListActivity
 		Route.onResume();
 		setSelection(Route.activeSegmentIndex());
 	} // onResume	
-
+    
     @Override
     protected void onListItemClick(ListView l, View v, int position, long id)
     {
+    	if(!Route.available())
+    		return;
+    	
     	Route.setActiveSegmentIndex(position);
     	((CycleStreets)getParent()).showMap();
     } // onListItemClick
@@ -55,26 +56,31 @@ public class ItineraryActivity extends ListActivity
     	private final Map<String, Drawable> iconMappings_;
     	private final Drawable footprints_;
     	private final LayoutInflater inflater_;
-    	private final List<Segment> segments_;
     	
-    	SegmentAdapter(final Context context, final List<Segment> segments)
+    	SegmentAdapter(final Context context)
     	{
     		iconMappings_ = loadIconMappings(context);
     		footprints_ = context.getResources().getDrawable(R.drawable.footprints);
     		inflater_ = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-    		segments_ = segments;
     	} // SegmentAdaptor    	
 
+    	private boolean hasSegments() 
+    	{
+    		return (Route.segments() != null) && (Route.segments().size() != 0);
+    	} // hasSegments
+    	
 		@Override
 		public int getCount() 
 		{ 
-			return (segments_ != null) ? segments_.size() : 0; 
+			return hasSegments() ? Route.segments().size() : 1; 
 		} // getCount
 
 		@Override
 		public Object getItem(int position) 
 		{ 
-			return segments_.get(position); 
+			if(!hasSegments())
+				return null;
+			return Route.segments().get(position); 
 		} // getItem
 
 		@Override
@@ -86,7 +92,10 @@ public class ItineraryActivity extends ListActivity
 		@Override
 		public View getView(final int position, final View convertView, final ViewGroup parent) 
 		{
-			final Segment seg = segments_.get(position);
+			if(!hasSegments())
+				return inflater_.inflate(R.layout.itinerary_not_available, parent, false);
+			
+			final Segment seg = Route.segments().get(position);
 			final View v = inflater_.inflate(R.layout.itinerary_item, parent, false);
 
 			final boolean highlight = (position == Route.activeSegmentIndex());
