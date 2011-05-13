@@ -8,6 +8,7 @@ import net.cyclestreets.CycleStreetsPreferences;
 import net.cyclestreets.FeedbackActivity;
 import net.cyclestreets.R;
 import net.cyclestreets.util.Brush;
+import net.cyclestreets.util.MessageBox;
 import net.cyclestreets.views.CycleMapView;
 import net.cyclestreets.util.Collections;
 
@@ -17,7 +18,6 @@ import org.osmdroid.views.MapView.Projection;
 import org.osmdroid.views.overlay.Overlay;
 import org.osmdroid.views.overlay.OverlayItem;
 
-import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -331,20 +331,13 @@ public class TapToRouteOverlay extends Overlay
 		if(!CycleStreetsPreferences.confirmNewRoute())
 			return stepBack(true);
 		
-		AlertDialog.Builder alertbox = new AlertDialog.Builder(mapView_.getContext());
-		alertbox.setTitle("CycleStreets");
-        alertbox.setMessage("Start a new route?");
-        alertbox.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-          public void onClick(DialogInterface arg0, int arg1) {
-        	stepBack(true);
-          }
-        });
-        alertbox.setNegativeButton("No", new DialogInterface.OnClickListener() {
-            // do something when the button is clicked
-            public void onClick(DialogInterface arg0, int arg1) {  }
-          });
-        AlertDialog ab = alertbox.create();
-        ab.show();
+		MessageBox.YesNo(mapView_,
+						 "Start a new route?",
+						 new DialogInterface.OnClickListener() {
+							public void onClick(DialogInterface arg0, int arg1) {
+								stepBack(true);
+							}
+        				 });
         
 		return true;
 	} // tapRestart
