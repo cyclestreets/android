@@ -4,11 +4,13 @@ import net.cyclestreets.api.ApiClient;
 import net.cyclestreets.api.PhotomapCategories;
 import net.cyclestreets.api.ICategory;
 import net.cyclestreets.api.UploadResult;
+import net.cyclestreets.util.MessageBox;
 import net.cyclestreets.views.CycleMapView;
 import net.cyclestreets.views.overlay.ThereOverlay;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
@@ -323,17 +325,22 @@ public class AddPhotoActivity extends Activity
 		uploader.execute();
 	} // upload
 	
-	private void uploadComplete(final String url)
+	private void uploadComplete()
 	{
        	nextStep();
 	} // uploadComplete
 	
 	private void uploadFailed(final String msg)
 	{
-		Toast.makeText(this, "Upload failed: " + msg, Toast.LENGTH_LONG).show();
-		
-		step_ = AddStep.LOCATION;
-		setupView();
+		MessageBox.OK(photoLocation_, 
+					  msg,
+					  new DialogInterface.OnClickListener() {
+						@Override
+						public void onClick(DialogInterface dialog, int which) {
+							step_ = AddStep.LOCATION;
+							setupView();
+						}
+					  });
 	} // uploadFailed
 	
 	private GeoPoint photoLocation()
@@ -433,22 +440,27 @@ public class AddPhotoActivity extends Activity
 		
 		protected UploadResult doInBackground(Object... params)
 		{
-			return ApiClient.uploadPhoto(filename_, 
-										 username_, 
-										 password_, 
-										 location_, 
-										 metaCat_, 
-										 category_, 
-										 dateTime_, 
-										 caption_);
+			try {
+				return ApiClient.uploadPhoto(filename_, 
+											 username_, 
+											 password_, 
+											 location_, 
+											 metaCat_, 
+											 category_, 
+											 dateTime_, 
+											 caption_);
+			} // try
+			catch(Exception e) {
+				return new UploadResult("There was a problem uploading your photo: \n" + e.getMessage());
+			}
 		} // doInBackground
 		
 		@Override
 	    protected void onPostExecute(final UploadResult result) 
 		{
 	       	progress_.dismiss();
-	       	if(result.errorMessage() == null)
-	       		uploadComplete(result.url());
+	       	if(result.ok())
+	       		uploadComplete();
 	       	else
 	       		uploadFailed(result.errorMessage());
 		} // onPostExecute

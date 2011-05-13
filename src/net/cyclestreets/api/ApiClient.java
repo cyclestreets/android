@@ -114,100 +114,148 @@ public class ApiClient {
 		
 	private ApiClient() {}
 	
-	static public Journey getJourney(String plan, GeoPoint start, GeoPoint finish) throws Exception {
-		return getJourney(plan,
-				start.getLongitudeE6() / 1E6, start.getLatitudeE6() / 1E6,
-				finish.getLongitudeE6() / 1E6, finish.getLatitudeE6() / 1E6,
-				null, null, DEFAULT_SPEED);
-	}
-
-	static public Journey getJourney(String plan, GeoPoint start, GeoPoint finish, int speed) throws Exception {
-		return getJourney(plan,
-				start.getLongitudeE6() / 1E6, start.getLatitudeE6() / 1E6,
-				finish.getLongitudeE6() / 1E6, finish.getLatitudeE6() / 1E6,
-				null, null, speed);
-	}
-
-	static public Journey getJourney(String plan, double startLon, double startLat, double finishLon, double finishLat,
-			String leaving, String arriving, int speed) throws Exception {
-		return callApi(Journey.class, API_PATH_JOURNEY,
-				"plan", plan,
-				"start_longitude", Double.toString(startLon),
-				"start_latitude", Double.toString(startLat),
-				"finish_longitude", Double.toString(finishLon),
-				"finish_latitude", Double.toString(finishLat),
-				"leaving", leaving,
-				"arriving", arriving,
-				"speed", Integer.toString(speed)
-				);
+	static public Journey getJourney(final String plan, final GeoPoint start, final GeoPoint finish) 
+		throws Exception 
+	{
+		return getJourney(plan, start, finish, DEFAULT_SPEED);
 	} // getJourney
 
-	static public String getJourneyXml(String plan, GeoPoint start, GeoPoint finish) throws Exception 
+	static public Journey getJourney(final String plan, final GeoPoint start, final GeoPoint finish, final int speed) 
+		throws Exception 
 	{
-		return getJourneyXml(plan,
-				start.getLongitudeE6() / 1E6, start.getLatitudeE6() / 1E6,
-				finish.getLongitudeE6() / 1E6, finish.getLatitudeE6() / 1E6,
-				null, null, DEFAULT_SPEED);
-	} // getJourneyXml
-	
-	static public String getJourneyXml(String plan, GeoPoint start, GeoPoint finish, int speed) throws Exception 
-	{
-		return getJourneyXml(plan,
+		return getJourney(plan,
 				start.getLongitudeE6() / 1E6, start.getLatitudeE6() / 1E6,
 				finish.getLongitudeE6() / 1E6, finish.getLatitudeE6() / 1E6,
 				null, null, speed);
-	} // getJourneyXml
-	
-	static public String getJourneyXml(String plan, double startLon, double startLat, double finishLon, double finishLat,
-									   String leaving, String arriving, int speed) throws Exception
+	}
+
+	static public Journey getJourney(final String plan, 
+									 final double startLon, 
+									 final double startLat, 
+									 final double finishLon, 
+									 final double finishLat,
+									 final String leaving, 
+									 final String arriving, 
+									 final int speed) 
+		throws Exception 
 	{
-		return callApiRaw(API_PATH_JOURNEY,
-				"plan", plan,
-				"start_longitude", Double.toString(startLon),
-				"start_latitude", Double.toString(startLat),
-				"finish_longitude", Double.toString(finishLon),
-				"finish_latitude", Double.toString(finishLat),
-				"leaving", leaving,
-				"arriving", arriving,
-				"speed", Integer.toString(speed)
-				);
+		return callApi(Journey.class, 
+					   API_PATH_JOURNEY,
+					   "plan", plan,
+					   "start_longitude", Double.toString(startLon),
+					   "start_latitude", Double.toString(startLat),
+					   "finish_longitude", Double.toString(finishLon),
+					   "finish_latitude", Double.toString(finishLat),
+					   "leaving", leaving,
+					   "arriving", arriving,
+					   "speed", Integer.toString(speed));
+	} // getJourney
+
+	static public String getJourneyXml(final String plan, 
+									   final GeoPoint start, 
+									   final GeoPoint finish) 
+		throws Exception 
+	{
+		return getJourneyXml(plan,
+							 start,
+							 finish, 
+							 DEFAULT_SPEED);
 	} // getJourneyXml
 	
-	static public String getJourneyXml(String plan, int itinerary, int speed) 
+	static public String getJourneyXml(final String plan, 
+									   final GeoPoint start, 
+									   final GeoPoint finish, 
+									   final int speed) 
+		throws Exception 
+	{
+		return getJourneyXml(plan,
+							 start.getLongitudeE6() / 1E6, 
+							 start.getLatitudeE6() / 1E6,
+							 finish.getLongitudeE6() / 1E6, 
+							 finish.getLatitudeE6() / 1E6,
+							 null, 
+							 null, 
+							 speed);
+	} // getJourneyXml
+	
+	static public String getJourneyXml(final String plan, 
+									   final double startLon, 
+									   final double startLat, 
+									   final double finishLon, 
+									   final double finishLat,
+									   final String leaving, 
+									   final String arriving, 
+									   final int speed) 
 		throws Exception
 	{
 		return callApiRaw(API_PATH_JOURNEY,
-				"plan", plan,
-				"itinerary", Integer.toString(itinerary),
-				"speed", Integer.toString(speed)
-		);
+						  "plan", plan,
+						  "start_longitude", Double.toString(startLon),
+						  "start_latitude", Double.toString(startLat),
+						  "finish_longitude", Double.toString(finishLon),
+						  "finish_latitude", Double.toString(finishLat),
+						  "leaving", leaving,
+						  "arriving", arriving,
+						  "speed", Integer.toString(speed));
+	} // getJourneyXml
+	
+	static public String getJourneyXml(final String plan, 
+									   final int itinerary, 
+									   final int speed) 
+		throws Exception
+	{
+		return callApiRaw(API_PATH_JOURNEY,
+						  "plan", plan,
+						  "itinerary", Integer.toString(itinerary),
+						  "speed", Integer.toString(speed));
 	} // getJourneyXml
 		
-	static public PhotomapCategories getPhotomapCategories() throws Exception {
+	static public PhotomapCategories getPhotomapCategories() 
+		throws Exception 
+	{
 		return callApi(PhotomapCategories.class, API_PATH_PHOTOMAP_CATEGORIES);
-	}
+	} // getPhotomapCategories
 	
-	static public List<Photo> getPhotos(GeoPoint center,
-			int zoom, double n, double s, double e, double w) throws Exception {
-		return getPhotos(center.getLatitudeE6() / 1E6, center.getLongitudeE6() / 1E6, zoom, n, s, e, w);
-	}
+	static public List<Photo> getPhotos(final GeoPoint centre,
+										final int zoom, 
+										final double n, 
+										final double s, 
+										final double e, 
+										final double w) 
+		throws Exception 
+	{
+		return getPhotos(centre.getLatitudeE6() / 1E6, 
+						 centre.getLongitudeE6() / 1E6, 
+						 zoom, 
+						 n, 
+						 s, 
+						 e, 
+						 w);
+	} // getPhotos
 
-	static public List<Photo> getPhotos(double latitude, double longitude,
-			int zoom, double n, double s, double e, double w) throws Exception {
-		Photos photos = callApi(Photos.class, API_PATH_PHOTOS,
-				"latitude", Double.toString(latitude),
-				"longitude", Double.toString(longitude),
-				"zoom", Integer.toString(zoom),
-				"n", Double.toString(n),
-				"s", Double.toString(s),
-				"e", Double.toString(e),
-				"w", Double.toString(w),
-				"suppressplaceholders", "1",
-				"minimaldata", "1",
-				"limit", "30"
-				);
+	static public List<Photo> getPhotos(final double latitude, 
+										final double longitude,
+										int zoom, 
+										double n, 
+										double s, 
+										double e, 
+										double w) 
+		throws Exception 
+	{
+		final Photos photos = callApi(Photos.class, 
+									  API_PATH_PHOTOS,
+									  "latitude", Double.toString(latitude),
+									  "longitude", Double.toString(longitude),
+									  "zoom", Integer.toString(zoom),
+									  "n", Double.toString(n),
+									  "s", Double.toString(s),
+									  "e", Double.toString(e),
+									  "w", Double.toString(w),
+									  "suppressplaceholders", "1",
+									  "minimaldata", "1",
+									  "limit", "30");
 		return photos.photos;
-	}
+	} // getPhotos
 	
 	static public FeedbackResult sendFeedback(final int itinerary, 
 							   				  final String comments,
@@ -231,27 +279,26 @@ public class ApiClient {
 										   final String metaCat,
 										   final String category,
 										   final String dateTime,
-										   final String caption) 
+										   final String caption)
+		throws Exception
 	{
-		try {
-			return postApi(UploadResult.class, 
-						   API_PATH_ADDPHOTO,
-						   "username", username,
-						   "password", password,
-						   "latitude", Double.toString(location.getLatitudeE6() / 1E6),
-						   "longitude", Double.toString(location.getLongitudeE6() / 1E6),
-						   "datetime", dateTime,
-						   "category", category,
-						   "metacategory", metaCat,
-						   "caption", caption,
-						   "mediaupload", new FileBody(new File(filename)));
-		}
-		catch(Exception e) {
-			return null;
-		}
+
+		return postApi(UploadResult.class, 
+					   API_PATH_ADDPHOTO,
+					   "username", username,
+					   "password", password,
+					   "latitude", Double.toString(location.getLatitudeE6() / 1E6),
+					   "longitude", Double.toString(location.getLongitudeE6() / 1E6),
+					   "datetime", dateTime,
+					   "category", category,
+					   "metacategory", metaCat,
+					   "caption", caption,
+					   "mediaupload", new FileBody(new File(filename)));
 	} // uploadPhoto
 	
-	static public SigninResult signin(final String username, final String password) throws Exception 
+	static public SigninResult signin(final String username, 
+									  final String password) 
+		throws Exception 
 	{
 		return postApi(SigninResult.class,
 					   API_PATH_SIGNIN, 
@@ -260,9 +307,10 @@ public class ApiClient {
     } // signin
 
 	static public RegistrationResult register(final String username, 
-								  final String password,
-								  final String name,
-								  final String email) throws Exception 
+											  final String password,
+											  final String name,
+											  final String email) 
+		throws Exception 
 	{
 		return postApi(RegistrationResult.class,
 				       API_PATH_REGISTER, 
@@ -276,14 +324,8 @@ public class ApiClient {
 	/////////////////////////////////////////////////////
 	static private String callApiRaw(final String path, String... args) throws Exception
 	{
-        final List<NameValuePair> params = new ArrayList<NameValuePair>();
-    	params.add(new BasicNameValuePair("key", API_KEY));
-    	for (int i = 0; i < args.length; i += 2) {
-    		params.add(new BasicNameValuePair(args[i], args[i+1]));
-    	}
-    	final URI uri = URIUtils.createURI(API_SCHEME, API_HOST, API_PORT, path,
-    									   URLEncodedUtils.format(params, "UTF-8"), null);
-    	
+        final List<NameValuePair> params = createParamsList(args);
+    	final URI uri = createURI(API_SCHEME, path, params);   
     	final HttpGet httpget = new HttpGet(uri);
     	return httpclient.execute(httpget, new UTF8ResponseHandler());
 	} // callApiRaw
@@ -303,10 +345,8 @@ public class ApiClient {
 	
 	static private String postApiRaw(final String path, Object... args) throws Exception
 	{
-		final List<NameValuePair> params = new ArrayList<NameValuePair>();
-		params.add(new BasicNameValuePair("key", API_KEY));
-		final URI uri = URIUtils.createURI(API_POST_SCHEME, API_HOST, API_PORT, path,
-									   	   URLEncodedUtils.format(params, "UTF-8"), null);
+		final List<NameValuePair> params = createParamsList();
+		final URI uri = createURI(API_POST_SCHEME, path, params);
 		
 		final MultipartEntity entity = new MultipartEntity();
     	for (int i = 0; i < args.length; i += 2) 
@@ -320,11 +360,34 @@ public class ApiClient {
     	} // for ...
     	
     	final HttpPost httppost = new HttpPost(uri);
-    	httppost.setEntity(entity);
-    	
+    	httppost.setEntity(entity);    	
     	return httpclient.execute(httppost, new UTF8ResponseHandler());
 	} // postApiRaw
 
+	static private URI createURI(final String scheme,
+								 final String path,
+								 final List<NameValuePair> params)
+		throws Exception
+	{
+		return URIUtils.createURI(scheme, API_HOST, API_PORT, path, URLEncodedUtils.format(params, "UTF-8"), null);
+	} // createCycleStreetsURI
+	
+	static private List<NameValuePair> createParamsList(final String... args)
+	{
+		final List<NameValuePair> params = createParamsList();
+    	for (int i = 0; i < args.length; i += 2) {
+    		params.add(new BasicNameValuePair(args[i], args[i+1]));
+    	}
+		return params;
+	} // createParamsList
+	
+	static private List<NameValuePair> createParamsList()
+	{
+		final List<NameValuePair> params = new ArrayList<NameValuePair>();
+		params.add(new BasicNameValuePair("key", API_KEY));
+		return params;
+	} // createParamsList
+	
 	static private class UTF8ResponseHandler implements ResponseHandler<String> 
 	{
 		public String handleResponse(final HttpResponse response) 

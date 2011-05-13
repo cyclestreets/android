@@ -11,8 +11,7 @@ public class SigninResult
 		result = new Result();
 		result.validated = "";
 		result.error = message;
-	} // RegistrationResult
-
+	} // SigninResult
 	
 	public boolean ok() { return result != null && result.validated.length() != 0; }
 	

@@ -1,27 +1,21 @@
 package net.cyclestreets.api;
 
+
 import org.simpleframework.xml.Root;
 import org.simpleframework.xml.Element;
 
 @Root(strict=false)
 public class UploadResult 
 {
-	/*
-	<?xml version="1.0"?>
-	<addphoto>
-		<request><datetime>1301347930</datetime></request>
-		<error/>
-		<result>
-			<url>http://www.cyclestreets.net/location/29451/</url>
-			<imageUrl>http://www.cyclestreets.net/location/29451/cyclestreets29451.jpg</imageUrl>
-			<thumbnailUrl>http://www.cyclestreets.net/location/29451/cyclestreets29451-size425.jpg</thumbnailUrl>
-			<thumbnailSizes>60|120|150|180|200|250|300|350|400|400|425|450|500|640</thumbnailSizes>
-		</result>
-	</addphoto>
-   */
+	public UploadResult () { }
+	public UploadResult (final String message)
+	{
+		error = new Error();
+		error.message = message;
+	} // UploadResult
 
-	public String url() { return result.url; }
-	   
+	public boolean ok() { return result != null && result.url != null; }
+	public String url() { return result.url; }	   
 	public String errorMessage() { return error.message; }
 	   
 	@Element(required=false)
