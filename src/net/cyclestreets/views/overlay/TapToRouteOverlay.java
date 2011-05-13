@@ -5,6 +5,7 @@ import java.util.Map;
 import net.cyclestreets.CycleStreetsConstants;
 
 import net.cyclestreets.CycleStreetsPreferences;
+import net.cyclestreets.FeedbackActivity;
 import net.cyclestreets.R;
 import net.cyclestreets.util.Brush;
 import net.cyclestreets.views.CycleMapView;
@@ -19,6 +20,7 @@ import org.osmdroid.views.overlay.OverlayItem;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
@@ -176,11 +178,17 @@ public class TapToRouteOverlay extends Overlay
 			return;
 
 		for(int id : Replan_Menu_Ids)
-			menu.add(0, id, 0, id);
+			add(menu, id);
 		if(mapView_.isMyLocationEnabled())
-			menu.add(0, R.string.ic_menu_reroute_from_here, 0, R.string.ic_menu_reroute_from_here);
-		menu.add(0, R.string.ic_menu_reverse, 0, R.string.ic_menu_reverse);
+			add(menu, R.string.ic_menu_reroute_from_here);
+		add(menu, R.string.ic_menu_reverse);
+		add(menu, R.string.ic_menu_feedback);
 	} // onCreateContextMenu
+	
+	private void add(ContextMenu menu, int id)
+	{
+		menu.add(0, id, 0, id);
+	} // add
 
 	@Override
 	public boolean onMenuItemSelected(int featureId, final MenuItem item)
@@ -191,7 +199,7 @@ public class TapToRouteOverlay extends Overlay
 		{
 			callback_.reRouteNow(Replan_Menu_Plans.get(menuId));
 			return false;
-		}
+		} // if ...
 		
 		switch(menuId)
 		{
@@ -205,6 +213,12 @@ public class TapToRouteOverlay extends Overlay
 			break;
 		case R.string.ic_menu_reverse:
 			callback_.onRouteNow(endItem_.getPoint(), startItem_.getPoint());
+			break;
+		case R.string.ic_menu_feedback:
+			{
+				final Context context = mapView_.getContext();
+				context.startActivity(new Intent(context, FeedbackActivity.class));
+			}
 			break;
 		} // switch(featureId)
 		return false;

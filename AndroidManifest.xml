@@ -58,6 +58,8 @@
         <activity android:name=".AccountDetailsActivity"
         		  android:label="CycleStreets : Account Details">
         </activity>
+        <activity android:name=".FeedbackActivity"
+        		  android:label="CycleStreets : Route Comments"/>
     	<activity android:name="uk.org.invisibility.cycloid.RouteActivity" 
     		android:icon="@drawable/icon" 
     		android:label="Cycloid" 

@@ -1,10 +1,10 @@
 package net.cyclestreets;
 
 import net.cyclestreets.api.ApiClient;
+import net.cyclestreets.util.MessageBox;
 import net.cyclestreets.api.RegistrationResult;
 import net.cyclestreets.api.SigninResult;
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -171,37 +171,20 @@ public class AccountDetailsActivity extends Activity
 	
 	private void confirmClear()
 	{
-        final AlertDialog.Builder alertbox = new AlertDialog.Builder(signinDetails_.getContext());
-        alertbox.setTitle("CycleStreets");
-        alertbox.setMessage("Are you sure you want to clear the stored account details?");
-        alertbox.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-        	public void onClick(DialogInterface arg0, int arg1) {
-        		CycleStreetsPreferences.clearUsernamePassword();
-        		setupView();
-        	}
-        });
-        alertbox.setNegativeButton("No", new DialogInterface.OnClickListener() {
-        	// do something when the button is clicked
-        	public void onClick(DialogInterface arg0, int arg1) {  }
-        });
-        final AlertDialog ab = alertbox.create();
-        ab.show();
+		MessageBox.YesNo(signinDetails_, 
+						 "Are you sure you want to clear the stored account details?",
+						 new DialogInterface.OnClickListener() {
+					        	public void onClick(DialogInterface arg0, int arg1) {
+					        		CycleStreetsPreferences.clearUsernamePassword();
+					        		setupView();
+					        	}
+					        });
 	} // confirmClear
 
 	////////////////////////////////////////////////////////
 	private void MessageBox(final String message, final boolean finishOnOK)
 	{
-        final AlertDialog.Builder alertbox = new AlertDialog.Builder(signinDetails_.getContext());
-        alertbox.setTitle("CycleStreets");
-        alertbox.setMessage(message);
-        alertbox.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-        	public void onClick(DialogInterface arg0, int arg1) {
-        		if(finishOnOK)
-        			finish();
-        	}
-        });
-        final AlertDialog ab = alertbox.create();
-        ab.show();
+		MessageBox.OKAndFinish(this, message, finishOnOK);
 	} // MessageBox
 	
 	////////////////////////////////////////////////////////

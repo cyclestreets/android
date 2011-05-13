@@ -130,6 +130,7 @@ public class Route
 	static public GeoPoint start() { return start_; }
 	static public GeoPoint finish() { return finish_; }
 	
+	static public int itinerary() { return planned().itinerary(); }
 	static public boolean available() { return plannedRoute_ != PlannedRoute.NULL_ROUTE; }
 	static public PlannedRoute planned() { return plannedRoute_; }
 	static public Segment activeSegment() { return planned().activeSegment(); }
