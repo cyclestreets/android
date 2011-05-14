@@ -13,9 +13,9 @@
 	<string name="choose_to">Please choose a finish location</string>
 	<string name="choose_start">Choose Start Point</string>
 	<string name="choose_end">Choose Finish Point</string>
-	<string name="finding_route">Contacting cyclestreets.net for route, please wait</string>
+	<string name="finding_route">Obtaining route from CycleStreets.net, please wait</string>
 	<string name="loading_route">Loading route, please wait</string>
-	<string name="uploading_photo">Uploading photo to cyclestreets.net, please wait</string>
+	<string name="uploading_photo">Uploading photo to CycleStreets.net, please wait</string>
 	<string name="please_wait">Please wait</string>
 	<string name="not_found">Couldn\'t find</string>
 	<string name="error_route">Unable to find route</string>
@@ -27,8 +27,8 @@
 	<string name="no_to">Unable to find route finish location</string>
 	<string name="route_failed">Route finding failed</string>
 	<string name="donate">Donate</string>
-	<string name="signing_in">Signing into cyclestreets.net</string>
-	<string name="registering">Registering with cyclestreets.net</string>
+	<string name="signing_in">Signing into CycleStreets.net</string>
+	<string name="registering">Registering with CycleStreets.net</string>
 
 	<!-- Map menu -->
 	<string name="ic_menu_directions">Route</string>
