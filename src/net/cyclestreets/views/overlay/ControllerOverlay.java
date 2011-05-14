@@ -20,12 +20,14 @@ public class ControllerOverlay extends Overlay implements OnDoubleTapListener,
 {
 	private final GestureDetector gestureDetector_;
 	private final MapView mapView_;
+	private boolean isDragging_;
 	
 	public ControllerOverlay(final Context context, final MapView mapView)
 	{
 		super(context);
 		
 		mapView_ = mapView;
+		isDragging_ = false;
 		
 		gestureDetector_ = new GestureDetector(context, this);
 		gestureDetector_.setOnDoubleTapListener(this);
@@ -94,6 +96,7 @@ public class ControllerOverlay extends Overlay implements OnDoubleTapListener,
 	@Override
 	protected void draw(final Canvas canvas, final MapView mapView, final boolean shadow) 
 	{	
+		isDragging_ = OverlayHelper.isDragging(canvas);
 		for(final Iterator<TapListener> overlays = tapOverlays(); overlays.hasNext(); )
 			overlays.next().drawButtons(canvas, mapView);
 	} // draw
@@ -107,6 +110,8 @@ public class ControllerOverlay extends Overlay implements OnDoubleTapListener,
 	@Override
 	public void onLongPress(final MotionEvent e) 
 	{ 
+		if(isDragging_)
+			return;
 		mapView_.showContextMenu();
 	} // onLongPress
 	@Override

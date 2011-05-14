@@ -23,14 +23,19 @@ public class OverlayHelper
 	static private final Matrix canvasTransform_ = new Matrix();
 	static private final float[] transformValues_ = new float[9];
 	
+	static boolean isDragging(final Canvas canvas)
+	{
+		canvas.getMatrix(canvasTransform_);
+		canvasTransform_.getValues(transformValues_);
+		return (transformValues_[Matrix.MSCALE_X] != 1.0);
+	} // isDragging
+	
 	static boolean drawRoundRect(final Canvas canvas, 
 							  final Rect rect, 
 							  final float cornerRadius, 
 							  final Paint brush)
 	{
-		canvas.getMatrix(canvasTransform_);
-		canvasTransform_.getValues(transformValues_);
-		if(transformValues_[Matrix.MSCALE_X] != 1.0)
+		if(isDragging(canvas))
 			return false;
 
 		canvas.drawRoundRect(new RectF(rect), cornerRadius, cornerRadius, brush);
@@ -43,9 +48,7 @@ public class OverlayHelper
 						   final Bitmap bitmap,
 						   final Rect position)
 	{
-		canvas.getMatrix(canvasTransform_);
-		canvasTransform_.getValues(transformValues_);
-		if(transformValues_[Matrix.MSCALE_X] != 1.0)
+		if(isDragging(canvas))
 			return;
 
 		bitmapTransform_.setTranslate(0, 0);
