@@ -20,7 +20,7 @@
 	  	<TextView
 			android:layout_width="fill_parent"
 			android:layout_height="wrap_content"
-			android:text="Does this photo show a problem or good practice?"/>
+			android:text="Is this a problem or good practice?"/>
 		<Spinner 
 			android:id="@+id/metacat"
 			android:layout_width="fill_parent" 
@@ -28,7 +28,7 @@
 	  	<TextView
 			android:layout_width="fill_parent"
 			android:layout_height="wrap_content"
-			android:text="What type of feature is being illustrated?"/>
+			android:text="What type of feature is being shown"/>
 		<Spinner 
 			android:id="@+id/category"
 			android:layout_width="fill_parent" 

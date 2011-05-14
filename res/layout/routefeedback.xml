@@ -53,7 +53,7 @@
 	   	    android:layout_width="0.0dip"
 	       	android:layout_height="fill_parent"
 	       	android:layout_weight="1.0"/>				
-	    <Button android:text="Upload" 
+	    <Button android:text="Upload!" 
 	    	android:id="@+id/upload" 
 	    	android:layout_height="wrap_content" 
 	    	android:layout_weight="1.0" 
