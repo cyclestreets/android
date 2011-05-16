@@ -108,7 +108,7 @@ public class AddPhotoActivity extends Activity
 		photoCategory_ = inflater.inflate(R.layout.addphotocategory, null);
 		photoLocation_ = inflater.inflate(R.layout.addphotolocation, null);
 		final Button u = (Button)photoLocation_.findViewById(R.id.next);
-		u.setText("Upload");
+		u.setText("Upload!");
 		photoWebView_ = inflater.inflate(R.layout.addphotoview, null);
 		final Button b = (Button)photoWebView_.findViewById(R.id.next);
 		b.setText("Upload another");
