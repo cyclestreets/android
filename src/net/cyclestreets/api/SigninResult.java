@@ -13,12 +13,22 @@ public class SigninResult
 		result.error = message;
 	} // SigninResult
 	
-	public boolean ok() { return result != null && result.validated.length() != 0; }
+	public boolean ok() 
+	{ 
+		return result != null &&
+		       result.validated != null &&
+			   result.validated.length() != 0; 
+	} // ok
 	
 	public String email() { return result.email; }
 	public String name() { return result.name; }
 	
-	public String error() { return result.error; }
+	public String error() 
+	{
+		if(result != null && result.error != null)
+			return result.error;
+		return "Unknown error";
+	} // error
 	
 	
 	/*
@@ -40,12 +50,12 @@ public class SigninResult
 	</signin>
 	 */
 		
-	@Element(required=false)
-	private Result result;
 	@SuppressWarnings("unused")
 	@Element(required=false)
 	private String request;
-	
+	@Element(required=false)
+	private Result result;
+
 	@Root
 	public static class Result
 	{

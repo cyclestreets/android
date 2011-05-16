@@ -68,7 +68,7 @@ public class FeedbackActivity extends Activity implements TextWatcher, OnClickLi
 																 text(R.id.comments), 
 																 text(R.id.name),
 																 text(R.id.email));
-			MessageBox.OKAndFinish(this, result.message(), result.ok());
+			MessageBox.OKAndFinish(this.getCurrentFocus(), result.message(), this, result.ok());
 		}
 		catch(Exception e) {
 			MessageBox.OK(v, "There was a problem sending your comments:\n" + e.getMessage());

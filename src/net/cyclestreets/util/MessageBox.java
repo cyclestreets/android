@@ -48,11 +48,12 @@ public class MessageBox
 		show(alertbox);
 	} // OK
 	
-	static public void OKAndFinish(final Activity activity,
+	static public void OKAndFinish(final View view,
 								   final String msg,
+								   final Activity activity,
 								   final boolean finishOnOK)
 	{
-		MessageBox.OK(activity.getCurrentFocus(), 
+		MessageBox.OK(view, 
 					  msg, 
 					  new DialogInterface.OnClickListener() {
     					public void onClick(DialogInterface arg0, int arg1) {

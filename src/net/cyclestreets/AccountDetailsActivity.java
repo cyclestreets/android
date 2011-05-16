@@ -184,7 +184,7 @@ public class AccountDetailsActivity extends Activity
 	////////////////////////////////////////////////////////
 	private void MessageBox(final String message, final boolean finishOnOK)
 	{
-		MessageBox.OKAndFinish(this, message, finishOnOK);
+		MessageBox.OKAndFinish(signinDetails_, message, this, finishOnOK);
 	} // MessageBox
 	
 	////////////////////////////////////////////////////////
@@ -231,11 +231,12 @@ public class AccountDetailsActivity extends Activity
 		protected SigninResult doInBackground(Object... params)
 		{
 			try {
-				return ApiClient.signin(username_, 
-						                password_);
+				final SigninResult res =  ApiClient.signin(username_, 
+						                				   password_);
+				return res;
 			} // try
 			catch(final Exception e) {
-				return new SigninResult("Error: " + e.getMessage());
+				return new SigninResult("Error: " + e);
 			} // catch
 		} // doInBackground
 		
