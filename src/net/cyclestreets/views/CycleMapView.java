@@ -189,7 +189,12 @@ public class CycleMapView extends MapView
 	            			"http://a.tile.opencyclemap.org/cycle/",
 	            			"http://b.tile.opencyclemap.org/cycle/",
 	            			"http://c.tile.opencyclemap.org/cycle/");
+		final OnlineTileSourceBase OPENSTREETMAP = new XYTileSource("CycleStreets-OSM",
+			    			ResourceProxy.string.osmarender, 0, 17, 256, ".png",
+			    			"http://a.openstreetmap.com/",
+			    			"http://b.openstreetmap.com/",
+			    			"http://c.openstreetmap.com/");
 		TileSourceFactory.addTileSource(OPENCYCLEMAP);
-	}
-	 
+		TileSourceFactory.addTileSource(OPENSTREETMAP);
+	} // static
 } // CycleMapView
