@@ -85,6 +85,8 @@ public class AddPhotoActivity extends Activity
 	private ThereOverlay there_;
 	private static PhotomapCategories photomapCategories;
 	
+	private String uploadedUrl_;
+	
 	@Override
 	protected void onCreate(final Bundle savedInstanceState) 
 	{
@@ -183,11 +185,15 @@ public class AddPhotoActivity extends Activity
 			setContentView(photoWebView_);
 			{
 				final TextView text = (TextView)photoWebView_.findViewById(R.id.photo_text);
-				text.setText(captionEditText().getText().toString());
+				text.setText(captionEditText());
+				final TextView url = (TextView)photoWebView_.findViewById(R.id.photo_url);
+				url.setText(uploadedUrl_);
+				final Button share = (Button)findViewById(R.id.photo_share);
+				share.setOnClickListener(this);
 			}
 			break;
 		case DONE:
-			captionEditText().setText("");
+			captionEditor().setText("");
 			metaCategorySpinner().setSelection(0);
 			categorySpinner().setSelection(0);
 			step_ = AddStep.PHOTO;
@@ -220,7 +226,8 @@ public class AddPhotoActivity extends Activity
 		b.setOnClickListener(this);		
 	} // hookUpNext
 	
-	private EditText captionEditText() { return (EditText)photoCaption_.findViewById(R.id.caption); }
+	private EditText captionEditor() { return (EditText)photoCaption_.findViewById(R.id.caption); }
+	private String captionEditText() { return captionEditor().getText().toString(); }
 	private Spinner metaCategorySpinner() { return (Spinner)photoCategory_.findViewById(R.id.metacat); }
 	private Spinner categorySpinner() { return (Spinner)photoCategory_.findViewById(R.id.category); }
 
@@ -243,6 +250,17 @@ public class AddPhotoActivity extends Activity
 			case R.id.chooseexisting_button:
 				i = new Intent(Intent.ACTION_PICK,
 							   android.provider.MediaStore.Images.Media.INTERNAL_CONTENT_URI);
+				break;
+			case R.id.photo_share:
+				{
+					final String shareText = uploadedUrl_ + " - " + captionEditText(); 
+					final Intent share = new Intent(Intent.ACTION_SEND);
+					share.setType("text/plain");
+					share.putExtra(Intent.EXTRA_TEXT, shareText);
+					share.putExtra(Intent.EXTRA_SUBJECT, "Photo on CycleStreets.net");
+					startActivity(Intent.createChooser(share, "Share"));
+					
+				}
 				break;
 			case R.id.next:
 				if(step_ == AddStep.LOCATION && !CycleStreetsPreferences.accountOK())
@@ -311,7 +329,7 @@ public class AddPhotoActivity extends Activity
 		final String metaCat = photomapCategories.metacategories.get((int)metaCategorySpinner().getSelectedItemId()).getTag();
 		final String category = photomapCategories.categories.get((int)categorySpinner().getSelectedItemId()).getTag();
 		final String dateTime = photoTimestamp();
-		final String caption = captionEditText().getText().toString();
+		final String caption = captionEditText();
 
 		final UploadPhotoTask uploader = new UploadPhotoTask(this,
 															 filename,
@@ -325,8 +343,9 @@ public class AddPhotoActivity extends Activity
 		uploader.execute();
 	} // upload
 	
-	private void uploadComplete()
+	private void uploadComplete(final String photo_url)
 	{
+		uploadedUrl_ = photo_url;
        	nextStep();
 	} // uploadComplete
 	
@@ -460,7 +479,7 @@ public class AddPhotoActivity extends Activity
 		{
 	       	progress_.dismiss();
 	       	if(result.ok())
-	       		uploadComplete();
+	       		uploadComplete(result.url());
 	       	else
 	       		uploadFailed(result.errorMessage());
 		} // onPostExecute

@@ -19,6 +19,21 @@
 			android:layout_width="fill_parent"
 			android:background="#000000"
 			android:textColor="#ffffff"/>
-	</LinearLayout>		
+		<TextView
+		    android:layout_height="wrap_content" 
+			android:layout_width="fill_parent"
+		    android:text=" "/>
+		<TextView 
+			android:id="@+id/photo_url"
+			android:gravity="center"
+			android:layout_height="wrap_content" 
+			android:layout_width="fill_parent"
+			android:background="#000000"
+			android:textColor="#ffffff"/>		     
+	</LinearLayout>
+    <Button android:text="Share this photo" 
+    	android:id="@+id/photo_share" 
+    	android:layout_height="wrap_content" 
+	 	android:layout_width="fill_parent"/>
 	<include layout="@layout/addphotonext"/>
 </LinearLayout>
