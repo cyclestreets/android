@@ -232,12 +232,13 @@ public class TapToRouteOverlay extends Overlay
         drawMarker(canvas, projection, startItem_);
         drawMarker(canvas, projection, endItem_);
 	} // draw
-	
+
+	@Override
 	public void drawButtons(final Canvas canvas, final MapView mapView)
 	{
 		drawButtons(canvas);
 		drawTapState(canvas);
-	} // onDrawFinished
+	} // drawButtons
 	
 	private void drawButtons(final Canvas canvas)
 	{
