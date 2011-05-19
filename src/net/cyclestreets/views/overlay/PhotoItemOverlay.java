@@ -23,6 +23,7 @@ import net.cyclestreets.api.ApiClient;
 import net.cyclestreets.api.Photo;
 import net.cyclestreets.api.PhotoMarkers;
 import net.cyclestreets.util.Brush;
+import net.cyclestreets.util.MessageBox;
 
 public class PhotoItemOverlay extends ItemizedOverlay<PhotoItemOverlay.PhotoItem>
 							  implements MapListener
@@ -206,25 +207,24 @@ public class PhotoItemOverlay extends ItemizedOverlay<PhotoItemOverlay.PhotoItem
 			double s = (Double) params[4];
 			double e = (Double) params[5];
 			double w = (Double) params[6];
-			final List<Photo> photos;
+
 			try {
-				photos = ApiClient.getPhotos(clat, clon, zoom, n, s, e, w);
+				return ApiClient.getPhotos(clat, clon, zoom, n, s, e, w);
 			}
-			catch (Exception ex) {
-				throw new RuntimeException(ex);
+			catch (final Exception ex) {
+				// never mind, eh?
 			}
-			return photos;
+			return null;
 		} // doInBackground
 		
 		@Override
 		protected void onPostExecute(final List<Photo> photos) 
 		{
-			if(photos.isEmpty())
-				return;
-			
 			final List<PhotoItemOverlay.PhotoItem> items = new ArrayList<PhotoItemOverlay.PhotoItem>();
-			for (final Photo photo: photos) 
-				items.add(new PhotoItemOverlay.PhotoItem(photo, overlay_.photoMarkers_));
+			
+			if(photos != null)
+				for (final Photo photo: photos) 
+					items.add(new PhotoItemOverlay.PhotoItem(photo, overlay_.photoMarkers_));
 			
 			overlay_.setPhotos(items);
 		} // onPostExecute
