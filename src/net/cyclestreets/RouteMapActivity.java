@@ -4,6 +4,7 @@ import java.util.Iterator;
 
 import net.cyclestreets.CycleStreetsConstants;
 import net.cyclestreets.R;
+import net.cyclestreets.util.MessageBox;
 import net.cyclestreets.views.overlay.PathOfRouteOverlay;
 import net.cyclestreets.views.overlay.RouteHighlightOverlay;
 import net.cyclestreets.views.overlay.TapToRouteOverlay;
@@ -15,6 +16,7 @@ import uk.org.invisibility.cycloid.CycloidConstants;
 import uk.org.invisibility.cycloid.GeoIntent;
 import uk.org.invisibility.cycloid.RouteActivity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.location.Location;
 import android.os.Bundle;
@@ -112,7 +114,16 @@ import android.view.MenuItem;
 		
 		if(item.getItemId() == R.string.ic_menu_directions)
 		{
-			launchRouteDialog();
+			if(Route.available() && CycleStreetsPreferences.confirmNewRoute())
+				MessageBox.YesNo(mapView(),
+								 "Start a new route?",
+								 new DialogInterface.OnClickListener() {
+									public void onClick(DialogInterface arg0, int arg1) {
+										launchRouteDialog();
+									}
+	        				 	 });
+			else
+				launchRouteDialog();
 			return true;
 		} // if ...
 		
