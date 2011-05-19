@@ -16,16 +16,14 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.AsyncTask;
-import android.view.WindowManager;
 import android.widget.ImageView;
 
 public class ImageDownloader 
 {
 	static public void get(final String url, 
-						   final ImageView imageView,
-						   final WindowManager wm) 
+						   final ImageView imageView) 
 	{
-		final BitmapDownloaderTask task = new BitmapDownloaderTask(imageView, wm);
+		final BitmapDownloaderTask task = new BitmapDownloaderTask(imageView);
 		task.execute(url);
 	} // get
 
@@ -34,8 +32,7 @@ public class ImageDownloader
 	{
 		private final WeakReference<ImageView> imageViewReference;
 
-		public BitmapDownloaderTask(final ImageView imageView,
-									final WindowManager wm) 
+		public BitmapDownloaderTask(final ImageView imageView) 
 		{
 			imageViewReference = new WeakReference<ImageView>(imageView);
 		} // BitmapDownloaderTask
@@ -61,6 +58,7 @@ public class ImageDownloader
 
 			imageView.setAnimation(null);
 			imageView.setBackgroundColor(Color.BLACK);
+			imageView.setPadding(0, 8, 0, 0);
 			imageView.setImageBitmap(bitmap);
 		} // onPostExecute
 

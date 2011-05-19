@@ -35,7 +35,7 @@ public class DisplayPhotoActivity extends Activity
     	text.setText(i.getStringExtra("caption"));
 
 		final Uri uri = i.getData();
-    	ImageDownloader.get(uri.toString(), iv, getWindowManager());
+    	ImageDownloader.get(uri.toString(), iv);
 	} // onCreate
 	
 	@Override
