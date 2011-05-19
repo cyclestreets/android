@@ -14,12 +14,15 @@ import org.osmdroid.views.overlay.OverlayItem;
 
 import android.content.Context;
 import android.graphics.Canvas;
+import android.graphics.Paint;
+import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 
 import net.cyclestreets.api.ApiClient;
 import net.cyclestreets.api.Photo;
 import net.cyclestreets.api.PhotoMarkers;
+import net.cyclestreets.util.Brush;
 
 public class PhotoItemOverlay extends ItemizedOverlay<PhotoItemOverlay.PhotoItem>
 							  implements MapListener
@@ -80,6 +83,13 @@ public class PhotoItemOverlay extends ItemizedOverlay<PhotoItemOverlay.PhotoItem
 	private final MapView mapView_;
 	private final PhotoMarkers photoMarkers_;
 	private int zoomLevel_;
+	private boolean loading_;
+	
+	private final int offset_;
+	private final float radius_;
+	private final Paint textBrush_;
+	
+	static private final String LOADING = "Loading ...";
 	
 	public PhotoItemOverlay(final Context context,
 							final MapView mapView,
@@ -92,15 +102,37 @@ public class PhotoItemOverlay extends ItemizedOverlay<PhotoItemOverlay.PhotoItem
 		mapView_ = mapView;
 		zoomLevel_ = mapView_.getZoomLevel();
 		photoMarkers_ = new PhotoMarkers(context.getResources());
+		loading_ = false;
 		
-        mapView_.setMapListener(new DelayedMapListener(this));
+		offset_ = OverlayHelper.offset(context);
+		radius_ = OverlayHelper.cornerRadius(context);
+		textBrush_ = Brush.createTextBrush(offset_);
+
+		mapView_.setMapListener(new DelayedMapListener(this));
 	} // PhotoItemOverlay
 
 	@Override
 	protected void draw(final Canvas canvas, final MapView mapView, final boolean shadow) 
 	{
 		super.draw(canvas, mapView, shadow);
-	} // draw
+		
+		if(!loading_)
+			return;
+		
+		final Rect bounds = new Rect();
+		textBrush_.getTextBounds(LOADING, 0, LOADING.length(), bounds);
+
+		int width = bounds.width() + (offset_ * 2);
+		final Rect screen = canvas.getClipBounds();
+        screen.left = screen.centerX() - (width/2); 
+        screen.top += offset_* 2;
+        screen.right = screen.left + width;
+        screen.bottom = screen.top + bounds.height() + (offset_ * 2);
+		
+        if(!OverlayHelper.drawRoundRect(canvas, screen, radius_, Brush.Grey))
+        	return;
+        canvas.drawText(LOADING, screen.centerX(), screen.centerY() + bounds.bottom, textBrush_);
+	} // drawButtons
 	
 	@Override
 	public boolean onScroll(final ScrollEvent event) 
@@ -131,7 +163,9 @@ public class PhotoItemOverlay extends ItemizedOverlay<PhotoItemOverlay.PhotoItem
 		final GeoPoint centre = mapView_.getMapCenter();
 		double clat = (double)centre.getLatitudeE6() / 1E6;
 		double clon = (double)centre.getLongitudeE6() / 1E6;
-		GetPhotosTask.fetch(this, clat, clon, zoom, n, s, e, w);		
+		GetPhotosTask.fetch(this, clat, clon, zoom, n, s, e, w);
+		loading_ = true;
+		mapView_.postInvalidate();
 	} // refreshPhotos
 	
 	private void setPhotos(final List<PhotoItemOverlay.PhotoItem> items)
@@ -141,6 +175,7 @@ public class PhotoItemOverlay extends ItemizedOverlay<PhotoItemOverlay.PhotoItem
 				items().add(item);
 		if(items().size() > 500)  // arbitrary figure
 			items().remove(items().subList(0, 100));
+		loading_ = false;
 		mapView_.postInvalidate();
 	} // setPhotos
 
