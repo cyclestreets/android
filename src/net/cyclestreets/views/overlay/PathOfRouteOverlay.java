@@ -7,7 +7,8 @@ import org.osmdroid.views.overlay.PathOverlay;
 
 import android.content.Context;
 
-public class PathOfRouteOverlay extends PathOverlay {
+public class PathOfRouteOverlay extends PathOverlay 
+{
 	static public int ROUTE_COLOUR = 0x80ff00ff;
 	
 	public PathOfRouteOverlay(final Context context)
