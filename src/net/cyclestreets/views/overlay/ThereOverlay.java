@@ -31,7 +31,6 @@ public class ThereOverlay extends Overlay
 		
 		final Resources res = context.getResources();
 		thereMarker_  = res.getDrawable(R.drawable.x_marks_spot);
-
 	} // ThereOverlay
 	
 	public GeoPoint there() { return there_; }

@@ -44,8 +44,10 @@ public class ItemizedOverlay<Item extends OverlayItem> extends Overlay
 		itemListener_ = listener;
 	} // ItemizedOverlay
 
+	protected List<Item> items() { return items_; }
+	
 	@Override
-	public void draw(final Canvas canvas, final MapView mapView, final boolean shadow) 
+	protected void draw(final Canvas canvas, final MapView mapView, final boolean shadow) 
 	{
 		if(shadow)
 			return;

@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.osmdroid.events.DelayedMapListener;
-import org.osmdroid.events.MapAdapter;
+import org.osmdroid.events.MapListener;
 import org.osmdroid.events.ScrollEvent;
 import org.osmdroid.events.ZoomEvent;
 import org.osmdroid.util.BoundingBoxE6;
@@ -13,6 +13,7 @@ import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.OverlayItem;
 
 import android.content.Context;
+import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 
@@ -20,12 +21,13 @@ import net.cyclestreets.api.ApiClient;
 import net.cyclestreets.api.Photo;
 import net.cyclestreets.api.PhotoMarkers;
 
-public class PhotoItemOverlay extends ItemizedOverlay<PhotoItemOverlay.PhotoItem> 
+public class PhotoItemOverlay extends ItemizedOverlay<PhotoItemOverlay.PhotoItem>
+							  implements MapListener
 {
 	static public class PhotoItem extends OverlayItem 
 	{
-		private Photo photo_;
-		private PhotoMarkers photoMarkers;
+		private final Photo photo_;
+		private final PhotoMarkers photoMarkers;
 		
 		public PhotoItem(final Photo photo, final PhotoMarkers photoMarkers) 
 		{
@@ -75,6 +77,10 @@ public class PhotoItemOverlay extends ItemizedOverlay<PhotoItemOverlay.PhotoItem
 
 	/////////////////////////////////////////////////////
 	/////////////////////////////////////////////////////
+	private final MapView mapView_;
+	private final PhotoMarkers photoMarkers_;
+	private int zoomLevel_;
+	
 	public PhotoItemOverlay(final Context context,
 							final MapView mapView,
 							final OnItemGestureListener<PhotoItemOverlay.PhotoItem> listener)
@@ -82,79 +88,78 @@ public class PhotoItemOverlay extends ItemizedOverlay<PhotoItemOverlay.PhotoItem
 		super(context, 
 			  new ArrayList<PhotoItemOverlay.PhotoItem>(), 
 			  listener);
-        
-        mapView.setMapListener(new DelayedMapListener(new PhotomapListener(context, mapView, items())));
+		
+		mapView_ = mapView;
+		zoomLevel_ = mapView_.getZoomLevel();
+		photoMarkers_ = new PhotoMarkers(context.getResources());
+		
+        mapView_.setMapListener(new DelayedMapListener(this));
 	} // PhotoItemOverlay
-	
-	/////////////////////////////////////////////////////
-	/////////////////////////////////////////////////////
-	static private class PhotomapListener extends MapAdapter 
+
+	@Override
+	protected void draw(final Canvas canvas, final MapView mapView, final boolean shadow) 
 	{
-		final private MapView map_;
-		private int zoomLevel_;
-		private List<PhotoItemOverlay.PhotoItem> photoList_;
-		final private PhotoMarkers photoMarkers_;
-
-		public PhotomapListener(final Context ctx, 
-								final MapView map, 
-								final List<PhotoItemOverlay.PhotoItem> photoList) 
-		{
-			map_ = map;
-			zoomLevel_ = map_.getZoomLevel();		
-			photoList_ = photoList;
-			photoMarkers_ = new PhotoMarkers(ctx.getResources());
-		} // PhotomapListener
-		
-		@Override
-		public boolean onScroll(final ScrollEvent event) 
-		{
-			refreshPhotos();
-			return true;
-		} // onScroll
-		
-		@Override
-		public boolean onZoom(final ZoomEvent event) 
-		{
-			if(event.getZoomLevel() < zoomLevel_)
-				photoList_.clear();
-			zoomLevel_ = event.getZoomLevel();
-			refreshPhotos();
-			return true;
-		} // onZoom
-
-		protected void refreshPhotos() 
-		{
-			final BoundingBoxE6 bounds = map_.getBoundingBox();
-			double n = bounds.getLatNorthE6() / 1E6;
-			double s = bounds.getLatSouthE6() / 1E6;
-			double e = bounds.getLonEastE6() / 1E6;
-			double w = bounds.getLonWestE6() / 1E6;
-			
-			int zoom = map_.getZoomLevel();
-			final GeoPoint centre = map_.getMapCenter();
-			double clat = (double)centre.getLatitudeE6() / 1E6;
-			double clon = (double)centre.getLongitudeE6() / 1E6;
-			new GetPhotosTask(this).execute(clat, clon, zoom, n, s, e, w);		
-		} // refreshPhotos
-		
-		private void setPhotos(final List<PhotoItemOverlay.PhotoItem> items)
-		{
-			for(final PhotoItemOverlay.PhotoItem item : items)
-				if(!photoList_.contains(item))
-					photoList_.add(item);
-			if(photoList_.size() > 500)  // arbitrary figure
-				photoList_ = new ArrayList<PhotoItemOverlay.PhotoItem>(photoList_.subList(100, 500));
-			map_.postInvalidate();
-		} // setPhotos
-	} // class PhotomapListener
+		super.draw(canvas, mapView, shadow);
+	} // draw
 	
+	@Override
+	public boolean onScroll(final ScrollEvent event) 
+	{
+		refreshPhotos();
+		return true;
+	} // onScroll
+	
+	@Override
+	public boolean onZoom(final ZoomEvent event) 
+	{
+		if(event.getZoomLevel() < zoomLevel_)
+			items().clear();
+		zoomLevel_ = event.getZoomLevel();
+		refreshPhotos();
+		return true;
+	} // onZoom
+
+	private void refreshPhotos() 
+	{
+		final BoundingBoxE6 bounds = mapView_.getBoundingBox();
+		double n = bounds.getLatNorthE6() / 1E6;
+		double s = bounds.getLatSouthE6() / 1E6;
+		double e = bounds.getLonEastE6() / 1E6;
+		double w = bounds.getLonWestE6() / 1E6;
+		
+		int zoom = mapView_.getZoomLevel();
+		final GeoPoint centre = mapView_.getMapCenter();
+		double clat = (double)centre.getLatitudeE6() / 1E6;
+		double clon = (double)centre.getLongitudeE6() / 1E6;
+		GetPhotosTask.fetch(this, clat, clon, zoom, n, s, e, w);		
+	} // refreshPhotos
+	
+	private void setPhotos(final List<PhotoItemOverlay.PhotoItem> items)
+	{
+		for(final PhotoItemOverlay.PhotoItem item : items)
+			if(!items().contains(item))
+				items().add(item);
+		if(items().size() > 500)  // arbitrary figure
+			items().remove(items().subList(0, 100));
+		mapView_.postInvalidate();
+	} // setPhotos
+
+	/////////////////////////////////////////////////////
+	/////////////////////////////////////////////////////
 	static private class GetPhotosTask extends AsyncTask<Object,Void,List<Photo>> 
 	{
-		private final PhotomapListener listener_;
-		
-		public GetPhotosTask(final PhotomapListener listener)
+		static void fetch(final PhotoItemOverlay overlay, 
+						final Object... params)
 		{
-			listener_ = listener;
+			new GetPhotosTask(overlay).execute(params);
+		} // fetch
+		
+		//////////////////////////////////////////////////////
+		private final PhotoItemOverlay overlay_;
+		
+		private  GetPhotosTask(final PhotoItemOverlay overlay)
+		{
+			overlay_ = overlay;
 		} // GetPhotosTask
 		
 		protected List<Photo> doInBackground(Object... params) 
@@ -184,12 +189,9 @@ public class PhotoItemOverlay extends ItemizedOverlay<PhotoItemOverlay.PhotoItem
 			
 			final List<PhotoItemOverlay.PhotoItem> items = new ArrayList<PhotoItemOverlay.PhotoItem>();
 			for (final Photo photo: photos) 
-			{
-				final PhotoItemOverlay.PhotoItem item = new PhotoItemOverlay.PhotoItem(photo, listener_.photoMarkers_);
-				items.add(item);
-			} // for ...
+				items.add(new PhotoItemOverlay.PhotoItem(photo, overlay_.photoMarkers_));
 			
-			listener_.setPhotos(items);
+			overlay_.setPhotos(items);
 		} // onPostExecute
 	} // GetPhotosTask
 } // class PhotoItemOverlay
