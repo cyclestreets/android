@@ -76,6 +76,11 @@ public class LocationOverlay extends MyLocationOverlay
 		mapView_.invalidate();
 	} // enableAndFollowLocation
 	
+	private void toggleFollowLocation()
+	{
+		enableAndFollowLocation(!isMyLocationEnabled());
+	} // toggleFollowLocation
+	
 	////////////////////////////////////////////
 	@Override
 	public void draw(final Canvas canvas, final MapView mapView, final boolean shadow) 
@@ -119,7 +124,7 @@ public class LocationOverlay extends MyLocationOverlay
         if(item.getItemId() != R.string.ic_menu_mylocation)
         	return false;
         
-        enableLocation(!isMyLocationEnabled());
+        toggleFollowLocation();
         
         return true;
 	} // onMenuItemSelected
@@ -141,7 +146,7 @@ public class LocationOverlay extends MyLocationOverlay
 		if(!locationButton_.hit(event))
 			return false;
 		
-		enableAndFollowLocation(!isMyLocationEnabled()); 
+		toggleFollowLocation(); 
 
 		return true;
 	} // tapLocation
