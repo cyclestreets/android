@@ -10,13 +10,15 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
 public class AccountDetailsActivity extends Activity
-									implements View.OnClickListener
+									implements View.OnClickListener, TextWatcher
 {
 	public enum RegisterStep
 	{
@@ -47,6 +49,7 @@ public class AccountDetailsActivity extends Activity
 	private View registerView_;
 	private View registerDetails_;
 	private View signinDetails_;
+	private Button signinButton_;
 	
     @Override
     public void onCreate(final Bundle saved)
@@ -58,6 +61,10 @@ public class AccountDetailsActivity extends Activity
 		registerView_ = inflater.inflate(R.layout.accountdetails, null);
 		registerDetails_ = inflater.inflate(R.layout.accountregister, null);
 		signinDetails_ = inflater.inflate(R.layout.accountsignin, null);
+		signinButton_ = (Button)signinDetails_.findViewById(R.id.signin_button);
+		textView(signinDetails_, R.id.username).addTextChangedListener(this);
+		textView(signinDetails_, R.id.password).addTextChangedListener(this);
+		signinButton_.setEnabled(false);
 
 		step_ = (CycleStreetsPreferences.accountOK()) ? RegisterStep.EXISTING_SIGNIN_DETAILS : RegisterStep.ACCOUNT;
 		
@@ -130,9 +137,14 @@ public class AccountDetailsActivity extends Activity
 		b.setOnClickListener(this);		
 	} // hookUpNext
 	
+	private TextView textView(final View v, final int id)
+	{
+		return (TextView)v.findViewById(id);
+	} // textView
+	
 	private void setText(final View v, final int id, final String value)
 	{
-		final TextView tv = (TextView)v.findViewById(id);
+		final TextView tv = textView(v, id);
 		if(tv == null)
 			return;
 		tv.setText(value);
@@ -140,7 +152,7 @@ public class AccountDetailsActivity extends Activity
 	
 	private String getText(final View v, final int id)
 	{
-		final TextView tv = (TextView)v.findViewById(id);
+		final TextView tv = textView(v, id);
 		return tv.getText().toString();
 	} // getText
 	
@@ -168,7 +180,21 @@ public class AccountDetailsActivity extends Activity
 		
 		setupView();
 	} // onClick
-	
+	///////////////////////////////////////////////////////
+
+	@Override
+	public void afterTextChanged(Editable arg0) { }
+	@Override
+	public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
+	@Override
+	public void onTextChanged(CharSequence s, int start, int before, int count) 
+	{
+		final String username = getText(signinDetails_, R.id.username);
+		final String password = getText(signinDetails_, R.id.password);
+		signinButton_.setEnabled((username.length() != 0) && (password.length() != 0));
+	} // onTextChanged
+
+	///////////////////////////////////////////////////////
 	private void confirmClear()
 	{
 		MessageBox.YesNo(signinDetails_, 
