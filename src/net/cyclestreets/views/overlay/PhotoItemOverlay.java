@@ -23,7 +23,6 @@ import net.cyclestreets.api.ApiClient;
 import net.cyclestreets.api.Photo;
 import net.cyclestreets.api.PhotoMarkers;
 import net.cyclestreets.util.Brush;
-import net.cyclestreets.util.MessageBox;
 
 public class PhotoItemOverlay extends ItemizedOverlay<PhotoItemOverlay.PhotoItem>
 							  implements MapListener

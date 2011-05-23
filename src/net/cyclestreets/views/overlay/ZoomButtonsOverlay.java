@@ -28,15 +28,15 @@ public class ZoomButtonsOverlay extends Overlay
 		final float radius = OverlayHelper.cornerRadius(context);
 		
 		final Resources res = context.getResources();
-			zoomIn_ = new OverlayButton(res.getDrawable(R.drawable.btn_plus),
+		zoomIn_ = new OverlayButton(res.getDrawable(R.drawable.btn_plus),
 				offset,
-				offset,
+				offset*2,
 				radius);
 		zoomIn_.rightAlign().bottomAlign();
 
 		zoomOut_ = new OverlayButton(res.getDrawable(R.drawable.btn_minus),
 				 zoomIn_.right() + offset,
-				 offset,
+				 offset*2,
 				 radius);
 		zoomOut_.rightAlign().bottomAlign();
 	} // ZoomButtonsOverlay

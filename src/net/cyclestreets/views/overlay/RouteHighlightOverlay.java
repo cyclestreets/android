@@ -51,12 +51,12 @@ public class RouteHighlightOverlay extends PathOverlay
 		final Resources res = context.getResources();
         prevButton_ = new OverlayButton(res.getDrawable(R.drawable.btn_previous),
         		offset_,
-				offset_,
+				offset_*2,
 				radius_);
         prevButton_.bottomAlign();
 		nextButton_ = new OverlayButton(res.getDrawable(R.drawable.btn_next),
 				prevButton_.right() + offset_,
-				offset_,
+				offset_*2,
 				radius_);
         nextButton_.bottomAlign();
 

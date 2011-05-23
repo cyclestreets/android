@@ -1,6 +1,9 @@
 package net.cyclestreets.views;
 
+import java.util.Map;
+
 import net.cyclestreets.CycleStreetsPreferences;
+import net.cyclestreets.util.MapFactory;
 import net.cyclestreets.views.overlay.LocationOverlay;
 import net.cyclestreets.views.overlay.ControllerOverlay;
 import net.cyclestreets.views.overlay.ZoomButtonsOverlay;
@@ -169,11 +172,22 @@ public class CycleMapView extends MapView
 		return prefs_.getBoolean(key, defValue);
 	} // pref
 	
+	static public String mapAttribution()
+	{
+		try {
+			return attribution_.get(CycleStreetsPreferences.mapstyle());
+		}
+		catch(Exception e) { 
+			// sigh
+		} // catch
+		return attribution_.get("CycleStreets");
+	} // mapAttribution
+	
 	private ITileSource mapRenderer()
 	{		
 		try { 
 			return TileSourceFactory.getTileSource(CycleStreetsPreferences.mapstyle());
-		} // try
+	 	} // try
 		catch(Exception e) {
 			// oh dear 
 		} // catch
@@ -182,9 +196,14 @@ public class CycleMapView extends MapView
 		//return OPENCYCLEMAP;
 	} // mapRenderer
 	
+	static private String DEFAULT_RENDERER = "CycleStreets";
+	static private Map<String, String> attribution_ = 
+			MapFactory.map(DEFAULT_RENDERER, "\u00a9 OpenStreetMap and contributors, CC-BY-SA. Map images \u00a9 OpenCycleMap")
+			          .map("CycleStreets-OSM", "\u00a9 OpenStreetMap and contributors, CC-BY-SA");
+	
 	static 
 	{ 
-		final OnlineTileSourceBase OPENCYCLEMAP = new XYTileSource("CycleStreets",
+		final OnlineTileSourceBase OPENCYCLEMAP = new XYTileSource(DEFAULT_RENDERER,
 	            			ResourceProxy.string.cyclemap, 0, 17, 256, ".png",
 	            			"http://a.tile.opencyclemap.org/cycle/",
 	            			"http://b.tile.opencyclemap.org/cycle/",

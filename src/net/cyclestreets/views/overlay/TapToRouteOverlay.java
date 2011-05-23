@@ -97,12 +97,12 @@ public class TapToRouteOverlay extends Overlay
 
         stepBackButton_ = new OverlayButton(res.getDrawable(R.drawable.ic_menu_revert),
         									offset_,
-        									offset_,
+        									offset_*2,
         									radius_);
         stepBackButton_.bottomAlign();
         restartButton_ = new OverlayButton(res.getDrawable(R.drawable.ic_menu_rotate),
         								   0, 
-        								   offset_,
+        								   offset_*2,
         								   radius_);
         restartButton_.centreAlign();
         restartButton_.bottomAlign();

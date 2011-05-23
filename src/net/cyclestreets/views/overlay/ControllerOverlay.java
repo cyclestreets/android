@@ -2,11 +2,17 @@ package net.cyclestreets.views.overlay;
 
 import java.util.Iterator;
 
+import net.cyclestreets.util.Brush;
+import net.cyclestreets.views.CycleMapView;
+
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.Overlay;
 
 import android.content.Context;
 import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.Rect;
 import android.view.ContextMenu;
 import android.view.GestureDetector;
 import android.view.Menu;
@@ -20,6 +26,7 @@ public class ControllerOverlay extends Overlay implements OnDoubleTapListener,
 {
 	private final GestureDetector gestureDetector_;
 	private final MapView mapView_;
+	private final Paint textBrush_;
 	private boolean isDragging_;
 	
 	public ControllerOverlay(final Context context, final MapView mapView)
@@ -28,6 +35,8 @@ public class ControllerOverlay extends Overlay implements OnDoubleTapListener,
 		
 		mapView_ = mapView;
 		isDragging_ = false;
+		textBrush_ = Brush.createTextBrush(OverlayHelper.offset(context)/2);
+		textBrush_.setColor(Color.BLACK);
 		
 		gestureDetector_ = new GestureDetector(context, this);
 		gestureDetector_.setOnDoubleTapListener(this);
@@ -99,6 +108,15 @@ public class ControllerOverlay extends Overlay implements OnDoubleTapListener,
 		isDragging_ = OverlayHelper.isDragging(canvas);
 		for(final Iterator<TapListener> overlays = tapOverlays(); overlays.hasNext(); )
 			overlays.next().drawButtons(canvas, mapView);
+		
+		if(!(mapView instanceof CycleMapView))
+			return;
+		
+		final Rect screen = canvas.getClipBounds();
+        canvas.drawText(CycleMapView.mapAttribution(), 
+        				screen.centerX(), 
+        				screen.bottom-(textBrush_.descent()+2), 
+        				textBrush_);
 	} // draw
 	
 	@Override
