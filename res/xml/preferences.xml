@@ -38,9 +38,9 @@
 			android:defaultValue="true"/>
 	</PreferenceCategory>
     <PreferenceCategory
-    	android:title="CycleStreets">
+    	android:title="CycleStreets Account">
 		<PreferenceScreen
-    	    android:title="Account"
+    	    android:title="Account Details"
     		android:key="cyclestreets-account">
     		<intent android:action="android.intent.action.MAIN"
                     android:targetPackage="net.cyclestreets"
