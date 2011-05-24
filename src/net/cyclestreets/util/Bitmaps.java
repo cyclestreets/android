@@ -30,7 +30,7 @@ public class Bitmaps
 		try {
 			// return BitmapFactory.decodeStream(inputStream);
 			// Bug on slow connections, fixed in future release.
-			bm = BitmapFactory.decodeStream(new FlushedInputStream(stream), null, decodeOptions());
+			bm = BitmapFactory.decodeStream(new FlushedInputStream(stream));
 		} // try
 		catch(Exception e) {
 			// no matter
