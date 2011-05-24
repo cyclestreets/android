@@ -4,6 +4,7 @@ import net.cyclestreets.api.ApiClient;
 import net.cyclestreets.api.PhotomapCategories;
 import net.cyclestreets.api.ICategory;
 import net.cyclestreets.api.UploadResult;
+import net.cyclestreets.util.Bitmaps;
 import net.cyclestreets.util.MessageBox;
 import net.cyclestreets.views.CycleMapView;
 import net.cyclestreets.views.overlay.ThereOverlay;
@@ -15,7 +16,6 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -288,10 +288,7 @@ public class AddPhotoActivity extends Activity
         	photoFile_ = getImageFilePath(data);
         	if(photo_ != null)
         		photo_.recycle();
-        	final BitmapFactory.Options decodeOptions = new BitmapFactory.Options();
-        	decodeOptions.inPurgeable = true;
-        	decodeOptions.inSampleSize = 4;
-        	photo_ = BitmapFactory.decodeFile(photoFile_, decodeOptions);
+        	photo_ = Bitmaps.loadFile(photoFile_);
         	
         	photoExif_ = new ExifInterface(photoFile_);
 
