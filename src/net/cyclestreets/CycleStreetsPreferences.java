@@ -3,6 +3,8 @@ package net.cyclestreets;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.preference.PreferenceManager;
 
 public class CycleStreetsPreferences 
@@ -71,9 +73,16 @@ public class CycleStreetsPreferences
 		return getBoolean(PREF_CONFIRM_NEW_ROUTE, true);
 	}
 	
-	static public String uploadSize() {
-		return getString(PREF_UPLOAD_SIZE, "bigIfWifi");
-	}
+	static public boolean uploadSmallImages() {
+		final String resize = getString(PREF_UPLOAD_SIZE, "bigIfWifi");
+		if("320px".equals(resize))
+			return true;
+		if("big".equals(resize))
+			return false;		
+		final ConnectivityManager connMgr = (ConnectivityManager)context_.getSystemService(Context.CONNECTIVITY_SERVICE);
+		final NetworkInfo ni = connMgr.getActiveNetworkInfo();
+		return !("WIFI".equals(ni.getTypeName()));
+	} // uploadSmallImages
 	
 	static private String getString(final String key, final String defVal) {
     	final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context_);

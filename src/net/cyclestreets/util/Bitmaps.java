@@ -1,28 +1,36 @@
 package net.cyclestreets.util;
 
+import java.io.FileOutputStream;
 import java.io.FilterInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
 
 public class Bitmaps 
 {
-	static public BitmapFactory.Options DecodeOptions() { return decodeOptions_; }
+	static private BitmapFactory.Options decodeOptions() 
+	{ 
+		final BitmapFactory.Options decodeOptions = new BitmapFactory.Options();
+    	decodeOptions.inPurgeable = true;
+    	decodeOptions.inSampleSize = 4;
+		return decodeOptions;
+	} // decodeOptions
 	
 	static public Bitmap loadFile(final String fileName)
 	{
-		return BitmapFactory.decodeFile(fileName, decodeOptions_);
+		return BitmapFactory.decodeFile(fileName, decodeOptions());
 	} // loadFile
-	
+
 	static public Bitmap loadStream(final InputStream stream)
 	{	
 		Bitmap bm = null;
 		try {
 			// return BitmapFactory.decodeStream(inputStream);
 			// Bug on slow connections, fixed in future release.
-			bm = BitmapFactory.decodeStream(new FlushedInputStream(stream), null, decodeOptions_);
+			bm = BitmapFactory.decodeStream(new FlushedInputStream(stream), null, decodeOptions());
 		} // try
 		catch(Exception e) {
 			// no matter
@@ -38,14 +46,65 @@ public class Bitmaps
 		return bm;
 	} // loadStream
 	
-	static private final BitmapFactory.Options decodeOptions_;
-	static 
+	static public String resizePhoto(final String fileName)
 	{
-		decodeOptions_ = new BitmapFactory.Options();
-    	decodeOptions_.inPurgeable = true;
-    	decodeOptions_.inSampleSize = 4;
-	} // static
+		final BitmapFactory.Options options = bitmapBounds(fileName);
 
+		int srcWidth = options.outWidth;
+		int srcHeight = options.outHeight;
+
+		final int desiredWidth = Math.min(320, srcWidth);
+
+		// Calculate the correct inSampleSize/scale value. This helps 
+		// reduce memory use. It should be a power of 2
+		// from: http://stackoverflow.com/questions/477572/android-strange-out-of-memory-issue/823966#823966
+		int inSampleSize = 1;
+		while(srcWidth / 2 > desiredWidth) {
+		    srcWidth /= 2;
+		    srcHeight /= 2;
+		    inSampleSize *= 2;
+		} // while
+
+		float desiredScale = (float)desiredWidth/srcWidth;
+
+		// Decode with inSampleSize
+		options.inJustDecodeBounds = false;
+		options.inDither = false;
+		options.inSampleSize = inSampleSize;
+		options.inScaled = false;
+		options.inPreferredConfig = Bitmap.Config.ARGB_8888;
+
+		Bitmap sampledSrcBitmap = BitmapFactory.decodeFile(fileName, options);
+
+		// Resize
+		final Matrix matrix = new Matrix();
+		matrix.postScale(desiredScale, desiredScale);
+		Bitmap scaledBitmap = Bitmap.createBitmap(sampledSrcBitmap, 0, 0, sampledSrcBitmap.getWidth(), sampledSrcBitmap.getHeight(), matrix, true);
+		sampledSrcBitmap.recycle();
+		sampledSrcBitmap = null;
+
+		// Save
+		try { 
+			final String smallFileName = fileName + "-small";
+			final FileOutputStream out = new FileOutputStream(smallFileName);
+			scaledBitmap.compress(Bitmap.CompressFormat.JPEG, 100, out);
+			scaledBitmap.recycle();
+			scaledBitmap = null;		
+			return smallFileName;
+		} // try
+		catch(IOException e) {
+			return null;
+		} // catch
+	} // resizePhoto
+	
+	static private BitmapFactory.Options bitmapBounds(final String fileName)
+	{
+		final BitmapFactory.Options o = new BitmapFactory.Options();
+		o.inJustDecodeBounds = true;
+		BitmapFactory.decodeFile(fileName, o);
+		return o;
+	} // bitmapBounds
+	
     static private class FlushedInputStream extends FilterInputStream 
     {
         public FlushedInputStream(final InputStream inputStream) 

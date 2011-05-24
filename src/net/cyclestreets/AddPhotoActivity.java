@@ -34,6 +34,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.RelativeLayout.LayoutParams;
 
+import java.io.File;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -421,6 +422,7 @@ public class AddPhotoActivity extends Activity
 		private final String dateTime_;
 		private final String caption_;
 		private final ProgressDialog progress_;
+		private final boolean smallImage_;
 		
 		UploadPhotoTask(final Context context,
 						final String filename,
@@ -432,7 +434,8 @@ public class AddPhotoActivity extends Activity
 	 				   	final String dateTime,
 	 				   	final String caption) 
 	    {
-			filename_ = filename;
+			smallImage_ = CycleStreetsPreferences.uploadSmallImages();
+			filename_ = smallImage_ ? Bitmaps.resizePhoto(filename) : filename;
 			username_ = username;
 			password_ = password;
 			location_ = location;
@@ -474,6 +477,8 @@ public class AddPhotoActivity extends Activity
 		@Override
 	    protected void onPostExecute(final UploadResult result) 
 		{
+			if(smallImage_)
+				new File(filename_).delete();
 	       	progress_.dismiss();
 	       	if(result.ok())
 	       		uploadComplete(result.url());
