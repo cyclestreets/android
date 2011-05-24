@@ -20,6 +20,7 @@ public class CycleStreetsPreferences
     public final static String PREF_VALIDATED_KEY = "signed-in";
     public final static String PREF_PENDING_KEY = "pending";
     public final static String PREF_ACCOUNT_KEY = "cyclestreets-account";
+    public final static String PREF_UPLOAD_SIZE = "uploadsize";
 
     static public void initialise(final Context context) {
     	context_ = context;
@@ -68,6 +69,10 @@ public class CycleStreetsPreferences
 	
 	static public boolean confirmNewRoute() {
 		return getBoolean(PREF_CONFIRM_NEW_ROUTE, true);
+	}
+	
+	static public String uploadSize() {
+		return getString(PREF_UPLOAD_SIZE, "bigIfWifi");
 	}
 	
 	static private String getString(final String key, final String defVal) {

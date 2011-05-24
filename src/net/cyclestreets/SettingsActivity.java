@@ -22,6 +22,7 @@ public class SettingsActivity extends PreferenceActivity
         setSummary(CycleStreetsPreferences.PREF_UNITS_KEY);
         setSummary(CycleStreetsPreferences.PREF_SPEED_KEY);
         setSummary(CycleStreetsPreferences.PREF_MAPSTYLE_KEY);
+        setSummary(CycleStreetsPreferences.PREF_UPLOAD_SIZE);
    	} // onCreate
 
     @Override

@@ -53,5 +53,12 @@
                     android:title="Password"
                     android:password="true"/>
 		</PreferenceScreen>
+		<ListPreference
+			android:key="uploadsize"
+			android:title="Photo Upload"
+			android:summary="medium"
+			android:defaultValue="bigIfWifi"
+			android:entries="@array/uploadsize"
+			android:entryValues="@array/uploadsize_values"/>
 	</PreferenceCategory>
 </PreferenceScreen>
