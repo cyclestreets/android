@@ -7,6 +7,7 @@ import net.cyclestreets.CycleStreetsConstants;
 import net.cyclestreets.CycleStreetsPreferences;
 import net.cyclestreets.FeedbackActivity;
 import net.cyclestreets.R;
+import net.cyclestreets.planned.Route;
 import net.cyclestreets.util.Brush;
 import net.cyclestreets.util.MessageBox;
 import net.cyclestreets.views.CycleMapView;
@@ -177,8 +178,10 @@ public class TapToRouteOverlay extends Overlay
 		if(tapState_ != TapToRoute.ALL_DONE)
 			return;
 
+		final String currentPlan = Route.planned().plan();
 		for(int id : Replan_Menu_Ids)
-			add(menu, id);
+			if(!currentPlan.equals(Replan_Menu_Plans.get(id)))
+					add(menu, id);
 		if(mapView_.isMyLocationEnabled())
 			add(menu, R.string.ic_menu_reroute_from_here);
 		add(menu, R.string.ic_menu_reverse);
