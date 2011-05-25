@@ -51,5 +51,6 @@
 	<string name="ic_menu_replan_quietest">Replan as quietest</string>
 	<string name="ic_menu_replan_shortest">Replan as shortest</string>
 	<string name="ic_menu_reroute_from_here">Reroute from current location</string>
+	<string name="ic_menu_share">Share this route</string>
 	<string name="ic_menu_feedback">Comment on this route</string>
 </resources>

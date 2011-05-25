@@ -6,6 +6,7 @@ import net.cyclestreets.api.ICategory;
 import net.cyclestreets.api.UploadResult;
 import net.cyclestreets.util.Bitmaps;
 import net.cyclestreets.util.MessageBox;
+import net.cyclestreets.util.Share;
 import net.cyclestreets.views.CycleMapView;
 import net.cyclestreets.views.overlay.ThereOverlay;
 import android.app.Activity;
@@ -69,7 +70,7 @@ public class AddPhotoActivity extends Activity
 		private AddStep prev_;
 		private AddStep next_;
 	} // AddStep
-	
+
 	private AddStep step_;
 	
 	private String photoFile_ = null;
@@ -253,15 +254,7 @@ public class AddPhotoActivity extends Activity
 							   android.provider.MediaStore.Images.Media.INTERNAL_CONTENT_URI);
 				break;
 			case R.id.photo_share:
-				{
-					final String shareText = uploadedUrl_ + " - " + captionEditText(); 
-					final Intent share = new Intent(Intent.ACTION_SEND);
-					share.setType("text/plain");
-					share.putExtra(Intent.EXTRA_TEXT, shareText);
-					share.putExtra(Intent.EXTRA_SUBJECT, "Photo on CycleStreets.net");
-					startActivity(Intent.createChooser(share, "Share"));
-					
-				}
+				Share.Url(this, uploadedUrl_, captionEditText(), "Photo on CycleStreets.net");
 				break;
 			case R.id.next:
 				if(step_ == AddStep.LOCATION && !CycleStreetsPreferences.accountOK())

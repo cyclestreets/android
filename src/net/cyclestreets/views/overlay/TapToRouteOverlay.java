@@ -10,6 +10,7 @@ import net.cyclestreets.R;
 import net.cyclestreets.planned.Route;
 import net.cyclestreets.util.Brush;
 import net.cyclestreets.util.MessageBox;
+import net.cyclestreets.util.Share;
 import net.cyclestreets.views.CycleMapView;
 import net.cyclestreets.util.Collections;
 
@@ -185,6 +186,7 @@ public class TapToRouteOverlay extends Overlay
 		if(mapView_.isMyLocationEnabled())
 			add(menu, R.string.ic_menu_reroute_from_here);
 		add(menu, R.string.ic_menu_reverse);
+		add(menu, R.string.ic_menu_share);
 		add(menu, R.string.ic_menu_feedback);
 	} // onCreateContextMenu
 	
@@ -216,6 +218,12 @@ public class TapToRouteOverlay extends Overlay
 			break;
 		case R.string.ic_menu_reverse:
 			callback_.onRouteNow(endItem_.getPoint(), startItem_.getPoint());
+			break;
+		case R.string.ic_menu_share:
+			Share.Url(mapView_, 
+					  Route.planned().url(), 
+					  Route.planned().name(),
+					  "CycleStreets journey");
 			break;
 		case R.string.ic_menu_feedback:
 			{

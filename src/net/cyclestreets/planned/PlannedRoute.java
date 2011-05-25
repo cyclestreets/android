@@ -112,6 +112,7 @@ public class PlannedRoute
 	public GeoPoint start() { return s().start(); }
 	public GeoPoint finish() { return e().end(); }
 	
+	public String url() { return "http://cycle.st/j" + itinerary(); }
 	public int itinerary() { return s().itinerary(); }
 	public String name() { return s().name(); }
 	public String plan() { return s().plan(); }
