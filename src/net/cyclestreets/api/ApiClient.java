@@ -10,6 +10,7 @@ import java.util.List;
 
 import net.cyclestreets.R;
 
+import org.osmdroid.util.BoundingBoxE6;
 import org.osmdroid.util.GeoPoint;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpException;
@@ -257,6 +258,17 @@ public class ApiClient {
 									  "limit", "30");
 		return photos.photos;
 	} // getPhotos
+	
+	static public GeoPlaces geoCoder(final String search,
+									 final BoundingBoxE6 bounds)
+		throws Exception
+	{
+		return geoCoder(search,
+						bounds.getLatNorthE6() / 1E6,
+						bounds.getLatSouthE6() / 1E6,
+						bounds.getLonEastE6() / 1E6,
+						bounds.getLonWestE6() / 1E6);
+	} // geoCoder
 	
 	static public GeoPlaces geoCoder(final String search,
 									 double n,

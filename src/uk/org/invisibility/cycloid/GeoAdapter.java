@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.TreeSet;
 
+import net.cyclestreets.api.ApiClient;
 import net.cyclestreets.api.GeoPlace;
 
 import org.osmdroid.util.BoundingBoxE6;
@@ -25,7 +26,7 @@ import android.widget.AdapterView.OnItemClickListener;
 public class GeoAdapter extends ArrayAdapter<GeoPlace> implements OnItemClickListener
 {
 	private final GeocodeFilter filter;
-	private final GeoQuery query;
+	private final BoundingBoxE6 bounds_;
 	private final LayoutInflater inflater;
 	private final int resId;
 	private final AutoCompleteTextView textView;
@@ -37,11 +38,14 @@ public class GeoAdapter extends ArrayAdapter<GeoPlace> implements OnItemClickLis
 	/*
 	 * Constructor when used with an AutoCompleteTextView
 	 */
-	public GeoAdapter(Context context, int rowResourceId, AutoCompleteTextView view, BoundingBoxE6 bounds)
+	public GeoAdapter(Context context, 
+					  int rowResourceId, 
+					  AutoCompleteTextView view, 
+					  BoundingBoxE6 bounds)
 	{
 		super(context, rowResourceId);
 		filter = new GeocodeFilter();
-		query = new GeoQuery(bounds);
+		bounds_ = bounds;
 		resId = rowResourceId;
 		textView = view;
 		inflater = LayoutInflater.from(context);
@@ -61,7 +65,7 @@ public class GeoAdapter extends ArrayAdapter<GeoPlace> implements OnItemClickLis
 		super(context, rowResourceId);
 		activity = context;
 		filter = new GeocodeFilter();
-		query = new GeoQuery(bounds);
+		bounds_ = bounds;
 		resId = rowResourceId;
 		inflater = LayoutInflater.from(context);
 		textView = null;
@@ -103,7 +107,7 @@ public class GeoAdapter extends ArrayAdapter<GeoPlace> implements OnItemClickLis
 				// Only geocode if more than two characters
 				if (cs.length() > 2)
 				{
-					List<GeoPlace> r = query.query(cs.toString());
+					List<GeoPlace> r = geoCode(cs.toString());
 					if (r != null)
 						list.addAll(r);
 				}
@@ -116,6 +120,16 @@ public class GeoAdapter extends ArrayAdapter<GeoPlace> implements OnItemClickLis
 			results.count = list.size();
 			return results;
 		}
+		
+		private List<GeoPlace> geoCode(final String search)
+		{
+			try {
+				return ApiClient.geoCoder(search, bounds_).places;				
+			}
+			catch(Exception e) {
+				return null;
+			} // catch
+		} // geoCode
 
 		@SuppressWarnings("unchecked")
 		@Override
