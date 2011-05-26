@@ -2,20 +2,6 @@ package uk.org.invisibility.cycloid;
 
 public class CycloidConstants
 {
-	public static final String LOGTAG = "CYCLOID";
-	
-	// Default map type
-	public static final String DEFAULT_MAPTYPE = "CycleMap";
-	
-	// Preference strings for application
-    public static final String PREFS_APP_KEY = "uk.org.invisibility.cycloid";
-    public static final String PREFS_APP_RENDERER = "renderer";
-    public static final String PREFS_APP_SCROLL_X = "scrollX";
-    public static final String PREFS_APP_SCROLL_Y = "scrollY";
-    public static final String PREFS_APP_ZOOM_LEVEL = "zoomLevel";
-    public static final String PREFS_APP_MY_LOCATION = "myLocation";
-    public static final String PREFS_APP_FOLLOW_LOCATION = "followLocation";
-
 	// Preference strings for geocoding
     public static final String PREFS_GEO_KEY = "uk.org.invisibility.cycloid.geocode";
     public static final String PREFS_GEO_NAME_PREFIX = "name/";
