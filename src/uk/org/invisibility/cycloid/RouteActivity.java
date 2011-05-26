@@ -5,6 +5,7 @@ import net.cyclestreets.CycleStreetsPreferences;
 import net.cyclestreets.R;
 import net.cyclestreets.RouteMapActivity;
 import net.cyclestreets.util.RouteTypeMapper;
+import net.cyclestreets.api.GeoPlace;
 
 import org.osmdroid.util.BoundingBoxE6;
 import org.osmdroid.util.GeoPoint;
@@ -218,14 +219,14 @@ public class RouteActivity extends Activity implements
 	 */
 	private void findRoute()
 	{
-		if (placeFrom == null || placeFrom.coord == null)
+		if (placeFrom == null || placeFrom.coord() == null)
 		{
 			Intent intent = new Intent(RouteActivity.this, GeoActivity.class);
 			intent.putExtra(CycloidConstants.GEO_SEARCH, routeFrom.getText().toString());
 			intent.putExtra(CycloidConstants.GEO_TYPE, CycloidConstants.GEO_REQUEST_FROM);			
 	    	startActivityForResult(intent, CycloidConstants.GEO_REQUEST_FROM);		
 		}
-		else if (placeTo == null || placeTo.coord == null)
+		else if (placeTo == null || placeTo.coord() == null)
 		{
 			Intent intent = new Intent(RouteActivity.this, GeoActivity.class);
 			intent.putExtra(CycloidConstants.GEO_SEARCH, routeTo.getText().toString());
@@ -242,10 +243,10 @@ public class RouteActivity extends Activity implements
 			
 			// return start and finish points to RouteMapActivity and close
         	Intent intent = new Intent(RouteActivity.this, RouteMapActivity.class);
-        	intent.putExtra(CycleStreetsConstants.EXTRA_PLACE_FROM_LAT, placeFrom.coord.getLatitudeE6());
-        	intent.putExtra(CycleStreetsConstants.EXTRA_PLACE_FROM_LONG, placeFrom.coord.getLongitudeE6());
-        	intent.putExtra(CycleStreetsConstants.EXTRA_PLACE_TO_LAT, placeTo.coord.getLatitudeE6());
-        	intent.putExtra(CycleStreetsConstants.EXTRA_PLACE_TO_LONG, placeTo.coord.getLongitudeE6());
+        	intent.putExtra(CycleStreetsConstants.EXTRA_PLACE_FROM_LAT, placeFrom.coord().getLatitudeE6());
+        	intent.putExtra(CycleStreetsConstants.EXTRA_PLACE_FROM_LONG, placeFrom.coord().getLongitudeE6());
+        	intent.putExtra(CycleStreetsConstants.EXTRA_PLACE_TO_LAT, placeTo.coord().getLatitudeE6());
+        	intent.putExtra(CycleStreetsConstants.EXTRA_PLACE_TO_LONG, placeTo.coord().getLongitudeE6());
         	final String routeType = RouteTypeMapper.nameFromId(routeTypeGroup.getCheckedRadioButtonId());
         	intent.putExtra(CycleStreetsConstants.EXTRA_ROUTE_TYPE, routeType);
         	setResult(RESULT_OK, intent);

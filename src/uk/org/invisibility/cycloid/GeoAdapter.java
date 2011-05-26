@@ -1,7 +1,10 @@
 package uk.org.invisibility.cycloid;
 
+import java.util.List;
 import java.util.ArrayList;
 import java.util.TreeSet;
+
+import net.cyclestreets.api.GeoPlace;
 
 import org.osmdroid.util.BoundingBoxE6;
 import org.osmdroid.util.GeoPoint;
@@ -100,12 +103,9 @@ public class GeoAdapter extends ArrayAdapter<GeoPlace> implements OnItemClickLis
 				// Only geocode if more than two characters
 				if (cs.length() > 2)
 				{
-					GeoResults r = query.query(cs.toString());
-					if (r.isValid())
-					{
-						for (GeoPlace p : r.getPlaces())
-							list.add(p);
-					}
+					List<GeoPlace> r = query.query(cs.toString());
+					if (r != null)
+						list.addAll(r);
 				}
 			}
 			else
@@ -225,8 +225,8 @@ public class GeoAdapter extends ArrayAdapter<GeoPlace> implements OnItemClickLis
         SharedPreferences.Editor edit = prefs.edit();
         edit.putString(CycloidConstants.PREFS_GEO_NAME_PREFIX + key, p.name);
         edit.putString(CycloidConstants.PREFS_GEO_NEAR_PREFIX + key, p.near);
-        edit.putInt(CycloidConstants.PREFS_GEO_LATITUDE_PREFIX + key, p.coord.getLatitudeE6());
-        edit.putInt(CycloidConstants.PREFS_GEO_LONGITUDE_PREFIX + key, p.coord.getLongitudeE6());
+        edit.putInt(CycloidConstants.PREFS_GEO_LATITUDE_PREFIX + key, p.coord().getLatitudeE6());
+        edit.putInt(CycloidConstants.PREFS_GEO_LONGITUDE_PREFIX + key, p.coord().getLongitudeE6());
         edit.commit();
 	}
 }

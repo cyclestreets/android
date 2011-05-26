@@ -1,6 +1,7 @@
 package net.cyclestreets;
 
 import net.cyclestreets.CycleStreetsConstants;
+import net.cyclestreets.api.GeoPlace;
 import net.cyclestreets.R;
 
 import org.osmdroid.util.BoundingBoxE6;
@@ -11,7 +12,6 @@ import uk.org.invisibility.cycloid.GeoActivity;
 import uk.org.invisibility.cycloid.GeoAdapter;
 import uk.org.invisibility.cycloid.GeoAutoCompleteView;
 import uk.org.invisibility.cycloid.GeoIntent;
-import uk.org.invisibility.cycloid.GeoPlace;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -108,7 +108,7 @@ public class FindPlaceActivity extends Activity
 
 	private void findPlace(final GeoPlace place)
 	{
-		if (place == null || place.coord == null)
+		if (place == null || place.coord() == null)
 		{
 			Intent intent = new Intent(this, GeoActivity.class);
 			intent.putExtra(CycloidConstants.GEO_SEARCH, routeFrom_.getText().toString());
@@ -120,8 +120,8 @@ public class FindPlaceActivity extends Activity
 			adapterFrom_.addHistory(place);
 			
         	Intent intent = new Intent(this, RouteMapActivity.class);
-        	intent.putExtra(CycleStreetsConstants.EXTRA_PLACE_FROM_LAT, place.coord.getLatitudeE6());
-        	intent.putExtra(CycleStreetsConstants.EXTRA_PLACE_FROM_LONG, place.coord.getLongitudeE6());
+        	intent.putExtra(CycleStreetsConstants.EXTRA_PLACE_FROM_LAT, place.coord().getLatitudeE6());
+        	intent.putExtra(CycleStreetsConstants.EXTRA_PLACE_FROM_LONG, place.coord().getLongitudeE6());
         	setResult(RESULT_OK, intent);
         	finish();
 		} // if ...

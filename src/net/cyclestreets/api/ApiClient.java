@@ -258,19 +258,20 @@ public class ApiClient {
 		return photos.photos;
 	} // getPhotos
 	
-	static public String geoCoder(final String search,
-								  double n,
-								  double s,
-								  double e,
-								  double w)
+	static public GeoPlaces geoCoder(final String search,
+									 double n,
+									 double s,
+									 double e,
+									 double w)
 		throws Exception
 	{
-		return callApiRaw(API_PATH_GEOCODER,
-						  "street", search,
-						  "n", Double.toString(n),
-						  "s", Double.toString(s),
-						  "e", Double.toString(e),
-						  "w", Double.toString(w));
+		return callApi(GeoPlaces.class,
+					   API_PATH_GEOCODER,
+					   "street", search,
+					   "n", Double.toString(n),
+					   "s", Double.toString(s),
+					   "e", Double.toString(e),
+					   "w", Double.toString(w));
 	}
 	
 	static public FeedbackResult sendFeedback(final int itinerary, 

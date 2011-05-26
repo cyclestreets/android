@@ -2,6 +2,7 @@ package uk.org.invisibility.cycloid;
 
 import net.cyclestreets.R;
 
+import net.cyclestreets.api.GeoPlace;
 import org.osmdroid.util.BoundingBoxE6;
 
 import android.app.Activity;
@@ -94,8 +95,8 @@ public class GeoActivity extends ListActivity
 	 */	
 	public void select(GeoPlace p)
 	{
-		result.putExtra(CycloidConstants.GEO_LATITUDE, p.coord.getLatitudeE6());
-		result.putExtra(CycloidConstants.GEO_LONGITUDE, p.coord.getLongitudeE6());
+		result.putExtra(CycloidConstants.GEO_LATITUDE, p.coord().getLatitudeE6());
+		result.putExtra(CycloidConstants.GEO_LONGITUDE, p.coord().getLongitudeE6());
 		result.putExtra(CycloidConstants.GEO_NEAR, p.near);
 		setResult(Activity.RESULT_OK, result);
 		finish();		
