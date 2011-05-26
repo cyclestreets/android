@@ -17,8 +17,6 @@ import org.osmdroid.ResourceProxy;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.Overlay;
 
-import uk.org.invisibility.cycloid.CycloidConstants;
-
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Canvas;
@@ -29,6 +27,12 @@ import android.view.ContextMenu;
 
 public class CycleMapView extends MapView
 {
+    private static final String PREFS_APP_SCROLL_X = "scrollX";
+    private static final String PREFS_APP_SCROLL_Y = "scrollY";
+    private static final String PREFS_APP_ZOOM_LEVEL = "zoomLevel";
+    private static final String PREFS_APP_MY_LOCATION = "myLocation";
+    private static final String PREFS_APP_FOLLOW_LOCATION = "followLocation";
+
 	private ITileSource renderer_;
 	private final SharedPreferences prefs_;
 	private final ControllerOverlay controllerOverlay_;
@@ -41,7 +45,7 @@ public class CycleMapView extends MapView
 	{
 		super(context, null);
 
-		prefs_ = context.getSharedPreferences(CycloidConstants.PREFS_APP_KEY+"."+name, Context.MODE_PRIVATE);
+		prefs_ = context.getSharedPreferences("net.cyclestreets.mapview."+name, Context.MODE_PRIVATE);
 		
         setBuiltInZoomControls(false);
         setMultiTouchControls(true);
@@ -78,11 +82,11 @@ public class CycleMapView extends MapView
 	public void onPause()
 	{
         final SharedPreferences.Editor edit = prefs_.edit();
-        edit.putInt(CycloidConstants.PREFS_APP_SCROLL_X, getScrollX());
-        edit.putInt(CycloidConstants.PREFS_APP_SCROLL_Y, getScrollY());
-        edit.putInt(CycloidConstants.PREFS_APP_ZOOM_LEVEL, getZoomLevel());
-        edit.putBoolean(CycloidConstants.PREFS_APP_MY_LOCATION, location_.isMyLocationEnabled());
-        edit.putBoolean(CycloidConstants.PREFS_APP_FOLLOW_LOCATION, location_.isFollowLocationEnabled());
+        edit.putInt(PREFS_APP_SCROLL_X, getScrollX());
+        edit.putInt(PREFS_APP_SCROLL_Y, getScrollY());
+        edit.putInt(PREFS_APP_ZOOM_LEVEL, getZoomLevel());
+        edit.putBoolean(PREFS_APP_MY_LOCATION, location_.isMyLocationEnabled());
+        edit.putBoolean(PREFS_APP_FOLLOW_LOCATION, location_.isFollowLocationEnabled());
         edit.commit();
 
         disableMyLocation();
@@ -98,17 +102,17 @@ public class CycleMapView extends MapView
 		} // if ...
 		
 		
-        location_.enableLocation(pref(CycloidConstants.PREFS_APP_MY_LOCATION, false));
-        if(pref(CycloidConstants.PREFS_APP_FOLLOW_LOCATION, false))
+        location_.enableLocation(pref(PREFS_APP_MY_LOCATION, false));
+        if(pref(PREFS_APP_FOLLOW_LOCATION, false))
         	location_.enableFollowLocation();
         else
         	location_.disableFollowLocation();
         
         getScroller().abortAnimation();
         
-        scrollTo(pref(CycloidConstants.PREFS_APP_SCROLL_X, 0), 
-        		 pref(CycloidConstants.PREFS_APP_SCROLL_Y, -701896)); /* Greenwich */
-        getController().setZoom(pref(CycloidConstants.PREFS_APP_ZOOM_LEVEL, 14));
+        scrollTo(pref(PREFS_APP_SCROLL_X, 0), 
+        		 pref(PREFS_APP_SCROLL_Y, -701896)); /* Greenwich */
+        getController().setZoom(pref(PREFS_APP_ZOOM_LEVEL, 14));
 	} // onResume 
 	
 	public boolean onCreateOptionsMenu(final Menu menu)
