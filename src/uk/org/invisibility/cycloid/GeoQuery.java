@@ -1,11 +1,12 @@
 package uk.org.invisibility.cycloid;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.MalformedURLException;
 import java.net.URL;
 
 import net.cyclestreets.CycleStreetsConstants;
+import net.cyclestreets.api.ApiClient;
 
 import org.osmdroid.util.BoundingBoxE6;
 import org.osmdroid.util.GeoPoint;
@@ -18,8 +19,6 @@ import android.sax.RootElement;
 import android.util.Log;
 import android.util.Xml;
 import uk.org.invisibility.cycloid.GeoResults;
-
-/* http://cambridge.cyclestreets.net/api/geocoder.xml?key=120175c44303728f&w=0.1139374&s=52.2019365&e=0.1219626&n=52.2086693&z=16&street=thoday%20street */
 
 public class GeoQuery
 {  
@@ -40,35 +39,18 @@ public class GeoQuery
     {
     	final GeoResults results = new GeoResults();
     	
-        URL url;
+    	InputStream is;
 		try
 		{
-			Uri.Builder builder = new Uri.Builder()
-				.scheme("http")
-				.path("//www.cyclestreets.net/api/geocoder.xml")
-				.appendQueryParameter("key", CycleStreetsConstants.API_KEY)
-				.appendQueryParameter("street", q);
-			if (bounds != null)
-			{
-				builder.appendQueryParameter("n", "" + bounds.getLatNorthE6() / 1E6)
-					.appendQueryParameter("s", "" + bounds.getLatSouthE6() / 1E6)
-					.appendQueryParameter("e", "" + bounds.getLonEastE6() / 1E6)
-					.appendQueryParameter("w", "" + bounds.getLonWestE6() / 1E6);									
-			}
-			url = new URL(builder.build().toString());	
-			Log.w("GeoQuery", url.toString());
-		}
-		catch (MalformedURLException e1)
-		{
-			return results.setError("Error constructing query");
-		}
+			final String geo = ApiClient.geoCoder(q, 
+										bounds.getLatNorthE6() / 1E6,
+										bounds.getLatSouthE6() / 1E6,
+										bounds.getLonEastE6() / 1E6,
+										bounds.getLonWestE6() / 1E6);
 		
-    	InputStream is;
-    	try
-    	{
-			is = url.openConnection().getInputStream();
+			is = new ByteArrayInputStream(geo.getBytes("UTF-8"));
 		}
-    	catch (IOException e)
+    	catch (Exception e)
     	{
 			return results.setError("Error connecting to geocoder: " + e);
 		}

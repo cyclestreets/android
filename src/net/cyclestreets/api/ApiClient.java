@@ -56,8 +56,8 @@ public class ApiClient {
 		schemeRegistry.register(
 		        new Scheme("https", SSLSocketFactory.getSocketFactory(), 443));
 
-		HttpParams params = new BasicHttpParams();
-		ClientConnectionManager cm = new ThreadSafeClientConnManager(params, schemeRegistry);
+		final HttpParams params = new BasicHttpParams();
+		final ClientConnectionManager cm = new ThreadSafeClientConnManager(params, schemeRegistry);
 		httpclient = new DefaultHttpClient(cm, params);
 		
 		httpclient.addRequestInterceptor(new HttpRequestInterceptor() {            
@@ -83,6 +83,7 @@ public class ApiClient {
 	private final static String API_PATH_SIGNIN = API_PATH + "uservalidate.xml";
 	private final static String API_PATH_REGISTER = API_PATH + "usercreate.xml";
 	private final static String API_PATH_FEEDBACK = API_PATH + "feedback.xml";
+	private final static String API_PATH_GEOCODER = API_PATH + "geocoder.xml";
 
 	private final static int DEFAULT_SPEED = 20;
 
@@ -256,6 +257,21 @@ public class ApiClient {
 									  "limit", "30");
 		return photos.photos;
 	} // getPhotos
+	
+	static public String geoCoder(final String search,
+								  double n,
+								  double s,
+								  double e,
+								  double w)
+		throws Exception
+	{
+		return callApiRaw(API_PATH_GEOCODER,
+						  "street", search,
+						  "n", Double.toString(n),
+						  "s", Double.toString(s),
+						  "e", Double.toString(e),
+						  "w", Double.toString(w));
+	}
 	
 	static public FeedbackResult sendFeedback(final int itinerary, 
 							   				  final String comments,
