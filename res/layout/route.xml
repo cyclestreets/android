@@ -9,12 +9,17 @@
 	    android:paddingTop="12dip"
 	    android:paddingBottom="6dip"
 	    android:background="@drawable/route_bg">            
+  <net.cyclestreets.views.PlaceView
+	android:layout_width="fill_parent"
+	android:layout_height="wrap_content"
+    android:hint="@string/route_from"
+  />
   <LinearLayout
 	android:orientation="horizontal"
 	android:layout_width="fill_parent"
 	android:layout_height="wrap_content"
 	android:layout_marginBottom="2dip">
-	<uk.org.invisibility.cycloid.GeoAutoCompleteView
+	<net.cyclestreets.views.PlaceAutoCompleteTextView
 	  android:id="@+id/routeFrom"
 	  android:layout_height="wrap_content" 
 	  android:hint="@string/route_from"
@@ -34,7 +39,7 @@
 	android:layout_width="fill_parent"
 	android:layout_height="wrap_content"
 	android:layout_marginBottom="2dip">
-	<uk.org.invisibility.cycloid.GeoAutoCompleteView  
+	<net.cyclestreets.views.PlaceAutoCompleteTextView  
 	  android:id="@+id/routeTo"
 	  android:layout_height="wrap_content" 
 	  android:hint="@string/route_to"

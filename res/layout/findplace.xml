@@ -14,7 +14,7 @@
      android:layout_width="fill_parent"
      android:layout_height="wrap_content"
      android:layout_marginBottom="2dip">
-    <uk.org.invisibility.cycloid.GeoAutoCompleteView
+    <net.cyclestreets.views.PlaceAutoCompleteTextView
        android:id="@+id/place"
        android:layout_height="wrap_content" 
        android:hint="@string/lbl_place"
