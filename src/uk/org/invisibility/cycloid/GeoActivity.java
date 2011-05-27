@@ -3,6 +3,8 @@ package uk.org.invisibility.cycloid;
 import net.cyclestreets.R;
 
 import net.cyclestreets.api.GeoPlace;
+import net.cyclestreets.api.GeoStaticAdapter;
+
 import org.osmdroid.util.BoundingBoxE6;
 
 import android.app.Activity;
@@ -20,9 +22,10 @@ import android.widget.ListView;
  * Geocode activity. Used if user manually enters a location without selecting
  * GeoAdapter results.
  */
-public class GeoActivity extends ListActivity
+public class GeoActivity extends ListActivity 
+						 implements GeoStaticAdapter.OnPopulatedListener
 {
-	GeoAdapter adapter;
+	GeoStaticAdapter adapter;
 	Dialog dialog;
 	Dialog busy;
 	Intent result = new Intent();
@@ -41,9 +44,8 @@ public class GeoActivity extends ListActivity
         );
 
 		BoundingBoxE6 bounds = GeoIntent.getBoundingBox(getIntent());				
-	    adapter = new GeoAdapter(this, bounds);   
 	    String search = getIntent().getStringExtra("search");
-		adapter.getFilter().filter(search);
+	    adapter = new GeoStaticAdapter(this, search, bounds, this);   
 	    
         int msg = 0; 
 		if (getIntent().getIntExtra(CycloidConstants.GEO_TYPE, 0) == CycloidConstants.GEO_REQUEST_FROM)
@@ -65,16 +67,7 @@ public class GeoActivity extends ListActivity
     			}
     		}
         ).create();	    
-	}
-
-	/*
-	 * Results are available: display text asking user to select one.
-	 */
-	public void publish()
-	{
-		busy.hide();
-	    dialog.show();
-	}
+	} // GeoActivity
 
 	/*
 	 * No results: return error.
@@ -101,5 +94,12 @@ public class GeoActivity extends ListActivity
 		GeoPlace p = adapter.getItem(position);
 		select(p);
 	}
+
+	@Override
+	public void onPopulated() 
+	{
+		busy.hide();
+	    dialog.show();
+	} // onPopulated
 } // class GeoActivity
 	   

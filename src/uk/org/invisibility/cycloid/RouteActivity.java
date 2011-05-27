@@ -5,6 +5,7 @@ import net.cyclestreets.CycleStreetsPreferences;
 import net.cyclestreets.R;
 import net.cyclestreets.RouteMapActivity;
 import net.cyclestreets.util.RouteTypeMapper;
+import net.cyclestreets.api.GeoLiveAdapter;
 import net.cyclestreets.api.GeoPlace;
 
 import org.osmdroid.util.BoundingBoxE6;
@@ -73,8 +74,8 @@ public class RouteActivity extends Activity implements
     	GeoPoint loc = GeoIntent.getGeoPoint(intent);
     	if(loc != null)
     	{
-    		myLocation = new GeoPlace(loc, CycloidConstants.MY_LOCATION, "");
-    		routeFrom.setHint(R.string.my_location);
+    		myLocation = new GeoPlace(loc, GeoLiveAdapter.MY_LOCATION, "");
+    		routeFrom.setHint(GeoLiveAdapter.MY_LOCATION);
     		routeTo.requestFocus();
     	}
 

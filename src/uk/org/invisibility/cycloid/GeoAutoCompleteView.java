@@ -1,6 +1,7 @@
 package uk.org.invisibility.cycloid;
 
 import net.cyclestreets.api.GeoPlace;
+import net.cyclestreets.api.GeoLiveAdapter;
 
 import org.osmdroid.util.BoundingBoxE6;
 
@@ -9,7 +10,9 @@ import android.util.AttributeSet;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.AdapterView;
 import android.widget.AutoCompleteTextView;
+import android.widget.AdapterView.OnItemClickListener;
 
 /*
  * Specialised AutoCompleteTextView which supports displaying filter
@@ -17,31 +20,36 @@ import android.widget.AutoCompleteTextView;
  * been clicked on 
  */
 public class GeoAutoCompleteView extends AutoCompleteTextView 
-								 implements OnClickListener
+								 implements OnClickListener, OnItemClickListener
 {
-	private GeoAdapter adapter_;
+	private GeoLiveAdapter adapter_;
 	private GeoPlace place_;
 	
 	public GeoAutoCompleteView(final Context context)
 	{
 		super(context);
-		setThreshold(0);
-		setOnClickListener(this);
+		init();
 	} // GeoAutoCompleteView
 
 	public GeoAutoCompleteView(final Context context, final AttributeSet attrs)
 	{
 		super(context, attrs);
-		setThreshold(0);
-		setOnClickListener(this);		
+		init();
+
 	} // GeoAutoCompleteView
 
 	public GeoAutoCompleteView(final Context context, final AttributeSet attrs, final int defStyle)
 	{
 		super(context, attrs, defStyle);
+		init();
+	} // GeoAutoCompleteView
+	
+	private void init() 
+	{
 		setThreshold(0);
 		setOnClickListener(this);
-	} // GeoAutoCompleteView
+		setOnItemClickListener(this);
+	} // init
 	
 	/////////////////////////////////////
 	public BoundingBoxE6 bounds()
@@ -51,7 +59,7 @@ public class GeoAutoCompleteView extends AutoCompleteTextView
 	
 	public void setBounds(final BoundingBoxE6 bounds)
 	{
-        adapter_ = new GeoAdapter(this, bounds);
+        adapter_ = new GeoLiveAdapter(getContext(), bounds);
     	setAdapter(adapter_);  
 	} // setBounds
 	
@@ -76,6 +84,17 @@ public class GeoAutoCompleteView extends AutoCompleteTextView
 	} // addHistory
 	
 	/////////////////////////////////////
+	@Override
+	public void onItemClick(AdapterView<?> arg0, View arg1, int position, long id)
+	{
+		/*
+		 * Called when a GeoPlace is selected from the drop down. Store the
+		 * selected item and the text used at the time it was selected.
+		 */
+		setGeoPlace(adapter_.getItem(position));
+	} // GeoPlace
+	
+
 	@Override
 	public boolean enoughToFilter() { return true; }
 	
