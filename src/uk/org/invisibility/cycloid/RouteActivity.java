@@ -6,6 +6,7 @@ import net.cyclestreets.R;
 import net.cyclestreets.RouteMapActivity;
 import net.cyclestreets.util.RouteTypeMapper;
 import net.cyclestreets.util.GeoIntent;
+import net.cyclestreets.views.PlaceAutoCompleteTextView;
 import net.cyclestreets.api.GeoLiveAdapter;
 import net.cyclestreets.api.GeoPlace;
 
@@ -15,7 +16,6 @@ import org.osmdroid.util.GeoPoint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
-//import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -39,8 +39,8 @@ public class RouteActivity extends Activity implements
 	protected static final int DIALOG_CHOOSE_START = 3;
 	protected static final int DIALOG_CHOOSE_END = 4;
 	
-	private GeoAutoCompleteView routeFrom;
-	private GeoAutoCompleteView routeTo;
+	private PlaceAutoCompleteTextView routeFrom;
+	private PlaceAutoCompleteTextView routeTo;
 	private ImageButton optionsFrom;
 	private ImageButton optionsTo;
 	private RadioGroup routeTypeGroup;
@@ -57,8 +57,8 @@ public class RouteActivity extends Activity implements
         getWindow().setLayout(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT);
         getWindow().setBackgroundDrawableResource(R.drawable.empty);
 	       
-    	routeFrom = (GeoAutoCompleteView)findViewById(R.id.routeFrom);
-    	routeTo   = (GeoAutoCompleteView)findViewById(R.id.routeTo);
+    	routeFrom = (PlaceAutoCompleteTextView)findViewById(R.id.routeFrom);
+    	routeTo   = (PlaceAutoCompleteTextView)findViewById(R.id.routeTo);
     	
     	final BoundingBoxE6 bounds = GeoIntent.getBoundingBox(getIntent());
     	routeFrom.setBounds(bounds);

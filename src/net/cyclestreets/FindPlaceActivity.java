@@ -3,10 +3,10 @@ package net.cyclestreets;
 import net.cyclestreets.api.GeoPlace;
 import net.cyclestreets.R;
 import net.cyclestreets.util.GeoIntent;
+import net.cyclestreets.views.PlaceAutoCompleteTextView;
 
 import uk.org.invisibility.cycloid.CycloidConstants;
 import uk.org.invisibility.cycloid.GeoActivity;
-import uk.org.invisibility.cycloid.GeoAutoCompleteView;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -25,7 +25,7 @@ public class FindPlaceActivity extends Activity
 {
     private static final int DIALOG_NO_FROM_ID = 1;
     
-    private GeoAutoCompleteView routeFrom_;
+    private PlaceAutoCompleteTextView routeFrom_;
 	
     @Override
     public void onCreate(final Bundle saved)
@@ -37,7 +37,7 @@ public class FindPlaceActivity extends Activity
         getWindow().setLayout(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT);
         getWindow().setBackgroundDrawableResource(R.drawable.empty);
 
-    	routeFrom_ = (GeoAutoCompleteView)findViewById(R.id.place);
+    	routeFrom_ = (PlaceAutoCompleteTextView)findViewById(R.id.place);
     	routeFrom_.setBounds(GeoIntent.getBoundingBox(getIntent()));
     	
     	final Button findButton = (Button)findViewById(R.id.find_place);

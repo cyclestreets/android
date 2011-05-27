@@ -1,4 +1,4 @@
-package uk.org.invisibility.cycloid;
+package net.cyclestreets.views;
 
 import net.cyclestreets.api.GeoPlace;
 import net.cyclestreets.api.GeoLiveAdapter;
@@ -14,35 +14,29 @@ import android.widget.AdapterView;
 import android.widget.AutoCompleteTextView;
 import android.widget.AdapterView.OnItemClickListener;
 
-/*
- * Specialised AutoCompleteTextView which supports displaying filter
- * results when no characters have been entered but the view has
- * been clicked on 
- */
-public class GeoAutoCompleteView extends AutoCompleteTextView 
+public class PlaceAutoCompleteTextView extends AutoCompleteTextView 
 								 implements OnClickListener, OnItemClickListener
 {
 	private GeoLiveAdapter adapter_;
 	private GeoPlace place_;
 	
-	public GeoAutoCompleteView(final Context context)
+	public PlaceAutoCompleteTextView(final Context context)
 	{
 		super(context);
 		init();
-	} // GeoAutoCompleteView
+	} // PlaceAutoCompleteTextView
 
-	public GeoAutoCompleteView(final Context context, final AttributeSet attrs)
+	public PlaceAutoCompleteTextView(final Context context, final AttributeSet attrs)
 	{
 		super(context, attrs);
 		init();
+	} // PlaceAutoCompleteTextView
 
-	} // GeoAutoCompleteView
-
-	public GeoAutoCompleteView(final Context context, final AttributeSet attrs, final int defStyle)
+	public PlaceAutoCompleteTextView(final Context context, final AttributeSet attrs, final int defStyle)
 	{
 		super(context, attrs, defStyle);
 		init();
-	} // GeoAutoCompleteView
+	} // PlaceAutoCompleteTextView
 	
 	private void init() 
 	{
@@ -132,4 +126,4 @@ public class GeoAutoCompleteView extends AutoCompleteTextView
 		place_ = null;
 		super.onTextChanged(s, start, before, after);
 	} // onTextChanged
-} // GeoAutoCompleteView
+} // PlaceAutoCompleteTextView
