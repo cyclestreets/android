@@ -103,8 +103,7 @@ import android.widget.RelativeLayout.LayoutParams;
 		if(requestCode != R.string.ic_menu_findplace)
 			return;
 		
-		final GeoPoint place = new GeoPoint(data.getIntExtra(CycleStreetsConstants.EXTRA_PLACE_FROM_LAT, 0),
-				data.getIntExtra(CycleStreetsConstants.EXTRA_PLACE_FROM_LONG, 0));
+		final GeoPoint place = GeoIntent.getGeoPoint(data);
 		// we're in the wrong thread, so pop this away for later and force a refresh
 		map_.centreOn(place);
 	} // onActivityResult

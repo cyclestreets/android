@@ -105,6 +105,8 @@ public class GeoAdapter extends ArrayAdapter<GeoPlace>
 		return filter;
 	} // getFilter
 	
+	public BoundingBoxE6 bounds() { return bounds_; }
+	
 	/*
 	 * Return the last GeoPlace selected from the drop down list, assuming
 	 * the current textView text hasn't changed

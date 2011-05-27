@@ -43,7 +43,12 @@ public class GeoAutoCompleteView extends AutoCompleteTextView
 	} // GeoAutoCompleteView
 	
 	/////////////////////////////////////
-	public void setBounds(BoundingBoxE6 bounds)
+	public BoundingBoxE6 bounds()
+	{
+		return adapter_.bounds();
+	} // bounds
+	
+	public void setBounds(final BoundingBoxE6 bounds)
 	{
         adapter_ = new GeoAdapter(this, bounds);
     	setAdapter(adapter_);    	

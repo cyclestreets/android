@@ -90,8 +90,7 @@ public class GeoActivity extends ListActivity
 	 */	
 	public void select(GeoPlace p)
 	{
-		GeoIntent.setGeoPoint(result, p.coord());
-		result.putExtra(CycloidConstants.GEO_NEAR, p.near);
+		GeoIntent.setGeoPlace(result, p);
 		setResult(Activity.RESULT_OK, result);
 		finish();		
 	}

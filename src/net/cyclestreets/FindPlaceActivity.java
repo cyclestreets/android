@@ -4,8 +4,6 @@ import net.cyclestreets.CycleStreetsConstants;
 import net.cyclestreets.api.GeoPlace;
 import net.cyclestreets.R;
 
-import org.osmdroid.util.GeoPoint;
-
 import uk.org.invisibility.cycloid.CycloidConstants;
 import uk.org.invisibility.cycloid.GeoActivity;
 import uk.org.invisibility.cycloid.GeoAutoCompleteView;
@@ -60,14 +58,9 @@ public class FindPlaceActivity extends Activity
     	}	
     	else if (data != null)
     	{	
-    		final GeoPoint point = GeoIntent.getGeoPoint(data);
-    		if(point != null)
-    		{
-    			String near = data.getStringExtra(CycloidConstants.GEO_NEAR);	
-		
-    			if (requestCode == CycloidConstants.GEO_REQUEST_FROM)
-    				findPlace(new GeoPlace(point, routeFrom_.getText().toString(), near));
-    		} // if ...
+    		final GeoPlace place = GeoIntent.getGeoPlace(data);
+    		if((place != null) && (requestCode == CycloidConstants.GEO_REQUEST_FROM))
+    			findPlace(place);
     	}
     } // onActivityResult
  
@@ -113,8 +106,7 @@ public class FindPlaceActivity extends Activity
 			routeFrom_.addHistory(place);
 			
         	Intent intent = new Intent(this, RouteMapActivity.class);
-        	intent.putExtra(CycleStreetsConstants.EXTRA_PLACE_FROM_LAT, place.coord().getLatitudeE6());
-        	intent.putExtra(CycleStreetsConstants.EXTRA_PLACE_FROM_LONG, place.coord().getLongitudeE6());
+        	GeoIntent.setGeoPoint(intent, place.coord());
         	setResult(RESULT_OK, intent);
         	finish();
 		} // if ...

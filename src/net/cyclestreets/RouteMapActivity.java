@@ -155,10 +155,8 @@ import android.view.MenuItem;
 		if(requestCode == R.string.ic_menu_directions)
 		{
 			// get start and finish points
-			final GeoPoint placeFrom = new GeoPoint(data.getIntExtra(CycleStreetsConstants.EXTRA_PLACE_FROM_LAT, 0),
-					data.getIntExtra(CycleStreetsConstants.EXTRA_PLACE_FROM_LONG, 0));
-			final GeoPoint placeTo = new GeoPoint(data.getIntExtra(CycleStreetsConstants.EXTRA_PLACE_TO_LAT, 0),
-					data.getIntExtra(CycleStreetsConstants.EXTRA_PLACE_TO_LONG, 0));
+			final GeoPoint placeFrom = GeoIntent.getGeoPoint(data, "FROM");
+			final GeoPoint placeTo = GeoIntent.getGeoPoint(data, "TO");
 			final String routeType = data.getStringExtra(CycleStreetsConstants.EXTRA_ROUTE_TYPE);
 			final int speed = data.getIntExtra(CycleStreetsConstants.EXTRA_ROUTE_SPEED, 
 					                           CycleStreetsPreferences.speed());

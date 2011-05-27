@@ -107,20 +107,18 @@ public class RouteActivity extends Activity implements
      		}
     		else if (data != null)
 			{
-    			GeoPoint point = GeoIntent.getGeoPoint(data);
-    			if(point != null)
+    			GeoPlace place = GeoIntent.getGeoPlace(data);
+    			if(place != null)
     			{
-    				String near = data.getStringExtra(CycloidConstants.GEO_NEAR);
-	
     				if (requestCode == CycloidConstants.GEO_REQUEST_FROM)
     				{
-    					placeFrom = new GeoPlace(point, routeFrom.getText().toString(), near);
-    					findRoute();
+    					routeFrom.setText(place.name); 
+    					placeFrom = place;
     				}
     				else if (requestCode == CycloidConstants.GEO_REQUEST_TO)
     				{
-    					placeTo = new GeoPlace(point, routeTo.getText().toString(), near);
-    					findRoute();
+    					routeTo.setText(place.name);
+    					placeTo = place;
     				}
     			} // point
 			}
@@ -217,6 +215,7 @@ public class RouteActivity extends Activity implements
 		{
 			Intent intent = new Intent(RouteActivity.this, GeoActivity.class);
 			intent.putExtra(CycloidConstants.GEO_SEARCH, routeTo.getText().toString());
+			GeoIntent.setBoundingBox(intent, routeTo.bounds());
 			intent.putExtra(CycloidConstants.GEO_TYPE, CycloidConstants.GEO_REQUEST_TO);			
 	    	startActivityForResult(intent, CycloidConstants.GEO_REQUEST_TO);		
 		}
@@ -230,10 +229,8 @@ public class RouteActivity extends Activity implements
 			
 			// return start and finish points to RouteMapActivity and close
         	Intent intent = new Intent(RouteActivity.this, RouteMapActivity.class);
-        	intent.putExtra(CycleStreetsConstants.EXTRA_PLACE_FROM_LAT, placeFrom.coord().getLatitudeE6());
-        	intent.putExtra(CycleStreetsConstants.EXTRA_PLACE_FROM_LONG, placeFrom.coord().getLongitudeE6());
-        	intent.putExtra(CycleStreetsConstants.EXTRA_PLACE_TO_LAT, placeTo.coord().getLatitudeE6());
-        	intent.putExtra(CycleStreetsConstants.EXTRA_PLACE_TO_LONG, placeTo.coord().getLongitudeE6());
+        	GeoIntent.setGeoPoint(intent, "FROM", placeFrom.coord());
+        	GeoIntent.setGeoPoint(intent, "TO", placeTo.coord());
         	final String routeType = RouteTypeMapper.nameFromId(routeTypeGroup.getCheckedRadioButtonId());
         	intent.putExtra(CycleStreetsConstants.EXTRA_ROUTE_TYPE, routeType);
         	setResult(RESULT_OK, intent);
