@@ -6,7 +6,7 @@ import net.cyclestreets.views.CycleMapView;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.overlay.Overlay;
 
-import uk.org.invisibility.cycloid.GeoIntent;
+import net.cyclestreets.util.GeoIntent;
 
 import android.app.Activity;
 import android.content.Intent;

@@ -87,6 +87,8 @@ public class GeoAutoCompleteView extends AutoCompleteTextView
 	@Override
 	public void onItemClick(AdapterView<?> arg0, View arg1, int position, long id)
 	{
+		if(adapter_ == null)
+			return;
 		/*
 		 * Called when a GeoPlace is selected from the drop down. Store the
 		 * selected item and the text used at the time it was selected.

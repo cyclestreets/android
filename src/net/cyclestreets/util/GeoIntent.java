@@ -1,4 +1,4 @@
-package uk.org.invisibility.cycloid;
+package net.cyclestreets.util;
 
 import net.cyclestreets.api.GeoPlace;
 
@@ -8,9 +8,6 @@ import org.osmdroid.util.GeoPoint;
 import android.content.Intent;
 import android.location.Location;
 
-/*
- * Utility class for storing geocode bounding boxes in an Intent 
- */
 public class GeoIntent
 {
 	static private final String EXTRA_NORTH = "bounds-north";

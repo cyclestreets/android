@@ -2,11 +2,11 @@ package net.cyclestreets;
 
 import net.cyclestreets.api.GeoPlace;
 import net.cyclestreets.R;
+import net.cyclestreets.util.GeoIntent;
 
 import uk.org.invisibility.cycloid.CycloidConstants;
 import uk.org.invisibility.cycloid.GeoActivity;
 import uk.org.invisibility.cycloid.GeoAutoCompleteView;
-import uk.org.invisibility.cycloid.GeoIntent;
 
 import android.app.Activity;
 import android.app.AlertDialog;

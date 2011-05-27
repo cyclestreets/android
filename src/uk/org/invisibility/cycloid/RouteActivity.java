@@ -5,6 +5,7 @@ import net.cyclestreets.CycleStreetsPreferences;
 import net.cyclestreets.R;
 import net.cyclestreets.RouteMapActivity;
 import net.cyclestreets.util.RouteTypeMapper;
+import net.cyclestreets.util.GeoIntent;
 import net.cyclestreets.api.GeoLiveAdapter;
 import net.cyclestreets.api.GeoPlace;
 

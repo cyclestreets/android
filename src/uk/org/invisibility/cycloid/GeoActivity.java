@@ -4,6 +4,7 @@ import net.cyclestreets.R;
 
 import net.cyclestreets.api.GeoPlace;
 import net.cyclestreets.api.GeoStaticAdapter;
+import net.cyclestreets.util.GeoIntent;
 
 import org.osmdroid.util.BoundingBoxE6;
 

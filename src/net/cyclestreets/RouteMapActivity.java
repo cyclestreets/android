@@ -5,6 +5,7 @@ import java.util.Iterator;
 import net.cyclestreets.CycleStreetsConstants;
 import net.cyclestreets.R;
 import net.cyclestreets.util.MessageBox;
+import net.cyclestreets.util.GeoIntent;
 import net.cyclestreets.views.overlay.PathOfRouteOverlay;
 import net.cyclestreets.views.overlay.RouteHighlightOverlay;
 import net.cyclestreets.views.overlay.TapToRouteOverlay;
@@ -12,7 +13,6 @@ import net.cyclestreets.planned.Route;
 
 import org.osmdroid.util.GeoPoint;
 
-import uk.org.invisibility.cycloid.GeoIntent;
 import uk.org.invisibility.cycloid.RouteActivity;
 
 import android.content.DialogInterface;
