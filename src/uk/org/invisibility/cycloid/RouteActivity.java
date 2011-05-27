@@ -43,8 +43,6 @@ public class RouteActivity extends Activity implements
 	private ImageButton optionsTo;
 	private RadioGroup routeTypeGroup;
 	private Button routeGo;
-	private GeoPlace placeFrom;
-	private GeoPlace placeTo;
 	private GeoPlace myLocation;
 	
     @Override
@@ -111,15 +109,9 @@ public class RouteActivity extends Activity implements
     			if(place != null)
     			{
     				if (requestCode == CycloidConstants.GEO_REQUEST_FROM)
-    				{
-    					routeFrom.setText(place.name); 
-    					placeFrom = place;
-    				}
-    				else if (requestCode == CycloidConstants.GEO_REQUEST_TO)
-    				{
-    					routeTo.setText(place.name);
-    					placeTo = place;
-    				}
+    					routeFrom.setGeoPlace(place); 
+    				if (requestCode == CycloidConstants.GEO_REQUEST_TO)
+    					routeTo.setGeoPlace(place);
     			} // point
 			}
     	}
@@ -204,14 +196,17 @@ public class RouteActivity extends Activity implements
 	 */
 	private void findRoute()
 	{
-		if (placeFrom == null || placeFrom.coord() == null)
+		if (routeFrom.geoPlace() == null)
 		{
 			Intent intent = new Intent(RouteActivity.this, GeoActivity.class);
 			intent.putExtra(CycloidConstants.GEO_SEARCH, routeFrom.getText().toString());
+			GeoIntent.setBoundingBox(intent, routeFrom.bounds());
 			intent.putExtra(CycloidConstants.GEO_TYPE, CycloidConstants.GEO_REQUEST_FROM);			
-	    	startActivityForResult(intent, CycloidConstants.GEO_REQUEST_FROM);		
+	    	startActivityForResult(intent, CycloidConstants.GEO_REQUEST_FROM);
+	    	return;
 		}
-		else if (placeTo == null || placeTo.coord() == null)
+		
+		if (routeTo.geoPlace() == null)
 		{
 			Intent intent = new Intent(RouteActivity.this, GeoActivity.class);
 			intent.putExtra(CycloidConstants.GEO_SEARCH, routeTo.getText().toString());
@@ -224,13 +219,13 @@ public class RouteActivity extends Activity implements
 			/*
 			 * Store the route locations in the adapter history.
 			 */
-			this.routeFrom.addHistory(placeFrom);
-			this.routeTo.addHistory(placeTo);
+			routeFrom.addHistory(routeFrom.geoPlace());
+			routeTo.addHistory(routeTo.geoPlace());
 			
 			// return start and finish points to RouteMapActivity and close
         	Intent intent = new Intent(RouteActivity.this, RouteMapActivity.class);
-        	GeoIntent.setGeoPoint(intent, "FROM", placeFrom.coord());
-        	GeoIntent.setGeoPoint(intent, "TO", placeTo.coord());
+        	GeoIntent.setGeoPoint(intent, "FROM", routeFrom.geoPlace().coord());
+        	GeoIntent.setGeoPoint(intent, "TO", routeTo.geoPlace().coord());
         	final String routeType = RouteTypeMapper.nameFromId(routeTypeGroup.getCheckedRadioButtonId());
         	intent.putExtra(CycleStreetsConstants.EXTRA_ROUTE_TYPE, routeType);
         	setResult(RESULT_OK, intent);
@@ -250,16 +245,12 @@ public class RouteActivity extends Activity implements
 		if (from.equals(""))
 		{
 			if (myLocation != null)
-				placeFrom = myLocation;				
+				routeFrom.setGeoPlace(myLocation);				
 			else
 			{
 				Toast.makeText(RouteActivity.this, R.string.choose_from, Toast.LENGTH_SHORT).show();
 				return;
 			}
-		}
-		else
-		{
-			placeFrom = routeFrom.getSelected();
 		}
 		
 		if (to.equals(""))
@@ -267,18 +258,12 @@ public class RouteActivity extends Activity implements
 			Toast.makeText(RouteActivity.this, R.string.choose_to, Toast.LENGTH_SHORT).show();
 			return;
 		}
-		else
-		{
-			placeTo = routeTo.getSelected();
-		}
-		
-		/*
-		 * Initiate route finding. This may require geocoding etc
-		 */
+
 		findRoute();
-	}
+	} // onClick
 	
-    protected class EntryOptionListener implements Button.OnClickListener {
+    private class EntryOptionListener implements Button.OnClickListener 
+    {
 		@Override
 		public void onClick(View button) {
 			if (button == optionsFrom) {
@@ -288,5 +273,5 @@ public class RouteActivity extends Activity implements
 				RouteActivity.this.showDialog(DIALOG_CHOOSE_END);
 			}
 		}    	
-    }
-}
+    } // EntryOptionListener
+} // RouteActivity

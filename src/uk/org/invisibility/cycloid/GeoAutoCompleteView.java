@@ -20,6 +20,7 @@ public class GeoAutoCompleteView extends AutoCompleteTextView
 								 implements OnClickListener
 {
 	private GeoAdapter adapter_;
+	private GeoPlace place_;
 	
 	public GeoAutoCompleteView(final Context context)
 	{
@@ -51,13 +52,21 @@ public class GeoAutoCompleteView extends AutoCompleteTextView
 	public void setBounds(final BoundingBoxE6 bounds)
 	{
         adapter_ = new GeoAdapter(this, bounds);
-    	setAdapter(adapter_);    	
+    	setAdapter(adapter_);  
 	} // setBounds
 	
-	public GeoPlace getSelected()
+	public GeoPlace geoPlace()
 	{
-		return adapter_ != null ? adapter_.getSelected() : null;
-	} // getSelected
+		return place_;
+	} // geoPlace
+	
+	public void setGeoPlace(final GeoPlace place)
+	{
+		// set text first because we clear place_ in the callback
+		// then set place_
+		setText(place.toString());
+		place_ = place;
+	} // setGeoPlace
 	
 	public void addHistory(final GeoPlace place)
 	{
@@ -92,4 +101,14 @@ public class GeoAutoCompleteView extends AutoCompleteTextView
 		super.onEditorAction(actionCode);
         dismissDropDown();
 	} // onEditorAction
+
+	@Override
+	public void onTextChanged(final CharSequence s, 
+						      int start, 
+							  int before,
+							  int after) 
+	{ 
+		place_ = null;
+		super.onTextChanged(s, start, before, after);
+	} // onTextChanged
 } // GeoAutoCompleteView

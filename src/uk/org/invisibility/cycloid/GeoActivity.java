@@ -101,5 +101,5 @@ public class GeoActivity extends ListActivity
 		GeoPlace p = adapter.getItem(position);
 		select(p);
 	}
-}
+} // class GeoActivity
 	   

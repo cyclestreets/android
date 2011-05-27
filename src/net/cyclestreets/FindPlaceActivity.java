@@ -1,6 +1,5 @@
 package net.cyclestreets;
 
-import net.cyclestreets.CycleStreetsConstants;
 import net.cyclestreets.api.GeoPlace;
 import net.cyclestreets.R;
 
@@ -122,6 +121,6 @@ public class FindPlaceActivity extends Activity
 			return;
 		}
 
-		findPlace(routeFrom_.getSelected());
+		findPlace(routeFrom_.geoPlace());
 	} // onClick
 } // class FindPlaceActivity

@@ -68,7 +68,7 @@
         <activity android:name="uk.org.invisibility.cycloid.GeoActivity" 
         	android:icon="@drawable/icon" 
         	android:label="Cycloid" 
-        	android:theme="@android:style/Theme.NoDisplay">
+        	android:theme="@android:style/Theme.Translucent.NoTitleBar">
         </activity>
     </application>
     <uses-sdk android:minSdkVersion="7" />

@@ -1,6 +1,5 @@
 package net.cyclestreets;
 
-import net.cyclestreets.CycleStreetsConstants;
 import net.cyclestreets.R;
 import net.cyclestreets.views.CycleMapView;
 

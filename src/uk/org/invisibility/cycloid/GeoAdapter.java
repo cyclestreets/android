@@ -20,7 +20,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
 import android.widget.Filter;
 import android.widget.TextView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -33,7 +32,7 @@ public class GeoAdapter extends ArrayAdapter<GeoPlace>
 	private final GeocodeFilter filter;
 	private final BoundingBoxE6 bounds_;
 	private final LayoutInflater inflater;
-	private final AutoCompleteTextView textView;
+	private final GeoAutoCompleteView textView;
 	private final GeoActivity activity;
 	private GeoPlace selectedPlace;
 	private CharSequence selectedText;
@@ -42,7 +41,7 @@ public class GeoAdapter extends ArrayAdapter<GeoPlace>
 	/*
 	 * Constructor when used with an AutoCompleteTextView
 	 */
-	public GeoAdapter(final AutoCompleteTextView view, 
+	public GeoAdapter(final GeoAutoCompleteView view, 
 					  final BoundingBoxE6 bounds)
 	{
 		this(null, view, view.getContext(), bounds);
@@ -58,7 +57,7 @@ public class GeoAdapter extends ArrayAdapter<GeoPlace>
 	} // GeoAdapter
 	
 	private GeoAdapter(final GeoActivity geoActivity,
-					   final AutoCompleteTextView view, 
+					   final GeoAutoCompleteView view, 
 					   final Context context,
 					   final BoundingBoxE6 bounds)
 	{
@@ -126,11 +125,8 @@ public class GeoAdapter extends ArrayAdapter<GeoPlace>
 	@Override
 	public void onItemClick(AdapterView<?> arg0, View arg1, int position, long id)
 	{
-		if (textView != null)
-		{
-			selectedPlace = getItem(position);		
-			selectedText = textView.getText();
-		}
+		if(textView != null)
+			textView.setGeoPlace(getItem(position));
 	} // GeoPlace
 	
 	/*
@@ -176,7 +172,7 @@ public class GeoAdapter extends ArrayAdapter<GeoPlace>
 				filterPrefs(list, cs);
 
 				// Only geocode if more than two characters
-				if (cs.length() > 2)
+				if ((activity != null) || (cs.length() > 2))
 				{
 					List<GeoPlace> r = geoCode(cs.toString());
 					if (r != null)
