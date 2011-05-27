@@ -18,8 +18,6 @@ public class CycloidConstants
     
     // Intent extras
     public static final String GEO_NEAR = "near";    
-    public static final String GEO_LATITUDE = "latitude";
-    public static final String GEO_LONGITUDE = "longitude";
     public static final String GEO_SEARCH = "search";   
     public static final String GEO_TYPE = "type";
 }

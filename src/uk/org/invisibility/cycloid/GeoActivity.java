@@ -40,7 +40,7 @@ public class GeoActivity extends ListActivity
             true
         );
 
-		BoundingBoxE6 bounds = GeoIntent.getBoundingBoxFromExtras(getIntent());				
+		BoundingBoxE6 bounds = GeoIntent.getBoundingBox(getIntent());				
 	    adapter = new GeoAdapter(this, bounds);   
 	    String search = getIntent().getStringExtra("search");
 		adapter.getFilter().filter(search);
@@ -90,8 +90,7 @@ public class GeoActivity extends ListActivity
 	 */	
 	public void select(GeoPlace p)
 	{
-		result.putExtra(CycloidConstants.GEO_LATITUDE, p.coord().getLatitudeE6());
-		result.putExtra(CycloidConstants.GEO_LONGITUDE, p.coord().getLongitudeE6());
+		GeoIntent.setGeoPoint(result, p.coord());
 		result.putExtra(CycloidConstants.GEO_NEAR, p.near);
 		setResult(Activity.RESULT_OK, result);
 		finish();		

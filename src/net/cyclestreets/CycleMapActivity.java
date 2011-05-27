@@ -112,7 +112,7 @@ import android.widget.RelativeLayout.LayoutParams;
 	private void launchFindDialog()
 	{
 		final Intent intent = new Intent(this, FindPlaceActivity.class);
-    	GeoIntent.setBoundingBoxInExtras(intent, map_.getBoundingBox());
+    	GeoIntent.setBoundingBox(intent, map_.getBoundingBox());
     	startActivityForResult(intent, R.string.ic_menu_findplace);
 	} // launchFindDialog
 	

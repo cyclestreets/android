@@ -41,7 +41,7 @@ public class FindPlaceActivity extends Activity
         getWindow().setBackgroundDrawableResource(R.drawable.empty);
 
     	routeFrom_ = (GeoAutoCompleteView)findViewById(R.id.place);
-    	routeFrom_.setBounds(GeoIntent.getBoundingBoxFromExtras(getIntent()));
+    	routeFrom_.setBounds(GeoIntent.getBoundingBox(getIntent()));
     	
     	final Button findButton = (Button)findViewById(R.id.find_place);
     	findButton.setOnClickListener(this);
@@ -58,16 +58,16 @@ public class FindPlaceActivity extends Activity
     		if (requestCode == CycloidConstants.GEO_REQUEST_FROM)
     			showDialog(DIALOG_NO_FROM_ID);
     	}	
-    	else if (data != null && 
-    			data.hasExtra(CycloidConstants.GEO_LATITUDE) && 
-    			data.hasExtra(CycloidConstants.GEO_LONGITUDE))
+    	else if (data != null)
     	{	
-    		int lat = data.getIntExtra(CycloidConstants.GEO_LATITUDE, 0);
-    		int lon = data.getIntExtra(CycloidConstants.GEO_LONGITUDE, 0);
-    		String near = data.getStringExtra(CycloidConstants.GEO_NEAR);	
+    		final GeoPoint point = GeoIntent.getGeoPoint(data);
+    		if(point != null)
+    		{
+    			String near = data.getStringExtra(CycloidConstants.GEO_NEAR);	
 		
-    		if (requestCode == CycloidConstants.GEO_REQUEST_FROM)
-    			findPlace(new GeoPlace(new GeoPoint(lat, lon), routeFrom_.getText().toString(), near));
+    			if (requestCode == CycloidConstants.GEO_REQUEST_FROM)
+    				findPlace(new GeoPlace(point, routeFrom_.getText().toString(), near));
+    		} // if ...
     	}
     } // onActivityResult
  

@@ -12,7 +12,6 @@ import net.cyclestreets.planned.Route;
 
 import org.osmdroid.util.GeoPoint;
 
-import uk.org.invisibility.cycloid.CycloidConstants;
 import uk.org.invisibility.cycloid.GeoIntent;
 import uk.org.invisibility.cycloid.RouteActivity;
 
@@ -175,13 +174,9 @@ import android.view.MenuItem;
 	private void launchRouteDialog()
 	{
     	final Intent intent = new Intent(this, RouteActivity.class);
-    	GeoIntent.setBoundingBoxInExtras(intent, mapView().getBoundingBox());
+    	GeoIntent.setBoundingBox(intent, mapView().getBoundingBox());
     	final Location lastFix = mapView().getLastFix();
-        if (lastFix != null)
-        {
-        	intent.putExtra(CycloidConstants.GEO_LATITUDE, (int)(lastFix.getLatitude() * 1E6));
-        	intent.putExtra(CycloidConstants.GEO_LONGITUDE, (int)(lastFix.getLongitude() * 1E6));
-        } // if ...	
+    	GeoIntent.setLocation(intent, lastFix);	
         startActivityForResult(intent, R.string.ic_menu_directions);
 	} // launchRouteDialog
 

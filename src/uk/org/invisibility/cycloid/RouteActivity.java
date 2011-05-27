@@ -45,7 +45,6 @@ public class RouteActivity extends Activity implements
 	private Button routeGo;
 	private GeoPlace placeFrom;
 	private GeoPlace placeTo;
-	private BoundingBoxE6 bounds;
 	private GeoPlace myLocation;
 	
     @Override
@@ -58,12 +57,13 @@ public class RouteActivity extends Activity implements
         getWindow().setLayout(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT);
         getWindow().setBackgroundDrawableResource(R.drawable.empty);
 	       
-        bounds = GeoIntent.getBoundingBoxFromExtras(getIntent());
-
     	routeFrom = (GeoAutoCompleteView)findViewById(R.id.routeFrom);
     	routeTo   = (GeoAutoCompleteView)findViewById(R.id.routeTo);
+    	
+    	final BoundingBoxE6 bounds = GeoIntent.getBoundingBox(getIntent());
     	routeFrom.setBounds(bounds);
     	routeTo.setBounds(bounds);
+
     	optionsFrom = (ImageButton) findViewById(R.id.optionsFrom);
     	optionsTo = (ImageButton) findViewById(R.id.optionsTo);
     	
@@ -72,19 +72,10 @@ public class RouteActivity extends Activity implements
     	 * empty value for routeFrom
     	 */
     	Intent intent = getIntent();
-    	if (intent.hasExtra(CycloidConstants.GEO_LATITUDE) && 
-    		intent.hasExtra(CycloidConstants.GEO_LONGITUDE))
+    	GeoPoint loc = GeoIntent.getGeoPoint(intent);
+    	if(loc != null)
     	{
-    		myLocation = new GeoPlace
-    		(
-				new GeoPoint
-				(
-					intent.getIntExtra(CycloidConstants.GEO_LATITUDE, 0),
-					intent.getIntExtra(CycloidConstants.GEO_LONGITUDE, 0)
-				),
-				CycloidConstants.MY_LOCATION,
-				""
-    		);
+    		myLocation = new GeoPlace(loc, CycloidConstants.MY_LOCATION, "");
     		routeFrom.setHint(R.string.my_location);
     		routeTo.requestFocus();
     	}
@@ -114,24 +105,24 @@ public class RouteActivity extends Activity implements
 				else if (requestCode == CycloidConstants.GEO_REQUEST_TO)
 					showDialog(DIALOG_NO_TO_ID);
      		}
-    		else if (data != null && data.hasExtra(CycloidConstants.GEO_LATITUDE) && data.hasExtra(CycloidConstants.GEO_LONGITUDE))
+    		else if (data != null)
 			{
-				int lat = data.getIntExtra(CycloidConstants.GEO_LATITUDE, 0);
-				int lon = data.getIntExtra(CycloidConstants.GEO_LONGITUDE, 0);
-				String near = data.getStringExtra(CycloidConstants.GEO_NEAR);
-				
-				//Log.e(LOGTAG, "Geocode result: lat: " + lat + " lon: " + lon);
+    			GeoPoint point = GeoIntent.getGeoPoint(data);
+    			if(point != null)
+    			{
+    				String near = data.getStringExtra(CycloidConstants.GEO_NEAR);
 	
-				if (requestCode == CycloidConstants.GEO_REQUEST_FROM)
-				{
-					placeFrom = new GeoPlace(new GeoPoint(lat, lon), routeFrom.getText().toString(), near);
-					findRoute();
-				}
-				else if (requestCode == CycloidConstants.GEO_REQUEST_TO)
-				{
-					placeTo = new GeoPlace(new GeoPoint(lat, lon), routeTo.getText().toString(), near);
-					findRoute();
-				}
+    				if (requestCode == CycloidConstants.GEO_REQUEST_FROM)
+    				{
+    					placeFrom = new GeoPlace(point, routeFrom.getText().toString(), near);
+    					findRoute();
+    				}
+    				else if (requestCode == CycloidConstants.GEO_REQUEST_TO)
+    				{
+    					placeTo = new GeoPlace(point, routeTo.getText().toString(), near);
+    					findRoute();
+    				}
+    			} // point
 			}
     	}
     }

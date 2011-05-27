@@ -42,11 +42,10 @@ public class GeoAdapter extends ArrayAdapter<GeoPlace>
 	/*
 	 * Constructor when used with an AutoCompleteTextView
 	 */
-	public GeoAdapter(final Context context, 
-					  final AutoCompleteTextView view, 
+	public GeoAdapter(final AutoCompleteTextView view, 
 					  final BoundingBoxE6 bounds)
 	{
-		this(null, view, context, bounds);
+		this(null, view, view.getContext(), bounds);
 	} // GeoAdapter
 
 	/*
