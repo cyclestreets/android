@@ -4,12 +4,10 @@ import net.cyclestreets.CycleStreetsConstants;
 import net.cyclestreets.api.GeoPlace;
 import net.cyclestreets.R;
 
-import org.osmdroid.util.BoundingBoxE6;
 import org.osmdroid.util.GeoPoint;
 
 import uk.org.invisibility.cycloid.CycloidConstants;
 import uk.org.invisibility.cycloid.GeoActivity;
-import uk.org.invisibility.cycloid.GeoAdapter;
 import uk.org.invisibility.cycloid.GeoAutoCompleteView;
 import uk.org.invisibility.cycloid.GeoIntent;
 
@@ -31,8 +29,6 @@ public class FindPlaceActivity extends Activity
     private static final int DIALOG_NO_FROM_ID = 1;
     
     private GeoAutoCompleteView routeFrom_;
-    private GeoAdapter adapterFrom_;
-    private BoundingBoxE6 bounds_;
 	
     @Override
     public void onCreate(final Bundle saved)
@@ -44,11 +40,8 @@ public class FindPlaceActivity extends Activity
         getWindow().setLayout(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT);
         getWindow().setBackgroundDrawableResource(R.drawable.empty);
 
-        bounds_ = GeoIntent.getBoundingBoxFromExtras(getIntent());
-
     	routeFrom_ = (GeoAutoCompleteView)findViewById(R.id.place);
-        adapterFrom_ = new GeoAdapter(this, R.layout.geo_item_2line, routeFrom_, bounds_);
-    	routeFrom_.setAdapter(adapterFrom_);    	
+    	routeFrom_.setBounds(GeoIntent.getBoundingBoxFromExtras(getIntent()));
     	
     	final Button findButton = (Button)findViewById(R.id.find_place);
     	findButton.setOnClickListener(this);
@@ -117,7 +110,7 @@ public class FindPlaceActivity extends Activity
 		}
 		else
 		{
-			adapterFrom_.addHistory(place);
+			routeFrom_.addHistory(place);
 			
         	Intent intent = new Intent(this, RouteMapActivity.class);
         	intent.putExtra(CycleStreetsConstants.EXTRA_PLACE_FROM_LAT, place.coord().getLatitudeE6());
@@ -137,6 +130,6 @@ public class FindPlaceActivity extends Activity
 			return;
 		}
 
-		findPlace(adapterFrom_.getSelected());
+		findPlace(routeFrom_.getSelected());
 	} // onClick
 } // class FindPlaceActivity

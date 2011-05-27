@@ -41,12 +41,7 @@ public class GeoActivity extends ListActivity
         );
 
 		BoundingBoxE6 bounds = GeoIntent.getBoundingBoxFromExtras(getIntent());				
-	    adapter = new GeoAdapter
-	    (
-	    	this,
-	    	R.layout.geo_item_2line,
-	    	bounds
-	    );   
+	    adapter = new GeoAdapter(this, bounds);   
 	    String search = getIntent().getStringExtra("search");
 		adapter.getFilter().filter(search);
 	    

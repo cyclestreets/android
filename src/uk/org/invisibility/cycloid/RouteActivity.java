@@ -45,8 +45,6 @@ public class RouteActivity extends Activity implements
 	private Button routeGo;
 	private GeoPlace placeFrom;
 	private GeoPlace placeTo;
-	private GeoAdapter adapterFrom;
-	private GeoAdapter adapterTo;
 	private BoundingBoxE6 bounds;
 	private GeoPlace myLocation;
 	
@@ -62,14 +60,12 @@ public class RouteActivity extends Activity implements
 	       
         bounds = GeoIntent.getBoundingBoxFromExtras(getIntent());
 
-    	routeFrom = (GeoAutoCompleteView) findViewById(R.id.routeFrom);
-    	routeTo   = (GeoAutoCompleteView) findViewById(R.id.routeTo);
+    	routeFrom = (GeoAutoCompleteView)findViewById(R.id.routeFrom);
+    	routeTo   = (GeoAutoCompleteView)findViewById(R.id.routeTo);
+    	routeFrom.setBounds(bounds);
+    	routeTo.setBounds(bounds);
     	optionsFrom = (ImageButton) findViewById(R.id.optionsFrom);
     	optionsTo = (ImageButton) findViewById(R.id.optionsTo);
-        adapterFrom = new GeoAdapter(this, R.layout.geo_item_2line, routeFrom, bounds);
-        adapterTo = new GeoAdapter(this, R.layout.geo_item_2line, routeTo, bounds);
-    	routeFrom.setAdapter(adapterFrom);
-    	routeTo.setAdapter(adapterTo);
     	
     	/*
     	 * If intent was supplied with a current location accept this as the
@@ -238,8 +234,8 @@ public class RouteActivity extends Activity implements
 			/*
 			 * Store the route locations in the adapter history.
 			 */
-			this.adapterFrom.addHistory(placeFrom);
-			this.adapterTo.addHistory(placeTo);
+			this.routeFrom.addHistory(placeFrom);
+			this.routeTo.addHistory(placeTo);
 			
 			// return start and finish points to RouteMapActivity and close
         	Intent intent = new Intent(RouteActivity.this, RouteMapActivity.class);
@@ -275,7 +271,7 @@ public class RouteActivity extends Activity implements
 		}
 		else
 		{
-			placeFrom = adapterFrom.getSelected();
+			placeFrom = routeFrom.getSelected();
 		}
 		
 		if (to.equals(""))
@@ -285,7 +281,7 @@ public class RouteActivity extends Activity implements
 		}
 		else
 		{
-			placeTo = adapterTo.getSelected();
+			placeTo = routeTo.getSelected();
 		}
 		
 		/*

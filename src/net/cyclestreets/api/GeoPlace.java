@@ -9,13 +9,20 @@ import org.simpleframework.xml.Root;
 public class GeoPlace
 {
 	public GeoPlace() { }
-	public GeoPlace(final GeoPoint point, final String name, final String near)
+	public GeoPlace(final int latE6, final int longE6, final String name, final String near)
 	{
-		this.latitude = point.getLatitudeE6()/1E6;
-		this.longitude = point.getLongitudeE6()/1E6;
+		this.latitude = latE6/1E6;
+		this.longitude = longE6/1E6;
 		this.name = name;
 		this.near = near;
-	}
+	} // GeoPlace
+	public GeoPlace(final GeoPoint point, final String name, final String near)
+	{
+		this(point.getLatitudeE6(),
+			 point.getLongitudeE6(),
+			 name, 
+			 near);
+	} // GeoPlace
 	
 	@Element(required=false)
 	public String type, name, near;

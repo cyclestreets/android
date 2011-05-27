@@ -1,14 +1,16 @@
 package uk.org.invisibility.cycloid;
 
+import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 import java.util.ArrayList;
 import java.util.TreeSet;
 
+import net.cyclestreets.R;
 import net.cyclestreets.api.ApiClient;
 import net.cyclestreets.api.GeoPlace;
 
 import org.osmdroid.util.BoundingBoxE6;
-import org.osmdroid.util.GeoPoint;
 
 import android.app.Application;
 import android.content.Context;
@@ -23,12 +25,14 @@ import android.widget.Filter;
 import android.widget.TextView;
 import android.widget.AdapterView.OnItemClickListener;
 
-public class GeoAdapter extends ArrayAdapter<GeoPlace> implements OnItemClickListener
+public class GeoAdapter extends ArrayAdapter<GeoPlace> 
+						implements OnItemClickListener
 {
+	static private final int AdapterViewId = R.layout.geo_item_2line;
+	
 	private final GeocodeFilter filter;
 	private final BoundingBoxE6 bounds_;
 	private final LayoutInflater inflater;
-	private final int resId;
 	private final AutoCompleteTextView textView;
 	private final GeoActivity activity;
 	private GeoPlace selectedPlace;
@@ -38,134 +42,73 @@ public class GeoAdapter extends ArrayAdapter<GeoPlace> implements OnItemClickLis
 	/*
 	 * Constructor when used with an AutoCompleteTextView
 	 */
-	public GeoAdapter(Context context, 
-					  int rowResourceId, 
-					  AutoCompleteTextView view, 
-					  BoundingBoxE6 bounds)
+	public GeoAdapter(final Context context, 
+					  final AutoCompleteTextView view, 
+					  final BoundingBoxE6 bounds)
 	{
-		super(context, rowResourceId);
-		filter = new GeocodeFilter();
-		bounds_ = bounds;
-		resId = rowResourceId;
-		textView = view;
-		inflater = LayoutInflater.from(context);
-		activity = null;
-		
-		if (view != null)
-			view.setOnItemClickListener(this);
-		
-		prefs = context.getSharedPreferences(CycloidConstants.PREFS_GEO_KEY, Application.MODE_PRIVATE);
-	}
+		this(null, view, context, bounds);
+	} // GeoAdapter
 
 	/*
 	 * Constructor when used with an ListActivity
 	 */
-	public GeoAdapter(GeoActivity context, int rowResourceId, BoundingBoxE6 bounds)
+	public GeoAdapter(final GeoActivity context, 
+					  final BoundingBoxE6 bounds)
 	{
-		super(context, rowResourceId);
-		activity = context;
-		filter = new GeocodeFilter();
-		bounds_ = bounds;
-		resId = rowResourceId;
-		inflater = LayoutInflater.from(context);
-		textView = null;
-	}
+		this(context, null, context, bounds);
+	} // GeoAdapter
 	
+	private GeoAdapter(final GeoActivity geoActivity,
+					   final AutoCompleteTextView view, 
+					   final Context context,
+					   final BoundingBoxE6 bounds)
+	{
+		super(context, AdapterViewId);
+		bounds_ = bounds;
+		inflater = LayoutInflater.from(context);
+		
+		activity = geoActivity;
+		textView = view;
+		
+		if (textView != null)
+		{
+			textView.setOnItemClickListener(this);
+			prefs = context.getSharedPreferences(CycloidConstants.PREFS_GEO_KEY, Application.MODE_PRIVATE);
+		} // if ...	
+		else
+		{
+			prefs = null;
+		} // if ..
+		
+		filter = new GeocodeFilter(prefs);
+	} // GeoAdapter
 	
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent)
 	{
-		View row = inflater.inflate(resId, parent, false);
-		TextView text1 = (TextView) row.findViewById(android.R.id.text1);
-		TextView text2 = (TextView) row.findViewById(android.R.id.text2);
-		GeoPlace p = getItem(position);
-		text1.setText(p.name);
-		text2.setText(p.near);
+		final View row = inflater.inflate(AdapterViewId, parent, false);
+		final GeoPlace p = getItem(position);
+		
+		setText(row, android.R.id.text1, p.name);
+		setText(row, android.R.id.text2, p.near);
+
 		return row;
-	}
+	} // getView
+	
+	private void setText(final View parent, final int id, final String text)
+	{
+		((TextView)parent.findViewById(id)).setText(text);
+	} // setText
 	
 	@Override
 	public Filter getFilter()
 	{
 		return filter;
-	}
+	} // getFilter
 	
-	private class GeocodeFilter extends Filter
-	{
-		@Override
-		protected FilterResults performFiltering(CharSequence cs)
-		{
-			FilterResults results = new FilterResults();
-			final ArrayList<GeoPlace> list = new ArrayList<GeoPlace>();
-			results.values = list;
-			
-			if (cs != null)
-			{
-				// Add history hits first
-				GeoAdapter.this.filterPrefs(list, cs);
-
-				// Only geocode if more than two characters
-				if (cs.length() > 2)
-				{
-					List<GeoPlace> r = geoCode(cs.toString());
-					if (r != null)
-						list.addAll(r);
-				}
-			}
-			else
-			{
-				// Add all prefs
-				GeoAdapter.this.filterPrefs(list, "");
-			}
-			results.count = list.size();
-			return results;
-		}
-		
-		private List<GeoPlace> geoCode(final String search)
-		{
-			try {
-				return ApiClient.geoCoder(search, bounds_).places;				
-			}
-			catch(Exception e) {
-				return null;
-			} // catch
-		} // geoCode
-
-		@SuppressWarnings("unchecked")
-		@Override
-		protected void publishResults(CharSequence cs, FilterResults fr)
-		{
-			ArrayList<GeoPlace> list = (ArrayList<GeoPlace>)fr.values;
-			clear();
-            if (list != null)
-            {
-            	if (activity != null)
-            	{
-            		activity.publish();
-            		if (list.size() == 0)
-            			activity.error();
-            		else if (list.size() == 1)
-		            	activity.select(list.get(0));
-            		else
-            		{
-		            	for (GeoPlace p : list)
-		                    add(p);
-		            }
-            	}
-	            else
-	            {
-	            	for (GeoPlace p : list)
-	                    add(p);
-	            }
-            }
-            GeoAdapter.this.notifyDataSetChanged();
-		}		
-	}
-
 	/*
 	 * Return the last GeoPlace selected from the drop down list, assuming
 	 * the current textView text hasn't changed
-	 * TODO: can this use text changed listener?
 	 */
 	public GeoPlace getSelected()
 	{
@@ -173,7 +116,7 @@ public class GeoAdapter extends ArrayAdapter<GeoPlace> implements OnItemClickLis
 			return selectedPlace;
 		else
 			return null;
-	}
+	} // getSelected
 
 	/*
 	 * Called when a GeoPlace is selected from the drop down. Store the
@@ -187,46 +130,12 @@ public class GeoAdapter extends ArrayAdapter<GeoPlace> implements OnItemClickLis
 			selectedPlace = getItem(position);		
 			selectedText = textView.getText();
 		}
-	}
-	
-	/*
-	 * Add any matching entries from prefs
-	 */
-	void filterPrefs(ArrayList<GeoPlace> list, CharSequence cs)
-	{
-		if (prefs == null)
-			return;
-		
-		String match = (CycloidConstants.PREFS_GEO_NAME_PREFIX + cs).toLowerCase();
-		TreeSet<String> sortedKeys = new TreeSet<String>(prefs.getAll().keySet());
-	
-		for (String s: sortedKeys)
-		{		
-			if (s.startsWith(match))
-			{
-				String key = prefs.getString(s, "").toLowerCase();
-				
-				list.add
-				(
-					new GeoPlace
-					(
-						new GeoPoint
-						(
-							prefs.getInt(CycloidConstants.PREFS_GEO_LATITUDE_PREFIX + key, 0),
-							prefs.getInt(CycloidConstants.PREFS_GEO_LONGITUDE_PREFIX + key, 0)
-						),
-						prefs.getString(CycloidConstants.PREFS_GEO_NAME_PREFIX + key, ""),
-						prefs.getString(CycloidConstants.PREFS_GEO_NEAR_PREFIX + key, "")
-					)
-				);
-			}
-		}
-	}
+	} // GeoPlace
 	
 	/*
 	 * Add to geocoding history
 	 */
-	public void addHistory(GeoPlace p)
+	public void addHistory(final GeoPlace p)
 	{
 		if (prefs == null)
 			return;
@@ -242,5 +151,118 @@ public class GeoAdapter extends ArrayAdapter<GeoPlace> implements OnItemClickLis
         edit.putInt(CycloidConstants.PREFS_GEO_LATITUDE_PREFIX + key, p.coord().getLatitudeE6());
         edit.putInt(CycloidConstants.PREFS_GEO_LONGITUDE_PREFIX + key, p.coord().getLongitudeE6());
         edit.commit();
-	}
-}
+	} // addHistory
+	
+	/////////////////////////////////////////////////////////////////////
+	/////////////////////////////////////////////////////////////////////
+	private class GeocodeFilter extends Filter
+	{
+		private SharedPreferences prefs_;
+		
+		public GeocodeFilter(final SharedPreferences prefs)
+		{
+			prefs_ = prefs;
+		} // GeocodeFilter
+		
+		@Override
+		protected FilterResults performFiltering(CharSequence cs)
+		{
+			final List<GeoPlace> list = new ArrayList<GeoPlace>();
+			
+			if (cs != null)
+			{
+				// Add history hits first
+				filterPrefs(list, cs);
+
+				// Only geocode if more than two characters
+				if (cs.length() > 2)
+				{
+					List<GeoPlace> r = geoCode(cs.toString());
+					if (r != null)
+						list.addAll(r);
+				}
+			}
+			else
+			{
+				// Add all prefs
+				filterPrefs(list, "");
+			}
+
+			final FilterResults results = new FilterResults();
+			results.values = list;
+			results.count = list.size();
+			return results;
+		} // performFiltering
+		
+		@SuppressWarnings("unchecked")
+		private List<GeoPlace> geoCode(final String search)
+		{
+			try {
+				return ApiClient.geoCoder(search, bounds_).places;				
+			}
+			catch(Exception e) {
+				return (List<GeoPlace>)Collections.EMPTY_LIST;
+			} // catch
+		} // geoCode
+
+		@SuppressWarnings("unchecked")
+		@Override
+		protected void publishResults(CharSequence cs, FilterResults fr)
+		{
+			clear();
+
+			final List<GeoPlace> list = (List<GeoPlace>)fr.values;
+            if (list != null)
+            {
+            	if (activity != null)
+            	{
+            		activity.publish();
+            		
+            		if (list.size() == 0)
+            			activity.error();
+            		else if (list.size() == 1)
+		            	activity.select(list.get(0));
+            		else
+            			addAll(list);
+            	}
+	            else
+	            	addAll(list);
+            } // if ...
+            
+            GeoAdapter.this.notifyDataSetChanged();
+		} // publishResults
+
+		private void addAll(final List<GeoPlace> list)
+		{
+			for(final GeoPlace p : list)
+				add(p);
+		} // addAll
+		
+		/*
+		 * Add any matching entries from prefs
+		 */
+		private void filterPrefs(final List<GeoPlace> list, 
+								 final CharSequence cs)
+		{
+			if (prefs_ == null)
+				return;
+			
+			final String match = (CycloidConstants.PREFS_GEO_NAME_PREFIX + cs).toLowerCase();
+			final Set<String> sortedKeys = new TreeSet<String>(prefs.getAll().keySet());
+		
+			for (final String s: sortedKeys)
+			{		
+				if (!s.startsWith(match))
+					continue;
+				
+				final String key = prefs.getString(s, "").toLowerCase();
+					
+				list.add(new GeoPlace(prefs.getInt(CycloidConstants.PREFS_GEO_LATITUDE_PREFIX + key, 0),
+									  prefs.getInt(CycloidConstants.PREFS_GEO_LONGITUDE_PREFIX + key, 0),
+									  prefs.getString(CycloidConstants.PREFS_GEO_NAME_PREFIX + key, ""),
+									  prefs.getString(CycloidConstants.PREFS_GEO_NEAR_PREFIX + key, "")));
+			} // for ...
+		} // filterPrefs
+
+	} // class GeocodeFilter
+} // class GeoAdapter
