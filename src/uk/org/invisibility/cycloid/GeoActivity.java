@@ -5,12 +5,12 @@ import net.cyclestreets.R;
 import net.cyclestreets.api.GeoPlace;
 import net.cyclestreets.api.GeoStaticAdapter;
 import net.cyclestreets.util.GeoIntent;
+import net.cyclestreets.util.Dialog;
 
 import org.osmdroid.util.BoundingBoxE6;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.app.ListActivity;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
@@ -27,8 +27,8 @@ public class GeoActivity extends ListActivity
 						 implements GeoStaticAdapter.OnPopulatedListener
 {
 	GeoStaticAdapter adapter;
-	Dialog dialog;
-	Dialog busy;
+	AlertDialog dialog;
+	ProgressDialog busy;
 	Intent result = new Intent();
 	
 	@Override
@@ -36,13 +36,8 @@ public class GeoActivity extends ListActivity
 	{
 	    super.onCreate(saved);
 		
-		busy = ProgressDialog.show
-		(
-			this,
-			"", 
-            getString(R.string.geocoding),
-            true
-        );
+		busy = Dialog.createProgressDialog(this, R.string.geocoding);
+		busy.show();
 
 		BoundingBoxE6 bounds = GeoIntent.getBoundingBox(getIntent());				
 	    String search = getIntent().getStringExtra("search");
