@@ -7,6 +7,7 @@ import net.cyclestreets.RouteMapActivity;
 import net.cyclestreets.util.RouteTypeMapper;
 import net.cyclestreets.util.GeoIntent;
 import net.cyclestreets.views.PlaceAutoCompleteTextView;
+import net.cyclestreets.views.PlaceView;
 import net.cyclestreets.api.GeoLiveAdapter;
 import net.cyclestreets.api.GeoPlace;
 
@@ -39,6 +40,7 @@ public class RouteActivity extends Activity implements
 	protected static final int DIALOG_CHOOSE_START = 3;
 	protected static final int DIALOG_CHOOSE_END = 4;
 	
+	private PlaceView placeFrom_;
 	private PlaceAutoCompleteTextView routeFrom;
 	private PlaceAutoCompleteTextView routeTo;
 	private ImageButton optionsFrom;
@@ -57,6 +59,8 @@ public class RouteActivity extends Activity implements
         getWindow().setLayout(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT);
         getWindow().setBackgroundDrawableResource(R.drawable.empty);
 	       
+        placeFrom_ = (PlaceView)findViewById(R.id.placeFrom);
+                
     	routeFrom = (PlaceAutoCompleteTextView)findViewById(R.id.routeFrom);
     	routeTo   = (PlaceAutoCompleteTextView)findViewById(R.id.routeTo);
     	
@@ -78,6 +82,8 @@ public class RouteActivity extends Activity implements
     		myLocation = new GeoPlace(loc, GeoLiveAdapter.MY_LOCATION, "");
     		routeFrom.setHint(GeoLiveAdapter.MY_LOCATION);
     		routeTo.requestFocus();
+    		
+    		placeFrom_.allowCurrentLocation(loc);
     	}
 
     	optionsFrom.setOnClickListener(new EntryOptionListener());

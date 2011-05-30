@@ -1,7 +1,16 @@
 package net.cyclestreets.views;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.osmdroid.util.GeoPoint;
+
 import net.cyclestreets.R;
+import net.cyclestreets.api.GeoPlace;
+import net.cyclestreets.util.ListDialog;
+import net.cyclestreets.util.MessageBox;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,11 +19,18 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 
 public class PlaceView extends LinearLayout
-					   implements OnClickListener
+					   implements OnClickListener, DialogInterface.OnClickListener	
 {
-	final Context context_;
-	final PlaceAutoCompleteTextView textView_;
-	final ImageButton button_;
+	static private final String CURRENT_LOCATION = "Current Location";
+	static private final String CONTACTS = "Contacts";
+	static private final String MAP_POINT ="Point on map";
+	
+	final private Context context_;
+	final private PlaceAutoCompleteTextView textView_;
+	final private ImageButton button_;
+	private GeoPlace currentLocation_;
+	private GeoPlace mapPoint_;
+	private List<String> options_;
 	
 	public PlaceView(final Context context) 
 	{
@@ -36,9 +52,49 @@ public class PlaceView extends LinearLayout
 		
 		button_.setOnClickListener(this);
 	} // PlaceView
+	
+	public void allowCurrentLocation(final GeoPoint loc) 
+	{ 
+		currentLocation_ = new GeoPlace(loc, CURRENT_LOCATION, ""); 
+	} // allowCurrentLocation 
+	public void allowMapLocation(final GeoPoint loc) 
+	{ 
+		mapPoint_ = new GeoPlace(loc, MAP_POINT, ""); 
+	} // allowMapLocation
 
+	private void setPlace(final GeoPlace geoPoint, final String label)
+	{
+		textView_.setGeoPlace(geoPoint);
+		textView_.setText(label);
+	} // setPlace
+	
 	@Override
 	public void onClick(final View v) 
 	{
+		options_ = new ArrayList<String>();
+		if(currentLocation_ != null)
+			options_.add(CURRENT_LOCATION);
+		options_.add(CONTACTS);
+		if(mapPoint_ != null)
+			options_.add(MAP_POINT);
+
+		ListDialog.showListDialog(context_, 
+		  			            "Woo", 
+								options_, 
+								this);
+	} // onClick
+
+	@Override
+	public void onClick(final DialogInterface dialog, final int whichButton)
+	{
+		final String option = options_.get(whichButton);
+		
+		if(CURRENT_LOCATION.equals(option))
+			setPlace(currentLocation_, CURRENT_LOCATION);
+		if(MAP_POINT.equals(option))
+			setPlace(mapPoint_, MAP_POINT);
+		
+		if(CONTACTS.equals(option))
+			MessageBox.OK(this, "Search the contacts goes here");
 	} // onClick
 } // class PlaceView

@@ -10,6 +10,7 @@
 	    android:paddingBottom="6dip"
 	    android:background="@drawable/route_bg">            
   <net.cyclestreets.views.PlaceView
+  	android:id="@+id/placeFrom"
 	android:layout_width="fill_parent"
 	android:layout_height="wrap_content"
     android:hint="@string/route_from"
