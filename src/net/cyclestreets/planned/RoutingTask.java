@@ -1,6 +1,7 @@
 package net.cyclestreets.planned;
 
 import net.cyclestreets.content.RouteData;
+import net.cyclestreets.util.Dialog;
 
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -27,10 +28,7 @@ public abstract class RoutingTask<Params> extends
 		whoToTell_ = whoToTell;
 		context_ = context;
 
-		progress_ = new ProgressDialog(context);
-		progress_.setMessage(progressMessage);
-		progress_.setIndeterminate(true);
-		progress_.setCancelable(false);
+		progress_ = Dialog.createProgressDialog(context, progressMessage);
 	} // Routing Task
 	
 	protected void setMessage(int msgId)

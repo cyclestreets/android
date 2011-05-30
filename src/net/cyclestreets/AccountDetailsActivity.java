@@ -1,6 +1,7 @@
 package net.cyclestreets;
 
 import net.cyclestreets.api.ApiClient;
+import net.cyclestreets.util.Dialog;
 import net.cyclestreets.util.MessageBox;
 import net.cyclestreets.api.RegistrationResult;
 import net.cyclestreets.api.SigninResult;
@@ -241,10 +242,7 @@ public class AccountDetailsActivity extends Activity
 			username_ = username;
 			password_ = password;
 			
-			progress_ = new ProgressDialog(context);
-			progress_.setMessage(context.getString(R.string.signing_in));
-			progress_.setIndeterminate(true);
-			progress_.setCancelable(false);
+			progress_ = Dialog.createProgressDialog(context, R.string.signing_in);
 	    } // SigninTask
 		
 		@Override
@@ -338,10 +336,7 @@ public class AccountDetailsActivity extends Activity
 			name_ = name;
 			email_ = email;
 			
-			progress_ = new ProgressDialog(context);
-			progress_.setMessage(context.getString(R.string.registering));
-			progress_.setIndeterminate(true);
-			progress_.setCancelable(false);
+			progress_ = Dialog.createProgressDialog(context, R.string.registering);
 	    } // RegisterTask
 		
 		@Override

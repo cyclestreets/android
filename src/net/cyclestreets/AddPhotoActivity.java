@@ -5,6 +5,7 @@ import net.cyclestreets.api.PhotomapCategories;
 import net.cyclestreets.api.ICategory;
 import net.cyclestreets.api.UploadResult;
 import net.cyclestreets.util.Bitmaps;
+import net.cyclestreets.util.Dialog;
 import net.cyclestreets.util.MessageBox;
 import net.cyclestreets.util.Share;
 import net.cyclestreets.views.CycleMapView;
@@ -437,10 +438,7 @@ public class AddPhotoActivity extends Activity
 			dateTime_ = dateTime;
 			caption_ = caption;
 			
-			progress_ = new ProgressDialog(context);
-			progress_.setMessage(context.getString(R.string.uploading_photo));
-			progress_.setIndeterminate(true);
-			progress_.setCancelable(false);
+			progress_ = Dialog.createProgressDialog(context, R.string.uploading_photo);
 	    } // UploadPhotoTask
 		
 		@Override
