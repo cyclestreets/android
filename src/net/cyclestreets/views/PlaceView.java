@@ -7,6 +7,8 @@ import org.osmdroid.util.GeoPoint;
 
 import net.cyclestreets.R;
 import net.cyclestreets.api.GeoPlace;
+import net.cyclestreets.contacts.Contact;
+import net.cyclestreets.contacts.ContactsSearch;
 import net.cyclestreets.util.ListDialog;
 import net.cyclestreets.util.MessageBox;
 import android.content.Context;
@@ -31,6 +33,7 @@ public class PlaceView extends LinearLayout
 	private GeoPlace currentLocation_;
 	private GeoPlace mapPoint_;
 	private List<String> options_;
+	private List<Contact> contacts_;
 	
 	public PlaceView(final Context context) 
 	{
@@ -68,6 +71,11 @@ public class PlaceView extends LinearLayout
 		textView_.setText(label);
 	} // setPlace
 	
+	private void setText(final String text)
+	{
+		textView_.setText(text);
+	} // setText
+	
 	@Override
 	public void onClick(final View v) 
 	{
@@ -79,9 +87,9 @@ public class PlaceView extends LinearLayout
 			options_.add(MAP_POINT);
 
 		ListDialog.showListDialog(context_, 
-		  			            "Woo", 
-								options_, 
-								this);
+		  			              "Choose location", 
+								  options_, 
+								  this);
 	} // onClick
 
 	@Override
@@ -95,6 +103,32 @@ public class PlaceView extends LinearLayout
 			setPlace(mapPoint_, MAP_POINT);
 		
 		if(CONTACTS.equals(option))
-			MessageBox.OK(this, "Search the contacts goes here");
+			pickContact();
 	} // onClick
+	
+	private void pickContact()
+	{
+		if(contacts_ == null)
+			contacts_ = ContactsSearch.contactsList(context_);
+		if(contacts_.size() == 0)
+		{
+			MessageBox.OK(this, "None of your contacts have addresses.");
+			return;
+		} // if ...
+		
+		ListDialog.showListDialog(context_, 
+				  "Contacts", 
+				  contacts_, 
+				  new ContactsListener());
+	} // pickContact
+	
+	private class ContactsListener implements DialogInterface.OnClickListener	
+	{
+		@Override
+		public void onClick(final DialogInterface dialog, final int whichButton) 
+		{
+			final Contact c = contacts_.get(whichButton);
+			setText(c.address());
+		} // onClick
+	} // class ContactsListener
 } // class PlaceView
