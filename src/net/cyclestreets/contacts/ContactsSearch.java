@@ -13,51 +13,54 @@ public class ContactsSearch
 {
 	static public List<Contact> contactsList(final Context context)
 	{
-		return queryAllRawContacts(context);
+		return queryContacts(context);
 	} // contactsList
 	
-	static private List<Contact> queryAllRawContacts(final Context context) 
+	static private List<Contact> queryContacts(final Context context) 
 	{
 		final List<Contact> contacts = new ArrayList<Contact>();
 		
 		final String[] projection = new String[] {
-				RawContacts.CONTACT_ID,					// the contact id column
-				RawContacts.DELETED						// column if this contact is deleted
+				ContactsContract.Data.CONTACT_ID,
+				ContactsContract.CommonDataKinds.StructuredPostal.FORMATTED_ADDRESS
 		};
+
+        final String where = ContactsContract.Data.MIMETYPE + " = ?"; 
+        final String[] whereParameters = new String[] { ContactsContract.CommonDataKinds.StructuredPostal.CONTENT_ITEM_TYPE }; 
 		
-		final Cursor rawContacts = context.getContentResolver().query(
-				RawContacts.CONTENT_URI,				// the uri for raw contact provider
-				projection,	
-				null,									// selection = null, retrieve all entries
-				null,									// not required because selection does not contain parameters
-				null);									// do not order
+		final Cursor addrCur = context.getContentResolver().query(
+				ContactsContract.Data.CONTENT_URI, 
+				projection,
+				where, 
+				whereParameters, 
+				null); 
 
 		try {
-			final int contactIdColumnIndex = rawContacts.getColumnIndex(RawContacts.CONTACT_ID);
-			final int deletedColumnIndex = rawContacts.getColumnIndex(RawContacts.DELETED);
+			final int idIndex = addrCur.getColumnIndex(ContactsContract.Data.CONTACT_ID);
+			final int addressIndex = addrCur.getColumnIndex(ContactsContract.CommonDataKinds.StructuredPostal.FORMATTED_ADDRESS);
 		
-			if(rawContacts.moveToFirst()) {					// move the cursor to the first entry
-				while(!rawContacts.isAfterLast()) {			// still a valid entry left?
-					final int contactId = rawContacts.getInt(contactIdColumnIndex);
-					final boolean deleted = (rawContacts.getInt(deletedColumnIndex) == 1);
-					if(!deleted) {
-						final String name = displayName(context, contactId);
-						final String address = address(context, contactId);
-						if(name != null && address != null)
-							contacts.add(new Contact(name, address));
-					}
-					rawContacts.moveToNext();				// move to the next entry
-				}
-			}
+			if(addrCur.moveToFirst()) {					// move the cursor to the first entry
+				while(!addrCur.isAfterLast()) {			// still a valid entry left?
+					final String id = addrCur.getString(idIndex);
+					final String address = addrCur.getString(addressIndex);
+
+					final String name = displayName(context, id);
+
+					if(name != null && address != null)
+						contacts.add(new Contact(name, address));
+
+					addrCur.moveToNext();				// move to the next entry
+				} // while ...
+			} // if ...
 		} // try
 		finally {
-			rawContacts.close();
+			addrCur.close();
 		} // finally
 		
 		return contacts;
-	} // queryAllRawContacts
+	} // queryContacts
 	
-	private static String displayName(final Context context, final int contactId)
+	private static String displayName(final Context context, final String contactId)
 	{
 		final String[] projection = new String[] {
 				Contacts.DISPLAY_NAME
@@ -66,8 +69,8 @@ public class ContactsSearch
 		final Cursor contact = context.getContentResolver().query(
 					Contacts.CONTENT_URI,
 					projection,
-					Contacts._ID + "=?",						// filter entries on the basis of the contact id
-					new String[]{String.valueOf(contactId)},	// the parameter to which the contact id column is compared to
+					Contacts._ID + "=?",		
+					new String[] { contactId },
 					null);
 		try {
 			if(contact.moveToFirst()) 
@@ -79,29 +82,4 @@ public class ContactsSearch
 		
 		return null;
 	} // displayName
-
-	private static String address(final Context context, final int contactId)
-	{
-        final String where = ContactsContract.Data.CONTACT_ID + " = ? AND "
-							 + ContactsContract.Data.MIMETYPE + " = ?"; 
-        final String[] whereParameters = new String[] { String.valueOf(contactId), 
-        												ContactsContract.CommonDataKinds.StructuredPostal.CONTENT_ITEM_TYPE
-        											  }; 
-		final Cursor addrCur = context.getContentResolver().query(
-						ContactsContract.Data.CONTENT_URI, 
-						null,
-						where, 
-						whereParameters, 
-						null); 
-		
-		try {
-			if(addrCur.moveToFirst()) 
-				return addrCur.getString(addrCur.getColumnIndex(ContactsContract.CommonDataKinds.StructuredPostal.FORMATTED_ADDRESS));
-		}
-		finally {
-			addrCur.close();
-		} // finally
-		
-		return null;
-	} // address
 } // class ContactsSearch
