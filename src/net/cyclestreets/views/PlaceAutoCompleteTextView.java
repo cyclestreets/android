@@ -1,7 +1,11 @@
 package net.cyclestreets.views;
 
+import java.util.List;
+
 import net.cyclestreets.api.GeoPlace;
 import net.cyclestreets.api.GeoLiveAdapter;
+import net.cyclestreets.contacts.Contact;
+import net.cyclestreets.contacts.ContactLookup;
 
 import org.osmdroid.util.BoundingBoxE6;
 
@@ -19,6 +23,7 @@ public class PlaceAutoCompleteTextView extends AutoCompleteTextView
 {
 	private GeoLiveAdapter adapter_;
 	private GeoPlace place_;
+	private Contact contact_;
 	
 	public PlaceAutoCompleteTextView(final Context context)
 	{
@@ -59,7 +64,10 @@ public class PlaceAutoCompleteTextView extends AutoCompleteTextView
 	
 	public GeoPlace geoPlace()
 	{
-		return place_;
+		if(place_ != null)
+			return place_;
+
+		return lookupContact();
 	} // geoPlace
 	
 	public void setGeoPlace(final GeoPlace place)
@@ -70,12 +78,28 @@ public class PlaceAutoCompleteTextView extends AutoCompleteTextView
 		place_ = place;
 	} // setGeoPlace
 	
+	public void setContact(final Contact contact)
+	{
+		setText(contact.address());
+		contact_ = contact;
+	} // setContact
+	
 	public void addHistory(final GeoPlace place)
 	{
 		if(adapter_ == null)
 			return;
 		adapter_.addHistory(place);
 	} // addHistory
+	
+	private GeoPlace lookupContact()
+	{
+		List<GeoPlace> gps = (contact_ != null) 
+								? ContactLookup.lookup(contact_, bounds(), getContext()) 
+								: ContactLookup.lookup(getText().toString(), bounds(), getContext());
+		if(gps.size() == 1)
+			return gps.get(0);
+		return null;
+	} // lookupContact
 	
 	/////////////////////////////////////
 	@Override
@@ -124,6 +148,7 @@ public class PlaceAutoCompleteTextView extends AutoCompleteTextView
 							  int after) 
 	{ 
 		place_ = null;
+		contact_ = null;
 		super.onTextChanged(s, start, before, after);
 	} // onTextChanged
 } // PlaceAutoCompleteTextView

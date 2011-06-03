@@ -3,15 +3,12 @@ package net.cyclestreets.contacts;
 import java.util.ArrayList;
 import java.util.List;
 
-import android.content.ContentResolver;
 import android.content.Context;
-import android.content.Intent;
 import android.database.Cursor;
-import android.net.Uri;
-import android.provider.BaseColumns;
 import android.provider.ContactsContract;
+import android.provider.ContactsContract.Contacts;
 
-public class Contacts 
+public class ContactsEclair
 {
 	static public List<Contact> fetch(final Context context) 
 	{
@@ -19,7 +16,11 @@ public class Contacts
 		
 		final String[] projection = new String[] {
 				ContactsContract.Data.CONTACT_ID,
-				ContactsContract.CommonDataKinds.StructuredPostal.FORMATTED_ADDRESS
+				ContactsContract.CommonDataKinds.StructuredPostal.FORMATTED_ADDRESS,
+				ContactsContract.CommonDataKinds.StructuredPostal.STREET,
+				ContactsContract.CommonDataKinds.StructuredPostal.NEIGHBORHOOD,
+				ContactsContract.CommonDataKinds.StructuredPostal.CITY,
+				ContactsContract.CommonDataKinds.StructuredPostal.POSTCODE
 		};
 
         final String where = ContactsContract.Data.MIMETYPE + " = ?"; 
@@ -35,16 +36,30 @@ public class Contacts
 		try {
 			final int idIndex = addrCur.getColumnIndex(ContactsContract.Data.CONTACT_ID);
 			final int addressIndex = addrCur.getColumnIndex(ContactsContract.CommonDataKinds.StructuredPostal.FORMATTED_ADDRESS);
+			final int streetIndex = addrCur.getColumnIndex(ContactsContract.CommonDataKinds.StructuredPostal.STREET);
+			final int neighbourhoodIndex = addrCur.getColumnIndex(ContactsContract.CommonDataKinds.StructuredPostal.NEIGHBORHOOD);
+			final int cityIndex = addrCur.getColumnIndex(ContactsContract.CommonDataKinds.StructuredPostal.CITY);
+			final int postcodeIndex = addrCur.getColumnIndex(ContactsContract.CommonDataKinds.StructuredPostal.POSTCODE);
+			
 		
 			if(addrCur.moveToFirst()) {					// move the cursor to the first entry
 				while(!addrCur.isAfterLast()) {			// still a valid entry left?
 					final String id = addrCur.getString(idIndex);
 					final String address = addrCur.getString(addressIndex);
+					final String street = addrCur.getString(streetIndex);
+					final String neighbourhood = addrCur.getString(neighbourhoodIndex);
+					final String city = addrCur.getString(cityIndex);
+					final String postcode = addrCur.getString(postcodeIndex);
 
 					final String name = displayName(context, id);
 
 					if(name != null && address != null)
-						contacts.add(new Contact(name, address));
+						contacts.add(new Contact(name,
+												 address,
+												 street,
+												 neighbourhood,
+												 city,
+												 postcode));
 
 					addrCur.moveToNext();				// move to the next entry
 				} // while ...

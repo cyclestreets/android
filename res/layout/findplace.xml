@@ -9,21 +9,12 @@
 	    android:paddingTop="12dip"
 	    android:paddingBottom="6dip"
 	    android:background="@drawable/route_bg">            
-  <LinearLayout
-     android:orientation="horizontal"
-     android:layout_width="fill_parent"
-     android:layout_height="wrap_content"
-     android:layout_marginBottom="2dip">
-    <net.cyclestreets.views.PlaceAutoCompleteTextView
-       android:id="@+id/place"
-       android:layout_height="wrap_content" 
-       android:hint="@string/lbl_place"
-       android:layout_weight="1.0"
-       android:layout_width="0.0dip"
-       android:freezesText="true"
-       android:imeOptions="actionNext"
-       android:nextFocusDown="@+id/find_place"/>
-  </LinearLayout>
+  <net.cyclestreets.views.PlaceView
+  		android:id="@+id/place"	     
+	    android:orientation="horizontal"
+    	android:layout_width="fill_parent"
+     	android:layout_height="wrap_content"
+     	android:layout_marginBottom="2dip"/>
   <LinearLayout
      android:orientation="horizontal"
      android:layout_width="fill_parent"
