@@ -15,7 +15,7 @@ import android.widget.Toast;
 import android.widget.RelativeLayout.LayoutParams;
 
 public class FindPlaceActivity extends Activity 
-	implements View.OnClickListener
+	implements View.OnClickListener, PlaceView.OnResolveListener
 {
     private PlaceView place_;
 	
@@ -59,6 +59,13 @@ public class FindPlaceActivity extends Activity
 			return;
 		}
 
-		findPlace(place_.geoPlace());
+		
+		place_.geoPlace(this);
 	} // onClick
+	
+	@Override
+	public void onResolve(final GeoPlace place)
+	{
+		findPlace(place);
+	} // onResolve
 } // class FindPlaceActivity

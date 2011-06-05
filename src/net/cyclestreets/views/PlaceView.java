@@ -24,6 +24,12 @@ import android.widget.LinearLayout;
 public class PlaceView extends LinearLayout
 					   implements OnClickListener, DialogInterface.OnClickListener	
 {
+	public interface OnResolveListener
+	{
+		public void onResolve(final GeoPlace place);
+	} // interface ResolveListener
+	
+	////////////////////////////////
 	static private final String CURRENT_LOCATION = "Current Location";
 	static private final String CONTACTS = "Contacts";
 	static private final String MAP_POINT ="Point on map";
@@ -68,7 +74,11 @@ public class PlaceView extends LinearLayout
 
 	public String getText() { return textView_.getText().toString(); }
 
-	public GeoPlace geoPlace() { return textView_.geoPlace(); } 
+	public void geoPlace(final OnResolveListener listener) 
+	{ 
+		if(textView_.geoPlace() != null)
+			listener.onResolve(textView_.geoPlace());
+	} // geoPlace 
 
 	public void addHistory(final GeoPlace place)
 	{
