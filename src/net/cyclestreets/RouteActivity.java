@@ -1,4 +1,4 @@
-package uk.org.invisibility.cycloid;
+package net.cyclestreets;
 
 import net.cyclestreets.CycleStreetsConstants;
 import net.cyclestreets.CycleStreetsPreferences;

@@ -61,15 +61,8 @@
         </activity>
         <activity android:name=".FeedbackActivity"
         		  android:label="CycleStreets : Route Comments"/>
-    	<activity android:name="uk.org.invisibility.cycloid.RouteActivity" 
-    		android:icon="@drawable/icon" 
-    		android:label="Cycloid" 
-    		android:theme="@style/Theme.RouteInputDialog">
-        </activity>
-        <activity android:name="uk.org.invisibility.cycloid.GeoActivity" 
-        	android:icon="@drawable/icon" 
-        	android:label="Cycloid" 
-        	android:theme="@android:style/Theme.Translucent.NoTitleBar">
+    	<activity android:name=".RouteActivity" 
+		    	  android:theme="@style/Theme.RouteInputDialog">
         </activity>
     </application>
     <uses-sdk android:minSdkVersion="7" />

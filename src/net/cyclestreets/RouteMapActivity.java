@@ -13,8 +13,6 @@ import net.cyclestreets.planned.Route;
 
 import org.osmdroid.util.GeoPoint;
 
-import uk.org.invisibility.cycloid.RouteActivity;
-
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.location.Location;
