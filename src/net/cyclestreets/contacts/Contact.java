@@ -4,7 +4,6 @@ public class Contact
 {
 	private final String name_;
 	private final String address_;
-	private final String street_;
 	private final String neighbourhood_;
 	private final String city_;
 	private final String postcode_;
@@ -18,7 +17,6 @@ public class Contact
 	{
 		name_ = name;
 		address_ = address;
-		street_ = street;
 		neighbourhood_ = neighbourhood;
 		city_ = city;
 		postcode_ = postcode;
