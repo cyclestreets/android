@@ -15,46 +15,12 @@
 	android:layout_height="wrap_content"
     android:hint="@string/route_from"
   />
-  <LinearLayout
-	android:orientation="horizontal"
+  <net.cyclestreets.views.PlaceView
+  	android:id="@+id/placeTo"
 	android:layout_width="fill_parent"
 	android:layout_height="wrap_content"
-	android:layout_marginBottom="2dip">
-	<net.cyclestreets.views.PlaceAutoCompleteTextView
-	  android:id="@+id/routeFrom"
-	  android:layout_height="wrap_content" 
-	  android:hint="@string/route_from"
-	  android:layout_weight="1.0"
-	  android:layout_width="0.0dip"
-	  android:freezesText="true"
-	  android:imeOptions="actionNext"
-	  android:nextFocusDown="@+id/routeTo"/>
-	<ImageButton
-      android:id="@+id/optionsFrom"
-      android:layout_width="40.0dip"
-      android:layout_height="fill_parent"
-      android:src="@android:drawable/ic_input_get"/>
-  </LinearLayout>
-  <LinearLayout
-	android:orientation="horizontal"
-	android:layout_width="fill_parent"
-	android:layout_height="wrap_content"
-	android:layout_marginBottom="2dip">
-	<net.cyclestreets.views.PlaceAutoCompleteTextView  
-	  android:id="@+id/routeTo"
-	  android:layout_height="wrap_content" 
-	  android:hint="@string/route_to"
-	  android:layout_weight="1.0"		    
-	  android:layout_width="0.0dip"
-	  android:freezesText="true"
-	  android:imeOptions="actionNext"
-	  android:nextFocusDown="@+id/routeTo"/>
-    <ImageButton
-      android:id="@+id/optionsTo"
-      android:layout_width="40.0dip"
-      android:layout_height="fill_parent"
-      android:src="@android:drawable/ic_input_get"/>
-  </LinearLayout>
+    android:hint="@string/route_to"
+  />
   <!-- Route type / Go =============================== -->
   <LinearLayout
 	android:orientation="horizontal"

@@ -78,11 +78,15 @@ public class PlaceView extends LinearLayout
 	} // allowMapLocation
 
 	public String getText() { return textView_.getText().toString(); }
+	public void setText(final String text) { textView_.setText(text); }
 
 	public void geoPlace(final OnResolveListener listener) 
 	{ 
 		if(textView_.geoPlace() != null)
+		{
 			listener.onResolve(textView_.geoPlace());
+			return;
+		} // if ...
 		
 		if(textView_.contact() != null)
 			lookup(textView_.contact(), listener);
@@ -90,44 +94,13 @@ public class PlaceView extends LinearLayout
 			lookup(getText(), listener);			
 	} // geoPlace 
 	
-	private void lookup(final Object what, final OnResolveListener listener)
-	{
-		final AsyncContactLookup asc = new AsyncContactLookup(this, listener);
-		asc.execute(what, bounds());
-	} // lookup
-	/*
-	
-	private GeoPlace lookupContact()
-	{
-		List<GeoPlace> gps = (contact_ != null) 
-								? ContactLookup.lookup(contact_, bounds(), getContext()) 
-								: ContactLookup.lookup(getText().toString(), bounds(), getContext());
-		if(gps.size() == 1)
-			return gps.get(0);
-		return null;
-	} // lookupContact
-	
-
-	 */
-
-	public void addHistory(final GeoPlace place)
-	{
-	} // addHistory
-	
-	public BoundingBoxE6 bounds() { return textView_.bounds(); }
+	public void addHistory(final GeoPlace place) { textView_.addHistory(place); }
+	private BoundingBoxE6 bounds() { return textView_.bounds(); }
 	public void setBounds(final BoundingBoxE6 bounds) { textView_.setBounds(bounds); }
 
 	//////////////////////////////////////////
-	private void setPlace(final GeoPlace geoPoint, final String label)
-	{
-		textView_.setGeoPlace(geoPoint);
-		textView_.setText(label);
-	} // setPlace
-	
-	private void setContact(final Contact contact)
-	{
-		textView_.setContact(contact);
-	} // setContact
+	private void setPlace(final GeoPlace geoPlace) { textView_.setGeoPlace(geoPlace); }
+	private void setContact(final Contact contact) { textView_.setContact(contact); }
 	
 	@Override
 	public void onClick(final View v) 
@@ -151,9 +124,9 @@ public class PlaceView extends LinearLayout
 		final String option = options_.get(whichButton);
 		
 		if(CURRENT_LOCATION.equals(option))
-			setPlace(currentLocation_, CURRENT_LOCATION);
+			setPlace(currentLocation_);
 		if(MAP_POINT.equals(option))
-			setPlace(mapPoint_, MAP_POINT);
+			setPlace(mapPoint_);
 		
 		if(CONTACTS.equals(option))
 			pickContact();
@@ -203,11 +176,20 @@ public class PlaceView extends LinearLayout
 	} // onContactsLoaded
 	
 	///////////////////////////////////////////////////////////
+	private void lookup(final Object what, final OnResolveListener listener)
+	{
+		final AsyncContactLookup asc = new AsyncContactLookup(this, listener);
+		asc.execute(what, bounds());
+	} // lookup
+
 	private void resolvedContacts(final List<GeoPlace> results,
 								  final OnResolveListener listener)
 	{
 		if(results.size() == 1)
+		{
 			listener.onResolve(results.get(0));
+			return;
+		} // if ...
 
 		ListDialog.showListDialog(context_, 
 				  "Choose location", 

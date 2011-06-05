@@ -36,36 +36,35 @@ public class FindPlaceActivity extends Activity
     	findButton.setOnClickListener(this);
     } // onCreate
 
-	private void findPlace(final GeoPlace place)
+	private void placeSelected(final GeoPlace place)
 	{
 		if (place == null || place.coord() == null)
 			return;
 
 		place_.addHistory(place);
 			
-        Intent intent = new Intent(this, RouteMapActivity.class);
+        final Intent intent = new Intent(this, RouteMapActivity.class);
         GeoIntent.setGeoPoint(intent, place.coord());
         setResult(RESULT_OK, intent);
         finish();
-	} // findRoute
+	} // placeSelected
 
 	@Override
 	public void onClick(final View view)
 	{
 		final String from = place_.getText();	
-		if (from.equals(""))
+		if(from.length() == 0)
 		{
-			Toast.makeText(this, R.string.lbl_choose_place, Toast.LENGTH_SHORT).show();
+			Toast.makeText(this, R.string.lbl_choose_place, Toast.LENGTH_LONG).show();
 			return;
 		}
-
 		
 		place_.geoPlace(this);
 	} // onClick
 	
 	@Override
-	public void onResolve(final GeoPlace place)
+	public void onResolve(final GeoPlace place) 
 	{
-		findPlace(place);
+		placeSelected(place);
 	} // onResolve
 } // class FindPlaceActivity
