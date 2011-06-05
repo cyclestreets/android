@@ -1,11 +1,8 @@
 package net.cyclestreets.views;
 
-import java.util.List;
-
 import net.cyclestreets.api.GeoPlace;
 import net.cyclestreets.api.GeoLiveAdapter;
 import net.cyclestreets.contacts.Contact;
-import net.cyclestreets.contacts.ContactLookup;
 
 import org.osmdroid.util.BoundingBoxE6;
 
@@ -51,25 +48,14 @@ public class PlaceAutoCompleteTextView extends AutoCompleteTextView
 	} // init
 	
 	/////////////////////////////////////
-	public BoundingBoxE6 bounds()
-	{
-		return adapter_.bounds();
-	} // bounds
-	
+	public BoundingBoxE6 bounds() {	return adapter_.bounds(); }
 	public void setBounds(final BoundingBoxE6 bounds)
 	{
         adapter_ = new GeoLiveAdapter(getContext(), bounds);
     	setAdapter(adapter_);  
 	} // setBounds
 	
-	public GeoPlace geoPlace()
-	{
-		if(place_ != null)
-			return place_;
-
-		return lookupContact();
-	} // geoPlace
-	
+	public GeoPlace geoPlace() { return place_; }	
 	public void setGeoPlace(final GeoPlace place)
 	{
 		// set text first because we clear place_ in the callback
@@ -78,6 +64,7 @@ public class PlaceAutoCompleteTextView extends AutoCompleteTextView
 		place_ = place;
 	} // setGeoPlace
 	
+	public Contact contact() { return contact_; }
 	public void setContact(final Contact contact)
 	{
 		setText(contact.address());
@@ -90,31 +77,16 @@ public class PlaceAutoCompleteTextView extends AutoCompleteTextView
 			return;
 		adapter_.addHistory(place);
 	} // addHistory
-	
-	private GeoPlace lookupContact()
-	{
-		List<GeoPlace> gps = (contact_ != null) 
-								? ContactLookup.lookup(contact_, bounds(), getContext()) 
-								: ContactLookup.lookup(getText().toString(), bounds(), getContext());
-		if(gps.size() == 1)
-			return gps.get(0);
-		return null;
-	} // lookupContact
-	
+
 	/////////////////////////////////////
 	@Override
 	public void onItemClick(AdapterView<?> arg0, View arg1, int position, long id)
 	{
 		if(adapter_ == null)
 			return;
-		/*
-		 * Called when a GeoPlace is selected from the drop down. Store the
-		 * selected item and the text used at the time it was selected.
-		 */
 		setGeoPlace(adapter_.getItem(position));
 	} // GeoPlace
 	
-
 	@Override
 	public boolean enoughToFilter() { return true; }
 	

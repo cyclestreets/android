@@ -1,19 +1,24 @@
 package net.cyclestreets.views;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.osmdroid.util.BoundingBoxE6;
 import org.osmdroid.util.GeoPoint;
 
 import net.cyclestreets.R;
+import net.cyclestreets.api.ApiClient;
 import net.cyclestreets.api.GeoPlace;
 import net.cyclestreets.contacts.Contact;
 import net.cyclestreets.contacts.ContactsSearch;
+import net.cyclestreets.util.Dialog;
 import net.cyclestreets.util.ListDialog;
 import net.cyclestreets.util.MessageBox;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.os.AsyncTask;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -78,7 +83,32 @@ public class PlaceView extends LinearLayout
 	{ 
 		if(textView_.geoPlace() != null)
 			listener.onResolve(textView_.geoPlace());
+		
+		if(textView_.contact() != null)
+			lookup(textView_.contact(), listener);
+		else if(getText() != null)
+			lookup(getText(), listener);			
 	} // geoPlace 
+	
+	private void lookup(final Object what, final OnResolveListener listener)
+	{
+		final AsyncContactLookup asc = new AsyncContactLookup(this, listener);
+		asc.execute(what, bounds());
+	} // lookup
+	/*
+	
+	private GeoPlace lookupContact()
+	{
+		List<GeoPlace> gps = (contact_ != null) 
+								? ContactLookup.lookup(contact_, bounds(), getContext()) 
+								: ContactLookup.lookup(getText().toString(), bounds(), getContext());
+		if(gps.size() == 1)
+			return gps.get(0);
+		return null;
+	} // lookupContact
+	
+
+	 */
 
 	public void addHistory(final GeoPlace place)
 	{
@@ -154,4 +184,77 @@ public class PlaceView extends LinearLayout
 			setContact(c);
 		} // onClick
 	} // class ContactsListener
+	
+	///////////////////////////////////////////////////////////
+	private void resolvedContacts(final List<GeoPlace> results,
+								  final OnResolveListener listener)
+	{
+		if(results.size() == 1)
+			listener.onResolve(results.get(0));
+	} // resolvedContacts
+
+	///////////////////////////////////////////////////////////
+	static private class AsyncContactLookup extends AsyncTask<Object, Void, List<GeoPlace>>
+	{
+		final ProgressDialog progress_;
+		final OnResolveListener listener_;
+		final PlaceView view_;
+		
+		public AsyncContactLookup(final PlaceView view,
+								  final OnResolveListener listener)
+		{
+			progress_ = Dialog.createProgressDialog(view.getContext(), "Searching for location");
+			view_ = view;
+			listener_ = listener;
+		} // AsyncLookup
+		
+		@Override
+		protected void onPreExecute() {	progress_.show(); }
+		
+		@Override
+		protected List<GeoPlace> doInBackground(Object... params) 
+		{
+			final BoundingBoxE6 bounds = (BoundingBoxE6)params[1];
+
+			if(params[0] instanceof String)
+				return doSearch((String)params[0], bounds);
+			
+			return doContactSearch((Contact)params[0], bounds);
+		} // doInBackground
+
+		@Override
+		protected void onPostExecute(final List<GeoPlace> result) 
+		{ 
+			progress_.dismiss(); 
+			view_.resolvedContacts(result, listener_);
+		} // onPostExecute
+		
+		private List<GeoPlace> doContactSearch(final Contact contact, 
+											   final BoundingBoxE6 bounds)
+		{
+			List<GeoPlace> r = doSearch(contact.address(), bounds);
+			if(!r.isEmpty())
+				return r;
+			
+			r = doSearch(contact.postcode(), bounds);
+			if(!r.isEmpty())
+				return r;
+			
+			r = doSearch(contact.city(), bounds);
+			return r;
+		} // doContactSearch
+		
+		@SuppressWarnings("unchecked")
+		private List<GeoPlace> doSearch(final String search, 
+										final BoundingBoxE6 bounds)
+		{
+			try {
+				return ApiClient.geoCoder(search, bounds).places;				
+			}
+			catch(Exception e) {
+				return (List<GeoPlace>)Collections.EMPTY_LIST;
+			} // catch
+		} // doSearch
+	} // AsyncContactLookup
 } // class PlaceView
+
