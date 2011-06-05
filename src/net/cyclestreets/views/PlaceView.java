@@ -191,7 +191,31 @@ public class PlaceView extends LinearLayout
 	{
 		if(results.size() == 1)
 			listener.onResolve(results.get(0));
+
+		ListDialog.showListDialog(context_, 
+				  "Choose location", 
+				  results, 
+				  new PlaceListener(results, listener));
 	} // resolvedContacts
+	
+	private class PlaceListener implements DialogInterface.OnClickListener
+	{
+		private List<GeoPlace> results_;
+		private OnResolveListener listener_;
+		
+		public PlaceListener(final List<GeoPlace> results, 
+				             final OnResolveListener listener)
+		{
+			results_ = results;
+			listener_ = listener;
+		} // PlaceListener
+		
+		@Override
+		public void onClick(final DialogInterface dialog, final int whichButton)
+		{
+			listener_.onResolve(results_.get(whichButton));
+		} // onClick
+	} // PlaceListener
 
 	///////////////////////////////////////////////////////////
 	static private class AsyncContactLookup extends AsyncTask<Object, Void, List<GeoPlace>>
