@@ -8,7 +8,7 @@ import android.database.Cursor;
 import android.provider.ContactsContract;
 import android.provider.ContactsContract.Contacts;
 
-public class ContactsEclair
+class ContactsEclair
 {
 	static public List<Contact> fetch(final Context context) 
 	{

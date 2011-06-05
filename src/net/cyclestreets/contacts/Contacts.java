@@ -4,10 +4,10 @@ import java.util.List;
 
 import android.content.Context;
 
-public class ContactsSearch 
+public class Contacts
 {
-	static public List<Contact> contactsList(final Context context)
+	static public List<Contact> load(final Context context)
 	{
 		return ContactsEclair.fetch(context);
 	} // contactsList	
-} // class ContactsSearch
+} // class Contacts

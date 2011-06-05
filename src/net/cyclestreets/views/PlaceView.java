@@ -11,7 +11,7 @@ import net.cyclestreets.R;
 import net.cyclestreets.api.ApiClient;
 import net.cyclestreets.api.GeoPlace;
 import net.cyclestreets.contacts.Contact;
-import net.cyclestreets.contacts.ContactsSearch;
+import net.cyclestreets.contacts.Contacts;
 import net.cyclestreets.util.Dialog;
 import net.cyclestreets.util.ListDialog;
 import net.cyclestreets.util.MessageBox;
@@ -162,7 +162,11 @@ public class PlaceView extends LinearLayout
 	private void pickContact()
 	{
 		if(contacts_ == null)
-			contacts_ = ContactsSearch.contactsList(context_);
+		{
+			loadContacts();
+			return;
+		} // if ...
+
 		if(contacts_.size() == 0)
 		{
 			MessageBox.OK(this, "None of your contacts have addresses.");
@@ -184,6 +188,19 @@ public class PlaceView extends LinearLayout
 			setContact(c);
 		} // onClick
 	} // class ContactsListener
+	
+	///////////////////////////////////////////////////////////
+	private void loadContacts()
+	{
+		final AsyncContactLoad acl = new AsyncContactLoad(this);
+		acl.execute();
+	} // loadContacts
+	
+	private void onContactsLoaded(final List<Contact> contacts)
+	{
+		contacts_ = contacts;
+		pickContact();
+	} // onContactsLoaded
 	
 	///////////////////////////////////////////////////////////
 	private void resolvedContacts(final List<GeoPlace> results,
@@ -218,6 +235,34 @@ public class PlaceView extends LinearLayout
 	} // PlaceListener
 
 	///////////////////////////////////////////////////////////
+	static private class AsyncContactLoad extends AsyncTask<Void, Void, List<Contact>>
+	{
+		final ProgressDialog progress_;
+		final PlaceView view_;
+
+		public AsyncContactLoad(final PlaceView view)
+		{
+			progress_ = Dialog.createProgressDialog(view.getContext(), "Loading contacts");
+			view_ = view;
+		} // AsyncContactLoad
+		
+		@Override 
+		protected void onPreExecute() { progress_.show(); }
+		
+		@Override
+		protected List<Contact> doInBackground(Void... params)
+		{
+			return Contacts.load(view_.getContext());
+		} // doInBackground
+		
+		@Override
+		protected void onPostExecute(final List<Contact> results) 
+		{
+			progress_.dismiss();
+			view_.onContactsLoaded(results);
+		} // onPostExecute
+	} // class AsyncContactLoad
+	
 	static private class AsyncContactLookup extends AsyncTask<Object, Void, List<GeoPlace>>
 	{
 		final ProgressDialog progress_;
