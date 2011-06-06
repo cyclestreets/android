@@ -187,6 +187,7 @@ public class PlaceView extends LinearLayout
 	{
 		if(results.size() == 1)
 		{
+			textView_.setGeoPlace(results.get(0));
 			listener.onResolve(results.get(0));
 			return;
 		} // if ...
@@ -212,6 +213,7 @@ public class PlaceView extends LinearLayout
 		@Override
 		public void onClick(final DialogInterface dialog, final int whichButton)
 		{
+			textView_.setGeoPlace(results_.get(whichButton));
 			listener_.onResolve(results_.get(whichButton));
 		} // onClick
 	} // PlaceListener
