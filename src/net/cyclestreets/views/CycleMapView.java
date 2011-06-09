@@ -203,7 +203,8 @@ public class CycleMapView extends MapView
 	static private String DEFAULT_RENDERER = "CycleStreets";
 	static private Map<String, String> attribution_ = 
 			MapFactory.map(DEFAULT_RENDERER, "\u00a9 OpenStreetMap and contributors, CC-BY-SA. Map images \u00a9 OpenCycleMap")
-			          .map("CycleStreets-OSM", "\u00a9 OpenStreetMap and contributors, CC-BY-SA");
+			          .map("CycleStreets-OSM", "\u00a9 OpenStreetMap and contributors, CC-BY-SA")
+			          .map("CycleStreets-OS", "Contains Ordnance Survey Data \u00a9 Crown copyright and database right 2010");
 	
 	static 
 	{ 
@@ -217,7 +218,13 @@ public class CycleMapView extends MapView
 			    			"http://a.openstreetmap.com/",
 			    			"http://b.openstreetmap.com/",
 			    			"http://c.openstreetmap.com/");
+		final OnlineTileSourceBase OSMAP = new XYTileSource("CycleStreets-OS",
+							ResourceProxy.string.unknown, 0, 17, 256, ".png",
+						    "http://a.os.openstreetmap.org/sv/",
+						    "http://b.os.openstreetmap.org/sv/",
+						    "http://c.os.openstreetmap.org/sv/");
 		TileSourceFactory.addTileSource(OPENCYCLEMAP);
 		TileSourceFactory.addTileSource(OPENSTREETMAP);
+		TileSourceFactory.addTileSource(OSMAP);
 	} // static
 } // CycleMapView

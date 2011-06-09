@@ -33,10 +33,12 @@
     <string-array name="mapstyle">
     	<item>OpenCycleMap (shows hills)</item>
         <item>OpenStreetMap default style</item>
+        <item>Ordnance Survey</item>
     </string-array>
     <string-array name="mapstyle_values">
         <item>CycleStreets</item>
         <item>CycleStreets-OSM</item>
+        <item>CycleStreets-OS</item>
     </string-array>
     <string-array name="point_type3">
         <item>My current location</item>
