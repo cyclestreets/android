@@ -44,7 +44,7 @@ import android.view.MenuItem;
     @Override
     protected void onPause()
     {
-        Route.setTerminals(routeSetter_.getStart(), routeSetter_.getEnd());
+        Route.setTerminals(routeSetter_.getStart(), routeSetter_.getFinish());
         super.onPause();
     } // onPause
 
@@ -173,6 +173,8 @@ import android.view.MenuItem;
     	GeoIntent.setBoundingBox(intent, mapView().getBoundingBox());
     	final Location lastFix = mapView().getLastFix();
     	GeoIntent.setLocation(intent, lastFix);	
+    	GeoIntent.setGeoPoint(intent, "START", routeSetter_.getStart());
+    	GeoIntent.setGeoPoint(intent, "FINISH", routeSetter_.getFinish());
         startActivityForResult(intent, R.string.ic_menu_directions);
 	} // launchRouteDialog
 

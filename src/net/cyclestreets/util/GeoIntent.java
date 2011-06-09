@@ -75,6 +75,8 @@ public class GeoIntent
     							   final String prefix,
     							   final GeoPoint point)
     {
+    	if(point == null)
+    		return;
     	intent.putExtra(prefix+GEO_LATITUDE, point.getLatitudeE6());
     	intent.putExtra(prefix+GEO_LONGITUDE, point.getLongitudeE6());
     } // setGeoPoint

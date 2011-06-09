@@ -63,6 +63,12 @@ public class PlaceAutoCompleteTextView extends AutoCompleteTextView
 		setText(place.toString());
 		place_ = place;
 	} // setGeoPlace
+	public void setGeoPlaceHint(final GeoPlace place)
+	{
+		setText("");
+		setHint(place.toString());
+		place_ = place;
+	} // setGeoPlaceHint
 	
 	public Contact contact() { return contact_; }
 	public void setContact(final Contact contact)

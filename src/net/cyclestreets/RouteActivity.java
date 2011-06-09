@@ -58,6 +58,9 @@ public class RouteActivity extends Activity
     		placeTo_.requestFocus();
      	} // if ...
     	
+    	placeFrom_.allowMapLocation(GeoIntent.getGeoPoint(intent, "START"), "Start point on map");
+    	placeTo_.allowMapLocation(GeoIntent.getGeoPoint(intent, "FINISH"), "Finish point of map");
+    	
     	routeGo = (Button) findViewById(R.id.routeGo);
     	routeGo.setOnClickListener(this);
 

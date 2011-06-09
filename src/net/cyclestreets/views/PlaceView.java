@@ -70,11 +70,16 @@ public class PlaceView extends LinearLayout
 	
 	public void allowCurrentLocation(final GeoPoint loc) 
 	{ 
+		if(loc == null)
+			return;
 		currentLocation_ = new GeoPlace(loc, CURRENT_LOCATION, ""); 
 	} // allowCurrentLocation  // setBounds
-	public void allowMapLocation(final GeoPoint loc) 
+	public void allowMapLocation(final GeoPoint loc) { allowMapLocation(loc, MAP_POINT); }
+	public void allowMapLocation(final GeoPoint loc, final String label)
 	{ 
-		mapPoint_ = new GeoPlace(loc, MAP_POINT, ""); 
+		if(loc == null)
+			return;
+		mapPoint_ = new GeoPlace(loc, label, ""); 
 	} // allowMapLocation
 
 	public String getText() { return textView_.getText().toString(); }
@@ -99,7 +104,7 @@ public class PlaceView extends LinearLayout
 	public void setBounds(final BoundingBoxE6 bounds) { textView_.setBounds(bounds); }
 
 	//////////////////////////////////////////
-	private void setPlace(final GeoPlace geoPlace) { textView_.setGeoPlace(geoPlace); }
+	private void setPlace(final GeoPlace geoPlace) { textView_.setGeoPlaceHint(geoPlace); }
 	private void setContact(final Contact contact) { textView_.setContact(contact); }
 	
 	@Override
@@ -110,7 +115,7 @@ public class PlaceView extends LinearLayout
 			options_.add(CURRENT_LOCATION);
 		options_.add(CONTACTS);
 		if(mapPoint_ != null)
-			options_.add(MAP_POINT);
+			options_.add(mapPoint_.name);
 
 		ListDialog.showListDialog(context_, 
 		  			              "Choose location", 
@@ -125,7 +130,7 @@ public class PlaceView extends LinearLayout
 		
 		if(CURRENT_LOCATION.equals(option))
 			setPlace(currentLocation_);
-		if(MAP_POINT.equals(option))
+		if(mapPoint_ != null && mapPoint_.name.equals(option))
 			setPlace(mapPoint_);
 		
 		if(CONTACTS.equals(option))

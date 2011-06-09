@@ -142,7 +142,7 @@ public class TapToRouteOverlay extends Overlay
 	} // resetRoute
 	
 	public GeoPoint getStart() { return getMarkerPoint(startItem_); }
-	public GeoPoint getEnd() { return getMarkerPoint(endItem_); }
+	public GeoPoint getFinish() { return getMarkerPoint(endItem_); }
 
 	private GeoPoint getMarkerPoint(final OverlayItem marker)
 	{
