@@ -37,13 +37,11 @@ public class PlaceView extends LinearLayout
 	////////////////////////////////
 	static private final String CURRENT_LOCATION = "Current Location";
 	static private final String CONTACTS = "Contacts";
-	static private final String MAP_POINT ="Point on map";
 	
 	final private Context context_;
 	final private PlaceAutoCompleteTextView textView_;
 	final private ImageButton button_;
-	private GeoPlace currentLocation_;
-	private GeoPlace mapPoint_;
+	private List<GeoPlace> allowedPlaces_;
 	private List<String> options_;
 	private List<Contact> contacts_;
 	
@@ -66,24 +64,29 @@ public class PlaceView extends LinearLayout
 		button_ = (ImageButton)findViewById(R.id.optionsBtn);
 		
 		button_.setOnClickListener(this);
+		
+		allowedPlaces_ = new ArrayList<GeoPlace>();
 	} // PlaceView
 	
 	public void allowCurrentLocation(final GeoPoint loc) 
 	{ 
 		if(loc == null)
 			return;
-		currentLocation_ = new GeoPlace(loc, CURRENT_LOCATION, ""); 
-	} // allowCurrentLocation  // setBounds
-	public void allowMapLocation(final GeoPoint loc) { allowMapLocation(loc, MAP_POINT); }
-	public void allowMapLocation(final GeoPoint loc, final String label)
+		final GeoPlace gp = new GeoPlace(loc, CURRENT_LOCATION, "");
+		allowedPlaces_.add(gp);
+		setPlaceHint(gp);
+	} // allowCurrentLocation  
+	public void allowLocation(final GeoPoint loc, final String label)
 	{ 
 		if(loc == null)
 			return;
-		mapPoint_ = new GeoPlace(loc, label, ""); 
+		allowedPlaces_.add(new GeoPlace(loc, label, "")); 
 	} // allowMapLocation
 
 	public String getText() { return textView_.getText().toString(); }
 	public void setText(final String text) { textView_.setText(text); }
+	public String getHint() { return textView_.getHint().toString(); }
+	public void setHint(final String text) { textView_.setHint(text); }
 
 	public void geoPlace(final OnResolveListener listener) 
 	{ 
@@ -99,23 +102,61 @@ public class PlaceView extends LinearLayout
 			lookup(getText(), listener);			
 	} // geoPlace 
 	
-	public void addHistory(final GeoPlace place) { textView_.addHistory(place); }
+	public void addHistory(final GeoPlace place) 
+	{ 
+		for(final GeoPlace gp : allowedPlaces_)
+			if(gp == place)
+				return;			
+		textView_.addHistory(place); 
+	} // addHistory
 	private BoundingBoxE6 bounds() { return textView_.bounds(); }
 	public void setBounds(final BoundingBoxE6 bounds) { textView_.setBounds(bounds); }
+	
+	public void swap(final PlaceView other)
+	{
+		final String to = other.getText();
+		final String ho = other.getHint();
+		final GeoPlace po = other.textView_.geoPlace();
+		
+		final String t = getText();
+		final String h = getHint();
+		final GeoPlace p = textView_.geoPlace();
+		
+		set(po, to, ho);
+		other.set(p, t, h);
+	} // other
 
 	//////////////////////////////////////////
-	private void setPlace(final GeoPlace geoPlace) { textView_.setGeoPlaceHint(geoPlace); }
+	private void set(final GeoPlace gp, final String t, final String h)
+	{
+		if(gp == null)
+		{
+			if(notEmpty(t))
+				setText(t);
+			else if(notEmpty(h))
+				setHint(h);
+			else
+				setText("");
+			return;
+		} // if ...
+		if(notEmpty(t))
+			setPlace(gp);
+		else
+			setPlaceHint(gp);
+	} // set
+	private void setPlace(final GeoPlace geoPlace) { textView_.setGeoPlace(geoPlace); }
+	private void setPlaceHint(final GeoPlace geoPlace) { textView_.setGeoPlaceHint(geoPlace); }
 	private void setContact(final Contact contact) { textView_.setContact(contact); }
+	
+	private boolean notEmpty(final String s) { return s != null && s.length() != 0; }
 	
 	@Override
 	public void onClick(final View v) 
 	{
 		options_ = new ArrayList<String>();
-		if(currentLocation_ != null)
-			options_.add(CURRENT_LOCATION);
+		for(final GeoPlace gp : allowedPlaces_)
+			options_.add(gp.name);
 		options_.add(CONTACTS);
-		if(mapPoint_ != null)
-			options_.add(mapPoint_.name);
 
 		ListDialog.showListDialog(context_, 
 		  			              "Choose location", 
@@ -127,11 +168,10 @@ public class PlaceView extends LinearLayout
 	public void onClick(final DialogInterface dialog, final int whichButton)
 	{
 		final String option = options_.get(whichButton);
-		
-		if(CURRENT_LOCATION.equals(option))
-			setPlace(currentLocation_);
-		if(mapPoint_ != null && mapPoint_.name.equals(option))
-			setPlace(mapPoint_);
+
+		for(final GeoPlace gp : allowedPlaces_)
+			if(gp.name.equals(option))
+				setPlaceHint(gp);
 		
 		if(CONTACTS.equals(option))
 			pickContact();

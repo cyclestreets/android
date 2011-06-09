@@ -127,6 +127,7 @@ public class PlaceAutoCompleteTextView extends AutoCompleteTextView
 	{ 
 		place_ = null;
 		contact_ = null;
+		setHint("");
 		super.onTextChanged(s, start, before, after);
 	} // onTextChanged
 } // PlaceAutoCompleteTextView
