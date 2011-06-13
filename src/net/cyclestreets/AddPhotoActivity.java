@@ -26,6 +26,7 @@ import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -90,11 +91,14 @@ public class AddPhotoActivity extends Activity
 	
 	private String uploadedUrl_;
 	
+	private InputMethodManager imm_;
+	
 	@Override
 	protected void onCreate(final Bundle savedInstanceState) 
 	{
 		super.onCreate(savedInstanceState);
-		
+	
+		imm_ = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
 		step_ = AddStep.PHOTO;
 
 		final LayoutInflater inflater = (LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -176,6 +180,7 @@ public class AddPhotoActivity extends Activity
 			setContentView(photoCaption_);
 			break;
 		case CATEGORY:
+			imm_.hideSoftInputFromWindow(captionEditor().getWindowToken(), 0);
 			setContentView(photoCategory_);
 			break;
 		case LOCATION:
