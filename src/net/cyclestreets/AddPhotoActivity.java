@@ -28,6 +28,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -111,6 +112,8 @@ public class AddPhotoActivity extends Activity
 	private Bitmap photo_ = null;
 	private String caption_;
 	private String dateTime_;
+	private int metaCatId_;
+	private int catId_;
 	private String uploadedUrl_;
 	
 	private LayoutInflater inflater_;
@@ -127,6 +130,8 @@ public class AddPhotoActivity extends Activity
 		step_ = AddStep.PHOTO;
 		caption_ = "";
 		dateTime_ = "";
+		metaCatId_ = -1;
+		catId_ = -1;
 
 		photoView_ = inflater_.inflate(R.layout.addphoto, null);
 		{
@@ -179,6 +184,8 @@ public class AddPhotoActivity extends Activity
 	{
 		final SharedPreferences.Editor edit = prefs().edit();
         edit.putString("CAPTION", captionText());
+        edit.putInt("METACAT", metaCategoryId());
+        edit.putInt("CATEGORY", categoryId());
         edit.commit();
         
         super.onPause();
@@ -194,6 +201,10 @@ public class AddPhotoActivity extends Activity
     		photo_ = Bitmaps.loadFile(photoFile_);
     	dateTime_ = prefs.getString("DATETIME", "");
     	caption_ = prefs.getString("CAPTION", "");
+    	metaCatId_ = prefs.getInt("METACAT", -1);
+    	catId_ = prefs.getInt("CATEGORY", -1);
+
+    	setSpinnerSelections();
     	super.onResume();
     	setupView();
     } // onResume
@@ -257,6 +268,8 @@ public class AddPhotoActivity extends Activity
 			setContentView(photoCategory_);
 			break;
 		case LOCATION:
+			metaCatId_ = metaCategoryId();
+			catId_ = categoryId();
 			setContentView(photoLocation_);
 			break;
 		case SUBMIT:
@@ -314,6 +327,8 @@ public class AddPhotoActivity extends Activity
 		imm_.hideSoftInputFromWindow(captionEditor().getWindowToken(), 0);
 		return captionEditor().getText().toString(); 
 	} // captionText
+	private int metaCategoryId() { return (int)metaCategorySpinner().getSelectedItemId(); }
+	private int categoryId() { return (int)categorySpinner().getSelectedItemId(); }
 	private Spinner metaCategorySpinner() { return (Spinner)photoCategory_.findViewById(R.id.metacat); }
 	private Spinner categorySpinner() { return (Spinner)photoCategory_.findViewById(R.id.category); }
 
@@ -321,7 +336,18 @@ public class AddPhotoActivity extends Activity
 	{
 		metaCategorySpinner().setAdapter(new CategoryAdapter(this, photomapCategories.metacategories));
 		categorySpinner().setAdapter(new CategoryAdapter(this, photomapCategories.categories));
+		
+		setSpinnerSelections();
 	} // setupSpinners
+	
+	private void setSpinnerSelections()
+	{
+		// ids == position
+		if(metaCatId_ != -1)
+			metaCategorySpinner().setSelection(metaCatId_);
+		if(catId_ != -1)
+			categorySpinner().setSelection(catId_);
+	} // setSpinnerSelections
 	
 	@Override
 	public void onClick(final View v) 
@@ -402,8 +428,8 @@ public class AddPhotoActivity extends Activity
 		final String username = CycleStreetsPreferences.username();
 		final String password = CycleStreetsPreferences.password();
 		final GeoPoint location = there_.there();
-		final String metaCat = photomapCategories.metacategories.get((int)metaCategorySpinner().getSelectedItemId()).getTag();
-		final String category = photomapCategories.categories.get((int)categorySpinner().getSelectedItemId()).getTag();
+		final String metaCat = photomapCategories.metacategories.get(metaCatId_).getTag();
+		final String category = photomapCategories.categories.get(catId_).getTag();
 		final String dateTime = dateTime_;
 		final String caption = caption_;
 
