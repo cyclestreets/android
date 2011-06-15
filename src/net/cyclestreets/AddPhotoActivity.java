@@ -15,6 +15,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -41,7 +42,9 @@ import java.io.File;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.osmdroid.util.GeoPoint;
 
@@ -64,21 +67,34 @@ public class AddPhotoActivity extends Activity
 			prev_ = p;
 			if(prev_ != null)
 				prev_.next_ = this;
+			save(this);
 		} // AddStep
-
+		
 		public AddStep prev() { return prev_; }
 		public AddStep next() { return next_; }
 		
+		public int value() { return Value_.get(this); }
+		
 		private AddStep prev_;
 		private AddStep next_;
+		
+		public static AddStep fromInt(int a) 
+		{
+			for(AddStep s : Value_.keySet())
+				if(s.value() == a)
+					return s;
+			return null;
+		} // AddStep
+		
+		private static void save(AddStep a)
+		{
+			if(Value_ == null)
+				Value_ = new HashMap<AddStep, Integer>();
+			Value_.put(a, Value_.size());
+		} // save2
+		private static Map<AddStep, Integer> Value_;
 	} // AddStep
 
-	private AddStep step_;
-	
-	private String photoFile_ = null;
-	private Bitmap photo_ = null;
-	private ExifInterface photoExif_ = null;
-	
 	private View photoView_;
 	private View photoCaption_;
 	private View photoCategory_;
@@ -89,7 +105,12 @@ public class AddPhotoActivity extends Activity
 	private ThereOverlay there_;
 	private static PhotomapCategories photomapCategories;
 	
-	private String caption_ = "";
+	private AddStep step_;
+	
+	private String photoFile_ = null;
+	private Bitmap photo_ = null;
+	private String caption_;
+	private String dateTime_;
 	private String uploadedUrl_;
 	
 	private LayoutInflater inflater_;
@@ -104,6 +125,8 @@ public class AddPhotoActivity extends Activity
 		imm_ = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
 		
 		step_ = AddStep.PHOTO;
+		caption_ = "";
+		dateTime_ = "";
 
 		photoView_ = inflater_.inflate(R.layout.addphoto, null);
 		{
@@ -114,7 +137,7 @@ public class AddPhotoActivity extends Activity
 				takePhoto.setEnabled(false);
 		}
 		((Button)photoView_.findViewById(R.id.chooseexisting_button)).setOnClickListener(this);		
-				
+		
 		photoCategory_ = inflater_.inflate(R.layout.addphotocategory, null);
 		photoLocation_ = inflater_.inflate(R.layout.addphotolocation, null);
 		final Button u = (Button)photoLocation_.findViewById(R.id.next);
@@ -141,6 +164,45 @@ public class AddPhotoActivity extends Activity
 		setupView();
 	} // class AddPhotoActivity
 
+	private void store()
+	{
+		final SharedPreferences.Editor edit = prefs().edit();
+        edit.putInt("STEP", step_.value());
+        edit.putString("PHOTOFILE", photoFile_);
+        edit.putString("DATETIME", dateTime_);
+        edit.putString("CAPTION", caption_);
+        edit.commit();
+	} // store
+	
+	@Override
+	protected void onPause()
+	{
+		final SharedPreferences.Editor edit = prefs().edit();
+        edit.putString("CAPTION", captionText());
+        edit.commit();
+        
+        super.onPause();
+	} // onPause
+	
+    @Override
+    protected void onResume()
+    {
+    	final SharedPreferences prefs = prefs();
+    	step_ = AddStep.fromInt(prefs.getInt("STEP", 0));
+    	photoFile_ = prefs.getString("PHOTOFILE", photoFile_);
+    	if(photo_ == null && photoFile_ != null)
+    		photo_ = Bitmaps.loadFile(photoFile_);
+    	dateTime_ = prefs.getString("DATETIME", "");
+    	caption_ = prefs.getString("CAPTION", "");
+    	super.onResume();
+    	setupView();
+    } // onResume
+	
+    private SharedPreferences prefs()
+    {
+		return getSharedPreferences("net.cyclestreets.AddPhotoActivity", Context.MODE_PRIVATE);
+    } // prefs()
+    
 	@Override 
 	public void onBackPressed()
 	{
@@ -154,6 +216,7 @@ public class AddPhotoActivity extends Activity
 		} // if ...
 		
 		step_ = step_.prev();
+		store();
 		setupView();
 	} // onBackPressed
 	
@@ -167,7 +230,9 @@ public class AddPhotoActivity extends Activity
 		} // if ...
 			
 		step_ = step_.next();
-		setupView();
+
+		store();
+        setupView();
 	} // nextStep
 	
 	private void setupView()
@@ -187,8 +252,8 @@ public class AddPhotoActivity extends Activity
 			captionEditor().setText(caption_);
 			break;
 		case CATEGORY:
-			caption_ = captionEditor().getText().toString();
-			imm_.hideSoftInputFromWindow(captionEditor().getWindowToken(), 0);
+			caption_ = captionText();
+			store();
 			setContentView(photoCategory_);
 			break;
 		case LOCATION:
@@ -242,6 +307,13 @@ public class AddPhotoActivity extends Activity
 	} // hookUpNext
 	
 	private EditText captionEditor() { return (EditText)photoCaption_.findViewById(R.id.caption); }
+	private String captionText() 
+	{ 
+		if(photoCaption_ == null)
+			return caption_; 
+		imm_.hideSoftInputFromWindow(captionEditor().getWindowToken(), 0);
+		return captionEditor().getText().toString(); 
+	} // captionText
 	private Spinner metaCategorySpinner() { return (Spinner)photoCategory_.findViewById(R.id.metacat); }
 	private Spinner categorySpinner() { return (Spinner)photoCategory_.findViewById(R.id.category); }
 
@@ -296,9 +368,10 @@ public class AddPhotoActivity extends Activity
         		photo_.recycle();
         	photo_ = Bitmaps.loadFile(photoFile_);
         	
-        	photoExif_ = new ExifInterface(photoFile_);
+        	final ExifInterface exif = new ExifInterface(photoFile_);
 
-        	there_.noOverThere(photoLocation());
+        	dateTime_ = photoTimestamp(exif);
+        	there_.noOverThere(photoLocation(exif));
         	
         	nextStep();
         }
@@ -331,7 +404,7 @@ public class AddPhotoActivity extends Activity
 		final GeoPoint location = there_.there();
 		final String metaCat = photomapCategories.metacategories.get((int)metaCategorySpinner().getSelectedItemId()).getTag();
 		final String category = photomapCategories.categories.get((int)categorySpinner().getSelectedItemId()).getTag();
-		final String dateTime = photoTimestamp();
+		final String dateTime = dateTime_;
 		final String caption = caption_;
 
 		final UploadPhotoTask uploader = new UploadPhotoTask(this,
@@ -365,23 +438,23 @@ public class AddPhotoActivity extends Activity
 					  });
 	} // uploadFailed
 	
-	private GeoPoint photoLocation()
+	private GeoPoint photoLocation(final ExifInterface photoExif)
 	{
 		final float[] coords = new float[2];
-		if(!photoExif_.getLatLong(coords))
+		if(!photoExif.getLatLong(coords))
 			return null;
 		int lat = (int)(((double)coords[0]) * 1E6);
 		int lon = (int)(((double)coords[1]) * 1E6);
 		return new GeoPoint(lat, lon);
 	} // photoLocation
 	
-	private String photoTimestamp()
+	private String photoTimestamp(final ExifInterface photoExif)
 	{
 		Date date = new Date();
 		
 		try {
 			final DateFormat df = new SimpleDateFormat("yyyy:MM:dd HH:mm:ss");
-			final String dateString = photoExif_.getAttribute(ExifInterface.TAG_DATETIME);
+			final String dateString = photoExif.getAttribute(ExifInterface.TAG_DATETIME);
 			if(dateString != null && dateString.length() > 0)
 				date = df.parse(dateString);
 		} // try
