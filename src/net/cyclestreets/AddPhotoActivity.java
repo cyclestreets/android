@@ -89,8 +89,10 @@ public class AddPhotoActivity extends Activity
 	private ThereOverlay there_;
 	private static PhotomapCategories photomapCategories;
 	
+	private String caption_ = "";
 	private String uploadedUrl_;
 	
+	private LayoutInflater inflater_;
 	private InputMethodManager imm_;
 	
 	@Override
@@ -98,12 +100,12 @@ public class AddPhotoActivity extends Activity
 	{
 		super.onCreate(savedInstanceState);
 	
+		inflater_ = (LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		imm_ = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+		
 		step_ = AddStep.PHOTO;
 
-		final LayoutInflater inflater = (LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-
-		photoView_ = inflater.inflate(R.layout.addphoto, null);
+		photoView_ = inflater_.inflate(R.layout.addphoto, null);
 		{
 			final Button takePhoto = (Button)photoView_.findViewById(R.id.takephoto_button);
 			if(getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA))
@@ -113,12 +115,11 @@ public class AddPhotoActivity extends Activity
 		}
 		((Button)photoView_.findViewById(R.id.chooseexisting_button)).setOnClickListener(this);		
 				
-		photoCaption_ = inflater.inflate(R.layout.addphotocaption, null);
-		photoCategory_ = inflater.inflate(R.layout.addphotocategory, null);
-		photoLocation_ = inflater.inflate(R.layout.addphotolocation, null);
+		photoCategory_ = inflater_.inflate(R.layout.addphotocategory, null);
+		photoLocation_ = inflater_.inflate(R.layout.addphotolocation, null);
 		final Button u = (Button)photoLocation_.findViewById(R.id.next);
 		u.setText("Upload!");
-		photoWebView_ = inflater.inflate(R.layout.addphotoview, null);
+		photoWebView_ = inflater_.inflate(R.layout.addphotoview, null);
 		final Button b = (Button)photoWebView_.findViewById(R.id.next);
 		b.setText("Upload another");
 
@@ -174,12 +175,19 @@ public class AddPhotoActivity extends Activity
 		switch(step_)
 		{
 		case PHOTO:
-			setContentView(photoView_);
+			caption_ = "";
+			setContentView(photoView_);			
 			break;
 		case CAPTION:
+			// why recreate this view each time - well *sigh* because we have to force the 
+			// keyboard to hide, if we don't recreate the view afresh, Android won't redisplay 
+			// the keyboard if we come back to this view
+			photoCaption_ = inflater_.inflate(R.layout.addphotocaption, null);
 			setContentView(photoCaption_);
+			captionEditor().setText(caption_);
 			break;
 		case CATEGORY:
+			caption_ = captionEditor().getText().toString();
 			imm_.hideSoftInputFromWindow(captionEditor().getWindowToken(), 0);
 			setContentView(photoCategory_);
 			break;
@@ -193,7 +201,7 @@ public class AddPhotoActivity extends Activity
 			setContentView(photoWebView_);
 			{
 				final TextView text = (TextView)photoWebView_.findViewById(R.id.photo_text);
-				text.setText(captionEditText());
+				text.setText(caption_);
 				final TextView url = (TextView)photoWebView_.findViewById(R.id.photo_url);
 				url.setText(uploadedUrl_);
 				final Button share = (Button)findViewById(R.id.photo_share);
@@ -201,7 +209,6 @@ public class AddPhotoActivity extends Activity
 			}
 			break;
 		case DONE:
-			captionEditor().setText("");
 			metaCategorySpinner().setSelection(0);
 			categorySpinner().setSelection(0);
 			step_ = AddStep.PHOTO;
@@ -235,7 +242,6 @@ public class AddPhotoActivity extends Activity
 	} // hookUpNext
 	
 	private EditText captionEditor() { return (EditText)photoCaption_.findViewById(R.id.caption); }
-	private String captionEditText() { return captionEditor().getText().toString(); }
 	private Spinner metaCategorySpinner() { return (Spinner)photoCategory_.findViewById(R.id.metacat); }
 	private Spinner categorySpinner() { return (Spinner)photoCategory_.findViewById(R.id.category); }
 
@@ -260,7 +266,7 @@ public class AddPhotoActivity extends Activity
 							   android.provider.MediaStore.Images.Media.INTERNAL_CONTENT_URI);
 				break;
 			case R.id.photo_share:
-				Share.Url(this, uploadedUrl_, captionEditText(), "Photo on CycleStreets.net");
+				Share.Url(this, uploadedUrl_, caption_, "Photo on CycleStreets.net");
 				break;
 			case R.id.next:
 				if(step_ == AddStep.LOCATION && !CycleStreetsPreferences.accountOK())
@@ -326,7 +332,7 @@ public class AddPhotoActivity extends Activity
 		final String metaCat = photomapCategories.metacategories.get((int)metaCategorySpinner().getSelectedItemId()).getTag();
 		final String category = photomapCategories.categories.get((int)categorySpinner().getSelectedItemId()).getTag();
 		final String dateTime = photoTimestamp();
-		final String caption = captionEditText();
+		final String caption = caption_;
 
 		final UploadPhotoTask uploader = new UploadPhotoTask(this,
 															 filename,
