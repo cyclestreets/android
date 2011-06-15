@@ -28,7 +28,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -185,7 +184,15 @@ public class AddPhotoActivity extends Activity
 		final SharedPreferences.Editor edit = prefs().edit();
         edit.putString("CAPTION", captionText());
         edit.putInt("METACAT", metaCategoryId());
-        edit.putInt("CATEGORY", categoryId());
+        edit.putInt("CATEGORY", categoryId());        
+        final GeoPoint p = there_.there();
+        if(p != null)
+        {
+        	edit.putInt("THERE-LAT", p.getLatitudeE6());
+        	edit.putInt("THERE-LON", p.getLongitudeE6());
+        } 
+        else
+        	edit.putInt("THERE-LAT", -1);
         edit.commit();
         
         super.onPause();
@@ -201,10 +208,16 @@ public class AddPhotoActivity extends Activity
     		photo_ = Bitmaps.loadFile(photoFile_);
     	dateTime_ = prefs.getString("DATETIME", "");
     	caption_ = prefs.getString("CAPTION", "");
+    	
     	metaCatId_ = prefs.getInt("METACAT", -1);
     	catId_ = prefs.getInt("CATEGORY", -1);
-
     	setSpinnerSelections();
+    	
+    	final int tlat = prefs.getInt("THERE-LAT", -1);
+    	final int tlon = prefs.getInt("THERE-LON", -1);
+    	if((tlat != -1) && (tlon != -1))
+    		there_.noOverThere(new GeoPoint(tlat, tlon));
+    	
     	super.onResume();
     	setupView();
     } // onResume
@@ -251,7 +264,10 @@ public class AddPhotoActivity extends Activity
 		switch(step_)
 		{
 		case PHOTO:
+			metaCategorySpinner().setSelection(0);
+			categorySpinner().setSelection(0);
 			caption_ = "";
+			there_.noOverThere(null);
 			setContentView(photoView_);			
 			break;
 		case CAPTION:
@@ -287,8 +303,6 @@ public class AddPhotoActivity extends Activity
 			}
 			break;
 		case DONE:
-			metaCategorySpinner().setSelection(0);
-			categorySpinner().setSelection(0);
 			step_ = AddStep.PHOTO;
 			setupView();
 			break;
