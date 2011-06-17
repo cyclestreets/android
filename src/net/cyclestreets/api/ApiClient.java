@@ -22,6 +22,7 @@ import org.apache.http.StatusLine;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpResponseException;
 import org.apache.http.client.ResponseHandler;
+import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.utils.URIUtils;
@@ -356,7 +357,7 @@ public class ApiClient {
         final List<NameValuePair> params = createParamsList(args);
     	final URI uri = createURI(API_SCHEME, path, params);   
     	final HttpGet httpget = new HttpGet(uri);
-    	return httpclient.execute(httpget, new UTF8ResponseHandler());
+    	return executeRaw(httpget);
 	} // callApiRaw
 	
 	static private <T> T callApi(final Class<T> returnClass, final String path, String... args) throws Exception 
@@ -390,8 +391,15 @@ public class ApiClient {
     	
     	final HttpPost httppost = new HttpPost(uri);
     	httppost.setEntity(entity);    	
-    	return httpclient.execute(httppost, new UTF8ResponseHandler());
+    	return executeRaw(httppost);
 	} // postApiRaw
+	
+	static private String executeRaw(final HttpRequestBase method) 
+			throws ClientProtocolException, IOException
+	{
+    	method.setHeader("User-Agent", "CycleStreets Android/1.0");
+    	return httpclient.execute(method, new UTF8ResponseHandler());
+	} // executeRaw
 
 	static private URI createURI(final String scheme,
 								 final String path,
