@@ -41,7 +41,7 @@ class CycleStreetsRoutingTask extends RoutingTask<GeoPoint>
 	{
 		try {
 	   		if(itinerary_ != -1)
-	   			return ApiClient.getJourneyXml(routeType_, itinerary_, speed_);
+	   			return ApiClient.getJourneyXml(routeType_, itinerary_);
 	   		return ApiClient.getJourneyXml(routeType_, start, finish, speed_);
 	   	} // try
 	   	catch (Exception e) {

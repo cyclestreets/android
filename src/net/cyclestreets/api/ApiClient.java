@@ -203,14 +203,12 @@ public class ApiClient {
 	} // getJourneyXml
 	
 	static public String getJourneyXml(final String plan, 
-									   final int itinerary, 
-									   final int speed) 
+									   final int itinerary) 
 		throws Exception
 	{
 		return callApiRaw(API_PATH_JOURNEY,
 						  "plan", plan,
-						  "itinerary", Integer.toString(itinerary),
-						  "speed", Integer.toString(speed));
+						  "itinerary", Integer.toString(itinerary));
 	} // getJourneyXml
 		
 	static public PhotomapCategories getPhotomapCategories() 

@@ -32,7 +32,7 @@ public class ReplanRoutingTask extends RoutingTask<PlannedRoute>
 
 		  setMessage(R.string.finding_route);
 		  // otherwise go to cyclestreets
-		  final String xml = ApiClient.getJourneyXml(newPlan_, pr.itinerary(), pr.speed());
+		  final String xml = ApiClient.getJourneyXml(newPlan_, pr.itinerary());
 		  return new RouteData(xml, pr.start(), pr.finish());
 	   	} // try
 	   	catch (Exception e) {
