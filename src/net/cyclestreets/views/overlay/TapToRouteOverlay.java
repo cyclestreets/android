@@ -38,7 +38,7 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 
 public class TapToRouteOverlay extends Overlay 
-							   implements TapListener, ContextMenuListener
+							   implements TapListener, ContextMenuListener, DynamicMenuListener
 {
 	public interface Callback {
 		void onRouteNow(final GeoPoint from, final GeoPoint to);
@@ -171,7 +171,19 @@ public class TapToRouteOverlay extends Overlay
 
 	////////////////////////////////////////////
 	@Override
-	public boolean onCreateOptionsMenu(final Menu menu) { return false; }
+	public boolean onCreateOptionsMenu(final Menu menu) 
+	{ 
+    	menu.add(0, R.string.ic_menu_replan, Menu.NONE, R.string.ic_menu_replan).setIcon(R.drawable.ic_menu_more);
+    	return true;
+	} // onCreateOptionsMenu
+	
+	@Override
+	public boolean onPrepareOptionsMenu(final Menu menu)
+	{		
+		final MenuItem i = menu.findItem(R.string.ic_menu_replan);
+		i.setVisible(tapState_ == TapToRoute.ALL_DONE);
+		return true;
+	} // onPrepareOptionsMenu
 	
 	@Override
 	public void onCreateContextMenu(final ContextMenu menu) 
@@ -199,6 +211,13 @@ public class TapToRouteOverlay extends Overlay
 	public boolean onMenuItemSelected(int featureId, final MenuItem item)
 	{
 		final int menuId = item.getItemId();
+		
+		if(menuId == R.string.ic_menu_replan)
+		{
+			mapView_.showContextMenu();
+			return false;
+		} // if ...
+			
 		
 		if(Replan_Menu_Plans.containsKey(menuId))
 		{
@@ -233,7 +252,7 @@ public class TapToRouteOverlay extends Overlay
 			break;
 		} // switch(featureId)
 		return false;
-	} 
+	} // onMenuItemSelected
 	
 	////////////////////////////////////////////
 	@Override

@@ -35,6 +35,8 @@
 	<string name="ic_menu_mylocation">Show location</string>
 	<string name="ic_menu_findplace">Find place</string>
 	<string name="ic_menu_saved_routes">Saved routes</string>
+	<string name="ic_menu_settings">Settings</string>
+	<string name="ic_menu_replan">Change route type</string>
 	
 	<!-- find place dialog -->
 	<string name="btn_find_place">Find</string>
