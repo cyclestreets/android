@@ -31,7 +31,7 @@
 	<string name="registering">Registering with CycleStreets.net</string>
 
 	<!-- Map menu -->
-	<string name="ic_menu_directions">Route</string>
+	<string name="ic_menu_directions">Plan a route</string>
 	<string name="ic_menu_mylocation">Show location</string>
 	<string name="ic_menu_findplace">Find place</string>
 	<string name="ic_menu_saved_routes">Saved routes</string>
