@@ -60,6 +60,7 @@ import android.widget.RelativeLayout.LayoutParams;
     {
     	map_.onCreateOptionsMenu(menu);
     	menu.add(0, R.string.ic_menu_findplace, Menu.NONE, R.string.ic_menu_findplace).setIcon(R.drawable.ic_menu_search);
+    	menu.add(0, R.string.ic_menu_settings, Menu.NONE, R.string.ic_menu_settings).setIcon(R.drawable.ic_menu_settings);
     	return true;
 	} // onCreateOptionsMenu
     
@@ -85,6 +86,12 @@ import android.widget.RelativeLayout.LayoutParams;
 		if(item.getItemId() == R.string.ic_menu_findplace)
 		{
 			launchFindDialog();
+			return true;
+		} // if ...
+
+		if(item.getItemId() == R.string.ic_menu_settings)
+		{
+			startActivity(new Intent(this, SettingsActivity.class));
 			return true;
 		} // if ...
 
