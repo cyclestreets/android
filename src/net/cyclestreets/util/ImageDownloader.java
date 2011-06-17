@@ -63,6 +63,7 @@ public class ImageDownloader
 		{
 			final HttpClient client = new DefaultHttpClient();
 			final HttpGet getRequest = new HttpGet(url);
+	    	getRequest.setHeader("User-Agent", "CycleStreets Android/1.0");
 
 			try 
 			{
