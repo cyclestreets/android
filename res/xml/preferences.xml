@@ -3,7 +3,7 @@
     	android:title="Routing">
 		<ListPreference
 			android:key="routetype"
-			android:title="Route type"
+			android:title="Route type default"
 			android:summary="Balanced"
 			android:defaultValue="balanced"
 			android:entries="@array/routetype"
