@@ -2,6 +2,6 @@
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:drawable="@drawable/ic_menu_agenda"
           android:state_selected="true" />
-    <item android:drawable="@drawable/ic_menu_agenda"
+    <item android:drawable="@drawable/ic_menu_agenda_white"
     	  android:state_selected="false" />
 </selector>

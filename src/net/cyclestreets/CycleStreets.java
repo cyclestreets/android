@@ -42,7 +42,7 @@ public class CycleStreets extends TabActivity
 	    spec.setContent(new Intent(this, AddPhotoActivity.class));
 	    tabHost.addTab(spec);
 
-	    spec = tabHost.newTabSpec("More ...").setIndicator("", res.getDrawable(R.drawable.ic_menu_info_details));
+	    spec = tabHost.newTabSpec("More ...").setIndicator("", res.getDrawable(R.drawable.ic_tab_more));
 	    spec.setContent(new Intent(this, MoreActivity.class));
 	    tabHost.addTab(spec);
 	    
