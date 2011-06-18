@@ -418,6 +418,11 @@ public class AddPhotoActivity extends Activity
         catch(Exception e)
         {
         	Toast.makeText(this, "There was a problem grabbing the photo : " + e.getMessage(), Toast.LENGTH_LONG).show();
+        	if(requestCode == R.id.takephoto_button)
+        		startActivityForResult(new Intent(Intent.ACTION_PICK,
+						   						  android.provider.MediaStore.Images.Media.INTERNAL_CONTENT_URI),
+						   			   R.id.chooseexisting_button);
+        		
         }
 	} // onActivityResult
 	
