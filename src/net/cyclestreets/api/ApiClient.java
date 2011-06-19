@@ -254,7 +254,8 @@ public class ApiClient {
 									  "w", Double.toString(w),
 									  "suppressplaceholders", "1",
 									  "minimaldata", "1",
-									  "limit", "30");
+									  "limit", "30",
+									  "thumbnailsize", "250");
 		return photos.photos;
 	} // getPhotos
 	

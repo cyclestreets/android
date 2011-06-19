@@ -54,6 +54,7 @@ public class ImageDownloader
 				return;
 
 			imageView.setAnimation(null);
+			imageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
 			imageView.setBackgroundColor(Color.BLACK);
 			imageView.setPadding(0, 8, 0, 0);
 			imageView.setImageBitmap(bitmap);
