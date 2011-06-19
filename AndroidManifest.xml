@@ -14,7 +14,7 @@
     <application android:icon="@drawable/icon" 
     			 android:label="@string/app_name"
     			 android:name="CycleStreetsApp"
-    			 android:debuggable="true">
+    			 android:debuggable="false">
         <activity android:name=".CycleStreets"
                   android:label="@string/app_name">
             <intent-filter>

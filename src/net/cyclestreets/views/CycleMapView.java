@@ -102,8 +102,8 @@ public class CycleMapView extends MapView
 		} // if ...
 		
 		
-        location_.enableLocation(pref(PREFS_APP_MY_LOCATION, false));
-        if(pref(PREFS_APP_FOLLOW_LOCATION, false))
+        location_.enableLocation(pref(PREFS_APP_MY_LOCATION, true));
+        if(pref(PREFS_APP_FOLLOW_LOCATION, true))
         	location_.enableFollowLocation();
         else
         	location_.disableFollowLocation();
