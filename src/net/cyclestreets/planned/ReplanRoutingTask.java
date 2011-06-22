@@ -30,7 +30,7 @@ public class ReplanRoutingTask extends RoutingTask<PlannedRoute>
 		  if(rd != null)
 			return rd;
 
-		  setMessage(R.string.finding_route);
+		  publishProgress(R.string.finding_route);
 		  // otherwise go to cyclestreets
 		  final String xml = ApiClient.getJourneyXml(newPlan_, pr.itinerary());
 		  return new RouteData(xml, pr.start(), pr.finish());

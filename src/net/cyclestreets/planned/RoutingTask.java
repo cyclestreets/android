@@ -11,6 +11,7 @@ public abstract class RoutingTask<Params> extends
 		AsyncTask<Params, Integer, RouteData> 
 {
 	private final Route.Callback whoToTell_;
+	private final String initialMsg_;
 	private ProgressDialog progress_;
 	private Context context_;
 
@@ -27,20 +28,21 @@ public abstract class RoutingTask<Params> extends
 	{
 		whoToTell_ = whoToTell;
 		context_ = context;
-
-		progress_ = Dialog.createProgressDialog(context, progressMessage);
+		initialMsg_ = progressMessage;
 	} // Routing Task
-	
-	protected void setMessage(int msgId)
-	{
-		progress_.setMessage(context_.getString(msgId));
-	} // setMessage
 	
 	@Override
 	protected void onPreExecute() {
 		super.onPreExecute();
+		progress_ = Dialog.createProgressDialog(context_, initialMsg_);
 		progress_.show();
 	} // onPreExecute
+	
+	@Override
+	protected void onProgressUpdate(final Integer... p)
+	{
+		progress_.setMessage(context_.getString(p[0]));
+	} // onProgressUpdate
 
 	@Override
     protected void onPostExecute(final RouteData route) 
