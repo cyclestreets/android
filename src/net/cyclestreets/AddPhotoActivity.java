@@ -194,6 +194,8 @@ public class AddPhotoActivity extends Activity
         else
         	edit.putInt("THERE-LAT", -1);
         edit.commit();
+
+        map_.onPause();
         
         super.onPause();
 	} // onPause
@@ -217,6 +219,8 @@ public class AddPhotoActivity extends Activity
     	final int tlon = prefs.getInt("THERE-LON", -1);
     	if((tlat != -1) && (tlon != -1))
     		there_.noOverThere(new GeoPoint(tlat, tlon));
+
+        map_.onResume();
     	
     	super.onResume();
     	setupView();
