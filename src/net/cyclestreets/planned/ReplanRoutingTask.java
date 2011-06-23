@@ -2,7 +2,6 @@ package net.cyclestreets.planned;
 
 import android.content.Context;
 import net.cyclestreets.R;
-import net.cyclestreets.api.ApiClient;
 import net.cyclestreets.content.RouteData;
 import net.cyclestreets.content.RouteDatabase;
 
@@ -24,20 +23,12 @@ public class ReplanRoutingTask extends RoutingTask<PlannedRoute>
 	@Override
 	protected RouteData doInBackground(PlannedRoute... params) 
 	{
-		try {
-		  final PlannedRoute pr = params[0];
-		  final RouteData rd = db_.route(pr.itinerary(), newPlan_);
-		  if(rd != null)
-			return rd;
+	  final PlannedRoute pr = params[0];
+	  final RouteData rd = db_.route(pr.itinerary(), newPlan_);
+	  if(rd != null)
+		return rd;
 
-		  publishProgress(R.string.finding_route);
-		  // otherwise go to cyclestreets
-		  final String xml = ApiClient.getJourneyXml(newPlan_, pr.itinerary());
-		  return new RouteData(xml, pr.start(), pr.finish());
-	   	} // try
-	   	catch (Exception e) {
-	   		throw new RuntimeException(e);
-	   	} // catch
-
+	  publishProgress(R.string.finding_route);
+	  return fetchRoute(newPlan_, pr.itinerary(), pr.start(), pr.finish(), 0);
 	} // doInBackground
 } // class ReplanRoutingTask

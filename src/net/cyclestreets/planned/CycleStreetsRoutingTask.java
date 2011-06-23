@@ -1,7 +1,6 @@
 package net.cyclestreets.planned;
 
 import net.cyclestreets.R;
-import net.cyclestreets.api.ApiClient;
 import net.cyclestreets.content.RouteData;
 import net.cyclestreets.planned.Route;
 
@@ -33,19 +32,6 @@ class CycleStreetsRoutingTask extends RoutingTask<GeoPoint>
 	{
 		final GeoPoint start = points[0];
 		final GeoPoint finish = points[1];
-		final String xml = fetchRoute(start, finish);
-		return new RouteData(xml, start, finish);
+		return fetchRoute(routeType_, itinerary_, start, finish, speed_);
 	} // doInBackgroud
-	
-	protected String fetchRoute(final GeoPoint start, final GeoPoint finish) 
-	{
-		try {
-	   		if(itinerary_ != -1)
-	   			return ApiClient.getJourneyXml(routeType_, itinerary_);
-	   		return ApiClient.getJourneyXml(routeType_, start, finish, speed_);
-	   	} // try
-	   	catch (Exception e) {
-	   		throw new RuntimeException(e);
-	   	} // catch
-	} // doInBackground
 } // NewRouteTask

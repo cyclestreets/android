@@ -98,7 +98,7 @@ public class Route
 			doOnNewJourney(journeyXml, from, to);
 		} // try
 		catch(Exception e) {
-       		Toast.makeText(context_, R.string.route_failed, Toast.LENGTH_SHORT).show();
+       		Toast.makeText(context_, R.string.route_failed, Toast.LENGTH_LONG).show();
 		}
 	} // onNewJourney
 	

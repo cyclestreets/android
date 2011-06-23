@@ -445,7 +445,18 @@ public class AddPhotoActivity extends Activity
         } // finally
 	} // getImageFilePath
 	
-	private void upload()
+	private void upload() 
+	{
+		try {
+			doUpload();
+		}
+		catch(Exception e) { 
+       		Toast.makeText(this, "Could not upload photo.  Please check your network connection.", Toast.LENGTH_LONG).show();
+       		step_ = AddStep.LOCATION;
+		}
+	} // upload
+	
+	private void doUpload() throws Exception
 	{
 		final String filename = photoFile_;
 		final String username = CycleStreetsPreferences.username();
@@ -519,12 +530,11 @@ public class AddPhotoActivity extends Activity
 	{
 		protected PhotomapCategories doInBackground(Object... params) 
 		{
-			PhotomapCategories photomapCategories;
+			PhotomapCategories photomapCategories = null;
 			try {
 				photomapCategories = ApiClient.getPhotomapCategories();
 			}
 			catch (Exception ex) {
-				throw new RuntimeException(ex);
 			}
 			return photomapCategories;
 		} // PhotomapCategories
@@ -532,6 +542,11 @@ public class AddPhotoActivity extends Activity
 		@Override
 		protected void onPostExecute(PhotomapCategories photomapCategories) 
 		{
+			if(photomapCategories == null) 
+			{
+				Toast.makeText(AddPhotoActivity.this, "Could not load photomap categories.  Please check network connection.", Toast.LENGTH_LONG).show();
+				return;
+			} // if ...
 			AddPhotoActivity.photomapCategories = photomapCategories;
 			setupSpinners();
 		} // onPostExecute
