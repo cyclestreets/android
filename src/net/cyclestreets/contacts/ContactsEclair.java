@@ -1,6 +1,7 @@
 package net.cyclestreets.contacts;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import android.content.Context;
@@ -68,6 +69,8 @@ class ContactsEclair
 		finally {
 			addrCur.close();
 		} // finally
+		
+		Collections.sort(contacts, Contact.comparator());
 		
 		return contacts;
 	} // queryContacts
