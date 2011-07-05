@@ -56,10 +56,10 @@ public class RouteActivity extends Activity
     	
     	final GeoPoint start = GeoIntent.getGeoPoint(intent, "START");
     	final GeoPoint finish = GeoIntent.getGeoPoint(intent, "FINISH");
-    	placeFrom_.allowLocation(start, "Start point on map");
-    	placeTo_.allowLocation(finish, "Finish point of map");
-    	placeTo_.allowLocation(start, "Start point on map");
-    	placeFrom_.allowLocation(finish, "Finish point of map");
+    	placeFrom_.allowLocation(start, "Start marker");
+    	placeTo_.allowLocation(finish, "Finish marker");
+    	placeTo_.allowLocation(start, "Start marker");
+    	placeFrom_.allowLocation(finish, "Finish marker");
     	
     	routeGo = (Button) findViewById(R.id.routeGo);
     	routeGo.setOnClickListener(this);
