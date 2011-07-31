@@ -29,7 +29,7 @@
 			android:key="mapstyle"
 			android:title="Map style"
 			android:summary="OpenStreetMap"
-			android:defaultValue="CycleStreets"
+			android:defaultValue="CycleStreets-OSM"
 			android:entries="@array/mapstyle"
 			android:entryValues="@array/mapstyle_values" />
 		<CheckBoxPreference

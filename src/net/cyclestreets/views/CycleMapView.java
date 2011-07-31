@@ -184,7 +184,7 @@ public class CycleMapView extends MapView
 		catch(Exception e) { 
 			// sigh
 		} // catch
-		return attribution_.get("CycleStreets");
+		return attribution_.get(DEFAULT_RENDERER);
 	} // mapAttribution
 	
 	private ITileSource mapRenderer()
@@ -195,29 +195,29 @@ public class CycleMapView extends MapView
 		catch(Exception e) {
 			// oh dear 
 		} // catch
-		return TileSourceFactory.getTileSource("CycleStreets");
+		return TileSourceFactory.getTileSource(DEFAULT_RENDERER);
 		
 		//return OPENCYCLEMAP;
 	} // mapRenderer
 	
-	static private String DEFAULT_RENDERER = "CycleStreets";
+	static private String DEFAULT_RENDERER = "CycleStreets-OSM";
 	static private Map<String, String> attribution_ = 
-			MapFactory.map(DEFAULT_RENDERER, "\u00a9 OpenStreetMap and contributors, CC-BY-SA. Map images \u00a9 OpenCycleMap")
+			MapFactory.map("CycleStreets", "\u00a9 OpenStreetMap and contributors, CC-BY-SA. Map images \u00a9 OpenCycleMap")
 			          .map("CycleStreets-OSM", "\u00a9 OpenStreetMap and contributors, CC-BY-SA")
 			          .map("CycleStreets-OS", "Contains Ordnance Survey Data \u00a9 Crown copyright and database right 2010");
 	
 	static 
 	{ 
-		final OnlineTileSourceBase OPENCYCLEMAP = new XYTileSource(DEFAULT_RENDERER,
+		final OnlineTileSourceBase OPENCYCLEMAP = new XYTileSource("CycleStreets",
 	            			ResourceProxy.string.cyclemap, 0, 17, 256, ".png",
 	            			"http://a.tile.opencyclemap.org/cycle/",
 	            			"http://b.tile.opencyclemap.org/cycle/",
 	            			"http://c.tile.opencyclemap.org/cycle/");
 		final OnlineTileSourceBase OPENSTREETMAP = new XYTileSource("CycleStreets-OSM",
 			    			ResourceProxy.string.osmarender, 0, 17, 256, ".png",
-			    			"http://a.openstreetmap.com/",
-			    			"http://b.openstreetmap.com/",
-			    			"http://c.openstreetmap.com/");
+			    			"http://a.tile.openstreetmap.org/",
+			    			"http://b.tile.openstreetmap.org/",
+			    			"http://c.tile.openstreetmap.org/");
 		final OnlineTileSourceBase OSMAP = new XYTileSource("CycleStreets-OS",
 							ResourceProxy.string.unknown, 0, 17, 256, ".png",
 						    "http://a.os.openstreetmap.org/sv/",
