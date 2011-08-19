@@ -142,18 +142,16 @@ public class ApiClient {
 									 final int speed) 
 		throws Exception 
 	{
+		final String points = itineraryPoints(startLon, startLat, finishLon, finishLat);
 		return callApi(Journey.class, 
 					   API_PATH_JOURNEY,
 					   "plan", plan,
-					   "start_longitude", Double.toString(startLon),
-					   "start_latitude", Double.toString(startLat),
-					   "finish_longitude", Double.toString(finishLon),
-					   "finish_latitude", Double.toString(finishLat),
+					   "itinerarypoints", points,
 					   "leaving", leaving,
 					   "arriving", arriving,
 					   "speed", Integer.toString(speed));
 	} // getJourney
-
+	
 	static public String getJourneyXml(final String plan, 
 									   final GeoPoint start, 
 									   final GeoPoint finish) 
@@ -191,12 +189,10 @@ public class ApiClient {
 									   final int speed) 
 		throws Exception
 	{
+		final String points = itineraryPoints(startLon, startLat, finishLon, finishLat);
 		return callApiRaw(API_PATH_JOURNEY,
 						  "plan", plan,
-						  "start_longitude", Double.toString(startLon),
-						  "start_latitude", Double.toString(startLat),
-						  "finish_longitude", Double.toString(finishLon),
-						  "finish_latitude", Double.toString(finishLat),
+					      "itinerarypoints", points,
 						  "leaving", leaving,
 						  "arriving", arriving,
 						  "speed", Integer.toString(speed));
@@ -351,6 +347,17 @@ public class ApiClient {
 
 	/////////////////////////////////////////////////////
 	/////////////////////////////////////////////////////
+	static private String itineraryPoints(final double startLon, 
+		 	  final double startLat, 
+		      final double finishLon, 
+		      final double finishLat)
+	{
+		final StringBuilder sb = new StringBuilder();
+		sb.append(startLon).append(",").append(startLat).append("|")
+		  .append(finishLon).append(",").append(finishLat);
+		return sb.toString();
+	} // itineraryPoints
+
 	static private String callApiRaw(final String path, String... args) throws Exception
 	{
         final List<NameValuePair> params = createParamsList(args);
