@@ -9,6 +9,9 @@ public class Marker {
    public String name, points, flow, turn, elevations, distances, provisionName, color, type;
 
    @Attribute(required=false)
+   public int grammesCO2saved, calories;
+   
+   @Attribute(required=false)
    public String start, finish, event, whence, plan, note, leaving, arriving, coordinates;
    	
    @Attribute(required=false)
