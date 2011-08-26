@@ -96,10 +96,13 @@ public class ItineraryActivity extends ListActivity
 				return inflater_.inflate(R.layout.itinerary_not_available, parent, false);
 			
 			final Segment seg = Route.segments().get(position);
-			final View v = inflater_.inflate(R.layout.itinerary_item, parent, false);
+			final int layout_id = position != 0 ? R.layout.itinerary_item : R.layout.itinerary_header_item;
+			final View v = inflater_.inflate(layout_id, parent, false);
 
 			final boolean highlight = (position == Route.activeSegmentIndex());
 		
+			if(position == 0)
+				setText(v, R.id.segment_bonus, seg.extraInfo(), highlight);
 			setText(v, R.id.segment_street, seg.street(), highlight);
 			setText(v, R.id.segment_distance, seg.distance(), highlight);
 			setText(v, R.id.segment_cumulative_distance, seg.runningDistance(), highlight);
@@ -118,6 +121,8 @@ public class ItineraryActivity extends ListActivity
 		private void setText(final View v, final int id, final String t, final boolean highlight)
 		{
 			final TextView n = (TextView)v.findViewById(id);
+			if(n == null)
+				return;
 			n.setText(t);
 			if(highlight)
 				n.setTextColor(Color.BLACK);

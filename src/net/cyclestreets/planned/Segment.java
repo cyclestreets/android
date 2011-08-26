@@ -94,13 +94,16 @@ public abstract class Segment
 	public String runningTime() { return running_time_; }
 	public String distance() { return formatter.distance(distance_); }
 	public String runningDistance() { return formatter.total_distance(running_distance_); }
+	public String extraInfo() { return ""; }
 	public Iterator<GeoPoint> points() { return points_.iterator(); }
 
 	static public class Start extends Segment 
 	{
 		private final int itinerary_;
-		private final int speed_; 
 		private final String plan_;
+		private final int speed_;
+		private final int calories_;
+		private final int co2_;
 		
 		Start(final int itinerary,
 			  final String journey, 
@@ -108,12 +111,16 @@ public abstract class Segment
 			  final int speed,
 			  final int total_time,
 			  final int total_distance, 
+			  final int calories,
+			  final int co2,
 			  final List<GeoPoint> points)
 		{
 			super(journey, "", false, total_time, 0, total_distance, points, true);
 			itinerary_ = itinerary;
 			plan_ = plan;
 			speed_ = speed;
+			calories_ = calories;
+			co2_ = co2;
 		} // Start
 		
 		public String name() { return super.street(); }
@@ -133,6 +140,12 @@ public abstract class Segment
 		public String distance() { return ""; }
 		public String runningDistance() { return ""; }
 		public String runningTime() { return ""; }
+		public String extraInfo() 
+		{ 
+			int kg = co2_ / 1000;
+			int g = (int)((co2_ % 1000) / 10.0);
+			return String.format("Calories : %d\nCO\u2082 saved : %d.%02dkg", calories_, kg, g); 
+		} // extraInfo
 	} // class Start
 	
 	static public class End extends Segment

@@ -61,6 +61,8 @@ public class PlannedRoute
 														   marker.speed,
 														   total_time, 
 														   total_distance, 
+														   marker.calories,
+														   marker.grammesCO2saved,
 														   Collections.list(from, pr.segments_.get(0).start()));
 				final Segment endSeg = new Segment.End(marker.finish, 
 													   total_time, 
