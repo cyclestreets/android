@@ -142,9 +142,11 @@ public abstract class Segment
 		public String runningTime() { return ""; }
 		public String extraInfo() 
 		{ 
+			if(co2_ == 0 && calories_ == 0)
+				return "";
 			int kg = co2_ / 1000;
 			int g = (int)((co2_ % 1000) / 10.0);
-			return String.format("Calories : %d\nCO\u2082 saved : %d.%02dkg", calories_, kg, g); 
+			return String.format("Calories : %dkcal\nCO\u2082 saved : %d.%02dkg", calories_, kg, g); 
 		} // extraInfo
 	} // class Start
 	
