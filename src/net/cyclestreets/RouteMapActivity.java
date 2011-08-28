@@ -24,7 +24,7 @@ import android.view.MenuItem;
  							   implements TapToRouteOverlay.Callback, 
  							   			  Route.Callback
  {
-	private PathOfRouteOverlay path;
+	private PathOfRouteOverlay path_;
 	private TapToRouteOverlay routeSetter_;
 	
     @Override
@@ -34,8 +34,8 @@ import android.view.MenuItem;
 
         overlayPushBottom(new RouteHighlightOverlay(getApplicationContext(), mapView()));
         
-        path = new PathOfRouteOverlay(getApplicationContext());
-        overlayPushBottom(path);
+        path_ = new PathOfRouteOverlay(getApplicationContext());
+        overlayPushBottom(path_);
 
         routeSetter_ = new TapToRouteOverlay(getApplicationContext(), mapView(), this);
         overlayPushTop(routeSetter_);
@@ -81,7 +81,7 @@ import android.view.MenuItem;
     {
     	Route.resetJourney();
     	routeSetter_.resetRoute();
-    	path.clearPath();
+    	path_.clearPath();
     	mapView().invalidate();
     } // onClearRoute
     
@@ -196,8 +196,7 @@ import android.view.MenuItem;
    
    private void setJourneyPath(final Iterator<GeoPoint> points, final GeoPoint start, final GeoPoint finish)
    {
-	   routeSetter_.setRoute(start, finish, points.hasNext());
-	   
-	   path.setRoute(points);
+	   routeSetter_.setRoute(start, finish, points.hasNext());	   
+	   path_.setRoute(points);
    } // setJourneyPath
 } // class MapActivity
