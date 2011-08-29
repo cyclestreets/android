@@ -40,9 +40,7 @@ public class Dialog
 	    final EditText textBox = ((EditText)layout.findViewById(R.id.edit_text));
 	    textBox.setText(initialText);
 
-	    final AlertDialog.Builder builder = new AlertDialog.Builder(context);
-	    builder.setTitle("CycleStreets");
-
+	    final AlertDialog.Builder builder = newBuilder(context);
 	    builder.setPositiveButton(buttonText, new DialogInterface.OnClickListener() {
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
@@ -52,7 +50,25 @@ public class Dialog
 		});
 	    builder.setView(layout);
 
-	    final AlertDialog ad = builder.create();
-		ad.show();
+	    show(builder);
 	} // editTextDialog
+
+	
+	static AlertDialog.Builder newBuilder(final View parent)
+	{
+		return newBuilder(parent.getContext());
+	} // newBuilder
+	
+	static AlertDialog.Builder newBuilder(final Context context)
+	{
+		final AlertDialog.Builder builder = new AlertDialog.Builder(context);
+		builder.setTitle("CycleStreets");
+		return builder;
+	} // newBuilder
+	
+	static void show(final AlertDialog.Builder builder)
+	{
+		final AlertDialog ad = builder.create();
+		ad.show();
+	} // show
 } // class Dialog

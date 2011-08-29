@@ -24,12 +24,11 @@ public class MessageBox
 							 final DialogInterface.OnClickListener yesAction,
 							 final DialogInterface.OnClickListener noAction)
 	{
-        final AlertDialog.Builder alertbox = newBuilder(parent);
+        final AlertDialog.Builder alertbox = Dialog.newBuilder(parent);
         alertbox.setMessage(msg);
         alertbox.setPositiveButton("Yes", yesAction);
         alertbox.setNegativeButton("No", noAction);
-        
-        show(alertbox);
+        Dialog.show(alertbox);
 	} // YesNo
 	
 	static public void OK(final View parent,
@@ -42,10 +41,10 @@ public class MessageBox
 						  final String msg,
 						  final DialogInterface.OnClickListener okAction)
 	{
-		final AlertDialog.Builder alertbox = newBuilder(parent);
+		final AlertDialog.Builder alertbox = Dialog.newBuilder(parent);
 		alertbox.setMessage(msg);
 		alertbox.setPositiveButton("OK", okAction);
-		show(alertbox);
+		Dialog.show(alertbox);
 	} // OK
 	
 	static public void OKAndFinish(final View view,
@@ -61,19 +60,5 @@ public class MessageBox
     						activity.finish();
     					}
     			  	  });
-	} // OKAndFinish
-	
-	static private AlertDialog.Builder newBuilder(final View parent)
-	{
-		final AlertDialog.Builder builder = new AlertDialog.Builder(parent.getContext());
-		builder.setTitle("CycleStreets");
-		return builder;
-	} // newBuilder
-	
-	static private void show(final AlertDialog.Builder builder)
-	{
-		final AlertDialog ad = builder.create();
-		ad.show();
-	} // show
-	
+	} // OKAndFinish	
 } // class MessageBox
