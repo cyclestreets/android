@@ -46,6 +46,11 @@ public class Route
 		query.execute(localId);
 	} // PlotRoute
 	
+	static public void RenameRoute(final int localId, final String newName)
+	{
+		db_.renameRoute(localId, newName);
+	} // RenameRoute
+	
 	static public void DeleteRoute(final int localId)
 	{
 		db_.deleteRoute(localId);
@@ -72,7 +77,7 @@ public class Route
 	
 	static public void resetJourney()
 	{
-		onNewJourney(null, null, null);
+		onNewJourney(null, null, null, null);
 	} // resetJourney
 
 	static public void onResume()
@@ -92,10 +97,13 @@ public class Route
 	} // storedNames
 	
 	/////////////////////////////////////
-	static public void onNewJourney(final String journeyXml, final GeoPoint from, final GeoPoint to)
+	static public void onNewJourney(final String journeyXml, 
+									final GeoPoint from, 
+									final GeoPoint to,
+									final String name)
 	{
 		try {
-			doOnNewJourney(journeyXml, from, to);
+			doOnNewJourney(journeyXml, from, to, name);
 		} // try
 		catch(Exception e) {
        		Toast.makeText(context_, R.string.route_failed, Toast.LENGTH_LONG).show();
@@ -104,7 +112,8 @@ public class Route
 	
 	static private void doOnNewJourney(final String journeyXml, 
 									   final GeoPoint start, 
-									   final GeoPoint finish)
+									   final GeoPoint finish,
+									   final String name)
 		throws Exception
 	{
 		start_ = start;
@@ -116,7 +125,7 @@ public class Route
 			return;
 		}
 		
-		plannedRoute_ = PlannedRoute.load(journeyXml, start, finish);
+		plannedRoute_ = PlannedRoute.load(journeyXml, start, finish, name);
 		
 		db_.saveRoute(plannedRoute_.itinerary(), 
 					  plannedRoute_.name(), 

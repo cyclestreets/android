@@ -20,7 +20,10 @@ public class PlannedRoute
 		NULL_ROUTE.activeSegment_ = -1;
 	}
 	
-	static PlannedRoute load(final String journeyXml, final GeoPoint from, final GeoPoint to) 
+	static PlannedRoute load(final String journeyXml, 
+			                 final GeoPoint from, 
+			                 final GeoPoint to,
+			                 final String name) 
 		throws Exception
 	{
 		final PlannedRoute pr = new PlannedRoute();
@@ -56,7 +59,7 @@ public class PlannedRoute
 			if(marker.type.equals("route"))			
 			{
 				final Segment startSeg = new Segment.Start(marker.itinerary,
-														   marker.name, 
+														   name != null ? name : marker.name, 
 														   marker.plan, 
 														   marker.speed,
 														   total_time, 
@@ -96,7 +99,7 @@ public class PlannedRoute
 	private PlannedRoute() 
 	{
 		segments_ = new ArrayList<Segment>();
-		activeSegment_ = 0;
+		activeSegment_ = 0;		
 	} // PlannedRoute
 	
 	private void add(final Segment segment)

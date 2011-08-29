@@ -5,6 +5,7 @@ import java.util.List;
 import net.cyclestreets.content.RouteSummary;
 import net.cyclestreets.planned.Route;
 import net.cyclestreets.planned.Segment;
+import net.cyclestreets.util.Dialog;
 import android.app.ListActivity;
 import android.content.Context;
 import android.content.Intent;
@@ -26,6 +27,7 @@ public class StoredRoutesActivity extends ListActivity
 {
 	private static final int MENU_OPEN = 1;
 	private static final int MENU_DELETE = 2;
+	private static final int MENU_RENAME = 3;
 	
 	private RouteSummaryAdaptor listAdaptor_;
 	
@@ -50,6 +52,7 @@ public class StoredRoutesActivity extends ListActivity
 									final ContextMenu.ContextMenuInfo menuInfo) 
 	{
 		 menu.add(0, MENU_OPEN, Menu.NONE, "Open");
+		 menu.add(0, MENU_RENAME, Menu.NONE, "Rename");
 		 menu.add(0, MENU_DELETE, Menu.NONE, "Delete");
 	}  // onCreateContextMenu
 
@@ -65,6 +68,9 @@ public class StoredRoutesActivity extends ListActivity
 		    {
 		    case MENU_OPEN:
 		    	openRoute(localId);
+		    	break;
+		    case MENU_RENAME:
+		    	renameRoute(localId);
 		    	break;
 		    case MENU_DELETE:
 		    	deleteRoute(localId);
@@ -91,6 +97,19 @@ public class StoredRoutesActivity extends ListActivity
     	finish();
 	} // routeSelected
 	
+	private void renameRoute(final int localId)
+	{
+		final RouteSummary route = listAdaptor_.getRouteSummary(localId);
+		Dialog.editTextDialog(this, route.title(), "Rename",
+				new Dialog.UpdatedTextListener() {					
+					@Override
+					public void updatedText(final String updated) {
+						Route.RenameRoute(localId, updated);
+						listAdaptor_.refresh(Route.storedRoutes());
+					} // updatedText
+				});
+	} // renameRoute
+	
 	private void deleteRoute(final int localId)
 	{
 		Route.DeleteRoute(localId);
@@ -115,6 +134,14 @@ public class StoredRoutesActivity extends ListActivity
 			notifyDataSetChanged();
 		} // refresh
 
+		public RouteSummary getRouteSummary(int localId) 
+		{
+			for(final RouteSummary r : routes_)
+				if(r.localId() == localId)
+					return r;
+			return null;
+		} // getRouteSummary
+		
 		@Override
 		public int getCount() { return routes_.size(); }
 		

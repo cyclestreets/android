@@ -95,6 +95,16 @@ public class RouteDatabase
 		update.execute();
 	} // updateRoute
 	
+	public void renameRoute(final int localId, final String newName)
+	{
+		final String ROUTE_TABLE_RENAME =
+			"UPDATE route SET name = ? WHERE " + BaseColumns._ID + " = ?";
+		final SQLiteStatement update = db_.compileStatement(ROUTE_TABLE_RENAME);
+		update.bindString(1, newName);
+		update.bindLong(2, localId);
+		update.execute();		
+	} // renameRoute
+	
 	public void deleteRoute(final int localId)
 	{
 		final String ROUTE_TABLE_DELETE = 
@@ -150,7 +160,8 @@ public class RouteDatabase
         final Cursor cursor = db_.query(DatabaseHelper.ROUTE_TABLE_NAME, 
         								new String[] { "xml", 
         											   "start_lat", "start_long", 
-        											   "end_lat", "end_long" },
+        											   "end_lat", "end_long",
+        											   "name"},
         								filter, 
         								bindParams, 
         								null, 
@@ -161,7 +172,8 @@ public class RouteDatabase
            {
         	   r = new RouteData(cursor.getString(0),
         			   			 new GeoPoint(cursor.getInt(1), cursor.getInt(2)),
-        			   			 new GeoPoint(cursor.getInt(3), cursor.getInt(4)));
+        			   			 new GeoPoint(cursor.getInt(3), cursor.getInt(4)),
+        			   			 cursor.getString(5));
            } 
            while (cursor.moveToNext());
  

@@ -43,7 +43,7 @@ public abstract class RoutingTask<Params> extends
 	{
 		try {
 	   		final String xml = doFetchRoute(routeType, itinerary, start, finish, speed);
-			return new RouteData(xml, start, finish);
+			return new RouteData(xml, start, finish, null);
 	   	} // try
 	   	catch (Exception e) {
 	   		error_ = "Could not contact CycleStreets.net : " + e.getMessage();
@@ -81,7 +81,7 @@ public abstract class RoutingTask<Params> extends
     {
 		if(route != null)
 		{
-			Route.onNewJourney(route.xml(), route.start(), route.finish());
+			Route.onNewJourney(route.xml(), route.start(), route.finish(), route.name());
 			whoToTell_.onNewJourney();
 		} // if ...
        	progress_.dismiss();
