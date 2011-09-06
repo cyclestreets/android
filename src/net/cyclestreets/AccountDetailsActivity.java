@@ -260,7 +260,8 @@ public class AccountDetailsActivity extends Activity
 				return res;
 			} // try
 			catch(final Exception e) {
-				return new SigninResult("Error: " + e);
+				final String msg = e.getMessage();
+				return new SigninResult("Error: " + msg);
 			} // catch
 		} // doInBackground
 		

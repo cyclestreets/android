@@ -20,88 +20,89 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
- public class RouteMapActivity extends CycleMapActivity 
- 							   implements TapToRouteOverlay.Callback, 
- 							   			  Route.Callback
- {
+public class RouteMapActivity extends CycleMapActivity 
+                              implements TapToRouteOverlay.Callback, 
+                                         Route.Callback
+{
 	private PathOfRouteOverlay path_;
 	private TapToRouteOverlay routeSetter_;
 	
-    @Override
-    public void onCreate(final Bundle saved)
-    {
-        super.onCreate(saved);
+	@Override
+	public void onCreate(final Bundle saved)
+	{
+	  super.onCreate(saved);
 
-        overlayPushBottom(new RouteHighlightOverlay(getApplicationContext(), mapView()));
+	  overlayPushBottom(new RouteHighlightOverlay(getApplicationContext(), mapView()));
         
-        path_ = new PathOfRouteOverlay(getApplicationContext());
-        overlayPushBottom(path_);
+	  path_ = new PathOfRouteOverlay(getApplicationContext());
+	  overlayPushBottom(path_);
+	  
+	  routeSetter_ = new TapToRouteOverlay(getApplicationContext(), mapView(), this);
+	  overlayPushTop(routeSetter_);
+  } // onCreate
 
-        routeSetter_ = new TapToRouteOverlay(getApplicationContext(), mapView(), this);
-        overlayPushTop(routeSetter_);
-    } // onCreate
+	@Override
+	protected void onPause()
+	{
+	  Route.setTerminals(routeSetter_.getStart(), routeSetter_.getFinish());
+	  super.onPause();
+  } // onPause
 
-    @Override
-    protected void onPause()
-    {
-        Route.setTerminals(routeSetter_.getStart(), routeSetter_.getFinish());
-        super.onPause();
-    } // onPause
-
-    @Override
-    protected void onResume()
-    {
-    	super.onResume();
-       	setJourneyPath(Route.points(), Route.start(), Route.finish());
-    } // onResume
+	@Override
+	protected void onResume()
+	{
+	  super.onResume();
+	  setJourneyPath(Route.points(), Route.start(), Route.finish());
+  } // onResume
      
-    public void onRouteNow(final GeoPoint start, final GeoPoint end)
-    {
-    	Route.PlotRoute(CycleStreetsPreferences.routeType(), 
-    					start, 
-    					end,
-    					CycleStreetsPreferences.speed(),
-    					this, 
-    					this);
-    } // onRouteNow
+	public void onRouteNow(final GeoPoint start, final GeoPoint end)
+	{
+	  Route.PlotRoute(CycleStreetsPreferences.routeType(), 
+	                  start, 
+	                  end,
+	                  CycleStreetsPreferences.speed(),
+	                  this, 
+	                  this);
+	} // onRouteNow
     
-    public void reRouteNow(final String plan)
-    {
-    	Route.RePlotRoute(plan,
-    					  this, 
-    					  this);
-    } // reRouteNow
+	public void reRouteNow(final String plan)
+	{
+	  Route.RePlotRoute(plan,
+	                    this, 
+	                    this);
+	} // reRouteNow
 
-    public void onStoredRouteNow(final int localId)
-    {
-    	Route.PlotRoute(localId, this, this);
-    } // onStoredRouteNow
+	public void onStoredRouteNow(final int localId)
+	{
+	  Route.PlotRoute(localId, this, this);
+  } // onStoredRouteNow
     
-    public void onClearRoute()
-    {
-    	Route.resetJourney();
-    	routeSetter_.resetRoute();
-    	path_.clearPath();
-    	mapView().invalidate();
-    } // onClearRoute
+	public void onClearRoute()
+	{
+	  Route.resetJourney();
+	  routeSetter_.resetRoute();
+	  path_.clearPath();
+	  mapView().invalidate();
+  } // onClearRoute
     
-    @Override
+	@Override
 	public boolean onCreateOptionsMenu(final Menu menu)
-    {
-    	menu.add(0, R.string.ic_menu_directions, Menu.NONE, R.string.ic_menu_directions).setIcon(R.drawable.ic_menu_directions);
-    	menu.add(0, R.string.ic_menu_saved_routes, Menu.NONE, R.string.ic_menu_saved_routes).setIcon(R.drawable.ic_menu_places);
-    	super.onCreateOptionsMenu(menu);
-    	return true;
+	{
+	  menu.add(0, R.string.ic_menu_directions, Menu.NONE, R.string.ic_menu_directions).setIcon(R.drawable.ic_menu_directions);
+	  menu.add(0, R.string.ic_menu_saved_routes, Menu.NONE, R.string.ic_menu_saved_routes).setIcon(R.drawable.ic_menu_places);
+	  menu.add(0, R.string.ic_menu_route_number, Menu.NONE, R.string.ic_menu_route_number).setIcon(R.drawable.ic_menu_route_number);
+	  super.onCreateOptionsMenu(menu);
+	  return true;
 	} // onCreateOptionsMenu
     
-    @Override
+	@Override
 	public boolean onPrepareOptionsMenu(final Menu menu)
-    {
-		final MenuItem i = menu.findItem(R.string.ic_menu_saved_routes);
+	{
+	  final MenuItem i = menu.findItem(R.string.ic_menu_saved_routes);
 		i.setVisible(Route.storedCount() != 0);
-    	super.onPrepareOptionsMenu(menu);
-    	return true;
-    } // onPrepareOptionsMenu
+		super.onPrepareOptionsMenu(menu);
+		return true;
+	} // onPrepareOptionsMenu
     
 	@Override
 	public boolean onMenuItemSelected(final int featureId, final MenuItem item)
@@ -109,35 +110,26 @@ import android.view.MenuItem;
 		if(super.onMenuItemSelected(featureId, item))
 			return true;
 		
-		if(item.getItemId() == R.string.ic_menu_directions)
+		switch(item.getItemId())
 		{
-			if(Route.available() && CycleStreetsPreferences.confirmNewRoute())
-				MessageBox.YesNo(mapView(),
-								 "Start a new route?",
-								 new DialogInterface.OnClickListener() {
-									public void onClick(DialogInterface arg0, int arg1) {
-										launchRouteDialog();
-									}
-	        				 	 });
-			else
-				launchRouteDialog();
-			return true;
-		} // if ...
-		
-		if(item.getItemId() == R.string.ic_menu_saved_routes)
-		{
-			final Intent intent = new Intent(this, StoredRoutesActivity.class);
-    		startActivityForResult(intent, R.string.ic_menu_saved_routes);
-    		return true;
-		} // if ...
+		  case R.string.ic_menu_directions:
+		    launchRouteDialog();
+		    return true;
+		  case R.string.ic_menu_saved_routes:
+		    launchStoredRoutesDialog();
+		    return true;
+		  case R.string.ic_menu_route_number:
+		    MessageBox.OK(mapView(), "Type in route number here");
+		    return true;
+		} // switch
 		
 		return false;
 	} // onMenuItemSelected
 	
-    @Override
+	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) 
-    {
-		super.onActivityResult(requestCode, resultCode, data);
+  {
+	  super.onActivityResult(requestCode, resultCode, data);
 		
 		if(resultCode != RESULT_OK)
 			return;
@@ -157,27 +149,47 @@ import android.view.MenuItem;
 			final GeoPoint placeTo = GeoIntent.getGeoPoint(data, "TO");
 			final String routeType = data.getStringExtra(CycleStreetsConstants.EXTRA_ROUTE_TYPE);
 			final int speed = data.getIntExtra(CycleStreetsConstants.EXTRA_ROUTE_SPEED, 
-					                           CycleStreetsPreferences.speed());
+					                               CycleStreetsPreferences.speed());
 			Route.PlotRoute(routeType, 
-							placeFrom, 
-							placeTo,
-							speed,
-							this, 
-							this);
+			                placeFrom, 
+			                placeTo,
+			                speed,
+			                this, 
+			                this);
 		} // if ...
 	} // onActivityResult
     
-	private void launchRouteDialog()
+  private void launchRouteDialog()
+  {
+    if(Route.available() && CycleStreetsPreferences.confirmNewRoute())
+      MessageBox.YesNo(mapView(),
+          "Start a new route?",
+          new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface arg0, int arg1) {
+              doLaunchRouteDialog();
+            }
+          });
+    else
+      doLaunchRouteDialog();
+  } // launchRouteDialog
+    
+	private void doLaunchRouteDialog()
 	{
-    	final Intent intent = new Intent(this, RouteActivity.class);
-    	GeoIntent.setBoundingBox(intent, mapView().getBoundingBox());
-    	final Location lastFix = mapView().getLastFix();
-    	GeoIntent.setLocation(intent, lastFix);	
-    	GeoIntent.setGeoPoint(intent, "START", routeSetter_.getStart());
-    	GeoIntent.setGeoPoint(intent, "FINISH", routeSetter_.getFinish());
-        startActivityForResult(intent, R.string.ic_menu_directions);
-	} // launchRouteDialog
+	  final Intent intent = new Intent(this, RouteActivity.class);
+	  GeoIntent.setBoundingBox(intent, mapView().getBoundingBox());
+	  final Location lastFix = mapView().getLastFix();
+	  GeoIntent.setLocation(intent, lastFix);	
+	  GeoIntent.setGeoPoint(intent, "START", routeSetter_.getStart());
+	  GeoIntent.setGeoPoint(intent, "FINISH", routeSetter_.getFinish());
+	  startActivityForResult(intent, R.string.ic_menu_directions);
+	} // doLaunchRouteDialog
 
+	private void launchStoredRoutesDialog()
+	{
+	  final Intent intent = new Intent(this, StoredRoutesActivity.class);
+    startActivityForResult(intent, R.string.ic_menu_saved_routes);
+	} // launchStoredRoutesDialog
+	
 	@Override 
 	public void onBackPressed()
 	{
@@ -185,18 +197,18 @@ import android.view.MenuItem;
 			super.onBackPressed();
 	} // onBackPressed
 	
-   @Override
-   public void onNewJourney() 
-   {
-	   setJourneyPath(Route.points(), Route.start(), Route.finish());
-	   
-	   mapView().getController().setCenter(Route.start());
-	   mapView().postInvalidate();
-   } // onNewJourney   
+	@Override
+	public void onNewJourney() 
+	{
+	  setJourneyPath(Route.points(), Route.start(), Route.finish());
+	  
+	  mapView().getController().setCenter(Route.start());
+	  mapView().postInvalidate();
+	} // onNewJourney   
    
-   private void setJourneyPath(final Iterator<GeoPoint> points, final GeoPoint start, final GeoPoint finish)
-   {
-	   routeSetter_.setRoute(start, finish, points.hasNext());	   
-	   path_.setRoute(points);
-   } // setJourneyPath
+	private void setJourneyPath(final Iterator<GeoPoint> points, final GeoPoint start, final GeoPoint finish)
+	{
+	  routeSetter_.setRoute(start, finish, points.hasNext());	   
+	  path_.setRoute(points);
+  } // setJourneyPath
 } // class MapActivity
