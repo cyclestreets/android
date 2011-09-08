@@ -74,7 +74,7 @@ public class RouteMapActivity extends CycleMapActivity
 
 	public void onStoredRouteNow(final int localId)
 	{
-	  Route.PlotRoute(localId, this, this);
+	  Route.PlotStoredRoute(localId, this, this);
   } // onStoredRouteNow
     
 	public void onClearRoute()

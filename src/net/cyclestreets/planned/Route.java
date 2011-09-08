@@ -38,7 +38,7 @@ public class Route
 		query.execute(plannedRoute_);
 	} // PlotRoute
 
-	static public void PlotRoute(final int localId,
+	static public void PlotStoredRoute(final int localId,
 								 final Callback whoToTell,
 								 final Context context)
 	{
