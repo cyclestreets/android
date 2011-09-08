@@ -13,18 +13,15 @@ class CycleStreetsRoutingTask extends RoutingTask<GeoPoint>
 	/////////////////////////////////////////////////////
 	private final String routeType_;
 	private final int speed_;
-	private int itinerary_;
 			
 	CycleStreetsRoutingTask(final String routeType,
 				                  final int speed,
 				                  final Route.Callback whoToTell,
-				                  final Context context,
-				                  final int itinerary) 
+				                  final Context context) 
 	{
 		super(R.string.finding_route, whoToTell, context);
 		routeType_ = routeType;
 		speed_ = speed;
-		itinerary_ = itinerary;
 	} // NewRouteTask
 	
 	@Override
@@ -32,6 +29,6 @@ class CycleStreetsRoutingTask extends RoutingTask<GeoPoint>
 	{
 		final GeoPoint start = points[0];
 		final GeoPoint finish = points[1];
-		return fetchRoute(routeType_, itinerary_, start, finish, speed_);
+		return fetchRoute(routeType_, start, finish, speed_);
 	} // doInBackgroud
 } // NewRouteTask

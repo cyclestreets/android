@@ -58,6 +58,8 @@ public class PlannedRoute
 		{ 
 			if(marker.type.equals("route"))			
 			{
+			  final GeoPoint pstart = pr.segments_.get(0).start();
+			  final GeoPoint pend = pr.segments_.get(pr.segments_.size()-1).end();
 				final Segment startSeg = new Segment.Start(marker.itinerary,
 														   name != null ? name : marker.name, 
 														   marker.plan, 
@@ -66,11 +68,11 @@ public class PlannedRoute
 														   total_distance, 
 														   marker.calories,
 														   marker.grammesCO2saved,
-														   Collections.list(from, pr.segments_.get(0).start()));
+														   Collections.list(pD(from, pstart), pstart));
 				final Segment endSeg = new Segment.End(marker.finish, 
 													   total_time, 
 													   total_distance, 
-													   Collections.list(pr.segments_.get(pr.segments_.size()-1).end(), to));
+													   Collections.list(pend, pD(to, pend)));
 				pr.add(startSeg);
 				pr.add(endSeg);
 				break;
@@ -79,6 +81,11 @@ public class PlannedRoute
 		
 		return pr;
 	} // PlannedRoute
+	
+	static private GeoPoint pD(final GeoPoint a1, final GeoPoint a2)
+	{
+	  return a1 != null ? a1 : a2;
+	} // pD
 	
 	static private List<GeoPoint> grabPoints(final Marker marker)
 	{

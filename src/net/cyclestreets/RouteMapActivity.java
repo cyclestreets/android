@@ -64,7 +64,16 @@ public class RouteMapActivity extends CycleMapActivity
 	                  this, 
 	                  this);
 	} // onRouteNow
-    
+
+	public void onRouteNow(int itinerary)
+	{
+	  Route.FetchRoute(CycleStreetsPreferences.routeType(),
+	                   itinerary, 
+	                   CycleStreetsPreferences.speed(), 
+	                   this,
+	                   this);
+	}
+	
 	public void reRouteNow(final String plan)
 	{
 	  Route.RePlotRoute(plan,
@@ -119,7 +128,8 @@ public class RouteMapActivity extends CycleMapActivity
 		    launchStoredRoutesDialog();
 		    return true;
 		  case R.string.ic_menu_route_number:
-		    MessageBox.OK(mapView(), "Type in route number here");
+		    onRouteNow(1098523);
+		    //MessageBox.OK(mapView(), "Type in route number here");
 		    return true;
 		} // switch
 		

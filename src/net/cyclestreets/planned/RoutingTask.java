@@ -35,6 +35,21 @@ public abstract class RoutingTask<Params>
 		context_ = context;
 		initialMsg_ = progressMessage;
 	} // Routing Task
+
+	protected RouteData fetchRoute(final String routeType, 
+	                               final GeoPoint start, 
+	                               final GeoPoint finish,
+	                               final int speed) 
+	{
+	  return fetchRoute(routeType, -1, start, finish, speed);
+	} // fetchRoute
+	
+	protected RouteData fetchRoute(final String routeType,
+	                               final int itinerary,
+	                               final int speed)
+	{ 
+	  return fetchRoute(routeType, itinerary, null, null, speed);
+	} // fetchRoute
 	
 	protected RouteData fetchRoute(final String routeType, 
 								                 final int itinerary,

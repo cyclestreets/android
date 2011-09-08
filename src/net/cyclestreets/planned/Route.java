@@ -26,9 +26,19 @@ public class Route
 								 final Callback whoToTell,
 								 final Context context)
 	{
-		final CycleStreetsRoutingTask query = new CycleStreetsRoutingTask(plan, speed, whoToTell, context, -1);
+		final CycleStreetsRoutingTask query = new CycleStreetsRoutingTask(plan, speed, whoToTell, context);
 		query.execute(placeFrom, placeTo);
 	} // PlotRoute
+	
+	static public void FetchRoute(final String plan,
+	                              final int itinerary,
+	                              final int speed,
+	                              final Callback whoToTell,
+	                              final Context context)
+	{
+	  final FetchCycleStreetsRouteTask query = new FetchCycleStreetsRouteTask(plan, speed, whoToTell, context);
+	  query.execute(itinerary);
+	} // FetchRoute
 
 	static public void RePlotRoute(final String plan,
 								   final Callback whoToTell,
@@ -134,6 +144,11 @@ public class Route
 					  journeyXml, 
 					  plannedRoute_.start(), 
 					  plannedRoute_.finish());
+		
+		if(start_ == null)
+		  start_ = plannedRoute_.start();
+		if(finish_ == null)
+		  finish_ = plannedRoute_.finish();
 	} // onNewJourney
 	
 	static public GeoPoint start() { return start_; }

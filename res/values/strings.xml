@@ -14,6 +14,7 @@
 	<string name="choose_start">Choose Start Point</string>
 	<string name="choose_end">Choose Finish Point</string>
 	<string name="finding_route">Obtaining route from CycleStreets.net, please wait</string>
+    <string name="fetching_route">Fetching route from CycleStreets.net, please wait</string>
 	<string name="loading_route">Loading route, please wait</string>
 	<string name="uploading_photo">Uploading photo to CycleStreets.net, please wait</string>
 	<string name="please_wait">Please wait</string>
