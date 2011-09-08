@@ -16,10 +16,10 @@ class CycleStreetsRoutingTask extends RoutingTask<GeoPoint>
 	private int itinerary_;
 			
 	CycleStreetsRoutingTask(final String routeType,
-				final int speed,
-				final Route.Callback whoToTell,
-				final Context context,
-				final int itinerary) 
+				                  final int speed,
+				                  final Route.Callback whoToTell,
+				                  final Context context,
+				                  final int itinerary) 
 	{
 		super(R.string.finding_route, whoToTell, context);
 		routeType_ = routeType;
