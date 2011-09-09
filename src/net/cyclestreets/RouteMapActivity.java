@@ -128,8 +128,7 @@ public class RouteMapActivity extends CycleMapActivity
 		    launchStoredRoutesDialog();
 		    return true;
 		  case R.string.ic_menu_route_number:
-		    onRouteNow(1098523);
-		    //MessageBox.OK(mapView(), "Type in route number here");
+		    launchFetchRouteDialog();
 		    return true;
 		} // switch
 		
@@ -171,16 +170,11 @@ public class RouteMapActivity extends CycleMapActivity
     
   private void launchRouteDialog()
   {
-    if(Route.available() && CycleStreetsPreferences.confirmNewRoute())
-      MessageBox.YesNo(mapView(),
-          "Start a new route?",
-          new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface arg0, int arg1) {
-              doLaunchRouteDialog();
-            }
-          });
-    else
-      doLaunchRouteDialog();
+    startNewRoute(new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface arg0, int arg1) {
+                      doLaunchRouteDialog();
+                    }
+                  });
   } // launchRouteDialog
     
 	private void doLaunchRouteDialog()
@@ -193,12 +187,37 @@ public class RouteMapActivity extends CycleMapActivity
 	  GeoIntent.setGeoPoint(intent, "FINISH", routeSetter_.getFinish());
 	  startActivityForResult(intent, R.string.ic_menu_directions);
 	} // doLaunchRouteDialog
+	
+	private void launchFetchRouteDialog()
+	{
+	  startNewRoute(new DialogInterface.OnClickListener() {
+	                  public void onClick(DialogInterface arg0, int arg1) {
+	                    doLaunchFetchRouteDialog();
+	                  }
+                  });
+	} // launchFetchRouteDialog
 
+	private void doLaunchFetchRouteDialog()
+	{
+    onRouteNow(1098523);
+    //MessageBox.OK(mapView(), "Type in route number here");
+	} // doLaunchFetchRouteDialog
+	
 	private void launchStoredRoutesDialog()
 	{
 	  final Intent intent = new Intent(this, StoredRoutesActivity.class);
     startActivityForResult(intent, R.string.ic_menu_saved_routes);
 	} // launchStoredRoutesDialog
+	
+	private void startNewRoute(final DialogInterface.OnClickListener listener)
+	{
+    if(Route.available() && CycleStreetsPreferences.confirmNewRoute())
+      MessageBox.YesNo(mapView(),
+                       "Start a new route?",
+                       listener);
+    else
+      listener.onClick(null, 0);
+	} // startNewRoute
 	
 	@Override 
 	public void onBackPressed()
