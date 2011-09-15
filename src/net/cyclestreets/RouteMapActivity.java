@@ -169,7 +169,7 @@ public class RouteMapActivity extends CycleMapActivity
 		
 		if(requestCode == R.string.ic_menu_route_number)
 		{
-		  final int routeNumber = data.getIntExtra(CycleStreetsConstants.EXTRA_ROUTE_NUMBER, -1);
+		  final long routeNumber = data.getLongExtra(CycleStreetsConstants.EXTRA_ROUTE_NUMBER, -1);
 		  final String routeType = data.getStringExtra(CycleStreetsConstants.EXTRA_ROUTE_TYPE);
       final int speed = data.getIntExtra(CycleStreetsConstants.EXTRA_ROUTE_SPEED, 
                                          CycleStreetsPreferences.speed());

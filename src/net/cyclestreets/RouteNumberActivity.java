@@ -42,7 +42,7 @@ public class RouteNumberActivity extends Activity
 	  routeTypeGroup.check(RouteTypeMapper.idFromName(CycleStreetsPreferences.routeType()));  	
   } // RouteActivity
 
-	private void findRoute(int routeNumber)
+	private void findRoute(long routeNumber)
 	{
 		final Intent intent = new Intent(this, RouteMapActivity.class);
 		intent.putExtra(CycleStreetsConstants.EXTRA_ROUTE_NUMBER, routeNumber);
@@ -58,7 +58,12 @@ public class RouteNumberActivity extends Activity
 	  final String entered = numberText_.getText().toString();
 	  if(entered.length() == 0)
 	    return;
-	  int number = Integer.parseInt(entered);
-	  findRoute(number);
+	  try {
+	    long number = Long.parseLong(entered);
+	    findRoute(number);
+	  } //try
+	  catch(NumberFormatException e) {
+	    // let's just swallow this
+	  } // catch
 	} // onClick
 } // RouteActivity

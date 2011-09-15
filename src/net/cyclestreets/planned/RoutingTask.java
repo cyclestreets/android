@@ -45,14 +45,14 @@ public abstract class RoutingTask<Params>
 	} // fetchRoute
 	
 	protected RouteData fetchRoute(final String routeType,
-	                               final int itinerary,
+	                               final long itinerary,
 	                               final int speed)
 	{ 
 	  return fetchRoute(routeType, itinerary, null, null, speed);
 	} // fetchRoute
 	
 	protected RouteData fetchRoute(final String routeType, 
-								                 final int itinerary,
+								                 final long itinerary,
 								                 final GeoPoint start, 
 								                 final GeoPoint finish,
 								                 final int speed) 
@@ -68,7 +68,7 @@ public abstract class RoutingTask<Params>
 	} // fetchRoute
 	
 	private String doFetchRoute(final String routeType, 
-								              final int itinerary,
+								              final long itinerary,
 								              final GeoPoint start, 
 								              final GeoPoint finish,
 								              final int speed)
@@ -98,8 +98,8 @@ public abstract class RoutingTask<Params>
 	{
 		if(route != null)
 		{
-			Route.onNewJourney(route.xml(), route.start(), route.finish(), route.name());
-			whoToTell_.onNewJourney();
+			if(Route.onNewJourney(route.xml(), route.start(), route.finish(), route.name()))
+				whoToTell_.onNewJourney();
 		} // if ...
 		progress_.dismiss();
 		if(error_ != null)

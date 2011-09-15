@@ -31,7 +31,7 @@ public class Route
 	} // PlotRoute
 	
 	static public void FetchRoute(final String plan,
-	                              final int itinerary,
+	                              final long itinerary,
 	                              final int speed,
 	                              final Callback whoToTell,
 	                              final Context context)
@@ -107,17 +107,19 @@ public class Route
 	} // storedNames
 	
 	/////////////////////////////////////
-	static public void onNewJourney(final String journeyXml, 
-									final GeoPoint from, 
-									final GeoPoint to,
-									final String name)
+  static public boolean onNewJourney(final String journeyXml, 
+                   									 final GeoPoint from, 
+                   									 final GeoPoint to,
+                    								 final String name)
 	{
 		try {
 			doOnNewJourney(journeyXml, from, to, name);
+			return true;
 		} // try
 		catch(Exception e) {
-       		Toast.makeText(context_, R.string.route_failed, Toast.LENGTH_LONG).show();
+		  Toast.makeText(context_, R.string.route_failed, Toast.LENGTH_LONG).show();
 		}
+		return false;
 	} // onNewJourney
 	
 	static private void doOnNewJourney(final String journeyXml, 

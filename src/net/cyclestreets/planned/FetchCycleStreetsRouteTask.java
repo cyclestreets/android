@@ -6,7 +6,7 @@ import net.cyclestreets.planned.Route;
 
 import android.content.Context;
 
-public class FetchCycleStreetsRouteTask extends RoutingTask<Integer>
+public class FetchCycleStreetsRouteTask extends RoutingTask<Long>
 {
   private final String routeType_;
   private final int speed_;
@@ -22,7 +22,7 @@ public class FetchCycleStreetsRouteTask extends RoutingTask<Integer>
   } // FetchCycleStreetsRouteTask
       
   @Override
-  protected RouteData doInBackground(Integer... params)
+  protected RouteData doInBackground(Long... params)
   {
     return fetchRoute(routeType_, params[0], speed_);
   } // doInBackground

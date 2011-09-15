@@ -199,12 +199,12 @@ public class ApiClient {
 	} // getJourneyXml
 	
 	static public String getJourneyXml(final String plan, 
-									   final int itinerary) 
+									                   final long itinerary) 
 		throws Exception
 	{
 		return callApiRaw(API_PATH_JOURNEY,
-						  "plan", plan,
-						  "itinerary", Integer.toString(itinerary));
+						          "plan", plan,
+						          "itinerary", Long.toString(itinerary));
 	} // getJourneyXml
 		
 	static public PhotomapCategories getPhotomapCategories() 
