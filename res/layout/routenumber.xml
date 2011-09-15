@@ -12,8 +12,8 @@
   <EditText
       android:id="@+id/routeNumber"
       android:layout_height="wrap_content"
-      android:layout_width="fill_parent" 
-      android:digits="0123456789"
+      android:layout_width="fill_parent"
+      android:inputType="number"
       android:hint="Route number"/>
   <!-- Route type / Go =============================== -->
    <LinearLayout
