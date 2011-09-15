@@ -60,8 +60,11 @@
         </activity>
         <activity android:name=".FeedbackActivity"
         		  android:label="CycleStreets : Route Comments"/>
-    	<activity android:name=".RouteActivity" 
+    	<activity android:name=".RouteByAddressActivity" 
 		    	  android:theme="@style/Theme.RouteInputDialog">
+        </activity>
+        <activity android:name=".RouteNumberActivity" 
+                  android:theme="@style/Theme.RouteInputDialog">
         </activity>
     </application>
     <uses-sdk android:minSdkVersion="7" />

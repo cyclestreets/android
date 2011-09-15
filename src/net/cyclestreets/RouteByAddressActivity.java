@@ -21,7 +21,7 @@ import android.widget.Button;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout.LayoutParams;
 
-public class RouteActivity extends Activity 
+public class RouteByAddressActivity extends Activity 
 						   implements View.OnClickListener
 {
 	private PlaceView placeFrom_;
@@ -34,7 +34,7 @@ public class RouteActivity extends Activity
 	{
 	  super.onCreate(saved);
 
-	  setContentView(R.layout.route);
+	  setContentView(R.layout.routebyaddress);
 	  getWindow().setGravity(Gravity.TOP|Gravity.FILL_HORIZONTAL);       
 	  getWindow().setLayout(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT);
 	  getWindow().setBackgroundDrawableResource(R.drawable.empty);
@@ -87,7 +87,7 @@ public class RouteActivity extends Activity
 		placeTo_.addHistory(to);
 			
 		// return start and finish points to RouteMapActivity and close
-		final Intent intent = new Intent(RouteActivity.this, RouteMapActivity.class);
+		final Intent intent = new Intent(RouteByAddressActivity.this, RouteMapActivity.class);
 		GeoIntent.setGeoPoint(intent, "FROM", from.coord());
 		GeoIntent.setGeoPoint(intent, "TO", to.coord());
 		final String routeType = RouteTypeMapper.nameFromId(routeTypeGroup.getCheckedRadioButtonId());

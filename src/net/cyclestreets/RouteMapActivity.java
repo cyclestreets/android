@@ -166,6 +166,16 @@ public class RouteMapActivity extends CycleMapActivity
 			                this, 
 			                this);
 		} // if ...
+		
+		if(requestCode == R.string.ic_menu_route_number)
+		{
+		  final int routeNumber = data.getIntExtra(CycleStreetsConstants.EXTRA_ROUTE_NUMBER, -1);
+		  final String routeType = data.getStringExtra(CycleStreetsConstants.EXTRA_ROUTE_TYPE);
+      final int speed = data.getIntExtra(CycleStreetsConstants.EXTRA_ROUTE_SPEED, 
+                                         CycleStreetsPreferences.speed());
+      
+      Route.FetchRoute(routeType, routeNumber, speed, this, this);
+		} // if ...
 	} // onActivityResult
     
   private void launchRouteDialog()
@@ -179,7 +189,7 @@ public class RouteMapActivity extends CycleMapActivity
     
 	private void doLaunchRouteDialog()
 	{
-	  final Intent intent = new Intent(this, RouteActivity.class);
+	  final Intent intent = new Intent(this, RouteByAddressActivity.class);
 	  GeoIntent.setBoundingBox(intent, mapView().getBoundingBox());
 	  final Location lastFix = mapView().getLastFix();
 	  GeoIntent.setLocation(intent, lastFix);	
@@ -199,8 +209,8 @@ public class RouteMapActivity extends CycleMapActivity
 
 	private void doLaunchFetchRouteDialog()
 	{
-    onRouteNow(1098523);
-    //MessageBox.OK(mapView(), "Type in route number here");
+	  final Intent intent = new Intent(this, RouteNumberActivity.class);
+	  startActivityForResult(intent, R.string.ic_menu_route_number);
 	} // doLaunchFetchRouteDialog
 	
 	private void launchStoredRoutesDialog()
