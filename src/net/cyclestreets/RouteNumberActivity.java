@@ -36,7 +36,7 @@ public class RouteNumberActivity extends Activity
 	  getWindow().setBackgroundDrawableResource(R.drawable.empty);
 	       
 	  numberText_ = (AutoCompleteTextView)findViewById(R.id.routeNumber);
-	  history_ = new EditTextHistory(this);
+	  history_ = new EditTextHistory(this, "RouteNumber");
 	  numberText_.setAdapter(history_);
 	  
 	  routeGo = (Button) findViewById(R.id.routeGo);
