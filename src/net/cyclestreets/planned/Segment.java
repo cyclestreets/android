@@ -20,13 +20,13 @@ public abstract class Segment
 	static public DistanceFormatter formatter = DistanceFormatter.formatter(CycleStreetsPreferences.units());
 	
 	Segment(final String name,
-			final String turn,
-			final boolean walk,
-			final int time,
-			final int distance,
-			final int running_distance,
-			final List<GeoPoint> points,
-			final boolean terminal)
+			    final String turn,
+          final boolean walk,
+          final int time,
+          final int distance,
+          final int running_distance,
+          final List<GeoPoint> points,
+          final boolean terminal)
 	{	
 		name_ = name;
 		turn_ = initCap(turn);
@@ -73,7 +73,7 @@ public abstract class Segment
 		else if(minutes > 22)
 			fraction = "\u00BD";
 		else if(minutes > 7)
-			fraction = "\u00BE";
+			fraction = "\u00BC";
 		return String.format("%d%s hours", hours, fraction);
 	} // formatTerminalTime
 	
@@ -106,14 +106,14 @@ public abstract class Segment
 		private final int co2_;
 		
 		Start(final int itinerary,
-			  final String journey, 
-			  final String plan, 
-			  final int speed,
-			  final int total_time,
-			  final int total_distance, 
-			  final int calories,
-			  final int co2,
-			  final List<GeoPoint> points)
+			    final String journey, 
+			    final String plan, 
+			    final int speed,
+			    final int total_time,
+			    final int total_distance, 
+			    final int calories,
+			    final int co2,
+			    final List<GeoPoint> points)
 		{
 			super(journey, "", false, total_time, 0, total_distance, points, true);
 			itinerary_ = itinerary;
