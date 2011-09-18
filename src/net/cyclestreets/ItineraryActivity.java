@@ -23,15 +23,15 @@ import android.widget.TextView;
 public class ItineraryActivity extends ListActivity 
 {
 	@Override
-    public void onCreate(Bundle savedInstanceState) 
+	public void onCreate(Bundle savedInstanceState) 
 	{
-        super.onCreate(savedInstanceState);
-        setListAdapter(new SegmentAdapter(this));
-    } // onCreate
+	  super.onCreate(savedInstanceState);
+	  setListAdapter(new SegmentAdapter(this));
+	} // onCreate
 
-    @Override
+	@Override
 	protected void onResume() 
-    {
+	{
 		super.onResume();
 		
 		onContentChanged();
@@ -40,34 +40,34 @@ public class ItineraryActivity extends ListActivity
 		setSelection(Route.activeSegmentIndex());
 	} // onResume	
     
-    @Override
-    protected void onListItemClick(ListView l, View v, int position, long id)
-    {
-    	if(!Route.available())
-    		return;
-    	
-    	Route.setActiveSegmentIndex(position);
-    	((CycleStreets)getParent()).showMap();
-    } // onListItemClick
+	@Override
+	protected void onListItemClick(ListView l, View v, int position, long id)
+	{
+	  if(!Route.available())
+	    return;
+    	  
+	  Route.setActiveSegmentIndex(position);
+	  ((CycleStreets)getParent()).showMap();
+	} // onListItemClick
     
-    //////////////////////////////////
-    static class SegmentAdapter extends BaseAdapter
-    {
-    	private final Map<String, Drawable> iconMappings_;
-    	private final Drawable footprints_;
-    	private final LayoutInflater inflater_;
-    	
-    	SegmentAdapter(final Context context)
-    	{
-    		iconMappings_ = loadIconMappings(context);
-    		footprints_ = context.getResources().getDrawable(R.drawable.footprints);
-    		inflater_ = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-    	} // SegmentAdaptor    	
+	//////////////////////////////////
+	static class SegmentAdapter extends BaseAdapter
+	{
+	  private final Map<String, Drawable> iconMappings_;
+	  private final Drawable footprints_;
+	  private final LayoutInflater inflater_;
+	  
+	  SegmentAdapter(final Context context)
+	  {
+	    iconMappings_ = loadIconMappings(context);
+	    footprints_ = context.getResources().getDrawable(R.drawable.footprints);
+	    inflater_ = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+	  } // SegmentAdaptor    	
 
-    	private boolean hasSegments() 
-    	{
-    		return (Route.segments() != null) && (Route.segments().size() != 0);
-    	} // hasSegments
+	  private boolean hasSegments() 
+	  {
+	    return (Route.segments() != null) && (Route.segments().size() != 0);
+    } // hasSegments
     	
 		@Override
 		public int getCount() 
@@ -167,6 +167,6 @@ public class ItineraryActivity extends ListActivity
 			// 'bear right', 'turn right', 'sharp right', 'double-back',  'unknown'
 		} // loadIconMappings
 	
-    } // class SegmentAdaptor
+  } // class SegmentAdaptor
 
 } // ItineraryActivity
