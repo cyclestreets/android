@@ -9,7 +9,7 @@
 	    android:paddingTop="12dip"
 	    android:paddingBottom="6dip"
 	    android:background="@drawable/route_bg">            
-  <EditText
+  <AutoCompleteTextView
       android:id="@+id/routeNumber"
       android:layout_height="wrap_content"
       android:layout_width="fill_parent"

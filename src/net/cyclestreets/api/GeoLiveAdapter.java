@@ -16,24 +16,24 @@ import android.widget.Filter;
 
 public class GeoLiveAdapter extends GeoAdapter 
 {
-	private static final String PREFS_GEO_KEY = "net.cyclestreets.api.GeoLiveAdapter";
-    private static final String PREFS_GEO_NAME_PREFIX = "name/";
-    private static final String PREFS_GEO_NEAR_PREFIX = "near/";
-    private static final String PREFS_GEO_LATITUDE_PREFIX = "lat/";
-    private static final String PREFS_GEO_LONGITUDE_PREFIX = "lon/";
+  private static final String PREFS_GEO_KEY = "net.cyclestreets.api.GeoLiveAdapter";
+  private static final String PREFS_GEO_NAME_PREFIX = "name/";
+  private static final String PREFS_GEO_NEAR_PREFIX = "near/";
+  private static final String PREFS_GEO_LATITUDE_PREFIX = "lat/";
+  private static final String PREFS_GEO_LONGITUDE_PREFIX = "lon/";
 
-    // Magic string
-    public static final String MY_LOCATION = "My Location";
+  // Magic string
+  public static final String MY_LOCATION = "My Location";
 	
 	private final GeocodeFilter filter;
 	private final BoundingBoxE6 bounds_;
-	private SharedPreferences prefs;
+	private final SharedPreferences prefs;
 
 	/*
 	 * Constructor when used with an AutoCompleteTextView
 	 */
 	public GeoLiveAdapter(final Context context,
-						  final BoundingBoxE6 bounds)
+						            final BoundingBoxE6 bounds)
 	{
 		super(context);
 		bounds_ = bounds;
@@ -60,12 +60,12 @@ public class GeoLiveAdapter extends GeoAdapter
 		
 		final String key = p.name.toLowerCase();
 				
-        final SharedPreferences.Editor edit = prefs.edit();
-        edit.putString(PREFS_GEO_NAME_PREFIX + key, p.name);
-        edit.putString(PREFS_GEO_NEAR_PREFIX + key, p.near);
-        edit.putInt(PREFS_GEO_LATITUDE_PREFIX + key, p.coord().getLatitudeE6());
-        edit.putInt(PREFS_GEO_LONGITUDE_PREFIX + key, p.coord().getLongitudeE6());
-        edit.commit();
+		final SharedPreferences.Editor edit = prefs.edit();
+		edit.putString(PREFS_GEO_NAME_PREFIX + key, p.name);
+		edit.putString(PREFS_GEO_NEAR_PREFIX + key, p.near);
+		edit.putInt(PREFS_GEO_LATITUDE_PREFIX + key, p.coord().getLatitudeE6());
+		edit.putInt(PREFS_GEO_LONGITUDE_PREFIX + key, p.coord().getLongitudeE6());
+		edit.commit();
 	} // addHistory
 	
 	/////////////////////////////////////////////////////////////////////
