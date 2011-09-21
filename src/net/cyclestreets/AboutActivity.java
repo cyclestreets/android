@@ -4,16 +4,15 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.webkit.WebView;
 
-public class HtmlActivity extends Activity 
+public class AboutActivity extends Activity 
 {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) 
 	{
 		super.onCreate(savedInstanceState);
+		setContentView(R.layout.about);
 		
-		final WebView view = new WebView(this); 
-		final String page = getIntent().getStringExtra("page-to-open");
-		view.loadUrl("file:///android_asset/" + page);
-		setContentView(view);
+    final WebView htmlView = (WebView)findViewById(R.id.html_view);
+    htmlView.loadUrl("file:///android_asset/credits.html");
 	} // onCreate
 } // HtmlActivity

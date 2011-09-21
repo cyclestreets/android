@@ -34,18 +34,16 @@ public class MoreActivity extends Activity implements View.OnClickListener
 		switch(v.getId())
 		{
 			case R.id.settings_button:
-				startActivity(new Intent(this, SettingsActivity.class));
+				start(SettingsActivity.class);
 				break;
 			case R.id.about_button:
-				startActivity(htmlIntent("credits.html"));
+				start(AboutActivity.class);
 				break;
 		} // switch
 	} // onClick
 	
-	private Intent htmlIntent(final String asset)
+	private void start(final Class<? extends Activity> classToStart)
 	{
-		final Intent intent = new Intent(this, HtmlActivity.class);
-		intent.putExtra("page-to-open", asset);
-		return intent;
-	} // htmlIntent
+	  startActivity(new Intent(this, classToStart));
+	} // start
 } // class MoreActivity
