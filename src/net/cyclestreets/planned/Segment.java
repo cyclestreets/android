@@ -135,7 +135,7 @@ public abstract class Segment
 		
 		public String street() 
 		{
-			return String.format("%s\n%s route %s\nJourney time %s", super.street(), initCap(plan_), super.runningDistance(), super.runningTime());
+			return String.format("%s\n%s route : %s\nJourney time : %s", super.street(), initCap(plan_), super.runningDistance(), super.runningTime());
 		} // street
 		public String distance() { return ""; }
 		public String runningDistance() { return ""; }
@@ -146,7 +146,8 @@ public abstract class Segment
 				return "";
 			int kg = co2_ / 1000;
 			int g = (int)((co2_ % 1000) / 10.0);
-			return String.format("Calories : %dkcal\nCO\u2082 saved : %d.%02dkg", calories_, kg, g); 
+			return String.format("Journey number : #%d\nCalories : %dkcal\nCO\u2082 saved : %d.%02dkg", 
+			                     itinerary_, calories_, kg, g); 
 		} // extraInfo
 	} // class Start
 	
