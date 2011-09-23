@@ -91,7 +91,8 @@ public class AddPhotoActivity extends Activity
 			if(Value_ == null)
 				Value_ = new HashMap<AddStep, Integer>();
 			Value_.put(a, Value_.size());
-		} // save2
+		} // save
+
 		private static Map<AddStep, Integer> Value_;
 	} // AddStep
 

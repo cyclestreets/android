@@ -1,11 +1,14 @@
 package net.cyclestreets;
 
 import android.app.TabActivity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.view.ViewGroup;
 import android.widget.TabHost;
+import android.widget.Toast;
 import android.widget.TabHost.OnTabChangeListener;
 
 public class CycleStreets extends TabActivity 
@@ -55,6 +58,8 @@ public class CycleStreets extends TabActivity
 	    
 	    // start with route tab
 	    showMap();
+
+	    showWhatsNew();
 	} // onCreate
 	
 	public void showMap()
@@ -66,7 +71,40 @@ public class CycleStreets extends TabActivity
 	public void onTabChanged(String tabId) 
 	{
 		setTitle("CycleStreets : " + tabId);
-	} // OnTabChanged
+	} // onTabChanged
+
+	public void showWhatsNew()
+	{
+    if(!isNew())
+      return;
+      
+    Toast.makeText(this, "New!", Toast.LENGTH_LONG).show();
+    
+    final SharedPreferences.Editor edit = prefs().edit();
+    edit.putString(VERSION_KEY, currentVersion());
+    edit.commit();
+	} // showWhatsNew
 	
+	private boolean isNew()
+	{
+	  return !currentVersion().equals(previousVersion());
+	} // isNew
+
+	private String currentVersion()
+	{
+	  return ((CycleStreetsApp)getApplication()).version();
+	} // currentVersion
+	
+	private String previousVersion()
+	{
+    return prefs().getString(VERSION_KEY, "unknown");
+	} // previousVersion
+	
+  private SharedPreferences prefs()
+  {
+    return getSharedPreferences("net.cyclestreets.CycleStreets", Context.MODE_PRIVATE);
+  } // prefs()
+  
+  static private String VERSION_KEY = "previous-version";
 } // class CycleStreets
 
