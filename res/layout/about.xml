@@ -4,19 +4,21 @@
   android:orientation="vertical"
   android:layout_width="fill_parent"
   android:layout_height="fill_parent">
-  <RelativeLayout
-	android:orientation="vertical"
-	android:layout_width="wrap_content"
-	android:layout_height="wrap_content">    
-    <TextView android:text="CycleStreets App"
-              android:layout_height="wrap_content"
-              android:layout_width="fill_parent"
-              android:textStyle="bold"
-              android:gravity="center"/>
-  </RelativeLayout>
   <WebView android:id="@+id/html_view"
 		 android:layout_width="fill_parent"
 		 android:layout_height="fill_parent"
-		 android:scrollbars="none">
+         android:layout_weight="1.0"
+		 android:scrollbars="vertical">
   </WebView>
+  <LinearLayout
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:gravity="bottom">    
+    <TextView android:id="@+id/version_view"
+              android:text="net.cyclestreets"
+              android:layout_height="wrap_content"
+              android:layout_width="fill_parent"
+              android:gravity="center"/>
+  </LinearLayout>
 </LinearLayout>
