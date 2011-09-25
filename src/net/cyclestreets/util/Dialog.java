@@ -11,13 +11,13 @@ import android.widget.EditText;
 public class Dialog 
 {
 	static public ProgressDialog createProgressDialog(final Context context,
-											   		  final int messageId)
+	                                                  final int messageId)
 	{
 		return createProgressDialog(context, context.getString(messageId));
 	} // createProgressDialog
 	
 	static public ProgressDialog createProgressDialog(final Context context,
-													  final String message)
+	                                                  final String message)
 	{
 		final ProgressDialog progress = new ProgressDialog(context);
 		progress.setMessage(message);
@@ -36,21 +36,21 @@ public class Dialog
 									  final String buttonText,
 									  final UpdatedTextListener listener)
 	{
-	    final View layout = View.inflate(context, R.layout.edittextdialog, null);
-	    final EditText textBox = ((EditText)layout.findViewById(R.id.edit_text));
-	    textBox.setText(initialText);
+    final View layout = View.inflate(context, R.layout.edittextdialog, null);
+	  final EditText textBox = ((EditText)layout.findViewById(R.id.edit_text));
+	  textBox.setText(initialText);
 
-	    final AlertDialog.Builder builder = newBuilder(context);
-	    builder.setPositiveButton(buttonText, new DialogInterface.OnClickListener() {
-			@Override
+	  final AlertDialog.Builder builder = newBuilder(context);
+	  builder.setPositiveButton(buttonText, new DialogInterface.OnClickListener() {
+	  	@Override
 			public void onClick(DialogInterface dialog, int which) {
 				final String t = textBox.getText().toString().trim();
 				listener.updatedText(t);
 			} // onClick
 		});
-	    builder.setView(layout);
+	  builder.setView(layout);
 
-	    show(builder);
+	  show(builder);
 	} // editTextDialog
 
 	
