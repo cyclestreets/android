@@ -1,14 +1,18 @@
 package net.cyclestreets;
 
+import android.app.AlertDialog;
 import android.app.TabActivity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebView;
 import android.widget.TabHost;
-import android.widget.Toast;
 import android.widget.TabHost.OnTabChangeListener;
 
 public class CycleStreets extends TabActivity 
@@ -78,11 +82,22 @@ public class CycleStreets extends TabActivity
     if(!isNew())
       return;
       
-    Toast.makeText(this, "New!", Toast.LENGTH_LONG).show();
-    
     final SharedPreferences.Editor edit = prefs().edit();
     edit.putString(VERSION_KEY, currentVersion());
     edit.commit();
+
+    final LayoutInflater layoutInflater = (LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+    final View whatsnewView = layoutInflater.inflate(R.layout.whatsnew, null);
+    final WebView htmlView = (WebView)whatsnewView.findViewById(R.id.html_view);
+    htmlView.loadUrl("file:///android_asset/whatsnew.html");
+        
+    final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+    builder.setTitle("What's New")
+           .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int which) { }
+            })
+           .setView(whatsnewView)
+           .show();
 	} // showWhatsNew
 	
 	private boolean isNew()
