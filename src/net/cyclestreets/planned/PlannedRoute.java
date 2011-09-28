@@ -28,7 +28,7 @@ public class PlannedRoute
 	{
 		final PlannedRoute pr = new PlannedRoute();
 		
-		final Journey journey = ApiClient.loadRaw(Journey.class, journeyXml);
+		final Journey journey = ApiClient.loadString(Journey.class, journeyXml);
 		if(journey.markers.isEmpty())
 			throw new RuntimeException();
 				

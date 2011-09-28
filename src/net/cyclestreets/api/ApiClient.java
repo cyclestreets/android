@@ -1,5 +1,6 @@
 package net.cyclestreets.api;
 
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -194,21 +195,23 @@ public class ApiClient {
     throws Exception
   {
     final String points = itineraryPoints(startLon, startLat, finishLon, finishLat);
-    return callApiRaw(API_PATH_JOURNEY,
+    final byte[] xml = callApiRaw(API_PATH_JOURNEY,
               "plan", plan,
-                "itinerarypoints", points,
+              "itinerarypoints", points,
               "leaving", leaving,
               "arriving", arriving,
               "speed", Integer.toString(speed));
+    return new String(xml, "UTF-8");
   } // getJourneyXml
   
   static public String getJourneyXml(final String plan, 
                                      final long itinerary) 
     throws Exception
   {
-    return callApiRaw(API_PATH_JOURNEY,
-                      "plan", plan,
-                      "itinerary", Long.toString(itinerary));
+    final byte[] xml =callApiRaw(API_PATH_JOURNEY,
+                                 "plan", plan,
+                                 "itinerary", Long.toString(itinerary));
+    return new String(xml, "UTF-8");
   } // getJourneyXml
     
   static public PhotomapCategories getPhotomapCategories() 
@@ -362,7 +365,7 @@ public class ApiClient {
     return sb.toString();
   } // itineraryPoints
 
-  static private String callApiRaw(final String path, String... args) throws Exception
+  static private byte[] callApiRaw(final String path, String... args) throws Exception
   {
     final List<NameValuePair> params = createParamsList(args);
     final URI uri = createURI(API_SCHEME, path, params);   
@@ -372,18 +375,18 @@ public class ApiClient {
   
   static private <T> T callApi(final Class<T> returnClass, final String path, String... args) throws Exception 
   {
-    final String xml = callApiRaw(path, args);
+    final byte[] xml = callApiRaw(path, args);
     return loadRaw(returnClass, xml);
   } // callApi
   
   static private <T> T postApi(final Class<T> returnClass, final String path, Object... args) 
     throws Exception 
   {
-    final String xml = postApiRaw(path, args);
+    final byte[] xml = postApiRaw(path, args);
     return loadRaw(returnClass, xml);
   } // postApi
   
-  static private String postApiRaw(final String path, Object... args) throws Exception
+  static private byte[] postApiRaw(final String path, Object... args) throws Exception
   {
     final List<NameValuePair> params = createParamsList();
     final URI uri = createURI(API_POST_SCHEME, path, params);
@@ -404,11 +407,23 @@ public class ApiClient {
     return executeRaw(httppost);
   } // postApiRaw
   
-  static private String executeRaw(final HttpRequestBase method) 
+  static private byte[] executeRaw(final HttpRequestBase method) 
       throws ClientProtocolException, IOException
   {
     method.setHeader("User-Agent", "CycleStreets Android/1.0");
-    return httpclient.execute(method, new UTF8ResponseHandler());
+
+    final HttpResponse response = httpclient.execute(method);
+    
+    final HttpEntity entity = response.getEntity();
+    if (entity == null) 
+      return null;
+     
+    final StatusLine statusLine = response.getStatusLine();
+    if (statusLine.getStatusCode() < 300) 
+      return EntityUtils.toByteArray(entity);
+    
+    entity.consumeContent();
+    throw new HttpResponseException(statusLine.getStatusCode(), statusLine.getReasonPhrase());
   } // executeRaw
 
   static private URI createURI(final String scheme,
@@ -447,13 +462,20 @@ public class ApiClient {
       final StatusLine statusLine = response.getStatusLine();
       if (statusLine.getStatusCode() < 300) 
         return EntityUtils.toString(entity, "UTF-8");
-
+      
       entity.consumeContent();
       throw new HttpResponseException(statusLine.getStatusCode(), statusLine.getReasonPhrase());
     } // handleResponse
   } // class UTF8ResponseHandler 
 
-  static public <T> T loadRaw(final Class<T> returnClass, final String xml) throws Exception
+  static public <T> T loadRaw(final Class<T> returnClass, final byte[] xml) throws Exception
+  {
+    final Serializer serializer = new Persister();
+    final InputStream bais = new ByteArrayInputStream(xml);
+    return serializer.read(returnClass, bais);
+  } // loadRaw
+
+  static public <T> T loadString(final Class<T> returnClass, final String xml) throws Exception
   {
     final Serializer serializer = new Persister();
     return serializer.read(returnClass, xml);
