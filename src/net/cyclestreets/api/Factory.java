@@ -15,18 +15,4 @@ public abstract class Factory<T>
   {
     throw new RuntimeException(e);
   } // parseException
-  
-  public T loadFromXml(final InputStream is)
-  {
-    try {
-      Xml.parse(is, 
-                Xml.Encoding.UTF_8, 
-                contentHandler());
-    } // try
-    catch(final Exception e) {
-      parseException(e);
-    } // catch
-    
-    return get();
-  } // loadFromXml
 } // class Factory<T>

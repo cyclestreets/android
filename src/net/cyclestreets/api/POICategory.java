@@ -8,8 +8,7 @@ public class POICategory
   
   public POICategory(final String key,
                      final String shortName,
-                     final String name,
-                     final int count)
+                     final String name)
   {
     key_ = key;
     shortName_ = shortName;

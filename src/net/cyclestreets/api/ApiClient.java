@@ -48,6 +48,7 @@ import org.simpleframework.xml.Serializer;
 import org.simpleframework.xml.core.Persister;
 
 import android.content.Context;
+import android.util.Xml;
 
 public class ApiClient {
   static private DefaultHttpClient httpclient;
@@ -87,6 +88,7 @@ public class ApiClient {
   private final static String API_PATH_REGISTER = API_PATH + "usercreate.xml";
   private final static String API_PATH_FEEDBACK = API_PATH + "feedback.xml";
   private final static String API_PATH_GEOCODER = API_PATH + "geocoder.xml";
+  private final static String API_PATH_POI_CATEGORIES = API_PATH + "poitypes.xml";
 
   private final static int DEFAULT_SPEED = 20;
 
@@ -350,12 +352,18 @@ public class ApiClient {
                "password", password,
                "name", name,
                "email", email);
-    } // register
+  } // register
+  
+  static public POICategories getPOICategories()
+    throws Exception
+  {
+    return callApi(POICategories.factory(), API_PATH_POI_CATEGORIES);
+  } // getPOICategories
 
   /////////////////////////////////////////////////////
   /////////////////////////////////////////////////////
   static private String itineraryPoints(final double startLon, 
-         final double startLat, 
+          final double startLat, 
           final double finishLon, 
           final double finishLat)
   {
@@ -377,6 +385,12 @@ public class ApiClient {
   {
     final byte[] xml = callApiRaw(path, args);
     return loadRaw(returnClass, xml);
+  } // callApi
+  
+  static private <T> T callApi(final Factory<T> factory, final String path, String... args) throws Exception
+  {
+    final byte[] xml = callApiRaw(path, args);
+    return loadRaw(factory, xml);
   } // callApi
   
   static private <T> T postApi(final Class<T> returnClass, final String path, Object... args) 
@@ -473,6 +487,21 @@ public class ApiClient {
     final Serializer serializer = new Persister();
     final InputStream bais = new ByteArrayInputStream(xml);
     return serializer.read(returnClass, bais);
+  } // loadRaw
+  
+  static public <T> T loadRaw(final Factory<T> factory, final byte[] xml) throws Exception
+  {
+    try {
+      final InputStream bais = new ByteArrayInputStream(xml);
+      Xml.parse(bais, 
+                Xml.Encoding.UTF_8, 
+                factory.contentHandler());
+    } // try
+    catch(final Exception e) {
+      factory.parseException(e);
+    } // catch
+      
+    return factory.get();
   } // loadRaw
 
   static public <T> T loadString(final Class<T> returnClass, final String xml) throws Exception
