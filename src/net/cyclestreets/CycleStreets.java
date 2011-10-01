@@ -1,7 +1,5 @@
 package net.cyclestreets;
 
-import net.cyclestreets.api.ApiClient;
-import net.cyclestreets.api.POICategories;
 import android.app.AlertDialog;
 import android.app.TabActivity;
 import android.content.Context;
@@ -64,7 +62,7 @@ public class CycleStreets extends TabActivity
 	    
 	    // start with route tab
 	    showMap();
-	    
+
 	    showWhatsNew();
 	} // onCreate
 	
