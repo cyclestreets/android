@@ -89,6 +89,7 @@ public class ApiClient {
   private final static String API_PATH_FEEDBACK = API_PATH + "feedback.xml";
   private final static String API_PATH_GEOCODER = API_PATH + "geocoder.xml";
   private final static String API_PATH_POI_CATEGORIES = API_PATH + "poitypes.xml";
+  private final static String API_PATH_POIS = API_PATH + "pois.xml";
 
   private final static int DEFAULT_SPEED = 20;
 
@@ -359,6 +360,19 @@ public class ApiClient {
   {
     return callApi(POICategories.factory(), API_PATH_POI_CATEGORIES);
   } // getPOICategories
+  
+  static public List<POI> getPOIs(final String key,
+                                  final GeoPoint centre, 
+                                  final int radius)
+    throws Exception
+  {
+    return callApi(POICategory.factory(),
+                   API_PATH_POIS,
+                   "type", key, 
+                   "latitude", Double.toString(centre.getLatitudeE6() / 1E6),
+                   "longitude", Double.toString(centre.getLongitudeE6() / 1E6),
+                   "radius", Integer.toString(radius));
+  } // getPOIs
 
   /////////////////////////////////////////////////////
   /////////////////////////////////////////////////////

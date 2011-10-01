@@ -28,13 +28,13 @@ public class POICategories
   public POICategory get(int index) { return cats_.get(index); }
   public Iterator<POICategory> iterator() { return cats_.iterator(); }
   
-  
   static public Factory<POICategories> factory() { 
     return new POICategoriesFactory();
-  }
+  } // factory
   
   static private class POICategoriesFactory extends Factory<POICategories>
-  {
+  {    
+    private POICategories cats_;
     private String key_;
     private String name_;
     private String shortName_;
@@ -84,7 +84,5 @@ public class POICategories
     {
       return cats_;
     } // get
-    
-    private POICategories cats_;
   } // POICategories
 } // class POICategories
