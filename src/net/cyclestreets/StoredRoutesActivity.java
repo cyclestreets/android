@@ -32,7 +32,7 @@ public class StoredRoutesActivity extends ListActivity
 	private RouteSummaryAdaptor listAdaptor_;
 	
 	@Override
-    public void onCreate(final Bundle savedInstanceState) 
+  public void onCreate(final Bundle savedInstanceState) 
 	{
         super.onCreate(savedInstanceState);
 

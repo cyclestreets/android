@@ -14,7 +14,7 @@ import android.sax.EndTextElementListener;
 import android.sax.RootElement;
 import android.sax.StartElementListener;
 
-public class POICategories
+public class POICategories implements Iterable<POICategory>
 {
   private final List<POICategory> cats_;
   

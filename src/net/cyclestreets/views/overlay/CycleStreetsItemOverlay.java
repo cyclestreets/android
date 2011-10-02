@@ -99,7 +99,7 @@ public abstract class CycleStreetsItemOverlay<T extends OverlayItem>
 	  mapView_.postInvalidate();
 	} // redraw
 	
-	private void refreshItems() 
+	protected void refreshItems() 
 	{		
 		final GeoPoint centre = mapView_.getMapCenter();
     final int zoom = mapView_.getZoomLevel();

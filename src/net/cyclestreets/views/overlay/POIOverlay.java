@@ -15,13 +15,18 @@ import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.SubMenu;
 
 import net.cyclestreets.R;
+import net.cyclestreets.StoredRoutesActivity;
 import net.cyclestreets.api.POI;
+import net.cyclestreets.api.POICategories;
 import net.cyclestreets.api.POICategory;
 
 public class POIOverlay extends CycleStreetsItemOverlay<POIOverlay.POIItem>
-                        implements MapListener
+                        implements MapListener, DynamicMenuListener
 {
   static private Drawable defaultMarker_;
 
@@ -98,7 +103,9 @@ public class POIOverlay extends CycleStreetsItemOverlay<POIOverlay.POIItem>
   } // PhotoItemListener
 
   /////////////////////////////////////////////////////
-  private List<POICategory> activeCategories_;
+  private final Context context_;
+  private final POICategories allCategories_;
+  private final List<POICategory> activeCategories_;
   
 	public POIOverlay(final Context context,
 							      final MapView mapView)
@@ -106,6 +113,9 @@ public class POIOverlay extends CycleStreetsItemOverlay<POIOverlay.POIItem>
 		super(context, 
 			    mapView,
 			    new POIListener(context));
+
+		context_ = context;
+		allCategories_ = POICategories.get();
 		activeCategories_ = new ArrayList<POICategory>();
 		
     defaultMarker_ = context.getResources().getDrawable(R.drawable.icon);
@@ -123,7 +133,7 @@ public class POIOverlay extends CycleStreetsItemOverlay<POIOverlay.POIItem>
 	  if(activeCategories_.contains(cat))
 	    return;
 	  activeCategories_.add(cat);
-	  redraw();
+	  refreshItems();
 	} // show
 	
 	public void hide(final POICategory cat)
@@ -131,8 +141,22 @@ public class POIOverlay extends CycleStreetsItemOverlay<POIOverlay.POIItem>
 	  if(!activeCategories_.contains(cat))
 	    return;
 	  activeCategories_.remove(cat);
-	  redraw();
+	  refreshItems();
 	} // hide
+	 
+  public void toggle(final POICategory cat)
+  {
+    if(activeCategories_.contains(cat))
+      activeCategories_.remove(cat);
+    else
+      activeCategories_.add(cat);
+    refreshItems();
+  } // toggle
+	
+	public boolean showing(final POICategory cat)
+	{
+	  return activeCategories_.contains(cat);
+	} // showing
 
   protected void fetchItemsInBackground(final GeoPoint mapCentre,
                                         final int zoom,
@@ -142,7 +166,46 @@ public class POIOverlay extends CycleStreetsItemOverlay<POIOverlay.POIItem>
 	} // refreshPhotos
 	
 	/////////////////////////////////////////////////////
-	/////////////////////////////////////////////////////
+  ////////////////////////////////////////////////
+  public boolean onCreateOptionsMenu(final Menu menu)
+  {
+    final SubMenu poi = menu.addSubMenu(0, R.string.ic_menu_poi, Menu.NONE, R.string.ic_menu_poi).setIcon(R.drawable.ic_menu_mylocation);
+    int index = 0;
+    for(final POICategory cat : allCategories_) 
+    {
+      final MenuItem c = poi.add(R.string.ic_menu_poi, index++, Menu.NONE, cat.name());
+      c.setCheckable(true);
+    } // for ...
+    return true;
+  } // onCreateOptionsMenu
+  
+  public boolean onPrepareOptionsMenu(final Menu menu)
+  {
+    final SubMenu i = menu.findItem(R.string.ic_menu_poi).getSubMenu();
+
+    int index = 0;
+    for(final POICategory cat : allCategories_)
+    {
+      final MenuItem c = i.findItem(index++);
+      c.setChecked(showing(cat));
+    } // for ...
+
+    return true;
+  } // onPrepareOptionsMenu
+
+  
+  public boolean onMenuItemSelected(final int featureId, final MenuItem item)
+  {
+    if(item.getGroupId() != R.string.ic_menu_poi)
+      return false;
+
+    POICategory cat = allCategories_.get(item.getItemId());
+    toggle(cat);
+    
+    return true;
+  } // onMenuItemSelected
+  
+  /////////////////////////////////////////////////////
 	static private class GetPOIsTask extends AsyncTask<Object,Void,List<POI>> 
 	{
 		static void fetch(final POIOverlay overlay, 
