@@ -44,6 +44,7 @@ public class POICategory
   static private class POIFactory extends Factory<List<POI>>
   {
     private List<POI> pois_;
+    private int id_;
     private String name_;
     private String notes_;
     private String url_;
@@ -61,6 +62,7 @@ public class POICategory
         @Override
         public void start(Attributes attributes)
         {
+          id_ = 0;
           name_ = null;
           notes_ = null;
           url_ = null;
@@ -70,8 +72,13 @@ public class POICategory
       });
       item.setEndElementListener(new EndElementListener(){
           public void end() {
-            pois_.add(new POI(name_, notes_, url_, lat_, lon_));
+            pois_.add(new POI(id_, name_, notes_, url_, lat_, lon_));
           }
+      });
+      item.getChild("id").setEndTextElementListener(new EndTextElementListener() {
+        public void end(String body) {
+          id_ = Integer.parseInt(body);
+        }
       });
       item.getChild("longitude").setEndTextElementListener(new EndTextElementListener(){
           public void end(String body) {
