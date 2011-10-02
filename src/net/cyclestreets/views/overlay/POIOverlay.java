@@ -170,12 +170,13 @@ public class POIOverlay extends CycleStreetsItemOverlay<POIOverlay.POIItem>
   public boolean onCreateOptionsMenu(final Menu menu)
   {
     final SubMenu poi = menu.addSubMenu(0, R.string.ic_menu_poi, Menu.NONE, R.string.ic_menu_poi).setIcon(R.drawable.ic_menu_mylocation);
-    int index = 0;
-    for(final POICategory cat : allCategories_) 
+
+    for(int index = 0; index != allCategories_.count(); ++index)
     {
-      final MenuItem c = poi.add(R.string.ic_menu_poi, index++, Menu.NONE, cat.name());
+      final MenuItem c = poi.add(R.string.ic_menu_poi, index, Menu.NONE, allCategories_.get(index).shortName());
       c.setCheckable(true);
     } // for ...
+    
     return true;
   } // onCreateOptionsMenu
   
@@ -183,11 +184,10 @@ public class POIOverlay extends CycleStreetsItemOverlay<POIOverlay.POIItem>
   {
     final SubMenu i = menu.findItem(R.string.ic_menu_poi).getSubMenu();
 
-    int index = 0;
-    for(final POICategory cat : allCategories_)
+    for(int index = 0; index != allCategories_.count(); ++index)
     {
-      final MenuItem c = i.findItem(index++);
-      c.setChecked(showing(cat));
+      final MenuItem c = i.findItem(index);
+      c.setChecked(showing(allCategories_.get(index)));
     } // for ...
 
     return true;
