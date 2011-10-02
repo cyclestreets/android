@@ -12,10 +12,10 @@ public class PhotomapActivity extends CycleMapActivity
 {
 	public void onCreate(Bundle savedInstanceState) 
 	{
-        super.onCreate(savedInstanceState);
+	  super.onCreate(savedInstanceState);
 
-        overlayPushBottom(new PhotoItemOverlay(this, mapView(), this));
-    } // onCreate
+	  overlayPushBottom(new PhotoItemOverlay(this, mapView(), this));
+  } // onCreate
 
 	//////////////////////////////////////////////
 	public boolean onItemLongPress(int i, final PhotoItemOverlay.PhotoItem item) 
