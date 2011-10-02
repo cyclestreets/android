@@ -3,6 +3,7 @@ package net.cyclestreets.views.overlay;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.osmdroid.events.MapListener;
 import org.osmdroid.util.BoundingBoxE6;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
@@ -12,36 +13,34 @@ import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 
-import net.cyclestreets.api.ApiClient;
-import net.cyclestreets.api.Photo;
-import net.cyclestreets.api.PhotoMarkers;
+import net.cyclestreets.api.POI;
 
-public class PhotoItemOverlay extends CycleStreetsItemOverlay<PhotoItemOverlay.PhotoItem>
+public class POIOverlay extends CycleStreetsItemOverlay<POIOverlay.POIItem>
+                        implements MapListener
 {
-	static public class PhotoItem extends OverlayItem 
+	static public class POIItem extends OverlayItem 
 	{
-		private final Photo photo_;
-		private final PhotoMarkers photoMarkers;
+		private final POI poi_;
 		
-		public PhotoItem(final Photo photo, final PhotoMarkers photoMarkers) 
+		public POIItem(final POI poi) 
 		{
-			super(photo.id + "", photo.caption, new GeoPoint(photo.latitude, photo.longitude));
-			photo_ = photo;
-			this.photoMarkers = photoMarkers;
+			super(poi.id() + "", poi.name(), poi.position());
+			poi_ = poi;
 		} // PhotoItem
 
-		public Photo photo() { return photo_; }
+		public POI poi() { return poi_; }
 		
 		// Markers
 		@Override
 		public Drawable getMarker(int stateBitset) 
 		{ 
-			return photoMarkers.getMarker(photo_.feature, stateBitset);	
+			// return photoMarkers.getMarker(1, stateBitset);	
+		  return null;
 		} // getMarker
 
 		// Equality testing
 		@Override
-		public int hashCode() { return ((photo_ == null) ? 0 : photo_.id); }
+		public int hashCode() { return ((poi_ == null) ? 0 : poi_.id()); }
 		
 		/*
 		 * PhotoItems are equal if underlying Photos have the same id
@@ -55,38 +54,35 @@ public class PhotoItemOverlay extends CycleStreetsItemOverlay<PhotoItemOverlay.P
 				return false;
 			if (getClass() != obj.getClass())
 				return false;
-			final PhotoItem other = (PhotoItem) obj;
-			if (photo_ == null) 
-				return (other.photo_ == null);
+			final POIItem other = (POIItem) obj;
+			if (poi_ == null) 
+				return (other.poi_ == null);
 
-			return (photo_.id == other.photo_.id);
+			return (poi_.id() == other.poi_.id());
 		} // equals
 
 		@Override
 		public String toString() 
 		{
-			return "PhotoItem [photo=" + photo_ + "]";
+			return "POIItem [poi=" + poi_ + "]";
 		} // toString	
-	} // class PhotoItem
+	} // class POIItem
 
 	/////////////////////////////////////////////////////
 	/////////////////////////////////////////////////////
-	private final PhotoMarkers photoMarkers_;
-	public PhotoItemOverlay(final Context context,
-	                        final MapView mapView,
-	                        final OnItemGestureListener<PhotoItemOverlay.PhotoItem> listener)
+	public POIOverlay(final Context context,
+							      final MapView mapView,
+							      final OnItemGestureListener<POIOverlay.POIItem> listener)
 	{
 		super(context, 
-			    mapView, 
+			    mapView,
 			    listener);
-		
-		photoMarkers_ = new PhotoMarkers(context.getResources());
-	} // PhotoItemOverlay
+	} // POIOverlay
 
   protected void fetchItemsInBackground(final GeoPoint mapCentre,
                                         final int zoom,
                                         final BoundingBoxE6 boundingBox)
-  {
+	{
 		double n = boundingBox.getLatNorthE6() / 1E6;
 		double s = boundingBox.getLatSouthE6() / 1E6;
 		double e = boundingBox.getLonEastE6() / 1E6;
@@ -95,28 +91,28 @@ public class PhotoItemOverlay extends CycleStreetsItemOverlay<PhotoItemOverlay.P
 		double clat = (double)mapCentre.getLatitudeE6() / 1E6;
 		double clon = (double)mapCentre.getLongitudeE6() / 1E6;
 
-		GetPhotosTask.fetch(this, clat, clon, zoom, n, s, e, w);
+		GetPOIsTask.fetch(this, clat, clon, zoom, n, s, e, w);
 	} // refreshPhotos
 	
 	/////////////////////////////////////////////////////
 	/////////////////////////////////////////////////////
-	static private class GetPhotosTask extends AsyncTask<Object,Void,List<Photo>> 
+	static private class GetPOIsTask extends AsyncTask<Object,Void,List<POI>> 
 	{
-		static void fetch(final PhotoItemOverlay overlay, 
+		static void fetch(final POIOverlay overlay, 
 						          final Object... params)
 		{
-			new GetPhotosTask(overlay).execute(params);
+			new GetPOIsTask(overlay).execute(params);
 		} // fetch
 		
 		//////////////////////////////////////////////////////
-		private final PhotoItemOverlay overlay_;
+		private final POIOverlay overlay_;
 		
-		private  GetPhotosTask(final PhotoItemOverlay overlay)
+		private  GetPOIsTask(final POIOverlay overlay)
 		{
 			overlay_ = overlay;
 		} // GetPhotosTask
 		
-		protected List<Photo> doInBackground(Object... params) 
+		protected List<POI> doInBackground(Object... params) 
 		{
 			double clat = (Double) params[0];
 			double clon = (Double) params[1];
@@ -127,7 +123,7 @@ public class PhotoItemOverlay extends CycleStreetsItemOverlay<PhotoItemOverlay.P
 			double w = (Double) params[6];
 
 			try {
-				return ApiClient.getPhotos(clat, clon, zoom, n, s, e, w);
+				//return ApiClient.getPhotos(clat, clon, zoom, n, s, e, w);
 			}
 			catch (final Exception ex) {
 				// never mind, eh?
@@ -136,13 +132,13 @@ public class PhotoItemOverlay extends CycleStreetsItemOverlay<PhotoItemOverlay.P
 		} // doInBackground
 		
 		@Override
-		protected void onPostExecute(final List<Photo> photos) 
+		protected void onPostExecute(final List<POI> pois) 
 		{
-			final List<PhotoItemOverlay.PhotoItem> items = new ArrayList<PhotoItemOverlay.PhotoItem>();
+			final List<POIOverlay.POIItem> items = new ArrayList<POIOverlay.POIItem>();
 			
-			if(photos != null)
-				for (final Photo photo: photos) 
-					items.add(new PhotoItemOverlay.PhotoItem(photo, overlay_.photoMarkers_));
+			if(pois != null)
+				for (final POI poi : pois) 
+					items.add(new POIOverlay.POIItem(poi));
 			
 			overlay_.setItems(items);
 		} // onPostExecute
