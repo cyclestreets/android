@@ -94,6 +94,11 @@ public abstract class CycleStreetsItemOverlay<T extends OverlayItem>
 		return true;
 	} // onZoom
 
+	protected void redraw()
+	{
+	  mapView_.postInvalidate();
+	} // redraw
+	
 	private void refreshItems() 
 	{		
 		final GeoPoint centre = mapView_.getMapCenter();
@@ -103,7 +108,7 @@ public abstract class CycleStreetsItemOverlay<T extends OverlayItem>
 		fetchItemsInBackground(centre, zoom, bounds);
 
 		loading_ = true;
-		mapView_.postInvalidate();
+		redraw();
 	} // refreshPhotos
 	
 	protected abstract void fetchItemsInBackground(final GeoPoint mapCentre,
@@ -118,6 +123,6 @@ public abstract class CycleStreetsItemOverlay<T extends OverlayItem>
 		if(items().size() > 500)  // arbitrary figure
 			items().remove(items().subList(0, 100));
 		loading_ = false;
-		mapView_.postInvalidate();
+    redraw();
 	} // setItems
 } // class CycleStreetsItemOverlay

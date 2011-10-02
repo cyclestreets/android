@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import org.xml.sax.Attributes;
 import org.xml.sax.ContentHandler;
 
+import android.os.AsyncTask;
 import android.sax.Element;
 import android.sax.EndElementListener;
 import android.sax.EndTextElementListener;
@@ -85,4 +86,49 @@ public class POICategories
       return cats_;
     } // get
   } // POICategories
+
+  //////////////////////////////////////////////
+  static private POICategories loaded_;
+  
+  static public POICategories get() 
+  {
+    if(loaded_ == null)
+      load();
+    return loaded_;
+  } // get
+  
+  static public void load()
+  {
+    try {
+      loaded_ = ApiClient.getPOICategories();
+    }
+    catch(Exception e) {
+      // ah
+    }
+  } // load
+  
+  static public void backgroundLoad()
+  {
+    new GetPOICategoriesTask().execute();
+  } // backgroundLoad
+  
+  static private class GetPOICategoriesTask extends AsyncTask<Void,Void,POICategories>
+  {
+    protected POICategories doInBackground(Void... params) 
+    {
+      try {
+        return ApiClient.getPOICategories();
+      }
+      catch (final Exception ex) {
+        // never mind, eh?
+      }
+      return null;
+    } // doInBackground
+    
+    @Override
+    protected void onPostExecute(final POICategories cats) 
+    {
+      POICategories.loaded_ = cats;
+    } // onPostExecute
+  } // GetPOICategoriesTask
 } // class POICategories

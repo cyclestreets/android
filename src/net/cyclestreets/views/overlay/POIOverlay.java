@@ -10,15 +10,22 @@ import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.OverlayItem;
 
 import android.content.Context;
+import android.content.Intent;
+import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.AsyncTask;
 
+import net.cyclestreets.R;
 import net.cyclestreets.api.POI;
+import net.cyclestreets.api.POICategory;
 
 public class POIOverlay extends CycleStreetsItemOverlay<POIOverlay.POIItem>
                         implements MapListener
 {
-	static public class POIItem extends OverlayItem 
+  static private Drawable defaultMarker_;
+
+  static public class POIItem extends OverlayItem 
 	{
 		private final POI poi_;
 		
@@ -34,8 +41,7 @@ public class POIOverlay extends CycleStreetsItemOverlay<POIOverlay.POIItem>
 		@Override
 		public Drawable getMarker(int stateBitset) 
 		{ 
-			// return photoMarkers.getMarker(1, stateBitset);	
-		  return null;
+		  return defaultMarker_;
 		} // getMarker
 
 		// Equality testing
@@ -69,29 +75,70 @@ public class POIOverlay extends CycleStreetsItemOverlay<POIOverlay.POIItem>
 	} // class POIItem
 
 	/////////////////////////////////////////////////////
-	/////////////////////////////////////////////////////
+  static private class POIListener implements OnItemGestureListener<POIItem>
+  {
+    private final Context context_;
+    
+    public POIListener(final Context context) 
+    {
+      context_ = context;
+    } // PhotoItemListener
+
+    public boolean onItemLongPress(int i, final POIItem item) 
+    {
+      //showPhoto(item);
+      return true;
+    } // onItemLongPress
+    
+    public boolean onItemSingleTapUp(int i, final POIItem item) 
+    {
+      //showPhoto(item);
+      return true;
+    } // onItemSingleTapUp
+  } // PhotoItemListener
+
+  /////////////////////////////////////////////////////
+  private List<POICategory> activeCategories_;
+  
 	public POIOverlay(final Context context,
-							      final MapView mapView,
-							      final OnItemGestureListener<POIOverlay.POIItem> listener)
+							      final MapView mapView)
 	{
 		super(context, 
 			    mapView,
-			    listener);
+			    new POIListener(context));
+		activeCategories_ = new ArrayList<POICategory>();
+		
+    defaultMarker_ = context.getResources().getDrawable(R.drawable.icon);
 	} // POIOverlay
+
+	protected void draw(final Canvas canvas, final MapView mapView, final boolean shadow) 
+  {
+	  if(activeCategories_.isEmpty())
+	    return;
+    super.draw(canvas, mapView, shadow);
+  } // draw
+	
+	public void show(final POICategory cat) 
+	{ 
+	  if(activeCategories_.contains(cat))
+	    return;
+	  activeCategories_.add(cat);
+	  redraw();
+	} // show
+	
+	public void hide(final POICategory cat)
+	{
+	  if(!activeCategories_.contains(cat))
+	    return;
+	  activeCategories_.remove(cat);
+	  redraw();
+	} // hide
 
   protected void fetchItemsInBackground(final GeoPoint mapCentre,
                                         final int zoom,
                                         final BoundingBoxE6 boundingBox)
 	{
-		double n = boundingBox.getLatNorthE6() / 1E6;
-		double s = boundingBox.getLatSouthE6() / 1E6;
-		double e = boundingBox.getLonEastE6() / 1E6;
-		double w = boundingBox.getLonWestE6() / 1E6;
-		
-		double clat = (double)mapCentre.getLatitudeE6() / 1E6;
-		double clon = (double)mapCentre.getLongitudeE6() / 1E6;
-
-		GetPOIsTask.fetch(this, clat, clon, zoom, n, s, e, w);
+		GetPOIsTask.fetch(this, mapCentre, boundingBox);
 	} // refreshPhotos
 	
 	/////////////////////////////////////////////////////
@@ -99,9 +146,10 @@ public class POIOverlay extends CycleStreetsItemOverlay<POIOverlay.POIItem>
 	static private class GetPOIsTask extends AsyncTask<Object,Void,List<POI>> 
 	{
 		static void fetch(final POIOverlay overlay, 
-						          final Object... params)
+						          final GeoPoint centre,
+						          final BoundingBoxE6 boundingBox)
 		{
-			new GetPOIsTask(overlay).execute(params);
+			new GetPOIsTask(overlay).execute(centre, boundingBox);
 		} // fetch
 		
 		//////////////////////////////////////////////////////
@@ -114,21 +162,19 @@ public class POIOverlay extends CycleStreetsItemOverlay<POIOverlay.POIItem>
 		
 		protected List<POI> doInBackground(Object... params) 
 		{
-			double clat = (Double) params[0];
-			double clon = (Double) params[1];
-			int zoom = (Integer) params[2];
-			double n = (Double) params[3];
-			double s = (Double) params[4];
-			double e = (Double) params[5];
-			double w = (Double) params[6];
+		  final GeoPoint centre = (GeoPoint)params[0];
+		  final BoundingBoxE6 boundingBox = (BoundingBoxE6)params[1];
+		  
+      final List<POI> pois = new ArrayList<POI>();
 
-			try {
-				//return ApiClient.getPhotos(clat, clon, zoom, n, s, e, w);
-			}
-			catch (final Exception ex) {
-				// never mind, eh?
-			}
-			return null;
+      for(final POICategory cat : overlay_.activeCategories_)
+        try {
+			    pois.addAll(cat.pois(centre, boundingBox));
+        }
+			  catch (final Exception ex) {
+			    // never mind, eh?
+			  }
+      return pois;
 		} // doInBackground
 		
 		@Override

@@ -6,9 +6,12 @@ import net.cyclestreets.CycleStreetsConstants;
 import net.cyclestreets.R;
 import net.cyclestreets.util.MessageBox;
 import net.cyclestreets.util.GeoIntent;
+import net.cyclestreets.views.overlay.POIOverlay;
 import net.cyclestreets.views.overlay.PathOfRouteOverlay;
 import net.cyclestreets.views.overlay.RouteHighlightOverlay;
 import net.cyclestreets.views.overlay.TapToRouteOverlay;
+import net.cyclestreets.api.ApiClient;
+import net.cyclestreets.api.POICategories;
 import net.cyclestreets.planned.Route;
 
 import org.osmdroid.util.GeoPoint;
@@ -26,6 +29,7 @@ public class RouteMapActivity extends CycleMapActivity
 {
 	private PathOfRouteOverlay path_;
 	private TapToRouteOverlay routeSetter_;
+	private POIOverlay poiOverlay_;
 	
 	@Override
 	public void onCreate(final Bundle saved)
@@ -36,6 +40,9 @@ public class RouteMapActivity extends CycleMapActivity
         
 	  path_ = new PathOfRouteOverlay(getApplicationContext());
 	  overlayPushBottom(path_);
+	  
+	  poiOverlay_ = new POIOverlay(getApplicationContext(), mapView());
+	  overlayPushBottom(poiOverlay_);
 	  
 	  routeSetter_ = new TapToRouteOverlay(getApplicationContext(), mapView(), this);
 	  overlayPushTop(routeSetter_);

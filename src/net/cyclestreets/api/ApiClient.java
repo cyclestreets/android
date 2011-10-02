@@ -363,7 +363,7 @@ public class ApiClient {
   
   static public List<POI> getPOIs(final String key,
                                   final GeoPoint centre, 
-                                  final int radius)
+                                  final BoundingBoxE6 boundingBox)
     throws Exception
   {
     return callApi(POICategory.factory(),
@@ -371,7 +371,10 @@ public class ApiClient {
                    "type", key, 
                    "latitude", Double.toString(centre.getLatitudeE6() / 1E6),
                    "longitude", Double.toString(centre.getLongitudeE6() / 1E6),
-                   "radius", Integer.toString(radius));
+                   "n", Double.toString(boundingBox.getLatNorthE6() / 1E6),
+                   "s", Double.toString(boundingBox.getLatSouthE6() / 1E6),
+                   "e", Double.toString(boundingBox.getLonEastE6() / 1E6),
+                   "w", Double.toString(boundingBox.getLonWestE6() / 1E6));
   } // getPOIs
 
   /////////////////////////////////////////////////////

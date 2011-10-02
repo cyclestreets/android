@@ -15,7 +15,6 @@ import android.net.Uri;
 import android.os.AsyncTask;
 
 import net.cyclestreets.DisplayPhotoActivity;
-import net.cyclestreets.PhotomapActivity;
 import net.cyclestreets.api.ApiClient;
 import net.cyclestreets.api.Photo;
 import net.cyclestreets.api.PhotoMarkers;

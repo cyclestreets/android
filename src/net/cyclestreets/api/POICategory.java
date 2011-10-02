@@ -3,6 +3,7 @@ package net.cyclestreets.api;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.osmdroid.util.BoundingBoxE6;
 import org.osmdroid.util.GeoPoint;
 import org.xml.sax.Attributes;
 import org.xml.sax.ContentHandler;
@@ -31,10 +32,11 @@ public class POICategory
   public String shortName() { return shortName_; }
   public String name() { return name_; }
 
-  public List<POI> pois(final GeoPoint centre)
+  public List<POI> pois(final GeoPoint centre,
+                        final BoundingBoxE6 boundingBox)
     throws Exception
   {
-    return ApiClient.getPOIs(key_, centre, 5);
+    return ApiClient.getPOIs(key_, centre, boundingBox);
   } // pois
 
   static public Factory<List<POI>> factory() { 

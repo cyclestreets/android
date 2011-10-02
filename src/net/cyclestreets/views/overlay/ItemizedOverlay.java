@@ -22,11 +22,11 @@ import android.view.MotionEvent;
  */
 public class ItemizedOverlay<Item extends OverlayItem> extends Overlay 
 {
-    public static interface OnItemGestureListener<Item>
-    {
-        public boolean onItemSingleTapUp(final int index, final Item item);
-        public boolean onItemLongPress(final int index, final Item item);
-    } // interface OnItemGestureListener<Item>
+  public static interface OnItemGestureListener<Item>
+  {
+    public boolean onItemSingleTapUp(final int index, final Item item);
+    public boolean onItemLongPress(final int index, final Item item);
+  } // interface OnItemGestureListener<Item>
 
 	private final List<Item> items_;
 	private final OnItemGestureListener<Item> itemListener_;
