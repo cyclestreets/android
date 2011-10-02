@@ -9,9 +9,13 @@ import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.OverlayItem;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.AsyncTask;
 
+import net.cyclestreets.DisplayPhotoActivity;
+import net.cyclestreets.PhotomapActivity;
 import net.cyclestreets.api.ApiClient;
 import net.cyclestreets.api.Photo;
 import net.cyclestreets.api.PhotoMarkers;
@@ -70,19 +74,53 @@ public class PhotoItemOverlay extends CycleStreetsItemOverlay<PhotoItemOverlay.P
 	} // class PhotoItem
 
 	/////////////////////////////////////////////////////
+	 
+  ///////////////////////////////////////////////////
+  ///////////////////////////////////////////////////
+	static private class PhotoItemListener implements OnItemGestureListener<PhotoItemOverlay.PhotoItem>
+	{
+	  private final Context context_;
+	  
+	  public PhotoItemListener(final Context context) 
+	  {
+	    context_ = context;
+	  } // PhotoItemListener
+
+	  public boolean onItemLongPress(int i, final PhotoItemOverlay.PhotoItem item) 
+	  {
+	    showPhoto(item);
+	    return true;
+	  } // onItemLongPress
+    
+	  public boolean onItemSingleTapUp(int i, final PhotoItemOverlay.PhotoItem item) 
+	  {
+	    showPhoto(item);
+	    return true;
+	  } // onItemSingleTapUp
+  
+	  private void showPhoto(final PhotoItemOverlay.PhotoItem item)
+	  {
+	    final Intent intent = new Intent(context_, DisplayPhotoActivity.class);
+	    intent.setData(Uri.parse(item.photo().thumbnailUrl));
+	    intent.putExtra("caption", item.photo().caption);
+	    context_.startActivity(intent);
+	  } // showPhoto
+	} // PhotoItemListener
+
 	/////////////////////////////////////////////////////
 	private final PhotoMarkers photoMarkers_;
+	
 	public PhotoItemOverlay(final Context context,
-	                        final MapView mapView,
-	                        final OnItemGestureListener<PhotoItemOverlay.PhotoItem> listener)
+	                        final MapView mapView)
 	{
 		super(context, 
 			    mapView, 
-			    listener);
+			    new PhotoItemListener(context));
 		
 		photoMarkers_ = new PhotoMarkers(context.getResources());
 	} // PhotoItemOverlay
-
+  ///////////////////////////////////////////////////
+  ///////////////////////////////////////////////////
   protected void fetchItemsInBackground(final GeoPoint mapCentre,
                                         final int zoom,
                                         final BoundingBoxE6 boundingBox)
