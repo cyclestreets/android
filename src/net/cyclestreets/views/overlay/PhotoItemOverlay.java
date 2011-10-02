@@ -124,14 +124,14 @@ public class PhotoItemOverlay extends ItemizedOverlay<PhotoItemOverlay.PhotoItem
 
 		int width = bounds.width() + (offset_ * 2);
 		final Rect screen = canvas.getClipBounds();
-        screen.left = screen.centerX() - (width/2); 
-        screen.top += offset_* 2;
-        screen.right = screen.left + width;
-        screen.bottom = screen.top + bounds.height() + (offset_ * 2);
-		
-        if(!OverlayHelper.drawRoundRect(canvas, screen, radius_, Brush.Grey))
-        	return;
-        canvas.drawText(LOADING, screen.centerX(), screen.centerY() + bounds.bottom, textBrush_);
+		screen.left = screen.centerX() - (width/2); 
+		screen.top += offset_* 2;
+		screen.right = screen.left + width;
+		screen.bottom = screen.top + bounds.height() + (offset_ * 2);
+		  
+		if(!OverlayHelper.drawRoundRect(canvas, screen, radius_, Brush.Grey))
+		  return;
+		canvas.drawText(LOADING, screen.centerX(), screen.centerY() + bounds.bottom, textBrush_);
 	} // drawButtons
 	
 	@Override
