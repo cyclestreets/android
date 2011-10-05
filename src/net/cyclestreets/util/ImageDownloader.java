@@ -64,7 +64,7 @@ public class ImageDownloader
 		{
 			final HttpClient client = new DefaultHttpClient();
 			final HttpGet getRequest = new HttpGet(url);
-	    	getRequest.setHeader("User-Agent", "CycleStreets Android/1.0");
+			getRequest.setHeader("User-Agent", "CycleStreets Android/1.0");
 
 			try 
 			{
@@ -81,7 +81,7 @@ public class ImageDownloader
 				{
 					final InputStream inputStream = entity.getContent();
 					return Bitmaps.loadStream(inputStream);
-		        } // try
+				} // try
 				finally 
 				{
 					entity.consumeContent();
