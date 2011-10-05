@@ -14,8 +14,8 @@ public class Bitmaps
 	static private BitmapFactory.Options decodeOptions() 
 	{ 
 		final BitmapFactory.Options decodeOptions = new BitmapFactory.Options();
-    	decodeOptions.inPurgeable = true;
-    	decodeOptions.inSampleSize = 4;
+		decodeOptions.inPurgeable = true;
+		decodeOptions.inSampleSize = 4;
 		return decodeOptions;
 	} // decodeOptions
 	
@@ -105,31 +105,31 @@ public class Bitmaps
 		return o;
 	} // bitmapBounds
 	
-    static private class FlushedInputStream extends FilterInputStream 
-    {
-        public FlushedInputStream(final InputStream inputStream) 
-        {
-            super(inputStream);
-        } // FlushedInputStream
+	static private class FlushedInputStream extends FilterInputStream 
+	{
+	  public FlushedInputStream(final InputStream inputStream) 
+	  {
+	    super(inputStream);
+	  } // FlushedInputStream
 
-        @Override
-        public long skip(long n) throws IOException 
-        {
-            long totalBytesSkipped = 0L;
-            while (totalBytesSkipped < n) 
-            {
-                long bytesSkipped = in.skip(n - totalBytesSkipped);
-                if (bytesSkipped == 0L) 
-                {
-                    int b = read();
-                    if (b < 0) 
-                        break;  // we reached EOF
-                    else 
-                        bytesSkipped = 1; // we read one byte
-                } // if ...
-                totalBytesSkipped += bytesSkipped;
-            } // while ...
-            return totalBytesSkipped;
-        } // skip
-    } // FlushedInputStream
+	  @Override
+	  public long skip(long n) throws IOException 
+	  {
+	    long totalBytesSkipped = 0L;
+	    while (totalBytesSkipped < n) 
+	    {
+	      long bytesSkipped = in.skip(n - totalBytesSkipped);
+	      if (bytesSkipped == 0L) 
+	      {
+	        int b = read();
+	        if (b < 0) 
+	          break;  // we reached EOF
+	        else 
+	          bytesSkipped = 1; // we read one byte
+	      } // if ...
+	      totalBytesSkipped += bytesSkipped;
+	    } // while ...
+	    return totalBytesSkipped;
+	  } // skip
+  } // FlushedInputStream
 } // class Bitmaps
