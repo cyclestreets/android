@@ -8,6 +8,7 @@ import org.osmdroid.util.GeoPoint;
 import org.xml.sax.Attributes;
 import org.xml.sax.ContentHandler;
 
+import android.graphics.drawable.Drawable;
 import android.sax.Element;
 import android.sax.EndElementListener;
 import android.sax.EndTextElementListener;
@@ -19,24 +20,31 @@ public class POICategory
   private final String key_;
   private final String shortName_;
   private final String name_;
+  private final Drawable icon_;
   
   public POICategory(final String key,
                      final String shortName,
-                     final String name)
+                     final String name, 
+                     final Drawable icon)
   {
     key_ = key;
     shortName_ = shortName;
     name_ = name;
+    icon_ = icon;
   } // POICategory
   
   public String shortName() { return shortName_; }
   public String name() { return name_; }
+  public Drawable icon() { return icon_; }
 
   public List<POI> pois(final GeoPoint centre,
                         final BoundingBoxE6 boundingBox)
     throws Exception
   {
-    return ApiClient.getPOIs(key_, centre, boundingBox);
+    List<POI>  pois = ApiClient.getPOIs(key_, centre, boundingBox);
+    for(final POI poi : pois)
+      poi.setCategory(this);
+    return pois;
   } // pois
 
   static public Factory<List<POI>> factory() { 

@@ -1,12 +1,20 @@
 package net.cyclestreets.api;
 
+import java.io.ByteArrayInputStream;
 import java.util.List;
 import java.util.Iterator;
 import java.util.ArrayList;
 
+import net.cyclestreets.util.Base64;
+import net.cyclestreets.util.Bitmaps;
+
 import org.xml.sax.Attributes;
 import org.xml.sax.ContentHandler;
 
+import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.sax.Element;
 import android.sax.EndElementListener;
@@ -29,16 +37,23 @@ public class POICategories implements Iterable<POICategory>
   public POICategory get(int index) { return cats_.get(index); }
   public Iterator<POICategory> iterator() { return cats_.iterator(); }
   
-  static public Factory<POICategories> factory() { 
-    return new POICategoriesFactory();
+  static public Factory<POICategories> factory(final Context context) { 
+    return new POICategoriesFactory(context);
   } // factory
   
   static private class POICategoriesFactory extends Factory<POICategories>
   {    
+    private final Context context_;
     private POICategories cats_;
     private String key_;
     private String name_;
     private String shortName_;
+    private String icon_;
+    
+    public POICategoriesFactory(final Context context) 
+    {
+      context_ = context;
+    } // POICategoriesFactory
     
     @Override
     protected ContentHandler contentHandler()
@@ -54,11 +69,13 @@ public class POICategories implements Iterable<POICategory>
           key_ = null;
           name_ = null;
           shortName_ = null;
+          icon_ = null;
         }
       });
       item.setEndElementListener(new EndElementListener(){
           public void end() {
-            cats_.add(new POICategory(key_, shortName_, name_));
+            final Drawable icon = new BitmapDrawable(context_.getResources(), decodeIcon(icon_));
+            cats_.add(new POICategory(key_, shortName_, name_, icon));
           }
       });
       item.getChild("key").setEndTextElementListener(new EndTextElementListener(){
@@ -76,6 +93,11 @@ public class POICategories implements Iterable<POICategory>
             shortName_ = body;
           }
       });
+      item.getChild("icon").setEndTextElementListener(new EndTextElementListener(){
+        public void end(String body) {
+          icon_ = body;
+        }
+      });
 
       return root.getContentHandler();
     } // contentHandler
@@ -85,6 +107,18 @@ public class POICategories implements Iterable<POICategory>
     {
       return cats_;
     } // get
+    
+    static private Bitmap decodeIcon(final String iconAsBase64)
+    {
+      try {
+        byte[] bytes = Base64.decode(iconAsBase64);
+        return Bitmaps.loadStream(new ByteArrayInputStream(bytes));
+      } // try
+      catch(Exception e) {
+        // never mind for the moment
+      } // catch
+      return null;
+    } // decodeIcon
   } // POICategories
 
   //////////////////////////////////////////////
