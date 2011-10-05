@@ -92,8 +92,24 @@ public class ApiClient {
   private final static String API_PATH_POIS = API_PATH + "pois.xml";
 
   private final static int DEFAULT_SPEED = 20;
+  
+  private static Context context_;
+  
+  static Context context() 
+  { 
+    if(context_ == null)
+      throw new RuntimeException("ApiClient.initialise(context) has not been called");
+    return context_; 
+  } // context
+  
+  static public void initialise(final Context context)
+  {
+    context_ = context;
+    loadSslCertificates(context);
+    POICategories.backgroundLoad();
+  } // initialise
 
-  static public void loadSslCertificates(final Context context)
+  static private void loadSslCertificates(final Context context)
   {
     // Based on code from http://blog.crazybob.org/2010/02/android-trusting-ssl-certificates.html
     // Works around Android not trusting newer GeoTrust certificates.
@@ -358,7 +374,9 @@ public class ApiClient {
   static public POICategories getPOICategories()
     throws Exception
   {
-    return callApi(POICategories.factory(), API_PATH_POI_CATEGORIES);
+    return callApi(POICategories.factory(context()), 
+                   API_PATH_POI_CATEGORIES,
+                   "icons", "32");
   } // getPOICategories
   
   static public List<POI> getPOIs(final String key,

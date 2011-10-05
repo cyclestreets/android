@@ -14,7 +14,7 @@ public class CycleStreetsApp extends Application
 	  CycleStreetsPreferences.initialise(this);
 	    
 	  Route.initialise(this);
-	  ApiClient.loadSslCertificates(this);
+	  ApiClient.initialise(this);
 	} // onCreate
 	
 	public String version()
