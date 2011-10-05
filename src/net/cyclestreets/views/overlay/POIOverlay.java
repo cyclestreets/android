@@ -28,8 +28,6 @@ import net.cyclestreets.api.POICategory;
 public class POIOverlay extends CycleStreetsItemOverlay<POIOverlay.POIItem>
                         implements MapListener, DynamicMenuListener
 {
-  static private Drawable defaultMarker_;
-
   static public class POIItem extends OverlayItem 
 	{
 		private final POI poi_;
@@ -46,7 +44,7 @@ public class POIOverlay extends CycleStreetsItemOverlay<POIOverlay.POIItem>
 		@Override
 		public Drawable getMarker(int stateBitset) 
 		{ 
-		  return defaultMarker_;
+		  return poi_.icon();
 		} // getMarker
 
 		// Equality testing
@@ -117,8 +115,6 @@ public class POIOverlay extends CycleStreetsItemOverlay<POIOverlay.POIItem>
 		context_ = context;
 		allCategories_ = POICategories.get();
 		activeCategories_ = new ArrayList<POICategory>();
-		
-    defaultMarker_ = context.getResources().getDrawable(R.drawable.icon);
 	} // POIOverlay
 
 	protected void draw(final Canvas canvas, final MapView mapView, final boolean shadow) 
