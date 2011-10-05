@@ -31,11 +31,11 @@ public class DisplayPhotoActivity extends Activity
 		iv.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
 		iv.startAnimation(AnimationUtils.loadAnimation(this, R.anim.spinner));
 
-    	final TextView text = (TextView)findViewById(R.id.photo_text);
-    	text.setText(i.getStringExtra("caption"));
+		final TextView text = (TextView)findViewById(R.id.photo_text);
+		text.setText(i.getStringExtra("caption"));
 
 		final Uri uri = i.getData();
-    	ImageDownloader.get(uri.toString(), iv);
+		ImageDownloader.get(uri.toString(), iv);
 	} // onCreate
 	
 	@Override
