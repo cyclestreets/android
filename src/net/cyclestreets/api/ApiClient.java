@@ -376,7 +376,7 @@ public class ApiClient {
   {
     return callApi(POICategories.factory(context()), 
                    API_PATH_POI_CATEGORIES,
-                   "icons", "32");
+                   "icons", "16");
   } // getPOICategories
   
   static public List<POI> getPOIs(final String key,
