@@ -39,7 +39,7 @@ public class PhotoMarkers
 		};
 	} // PhotoMarkers
 	
-	public Drawable getMarker(int feature, int stateBitset) 
+	public Drawable getMarker(int feature) 
 	{
 		if((feature < 0) || (feature >= markers_.length))
 			return defaultMarker_;
@@ -47,7 +47,7 @@ public class PhotoMarkers
 		return markers_[feature];
 	} // getMarker
 
-	public Point getMarkerHotspot(int feature, int stateBitset) 
+	public Point getMarkerHotspot(int feature) 
 	{
 		return defaultMarkerHotspot_;
 	} // getMarkerHotspot
