@@ -36,17 +36,12 @@ public class POIOverlay extends CycleStreetsItemOverlay<POIOverlay.POIItem>
 		{
 			super(poi.id() + "", poi.name(), poi.position());
 			poi_ = poi;
+			setMarker(poi_.icon());
+			setMarkerHotspot(HotspotPlace.CENTER);
 		} // PhotoItem
 
 		public POI poi() { return poi_; }
 		public POICategory category() { return poi_.category(); }
-		
-		// Markers
-		@Override
-		public Drawable getMarker(int stateBitset) 
-		{ 
-		  return poi_.icon();
-		} // getMarker
 
 		// Equality testing
 		@Override
