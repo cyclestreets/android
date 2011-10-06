@@ -9,6 +9,7 @@ import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.Overlay;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -41,6 +42,18 @@ public class ControllerOverlay extends Overlay implements OnDoubleTapListener,
 		gestureDetector_ = new GestureDetector(context, this);
 		gestureDetector_.setOnDoubleTapListener(this);
 	} // SingleTapOverlay
+	
+	public void onPause(final SharedPreferences.Editor prefEditor)
+	{
+	  for(final Iterator<PauseResumeListener> overlays = pauseResumeOverlays(); overlays.hasNext(); )
+	    overlays.next().onPause(prefEditor);
+	} // onPause
+	
+	public void onResume(final SharedPreferences prefs)
+	{
+    for(final Iterator<PauseResumeListener> overlays = pauseResumeOverlays(); overlays.hasNext(); )
+      overlays.next().onResume(prefs);
+	} // onResume
 
 	public boolean onCreateOptionsMenu(final Menu menu)
 	{
@@ -139,21 +152,26 @@ public class ControllerOverlay extends Overlay implements OnDoubleTapListener,
 	@Override
 	public boolean onSingleTapUp(MotionEvent e) { return false; }
 	
-	//////////////////////////////////////////////////////
+	//////////////////////////////////////////////////////	
 	private Iterator<TapListener> tapOverlays()
 	{
 		return new OverlayIterator<TapListener>(mapView_, TapListener.class);
-	} // overlays
+	} // tapOverlays
 	private Iterator<MenuListener> menuOverlays()
 	{
 		return new OverlayIterator<MenuListener>(mapView_, MenuListener.class);
-	} // overlays
+	} // menuOverlays
 	private Iterator<DynamicMenuListener> dynamicMenuOverlays()
 	{
 		return new OverlayIterator<DynamicMenuListener>(mapView_, DynamicMenuListener.class);
-	} // overlays
+	} // dynamicMenuOverlays
 	private Iterator<ContextMenuListener> contextMenuOverlays()
 	{
 		return new OverlayIterator<ContextMenuListener>(mapView_, ContextMenuListener.class);
-	} // overlays
+	} // contextMenuOverlays
+	private Iterator<PauseResumeListener> pauseResumeOverlays()
+	{
+	  return new OverlayIterator<PauseResumeListener>(mapView_, PauseResumeListener.class);
+	} // pauseResumeOverlays
+	
 } // class ControllerOverlay

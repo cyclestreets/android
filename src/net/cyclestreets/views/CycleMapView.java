@@ -87,14 +87,16 @@ public class CycleMapView extends MapView
     edit.putInt(PREFS_APP_ZOOM_LEVEL, getZoomLevel());
     edit.putBoolean(PREFS_APP_MY_LOCATION, location_.isMyLocationEnabled());
     edit.putBoolean(PREFS_APP_FOLLOW_LOCATION, location_.isFollowLocationEnabled());
-    edit.commit();
 
     disableMyLocation();
+    
+    controllerOverlay_.onPause(edit);
+    edit.commit();
   } // onPause
 
   public void onResume()
   {
-    ITileSource tileSource = mapRenderer();
+    final ITileSource tileSource = mapRenderer();
     if(!tileSource.equals(renderer_))
     {
       renderer_ = tileSource;
@@ -112,6 +114,8 @@ public class CycleMapView extends MapView
     scrollTo(pref(PREFS_APP_SCROLL_X, 0), 
              pref(PREFS_APP_SCROLL_Y, -701896)); /* Greenwich */
              getController().setZoom(pref(PREFS_APP_ZOOM_LEVEL, 14));
+             
+    controllerOverlay_.onResume(prefs_);
   } // onResume 
   
   public boolean onCreateOptionsMenu(final Menu menu)

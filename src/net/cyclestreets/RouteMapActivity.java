@@ -38,11 +38,11 @@ public class RouteMapActivity extends CycleMapActivity
 
 	  overlayPushBottom(new RouteHighlightOverlay(getApplicationContext(), mapView()));
         
-	  path_ = new PathOfRouteOverlay(getApplicationContext());
+    poiOverlay_ = new POIOverlay(getApplicationContext(), mapView());
+    overlayPushBottom(poiOverlay_);
+
+    path_ = new PathOfRouteOverlay(getApplicationContext());
 	  overlayPushBottom(path_);
-	  
-	  poiOverlay_ = new POIOverlay(getApplicationContext(), mapView());
-	  overlayPushBottom(poiOverlay_);
 	  
 	  routeSetter_ = new TapToRouteOverlay(getApplicationContext(), mapView(), this);
 	  overlayPushTop(routeSetter_);

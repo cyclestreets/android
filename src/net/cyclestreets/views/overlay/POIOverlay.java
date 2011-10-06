@@ -11,6 +11,7 @@ import org.osmdroid.views.overlay.OverlayItem;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
@@ -26,7 +27,9 @@ import net.cyclestreets.api.POICategories;
 import net.cyclestreets.api.POICategory;
 
 public class POIOverlay extends CycleStreetsItemOverlay<POIOverlay.POIItem>
-                        implements MapListener, DynamicMenuListener
+                        implements MapListener, 
+                                   DynamicMenuListener, 
+                                   PauseResumeListener
 {
   static public class POIItem extends OverlayItem 
 	{
@@ -110,6 +113,29 @@ public class POIOverlay extends CycleStreetsItemOverlay<POIOverlay.POIItem>
 		activeCategories_ = new ArrayList<POICategory>();
 	} // POIOverlay
 
+	public void onPause(final SharedPreferences.Editor prefs)
+	{
+	  prefs.putInt("category-count", activeCategories_.size());
+	  for(int i = 0; i != activeCategories_.size(); ++i)
+	    prefs.putString("category-" + i, activeCategories_.get(i).name());
+	} // onPause
+	
+	public void onResume(final SharedPreferences prefs)
+	{
+	  activeCategories_.clear();
+	  int count = prefs.getInt("category-count", 0);
+	  for(int i = 0; i != count; ++i)
+	  {
+	    final String name = prefs.getString("category-" + i, "");
+	    for(final POICategory cat : allCategories_)
+	      if(name.equals(cat.name()))
+	      {
+	        activeCategories_.add(cat);
+	        break;
+	      } // if...
+	  } // for ...
+	} // onResume
+	
 	protected void draw(final Canvas canvas, final MapView mapView, final boolean shadow) 
   {
 	  if(activeCategories_.isEmpty())
