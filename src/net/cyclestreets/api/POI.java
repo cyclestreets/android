@@ -36,5 +36,6 @@ public class POI
   public String url() { return url_; }
   public GeoPoint position() { return pos_; }
   
+  public POICategory category() { return category_; }
   public Drawable icon() { return category_.icon(); }
 } // class POI

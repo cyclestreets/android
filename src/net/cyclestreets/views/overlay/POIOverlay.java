@@ -39,6 +39,7 @@ public class POIOverlay extends CycleStreetsItemOverlay<POIOverlay.POIItem>
 		} // PhotoItem
 
 		public POI poi() { return poi_; }
+		public POICategory category() { return poi_.category(); }
 		
 		// Markers
 		@Override
@@ -51,9 +52,6 @@ public class POIOverlay extends CycleStreetsItemOverlay<POIOverlay.POIItem>
 		@Override
 		public int hashCode() { return ((poi_ == null) ? 0 : poi_.id()); }
 		
-		/*
-		 * PhotoItems are equal if underlying Photos have the same id
-		 */
 		@Override
 		public boolean equals(final Object obj) 
 		{
@@ -137,16 +135,19 @@ public class POIOverlay extends CycleStreetsItemOverlay<POIOverlay.POIItem>
 	  if(!activeCategories_.contains(cat))
 	    return;
 	  activeCategories_.remove(cat);
-	  refreshItems();
+	  
+	  for(int i = items().size() - 1; i >= 0; --i)
+	    if(cat.equals(items().get(i).category()))
+	      items().remove(i);
+	  redraw();
 	} // hide
 	 
   public void toggle(final POICategory cat)
   {
     if(activeCategories_.contains(cat))
-      activeCategories_.remove(cat);
+      hide(cat);
     else
-      activeCategories_.add(cat);
-    refreshItems();
+      show(cat);
   } // toggle
   
   public void clear()
