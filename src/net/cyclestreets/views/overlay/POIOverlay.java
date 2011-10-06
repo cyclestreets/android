@@ -165,7 +165,7 @@ public class POIOverlay extends CycleStreetsItemOverlay<POIOverlay.POIItem>
   ////////////////////////////////////////////////
   public boolean onCreateOptionsMenu(final Menu menu)
   {
-    final SubMenu poi = menu.addSubMenu(0, R.string.ic_menu_poi, Menu.NONE, R.string.ic_menu_poi).setIcon(R.drawable.ic_menu_mylocation);
+    final SubMenu poi = menu.addSubMenu(0, R.string.ic_menu_poi, Menu.NONE, R.string.ic_menu_poi).setIcon(R.drawable.ic_menu_poi);
 
     for(int index = 0; index != allCategories_.count(); ++index)
     {
