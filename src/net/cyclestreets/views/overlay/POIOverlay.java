@@ -148,6 +148,13 @@ public class POIOverlay extends CycleStreetsItemOverlay<POIOverlay.POIItem>
       activeCategories_.add(cat);
     refreshItems();
   } // toggle
+  
+  public void clear()
+  {
+    activeCategories_.clear();
+    items().clear();
+    redraw();
+  } // clear
 	
 	public boolean showing(final POICategory cat)
 	{
@@ -159,14 +166,15 @@ public class POIOverlay extends CycleStreetsItemOverlay<POIOverlay.POIItem>
                                         final BoundingBoxE6 boundingBox)
 	{
 		GetPOIsTask.fetch(this, mapCentre, boundingBox);
-	} // refreshPhotos
+	} // refreshItemsInBackground
 	
 	/////////////////////////////////////////////////////
   ////////////////////////////////////////////////
   public boolean onCreateOptionsMenu(final Menu menu)
   {
     final SubMenu poi = menu.addSubMenu(0, R.string.ic_menu_poi, Menu.NONE, R.string.ic_menu_poi).setIcon(R.drawable.ic_menu_poi);
-
+    
+    poi.add(R.string.ic_menu_poi, R.string.ic_menu_poi_clear_all, Menu.NONE, R.string.ic_menu_poi_clear_all);
     for(int index = 0; index != allCategories_.count(); ++index)
     {
       final MenuItem c = poi.add(R.string.ic_menu_poi, index, Menu.NONE, allCategories_.get(index).shortName());
@@ -195,8 +203,13 @@ public class POIOverlay extends CycleStreetsItemOverlay<POIOverlay.POIItem>
     if(item.getGroupId() != R.string.ic_menu_poi)
       return false;
 
-    POICategory cat = allCategories_.get(item.getItemId());
-    toggle(cat);
+    if(item.getItemId() == R.string.ic_menu_poi_clear_all)
+      clear();
+    else
+    {
+      POICategory cat = allCategories_.get(item.getItemId());
+      toggle(cat);
+    } // if ...
     
     return true;
   } // onMenuItemSelected
