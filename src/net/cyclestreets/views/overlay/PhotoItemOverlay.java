@@ -39,7 +39,7 @@ public class PhotoItemOverlay extends CycleStreetsItemOverlay<PhotoItemOverlay.P
 		@Override
 		public Drawable getMarker(int stateBitset) 
 		{ 
-			return photoMarkers.getMarker(photo_.feature, stateBitset);	
+			return photoMarkers.getMarker(photo_.feature);	
 		} // getMarker
 
 		// Equality testing
