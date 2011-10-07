@@ -1,6 +1,6 @@
 package net.cyclestreets;
 
-import net.cyclestreets.views.overlay.PhotoItemOverlay;
+import net.cyclestreets.views.overlay.PhotosOverlay;
 
 import android.os.Bundle;
 
@@ -10,7 +10,7 @@ public class PhotomapActivity extends CycleMapActivity
 	{
 	  super.onCreate(savedInstanceState);
 
-	  overlayPushBottom(new PhotoItemOverlay(this, mapView()));
+	  overlayPushBottom(new PhotosOverlay(this, mapView()));
   } // onCreate
 
 } // PhotomapActivity

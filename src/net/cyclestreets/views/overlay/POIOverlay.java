@@ -26,7 +26,7 @@ import net.cyclestreets.api.POI;
 import net.cyclestreets.api.POICategories;
 import net.cyclestreets.api.POICategory;
 
-public class POIOverlay extends CycleStreetsItemOverlay<POIOverlay.POIItem>
+public class POIOverlay extends LiveItemOverlay<POIOverlay.POIItem>
                         implements MapListener, 
                                    DynamicMenuListener, 
                                    PauseResumeListener

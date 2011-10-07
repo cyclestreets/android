@@ -108,12 +108,16 @@ public class ItemizedOverlay<Item extends OverlayItem> extends Overlay
 	 *            y coordinate of point to check
 	 * @return true if the hit point is within the marker
 	 */
-	protected boolean hitTest(Item item, android.graphics.drawable.Drawable marker, int hitX,
-			int hitY) {
+	protected boolean hitTest(final Item item, 
+	                          final Drawable marker, 
+	                          final int hitX,
+	                          final int hitY) 
+	{
 		return marker.getBounds().contains(hitX, hitY);
-	}
+	} // hitTest
 
-	protected synchronized Drawable boundToHotspot(Drawable marker, HotspotPlace hotspot) {
+	protected synchronized Drawable boundToHotspot(Drawable marker, HotspotPlace hotspot) 
+	{
 		int markerWidth = (int) (marker.getIntrinsicWidth() * mScale);
 		int markerHeight = (int) (marker.getIntrinsicHeight() * mScale);
 
@@ -156,10 +160,10 @@ public class ItemizedOverlay<Item extends OverlayItem> extends Overlay
 		}
 		marker.setBounds(mRect);
 		return marker;
-	}
+	} // boundToHotSpot
 	
 	/////////////////////////////////////////////////
-	public boolean onSingleTap(MotionEvent event)
+	public boolean onSingleTap(final MotionEvent event)
 	{
 		return (activateSelectedItems(event, mapView_, new ActiveItem() {
 			@Override
@@ -177,7 +181,7 @@ public class ItemizedOverlay<Item extends OverlayItem> extends Overlay
 		return itemListener_.onItemSingleTap(index, item);
 	} // onItemSingleTap
 
-  public boolean onDoubleTap(MotionEvent event)
+  public boolean onDoubleTap(final MotionEvent event)
 	{
 		return (activateSelectedItems(event, mapView_, new ActiveItem() {
 			@Override
@@ -221,24 +225,27 @@ public class ItemizedOverlay<Item extends OverlayItem> extends Overlay
 		/* These objects are created to avoid construct new ones every cycle. */
 		pj.fromMapPixels(eventX, eventY, mTouchScreenPoint);
 
-		for (int i = 0; i < items_.size(); ++i) {
+		for (int i = 0; i < items_.size(); ++i) 
+		{
 			final Item item = items_.get(i);
 			final Drawable marker = item.getMarker(0);
 
 			pj.toPixels(item.getPoint(), mItemPoint);
 
-			if (hitTest(item, marker, mTouchScreenPoint.x - mItemPoint.x, mTouchScreenPoint.y
-					- mItemPoint.y)) {
-				if (task.run(i)) {
+			if (hitTest(item, 
+			            marker, 
+			            mTouchScreenPoint.x - mItemPoint.x, 
+			            mTouchScreenPoint.y - mItemPoint.y)) 
+			{
+				if (task.run(i)) 
 					return true;
-				}
 			}
-		}
+		} // for ...
 		return false;
-	}
+	} // activateSelectedItems
 
-	public static interface ActiveItem {
+	public static interface ActiveItem 
+	{
 		public boolean run(final int aIndex);
-	}
-
+	} // interface ActiveItem
 } // class ItemizedOverlay

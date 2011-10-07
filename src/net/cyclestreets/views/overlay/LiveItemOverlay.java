@@ -19,7 +19,7 @@ import android.graphics.Rect;
 
 import net.cyclestreets.util.Brush;
 
-public abstract class CycleStreetsItemOverlay<T extends OverlayItem> 
+public abstract class LiveItemOverlay<T extends OverlayItem> 
           extends ItemizedOverlay<T>
           implements MapListener
 {
@@ -36,7 +36,7 @@ public abstract class CycleStreetsItemOverlay<T extends OverlayItem>
 	
 	static private final String LOADING = "Loading ...";
 	
-	public CycleStreetsItemOverlay(final Context context,
+	public LiveItemOverlay(final Context context,
 							                   final MapView mapView,
 							                   final OnItemTapListener<T> listener,
 							                   final boolean showLoading)

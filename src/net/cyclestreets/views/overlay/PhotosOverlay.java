@@ -19,7 +19,7 @@ import net.cyclestreets.api.ApiClient;
 import net.cyclestreets.api.Photo;
 import net.cyclestreets.api.PhotoMarkers;
 
-public class PhotoItemOverlay extends CycleStreetsItemOverlay<PhotoItemOverlay.PhotoItem>
+public class PhotosOverlay extends LiveItemOverlay<PhotosOverlay.PhotoItem>
 {
 	static public class PhotoItem extends OverlayItem 
 	{
@@ -76,7 +76,7 @@ public class PhotoItemOverlay extends CycleStreetsItemOverlay<PhotoItemOverlay.P
 	private final Context context_;
 	private final PhotoMarkers photoMarkers_;
 	
-	public PhotoItemOverlay(final Context context,
+	public PhotosOverlay(final Context context,
 	                        final MapView mapView)
 	{
 		super(context, 
@@ -131,16 +131,16 @@ public class PhotoItemOverlay extends CycleStreetsItemOverlay<PhotoItemOverlay.P
 	/////////////////////////////////////////////////////
 	static private class GetPhotosTask extends AsyncTask<Object,Void,List<Photo>> 
 	{
-		static void fetch(final PhotoItemOverlay overlay, 
+		static void fetch(final PhotosOverlay overlay, 
 						          final Object... params)
 		{
 			new GetPhotosTask(overlay).execute(params);
 		} // fetch
 		
 		//////////////////////////////////////////////////////
-		private final PhotoItemOverlay overlay_;
+		private final PhotosOverlay overlay_;
 		
-		private  GetPhotosTask(final PhotoItemOverlay overlay)
+		private  GetPhotosTask(final PhotosOverlay overlay)
 		{
 			overlay_ = overlay;
 		} // GetPhotosTask
@@ -167,11 +167,11 @@ public class PhotoItemOverlay extends CycleStreetsItemOverlay<PhotoItemOverlay.P
 		@Override
 		protected void onPostExecute(final List<Photo> photos) 
 		{
-			final List<PhotoItemOverlay.PhotoItem> items = new ArrayList<PhotoItemOverlay.PhotoItem>();
+			final List<PhotosOverlay.PhotoItem> items = new ArrayList<PhotosOverlay.PhotoItem>();
 			
 			if(photos != null)
 				for (final Photo photo: photos) 
-					items.add(new PhotoItemOverlay.PhotoItem(photo, overlay_.photoMarkers_));
+					items.add(new PhotosOverlay.PhotoItem(photo, overlay_.photoMarkers_));
 			
 			overlay_.setItems(items);
 		} // onPostExecute
