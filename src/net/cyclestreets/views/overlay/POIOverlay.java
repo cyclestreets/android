@@ -10,18 +10,14 @@ import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.OverlayItem;
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Canvas;
-import android.graphics.drawable.Drawable;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.SubMenu;
 
 import net.cyclestreets.R;
-import net.cyclestreets.StoredRoutesActivity;
 import net.cyclestreets.api.POI;
 import net.cyclestreets.api.POICategories;
 import net.cyclestreets.api.POICategory;
@@ -75,7 +71,6 @@ public class POIOverlay extends LiveItemOverlay<POIOverlay.POIItem>
 
   /////////////////////////////////////////////////////
   /////////////////////////////////////////////////////
-  private final Context context_;
   private final POICategories allCategories_;
   private final List<POICategory> activeCategories_;
   
@@ -87,7 +82,6 @@ public class POIOverlay extends LiveItemOverlay<POIOverlay.POIItem>
 			    null,
 			    false);
 
-		context_ = context;
 		allCategories_ = POICategories.get();
 		activeCategories_ = new ArrayList<POICategory>();
 	} // POIOverlay
@@ -116,6 +110,19 @@ public class POIOverlay extends LiveItemOverlay<POIOverlay.POIItem>
 	  } // for ...
 	} // onResume
 	
+  ///////////////////////////////////////////////////
+  @Override
+  protected boolean onItemSingleTap(final int index, final POIItem item, final MapView mapView) 
+  {
+    return true;
+  } // onItemSingleTap
+  
+  @Override
+  protected boolean onItemDoubleTap(final int index, final POIItem item, final MapView mapView) 
+  {
+    return true;
+  } // onItemDoubleTap
+
   /////////////////////////////////////////////////////
 	protected void draw(final Canvas canvas, final MapView mapView, final boolean shadow) 
   {
