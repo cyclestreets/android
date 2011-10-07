@@ -73,40 +73,7 @@ public class PhotoItemOverlay extends CycleStreetsItemOverlay<PhotoItemOverlay.P
 	} // class PhotoItem
 
 	/////////////////////////////////////////////////////
-	 
-  ///////////////////////////////////////////////////
-  ///////////////////////////////////////////////////
-	static private class PhotoItemListener implements OnItemGestureListener<PhotoItemOverlay.PhotoItem>
-	{
-	  private final Context context_;
-	  
-	  public PhotoItemListener(final Context context) 
-	  {
-	    context_ = context;
-	  } // PhotoItemListener
-
-	  public boolean onItemLongPress(int i, final PhotoItemOverlay.PhotoItem item) 
-	  {
-	    showPhoto(item);
-	    return true;
-	  } // onItemLongPress
-    
-	  public boolean onItemSingleTapUp(int i, final PhotoItemOverlay.PhotoItem item) 
-	  {
-	    showPhoto(item);
-	    return true;
-	  } // onItemSingleTapUp
-  
-	  private void showPhoto(final PhotoItemOverlay.PhotoItem item)
-	  {
-	    final Intent intent = new Intent(context_, DisplayPhotoActivity.class);
-	    intent.setData(Uri.parse(item.photo().thumbnailUrl));
-	    intent.putExtra("caption", item.photo().caption);
-	    context_.startActivity(intent);
-	  } // showPhoto
-	} // PhotoItemListener
-
-	/////////////////////////////////////////////////////
+	private final Context context_;
 	private final PhotoMarkers photoMarkers_;
 	
 	public PhotoItemOverlay(final Context context,
@@ -114,11 +81,36 @@ public class PhotoItemOverlay extends CycleStreetsItemOverlay<PhotoItemOverlay.P
 	{
 		super(context, 
 			    mapView, 
-			    new PhotoItemListener(context));
-		
+			    null,
+			    true);
+	
+		context_ = context;
 		photoMarkers_ = new PhotoMarkers(context.getResources());
 	} // PhotoItemOverlay
-  ///////////////////////////////////////////////////
+
+	///////////////////////////////////////////////////
+	@Override
+  protected boolean onItemSingleTap(final int index, final PhotoItem item, final MapView mapView) 
+  {
+    showPhoto(item, mapView);
+    return true;
+  } // onItemSingleTap
+  
+  @Override
+  protected boolean onItemDoubleTap(final int index, final PhotoItem item, final MapView mapView) 
+  {
+    showPhoto(item, mapView);
+    return true;
+  } // onItemDoubleTap
+
+  private void showPhoto(final PhotoItem item, final MapView mapView)
+  {
+    final Intent intent = new Intent(context_, DisplayPhotoActivity.class);
+    intent.setData(Uri.parse(item.photo().thumbnailUrl));
+    intent.putExtra("caption", item.photo().caption);
+    mapView.getContext().startActivity(intent);
+  } // showPhoto
+
   ///////////////////////////////////////////////////
   protected void fetchItemsInBackground(final GeoPoint mapCentre,
                                         final int zoom,

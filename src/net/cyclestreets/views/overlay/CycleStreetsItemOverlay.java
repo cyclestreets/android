@@ -32,20 +32,24 @@ public abstract class CycleStreetsItemOverlay<T extends OverlayItem>
 	private final int offset_;
 	private final float radius_;
 	private final Paint textBrush_;
+	private final boolean showLoading_;
 	
 	static private final String LOADING = "Loading ...";
 	
 	public CycleStreetsItemOverlay(final Context context,
 							                   final MapView mapView,
-							                   final OnItemGestureListener<T> listener)
+							                   final OnItemTapListener<T> listener,
+							                   final boolean showLoading)
 	{
 		super(context, 
+		      mapView,
 		      new ArrayList<T>(), 
 		      listener);
 		
 		mapView_ = mapView;
 		zoomLevel_ = mapView_.getZoomLevel();
 		loading_ = false;
+		showLoading_ = showLoading;
 		
 		offset_ = OverlayHelper.offset(context);
 		radius_ = OverlayHelper.cornerRadius(context);
@@ -59,7 +63,7 @@ public abstract class CycleStreetsItemOverlay<T extends OverlayItem>
 	{
 		super.draw(canvas, mapView, shadow);
 		
-		if(!loading_)
+		if((!loading_) || (!showLoading_))
 			return;
 		
 		final Rect bounds = new Rect();

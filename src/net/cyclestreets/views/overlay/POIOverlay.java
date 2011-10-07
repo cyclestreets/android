@@ -73,29 +73,7 @@ public class POIOverlay extends CycleStreetsItemOverlay<POIOverlay.POIItem>
 		} // toString	
 	} // class POIItem
 
-	/////////////////////////////////////////////////////
-  static private class POIListener implements OnItemGestureListener<POIItem>
-  {
-    private final Context context_;
-    
-    public POIListener(final Context context) 
-    {
-      context_ = context;
-    } // PhotoItemListener
-
-    public boolean onItemLongPress(int i, final POIItem item) 
-    {
-      //showPhoto(item);
-      return true;
-    } // onItemLongPress
-    
-    public boolean onItemSingleTapUp(int i, final POIItem item) 
-    {
-      //showPhoto(item);
-      return true;
-    } // onItemSingleTapUp
-  } // PhotoItemListener
-
+  /////////////////////////////////////////////////////
   /////////////////////////////////////////////////////
   private final Context context_;
   private final POICategories allCategories_;
@@ -106,13 +84,15 @@ public class POIOverlay extends CycleStreetsItemOverlay<POIOverlay.POIItem>
 	{
 		super(context, 
 			    mapView,
-			    new POIListener(context));
+			    null,
+			    false);
 
 		context_ = context;
 		allCategories_ = POICategories.get();
 		activeCategories_ = new ArrayList<POICategory>();
 	} // POIOverlay
 
+  /////////////////////////////////////////////////////
 	public void onPause(final SharedPreferences.Editor prefs)
 	{
 	  prefs.putInt("category-count", activeCategories_.size());
@@ -136,6 +116,7 @@ public class POIOverlay extends CycleStreetsItemOverlay<POIOverlay.POIItem>
 	  } // for ...
 	} // onResume
 	
+  /////////////////////////////////////////////////////
 	protected void draw(final Canvas canvas, final MapView mapView, final boolean shadow) 
   {
 	  if(activeCategories_.isEmpty())

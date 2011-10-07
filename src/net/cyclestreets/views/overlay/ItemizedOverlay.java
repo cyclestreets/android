@@ -20,26 +20,42 @@ import android.view.MotionEvent;
  * Derived from osmdroid code by Marc Kurtz, Nicolas Gramlich, Theodore Hong, Fred Eisele
  * @param <Item>
  */
-public class ItemizedOverlay<Item extends OverlayItem> extends Overlay 
+public class ItemizedOverlay<Item extends OverlayItem> extends Overlay
+                                                       implements TapListener
 {
-  public static interface OnItemGestureListener<Item>
+  public static interface OnItemTapListener<Item>
   {
-    public boolean onItemSingleTapUp(final int index, final Item item);
-    public boolean onItemLongPress(final int index, final Item item);
+    public boolean onItemSingleTap(final int index, final Item item);
+    public boolean onItemDoubleTap(final int index, final Item item);
   } // interface OnItemGestureListener<Item>
 
+  private final MapView mapView_;
 	private final List<Item> items_;
-	private final OnItemGestureListener<Item> itemListener_;
+	private OnItemTapListener<Item> itemListener_;
 	private final Rect mRect = new Rect();
 	private final Point mCurScreenCoords = new Point();
 	private final Point mTouchScreenPoint = new Point();
 	private final Point mItemPoint = new Point();
 
-	public ItemizedOverlay(final Context context, 
-						   final List<Item> items, 
-						   final OnItemGestureListener<Item> listener) 
+	protected ItemizedOverlay(final Context context,
+	                          final MapView mapView,
+	                          final List<Item> items)
+	{
+	  this(context, mapView, items, null); 
+	} // ItemizedOverlay
+	
+	protected void setListener(final OnItemTapListener<Item> listener)
+	{
+	  itemListener_ = listener;
+	} // setListener
+	
+	public ItemizedOverlay(final Context context,
+                         final MapView mapView, 
+						             final List<Item> items, 
+						             final OnItemTapListener<Item> listener) 
 	{
 		super(new DefaultResourceProxyImpl(context));
+		mapView_ = mapView;
 		items_ = items;
 		itemListener_ = listener;
 	} // ItemizedOverlay
@@ -142,39 +158,49 @@ public class ItemizedOverlay<Item extends OverlayItem> extends Overlay
 		return marker;
 	}
 	
-	@Override
-	public boolean onSingleTapUp(final MotionEvent event, final MapView mapView) {
-		return (activateSelectedItems(event, mapView, new ActiveItem() {
+	/////////////////////////////////////////////////
+	public boolean onSingleTap(MotionEvent event)
+	{
+		return (activateSelectedItems(event, mapView_, new ActiveItem() {
 			@Override
 			public boolean run(final int index) {
 				final ItemizedOverlay<Item> that = ItemizedOverlay.this;
-				return onSingleTapUpHelper(index, that.items_.get(index), mapView);
+				return onItemSingleTap(index, that.items_.get(index), mapView_);
 			}
-		})) ? true : super.onSingleTapUp(event, mapView);
-	}
+		}));
+	} // onSingleTap
 
-	protected boolean onSingleTapUpHelper(final int index, final Item item, final MapView mapView) 
+	protected boolean onItemSingleTap(final int index, final Item item, final MapView mapView) 
 	{
-		return itemListener_.onItemSingleTapUp(index, item);
-	} // onSingleTapUpHelper
+    if(itemListener_ == null)
+      return false;
+		return itemListener_.onItemSingleTap(index, item);
+	} // onItemSingleTap
 
-	@Override
-	public boolean onLongPress(final MotionEvent event, final MapView mapView) 
+  public boolean onDoubleTap(MotionEvent event)
 	{
-		return (activateSelectedItems(event, mapView, new ActiveItem() {
+		return (activateSelectedItems(event, mapView_, new ActiveItem() {
 			@Override
 			public boolean run(final int index) {
 				final ItemizedOverlay<Item> that = ItemizedOverlay.this;
-				return onLongPressHelper(index, that.items_.get(index));
+				return onItemDoubleTap(index, that.items_.get(index), mapView_);
 			}
-		})) ? true : super.onLongPress(event, mapView);
-	}
+		}));
+	} // onDoubleTap
 
-	protected boolean onLongPressHelper(final int index, final Item item) 
+	protected boolean onItemDoubleTap(final int index, final Item item, final MapView mapView)  
 	{
-		return this.itemListener_.onItemLongPress(index, item);
-	} 
+    if(itemListener_ == null)
+      return false;
+		return itemListener_.onItemDoubleTap(index, item);
+	} // onLongPressHelper
 
+  public void drawButtons(final Canvas canvas, final MapView mapView)
+  {
+    
+  } // drawButtons
+
+  /////////////////////////////////////
 	/**
 	 * When a content sensitive action is performed the content item needs to be identified. This
 	 * method does that and then performs the assigned task on that item.
@@ -184,8 +210,10 @@ public class ItemizedOverlay<Item extends OverlayItem> extends Overlay
 	 * @param task
 	 * @return true if event is handled false otherwise
 	 */
-	private boolean activateSelectedItems(final MotionEvent event, final MapView mapView,
-			final ActiveItem task) {
+	private boolean activateSelectedItems(final MotionEvent event, 
+	                                      final MapView mapView,
+	                                      final ActiveItem task) 
+	{
 		final Projection pj = mapView.getProjection();
 		final int eventX = (int) event.getX();
 		final int eventY = (int) event.getY();
