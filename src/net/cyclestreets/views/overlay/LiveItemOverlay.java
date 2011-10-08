@@ -57,6 +57,10 @@ public abstract class LiveItemOverlay<T extends OverlayItem>
 
 		mapView_.setMapListener(new DelayedMapListener(this));
 	} // PhotoItemOverlay
+	
+	protected Paint textBrush() { return textBrush_; }
+	protected int offset() { return offset_; }
+	protected float cornerRadius() { return radius_; }
 
 	@Override
 	protected void draw(final Canvas canvas, final MapView mapView, final boolean shadow) 
@@ -67,18 +71,18 @@ public abstract class LiveItemOverlay<T extends OverlayItem>
 			return;
 		
 		final Rect bounds = new Rect();
-		textBrush_.getTextBounds(LOADING, 0, LOADING.length(), bounds);
+		textBrush().getTextBounds(LOADING, 0, LOADING.length(), bounds);
 
-		int width = bounds.width() + (offset_ * 2);
+		int width = bounds.width() + (offset() * 2);
 		final Rect screen = canvas.getClipBounds();
 		screen.left = screen.centerX() - (width/2); 
-		screen.top += offset_* 2;
+		screen.top += offset()* 2;
 		screen.right = screen.left + width;
-		screen.bottom = screen.top + bounds.height() + (offset_ * 2);
+		screen.bottom = screen.top + bounds.height() + (offset() * 2);
 		  
-		if(!OverlayHelper.drawRoundRect(canvas, screen, radius_, Brush.Grey))
+		if(!OverlayHelper.drawRoundRect(canvas, screen, cornerRadius(), Brush.Grey))
 		  return;
-		canvas.drawText(LOADING, screen.centerX(), screen.centerY() + bounds.bottom, textBrush_);
+		canvas.drawText(LOADING, screen.centerX(), screen.centerY() + bounds.bottom, textBrush());
 	} // drawButtons
 	
 	@Override
