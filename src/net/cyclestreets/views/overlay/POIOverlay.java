@@ -7,11 +7,14 @@ import org.osmdroid.events.MapListener;
 import org.osmdroid.util.BoundingBoxE6;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
+import org.osmdroid.views.MapView.Projection;
 import org.osmdroid.views.overlay.OverlayItem;
 
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Canvas;
+import android.graphics.Point;
+import android.graphics.Rect;
 import android.os.AsyncTask;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -21,6 +24,7 @@ import net.cyclestreets.R;
 import net.cyclestreets.api.POI;
 import net.cyclestreets.api.POICategories;
 import net.cyclestreets.api.POICategory;
+import net.cyclestreets.util.Brush;
 
 public class POIOverlay extends LiveItemOverlay<POIOverlay.POIItem>
                         implements MapListener, 
@@ -33,7 +37,7 @@ public class POIOverlay extends LiveItemOverlay<POIOverlay.POIItem>
 		
 		public POIItem(final POI poi) 
 		{
-			super(poi.id() + "", poi.name(), poi.position());
+			super(poi.id() + "", poi.name(), poi.notes(), poi.position());
 			poi_ = poi;
 			setMarker(poi_.icon());
 			setMarkerHotspot(HotspotPlace.CENTER);
@@ -73,6 +77,8 @@ public class POIOverlay extends LiveItemOverlay<POIOverlay.POIItem>
   /////////////////////////////////////////////////////
   private final POICategories allCategories_;
   private final List<POICategory> activeCategories_;
+  private POIItem active_;
+  private final Point curScreenCoords_ = new Point();
   
 	public POIOverlay(final Context context,
 							      final MapView mapView)
@@ -85,7 +91,7 @@ public class POIOverlay extends LiveItemOverlay<POIOverlay.POIItem>
 		allCategories_ = POICategories.get();
 		activeCategories_ = new ArrayList<POICategory>();
 	} // POIOverlay
-
+	
   /////////////////////////////////////////////////////
 	public void onPause(final SharedPreferences.Editor prefs)
 	{
@@ -114,6 +120,12 @@ public class POIOverlay extends LiveItemOverlay<POIOverlay.POIItem>
   @Override
   protected boolean onItemSingleTap(final int index, final POIItem item, final MapView mapView) 
   {
+    if(active_ == item)
+      active_ = null;
+    else
+      active_ = item;
+    redraw();
+    
     return true;
   } // onItemSingleTap
   
@@ -128,9 +140,48 @@ public class POIOverlay extends LiveItemOverlay<POIOverlay.POIItem>
   {
 	  if(activeCategories_.isEmpty())
 	    return;
+	  
     super.draw(canvas, mapView, shadow);
+    
+    if(active_ == null)
+      return;
+    
+    final String title = active_.getTitle();
+    final String desc  = active_.getSnippet().length() > 0 ? active_.getSnippet() : "";
+    
+    final Rect bounds = new Rect();
+    {
+      String what = (title.length() > desc.length()) ? title : desc;
+      textBrush().getTextBounds(what, 0, what.length(), bounds);
+    } 
+    
+    int doubleOffset = (offset() * 2);
+    int width = bounds.width() + doubleOffset;
+    int lineHeight = bounds.height();
+    int height = lineHeight;
+    if(desc.length() != 0)
+      height += height + offset();
+    
+    final Projection pj = mapView.getProjection();
+    pj.toMapPixels(active_.getPoint(), curScreenCoords_);
+    
+    bounds.left = curScreenCoords_.x - (width/2);
+    bounds.right = bounds.left + width;
+    bounds.top = curScreenCoords_.y - (height + (doubleOffset * 2));
+    bounds.bottom = bounds.top + height + doubleOffset;
+
+    if(!OverlayHelper.drawRoundRect(canvas, bounds, cornerRadius(), Brush.Grey))
+      return;
+    
+    int lineY = bounds.top + (lineHeight + offset());
+    canvas.drawText(title, bounds.centerX(), lineY, textBrush());
+    if(desc.length() == 0)
+      return;
+    lineY += lineHeight + offset();
+    canvas.drawText(desc, bounds.centerX(), lineY, textBrush());
   } // draw
-	
+
+
 	public void show(final POICategory cat) 
 	{ 
 	  if(activeCategories_.contains(cat))
@@ -148,6 +199,10 @@ public class POIOverlay extends LiveItemOverlay<POIOverlay.POIItem>
 	  for(int i = items().size() - 1; i >= 0; --i)
 	    if(cat.equals(items().get(i).category()))
 	      items().remove(i);
+	  
+	  if((active_ != null) && (cat.equals(active_.category())))
+	    active_ = null;
+	  
 	  redraw();
 	} // hide
 	 
@@ -163,6 +218,7 @@ public class POIOverlay extends LiveItemOverlay<POIOverlay.POIItem>
   {
     activeCategories_.clear();
     items().clear();
+    active_ = null;
     redraw();
   } // clear
 	
@@ -206,7 +262,6 @@ public class POIOverlay extends LiveItemOverlay<POIOverlay.POIItem>
 
     return true;
   } // onPrepareOptionsMenu
-
   
   public boolean onMenuItemSelected(final int featureId, final MenuItem item)
   {
