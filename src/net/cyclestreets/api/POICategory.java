@@ -1,7 +1,10 @@
 package net.cyclestreets.api;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+
+import net.cyclestreets.util.GeoHelper;
 
 import org.osmdroid.util.BoundingBoxE6;
 import org.osmdroid.util.GeoPoint;
@@ -41,12 +44,18 @@ public class POICategory
                         final BoundingBoxE6 boundingBox)
     throws Exception
   {
-    List<POI>  pois = ApiClient.getPOIs(key_, centre, boundingBox);
-    for(final POI poi : pois)
-      poi.setCategory(this);
-    return pois;
+    final double width = GeoHelper.boxWidthKm(boundingBox);
+    try {
+      final List<POI> pois = ApiClient.getPOIs(key_, centre, (int)(width+1));
+      for(final POI poi : pois)
+        poi.setCategory(this);
+      return pois;
+    } // try
+    catch(Exception e) {
+      return Collections.emptyList();
+    } // catch
   } // pois
-
+  
   static public Factory<List<POI>> factory() { 
     return new POIFactory();
   } // factory

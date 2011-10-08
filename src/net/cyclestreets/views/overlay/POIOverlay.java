@@ -265,8 +265,12 @@ public class POIOverlay extends LiveItemOverlay<POIOverlay.POIItem>
 			final List<POIOverlay.POIItem> items = new ArrayList<POIOverlay.POIItem>();
 			
 			if(pois != null)
-				for (final POI poi : pois) 
+				for (final POI poi : pois)
+				{
+				  if(items.contains(poi))
+				    continue;
 					items.add(new POIOverlay.POIItem(poi));
+				} // for ...
 			
 			overlay_.setItems(items);
 		} // onPostExecute
