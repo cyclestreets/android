@@ -10,8 +10,6 @@ import net.cyclestreets.views.overlay.POIOverlay;
 import net.cyclestreets.views.overlay.PathOfRouteOverlay;
 import net.cyclestreets.views.overlay.RouteHighlightOverlay;
 import net.cyclestreets.views.overlay.TapToRouteOverlay;
-import net.cyclestreets.api.ApiClient;
-import net.cyclestreets.api.POICategories;
 import net.cyclestreets.planned.Route;
 
 import org.osmdroid.util.GeoPoint;
