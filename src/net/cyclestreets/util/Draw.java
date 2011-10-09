@@ -2,10 +2,55 @@ package net.cyclestreets.util;
 
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.graphics.Point;
 import android.graphics.Rect;
+import android.graphics.RectF;
+import android.graphics.Paint.FontMetrics;
+import android.graphics.Paint.FontMetricsInt;
 
 public class Draw 
 {
+  static public void drawBubble(final Canvas canvas,
+                                final Paint brush,
+                                final int offset,
+                                final float cornerRadius,
+                                final Point pos, 
+                                final String text)
+  {
+    final String[] lines = text.split("\n");
+    Rect bounds = new Rect();
+    
+    for(final String line : lines)
+    {      
+      final Rect lineBounds = new Rect();
+      brush.getTextBounds(line, 0, line.length(), lineBounds);
+      if(lineBounds.width() > bounds.width())
+        bounds = lineBounds;
+    } // for ...
+
+    final FontMetricsInt fm = brush.getFontMetricsInt();
+    final int spacing = (int)brush.getFontSpacing();
+    
+    int doubleOffset = (offset * 2);
+    int width = bounds.width() + doubleOffset;
+    int lineHeight = -fm.ascent + fm.descent;
+    int boxHeight = (lineHeight * lines.length) + doubleOffset - fm.descent;
+    
+    bounds.left = pos.x - (width/2);
+    bounds.right = bounds.left + width;
+    bounds.top = pos.y - (boxHeight + (doubleOffset * 2));
+    bounds.bottom = bounds.top + boxHeight;
+
+    canvas.drawRoundRect(new RectF(bounds), cornerRadius, cornerRadius, Brush.Grey);
+    
+    int lineY = bounds.top + (-fm.ascent + offset);
+    for(final String line : lines)
+    {
+      canvas.drawText(line, bounds.centerX(), lineY, brush);
+      lineY += lineHeight;
+    } // for ...
+  } // drawBubble
+  
 	static public int measureTextInRect(final Canvas canvas,
 	                                    final Paint brush,
 	                                    final Rect r,

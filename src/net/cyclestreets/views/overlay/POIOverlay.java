@@ -14,7 +14,6 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Canvas;
 import android.graphics.Point;
-import android.graphics.Rect;
 import android.os.AsyncTask;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -24,7 +23,7 @@ import net.cyclestreets.R;
 import net.cyclestreets.api.POI;
 import net.cyclestreets.api.POICategories;
 import net.cyclestreets.api.POICategory;
-import net.cyclestreets.util.Brush;
+import net.cyclestreets.util.Draw;
 
 public class POIOverlay extends LiveItemOverlay<POIOverlay.POIItem>
                         implements MapListener, 
@@ -44,6 +43,7 @@ public class POIOverlay extends LiveItemOverlay<POIOverlay.POIItem>
 		} // PhotoItem
 
 		public POI poi() { return poi_; }
+		public String getUrl() { return poi_.url(); }
 		public POICategory category() { return poi_.category(); }
 
 		// Equality testing
@@ -132,7 +132,7 @@ public class POIOverlay extends LiveItemOverlay<POIOverlay.POIItem>
   @Override
   protected boolean onItemDoubleTap(final int index, final POIItem item, final MapView mapView) 
   {
-    return true;
+    return false;
   } // onItemDoubleTap
 
   /////////////////////////////////////////////////////
@@ -146,39 +146,14 @@ public class POIOverlay extends LiveItemOverlay<POIOverlay.POIItem>
     if(active_ == null)
       return;
     
-    final String title = active_.getTitle();
-    final String desc  = active_.getSnippet().length() > 0 ? active_.getSnippet() : "";
-    
-    final Rect bounds = new Rect();
-    {
-      String what = (title.length() > desc.length()) ? title : desc;
-      textBrush().getTextBounds(what, 0, what.length(), bounds);
-    } 
-    
-    int doubleOffset = (offset() * 2);
-    int width = bounds.width() + doubleOffset;
-    int lineHeight = bounds.height();
-    int height = lineHeight;
-    if(desc.length() != 0)
-      height += height + offset();
-    
+    final String bubble = active_.getTitle() +
+                          (active_.getSnippet().length() > 0 ? "\n" + active_.getSnippet() : "") +
+                          (active_.getUrl().length() > 0 ? "\n" + active_.getUrl() : "");
+
     final Projection pj = mapView.getProjection();
     pj.toMapPixels(active_.getPoint(), curScreenCoords_);
     
-    bounds.left = curScreenCoords_.x - (width/2);
-    bounds.right = bounds.left + width;
-    bounds.top = curScreenCoords_.y - (height + (doubleOffset * 2));
-    bounds.bottom = bounds.top + height + doubleOffset;
-
-    if(!OverlayHelper.drawRoundRect(canvas, bounds, cornerRadius(), Brush.Grey))
-      return;
-    
-    int lineY = bounds.top + (lineHeight + offset());
-    canvas.drawText(title, bounds.centerX(), lineY, textBrush());
-    if(desc.length() == 0)
-      return;
-    lineY += lineHeight + offset();
-    canvas.drawText(desc, bounds.centerX(), lineY, textBrush());
+    Draw.drawBubble(canvas, textBrush(), offset(), cornerRadius(), curScreenCoords_, bubble);
   } // draw
 
 
