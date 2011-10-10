@@ -50,10 +50,12 @@ import org.simpleframework.xml.core.Persister;
 import android.content.Context;
 import android.util.Xml;
 
-public class ApiClient {
+public class ApiClient 
+{
   static private DefaultHttpClient httpclient;
   static private SchemeRegistry schemeRegistry;
-  static {
+  static 
+  {
     schemeRegistry = new SchemeRegistry();
     schemeRegistry.register(
             new Scheme("http", PlainSocketFactory.getSocketFactory(), 80));
@@ -72,6 +74,9 @@ public class ApiClient {
       }
     });
   } // static
+  
+  private final static int cacheExpiryDays_ = 7;
+  private final static ApiCallCache cache_ = new ApiCallCache("net.cyclestreets", cacheExpiryDays_);
   
   private final static String API_SCHEME = "http";
   private final static String API_POST_SCHEME = "https";
@@ -374,9 +379,9 @@ public class ApiClient {
   static public POICategories getPOICategories()
     throws Exception
   {
-    return callApi(POICategories.factory(context()), 
-                   API_PATH_POI_CATEGORIES,
-                   "icons", "16");
+    return callApiWithCache(POICategories.factory(context()), 
+                            API_PATH_POI_CATEGORIES,
+                            "icons", "16");
   } // getPOICategories
   
   static public List<POI> getPOIs(final String key,
@@ -438,6 +443,20 @@ public class ApiClient {
     return loadRaw(factory, xml);
   } // callApi
   
+  static private <T> T callApiWithCache(final Factory<T> factory, final String path, String... args) throws Exception
+  {
+    final String name = cacheName(path, args);
+    byte[] xml = cache_.fetch(name);
+    
+    if(xml == null)
+    {
+      xml = callApiRaw(path, args);
+      cache_.store(name, xml);
+    } // if ...
+    
+    return loadRaw(factory, xml);
+  } // callApiWithCache
+  
   static private <T> T postApi(final Class<T> returnClass, final String path, Object... args) 
     throws Exception 
   {
@@ -465,6 +484,20 @@ public class ApiClient {
     httppost.setEntity(entity);      
     return executeRaw(httppost);
   } // postApiRaw
+  
+  static private String cacheName(final String path, final String... args)
+  {
+    final StringBuilder sb = new StringBuilder();
+    sb.append(path);
+    boolean b = true;
+    for(final String a : args)
+    {
+      sb.append(b ? "-" : "=");
+      sb.append(a);
+      b = !b;
+    } // for ...
+    return sb.toString().replace('/', '-');
+  } // cacheName
   
   static private byte[] executeRaw(final HttpRequestBase method) 
       throws ClientProtocolException, IOException
