@@ -5,7 +5,6 @@ import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.Rect;
 import android.graphics.RectF;
-import android.graphics.Paint.FontMetrics;
 import android.graphics.Paint.FontMetricsInt;
 
 public class Draw 
@@ -29,7 +28,6 @@ public class Draw
     } // for ...
 
     final FontMetricsInt fm = brush.getFontMetricsInt();
-    final int spacing = (int)brush.getFontSpacing();
     
     int doubleOffset = (offset * 2);
     int width = bounds.width() + doubleOffset;
