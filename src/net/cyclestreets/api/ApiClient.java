@@ -76,7 +76,7 @@ public class ApiClient
   } // static
   
   private final static int cacheExpiryDays_ = 7;
-  private final static ApiCallCache cache_ = new ApiCallCache("net.cyclestreets", cacheExpiryDays_);
+  private static ApiCallCache cache_;
   
   private final static String API_SCHEME = "http";
   private final static String API_POST_SCHEME = "https";
@@ -110,8 +110,10 @@ public class ApiClient
   static public void initialise(final Context context)
   {
     context_ = context;
+    cache_ = new ApiCallCache(context_, cacheExpiryDays_);
     loadSslCertificates(context);
     POICategories.backgroundLoad();
+    
   } // initialise
 
   static private void loadSslCertificates(final Context context)
@@ -241,7 +243,7 @@ public class ApiClient
   static public PhotomapCategories getPhotomapCategories() 
     throws Exception 
   {
-    return callApi(PhotomapCategories.class, API_PATH_PHOTOMAP_CATEGORIES);
+    return callApiWithCache(PhotomapCategories.class, API_PATH_PHOTOMAP_CATEGORIES);
   } // getPhotomapCategories
   
   static public List<Photo> getPhotos(final GeoPoint centre,
@@ -442,6 +444,20 @@ public class ApiClient
     final byte[] xml = callApiRaw(path, args);
     return loadRaw(factory, xml);
   } // callApi
+
+  static private <T> T callApiWithCache(final Class<T> returnClass, final String path, String... args) throws Exception
+  {
+    final String name = cacheName(path, args);
+    byte[] xml = cache_.fetch(name);
+    
+    if(xml == null)
+    {
+      xml = callApiRaw(path, args);
+      cache_.store(name, xml);
+    } // if ...
+    
+    return loadRaw(returnClass, xml);
+  } // callApiWithCache
   
   static private <T> T callApiWithCache(final Factory<T> factory, final String path, String... args) throws Exception
   {
