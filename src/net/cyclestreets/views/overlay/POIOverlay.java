@@ -75,7 +75,7 @@ public class POIOverlay extends LiveItemOverlay<POIOverlay.POIItem>
 
   /////////////////////////////////////////////////////
   /////////////////////////////////////////////////////
-  private final POICategories allCategories_;
+  private POICategories allCats_;
   private final List<POICategory> activeCategories_;
   private POIItem active_;
   private final Point curScreenCoords_ = new Point();
@@ -88,9 +88,16 @@ public class POIOverlay extends LiveItemOverlay<POIOverlay.POIItem>
 			    null,
 			    false);
 
-		allCategories_ = POICategories.get();
 		activeCategories_ = new ArrayList<POICategory>();
 	} // POIOverlay
+	
+	private POICategories allCategories()
+	{
+	  // delay load
+	  if(allCats_ == null)
+	    allCats_ = POICategories.get();
+	  return allCats_;
+	} // allCategories
 	
   /////////////////////////////////////////////////////
 	public void onPause(final SharedPreferences.Editor prefs)
@@ -107,7 +114,7 @@ public class POIOverlay extends LiveItemOverlay<POIOverlay.POIItem>
 	  for(int i = 0; i != count; ++i)
 	  {
 	    final String name = prefs.getString("category-" + i, "");
-	    for(final POICategory cat : allCategories_)
+	    for(final POICategory cat : allCategories())
 	      if(name.equals(cat.name()))
 	      {
 	        activeCategories_.add(cat);
@@ -216,9 +223,9 @@ public class POIOverlay extends LiveItemOverlay<POIOverlay.POIItem>
     final SubMenu poi = menu.addSubMenu(0, R.string.ic_menu_poi, Menu.NONE, R.string.ic_menu_poi).setIcon(R.drawable.ic_menu_poi);
     
     poi.add(R.string.ic_menu_poi, R.string.ic_menu_poi_clear_all, Menu.NONE, R.string.ic_menu_poi_clear_all);
-    for(int index = 0; index != allCategories_.count(); ++index)
+    for(int index = 0; index != allCategories().count(); ++index)
     {
-      final MenuItem c = poi.add(R.string.ic_menu_poi, index, Menu.NONE, allCategories_.get(index).shortName());
+      final MenuItem c = poi.add(R.string.ic_menu_poi, index, Menu.NONE, allCategories().get(index).shortName());
       c.setCheckable(true);
     } // for ...
     
@@ -229,10 +236,10 @@ public class POIOverlay extends LiveItemOverlay<POIOverlay.POIItem>
   {
     final SubMenu i = menu.findItem(R.string.ic_menu_poi).getSubMenu();
 
-    for(int index = 0; index != allCategories_.count(); ++index)
+    for(int index = 0; index != allCategories().count(); ++index)
     {
       final MenuItem c = i.findItem(index);
-      c.setChecked(showing(allCategories_.get(index)));
+      c.setChecked(showing(allCategories().get(index)));
     } // for ...
 
     return true;
@@ -247,7 +254,7 @@ public class POIOverlay extends LiveItemOverlay<POIOverlay.POIItem>
       clear();
     else
     {
-      POICategory cat = allCategories_.get(item.getItemId());
+      POICategory cat = allCategories().get(item.getItemId());
       toggle(cat);
     } // if ...
     
