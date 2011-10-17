@@ -41,12 +41,11 @@ public class POICategory
   public Drawable icon() { return icon_; }
 
   public List<POI> pois(final GeoPoint centre,
-                        final BoundingBoxE6 boundingBox)
+                        final int radius)
     throws Exception
   {
-    final double width = GeoHelper.boxWidthKm(boundingBox);
     try {
-      final List<POI> pois = ApiClient.getPOIs(key_, centre, (int)(width+1));
+      final List<POI> pois = ApiClient.getPOIs(key_, centre, radius);
       for(final POI poi : pois)
         poi.setCategory(this);
       return pois;

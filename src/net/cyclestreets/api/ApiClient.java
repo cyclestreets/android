@@ -409,7 +409,8 @@ public class ApiClient
         "type", key, 
         "latitude", Double.toString(centre.getLatitudeE6() / 1E6),
         "longitude", Double.toString(centre.getLongitudeE6() / 1E6),
-        "radius", Integer.toString(radius));
+        "radius", Integer.toString(radius),
+        "limit", "150");
   } // getPOIs
 
   /////////////////////////////////////////////////////
