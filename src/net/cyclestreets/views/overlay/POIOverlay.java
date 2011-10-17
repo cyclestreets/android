@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.osmdroid.events.MapListener;
+import org.osmdroid.events.ZoomEvent;
 import org.osmdroid.util.BoundingBoxE6;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
@@ -24,6 +25,7 @@ import net.cyclestreets.api.POI;
 import net.cyclestreets.api.POICategories;
 import net.cyclestreets.api.POICategory;
 import net.cyclestreets.util.Draw;
+import net.cyclestreets.util.GeoHelper;
 
 public class POIOverlay extends LiveItemOverlay<POIOverlay.POIItem>
                         implements MapListener, 
@@ -79,6 +81,7 @@ public class POIOverlay extends LiveItemOverlay<POIOverlay.POIItem>
   private final List<POICategory> activeCategories_;
   private POIItem active_;
   private final Point curScreenCoords_ = new Point();
+  private GeoPoint lastFix_;
   
 	public POIOverlay(final Context context,
 							      final MapView mapView)
@@ -123,6 +126,14 @@ public class POIOverlay extends LiveItemOverlay<POIOverlay.POIItem>
 	  } // for ...
 	} // onResume
 	
+	///////////////////////////////////////////////////////
+	@Override
+	public boolean onZoom(final ZoomEvent event) 
+	{
+	  clearLastFix();
+	  return super.onZoom(event);
+	} // onZoom
+	
   ///////////////////////////////////////////////////
   @Override
   protected boolean onItemSingleTap(final int index, final POIItem item, final MapView mapView) 
@@ -163,12 +174,12 @@ public class POIOverlay extends LiveItemOverlay<POIOverlay.POIItem>
     Draw.drawBubble(canvas, textBrush(), offset(), cornerRadius(), curScreenCoords_, bubble);
   } // draw
 
-
 	public void show(final POICategory cat) 
 	{ 
 	  if(activeCategories_.contains(cat))
 	    return;
 	  activeCategories_.add(cat);
+	  clearLastFix();
 	  refreshItems();
 	} // show
 	
@@ -209,13 +220,33 @@ public class POIOverlay extends LiveItemOverlay<POIOverlay.POIItem>
 	  return activeCategories_.contains(cat);
 	} // showing
 
-  protected void fetchItemsInBackground(final GeoPoint mapCentre,
-                                        final int zoom,
-                                        final BoundingBoxE6 boundingBox)
+  protected boolean fetchItemsInBackground(final GeoPoint mapCentre,
+                                           final int zoom,
+                                           final BoundingBoxE6 boundingBox)
 	{
-		GetPOIsTask.fetch(this, mapCentre, boundingBox);
+    if(activeCategories_.isEmpty())
+      return false;
+    
+    final double moved = lastFix_ != null ? GeoHelper.distanceBetween(mapCentre, lastFix_) : Double.MAX_VALUE;
+    final double diagonalWidth = boundingBox.getDiagonalLengthInMeters() / 1000.0;
+    
+    // first time through width can be zero
+    if(diagonalWidth == 0.0)
+      return false;
+    
+    if(moved < (diagonalWidth/2))
+      return false;
+    
+    lastFix_ = mapCentre;    
+		GetPOIsTask.fetch(this, mapCentre, (int)(diagonalWidth * 3) + 1);
+		return true;
 	} // refreshItemsInBackground
-	
+
+  protected void clearLastFix()
+  {
+    lastFix_ = null;
+  } // clearLastFix
+  
 	/////////////////////////////////////////////////////
   ////////////////////////////////////////////////
   public boolean onCreateOptionsMenu(final Menu menu)
@@ -266,9 +297,9 @@ public class POIOverlay extends LiveItemOverlay<POIOverlay.POIItem>
 	{
 		static void fetch(final POIOverlay overlay, 
 						          final GeoPoint centre,
-						          final BoundingBoxE6 boundingBox)
+						          final int radius)
 		{
-			new GetPOIsTask(overlay).execute(centre, boundingBox);
+			new GetPOIsTask(overlay).execute(centre, radius);
 		} // fetch
 		
 		//////////////////////////////////////////////////////
@@ -282,13 +313,13 @@ public class POIOverlay extends LiveItemOverlay<POIOverlay.POIItem>
 		protected List<POI> doInBackground(Object... params) 
 		{
 		  final GeoPoint centre = (GeoPoint)params[0];
-		  final BoundingBoxE6 boundingBox = (BoundingBoxE6)params[1];
-		  
+	    final int radius = (Integer)params[1];
+
       final List<POI> pois = new ArrayList<POI>();
 
       for(final POICategory cat : overlay_.activeCategories_)
         try {
-			    pois.addAll(cat.pois(centre, boundingBox));
+			    pois.addAll(cat.pois(centre, radius));
         }
 			  catch (final Exception ex) {
 			    // never mind, eh?

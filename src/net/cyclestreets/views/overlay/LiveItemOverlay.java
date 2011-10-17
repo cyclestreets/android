@@ -113,13 +113,14 @@ public abstract class LiveItemOverlay<T extends OverlayItem>
     final int zoom = mapView_.getZoomLevel();
     final BoundingBoxE6 bounds = mapView_.getBoundingBox();
 		
-		fetchItemsInBackground(centre, zoom, bounds);
+		if(!fetchItemsInBackground(centre, zoom, bounds))
+		  return;
 
 		loading_ = true;
 		redraw();
 	} // refreshPhotos
 	
-	protected abstract void fetchItemsInBackground(final GeoPoint mapCentre,
+	protected abstract boolean fetchItemsInBackground(final GeoPoint mapCentre,
 	                                               final int zoom,
 	                                               final BoundingBoxE6 boundingBox);
 	

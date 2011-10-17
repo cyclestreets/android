@@ -112,9 +112,9 @@ public class PhotosOverlay extends LiveItemOverlay<PhotosOverlay.PhotoItem>
   } // showPhoto
 
   ///////////////////////////////////////////////////
-  protected void fetchItemsInBackground(final GeoPoint mapCentre,
-                                        final int zoom,
-                                        final BoundingBoxE6 boundingBox)
+  protected boolean fetchItemsInBackground(final GeoPoint mapCentre,
+                                           final int zoom,
+                                           final BoundingBoxE6 boundingBox)
   {
 		double n = boundingBox.getLatNorthE6() / 1E6;
 		double s = boundingBox.getLatSouthE6() / 1E6;
@@ -125,6 +125,7 @@ public class PhotosOverlay extends LiveItemOverlay<PhotosOverlay.PhotoItem>
 		double clon = (double)mapCentre.getLongitudeE6() / 1E6;
 
 		GetPhotosTask.fetch(this, clat, clon, zoom, n, s, e, w);
+		return true;
 	} // refreshPhotos
 	
 	/////////////////////////////////////////////////////
