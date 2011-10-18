@@ -51,7 +51,6 @@ public class Bitmaps
 		final BitmapFactory.Options options = bitmapBounds(fileName);
 
 		int srcWidth = options.outWidth;
-		int srcHeight = options.outHeight;
 
 		final int desiredWidth = Math.min(320, srcWidth);
 
@@ -61,7 +60,6 @@ public class Bitmaps
 		int inSampleSize = 1;
 		while(srcWidth / 2 > desiredWidth) {
 		    srcWidth /= 2;
-		    srcHeight /= 2;
 		    inSampleSize *= 2;
 		} // while
 
