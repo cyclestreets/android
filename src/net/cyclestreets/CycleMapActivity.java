@@ -60,7 +60,7 @@ public class CycleMapActivity extends Activity
 	{
 	  map_.onCreateOptionsMenu(menu);
 	  menu.add(0, R.string.ic_menu_findplace, Menu.NONE, R.string.ic_menu_findplace).setIcon(R.drawable.ic_menu_search);
-	  menu.add(0, R.string.ic_menu_settings, Menu.NONE, R.string.ic_menu_settings).setIcon(R.drawable.ic_menu_settings);
+	  menu.add(0, R.string.ic_menu_settings, 99, R.string.ic_menu_settings).setIcon(R.drawable.ic_menu_settings);
 	  return true;
 	} // onCreateOptionsMenu
     
