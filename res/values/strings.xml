@@ -34,7 +34,7 @@
 	<!-- Map menu -->
 	<string name="ic_menu_directions">Plan a route</string>
 	<string name="ic_menu_saved_routes">Saved routes</string>
-	<string name="ic_menu_route_number">Open route number</string>
+	<string name="ic_menu_route_number">Open route by number</string>
 	<string name="ic_menu_mylocation">Show location</string>
 	<string name="ic_menu_findplace">Find place</string>
 	<string name="ic_menu_settings">Settings</string>
