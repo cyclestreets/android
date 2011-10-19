@@ -2,6 +2,7 @@ package net.cyclestreets.util;
 
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.graphics.Path;
 import android.graphics.Point;
 import android.graphics.Rect;
 import android.graphics.RectF;
@@ -39,14 +40,25 @@ public class Draw
     bounds.top = pos.y - (boxHeight + (doubleOffset * 2));
     bounds.bottom = bounds.top + boxHeight;
 
+    // draw the balloon
     canvas.drawRoundRect(new RectF(bounds), cornerRadius, cornerRadius, Brush.Grey);
     
+    // put the words in
     int lineY = bounds.top + (-fm.ascent + offset);
     for(final String line : lines)
     {
       canvas.drawText(line, bounds.centerX(), lineY, brush);
       lineY += lineHeight;
     } // for ...
+    
+    // draw the little triangle
+    final Path path = new Path();
+    path.moveTo(pos.x, pos.y - offset);
+    path.lineTo(pos.x - offset, bounds.bottom);
+    path.lineTo(pos.x + offset, bounds.bottom);
+    path.lineTo(pos.x, pos.y - offset);
+    path.close();
+    canvas.drawPath(path, Brush.Grey);
   } // drawBubble
   
 	static public int measureTextInRect(final Canvas canvas,
