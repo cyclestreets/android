@@ -7,26 +7,35 @@ import android.graphics.Paint.Style;
 
 public class Brush 
 {
-	static public Paint Grey = createColourBrush(192, 127, 127, 127);
-	static public Paint LightGrey = createColourBrush(255, 192, 192, 192);
-	static public Paint White = createColourBrush(255, 255, 255, 255);
+	static public Paint Grey = createFillBrush(255, 127, 127, 127);
+	static public Paint LightGrey = createFillBrush(255, 192, 192, 192);
+	static public Paint White = createFillBrush(255, 255, 255, 255);
+	static public Paint BlackOutline = createOutlineBrush(255,0,0,0);
 
-	static private Paint createColourBrush(final int a, final int r, final int g, final int b)
+	static private Paint createFillBrush(final int a, final int r, final int g, final int b)
 	{
-		final Paint paint = new Paint();
-		paint.setAntiAlias(true);
-		paint.setStyle(Style.FILL_AND_STROKE);
-		paint.setTextAlign(Align.CENTER);
-		paint.setTypeface(Typeface.DEFAULT);
+	  return createBrush(a, r, g, b, Style.FILL_AND_STROKE);
+	} // createFillBrush
+	
+  static private Paint createOutlineBrush(final int a, final int r, final int g, final int b)
+  {
+    final Paint brush = createBrush(a, r, g, b, Style.STROKE);
+    brush.setStrokeWidth(0);
+    return brush;
+  } // createOutlineBrush
 
-		paint.setARGB(a, r, g, b);
-		
-		return paint;
-	} // createBgBrush
-
+  static private Paint createBrush(final int a, final int r, final int g, final int b, final Style style)
+	{
+    final Paint paint = new Paint();
+    paint.setAntiAlias(true);
+    paint.setStyle(style);
+    paint.setARGB(a, r, g, b);    
+    return paint;
+	} // createBrush
+	
 	static public Paint createTextBrush(final int size)
 	{
-		final Paint paint = createColourBrush(255, 255, 255, 255);
+		final Paint paint = createFillBrush(255, 255, 255, 255);
 
 		paint.setTextAlign(Align.CENTER);
 		paint.setTypeface(Typeface.DEFAULT);

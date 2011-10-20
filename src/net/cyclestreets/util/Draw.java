@@ -42,6 +42,7 @@ public class Draw
 
     // draw the balloon
     canvas.drawRoundRect(new RectF(bounds), cornerRadius, cornerRadius, Brush.Grey);
+    canvas.drawRoundRect(new RectF(bounds), cornerRadius, cornerRadius, Brush.BlackOutline);
     
     // put the words in
     int lineY = bounds.top + (-fm.ascent + offset);
@@ -54,11 +55,14 @@ public class Draw
     // draw the little triangle
     final Path path = new Path();
     path.moveTo(pos.x, pos.y - offset);
-    path.lineTo(pos.x - offset, bounds.bottom);
-    path.lineTo(pos.x + offset, bounds.bottom);
+    path.lineTo(pos.x - offset, bounds.bottom-1);
+    path.lineTo(pos.x + offset, bounds.bottom-1);
     path.lineTo(pos.x, pos.y - offset);
     path.close();
     canvas.drawPath(path, Brush.Grey);
+    canvas.drawLine(pos.x, pos.y - offset, pos.x - offset, bounds.bottom, Brush.BlackOutline);
+    canvas.drawLine(pos.x, pos.y - offset, pos.x + offset, bounds.bottom, Brush.BlackOutline);
+    canvas.drawLine(pos.x - offset, bounds.bottom, pos.x + offset, bounds.bottom, Brush.Grey);
   } // drawBubble
   
 	static public int measureTextInRect(final Canvas canvas,
