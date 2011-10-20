@@ -15,7 +15,7 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 
 public class LocationOverlay extends MyLocationOverlay 
-							 implements TapListener, DynamicMenuListener
+							               implements ButtonTapListener, DynamicMenuListener
 {
 	static private String LOCATION_ON = "Show Location";
 	static private String LOCATION_OFF = "Location Off";
@@ -93,24 +93,22 @@ public class LocationOverlay extends MyLocationOverlay
 		super.draw(canvas, mapView, shadow);
 	} // onDraw
 	
+	@Override
 	public void drawButtons(final Canvas canvas, final MapView mapView)
-	{
-		drawButtons(canvas);
-	} // onDrawFinished
-	
-	private void drawButtons(final Canvas canvas)
 	{
 		locationButton_.pressed(isMyLocationEnabled());
 		locationButton_.draw(canvas);
 	} // drawLocationButton
 
 	////////////////////////////////////////////////
+  @Override
 	public boolean onCreateOptionsMenu(final Menu menu)
-    {
-    	menu.add(0, R.string.ic_menu_mylocation, Menu.NONE, isMyLocationEnabled() ? LOCATION_OFF : LOCATION_ON).setIcon(R.drawable.ic_menu_mylocation);
-    	return true;
+	{
+	  menu.add(0, R.string.ic_menu_mylocation, Menu.NONE, isMyLocationEnabled() ? LOCATION_OFF : LOCATION_ON).setIcon(R.drawable.ic_menu_mylocation);
+	  return true;
 	} // onCreateOptionsMenu
 	
+  @Override
 	public boolean onPrepareOptionsMenu(final Menu menu)
 	{
 		final MenuItem item = menu.findItem(R.string.ic_menu_mylocation);
@@ -119,24 +117,26 @@ public class LocationOverlay extends MyLocationOverlay
 		return true;
 	} // onPrepareOptionsMenu
 
+  @Override
 	public boolean onMenuItemSelected(final int featureId, final MenuItem item)
 	{
-        if(item.getItemId() != R.string.ic_menu_mylocation)
-        	return false;
+    if(item.getItemId() != R.string.ic_menu_mylocation)
+      return false;
         
-        toggleFollowLocation();
+    toggleFollowLocation();
         
-        return true;
+    return true;
 	} // onMenuItemSelected
-	//////////////////////////////////////////////
+
+  //////////////////////////////////////////////
 	@Override
-    public boolean onSingleTap(final MotionEvent event) 
+	public boolean onButtonTap(final MotionEvent event) 
 	{
-    	return tapLocation(event);
-    } // onSingleTapUp
+	  return tapLocation(event);
+	} // onSingleTapUp
 	
 	@Override
-	public boolean onDoubleTap(final MotionEvent event)
+	public boolean onButtonDoubleTap(final MotionEvent event)
 	{
 		return locationButton_.hit(event);
 	} // onDoubleTap
@@ -150,5 +150,4 @@ public class LocationOverlay extends MyLocationOverlay
 
 		return true;
 	} // tapLocation
-	
 } // LocationOverlay

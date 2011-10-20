@@ -38,7 +38,10 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 
 public class TapToRouteOverlay extends Overlay 
-							   implements TapListener, ContextMenuListener, DynamicMenuListener
+							                 implements ButtonTapListener,
+							                            TapListener,
+							                            ContextMenuListener, 
+							                            DynamicMenuListener
 {
 	public interface Callback {
 		void onRouteNow(final GeoPoint from, final GeoPoint to);
@@ -325,24 +328,35 @@ public class TapToRouteOverlay extends Overlay
 	} // drawMarker
 
 	//////////////////////////////////////////////
-	@Override
-    public boolean onSingleTap(final MotionEvent event) 
+	@Override 
+	public boolean onSingleTap(final MotionEvent event)
 	{
-    	return tapStepBack(event) || 
-    		   tapRestart(event) ||
-    		   tapMarker(event);
-    } // onSingleTapUp
+	  return tapMarker(event);
+	} // onSingleTap
 	
 	@Override
 	public boolean onDoubleTap(final MotionEvent event)
 	{
+	  return false;
+	} // onDoubleTap
+	
+	@Override
+  public boolean onButtonTap(final MotionEvent event) 
+	{
+	  return tapStepBack(event) || 
+    		   tapRestart(event);
+  } // onSingleTapUp
+	
+	@Override
+	public boolean onButtonDoubleTap(final MotionEvent event)
+	{
 		return stepBackButton_.hit(event);
 	} // onDoubleTap
     
-    public boolean onBackButton()
-    {
-    	return stepBack(false);
-    } // onBackButton
+	public boolean onBackButton()
+	{
+	  return stepBack(false);
+  } // onBackButton
     
 	private boolean tapStepBack(final MotionEvent event)
 	{

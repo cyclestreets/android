@@ -100,6 +100,9 @@ public class ControllerOverlay extends Overlay implements OnDoubleTapListener,
 	@Override
 	public boolean onSingleTapConfirmed(final MotionEvent e) 
 	{
+    for(final Iterator<ButtonTapListener> overlays = buttonTapOverlays(); overlays.hasNext(); )
+      if(overlays.next().onButtonTap(e))
+        return true;
 		for(final Iterator<TapListener> overlays = tapOverlays(); overlays.hasNext(); )
 			if(overlays.next().onSingleTap(e))
 				return true;
@@ -109,6 +112,9 @@ public class ControllerOverlay extends Overlay implements OnDoubleTapListener,
 	@Override
 	public boolean onDoubleTap(final MotionEvent e) 
 	{ 
+    for(final Iterator<ButtonTapListener> overlays = buttonTapOverlays(); overlays.hasNext(); )
+      if(overlays.next().onButtonDoubleTap(e))
+        return true;
 		for(final Iterator<TapListener> overlays = tapOverlays(); overlays.hasNext(); )
 			if(overlays.next().onDoubleTap(e))
 				return true;
@@ -119,17 +125,17 @@ public class ControllerOverlay extends Overlay implements OnDoubleTapListener,
 	protected void draw(final Canvas canvas, final MapView mapView, final boolean shadow) 
 	{	
 		isDragging_ = OverlayHelper.isDragging(canvas);
-		for(final Iterator<TapListener> overlays = tapOverlays(); overlays.hasNext(); )
+		for(final Iterator<ButtonTapListener> overlays = buttonTapOverlays(); overlays.hasNext(); )
 			overlays.next().drawButtons(canvas, mapView);
 		
 		if(!(mapView instanceof CycleMapView))
 			return;
 		
 		final Rect screen = canvas.getClipBounds();
-        canvas.drawText(CycleMapView.mapAttribution(), 
-        				screen.centerX(), 
-        				screen.bottom-(textBrush_.descent()+2), 
-        				textBrush_);
+    canvas.drawText(CycleMapView.mapAttribution(), 
+             				screen.centerX(), 
+        			    	screen.bottom-(textBrush_.descent()+2), 
+        				    textBrush_);
 	} // draw
 	
 	@Override
@@ -157,6 +163,10 @@ public class ControllerOverlay extends Overlay implements OnDoubleTapListener,
 	{
 		return new OverlayIterator<TapListener>(mapView_, TapListener.class);
 	} // tapOverlays
+  private Iterator<ButtonTapListener> buttonTapOverlays()
+  {
+    return new OverlayIterator<ButtonTapListener>(mapView_, ButtonTapListener.class);
+  } // buttonTapOverlays
 	private Iterator<MenuListener> menuOverlays()
 	{
 		return new OverlayIterator<MenuListener>(mapView_, MenuListener.class);

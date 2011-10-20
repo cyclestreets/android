@@ -21,7 +21,7 @@ import android.graphics.Paint.Align;
 import android.view.MotionEvent;
 
 public class RouteHighlightOverlay extends PathOverlay 
-								   implements TapListener
+								                   implements ButtonTapListener
 {
 	static public int HIGHLIGHT_COLOUR = 0xff00ff00;
 
@@ -73,6 +73,7 @@ public class RouteHighlightOverlay extends PathOverlay
 		super.draw(canvas, mapView, shadow);
 	} // onDraw
 	
+	@Override
 	public void drawButtons(final Canvas canvas, final MapView mapView)
 	{
 		if(!Route.available())
@@ -126,12 +127,12 @@ public class RouteHighlightOverlay extends PathOverlay
 
 	//////////////////////////////////////////////
 	@Override
-    public boolean onSingleTap(final MotionEvent event) 
+  public boolean onButtonTap(final MotionEvent event) 
 	{
-    	return tapPrevNext(event);
-    } // onSingleTapUp
+	  return tapPrevNext(event);
+  } // onSingleTapUp
 	
-	public boolean onDoubleTap(final MotionEvent event)
+	public boolean onButtonDoubleTap(final MotionEvent event)
 	{
 		return doubleTapPrevNext(event);
 	} // onDoubleTap

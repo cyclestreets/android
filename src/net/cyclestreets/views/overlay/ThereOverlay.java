@@ -60,11 +60,6 @@ public class ThereOverlay extends Overlay
 	} // onDrawFinished
 
 	@Override
-	public void drawButtons(Canvas canvas, MapView mapView) 
-	{
-	} // drawButtons
-
-	@Override
 	public boolean onDoubleTap(MotionEvent event) 
 	{
 		return false;
