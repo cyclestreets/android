@@ -49,20 +49,19 @@ public class RouteHighlightOverlay extends PathOverlay
 		radius_ = OverlayHelper.cornerRadius(context);
 
 		final Resources res = context.getResources();
-        prevButton_ = new OverlayButton(res.getDrawable(R.drawable.btn_previous),
-        		offset_,
-				offset_*2,
-				radius_);
-        prevButton_.bottomAlign();
+		prevButton_ = new OverlayButton(res.getDrawable(R.drawable.btn_previous),
+		                                offset_,
+		                                offset_*2,
+		                                radius_);
+		prevButton_.bottomAlign();
 		nextButton_ = new OverlayButton(res.getDrawable(R.drawable.btn_next),
-				prevButton_.right() + offset_,
-				offset_*2,
-				radius_);
-        nextButton_.bottomAlign();
+		                                prevButton_.right() + offset_,
+		                                offset_*2,
+		                                radius_);
+		nextButton_.bottomAlign();
 
 		textBrush_ = Brush.createTextBrush(offset_);
 		textBrush_.setTextAlign(Align.LEFT);
-
 	} // MapActivityPathOverlay
 	
 	@Override
@@ -99,9 +98,9 @@ public class RouteHighlightOverlay extends PathOverlay
 		box.right -= offset_;
 		box.bottom = box.top + prevButton_.height();
         
-        final Rect textBox = new Rect(box);
-        textBox.left += offset_;
-        textBox.right -= offset_;
+		final Rect textBox = new Rect(box);
+		textBox.left += offset_;
+		textBox.right -= offset_;
 		int bottom = Draw.measureTextInRect(canvas, textBrush_, textBox, seg.toString());
 		
 		if(bottom >= box.bottom)
@@ -137,7 +136,7 @@ public class RouteHighlightOverlay extends PathOverlay
 		return doubleTapPrevNext(event);
 	} // onDoubleTap
 
-    private boolean tapPrevNext(final MotionEvent event)
+  private boolean tapPrevNext(final MotionEvent event)
 	{
 		if(!Route.available())
 			return false;
@@ -155,17 +154,17 @@ public class RouteHighlightOverlay extends PathOverlay
 		return true;
 	} // tapPrevNext
     
-    private boolean doubleTapPrevNext(final MotionEvent event)
-    {
-    	if(!Route.available())
-    		return false;
+  private boolean doubleTapPrevNext(final MotionEvent event)
+  {
+    if(!Route.available())
+      return false;
     	
 		if(!prevButton_.hit(event) && !nextButton_.hit(event))
 			return false;
 
 		if(prevButton_.hit(event))
-    		while(!Route.atStart())
-    			Route.regressActiveSegment();
+		  while(!Route.atStart())
+		    Route.regressActiveSegment();
 
 		if(nextButton_.hit(event))
 			while(!Route.atEnd())
@@ -173,5 +172,5 @@ public class RouteHighlightOverlay extends PathOverlay
 		
 		mapView_.invalidate();
 		return true;
-    } // doubleTapPrevNext
+  } // doubleTapPrevNext
 } // RouteHighlightOverlay

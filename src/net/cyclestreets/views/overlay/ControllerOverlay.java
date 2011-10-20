@@ -182,6 +182,5 @@ public class ControllerOverlay extends Overlay implements OnDoubleTapListener,
 	private Iterator<PauseResumeListener> pauseResumeOverlays()
 	{
 	  return new OverlayIterator<PauseResumeListener>(mapView_, PauseResumeListener.class);
-	} // pauseResumeOverlays
-	
+	} // pauseResumeOverlays	
 } // class ControllerOverlay

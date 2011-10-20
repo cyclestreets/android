@@ -38,475 +38,477 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 
 public class TapToRouteOverlay extends Overlay 
-							                 implements ButtonTapListener,
-							                            TapListener,
-							                            ContextMenuListener, 
-							                            DynamicMenuListener
+                               implements ButtonTapListener,
+                                          TapListener,
+                                          ContextMenuListener, 
+                                          DynamicMenuListener
 {
-	public interface Callback {
-		void onRouteNow(final GeoPoint from, final GeoPoint to);
-		void reRouteNow(final String plan);
-		void onClearRoute();
-	} // Callback
+  public interface Callback 
+  {
+    void onRouteNow(final GeoPoint from, final GeoPoint to);
+    void reRouteNow(final String plan);
+    void onClearRoute();
+  } // Callback
 
-	private static int[] Replan_Menu_Ids = { R.string.ic_menu_replan_quietest, 
-											 R.string.ic_menu_replan_balanced, 
-											 R.string.ic_menu_replan_fastest,
-											 R.string.ic_menu_replan_shortest };
-	private static Map<Integer, String> Replan_Menu_Plans = 
-			Collections.map(R.string.ic_menu_replan_quietest, CycleStreetsConstants.PLAN_QUIETEST)
-			           .map(R.string.ic_menu_replan_balanced, CycleStreetsConstants.PLAN_BALANCED)
-			           .map(R.string.ic_menu_replan_fastest, CycleStreetsConstants.PLAN_FASTEST)
-			           .map(R.string.ic_menu_replan_shortest, CycleStreetsConstants.PLAN_SHORTEST);
-	
-	private final Drawable greenWisp_;
-	private final Drawable redWisp_;
-	private final Point screenPos_ = new Point();
-	private final Matrix canvasTransform_ = new Matrix();
-	private final float[] transformValues_ = new float[9];
-	private final Matrix bitmapTransform_ = new Matrix();
-	private final Paint bitmapPaint_ = new Paint();
+  private static int[] Replan_Menu_Ids = { R.string.ic_menu_replan_quietest, 
+                                           R.string.ic_menu_replan_balanced, 
+                                           R.string.ic_menu_replan_fastest,
+                                           R.string.ic_menu_replan_shortest };
+  private static Map<Integer, String> Replan_Menu_Plans = 
+      Collections.map(R.string.ic_menu_replan_quietest, CycleStreetsConstants.PLAN_QUIETEST)
+                 .map(R.string.ic_menu_replan_balanced, CycleStreetsConstants.PLAN_BALANCED)
+                 .map(R.string.ic_menu_replan_fastest, CycleStreetsConstants.PLAN_FASTEST)
+                 .map(R.string.ic_menu_replan_shortest, CycleStreetsConstants.PLAN_SHORTEST);
+  
+  private final Drawable greenWisp_;
+  private final Drawable redWisp_;
+  private final Point screenPos_ = new Point();
+  private final Matrix canvasTransform_ = new Matrix();
+  private final float[] transformValues_ = new float[9];
+  private final Matrix bitmapTransform_ = new Matrix();
+  private final Paint bitmapPaint_ = new Paint();
 
-	private final int offset_;
-	private final float radius_;
+  private final int offset_;
+  private final float radius_;
 
-	private final OverlayButton stepBackButton_;
-	private final OverlayButton restartButton_;
+  private final OverlayButton stepBackButton_;
+  private final OverlayButton restartButton_;
 
-	private final CycleMapView mapView_;
-	
-	private final Callback callback_;
-	
-	private OverlayItem startItem_;
-	private OverlayItem endItem_;
+  private final CycleMapView mapView_;
+  
+  private final Callback callback_;
+  
+  private OverlayItem startItem_;
+  private OverlayItem endItem_;
 
-	private Paint textBrush_;
+  private Paint textBrush_;
 
-	private TapToRoute tapState_;
-	
-	public TapToRouteOverlay(final Context context, 
-						   	 final CycleMapView mapView,
-						   	 final Callback callback) 
-	{
-		super(context);
-		
-		mapView_ = mapView;
-		callback_ = callback;
-		
-		final Resources res = context.getResources();
-		greenWisp_ = res.getDrawable(R.drawable.green_wisp_shadow_centred_big);
-		redWisp_ = res.getDrawable(R.drawable.red_wisp_shadow_centred_big);
-
-		offset_ = OverlayHelper.offset(context);
-		radius_ = OverlayHelper.cornerRadius(context);
-
-        stepBackButton_ = new OverlayButton(res.getDrawable(R.drawable.ic_menu_revert),
-        									offset_,
-        									offset_*2,
-        									radius_);
-        stepBackButton_.bottomAlign();
-        restartButton_ = new OverlayButton(res.getDrawable(R.drawable.ic_menu_rotate),
-        								   0, 
-        								   offset_*2,
-        								   radius_);
-        restartButton_.centreAlign();
-        restartButton_.bottomAlign();
-        
-		textBrush_ = Brush.createTextBrush(offset_);
-        
-		startItem_ = null;
-		endItem_ = null;
-		
-		tapState_ = TapToRoute.start();
-	} // LocationOverlay
-	
-	public void setRoute(final GeoPoint start, final GeoPoint end, final boolean complete)
-	{
-		setStart(start);
-		setEnd(end);
-
-		tapState_ = tapState_.reset();
-		if(start == null)
-			return;		
-		tapState_ = tapState_.next();
-		if(end == null)
-			return;
-		tapState_ = tapState_.next();
-		if(!complete)
-			return;
-		tapState_ = tapState_.next();
-	} // setRoute
-	
-	public void resetRoute()
-	{
-		setStart(null);
-		setEnd(null);
-		tapState_ = tapState_.reset();
-	} // resetRoute
-	
-	public GeoPoint getStart() { return getMarkerPoint(startItem_); }
-	public GeoPoint getFinish() { return getMarkerPoint(endItem_); }
-
-	private GeoPoint getMarkerPoint(final OverlayItem marker)
-	{
-		return marker != null ? marker.getPoint() : null;
-	} // getMarkerPoint
-	
-	private void setStart(final GeoPoint point)
-	{
-		startItem_ = addMarker(point, "start", greenWisp_);
-	} // setStart
-	
-	private void setEnd(final GeoPoint point)
-	{
-		endItem_ = addMarker(point, "finish", redWisp_);
-	} // setEnd
-	
-	private OverlayItem addMarker(final GeoPoint point, final String label, final Drawable icon)
-	{
-		if(point == null)
-			return null;
-		final OverlayItem marker = new OverlayItem(label, label, point);
-		marker.setMarker(icon);
-		marker.setMarkerHotspot(OverlayItem.HotspotPlace.BOTTOM_CENTER);
-		return marker;
-	} // addMarker
-
-	////////////////////////////////////////////
-	@Override
-	public boolean onCreateOptionsMenu(final Menu menu) 
-	{ 
-    	menu.add(0, R.string.ic_menu_replan, Menu.NONE, R.string.ic_menu_replan).setIcon(R.drawable.ic_menu_more);
-    	return true;
-	} // onCreateOptionsMenu
-	
-	@Override
-	public boolean onPrepareOptionsMenu(final Menu menu)
-	{		
-		final MenuItem i = menu.findItem(R.string.ic_menu_replan);
-		i.setVisible(tapState_ == TapToRoute.ALL_DONE);
-		return true;
-	} // onPrepareOptionsMenu
-	
-	@Override
-	public void onCreateContextMenu(final ContextMenu menu) 
-	{
-		if(tapState_ != TapToRoute.ALL_DONE)
-			return;
-
-		final String currentPlan = Route.planned().plan();
-		for(int id : Replan_Menu_Ids)
-			if(!currentPlan.equals(Replan_Menu_Plans.get(id)))
-					add(menu, id);
-		if(mapView_.isMyLocationEnabled())
-			add(menu, R.string.ic_menu_reroute_from_here);
-		add(menu, R.string.ic_menu_reverse);
-		add(menu, R.string.ic_menu_share);
-		add(menu, R.string.ic_menu_feedback);
-	} // onCreateContextMenu
-	
-	private void add(ContextMenu menu, int id)
-	{
-		menu.add(0, id, 0, id);
-	} // add
-
-	@Override
-	public boolean onMenuItemSelected(int featureId, final MenuItem item)
-	{
-		final int menuId = item.getItemId();
-		
-		if(menuId == R.string.ic_menu_replan)
-		{
-			mapView_.showContextMenu();
-			return false;
-		} // if ...
-			
-		
-		if(Replan_Menu_Plans.containsKey(menuId))
-		{
-			callback_.reRouteNow(Replan_Menu_Plans.get(menuId));
-			return false;
-		} // if ...
-		
-		switch(menuId)
-		{
-		case R.string.ic_menu_reroute_from_here:
-			{
-				final Location lastFix = mapView_.getLastFix();
-				final GeoPoint from = new GeoPoint((int)(lastFix.getLatitude() * 1E6),
-						                           (int)(lastFix.getLongitude() * 1E6));
-				callback_.onRouteNow(from, endItem_.getPoint());
-			}
-			break;
-		case R.string.ic_menu_reverse:
-			callback_.onRouteNow(endItem_.getPoint(), startItem_.getPoint());
-			break;
-		case R.string.ic_menu_share:
-			Share.Url(mapView_, 
-					  Route.planned().url(), 
-					  Route.planned().name(),
-					  "CycleStreets journey");
-			break;
-		case R.string.ic_menu_feedback:
-			{
-				final Context context = mapView_.getContext();
-				context.startActivity(new Intent(context, FeedbackActivity.class));
-			}
-			break;
-		} // switch(featureId)
-		return false;
-	} // onMenuItemSelected
-	
-	////////////////////////////////////////////
-	@Override
-	public void draw(final Canvas canvas, final MapView mapView, final boolean shadow) 
-	{
-        final Projection projection = mapView.getProjection();
-        drawMarker(canvas, projection, startItem_);
-        drawMarker(canvas, projection, endItem_);
-	} // draw
-
-	@Override
-	public void drawButtons(final Canvas canvas, final MapView mapView)
-	{
-		drawButtons(canvas);
-		drawTapState(canvas);
-	} // drawButtons
-	
-	private void drawButtons(final Canvas canvas)
-	{
-		stepBackButton_.enable(tapState_ == TapToRoute.WAITING_FOR_END || 
-							   tapState_ == TapToRoute.WAITING_TO_ROUTE);
-		if(tapState_ != TapToRoute.ALL_DONE)
-			stepBackButton_.draw(canvas);
-
-		restartButton_.enable(tapState_ == TapToRoute.ALL_DONE);
-		if(tapState_ == TapToRoute.ALL_DONE)
-			restartButton_.draw(canvas);
-	} // drawLocationButton
-
-	private void drawTapState(final Canvas canvas)
-	{
-		final String msg = tapState_.toString();
-		if(msg.length() == 0)
-			return;
-				
-		final Rect screen = canvas.getClipBounds();
-        screen.left += stepBackButton_.right() + offset_; 
-        screen.top += offset_;
-        screen.right -= offset_;
-        screen.bottom = screen.top + stepBackButton_.height();
-		
-		if(!OverlayHelper.drawRoundRect(canvas, screen, radius_, Brush.Grey))
-			return;
-
-		final Rect bounds = new Rect();
-		textBrush_.getTextBounds(msg, 0, msg.length(), bounds);
-		
-		canvas.drawText(msg, screen.centerX(), screen.centerY() + bounds.bottom, textBrush_);
-	} // drawTapState
-	
-	private void drawMarker(final Canvas canvas, 
-							final Projection projection,
-							final OverlayItem marker)
-	{
-		if(marker == null)
-			return;
-
-		projection.toMapPixels(marker.mGeoPoint, screenPos_);
-		
-		canvas.getMatrix(canvasTransform_);
-		canvasTransform_.getValues(transformValues_);
-		
-		final BitmapDrawable thingToDraw = (BitmapDrawable)marker.getDrawable();
-		final int halfWidth = thingToDraw.getIntrinsicWidth()/2;
-		final int halfHeight = thingToDraw.getIntrinsicHeight()/2;
-		bitmapTransform_.setTranslate(-halfWidth, -halfHeight);
-		bitmapTransform_.postScale(1/transformValues_[Matrix.MSCALE_X], 1/transformValues_[Matrix.MSCALE_Y]);
-		bitmapTransform_.postTranslate(screenPos_.x, screenPos_.y);
-		canvas.drawBitmap(thingToDraw.getBitmap(), bitmapTransform_, bitmapPaint_);
-	} // drawMarker
-
-	//////////////////////////////////////////////
-	@Override 
-	public boolean onSingleTap(final MotionEvent event)
-	{
-	  return tapMarker(event);
-	} // onSingleTap
-	
-	@Override
-	public boolean onDoubleTap(final MotionEvent event)
-	{
-	  return false;
-	} // onDoubleTap
-	
-	@Override
-  public boolean onButtonTap(final MotionEvent event) 
-	{
-	  return tapStepBack(event) || 
-    		   tapRestart(event);
-  } // onSingleTapUp
-	
-	@Override
-	public boolean onButtonDoubleTap(final MotionEvent event)
-	{
-		return stepBackButton_.hit(event);
-	} // onDoubleTap
+  private TapToRoute tapState_;
+  
+  public TapToRouteOverlay(final Context context, 
+                           final CycleMapView mapView,
+                           final Callback callback) 
+  {
+    super(context);
     
-	public boolean onBackButton()
-	{
-	  return stepBack(false);
+    mapView_ = mapView;
+    callback_ = callback;
+    
+    final Resources res = context.getResources();
+    greenWisp_ = res.getDrawable(R.drawable.green_wisp_shadow_centred_big);
+    redWisp_ = res.getDrawable(R.drawable.red_wisp_shadow_centred_big);
+
+    offset_ = OverlayHelper.offset(context);
+    radius_ = OverlayHelper.cornerRadius(context);
+
+    stepBackButton_ = new OverlayButton(res.getDrawable(R.drawable.ic_menu_revert),
+                          offset_,
+                          offset_*2,
+                          radius_);
+    stepBackButton_.bottomAlign();
+    restartButton_ = new OverlayButton(res.getDrawable(R.drawable.ic_menu_rotate),
+                           0, 
+                           offset_*2,
+                           radius_);
+    restartButton_.centreAlign();
+    restartButton_.bottomAlign();
+        
+    textBrush_ = Brush.createTextBrush(offset_);
+        
+    startItem_ = null;
+    endItem_ = null;
+    
+    tapState_ = TapToRoute.start();
+  } // LocationOverlay
+  
+  public void setRoute(final GeoPoint start, final GeoPoint end, final boolean complete)
+  {
+    setStart(start);
+    setEnd(end);
+
+    tapState_ = tapState_.reset();
+    if(start == null)
+      return;    
+    tapState_ = tapState_.next();
+    if(end == null)
+      return;
+    tapState_ = tapState_.next();
+    if(!complete)
+      return;
+    tapState_ = tapState_.next();
+  } // setRoute
+  
+  public void resetRoute()
+  {
+    setStart(null);
+    setEnd(null);
+    tapState_ = tapState_.reset();
+  } // resetRoute
+  
+  public GeoPoint getStart() { return getMarkerPoint(startItem_); }
+  public GeoPoint getFinish() { return getMarkerPoint(endItem_); }
+
+  private GeoPoint getMarkerPoint(final OverlayItem marker)
+  {
+    return marker != null ? marker.getPoint() : null;
+  } // getMarkerPoint
+  
+  private void setStart(final GeoPoint point)
+  {
+    startItem_ = addMarker(point, "start", greenWisp_);
+  } // setStart
+  
+  private void setEnd(final GeoPoint point)
+  {
+    endItem_ = addMarker(point, "finish", redWisp_);
+  } // setEnd
+  
+  private OverlayItem addMarker(final GeoPoint point, final String label, final Drawable icon)
+  {
+    if(point == null)
+      return null;
+    final OverlayItem marker = new OverlayItem(label, label, point);
+    marker.setMarker(icon);
+    marker.setMarkerHotspot(OverlayItem.HotspotPlace.BOTTOM_CENTER);
+    return marker;
+  } // addMarker
+
+  ////////////////////////////////////////////
+  @Override
+  public boolean onCreateOptionsMenu(final Menu menu) 
+  { 
+    menu.add(0, R.string.ic_menu_replan, Menu.NONE, R.string.ic_menu_replan).setIcon(R.drawable.ic_menu_more);
+    return true;
+  } // onCreateOptionsMenu
+  
+  @Override
+  public boolean onPrepareOptionsMenu(final Menu menu)
+  {    
+    final MenuItem i = menu.findItem(R.string.ic_menu_replan);
+    i.setVisible(tapState_ == TapToRoute.ALL_DONE);
+    return true;
+  } // onPrepareOptionsMenu
+  
+  @Override
+  public void onCreateContextMenu(final ContextMenu menu) 
+  {
+    if(tapState_ != TapToRoute.ALL_DONE)
+      return;
+
+    final String currentPlan = Route.planned().plan();
+    for(int id : Replan_Menu_Ids)
+      if(!currentPlan.equals(Replan_Menu_Plans.get(id)))
+          add(menu, id);
+    if(mapView_.isMyLocationEnabled())
+      add(menu, R.string.ic_menu_reroute_from_here);
+    add(menu, R.string.ic_menu_reverse);
+    add(menu, R.string.ic_menu_share);
+    add(menu, R.string.ic_menu_feedback);
+  } // onCreateContextMenu
+  
+  private void add(ContextMenu menu, int id)
+  {
+    menu.add(0, id, 0, id);
+  } // add
+
+  @Override
+  public boolean onMenuItemSelected(int featureId, final MenuItem item)
+  {
+    final int menuId = item.getItemId();
+    
+    if(menuId == R.string.ic_menu_replan)
+    {
+      mapView_.showContextMenu();
+      return false;
+    } // if ...  
+    
+    if(Replan_Menu_Plans.containsKey(menuId))
+    {
+      callback_.reRouteNow(Replan_Menu_Plans.get(menuId));
+      return false;
+    } // if ...
+    
+    switch(menuId)
+    {
+      case R.string.ic_menu_reroute_from_here:
+      {
+        final Location lastFix = mapView_.getLastFix();
+        final GeoPoint from = new GeoPoint((int)(lastFix.getLatitude() * 1E6),
+                                           (int)(lastFix.getLongitude() * 1E6));
+        callback_.onRouteNow(from, endItem_.getPoint());
+      }
+      break;
+    case R.string.ic_menu_reverse:
+      callback_.onRouteNow(endItem_.getPoint(), startItem_.getPoint());
+      break;
+    case R.string.ic_menu_share:
+      Share.Url(mapView_, 
+                Route.planned().url(), 
+                Route.planned().name(),
+                "CycleStreets journey");
+      break;
+    case R.string.ic_menu_feedback:
+      {
+        final Context context = mapView_.getContext();
+        context.startActivity(new Intent(context, FeedbackActivity.class));
+      }
+      break;
+    } // switch(featureId)
+    return false;
+  } // onMenuItemSelected
+  
+  ////////////////////////////////////////////
+  @Override
+  public void draw(final Canvas canvas, final MapView mapView, final boolean shadow) 
+  {
+    final Projection projection = mapView.getProjection();
+    drawMarker(canvas, projection, startItem_);
+    drawMarker(canvas, projection, endItem_);
+  } // draw
+
+  @Override
+  public void drawButtons(final Canvas canvas, final MapView mapView)
+  {
+    drawButtons(canvas);
+    drawTapState(canvas);
+  } // drawButtons
+  
+  private void drawButtons(final Canvas canvas)
+  {
+    stepBackButton_.enable(tapState_ == TapToRoute.WAITING_FOR_END || 
+                           tapState_ == TapToRoute.WAITING_TO_ROUTE);
+    if(tapState_ != TapToRoute.ALL_DONE)
+      stepBackButton_.draw(canvas);
+
+    restartButton_.enable(tapState_ == TapToRoute.ALL_DONE);
+    if(tapState_ == TapToRoute.ALL_DONE)
+      restartButton_.draw(canvas);
+  } // drawLocationButton
+
+  private void drawTapState(final Canvas canvas)
+  {
+    final String msg = tapState_.toString();
+    if(msg.length() == 0)
+      return;
+        
+    final Rect screen = canvas.getClipBounds();
+    screen.left += stepBackButton_.right() + offset_; 
+    screen.top += offset_;
+    screen.right -= offset_;
+    screen.bottom = screen.top + stepBackButton_.height();
+    
+    if(!OverlayHelper.drawRoundRect(canvas, screen, radius_, Brush.Grey))
+      return;
+
+    final Rect bounds = new Rect();
+    textBrush_.getTextBounds(msg, 0, msg.length(), bounds);
+    
+    canvas.drawText(msg, screen.centerX(), screen.centerY() + bounds.bottom, textBrush_);
+  } // drawTapState
+  
+  private void drawMarker(final Canvas canvas, 
+                          final Projection projection,
+                          final OverlayItem marker)
+  {
+    if(marker == null)
+      return;
+
+    projection.toMapPixels(marker.mGeoPoint, screenPos_);
+    
+    canvas.getMatrix(canvasTransform_);
+    canvasTransform_.getValues(transformValues_);
+    
+    final BitmapDrawable thingToDraw = (BitmapDrawable)marker.getDrawable();
+    final int halfWidth = thingToDraw.getIntrinsicWidth()/2;
+    final int halfHeight = thingToDraw.getIntrinsicHeight()/2;
+    bitmapTransform_.setTranslate(-halfWidth, -halfHeight);
+    bitmapTransform_.postScale(1/transformValues_[Matrix.MSCALE_X], 1/transformValues_[Matrix.MSCALE_Y]);
+    bitmapTransform_.postTranslate(screenPos_.x, screenPos_.y);
+    canvas.drawBitmap(thingToDraw.getBitmap(), bitmapTransform_, bitmapPaint_);
+  } // drawMarker
+
+  //////////////////////////////////////////////
+  @Override 
+  public boolean onSingleTap(final MotionEvent event)
+  {
+    return tapMarker(event);
+  } // onSingleTap
+  
+  @Override
+  public boolean onDoubleTap(final MotionEvent event)
+  {
+    return false;
+  } // onDoubleTap
+  
+  @Override
+  public boolean onButtonTap(final MotionEvent event) 
+  {
+    return tapStepBack(event) || 
+           tapRestart(event);
+  } // onSingleTapUp
+  
+  @Override
+  public boolean onButtonDoubleTap(final MotionEvent event)
+  {
+    return stepBackButton_.hit(event);
+  } // onDoubleTap
+    
+  public boolean onBackButton()
+  {
+    return stepBack(false);
   } // onBackButton
     
-	private boolean tapStepBack(final MotionEvent event)
-	{
-		if(!stepBackButton_.hit(event))
-			return false;
-		if(!stepBackButton_.enabled())
-			return true;
-		
-		return stepBack(true);
-	} // tapStepBack
-	
-	private boolean tapRestart(final MotionEvent event)
-	{
-		if(!restartButton_.enabled() || !restartButton_.hit(event))
-			return false;
+  private boolean tapStepBack(final MotionEvent event)
+  {
+    if(!stepBackButton_.hit(event))
+      return false;
+    if(!stepBackButton_.enabled())
+      return true;
+    
+    return stepBack(true);
+  } // tapStepBack
+  
+  private boolean tapRestart(final MotionEvent event)
+  {
+    if(!restartButton_.enabled() || !restartButton_.hit(event))
+      return false;
 
-		if(!CycleStreetsPreferences.confirmNewRoute())
-			return stepBack(true);
-		
-		MessageBox.YesNo(mapView_,
-						 "Start a new route?",
-						 new DialogInterface.OnClickListener() {
-							public void onClick(DialogInterface arg0, int arg1) {
-								stepBack(true);
-							}
-        				 });
+    if(!CycleStreetsPreferences.confirmNewRoute())
+      return stepBack(true);
+    
+    MessageBox.YesNo(mapView_,
+                     "Start a new route?",
+                     new DialogInterface.OnClickListener() {
+                       public void onClick(DialogInterface arg0, int arg1) {
+                         stepBack(true);
+                       }
+                     });
         
-		return true;
-	} // tapRestart
-	
-	private boolean stepBack(final boolean tap)
-	{
-		if(!tap && tapState_.isAtEnd())
-			return false;
-				
-		switch(tapState_)
-		{
-    	case WAITING_FOR_START:
-    		return true;
-    	case WAITING_FOR_END:
-    		setStart(null);
-    		break;
-    	case WAITING_TO_ROUTE:
-    		setEnd(null);
-    		break;
-    	case ALL_DONE:
-    		callback_.onClearRoute();
-    		break;
-    	} // switch ...
-		
-		mapView_.invalidate();
-		tapState_ = tapState_.previous();
-		
-		return true;
-	} // tapStepBack
-
-    private boolean tapMarker(final MotionEvent event)
+    return true;
+  } // tapRestart
+  
+  private boolean stepBack(final boolean tap)
+  {
+    if(!tap && tapState_.isAtEnd())
+      return false;
+        
+    switch(tapState_)
     {
-    	final GeoPoint p = mapView_.getProjection().fromPixels((int)event.getX(), (int)event.getY());
+      case WAITING_FOR_START:
+        return true;
+      case WAITING_FOR_END:
+        setStart(null);
+        break;
+      case WAITING_TO_ROUTE:
+        setEnd(null);
+        break;
+      case ALL_DONE:
+        callback_.onClearRoute();
+        break;
+    } // switch ...
+    
+    mapView_.invalidate();
+    tapState_ = tapState_.previous();
+    
+    return true;
+  } // tapStepBack
 
-		switch(tapState_)
-    	{
-    	case WAITING_FOR_START:
-    		setStart(p);
-    		mapView_.invalidate();
-    		break;
-    	case WAITING_FOR_END:
-    		setEnd(p);
-    		mapView_.invalidate();
-    		break;
-    	case WAITING_TO_ROUTE:
-			callback_.onRouteNow(startItem_.getPoint(), endItem_.getPoint());
-    		break;
-    	case ALL_DONE:
-    		break;
-    	} // switch ...
+  private boolean tapMarker(final MotionEvent event)
+  {
+    final GeoPoint p = mapView_.getProjection().fromPixels((int)event.getX(), (int)event.getY());
 
-    	tapState_ = tapState_.next();
+    switch(tapState_)
+    {
+      case WAITING_FOR_START:
+        setStart(p);
+        mapView_.invalidate();
+        break;
+      case WAITING_FOR_END:
+        setEnd(p);
+        mapView_.invalidate();
+        break;
+      case WAITING_TO_ROUTE:
+        callback_.onRouteNow(startItem_.getPoint(), endItem_.getPoint());
+        break;
+      case ALL_DONE:
+        break;
+    } // switch ...
 
-    	return true;
-    } // tapMarker
-	
-	////////////////////////////////////
-	private enum TapToRoute 
-	{ 
-		WAITING_FOR_START, 
-		WAITING_FOR_END, 
-		WAITING_TO_ROUTE, 
-		ALL_DONE;
-		
-		static public TapToRoute start()
-		{
-			return WAITING_FOR_START;
-		} // start
-		
-		public TapToRoute reset()
-		{
-			return WAITING_FOR_START;
-		} // reset
-		
-		public boolean isAtEnd()
-		{
-			return (this == previous()) ||
-				   (this == next());
-		} // isAtEnd
-		
-		public TapToRoute previous() 
-		{
-			switch(this) {
-			case WAITING_FOR_START:
-				break;
-			case WAITING_FOR_END:
-				return WAITING_FOR_START;
-			case WAITING_TO_ROUTE:
-				return WAITING_FOR_END;
-			case ALL_DONE:
-				break;
-			} // switch
-			return WAITING_FOR_START;				
-		} // previous()
+    tapState_ = tapState_.next();
+    
+    return true;
+  } // tapMarker
+  
+  ////////////////////////////////////
+  private enum TapToRoute 
+  { 
+    WAITING_FOR_START, 
+    WAITING_FOR_END, 
+    WAITING_TO_ROUTE, 
+    ALL_DONE;
+    
+    static public TapToRoute start()
+    {
+      return WAITING_FOR_START;
+    } // start
+    
+    public TapToRoute reset()
+    {
+      return WAITING_FOR_START;
+    } // reset
+    
+    public boolean isAtEnd()
+    {
+      return (this == previous()) ||
+             (this == next());
+    } // isAtEnd
+    
+    public TapToRoute previous() 
+    {
+      switch(this) 
+      {
+        case WAITING_FOR_START:
+          break;
+        case WAITING_FOR_END:
+          return WAITING_FOR_START;
+        case WAITING_TO_ROUTE:
+          return WAITING_FOR_END;
+        case ALL_DONE:
+          break;
+      } // switch
+      return WAITING_FOR_START;        
+    } // previous()
 
-		public TapToRoute next() 
-		{
-			switch(this) {
-			case WAITING_FOR_START:
-				return WAITING_FOR_END;
-			case WAITING_FOR_END:
-				return WAITING_TO_ROUTE;
-			case WAITING_TO_ROUTE:
-				return ALL_DONE;
-			case ALL_DONE:
-				break;
-			} // switch
-			return ALL_DONE;				
-		} // next()
-		
-		public String toString()
-		{
-			switch(this) {
-			case WAITING_FOR_START:
-				return "Tap to set Start";
-			case WAITING_FOR_END:
-				return "Tap to set Finish";
-			case WAITING_TO_ROUTE:
-				return "Tap to Route";
-			case ALL_DONE:
-				break;
-			} // switch
-			return "";				
-		} // toString
-	}; // enum TapToRoute
-	
+    public TapToRoute next() 
+    {
+      switch(this) 
+      {
+        case WAITING_FOR_START:
+          return WAITING_FOR_END;
+        case WAITING_FOR_END:
+          return WAITING_TO_ROUTE;
+        case WAITING_TO_ROUTE:
+          return ALL_DONE;
+        case ALL_DONE:
+          break;
+      } // switch
+      return ALL_DONE;        
+    } // next()
+    
+    public String toString()
+    {
+      switch(this) 
+      {
+        case WAITING_FOR_START:
+          return "Tap to set Start";
+        case WAITING_FOR_END:
+          return "Tap to set Finish";
+        case WAITING_TO_ROUTE:
+          return "Tap to Route";
+        case ALL_DONE:
+          break;
+      } // switch
+      return "";        
+    } // toString
+  }; // enum TapToRoute
 } // LocationOverlay
