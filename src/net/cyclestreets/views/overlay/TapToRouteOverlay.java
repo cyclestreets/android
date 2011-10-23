@@ -416,18 +416,30 @@ public class TapToRouteOverlay extends Overlay
   private boolean tapMarker(final MotionEvent event)
   {
     final GeoPoint p = mapView_.getProjection().fromPixels((int)event.getX(), (int)event.getY());
-
+    tapAction(p, true);    
+    return true;
+  } // tapMarker
+   
+  public void setNextMarker(final GeoPoint point)
+  {
+    tapAction(point, false);
+  } // setNextMarker
+  
+  private void tapAction(final GeoPoint point, boolean tap)
+  {
     switch(tapState_)
     {
       case WAITING_FOR_START:
-        setStart(p);
+        setStart(point);
         mapView_.invalidate();
         break;
       case WAITING_FOR_END:
-        setEnd(p);
+        setEnd(point);
         mapView_.invalidate();
         break;
       case WAITING_TO_ROUTE:
+        if(!tap)
+          return;
         callback_.onRouteNow(startItem_.getPoint(), endItem_.getPoint());
         break;
       case ALL_DONE:
@@ -435,8 +447,6 @@ public class TapToRouteOverlay extends Overlay
     } // switch ...
 
     tapState_ = tapState_.next();
-    
-    return true;
   } // tapMarker
   
   ////////////////////////////////////

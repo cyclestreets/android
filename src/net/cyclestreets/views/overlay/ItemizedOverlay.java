@@ -44,6 +44,8 @@ public class ItemizedOverlay<Item extends OverlayItem> extends Overlay
 	  this(context, mapView, items, null); 
 	} // ItemizedOverlay
 	
+	protected MapView mapView() { return mapView_; } 
+	
 	protected void setListener(final OnItemTapListener<Item> listener)
 	{
 	  itemListener_ = listener;

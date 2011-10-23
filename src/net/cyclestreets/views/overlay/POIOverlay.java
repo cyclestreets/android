@@ -9,15 +9,18 @@ import org.osmdroid.util.BoundingBoxE6;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.MapView.Projection;
+import org.osmdroid.views.overlay.Overlay;
 import org.osmdroid.views.overlay.OverlayItem;
 
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Canvas;
 import android.graphics.Point;
+import android.graphics.Rect;
 import android.os.AsyncTask;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.SubMenu;
 
 import net.cyclestreets.R;
@@ -81,7 +84,9 @@ public class POIOverlay extends LiveItemOverlay<POIOverlay.POIItem>
   private final List<POICategory> activeCategories_;
   private POIItem active_;
   private final Point curScreenCoords_ = new Point();
+  private final Point touchScreenPoint_ = new Point();
   private GeoPoint lastFix_;
+  private Rect bubble_;
   
 	public POIOverlay(final Context context,
 							      final MapView mapView)
@@ -136,6 +141,43 @@ public class POIOverlay extends LiveItemOverlay<POIOverlay.POIItem>
 	
   ///////////////////////////////////////////////////
   @Override
+  public boolean onSingleTap(final MotionEvent event)
+  {
+    if((active_ != null) && (tappedInBubble(event)))
+      return true;
+      
+    return super.onSingleTap(event);
+  } // onSingleTap
+  
+  private TapToRouteOverlay routeOverlay()
+  {
+    for(Overlay o : mapView().getOverlays())
+      if(o instanceof TapToRouteOverlay)
+        return (TapToRouteOverlay)o;
+    return null;
+  } // routeOverlay
+  
+  private boolean tappedInBubble(final MotionEvent event)
+  {
+    final Projection pj = mapView().getProjection();
+    final int eventX = (int) event.getX();
+    final int eventY = (int) event.getY();
+
+    pj.fromMapPixels(eventX, eventY, touchScreenPoint_);
+
+    if(!bubble_.contains(touchScreenPoint_.x, touchScreenPoint_.y))
+      return false;
+    
+    TapToRouteOverlay o = routeOverlay();
+    if(o == null)
+      return false;
+    
+    o.setNextMarker(active_.getPoint());
+    
+    return true;
+  } // tappedInBubble
+  
+	@Override
   protected boolean onItemSingleTap(final int index, final POIItem item, final MapView mapView) 
   {
     if(active_ == item)
@@ -171,7 +213,7 @@ public class POIOverlay extends LiveItemOverlay<POIOverlay.POIItem>
     final Projection pj = mapView.getProjection();
     pj.toMapPixels(active_.getPoint(), curScreenCoords_);
     
-    Draw.drawBubble(canvas, textBrush(), offset(), cornerRadius(), curScreenCoords_, bubble);
+    bubble_ = Draw.drawBubble(canvas, textBrush(), offset(), cornerRadius(), curScreenCoords_, bubble);
   } // draw
 
 	public void show(final POICategory cat) 
