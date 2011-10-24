@@ -168,13 +168,7 @@ public class POIOverlay extends LiveItemOverlay<POIOverlay.POIItem>
     if(!bubble_.contains(touchScreenPoint_.x, touchScreenPoint_.y))
       return false;
     
-    TapToRouteOverlay o = routeOverlay();
-    if(o == null)
-      return false;
-    
-    o.setNextMarker(active_.getPoint());
-    
-    return true;
+    return routeMarkerAtItem(active_);
   } // tappedInBubble
   
 	@Override
@@ -192,8 +186,19 @@ public class POIOverlay extends LiveItemOverlay<POIOverlay.POIItem>
   @Override
   protected boolean onItemDoubleTap(final int index, final POIItem item, final MapView mapView) 
   {
-    return false;
+    return routeMarkerAtItem(item);
   } // onItemDoubleTap
+  
+  private boolean routeMarkerAtItem(final POIItem item)
+  {
+    final TapToRouteOverlay o = routeOverlay();
+    if(o == null)
+      return false;
+    
+    o.setNextMarker(item.getPoint());
+    
+    return true;
+  } // routeMarkerAtItem
 
   /////////////////////////////////////////////////////
 	protected void draw(final Canvas canvas, final MapView mapView, final boolean shadow) 
