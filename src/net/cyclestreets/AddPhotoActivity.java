@@ -10,6 +10,7 @@ import net.cyclestreets.util.MessageBox;
 import net.cyclestreets.util.Share;
 import net.cyclestreets.views.CycleMapView;
 import net.cyclestreets.views.overlay.ThereOverlay;
+import net.cyclestreets.views.overlay.ThereOverlay.LocationListener;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -49,7 +50,7 @@ import java.util.Map;
 import org.osmdroid.util.GeoPoint;
 
 public class AddPhotoActivity extends Activity 
-                implements View.OnClickListener
+                implements View.OnClickListener, LocationListener
 {
   public enum AddStep
   {
@@ -161,6 +162,7 @@ public class AddPhotoActivity extends Activity
     map_.enableAndFollowLocation();
     map_.getController().setZoom(map_.getMaxZoomLevel());
     there_ = new ThereOverlay(this, map_);
+    there_.setLocationListener(this);
     map_.overlayPushTop(there_);
   
     final LinearLayout v = (LinearLayout)(photoLocation_.findViewById(R.id.mapholder));
@@ -333,7 +335,10 @@ public class AddPhotoActivity extends Activity
     final Button b = (Button)findViewById(R.id.next);
     if(b == null)
       return;
-    b.setOnClickListener(this);    
+    b.setOnClickListener(this);
+    
+    if(step_ == AddStep.LOCATION)
+      b.setEnabled(there_.there() != null);
   } // hookUpNext
   
   private EditText captionEditor() { return (EditText)photoCaption_.findViewById(R.id.caption); }
@@ -396,6 +401,13 @@ public class AddPhotoActivity extends Activity
     
     startActivityForResult(i, v.getId());
   } // onClick
+  
+  @Override
+  public void onSetLocation(GeoPoint point)
+  {
+    final Button u = (Button)photoLocation_.findViewById(R.id.next);
+    u.setEnabled(true);
+  } // onSetLocation
   
   @Override
   protected void onActivityResult(final int requestCode, 
@@ -672,5 +684,4 @@ public class AddPhotoActivity extends Activity
       return tv;
     } // getView
   } // CategoryAdapter
-  
 } // class AddPhotoActivity
