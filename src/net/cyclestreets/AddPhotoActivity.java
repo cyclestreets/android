@@ -292,6 +292,7 @@ public class AddPhotoActivity extends Activity
       metaCatId_ = metaCategoryId();
       catId_ = categoryId();
       setContentView(photoLocation_);
+      there_.recentre();
       break;
     case SUBMIT:
       upload();

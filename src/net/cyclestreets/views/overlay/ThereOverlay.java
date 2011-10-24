@@ -47,11 +47,22 @@ public class ThereOverlay extends Overlay
   public void noOverThere(final GeoPoint there)
   {
     there_ = there;
-    mapView_.invalidate();    
+    
+    recentre();
     
     if(listener_ != null)
       listener_.onSetLocation(there);
   } // noOverThere
+  
+  public void recentre()
+  {
+    if(there_ == null)
+      return;
+   
+    mapView_.getController().animateTo(there_);
+    mapView_.invalidate();    
+  } // recentre
+    
   
   @Override
   protected void draw(final Canvas canvas, final MapView mapView, final boolean shadow) 
