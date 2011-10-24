@@ -16,60 +16,73 @@ import android.graphics.drawable.Drawable;
 import android.view.MotionEvent;
 
 public class ThereOverlay extends Overlay 
-						  implements TapListener 
+                          implements TapListener 
 {
-	private final MapView mapView_;
-	
-	private final Drawable thereMarker_;
-	private GeoPoint there_ = null;
-	
-	public ThereOverlay(final Context context,
-				        final MapView mapView)
-	{
-		super(context);
-		mapView_ = mapView;
-		
-		final Resources res = context.getResources();
-		thereMarker_  = res.getDrawable(R.drawable.x_marks_spot);
-	} // ThereOverlay
-	
-	public GeoPoint there() { return there_; }
-	public void noOverThere(final GeoPoint there)
-	{
-		there_ = there;
-		mapView_.invalidate();		
-	} // noOverThere
-	
-	@Override
-	protected void draw(final Canvas canvas, final MapView mapView, final boolean shadow) 
-	{
-		if(there_ == null)
-			return;
-		
-		final Point screenPos = new Point();
-        final Projection projection = mapView.getProjection();
-		projection.toMapPixels(there_, screenPos);
+  static public interface LocationListener {
+    void onSetLocation(final GeoPoint point);
+  }
+  
+  private final MapView mapView_;
+  
+  private final Drawable thereMarker_;
+  private GeoPoint there_ = null;
+  private LocationListener listener_;
+  
+  public ThereOverlay(final Context context,
+                      final MapView mapView)
+  {
+    super(context);
+    mapView_ = mapView;
+    
+    final Resources res = context.getResources();
+    thereMarker_  = res.getDrawable(R.drawable.x_marks_spot);
+  } // ThereOverlay
+  
+  public void setLocationListener(final LocationListener listener)
+  {
+    listener_ = listener;
+  } // setLocationListener
+  
+  public GeoPoint there() { return there_; }
+  public void noOverThere(final GeoPoint there)
+  {
+    there_ = there;
+    mapView_.invalidate();    
+    
+    if(listener_ != null)
+      listener_.onSetLocation(there);
+  } // noOverThere
+  
+  @Override
+  protected void draw(final Canvas canvas, final MapView mapView, final boolean shadow) 
+  {
+    if(there_ == null)
+      return;
+    
+    final Point screenPos = new Point();
+    final Projection projection = mapView.getProjection();
+    projection.toMapPixels(there_, screenPos);
 
-		final int halfWidth = thereMarker_.getIntrinsicWidth()/2;
-		final int halfHeight = thereMarker_.getIntrinsicHeight()/2;
-		thereMarker_.setBounds(new Rect(screenPos.x - halfWidth, 
-									    screenPos.y - halfHeight, 
-									    screenPos.x + halfWidth, 
-									    screenPos.y + halfHeight));
-		thereMarker_.draw(canvas);
-	} // onDrawFinished
+    final int halfWidth = thereMarker_.getIntrinsicWidth()/2;
+    final int halfHeight = thereMarker_.getIntrinsicHeight()/2;
+    thereMarker_.setBounds(new Rect(screenPos.x - halfWidth, 
+                                    screenPos.y - halfHeight, 
+                                    screenPos.x + halfWidth, 
+                                    screenPos.y + halfHeight));
+    thereMarker_.draw(canvas);
+  } // onDrawFinished
 
-	@Override
-	public boolean onDoubleTap(MotionEvent event) 
-	{
-		return false;
-	} // onDoubleTap
+  @Override
+  public boolean onDoubleTap(MotionEvent event) 
+  {
+    return false;
+  } // onDoubleTap
 
-	@Override
-	public boolean onSingleTap(final MotionEvent event) 
-	{
-    	final GeoPoint p = mapView_.getProjection().fromPixels((int)event.getX(), (int)event.getY());
-    	noOverThere(p);
-    	return true;
-	} // onSingleTap
+  @Override
+  public boolean onSingleTap(final MotionEvent event) 
+  {
+    final GeoPoint p = mapView_.getProjection().fromPixels((int)event.getX(), (int)event.getY());
+    noOverThere(p);
+    return true;
+  } // onSingleTap
 } // class ThereOverlay
