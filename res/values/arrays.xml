@@ -1,62 +1,62 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-	<string-array name="units">
-		<item>Kilometres</item>
-		<item>Miles</item>
-	</string-array>
-	<string-array name="unit_values">
-		<item>km</item>
-		<item>miles</item>
-	</string-array>
-    <string-array name="routetype">
-        <item>Quietest</item>
-        <item>Balanced</item>
-        <item>Fastest</item>
-        <item>Shortest</item>
-    </string-array>
-    <string-array name="routetype_values">
-        <item>quietest</item>
-        <item>balanced</item>
-        <item>fastest</item>
-        <item>shortest</item>
-    </string-array>
-    <string-array name="speed">
-        <item>Unhurried 10mph (16km/h)</item>
-        <item>Cruising 12mph (20km/h)</item>
-        <item>Quick 15mph (24km/h)</item>
-    </string-array>
-    <string-array name="speed_values">
-        <item>16</item>
-        <item>20</item>
-        <item>24</item>
-    </string-array>
-    <string-array name="mapstyle">
-    	<item>OpenCycleMap (shows hills)</item>
-        <item>OpenStreetMap default style</item>
-        <item>Ordnance Survey OpenData</item>
-    </string-array>
-    <string-array name="mapstyle_values">
-        <item>CycleStreets</item>
-        <item>CycleStreets-OSM</item>
-        <item>CycleStreets-OS</item>
-    </string-array>
-    <string-array name="point_type3">
-        <item>My current location</item>
-        <item>Contacts</item>
-        <item>Point on map</item>
-    </string-array>
-    <string-array name="point_type">
-        <item>Contacts</item>
-        <item>Point on map</item>
-    </string-array>
-    <string-array name="uploadsize">
-    	<item>Always resize to 320 pixels wide</item>
-    	<item>Full size when Wifi available</item>
-    	<item>Full size</item>
-    </string-array>
-    <string-array name="uploadsize_values">
-    	<item>320px</item>
-    	<item>bigIfWifi</item>
-    	<item>big</item>
-    </string-array>
+  <string-array name="units">
+    <item>Kilometres</item>
+    <item>Miles</item>
+  </string-array>
+  <string-array name="unit_values">
+    <item>km</item>
+    <item>miles</item>
+  </string-array>
+  <string-array name="routetype">
+    <item>Quietest</item>
+    <item>Balanced</item>
+    <item>Fastest</item>
+    <item>Shortest</item>
+  </string-array>
+  <string-array name="routetype_values">
+    <item>quietest</item>
+    <item>balanced</item>
+    <item>fastest</item>
+    <item>shortest</item>
+  </string-array>
+  <string-array name="speed">
+    <item>Unhurried 10mph (16km/h)</item>
+    <item>Cruising 12mph (20km/h)</item>
+    <item>Quick 15mph (24km/h)</item>
+  </string-array>
+  <string-array name="speed_values">
+    <item>16</item>
+    <item>20</item>
+    <item>24</item>
+  </string-array>
+  <string-array name="mapstyle">
+    <item>OpenCycleMap (shows hills)</item>
+    <item>OpenStreetMap default style</item>
+    <item>Ordnance Survey OpenData</item>
+  </string-array>
+  <string-array name="mapstyle_values">
+    <item>CycleStreets</item>
+    <item>CycleStreets-OSM</item>
+    <item>CycleStreets-OS</item>
+  </string-array>
+  <string-array name="point_type3">
+    <item>My current location</item>
+    <item>Contacts</item>
+    <item>Point on map</item>
+  </string-array>
+  <string-array name="point_type">
+    <item>Contacts</item>
+    <item>Point on map</item>
+  </string-array>
+  <string-array name="uploadsize">
+    <item>Always resize to 320 pixels wide</item>
+    <item>Full size when Wifi available</item>
+    <item>Full size</item>
+  </string-array>
+  <string-array name="uploadsize_values">
+    <item>320px</item>
+    <item>bigIfWifi</item>
+    <item>big</item>
+  </string-array>
 </resources>
