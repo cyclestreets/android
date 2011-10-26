@@ -32,6 +32,13 @@
 			android:defaultValue="CycleStreets-OSM"
 			android:entries="@array/mapstyle"
 			android:entryValues="@array/mapstyle_values" />
+	  <ListPreference 
+	    android:key="iconsize"
+	    android:title="Icon size"
+	    android:summary="Icon Size"
+	    android:defaultValue="20"
+	    android:entries="@array/iconsize"
+	    android:entryValues="@array/iconsize_values" />
 		<CheckBoxPreference
 			android:key="confirm-new-route"
 			android:title="Confirm Start New Route"

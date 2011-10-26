@@ -378,12 +378,12 @@ public class ApiClient
                "email", email);
   } // register
   
-  static public POICategories getPOICategories()
+  static public POICategories getPOICategories(int iconSize)
     throws Exception
   {
     return callApiWithCache(POICategories.factory(context()), 
                             API_PATH_POI_CATEGORIES,
-                            "icons", "16");
+                            "icons", Integer.toString(iconSize));
   } // getPOICategories
   
   static public List<POI> getPOIs(final String key,

@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Iterator;
 import java.util.ArrayList;
 
+import net.cyclestreets.CycleStreetsPreferences;
 import net.cyclestreets.util.Base64;
 import net.cyclestreets.util.Bitmaps;
 
@@ -123,6 +124,7 @@ public class POICategories implements Iterable<POICategory>
 
   //////////////////////////////////////////////
   static private POICategories loaded_;
+  static private int iconSize_;
   
   static public POICategories get() 
   {
@@ -131,15 +133,26 @@ public class POICategories implements Iterable<POICategory>
     return loaded_;
   } // get
   
+  static public boolean loaded() { return loaded_ != null; }
+  
   static public void load()
   {
     try {
-      loaded_ = ApiClient.getPOICategories();
+      iconSize_ = CycleStreetsPreferences.iconSize();
+      loaded_ = ApiClient.getPOICategories(iconSize_);      
     }
     catch(Exception e) {
       // ah
     }
   } // load
+  
+  static public void reload()
+  {
+    if(iconSize_ == CycleStreetsPreferences.iconSize())
+      return;
+    iconSize_ = 0;
+    loaded_ = null;
+  } // reload
   
   static public void backgroundLoad()
   {
@@ -148,10 +161,13 @@ public class POICategories implements Iterable<POICategory>
   
   static private class GetPOICategoriesTask extends AsyncTask<Void,Void,POICategories>
   {
+    private int iconSize_;
+    
     protected POICategories doInBackground(Void... params) 
     {
       try {
-        return ApiClient.getPOICategories();
+        iconSize_ = CycleStreetsPreferences.iconSize();
+        return ApiClient.getPOICategories(iconSize_);
       }
       catch (final Exception ex) {
         // never mind, eh?
@@ -162,6 +178,7 @@ public class POICategories implements Iterable<POICategory>
     @Override
     protected void onPostExecute(final POICategories cats) 
     {
+      POICategories.iconSize_ = iconSize_;
       POICategories.loaded_ = cats;
     } // onPostExecute
   } // GetPOICategoriesTask

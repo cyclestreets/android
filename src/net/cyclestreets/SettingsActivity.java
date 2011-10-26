@@ -1,5 +1,6 @@
 package net.cyclestreets;
 
+import net.cyclestreets.api.POICategories;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.EditTextPreference;
@@ -22,6 +23,7 @@ public class SettingsActivity extends PreferenceActivity
     setSummary(CycleStreetsPreferences.PREF_UNITS_KEY);
     setSummary(CycleStreetsPreferences.PREF_SPEED_KEY);
     setSummary(CycleStreetsPreferences.PREF_MAPSTYLE_KEY);
+    setSummary(CycleStreetsPreferences.PREF_ICON_SIZE);
     setSummary(CycleStreetsPreferences.PREF_UPLOAD_SIZE);
   } // onCreate
 
@@ -46,6 +48,8 @@ public class SettingsActivity extends PreferenceActivity
   {
     super.onPause();
 
+    POICategories.reload();
+    
     // stop listening while paused
     getPreferenceScreen().getSharedPreferences().unregisterOnSharedPreferenceChangeListener(this);    
   } // onPause

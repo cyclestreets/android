@@ -80,7 +80,6 @@ public class POIOverlay extends LiveItemOverlay<POIOverlay.POIItem>
 
   /////////////////////////////////////////////////////
   /////////////////////////////////////////////////////
-  private POICategories allCats_;
   private final List<POICategory> activeCategories_;
   private POIItem active_;
   private final Point curScreenCoords_ = new Point();
@@ -101,10 +100,7 @@ public class POIOverlay extends LiveItemOverlay<POIOverlay.POIItem>
 	
 	private POICategories allCategories()
 	{
-	  // delay load
-	  if(allCats_ == null)
-	    allCats_ = POICategories.get();
-	  return allCats_;
+	  return POICategories.get();
 	} // allCategories
 	
   /////////////////////////////////////////////////////
@@ -118,6 +114,9 @@ public class POIOverlay extends LiveItemOverlay<POIOverlay.POIItem>
 	public void onResume(final SharedPreferences prefs)
 	{
 	  activeCategories_.clear();
+	  
+	  final boolean firstTime = !POICategories.loaded(); 
+	  
 	  int count = prefs.getInt("category-count", 0);
 	  for(int i = 0; i != count; ++i)
 	  {
@@ -129,6 +128,14 @@ public class POIOverlay extends LiveItemOverlay<POIOverlay.POIItem>
 	        break;
 	      } // if...
 	  } // for ...
+
+	  if(firstTime)
+	  {
+	    items().clear();
+	    clearLastFix();
+	    active_ = null;
+      refreshItems();
+	  } // if ... 
 	} // onResume
 	
 	///////////////////////////////////////////////////////

@@ -23,6 +23,7 @@ public class CycleStreetsPreferences
   public final static String PREF_PENDING_KEY = "pending";
   public final static String PREF_ACCOUNT_KEY = "cyclestreets-account";
   public final static String PREF_UPLOAD_SIZE = "uploadsize";
+  public final static String PREF_ICON_SIZE = "iconsize";
 
   static public void initialise(final Context context) {
     context_ = context;
@@ -43,6 +44,10 @@ public class CycleStreetsPreferences
   
   static public String mapstyle() {
     return getString(PREF_MAPSTYLE_KEY, "CycleMap");  
+  }
+  
+  static public int iconSize() { 
+    return Integer.parseInt(getString(PREF_ICON_SIZE, "20"));
   }
   
   static public String username() { 
