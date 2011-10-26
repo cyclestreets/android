@@ -133,6 +133,17 @@ public class POICategories implements Iterable<POICategory>
     return loaded_;
   } // get
   
+  static public POICategories load(final int requestedIconSize)
+  {
+    try {
+      return ApiClient.getPOICategories(requestedIconSize);      
+    }
+    catch(Exception e) {
+      // ah
+    }
+    return null;
+  } // get
+  
   static public boolean loaded() { return loaded_ != null; }
   
   static public void load()

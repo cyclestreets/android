@@ -7,6 +7,8 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ListAdapter;
+import android.widget.ListView;
 
 public class Dialog 
 {
@@ -52,7 +54,25 @@ public class Dialog
 
 	  show(builder);
 	} // editTextDialog
+	
+	static public void listViewDialog(final Context context,
+	                                  final ListAdapter adapter)
+	{
+    final View layout = View.inflate(context, R.layout.listdialog, null);
+    final ListView listView = ((ListView)layout.findViewById(R.id.list_view));
+    listView.setAdapter(adapter);
+    
+    final AlertDialog.Builder builder = newBuilder(context);
+    builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+      @Override
+      public void onClick(DialogInterface dialog, int which) {
+      } // onClick
+    });
+    builder.setNegativeButton("Cancel", MessageBox.NoAction);
+    builder.setView(layout);
 
+    show(builder);
+	} // listViewDialog
 	
 	static AlertDialog.Builder newBuilder(final View parent)
 	{

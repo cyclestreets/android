@@ -7,7 +7,7 @@ import android.view.View;
 
 public class MessageBox 
 {
-	static private final DialogInterface.OnClickListener NoAction = 
+	static final DialogInterface.OnClickListener NoAction = 
 			new DialogInterface.OnClickListener() {
         public void onClick(DialogInterface arg0, int arg1) {  }
       };

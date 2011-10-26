@@ -18,15 +18,22 @@ import android.graphics.Canvas;
 import android.graphics.Point;
 import android.graphics.Rect;
 import android.os.AsyncTask;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
-import android.view.SubMenu;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.BaseAdapter;
+import android.widget.CheckBox;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import net.cyclestreets.R;
 import net.cyclestreets.api.POI;
 import net.cyclestreets.api.POICategories;
 import net.cyclestreets.api.POICategory;
+import net.cyclestreets.util.Dialog;
 import net.cyclestreets.util.Draw;
 import net.cyclestreets.util.GeoHelper;
 
@@ -80,6 +87,7 @@ public class POIOverlay extends LiveItemOverlay<POIOverlay.POIItem>
 
   /////////////////////////////////////////////////////
   /////////////////////////////////////////////////////
+  private Context context_;
   private final List<POICategory> activeCategories_;
   private POIItem active_;
   private final Point curScreenCoords_ = new Point();
@@ -95,6 +103,7 @@ public class POIOverlay extends LiveItemOverlay<POIOverlay.POIItem>
 			    null,
 			    false);
 
+		context_ = context;
 		activeCategories_ = new ArrayList<POICategory>();
 	} // POIOverlay
 	
@@ -305,7 +314,9 @@ public class POIOverlay extends LiveItemOverlay<POIOverlay.POIItem>
   ////////////////////////////////////////////////
   public boolean onCreateOptionsMenu(final Menu menu)
   {
+    /*
     final SubMenu poi = menu.addSubMenu(0, R.string.ic_menu_poi, Menu.NONE, R.string.ic_menu_poi).setIcon(R.drawable.ic_menu_poi);
+     
     
     poi.add(R.string.ic_menu_poi, R.string.ic_menu_poi_clear_all, Menu.NONE, R.string.ic_menu_poi_clear_all);
     for(int index = 0; index != allCategories().count(); ++index)
@@ -313,12 +324,16 @@ public class POIOverlay extends LiveItemOverlay<POIOverlay.POIItem>
       final MenuItem c = poi.add(R.string.ic_menu_poi, index, Menu.NONE, allCategories().get(index).shortName());
       c.setCheckable(true);
     } // for ...
+    */
+    
+    menu.add(0, R.string.ic_menu_poi, Menu.NONE, R.string.ic_menu_poi).setIcon(R.drawable.ic_menu_poi);
     
     return true;
   } // onCreateOptionsMenu
   
   public boolean onPrepareOptionsMenu(final Menu menu)
   {
+    /*
     final SubMenu i = menu.findItem(R.string.ic_menu_poi).getSubMenu();
 
     for(int index = 0; index != allCategories().count(); ++index)
@@ -326,12 +341,21 @@ public class POIOverlay extends LiveItemOverlay<POIOverlay.POIItem>
       final MenuItem c = i.findItem(index);
       c.setChecked(showing(allCategories().get(index)));
     } // for ...
-
+    */
     return true;
   } // onPrepareOptionsMenu
   
   public boolean onMenuItemSelected(final int featureId, final MenuItem item)
   {
+    if(item.getItemId() == R.string.ic_menu_poi)
+    {
+      POICategoryAdapter poiAdapter = new POICategoryAdapter(context_, activeCategories_);
+
+      Dialog.listViewDialog(context_, poiAdapter);
+      
+      return true;
+    }
+    
     if(item.getGroupId() != R.string.ic_menu_poi)
       return false;
 
@@ -397,4 +421,54 @@ public class POIOverlay extends LiveItemOverlay<POIOverlay.POIItem>
 			overlay_.setItems(items);
 		} // onPostExecute
 	} // GetPhotosTask
+	
+  //////////////////////////////////
+  static class POICategoryAdapter extends BaseAdapter
+  {
+    private final LayoutInflater inflater_;
+    private POICategories cats_;
+    private List<POICategory> selected_;
+        
+    POICategoryAdapter(final Context context, final List<POICategory> selectedCategories)
+    {
+      inflater_ = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+      cats_ = POICategories.load(64);
+      selected_ = selectedCategories;
+    } // POICategoryAdaptor
+    
+    @Override
+    public int getCount() { return cats_.count(); }
+    
+    @Override
+    public Object getItem(int position) { return cats_.get(position); }
+
+    @Override
+    public long getItemId(int position) { return position; } 
+    
+    @Override
+    public View getView(final int position, final View convertView, final ViewGroup parent) 
+    {
+      final POICategory cat = cats_.get(position);
+      final View v = inflater_.inflate(R.layout.poicategories_item, parent, false);
+
+      final TextView n = (TextView)v.findViewById(R.id.name);
+      n.setText(cat.name());
+
+      final ImageView iv = (ImageView)v.findViewById(R.id.icon);
+      iv.setImageDrawable(cat.icon());
+      
+      final CheckBox chk = (CheckBox)v.findViewById(R.id.checkbox);
+      chk.setChecked(isSelected(cat));
+
+      return v;
+    } // getView
+    
+    private boolean isSelected(POICategory cat)
+    {
+      for(POICategory c : selected_)
+        if(cat.name().equals(c.name()))
+          return true;
+      return false;
+    } // isSelected
+  } // class RouteSummaryAdapter
 } // class PhotoItemOverlay

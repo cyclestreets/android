@@ -34,15 +34,15 @@ public class RouteMapActivity extends CycleMapActivity
 	{
 	  super.onCreate(saved);
 
-	  overlayPushBottom(new RouteHighlightOverlay(getApplicationContext(), mapView()));
+	  overlayPushBottom(new RouteHighlightOverlay(this, mapView()));
         
-    poiOverlay_ = new POIOverlay(getApplicationContext(), mapView());
+    poiOverlay_ = new POIOverlay(this, mapView());
     overlayPushBottom(poiOverlay_);
 
-    path_ = new PathOfRouteOverlay(getApplicationContext());
+    path_ = new PathOfRouteOverlay(this);
 	  overlayPushBottom(path_);
 	  
-	  routeSetter_ = new TapToRouteOverlay(getApplicationContext(), mapView(), this);
+	  routeSetter_ = new TapToRouteOverlay(this, mapView(), this);
 	  overlayPushTop(routeSetter_);
   } // onCreate
 
