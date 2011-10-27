@@ -36,6 +36,14 @@ public class POICategory
   public String shortName() { return shortName_; }
   public String name() { return name_; }
   public Drawable icon() { return icon_; }
+  
+  public boolean equals(final Object rhs)
+  {
+    if(!(rhs instanceof POICategory))
+      return false;
+    
+    return name_.equals(((POICategory)rhs).name_);
+  } // equals
 
   public List<POI> pois(final GeoPoint centre,
                         final int radius)

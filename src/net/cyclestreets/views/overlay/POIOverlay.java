@@ -2,6 +2,8 @@ package net.cyclestreets.views.overlay;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.HashMap;
 
 import org.osmdroid.events.MapListener;
 import org.osmdroid.events.ZoomEvent;
@@ -13,6 +15,7 @@ import org.osmdroid.views.overlay.Overlay;
 import org.osmdroid.views.overlay.OverlayItem;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.graphics.Canvas;
 import android.graphics.Point;
@@ -23,9 +26,13 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.View.OnLongClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -237,39 +244,6 @@ public class POIOverlay extends LiveItemOverlay<POIOverlay.POIItem>
     bubble_ = Draw.drawBubble(canvas, textBrush(), offset(), cornerRadius(), curScreenCoords_, bubble);
   } // draw
 
-	public void show(final POICategory cat) 
-	{ 
-	  if(activeCategories_.contains(cat))
-	    return;
-	  activeCategories_.add(cat);
-	  clearLastFix();
-	  refreshItems();
-	} // show
-	
-	public void hide(final POICategory cat)
-	{
-	  if(!activeCategories_.contains(cat))
-	    return;
-	  activeCategories_.remove(cat);
-	  
-	  for(int i = items().size() - 1; i >= 0; --i)
-	    if(cat.equals(items().get(i).category()))
-	      items().remove(i);
-	  
-	  if((active_ != null) && (cat.equals(active_.category())))
-	    active_ = null;
-	  
-	  redraw();
-	} // hide
-	 
-  public void toggle(final POICategory cat)
-  {
-    if(activeCategories_.contains(cat))
-      hide(cat);
-    else
-      show(cat);
-  } // toggle
-  
   public void clear()
   {
     activeCategories_.clear();
@@ -277,7 +251,54 @@ public class POIOverlay extends LiveItemOverlay<POIOverlay.POIItem>
     active_ = null;
     redraw();
   } // clear
-	
+  
+  private void updateCategories(final List<POICategory> newCategories)
+  {
+    final List<POICategory> removed = notIn(activeCategories_, newCategories);
+    final List<POICategory> added = notIn(newCategories, activeCategories_);
+
+    if(removed.size() != 0)
+    {
+      for(final POICategory r : removed)
+        hide(r);
+      redraw();
+    } // if ...
+        
+    if(added.size() != 0)
+    {
+      for(final POICategory a : added)
+        activeCategories_.add(a);
+      clearLastFix();
+      refreshItems();
+    } // if ...
+  } // updateCategories
+  
+  private void hide(final POICategory cat)
+  {
+    if(!activeCategories_.contains(cat))
+      return;
+    activeCategories_.remove(cat);
+    
+    for(int i = items().size() - 1; i >= 0; --i)
+      if(cat.equals(items().get(i).category()))
+        items().remove(i);
+    
+    if((active_ != null) && (cat.equals(active_.category())))
+      active_ = null;
+  } // hide
+   
+  private List<POICategory> notIn(final List<POICategory> c1, 
+                                  final List<POICategory> c2)
+  {
+    final List<POICategory> n = new ArrayList<POICategory>();
+    
+    for(final POICategory c : c1)
+      if(!c2.contains(c))
+        n.add(c);
+        
+    return n;
+  } // notIn
+  
 	public boolean showing(final POICategory cat)
 	{
 	  return activeCategories_.contains(cat);
@@ -314,18 +335,6 @@ public class POIOverlay extends LiveItemOverlay<POIOverlay.POIItem>
   ////////////////////////////////////////////////
   public boolean onCreateOptionsMenu(final Menu menu)
   {
-    /*
-    final SubMenu poi = menu.addSubMenu(0, R.string.ic_menu_poi, Menu.NONE, R.string.ic_menu_poi).setIcon(R.drawable.ic_menu_poi);
-     
-    
-    poi.add(R.string.ic_menu_poi, R.string.ic_menu_poi_clear_all, Menu.NONE, R.string.ic_menu_poi_clear_all);
-    for(int index = 0; index != allCategories().count(); ++index)
-    {
-      final MenuItem c = poi.add(R.string.ic_menu_poi, index, Menu.NONE, allCategories().get(index).shortName());
-      c.setCheckable(true);
-    } // for ...
-    */
-    
     menu.add(0, R.string.ic_menu_poi, Menu.NONE, R.string.ic_menu_poi).setIcon(R.drawable.ic_menu_poi);
     
     return true;
@@ -333,40 +342,28 @@ public class POIOverlay extends LiveItemOverlay<POIOverlay.POIItem>
   
   public boolean onPrepareOptionsMenu(final Menu menu)
   {
-    /*
-    final SubMenu i = menu.findItem(R.string.ic_menu_poi).getSubMenu();
-
-    for(int index = 0; index != allCategories().count(); ++index)
-    {
-      final MenuItem c = i.findItem(index);
-      c.setChecked(showing(allCategories().get(index)));
-    } // for ...
-    */
     return true;
   } // onPrepareOptionsMenu
   
   public boolean onMenuItemSelected(final int featureId, final MenuItem item)
   {
-    if(item.getItemId() == R.string.ic_menu_poi)
-    {
-      POICategoryAdapter poiAdapter = new POICategoryAdapter(context_, activeCategories_);
-
-      Dialog.listViewDialog(context_, poiAdapter);
-      
-      return true;
-    }
-    
-    if(item.getGroupId() != R.string.ic_menu_poi)
+    if(item.getItemId() != R.string.ic_menu_poi)
       return false;
-
-    if(item.getItemId() == R.string.ic_menu_poi_clear_all)
-      clear();
-    else
-    {
-      POICategory cat = allCategories().get(item.getItemId());
-      toggle(cat);
-    } // if ...
     
+    final POICategoryAdapter poiAdapter = new POICategoryAdapter(context_,
+                                                                 allCategories(), 
+                                                                 activeCategories_);
+
+    Dialog.listViewDialog(context_, 
+                          poiAdapter, 
+                          new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(final DialogInterface dialog,
+                                                int which) {
+                              updateCategories(poiAdapter.chosenCategories());
+                            }
+                          });
+      
     return true;
   } // onMenuItemSelected
   
@@ -423,18 +420,28 @@ public class POIOverlay extends LiveItemOverlay<POIOverlay.POIItem>
 	} // GetPhotosTask
 	
   //////////////////////////////////
-  static class POICategoryAdapter extends BaseAdapter
+  static class POICategoryAdapter extends BaseAdapter 
   {
     private final LayoutInflater inflater_;
     private POICategories cats_;
+    private POICategories massiveIconCats_;
     private List<POICategory> selected_;
         
-    POICategoryAdapter(final Context context, final List<POICategory> selectedCategories)
+    POICategoryAdapter(final Context context, 
+                       final POICategories allCategories,
+                       final List<POICategory> initialCategories)
     {
       inflater_ = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-      cats_ = POICategories.load(64);
-      selected_ = selectedCategories;
+      cats_ = allCategories;
+      massiveIconCats_ = POICategories.load(64);
+      selected_ = new ArrayList<POICategory>();
+      selected_.addAll(initialCategories);
     } // POICategoryAdaptor
+    
+    public List<POICategory> chosenCategories()
+    {
+      return selected_;
+    } // chosenCategories
     
     @Override
     public int getCount() { return cats_.count(); }
@@ -455,11 +462,36 @@ public class POIOverlay extends LiveItemOverlay<POIOverlay.POIItem>
       n.setText(cat.name());
 
       final ImageView iv = (ImageView)v.findViewById(R.id.icon);
-      iv.setImageDrawable(cat.icon());
+      iv.setImageDrawable(massiveIconCats_.get(cat.name()).icon());
       
       final CheckBox chk = (CheckBox)v.findViewById(R.id.checkbox);
       chk.setChecked(isSelected(cat));
 
+      n.setOnClickListener(new OnClickListener() {
+        @Override
+        public void onClick(View v) {
+          chk.setChecked(!chk.isChecked());
+        } // onClick      
+      });
+      iv.setOnClickListener(new OnClickListener() {
+        @Override
+        public void onClick(View v) {
+          chk.setChecked(!chk.isChecked());
+        } // onClick      
+      });
+      
+      chk.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+        @Override
+        public void onCheckedChanged(CompoundButton buttonView,
+                                     boolean isChecked)
+        {
+          if(isChecked)
+            selected_.add(cat);
+          else
+            selected_.remove(cat);
+        } // onCheckedChanged
+      });
+      
       return v;
     } // getView
     

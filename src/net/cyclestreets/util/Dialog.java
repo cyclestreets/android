@@ -34,9 +34,9 @@ public class Dialog
 	} // interface UpdatedTextListener
 	
 	static public void editTextDialog(final Context context, 
-									  final String initialText,
-									  final String buttonText,
-									  final UpdatedTextListener listener)
+									                  final String initialText,
+									                  final String buttonText,
+									                  final UpdatedTextListener listener)
 	{
     final View layout = View.inflate(context, R.layout.edittextdialog, null);
 	  final EditText textBox = ((EditText)layout.findViewById(R.id.edit_text));
@@ -56,18 +56,15 @@ public class Dialog
 	} // editTextDialog
 	
 	static public void listViewDialog(final Context context,
-	                                  final ListAdapter adapter)
+	                                  final ListAdapter adapter,
+	                                  final DialogInterface.OnClickListener yesAction)
 	{
     final View layout = View.inflate(context, R.layout.listdialog, null);
     final ListView listView = ((ListView)layout.findViewById(R.id.list_view));
     listView.setAdapter(adapter);
     
     final AlertDialog.Builder builder = newBuilder(context);
-    builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-      @Override
-      public void onClick(DialogInterface dialog, int which) {
-      } // onClick
-    });
+    builder.setPositiveButton("OK", yesAction);
     builder.setNegativeButton("Cancel", MessageBox.NoAction);
     builder.setView(layout);
 

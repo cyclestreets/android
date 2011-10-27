@@ -36,6 +36,13 @@ public class POICategories implements Iterable<POICategory>
   
   public int count() { return cats_.size(); }
   public POICategory get(int index) { return cats_.get(index); }
+  public POICategory get(final String name) 
+  {
+    for(final POICategory c : cats_)
+      if(c.name().equals(name))
+        return c;
+    return null;
+  } // get
   public Iterator<POICategory> iterator() { return cats_.iterator(); }
   
   static public Factory<POICategories> factory(final Context context) { 
