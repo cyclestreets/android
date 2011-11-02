@@ -45,8 +45,8 @@ public class RouteHighlightOverlay extends PathOverlay
 		mapView_ = map;
 		current_ = null;
 
-		offset_ = OverlayHelper.offset(context);
-		radius_ = OverlayHelper.cornerRadius(context);
+		offset_ = DrawingHelper.offset(context);
+		radius_ = DrawingHelper.cornerRadius(context);
 
 		final Resources res = context.getResources();
 		prevButton_ = new OverlayButton(res.getDrawable(R.drawable.btn_previous),
@@ -106,7 +106,7 @@ public class RouteHighlightOverlay extends PathOverlay
 		if(bottom >= box.bottom)
 			box.bottom = bottom + offset_;
 		
-		if(!OverlayHelper.drawRoundRect(canvas, box, radius_, Brush.Grey))
+		if(!DrawingHelper.drawRoundRect(canvas, box, radius_, Brush.Grey))
 			return;
 
 		Draw.drawTextInRect(canvas, textBrush_, textBox, seg.toString());

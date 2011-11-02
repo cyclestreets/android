@@ -234,13 +234,6 @@ public class RouteMapActivity extends CycleMapActivity
       listener.onClick(null, 0);
 	} // startNewRoute
 	
-	@Override 
-	public void onBackPressed()
-	{
-		if(!routeSetter_.onBackButton())
-			super.onBackPressed();
-	} // onBackPressed
-	
 	@Override
 	public void onNewJourney() 
 	{

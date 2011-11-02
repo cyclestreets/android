@@ -1,6 +1,8 @@
 package net.cyclestreets.views.overlay;
 
 import java.util.Iterator;
+import java.util.List;
+import java.util.ArrayList;
 
 import net.cyclestreets.util.Brush;
 import net.cyclestreets.views.CycleMapView;
@@ -29,6 +31,7 @@ public class ControllerOverlay extends Overlay implements OnDoubleTapListener,
 	private final MapView mapView_;
 	private final Paint textBrush_;
 	private boolean isDragging_;
+	private List<UndoAction> undoStack_;
 	
 	public ControllerOverlay(final Context context, final MapView mapView)
 	{
@@ -36,11 +39,13 @@ public class ControllerOverlay extends Overlay implements OnDoubleTapListener,
 		
 		mapView_ = mapView;
 		isDragging_ = false;
-		textBrush_ = Brush.createTextBrush(OverlayHelper.offset(context)/2);
+		textBrush_ = Brush.createTextBrush(DrawingHelper.offset(context)/2);
 		textBrush_.setColor(Color.BLACK);
 		
 		gestureDetector_ = new GestureDetector(context, this);
 		gestureDetector_.setOnDoubleTapListener(this);
+		
+		undoStack_ = new ArrayList<UndoAction>();
 	} // SingleTapOverlay
 	
 	public void onPause(final SharedPreferences.Editor prefEditor)
@@ -89,6 +94,44 @@ public class ControllerOverlay extends Overlay implements OnDoubleTapListener,
 		return false;		
 	} // onMenuItemSelected
 	
+	//////////////////////////////////////////////
+	public boolean onBackPressed()
+	{
+	  if(undoStack_.isEmpty())
+	    return false;
+	  
+	  int last = undoStack_.size()-1;
+    final UndoAction undo = undoStack_.get(last);
+    undoStack_.remove(last);
+    undo.onBackPressed();
+	  return true;
+	} // onBackPressed
+	
+	public void pushUndo(final UndoAction undo)
+	{
+	  undoStack_.add(undo);
+	} // pushUndo
+	
+	public void flushUndo(final UndoAction undo)
+	{
+	  for(int i = undoStack_.size() - 1; i >= 0; --i)
+	    if(undoStack_.get(i).equals(undo))
+	      undoStack_.remove(i);
+	} // flushUndo
+
+  public void popUndo(final UndoAction undo)
+  {
+    for(int i = undoStack_.size() - 1; i >= 0; --i)
+      if(undoStack_.get(i).equals(undo))
+      {
+        undoStack_.remove(i);
+        return;
+      } // if ...
+  } // flushUndo
+
+
+	
+	////////////////////////////////////////////////////////////////
 	@Override
 	public boolean onTouchEvent(final MotionEvent event, final MapView mapView)
 	{
@@ -124,7 +167,7 @@ public class ControllerOverlay extends Overlay implements OnDoubleTapListener,
 	@Override
 	protected void draw(final Canvas canvas, final MapView mapView, final boolean shadow) 
 	{	
-		isDragging_ = OverlayHelper.isDragging(canvas);
+		isDragging_ = DrawingHelper.isDragging(canvas);
 		for(final Iterator<ButtonTapListener> overlays = buttonTapOverlays(); overlays.hasNext(); )
 			overlays.next().drawButtons(canvas, mapView);
 		

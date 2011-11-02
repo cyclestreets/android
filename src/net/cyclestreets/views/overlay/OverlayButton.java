@@ -57,7 +57,7 @@ class OverlayButton
     screen.bottom = screen.top + pos_.height();
         
     drawOutLine(canvas, screen);
-    OverlayHelper.drawRoundRect(canvas, screen, radius_, enabled_ ? Brush.White : Brush.LightGrey);
+    DrawingHelper.drawRoundRect(canvas, screen, radius_, enabled_ ? Brush.White : Brush.LightGrey);
         
     if(enabled_ && pressed_)
     {
@@ -66,7 +66,7 @@ class OverlayButton
       shrinkAndDrawInner(canvas, inner, Brush.White);
     } // if ...
 
-    OverlayHelper.drawBitmap(canvas, img_, screen);
+    DrawingHelper.drawBitmap(canvas, img_, screen);
   } // drawButton
 
   private void drawOutLine(final Canvas canvas, final Rect button)
@@ -76,7 +76,7 @@ class OverlayButton
     --outline.top;
     ++outline.right;
     ++outline.bottom;
-    OverlayHelper.drawRoundRect(canvas, outline, radius_, Brush.LightGrey);
+    DrawingHelper.drawRoundRect(canvas, outline, radius_, Brush.LightGrey);
   } // drawOutLine
   
   private void shrinkAndDrawInner(final Canvas canvas, final Rect rect, final Paint brush)
@@ -85,7 +85,7 @@ class OverlayButton
     rect.top += 4;
     rect.right -= 4;
     rect.bottom -= 4;
-    OverlayHelper.drawRoundRect(canvas, rect, radius_, brush);   
+    DrawingHelper.drawRoundRect(canvas, rect, radius_, brush);   
   } // shrinkAndDrawInner
   
   public boolean hit(final MotionEvent event)

@@ -139,6 +139,11 @@ public class CycleMapView extends MapView
     controllerOverlay_.onCreateContextMenu(menu);
   } //  onCreateContextMenu
   
+  public boolean onBackPressed()
+  {
+    return controllerOverlay_.onBackPressed();
+  } // onBackPressed
+  
   /////////////////////////////////////////
   // location
   public Location getLastFix() { return location_.getLastFix(); }

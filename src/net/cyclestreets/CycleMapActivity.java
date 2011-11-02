@@ -134,4 +134,11 @@ public class CycleMapActivity extends Activity
 	    map_.disableFollowLocation();
 	  return super.onTouchEvent(event);
 	} // onTouchEvent   
+	
+  @Override 
+  public void onBackPressed()
+  {
+    if(!map_.onBackPressed())
+      super.onBackPressed();
+	} // onBackPressed
 } // class MapActivity

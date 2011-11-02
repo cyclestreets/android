@@ -2,8 +2,6 @@ package net.cyclestreets.views.overlay;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import java.util.HashMap;
 
 import org.osmdroid.events.MapListener;
 import org.osmdroid.events.ZoomEvent;
@@ -11,7 +9,6 @@ import org.osmdroid.util.BoundingBoxE6;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.MapView.Projection;
-import org.osmdroid.views.overlay.Overlay;
 import org.osmdroid.views.overlay.OverlayItem;
 
 import android.content.Context;
@@ -27,7 +24,6 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.View.OnLongClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
@@ -47,7 +43,8 @@ import net.cyclestreets.util.GeoHelper;
 public class POIOverlay extends LiveItemOverlay<POIOverlay.POIItem>
                         implements MapListener, 
                                    DynamicMenuListener, 
-                                   PauseResumeListener
+                                   PauseResumeListener, 
+                                   UndoAction
 {
   static public class POIItem extends OverlayItem 
 	{
@@ -101,6 +98,7 @@ public class POIOverlay extends LiveItemOverlay<POIOverlay.POIItem>
   private final Point touchScreenPoint_ = new Point();
   private GeoPoint lastFix_;
   private Rect bubble_;
+  private OverlayHelper overlays_;
   
 	public POIOverlay(final Context context,
 							      final MapView mapView)
@@ -112,6 +110,7 @@ public class POIOverlay extends LiveItemOverlay<POIOverlay.POIItem>
 
 		context_ = context;
 		activeCategories_ = new ArrayList<POICategory>();
+		overlays_ = new OverlayHelper(mapView);
 	} // POIOverlay
 	
 	private POICategories allCategories()
@@ -119,6 +118,16 @@ public class POIOverlay extends LiveItemOverlay<POIOverlay.POIItem>
 	  return POICategories.get();
 	} // allCategories
 	
+  private TapToRouteOverlay routeOverlay()
+  {
+    return overlays_.get(TapToRouteOverlay.class);
+  } // routeOverlay
+  
+  private ControllerOverlay controller()
+  {
+    return overlays_.controller();
+  } // controller
+  
   /////////////////////////////////////////////////////
 	public void onPause(final SharedPreferences.Editor prefs)
 	{
@@ -172,14 +181,6 @@ public class POIOverlay extends LiveItemOverlay<POIOverlay.POIItem>
     return super.onSingleTap(event);
   } // onSingleTap
   
-  private TapToRouteOverlay routeOverlay()
-  {
-    for(Overlay o : mapView().getOverlays())
-      if(o instanceof TapToRouteOverlay)
-        return (TapToRouteOverlay)o;
-    return null;
-  } // routeOverlay
-  
   private boolean tappedInBubble(final MotionEvent event)
   {
     final Projection pj = mapView().getProjection();
@@ -198,13 +199,26 @@ public class POIOverlay extends LiveItemOverlay<POIOverlay.POIItem>
   protected boolean onItemSingleTap(final int index, final POIItem item, final MapView mapView) 
   {
     if(active_ == item)
-      active_ = null;
+      hideBubble();
     else
-      active_ = item;
+      showBubble(item);
     redraw();
     
     return true;
   } // onItemSingleTap
+	
+	private void showBubble(final POIItem item)
+	{
+	  hideBubble();
+	  active_ = item;
+	  controller().pushUndo(this);
+	} // showBubble
+	
+	private void hideBubble()
+	{
+	  active_ = null;
+	  controller().flushUndo(this);
+	} // hideBubble
   
   @Override
   protected boolean onItemDoubleTap(final int index, final POIItem item, final MapView mapView) 
@@ -214,6 +228,8 @@ public class POIOverlay extends LiveItemOverlay<POIOverlay.POIItem>
   
   private boolean routeMarkerAtItem(final POIItem item)
   {
+    hideBubble();
+    
     final TapToRouteOverlay o = routeOverlay();
     if(o == null)
       return false;
@@ -366,6 +382,14 @@ public class POIOverlay extends LiveItemOverlay<POIOverlay.POIItem>
       
     return true;
   } // onMenuItemSelected
+  
+
+  @Override
+  public void onBackPressed()
+  {
+    hideBubble();
+    redraw();
+  } // onBackPressed
   
   /////////////////////////////////////////////////////
 	static private class GetPOIsTask extends AsyncTask<Object,Void,List<POI>> 

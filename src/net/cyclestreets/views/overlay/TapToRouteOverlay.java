@@ -41,7 +41,8 @@ public class TapToRouteOverlay extends Overlay
                                implements ButtonTapListener,
                                           TapListener,
                                           ContextMenuListener, 
-                                          DynamicMenuListener
+                                          DynamicMenuListener, 
+                                          UndoAction
 {
   public interface Callback 
   {
@@ -85,6 +86,8 @@ public class TapToRouteOverlay extends Overlay
 
   private TapToRoute tapState_;
   
+  private OverlayHelper overlays_;
+  
   public TapToRouteOverlay(final Context context, 
                            final CycleMapView mapView,
                            final Callback callback) 
@@ -98,8 +101,8 @@ public class TapToRouteOverlay extends Overlay
     greenWisp_ = res.getDrawable(R.drawable.green_wisp_shadow_centred_big);
     redWisp_ = res.getDrawable(R.drawable.red_wisp_shadow_centred_big);
 
-    offset_ = OverlayHelper.offset(context);
-    radius_ = OverlayHelper.cornerRadius(context);
+    offset_ = DrawingHelper.offset(context);
+    radius_ = DrawingHelper.cornerRadius(context);
 
     stepBackButton_ = new OverlayButton(res.getDrawable(R.drawable.ic_menu_revert),
                           offset_,
@@ -119,10 +122,19 @@ public class TapToRouteOverlay extends Overlay
     endItem_ = null;
     
     tapState_ = TapToRoute.start();
+    
+    overlays_ = new OverlayHelper(mapView);
   } // LocationOverlay
+  
+  private ControllerOverlay controller()
+  {
+    return overlays_.controller();
+  } // controller
   
   public void setRoute(final GeoPoint start, final GeoPoint end, final boolean complete)
   {
+    resetRoute();
+    
     setStart(start);
     setEnd(end);
 
@@ -135,6 +147,7 @@ public class TapToRouteOverlay extends Overlay
     tapState_ = tapState_.next();
     if(!complete)
       return;
+    controller().flushUndo(this);
     tapState_ = tapState_.next();
   } // setRoute
   
@@ -143,6 +156,7 @@ public class TapToRouteOverlay extends Overlay
     setStart(null);
     setEnd(null);
     tapState_ = tapState_.reset();
+    controller().flushUndo(this);
   } // resetRoute
   
   public GeoPoint getStart() { return getMarkerPoint(startItem_); }
@@ -167,6 +181,7 @@ public class TapToRouteOverlay extends Overlay
   {
     if(point == null)
       return null;
+    controller().pushUndo(this);
     final OverlayItem marker = new OverlayItem(label, label, point);
     marker.setMarker(icon);
     marker.setMarkerHotspot(OverlayItem.HotspotPlace.BOTTOM_CENTER);
@@ -297,7 +312,7 @@ public class TapToRouteOverlay extends Overlay
     screen.right -= offset_;
     screen.bottom = screen.top + stepBackButton_.height();
     
-    if(!OverlayHelper.drawRoundRect(canvas, screen, radius_, Brush.Grey))
+    if(!DrawingHelper.drawRoundRect(canvas, screen, radius_, Brush.Grey))
       return;
 
     final Rect bounds = new Rect();
@@ -353,11 +368,6 @@ public class TapToRouteOverlay extends Overlay
     return stepBackButton_.hit(event);
   } // onDoubleTap
     
-  public boolean onBackButton()
-  {
-    return stepBack(false);
-  } // onBackButton
-    
   private boolean tapStepBack(final MotionEvent event)
   {
     if(!stepBackButton_.hit(event))
@@ -365,6 +375,7 @@ public class TapToRouteOverlay extends Overlay
     if(!stepBackButton_.enabled())
       return true;
     
+    controller().popUndo(this);
     return stepBack(true);
   } // tapStepBack
   
@@ -386,6 +397,11 @@ public class TapToRouteOverlay extends Overlay
         
     return true;
   } // tapRestart
+  
+  public void onBackPressed()
+  {
+    stepBack(false);
+  } // onBackPressed
   
   private boolean stepBack(final boolean tap)
   {

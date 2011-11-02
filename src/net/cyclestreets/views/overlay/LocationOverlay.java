@@ -34,8 +34,8 @@ public class LocationOverlay extends MyLocationOverlay
 		
 		mapView_ = mapView;
 		
-		offset_ = OverlayHelper.offset(context);
-		radius_ = OverlayHelper.cornerRadius(context);
+		offset_ = DrawingHelper.offset(context);
+		radius_ = DrawingHelper.cornerRadius(context);
 
 		final Resources res = context.getResources();
 		locationButton_ = new OverlayButton(res.getDrawable(R.drawable.ic_menu_mylocation),

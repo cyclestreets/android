@@ -24,8 +24,8 @@ public class ZoomButtonsOverlay extends Overlay
     
     mapView_ = mapView;
 
-    final int offset = OverlayHelper.offset(context);  
-    final float radius = OverlayHelper.cornerRadius(context);
+    final int offset = DrawingHelper.offset(context);  
+    final float radius = DrawingHelper.cornerRadius(context);
     
     final Resources res = context.getResources();
     zoomIn_ = new OverlayButton(res.getDrawable(R.drawable.btn_plus),

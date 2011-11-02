@@ -70,7 +70,7 @@ public class ItemizedOverlay<Item extends OverlayItem> extends Overlay
 		if(shadow)
 			return;
 		
-		if(OverlayHelper.isDragging(canvas))
+		if(DrawingHelper.isDragging(canvas))
 		  return;
 
 		final Projection pj = mapView.getProjection();
