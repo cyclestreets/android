@@ -113,7 +113,7 @@ public class ApiClient
     cache_ = new ApiCallCache(context_, cacheExpiryDays_);
     loadSslCertificates(context);
     POICategories.backgroundLoad();
-    
+    PhotomapCategories.backgroundLoad();
   } // initialise
 
   static private void loadSslCertificates(final Context context)
@@ -240,10 +240,10 @@ public class ApiClient
     return new String(xml, "UTF-8");
   } // getJourneyXml
     
-  static public PhotomapCategories getPhotomapCategories() 
+  static PhotomapCategories getPhotomapCategories() 
     throws Exception 
   {
-    return callApiWithCache(PhotomapCategories.class, API_PATH_PHOTOMAP_CATEGORIES);
+    return callApiWithCache(PhotomapCategories.factory(), API_PATH_PHOTOMAP_CATEGORIES);
   } // getPhotomapCategories
   
   static public List<Photo> getPhotos(final GeoPoint centre,
@@ -378,7 +378,7 @@ public class ApiClient
                "email", email);
   } // register
   
-  static public POICategories getPOICategories(int iconSize)
+  static POICategories getPOICategories(int iconSize)
     throws Exception
   {
     return callApiWithCache(POICategories.factory(context()), 
@@ -386,7 +386,7 @@ public class ApiClient
                             "icons", Integer.toString(iconSize));
   } // getPOICategories
   
-  static public List<POI> getPOIs(final String key,
+  static List<POI> getPOIs(final String key,
                                   final BoundingBoxE6 boundingBox)
     throws Exception
   {
@@ -399,7 +399,7 @@ public class ApiClient
                    "w", Double.toString(boundingBox.getLonWestE6() / 1E6));
   } // getPOIs
   
-  static public List<POI> getPOIs(final String key,
+  static List<POI> getPOIs(final String key,
                                   final GeoPoint centre,
                                   final int radius)
     throws Exception
@@ -446,20 +446,6 @@ public class ApiClient
     return loadRaw(factory, xml);
   } // callApi
 
-  static private <T> T callApiWithCache(final Class<T> returnClass, final String path, String... args) throws Exception
-  {
-    final String name = cacheName(path, args);
-    byte[] xml = cache_.fetch(name);
-    
-    if(xml == null)
-    {
-      xml = callApiRaw(path, args);
-      cache_.store(name, xml);
-    } // if ...
-    
-    return loadRaw(returnClass, xml);
-  } // callApiWithCache
-  
   static private <T> T callApiWithCache(final Factory<T> factory, final String path, String... args) throws Exception
   {
     final String name = cacheName(path, args);

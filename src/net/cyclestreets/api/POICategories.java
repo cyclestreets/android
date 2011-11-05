@@ -45,6 +45,7 @@ public class POICategories implements Iterable<POICategory>
   } // get
   public Iterator<POICategory> iterator() { return cats_.iterator(); }
   
+  ////////////////////////////////////////////////////
   static public Factory<POICategories> factory(final Context context) { 
     return new POICategoriesFactory(context);
   } // factory
@@ -127,7 +128,7 @@ public class POICategories implements Iterable<POICategory>
       } // catch
       return null;
     } // decodeIcon
-  } // POICategories
+  } // POICategoriesFactory
 
   //////////////////////////////////////////////
   static private POICategories loaded_;

@@ -1,8 +1,8 @@
 package net.cyclestreets;
 
 import net.cyclestreets.api.ApiClient;
+import net.cyclestreets.api.PhotomapCategory;
 import net.cyclestreets.api.PhotomapCategories;
-import net.cyclestreets.api.ICategory;
 import net.cyclestreets.api.UploadResult;
 import net.cyclestreets.util.Bitmaps;
 import net.cyclestreets.util.Dialog;
@@ -357,8 +357,8 @@ public class AddPhotoActivity extends Activity
 
   private void setupSpinners()
   {
-    metaCategorySpinner().setAdapter(new CategoryAdapter(this, photomapCategories.metacategories));
-    categorySpinner().setAdapter(new CategoryAdapter(this, photomapCategories.categories));
+    metaCategorySpinner().setAdapter(new CategoryAdapter(this, photomapCategories.metaCategories()));
+    categorySpinner().setAdapter(new CategoryAdapter(this, photomapCategories.categories()));
     
     setSpinnerSelections();
   } // setupSpinners
@@ -478,8 +478,8 @@ public class AddPhotoActivity extends Activity
     final String username = CycleStreetsPreferences.username();
     final String password = CycleStreetsPreferences.password();
     final GeoPoint location = there_.there();
-    final String metaCat = photomapCategories.metacategories.get(metaCatId_).getTag();
-    final String category = photomapCategories.categories.get(catId_).getTag();
+    final String metaCat = photomapCategories.metaCategories().get(metaCatId_).getTag();
+    final String category = photomapCategories.categories().get(catId_).getTag();
     final String dateTime = dateTime_;
     final String caption = caption_;
 
@@ -550,7 +550,7 @@ public class AddPhotoActivity extends Activity
     {
       PhotomapCategories photomapCategories = null;
       try {
-        photomapCategories = ApiClient.getPhotomapCategories();
+        photomapCategories = PhotomapCategories.get();
       }
       catch (Exception ex) {
       }
@@ -648,10 +648,10 @@ public class AddPhotoActivity extends Activity
   static private class CategoryAdapter extends BaseAdapter
   {
     private final LayoutInflater inflater_;
-    private final List<?> list_;
+    private final List<PhotomapCategory> list_;
     
     public CategoryAdapter(final Context context,
-                           final List<?> list)
+                           final List<PhotomapCategory> list)
     {
       inflater_ = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
       list_ = list;
@@ -666,7 +666,7 @@ public class AddPhotoActivity extends Activity
     @Override
     public String getItem(final int position)
     {
-      final ICategory c = (ICategory)list_.get(position);
+      final PhotomapCategory c = list_.get(position);
       return c.getName();
     } // getItem
     
