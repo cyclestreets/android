@@ -9,6 +9,7 @@ import java.security.KeyStore;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.cyclestreets.CycleStreetsPreferences;
 import net.cyclestreets.R;
 
 import org.osmdroid.util.BoundingBoxE6;
@@ -48,6 +49,7 @@ import org.simpleframework.xml.Serializer;
 import org.simpleframework.xml.core.Persister;
 
 import android.content.Context;
+import android.os.AsyncTask;
 import android.util.Xml;
 
 public class ApiClient 
@@ -117,31 +119,61 @@ public class ApiClient
   } // initialise
 
   static private void loadSslCertificates(final Context context)
-  {
-    // Based on code from http://blog.crazybob.org/2010/02/android-trusting-ssl-certificates.html
-    // Works around Android not trusting newer GeoTrust certificates.
-    try 
-    {
-      final KeyStore trusted = KeyStore.getInstance("BKS");
-      final InputStream in = context.getResources().openRawResource(R.raw.mykeystore);
-      try 
-      {
-        trusted.load(in, "mysecret".toCharArray());
-      } 
-      finally 
-      {
-        in.close();
-      }
-    
-      schemeRegistry.unregister(API_POST_SCHEME);
-      schemeRegistry.register(new Scheme(API_POST_SCHEME, new SSLSocketFactory(trusted), 443));
-    } // try
-    catch (Exception e) 
-    {
-      throw new AssertionError(e);
-    } // catch
+  {    
+    final LoadSSLCertsTask load = new LoadSSLCertsTask(context, schemeRegistry);
+    load.execute();
   } // loadSslCertificates
     
+  static private class LoadSSLCertsTask extends AsyncTask<Void,Void,SSLSocketFactory>
+  {
+    private Context context_;
+    private SchemeRegistry schemeRegistry_;
+    
+    public LoadSSLCertsTask(final Context context,
+                            final SchemeRegistry schemeRegistry)
+    {
+      context_ = context;
+      schemeRegistry_ = schemeRegistry;
+    } // LoadSSLCertsTask
+    
+    protected SSLSocketFactory doInBackground(Void... params) 
+    {
+      // Based on code from http://blog.crazybob.org/2010/02/android-trusting-ssl-certificates.html
+      // Works around Android not trusting newer GeoTrust certificates.
+      try 
+      {
+        final KeyStore trusted = KeyStore.getInstance("BKS");
+        final InputStream in = context_.getResources().openRawResource(R.raw.mykeystore);
+        try 
+        {
+          trusted.load(in, "mysecret".toCharArray());
+        } 
+        finally 
+        {
+          in.close();
+        }
+        
+        return new SSLSocketFactory(trusted);
+      } // try
+      catch (Exception e) 
+      {
+        // I'm not sure what we can do here, really
+      } // catch
+      return null;
+    } // doInBackground
+    
+    @Override
+    protected void onPostExecute(final SSLSocketFactory socketFactory) 
+    {
+      if(socketFactory == null)
+        return;
+      
+      schemeRegistry_.unregister(API_POST_SCHEME);
+      schemeRegistry_.register(new Scheme(API_POST_SCHEME, socketFactory, 443));
+    } // onPostExecute
+  } // GetPOICategoriesTask
+
+  /////////////////////////////////////////////////////////////////////////
   private ApiClient() {}
   
   static public Journey getJourney(final String plan, final GeoPoint start, final GeoPoint finish) 
