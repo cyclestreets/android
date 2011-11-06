@@ -130,8 +130,8 @@ public class PhotomapCategories
       for(final String n : listener.endListeners().keySet())
       {
         final EndTextElementListener l = listener.endListeners().get(n);
-        cat.setEndTextElementListener(l);
-        metaCat.setEndTextElementListener(l);
+        cat.getChild(n).setEndTextElementListener(l);
+        metaCat.getChild(n).setEndTextElementListener(l);
       } // for ...
       
       cat.setEndElementListener(new EndElementListener(){
@@ -144,10 +144,10 @@ public class PhotomapCategories
       });
       metaCat.setEndElementListener(new EndElementListener(){
         public void end() {
-          cats_.addCategory(listener.tag(), 
-                            listener.name(), 
-                            listener.description(), 
-                            listener.ordering());
+          cats_.addMetaCategory(listener.tag(), 
+                                listener.name(), 
+                                listener.description(), 
+                                listener.ordering());
         } // end
       });
 
