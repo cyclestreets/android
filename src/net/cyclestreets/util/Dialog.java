@@ -59,15 +59,30 @@ public class Dialog
 	                                  final ListAdapter adapter,
 	                                  final DialogInterface.OnClickListener yesAction)
 	{
+	  listViewDialog(context, adapter, yesAction, MessageBox.NoAction);
+	} // listViewDialog
+
+	
+	static public void listViewDialog(final Context context,
+	                                  final ListAdapter adapter,
+	                                  final DialogInterface.OnClickListener yesAction,
+	                                  final DialogInterface.OnClickListener noAction)
+	{
     final View layout = View.inflate(context, R.layout.listdialog, null);
     final ListView listView = ((ListView)layout.findViewById(R.id.list_view));
     listView.setAdapter(adapter);
     
     final AlertDialog.Builder builder = newBuilder(context);
     builder.setPositiveButton("OK", yesAction);
-    builder.setNegativeButton("Cancel", MessageBox.NoAction);
+    builder.setNegativeButton("Cancel", noAction);
+    builder.setOnCancelListener(new DialogInterface.OnCancelListener() {
+      @Override
+      public void onCancel(DialogInterface dialog) {
+        noAction.onClick(dialog, -1);
+      } // onCancel
+    });
     builder.setView(layout);
-
+    
     show(builder);
 	} // listViewDialog
 	

@@ -99,6 +99,7 @@ public class POIOverlay extends LiveItemOverlay<POIOverlay.POIItem>
   private GeoPoint lastFix_;
   private Rect bubble_;
   private OverlayHelper overlays_;
+  private boolean chooserShowing_;
   
 	public POIOverlay(final Context context,
 							      final MapView mapView)
@@ -111,6 +112,7 @@ public class POIOverlay extends LiveItemOverlay<POIOverlay.POIItem>
 		context_ = context;
 		activeCategories_ = new ArrayList<POICategory>();
 		overlays_ = new OverlayHelper(mapView);
+		chooserShowing_ = false;
 	} // POIOverlay
 	
 	private POICategories allCategories()
@@ -366,20 +368,32 @@ public class POIOverlay extends LiveItemOverlay<POIOverlay.POIItem>
     if(item.getItemId() != R.string.ic_menu_poi)
       return false;
     
+    if(chooserShowing_ == true)
+      return true;
+    
+    chooserShowing_  = true;
     final POICategoryAdapter poiAdapter = new POICategoryAdapter(context_,
                                                                  allCategories(), 
                                                                  activeCategories_);
 
+    // it can take a while to show the dialog
     Dialog.listViewDialog(context_, 
                           poiAdapter, 
                           new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(final DialogInterface dialog,
                                                 int which) {
+                              chooserShowing_ = false;
                               updateCategories(poiAdapter.chosenCategories());
                             }
+                          },
+                          new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(final DialogInterface dialog,
+                                                int which) {
+                              chooserShowing_ = false;
+                            }
                           });
-      
     return true;
   } // onMenuItemSelected
   
