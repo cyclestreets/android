@@ -26,6 +26,8 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
@@ -232,7 +234,48 @@ public class AddPhotoActivity extends Activity
   {
     return getSharedPreferences("net.cyclestreets.AddPhotoActivity", Context.MODE_PRIVATE);
   } // prefs()
+   
+  ///////////////////////////////////////////////////////////////////
+  @Override
+  public boolean onCreateOptionsMenu(final Menu menu) 
+  {
+    menu.add(0, R.string.ic_menu_restart, Menu.NONE, R.string.ic_menu_restart).setIcon(R.drawable.ic_menu_rotate);
+    menu.add(0, R.string.ic_menu_back, Menu.NONE, R.string.ic_menu_back).setIcon(R.drawable.ic_menu_revert);
+    return true;
+  } // onCreateOptionsMenu
+  
+  @Override
+  public boolean onPrepareOptionsMenu(final Menu menu)
+  {
+    final MenuItem restart = menu.findItem(R.string.ic_menu_restart);
+    final MenuItem back = menu.findItem(R.string.ic_menu_back);
     
+    restart.setEnabled(step_ != AddStep.PHOTO);
+    back.setEnabled(step_ != AddStep.PHOTO && step_ != AddStep.VIEW);
+    
+    return true;
+  } // onPrepareOptionsMenu
+    
+  @Override
+  public boolean onMenuItemSelected(final int featureId, final MenuItem item)
+  {
+    switch(item.getItemId())
+    {
+    case R.string.ic_menu_restart:
+      step_ = AddStep.PHOTO;
+      setupView();
+      break;
+    case R.string.ic_menu_back:
+      onBackPressed();
+      break;
+    default:
+      return false;
+    } // switch
+    
+    return true;
+  } // onMenuItemSelected
+  
+  ///////////////////////////////////////////////////////////////////
   @Override 
   public void onBackPressed()
   {

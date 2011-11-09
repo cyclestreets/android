@@ -9,7 +9,6 @@ import java.security.KeyStore;
 import java.util.ArrayList;
 import java.util.List;
 
-import net.cyclestreets.CycleStreetsPreferences;
 import net.cyclestreets.R;
 
 import org.osmdroid.util.BoundingBoxE6;
