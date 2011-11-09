@@ -450,7 +450,7 @@ public class AddPhotoActivity extends Activity
   public void onSetLocation(GeoPoint point)
   {
     final Button u = (Button)photoLocation_.findViewById(R.id.next);
-    u.setEnabled(true);
+    u.setEnabled(point != null);
   } // onSetLocation
   
   @Override
