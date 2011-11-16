@@ -526,11 +526,11 @@ public class TapToRouteOverlay extends Overlay
       switch(this) 
       {
         case WAITING_FOR_START:
-          return "Tap to set Start";
+          return "Tap map to set Start";
         case WAITING_FOR_END:
-          return "Tap to set Finish";
+          return "Tap map to set Finish";
         case WAITING_TO_ROUTE:
-          return "Tap to Route";
+          return "Tap map to Route";
         case ALL_DONE:
           break;
       } // switch
