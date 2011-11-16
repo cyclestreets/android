@@ -17,24 +17,24 @@ import android.widget.RelativeLayout.LayoutParams;
 public class FindPlaceActivity extends Activity 
 	implements View.OnClickListener, PlaceView.OnResolveListener
 {
-    private PlaceView place_;
+  private PlaceView place_;
 	
-    @Override
-    public void onCreate(final Bundle saved)
-    {
-        super.onCreate(saved);
+  @Override
+  public void onCreate(final Bundle saved)
+  {
+    super.onCreate(saved);
 
-        setContentView(R.layout.findplace);
-    	getWindow().setGravity(Gravity.TOP|Gravity.FILL_HORIZONTAL);       
-        getWindow().setLayout(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT);
-        getWindow().setBackgroundDrawableResource(R.drawable.empty);
-
-    	place_ = (PlaceView)findViewById(R.id.place);
-    	place_.setBounds(GeoIntent.getBoundingBox(getIntent()));
-    	
-    	final Button findButton = (Button)findViewById(R.id.find_place);
-    	findButton.setOnClickListener(this);
-    } // onCreate
+    setContentView(R.layout.findplace);
+    getWindow().setGravity(Gravity.TOP|Gravity.FILL_HORIZONTAL);       
+    getWindow().setLayout(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT);
+    getWindow().setBackgroundDrawableResource(R.drawable.empty);
+    
+    place_ = (PlaceView)findViewById(R.id.place);
+    place_.setBounds(GeoIntent.getBoundingBox(getIntent()));
+    
+    final Button findButton = (Button)findViewById(R.id.find_place);
+    findButton.setOnClickListener(this);
+  } // onCreate
 
 	private void placeSelected(final GeoPlace place)
 	{
@@ -43,10 +43,10 @@ public class FindPlaceActivity extends Activity
 
 		place_.addHistory(place);
 			
-        final Intent intent = new Intent(this, RouteMapActivity.class);
-        GeoIntent.setGeoPoint(intent, place.coord());
-        setResult(RESULT_OK, intent);
-        finish();
+		final Intent intent = new Intent(this, RouteMapActivity.class);
+		GeoIntent.setGeoPoint(intent, place.coord());
+		setResult(RESULT_OK, intent);
+		finish();
 	} // placeSelected
 
 	@Override
@@ -57,7 +57,7 @@ public class FindPlaceActivity extends Activity
 		{
 			Toast.makeText(this, R.string.lbl_choose_place, Toast.LENGTH_LONG).show();
 			return;
-		}
+		} // if ...
 		
 		place_.geoPlace(this);
 	} // onClick
