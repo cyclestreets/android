@@ -299,33 +299,22 @@ public class ApiClient
                     "limit", "30",
                     "thumbnailsize", "250");
   } // getPhotos
-  
-  static public GeoPlaces geoCoder(final String search,
-                   final BoundingBoxE6 bounds)
+
+  static protected GeoPlaces geoCoder(final String search,
+                                      double n,
+                                      double s,
+                                      double e,
+                                      double w)
     throws Exception
   {
-    return geoCoder(search,
-            bounds.getLatNorthE6() / 1E6,
-            bounds.getLatSouthE6() / 1E6,
-            bounds.getLonEastE6() / 1E6,
-            bounds.getLonWestE6() / 1E6);
+    return callApi(GeoPlaces.factory(),
+                   API_PATH_GEOCODER,
+                   "street", search,
+                   "n", Double.toString(n),
+                   "s", Double.toString(s),
+                   "e", Double.toString(e),
+                   "w", Double.toString(w));
   } // geoCoder
-  
-  static public GeoPlaces geoCoder(final String search,
-                   double n,
-                   double s,
-                   double e,
-                   double w)
-    throws Exception
-  {
-    return callApi(GeoPlaces.class,
-             API_PATH_GEOCODER,
-             "street", search,
-             "n", Double.toString(n),
-             "s", Double.toString(s),
-             "e", Double.toString(e),
-             "w", Double.toString(w));
-  }
   
   static public FeedbackResult sendFeedback(final int itinerary, 
                            final String comments,

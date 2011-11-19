@@ -105,7 +105,7 @@ public class GeoIntent
     static public void setGeoPlace(final Intent intent, final GeoPlace place)
     {
     	setGeoPoint(intent, place.coord());
-    	intent.putExtra(GEO_NAME, place.name);
-    	intent.putExtra(GEO_NEAR, place.near);
+    	intent.putExtra(GEO_NAME, place.name());
+    	intent.putExtra(GEO_NEAR, place.near());
     } // setGeoPlace
 } // GeoIntent

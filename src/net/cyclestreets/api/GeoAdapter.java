@@ -1,10 +1,8 @@
 package net.cyclestreets.api;
 
-import java.util.Collections;
 import java.util.List;
 
 import net.cyclestreets.R;
-import net.cyclestreets.api.ApiClient;
 import net.cyclestreets.api.GeoPlace;
 
 import org.osmdroid.util.BoundingBoxE6;
@@ -36,8 +34,8 @@ public class GeoAdapter extends ArrayAdapter<GeoPlace>
 		final View row = inflater.inflate(AdapterViewId, parent, false);
 		final GeoPlace p = getItem(position);
 		
-		setText(row, android.R.id.text1, p.name);
-		setText(row, android.R.id.text2, p.near);
+		setText(row, android.R.id.text1, p.name());
+		setText(row, android.R.id.text2, p.near());
 
 		return row;
 	} // getView
@@ -47,15 +45,14 @@ public class GeoAdapter extends ArrayAdapter<GeoPlace>
 		((TextView)parent.findViewById(id)).setText(text);
 	} // setText
 
-	@SuppressWarnings("unchecked")
-	protected List<GeoPlace> geoCode(final String search, 
-									 final BoundingBoxE6 bounds)
+	protected GeoPlaces geoCode(final String search, 
+									            final BoundingBoxE6 bounds)
 	{
 		try {
-			return ApiClient.geoCoder(search, bounds).places;				
+			return GeoPlaces.search(search, bounds);				
 		}
 		catch(Exception e) {
-			return (List<GeoPlace>)Collections.EMPTY_LIST;
+			return GeoPlaces.EMPTY;
 		} // catch
 	} // geoCode
 

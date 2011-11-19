@@ -1,15 +1,14 @@
 package net.cyclestreets.views;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
+import java.util.ArrayList;
 
 import org.osmdroid.util.BoundingBoxE6;
 import org.osmdroid.util.GeoPoint;
 
 import net.cyclestreets.R;
-import net.cyclestreets.api.ApiClient;
 import net.cyclestreets.api.GeoPlace;
+import net.cyclestreets.api.GeoPlaces;
 import net.cyclestreets.contacts.Contact;
 import net.cyclestreets.contacts.Contacts;
 import net.cyclestreets.util.Dialog;
@@ -160,7 +159,7 @@ public class PlaceView extends LinearLayout
   {
     options_ = new ArrayList<String>();
     for(final GeoPlace gp : allowedPlaces_)
-      options_.add(gp.name);
+      options_.add(gp.name());
     options_.add(CONTACTS);
 
     ListDialog.showListDialog(context_, 
@@ -175,7 +174,7 @@ public class PlaceView extends LinearLayout
     final String option = options_.get(whichButton);
 
     for(final GeoPlace gp : allowedPlaces_)
-      if(gp.name.equals(option))
+      if(gp.name().equals(option))
         setPlaceHint(gp);
     
     if(CONTACTS.equals(option))
@@ -232,10 +231,10 @@ public class PlaceView extends LinearLayout
     asc.execute(what, bounds());
   } // lookup
 
-  private void resolvedContacts(final List<GeoPlace> results,
+  private void resolvedContacts(final GeoPlaces results,
                                 final OnResolveListener listener)
   {
-    if(results.size() == 0)
+    if(results.isEmpty())
     {
       MessageBox.OK(this, LOCATION_NOT_FOUND);
       return;
@@ -250,16 +249,16 @@ public class PlaceView extends LinearLayout
 
     ListDialog.showListDialog(context_, 
                               CHOOSE_LOCATION, 
-                              results, 
+                              results.asList(), 
                               new PlaceListener(results, listener));
   } // resolvedContacts
   
   private class PlaceListener implements DialogInterface.OnClickListener
   {
-    private List<GeoPlace> results_;
+    private GeoPlaces results_;
     private OnResolveListener listener_;
     
-    public PlaceListener(final List<GeoPlace> results, 
+    public PlaceListener(final GeoPlaces results, 
                          final OnResolveListener listener)
     {
       results_ = results;
@@ -303,7 +302,7 @@ public class PlaceView extends LinearLayout
     } // onPostExecute
   } // class AsyncContactLoad
   
-  static private class AsyncContactLookup extends AsyncTask<Object, Void, List<GeoPlace>>
+  static private class AsyncContactLookup extends AsyncTask<Object, Void, GeoPlaces>
   {
     final ProgressDialog progress_;
     final OnResolveListener listener_;
@@ -321,7 +320,7 @@ public class PlaceView extends LinearLayout
     protected void onPreExecute() {  progress_.show(); }
     
     @Override
-    protected List<GeoPlace> doInBackground(Object... params) 
+    protected GeoPlaces doInBackground(Object... params) 
     {
       final BoundingBoxE6 bounds = (BoundingBoxE6)params[1];
 
@@ -332,16 +331,16 @@ public class PlaceView extends LinearLayout
     } // doInBackground
 
     @Override
-    protected void onPostExecute(final List<GeoPlace> result) 
+    protected void onPostExecute(final GeoPlaces result) 
     { 
       progress_.dismiss(); 
       view_.resolvedContacts(result, listener_);
     } // onPostExecute
     
-    private List<GeoPlace> doContactSearch(final Contact contact, 
-                                           final BoundingBoxE6 bounds)
+    private GeoPlaces doContactSearch(final Contact contact, 
+                                      final BoundingBoxE6 bounds)
     {
-      List<GeoPlace> r = doSearch(contact.address(), bounds);
+      GeoPlaces r = doSearch(contact.address(), bounds);
       if(!r.isEmpty())
         return r;
       
@@ -353,15 +352,14 @@ public class PlaceView extends LinearLayout
       return r;
     } // doContactSearch
     
-    @SuppressWarnings("unchecked")
-    private List<GeoPlace> doSearch(final String search, 
+    private GeoPlaces doSearch(final String search, 
                     final BoundingBoxE6 bounds)
     {
       try {
-        return ApiClient.geoCoder(search, bounds).places;        
+        return GeoPlaces.search(search, bounds);        
       }
       catch(Exception e) {
-        return (List<GeoPlace>)Collections.EMPTY_LIST;
+        return GeoPlaces.EMPTY;
       } // catch
     } // doSearch
   } // AsyncContactLookup

@@ -2,49 +2,38 @@ package net.cyclestreets.api;
 
 import org.osmdroid.util.GeoPoint;
 
-import org.simpleframework.xml.Element;
-import org.simpleframework.xml.Root;
-
-@Root(name="result", strict=false)
 public class GeoPlace
 {
-	public GeoPlace() { }
+  private String name_;
+  private String near_;
+  private GeoPoint coord_;
+  
 	public GeoPlace(final int latE6, final int longE6, final String name, final String near)
 	{
-		this.latitude = latE6/1E6;
-		this.longitude = longE6/1E6;
-		this.name = name;
-		this.near = near;
+	  this(new GeoPoint(latE6/1E6, longE6/1E6), name, near);
 	} // GeoPlace
+	
 	public GeoPlace(final GeoPoint point, final String name, final String near)
 	{
-		this(point.getLatitudeE6(),
-			 point.getLongitudeE6(),
-			 name, 
-			 near);
+	  coord_ = point;
+	  name_ = name;
+	  near_ = near;
 	} // GeoPlace
-	
-	@Element(required=false)
-	public String type, name, near;
 
-	@Element(required=false)
-	public int id;
-	
-	@Element(required=false)
-	public double longitude, latitude;
+	public String name() { return name_; }
+	public String near() { return near_; }
+  public GeoPoint coord() { return coord_; }
 	
 	@Override
 	public String toString()
 	{
-		String result = name;
-		if (near != null && near.length() > 0)
+		String result = name_;
+		if (near_ != null && near_.length() > 0)
 		{
-			if (name.length() > 0)
-				result = name + ", ";
-			result += near;
+			if (name_.length() > 0)
+				result = name_ + ", ";
+			result += near_;
 		}
 		return result;
-	}
-
-	public GeoPoint coord() { return new GeoPoint(latitude, longitude); }
-}
+	} // toString
+} // class GeoPlace
