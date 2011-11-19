@@ -22,7 +22,6 @@ import org.apache.http.NameValuePair;
 import org.apache.http.StatusLine;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpResponseException;
-import org.apache.http.client.ResponseHandler;
 import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
@@ -277,33 +276,16 @@ public class ApiClient
     return callApiWithCache(PhotomapCategories.factory(), API_PATH_PHOTOMAP_CATEGORIES);
   } // getPhotomapCategories
   
-  static public List<Photo> getPhotos(final GeoPoint centre,
-                    final int zoom, 
-                    final double n, 
-                    final double s, 
-                    final double e, 
-                    final double w) 
+  static Photos getPhotos(final double latitude, 
+                          final double longitude,
+                          int zoom, 
+                          double n, 
+                          double s, 
+                          double e, 
+                          double w) 
     throws Exception 
   {
-    return getPhotos(centre.getLatitudeE6() / 1E6, 
-             centre.getLongitudeE6() / 1E6, 
-             zoom, 
-             n, 
-             s, 
-             e, 
-             w);
-  } // getPhotos
-
-  static public List<Photo> getPhotos(final double latitude, 
-                    final double longitude,
-                    int zoom, 
-                    double n, 
-                    double s, 
-                    double e, 
-                    double w) 
-    throws Exception 
-  {
-    final Photos photos = callApi(Photos.class, 
+    return callApi(Photos.factory(), 
                     API_PATH_PHOTOS,
                     "latitude", Double.toString(latitude),
                     "longitude", Double.toString(longitude),
@@ -316,7 +298,6 @@ public class ApiClient
                     "minimaldata", "1",
                     "limit", "30",
                     "thumbnailsize", "250");
-    return photos.photos;
   } // getPhotos
   
   static public GeoPlaces geoCoder(final String search,
@@ -576,24 +557,6 @@ public class ApiClient
     return params;
   } // createParamsList
   
-  static private class UTF8ResponseHandler implements ResponseHandler<String> 
-  {
-    public String handleResponse(final HttpResponse response) 
-      throws ClientProtocolException, IOException 
-    {
-      final HttpEntity entity = response.getEntity();
-      if (entity == null) 
-        return null;
-       
-      final StatusLine statusLine = response.getStatusLine();
-      if (statusLine.getStatusCode() < 300) 
-        return EntityUtils.toString(entity, "UTF-8");
-      
-      entity.consumeContent();
-      throw new HttpResponseException(statusLine.getStatusCode(), statusLine.getReasonPhrase());
-    } // handleResponse
-  } // class UTF8ResponseHandler 
-
   static public <T> T loadRaw(final Class<T> returnClass, final byte[] xml) throws Exception
   {
     final Serializer serializer = new Persister();

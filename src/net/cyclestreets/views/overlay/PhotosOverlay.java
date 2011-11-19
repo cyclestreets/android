@@ -15,9 +15,9 @@ import android.net.Uri;
 import android.os.AsyncTask;
 
 import net.cyclestreets.DisplayPhotoActivity;
-import net.cyclestreets.api.ApiClient;
 import net.cyclestreets.api.Photo;
 import net.cyclestreets.api.PhotoMarkers;
+import net.cyclestreets.api.Photos;
 
 public class PhotosOverlay extends LiveItemOverlay<PhotosOverlay.PhotoItem>
 {
@@ -28,7 +28,7 @@ public class PhotosOverlay extends LiveItemOverlay<PhotosOverlay.PhotoItem>
 		
 		public PhotoItem(final Photo photo, final PhotoMarkers photoMarkers) 
 		{
-			super(photo.id + "", photo.caption, new GeoPoint(photo.latitude, photo.longitude));
+			super(photo.id() + "", photo.caption(), photo.position());
 			photo_ = photo;
 			this.photoMarkers = photoMarkers;
 		} // PhotoItem
@@ -39,12 +39,12 @@ public class PhotosOverlay extends LiveItemOverlay<PhotosOverlay.PhotoItem>
 		@Override
 		public Drawable getMarker(int stateBitset) 
 		{ 
-			return photoMarkers.getMarker(photo_.feature);	
+			return photoMarkers.getMarker(photo_.feature());	
 		} // getMarker
 
 		// Equality testing
 		@Override
-		public int hashCode() { return ((photo_ == null) ? 0 : photo_.id); }
+		public int hashCode() { return ((photo_ == null) ? 0 : photo_.id()); }
 		
 		/*
 		 * PhotoItems are equal if underlying Photos have the same id
@@ -62,7 +62,7 @@ public class PhotosOverlay extends LiveItemOverlay<PhotosOverlay.PhotoItem>
 			if (photo_ == null) 
 				return (other.photo_ == null);
 
-			return (photo_.id == other.photo_.id);
+			return (photo_.id() == other.photo_.id());
 		} // equals
 
 		@Override
@@ -106,8 +106,8 @@ public class PhotosOverlay extends LiveItemOverlay<PhotosOverlay.PhotoItem>
   private void showPhoto(final PhotoItem item, final MapView mapView)
   {
     final Intent intent = new Intent(context_, DisplayPhotoActivity.class);
-    intent.setData(Uri.parse(item.photo().thumbnailUrl));
-    intent.putExtra("caption", item.photo().caption);
+    intent.setData(Uri.parse(item.photo().thumbnailUrl()));
+    intent.putExtra("caption", item.photo().caption());
     mapView.getContext().startActivity(intent);
   } // showPhoto
 
@@ -130,7 +130,7 @@ public class PhotosOverlay extends LiveItemOverlay<PhotosOverlay.PhotoItem>
 	
 	/////////////////////////////////////////////////////
 	/////////////////////////////////////////////////////
-	static private class GetPhotosTask extends AsyncTask<Object,Void,List<Photo>> 
+	static private class GetPhotosTask extends AsyncTask<Object,Void,Photos> 
 	{
 		static void fetch(final PhotosOverlay overlay, 
 						          final Object... params)
@@ -146,7 +146,7 @@ public class PhotosOverlay extends LiveItemOverlay<PhotosOverlay.PhotoItem>
 			overlay_ = overlay;
 		} // GetPhotosTask
 		
-		protected List<Photo> doInBackground(Object... params) 
+		protected Photos doInBackground(Object... params) 
 		{
 			double clat = (Double) params[0];
 			double clon = (Double) params[1];
@@ -157,7 +157,7 @@ public class PhotosOverlay extends LiveItemOverlay<PhotosOverlay.PhotoItem>
 			double w = (Double) params[6];
 
 			try {
-				return ApiClient.getPhotos(clat, clon, zoom, n, s, e, w);
+				return Photos.load(clat, clon, zoom, n, s, e, w);
 			}
 			catch (final Exception ex) {
 				// never mind, eh?
@@ -166,7 +166,7 @@ public class PhotosOverlay extends LiveItemOverlay<PhotosOverlay.PhotoItem>
 		} // doInBackground
 		
 		@Override
-		protected void onPostExecute(final List<Photo> photos) 
+		protected void onPostExecute(final Photos photos) 
 		{
 			final List<PhotosOverlay.PhotoItem> items = new ArrayList<PhotosOverlay.PhotoItem>();
 			
