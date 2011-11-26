@@ -4,7 +4,7 @@ import net.cyclestreets.api.ApiClient;
 import net.cyclestreets.util.Dialog;
 import net.cyclestreets.util.MessageBox;
 import net.cyclestreets.api.RegistrationResult;
-import net.cyclestreets.api.SigninResult;
+import net.cyclestreets.api.Signin;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -229,21 +229,21 @@ public class AccountDetailsActivity extends Activity
 		task.execute();
 	} // signin
 		
-	private class SignInTask extends AsyncTask<Object, Void, SigninResult>
+	private class SignInTask extends AsyncTask<Object, Void, Signin.Result>
 	{
 		private final String username_;
 		private final String password_;
 		private final ProgressDialog progress_;
 		
 		SignInTask(final Context context,
-	 			   final String username,
-	 			   final String password) 
-	    {
+	 			       final String username,
+	 			       final String password) 
+	  {
 			username_ = username;
 			password_ = password;
 			
 			progress_ = Dialog.createProgressDialog(context, R.string.signing_in);
-	    } // SigninTask
+	  } // SigninTask
 		
 		@Override
 		protected void onPreExecute() 
@@ -252,23 +252,23 @@ public class AccountDetailsActivity extends Activity
 			progress_.show();
 		} // onPreExecute
 		
-		protected SigninResult doInBackground(Object... params)
+		protected Signin.Result doInBackground(Object... params)
 		{
 			try {
-				final SigninResult res =  ApiClient.signin(username_, 
-						                				   password_);
+				final Signin.Result res =  Signin.signin(username_, 
+				                                         password_);
 				return res;
 			} // try
 			catch(final Exception e) {
 				final String msg = e.getMessage();
-				return new SigninResult("Error: " + msg);
+				return Signin.error("Error: " + msg);
 			} // catch
 		} // doInBackground
 		
 		@Override
-	    protected void onPostExecute(final SigninResult result) 
+	  protected void onPostExecute(final Signin.Result result) 
 		{
-	       	progress_.dismiss();
+	    progress_.dismiss();
 	       	
 			CycleStreetsPreferences.setUsernamePassword(username_, 
 														password_,

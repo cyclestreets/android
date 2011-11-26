@@ -355,14 +355,14 @@ public class ApiClient
              "mediaupload", new FileBody(new File(filename)));
   } // uploadPhoto
   
-  static public SigninResult signin(final String username, 
-                    final String password) 
+  static Signin.Result signin(final String username, 
+                              final String password) 
     throws Exception 
   {
-    return postApi(SigninResult.class,
-             API_PATH_SIGNIN, 
-             "username", username,
-             "password", password);
+    return postApi(Signin.factory(),
+                   API_PATH_SIGNIN, 
+                   "username", username,
+                   "password", password);
     } // signin
 
   static public RegistrationResult register(final String username, 
@@ -466,6 +466,13 @@ public class ApiClient
   {
     final byte[] xml = postApiRaw(path, args);
     return loadRaw(returnClass, xml);
+  } // postApi
+  
+  static private <T> T postApi(final Factory<T> factory, final String path, Object...args)
+    throws Exception
+  {
+    final byte[] xml = postApiRaw(path, args);
+    return loadRaw(factory, xml);
   } // postApi
   
   static private byte[] postApiRaw(final String path, Object... args) throws Exception
