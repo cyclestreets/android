@@ -1,9 +1,8 @@
 package net.cyclestreets;
 
-import net.cyclestreets.api.ApiClient;
 import net.cyclestreets.api.PhotomapCategory;
 import net.cyclestreets.api.PhotomapCategories;
-import net.cyclestreets.api.UploadResult;
+import net.cyclestreets.api.Upload;
 import net.cyclestreets.util.Bitmaps;
 import net.cyclestreets.util.Dialog;
 import net.cyclestreets.util.MessageBox;
@@ -614,7 +613,7 @@ public class AddPhotoActivity extends Activity
   } // class GetPhotomapCategoriesTask
   
   //////////////////////////////////////////////////////////////////////////
-  private class UploadPhotoTask extends AsyncTask<Object, Void, UploadResult>
+  private class UploadPhotoTask extends AsyncTask<Object, Void, Upload.Result>
   {
     private final String filename_;
     private final String username_;
@@ -657,25 +656,25 @@ public class AddPhotoActivity extends Activity
       progress_.show();
     } // onPreExecute
     
-    protected UploadResult doInBackground(Object... params)
+    protected Upload.Result doInBackground(Object... params)
     {
       try {
-        return ApiClient.uploadPhoto(filename_, 
-                       username_, 
-                       password_, 
-                       location_, 
-                       metaCat_, 
-                       category_, 
-                       dateTime_, 
-                       caption_);
+        return Upload.photo(filename_, 
+                            username_, 
+                            password_, 
+                            location_, 
+                            metaCat_, 
+                            category_, 
+                            dateTime_, 
+                            caption_);
       } // try
       catch(Exception e) {
-        return new UploadResult("There was a problem uploading your photo: \n" + e.getMessage());
+        return new Upload.Result("There was a problem uploading your photo: \n" + e.getMessage());
       }
     } // doInBackground
     
     @Override
-    protected void onPostExecute(final UploadResult result) 
+    protected void onPostExecute(final Upload.Result result) 
     {
       if(smallImage_)
         new File(filename_).delete();
@@ -683,7 +682,7 @@ public class AddPhotoActivity extends Activity
       if(result.ok())
         uploadComplete(result.url());
       else
-        uploadFailed(result.errorMessage());
+        uploadFailed(result.error());
     } // onPostExecute
   } // class UploadPhotoTask
   

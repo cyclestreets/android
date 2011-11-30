@@ -331,23 +331,24 @@ public class ApiClient
              "email", email);
   } // sendFeedback
   
-  static public UploadResult uploadPhoto(final String filename,
-                       final String username,
-                       final String password,
-                       final GeoPoint location,
-                       final String metaCat,
-                       final String category,
-                       final String dateTime,
-                       final String caption)
+  static Upload.Result uploadPhoto(final String filename,
+                                   final String username,
+                                   final String password,
+                                   final double lat,
+                                   final double lon,
+                                   final String metaCat,
+                                   final String category,
+                                   final String dateTime,
+                                   final String caption)
     throws Exception
   {
 
-    return postApi(UploadResult.class, 
+    return postApi(Upload.factory(), 
              API_PATH_ADDPHOTO,
              "username", username,
              "password", password,
-             "latitude", Double.toString(location.getLatitudeE6() / 1E6),
-             "longitude", Double.toString(location.getLongitudeE6() / 1E6),
+             "latitude", Double.toString(lat),
+             "longitude", Double.toString(lon),
              "datetime", dateTime,
              "category", category,
              "metacategory", metaCat,
@@ -401,8 +402,8 @@ public class ApiClient
   } // getPOIs
   
   static List<POI> getPOIs(final String key,
-                                  final GeoPoint centre,
-                                  final int radius)
+                           final GeoPoint centre,
+                           final int radius)
     throws Exception
   {
     return callApi(POICategory.factory(),
