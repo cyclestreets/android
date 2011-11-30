@@ -316,13 +316,13 @@ public class ApiClient
                    "w", Double.toString(w));
   } // geoCoder
   
-  static public FeedbackResult sendFeedback(final int itinerary, 
-                           final String comments,
-                           final String name,
-                           final String email)
+  static Feedback.Result sendFeedback(final int itinerary, 
+                                             final String comments,
+                                             final String name,
+                                             final String email)
     throws Exception
   {
-    return postApi(FeedbackResult.class, 
+    return postApi(Feedback.factory(), 
              API_PATH_FEEDBACK,
              "type", "routing",
              "itinerary", Integer.toString(itinerary),
