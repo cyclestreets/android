@@ -45,9 +45,11 @@
               android:label="@string/app_name"
               android:theme="@style/Theme.RouteInputDialog"/>
     <activity android:name=".AccountDetailsActivity"
-              android:label="CycleStreets : Account Details"/>
+              android:label="CycleStreets : Account Details"
+              android:windowSoftInputMode="stateVisible|adjustResize"/>
     <activity android:name=".FeedbackActivity"
-              android:label="CycleStreets : Route Comments"/>
+              android:label="CycleStreets : Route Comments"
+              android:windowSoftInputMode="stateVisible|adjustResize"/>
     <activity android:name=".RouteByAddressActivity" 
               android:theme="@style/Theme.RouteInputDialog"/>
     <activity android:name=".RouteNumberActivity" 
