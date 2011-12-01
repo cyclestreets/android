@@ -3,67 +3,64 @@
 	    android:orientation="vertical"
 	    android:layout_width="fill_parent"
 	    android:layout_height="fill_parent">
-	<TextView
-		android:layout_width="fill_parent"
-		android:layout_height="wrap_content"
-		android:text="  "
-		/>
-	<TextView 
-		android:id="@+id/signin_message"
-		android:layout_width="fill_parent"
-		android:layout_height="wrap_content"
-		android:gravity="center"
-		android:text="Please enter your account username and password to sign in."
-		/>
-	<TextView
-		android:layout_width="fill_parent"
-		android:layout_height="wrap_content"
-		android:text="  "
-		/>
-	<ScrollView
-	    	android:layout_width="fill_parent"
-	    	android:layout_height="fill_parent"
-			android:layout_weight="5.0"
-			android:padding="4.0dip">
-		<LinearLayout
-		    android:orientation="vertical"
-	    	android:layout_width="fill_parent"
-	    	android:layout_height="fill_parent">
-		<TextView
-			android:layout_width="fill_parent"
-			android:layout_height="wrap_content"
-			android:text="Username"/>
-		<EditText
-			android:id="@+id/username"
-	    	android:layout_height="wrap_content" 
-	    	android:layout_width="fill_parent"/>	
-		<TextView
-			android:layout_width="fill_parent"
-			android:layout_height="wrap_content"
-			android:text="Password"/>
-		<EditText
-			android:id="@+id/password"
-	    	android:layout_height="wrap_content" 
-	    	android:layout_width="fill_parent"
-	    	android:password="true"/>	
-		</LinearLayout>    	
-	</ScrollView>
-	<LinearLayout
-		android:orientation="horizontal" 
-		android:layout_width="fill_parent"
-		android:layout_height="wrap_content"
-		android:gravity="bottom">    	
-	    <Button
-	       android:id="@+id/cleardetails_button"
-	       android:layout_width="fill_parent"
-	       android:layout_height="wrap_content"
-	       android:layout_weight="1.0"     	
-	       android:text="Clear stored details"/>
-	    <Button
-	       android:id="@+id/signin_button"
-	       android:layout_width="fill_parent"
-	       android:layout_height="wrap_content"
-	       android:layout_weight="1.0"     	
-	       android:text="Sign in"/>
-	</LinearLayout>       
+  <ScrollView
+      android:layout_width="fill_parent"
+      android:layout_height="fill_parent"
+      android:layout_weight="5.0"
+      android:padding="4.0dip">
+    <LinearLayout
+	android:orientation="vertical"
+	android:layout_width="fill_parent"
+	android:layout_height="fill_parent">
+      <TextView
+	  android:layout_width="fill_parent"
+	  android:layout_height="wrap_content"
+	  android:text="  "/>
+      <TextView 
+	  android:id="@+id/signin_message"
+	  android:layout_width="fill_parent"
+	  android:layout_height="wrap_content"
+	  android:gravity="center"
+	  android:text="Please enter your account username and password to sign in."/>
+      <TextView
+	  android:layout_width="fill_parent"
+	  android:layout_height="wrap_content"
+	  android:text="  "/>
+      <TextView
+	  android:layout_width="fill_parent"
+	  android:layout_height="wrap_content"
+	  android:text="Username"/>
+      <EditText
+	  android:id="@+id/username"
+	  android:layout_height="wrap_content" 
+	  android:layout_width="fill_parent"/>	
+      <TextView
+	  android:layout_width="fill_parent"
+	  android:layout_height="wrap_content"
+	  android:text="Password"/>
+      <EditText
+	  android:id="@+id/password"
+	  android:layout_height="wrap_content" 
+	  android:layout_width="fill_parent"
+	  android:password="true"/>	
+    </LinearLayout>    	
+  </ScrollView>
+  <LinearLayout
+      android:orientation="horizontal" 
+      android:layout_width="fill_parent"
+      android:layout_height="wrap_content"
+      android:gravity="bottom">    	
+    <Button
+	android:id="@+id/cleardetails_button"
+	android:layout_width="fill_parent"
+	android:layout_height="wrap_content"
+	android:layout_weight="1.0"     	
+	android:text="Clear stored details"/>
+    <Button
+	android:id="@+id/signin_button"
+	android:layout_width="fill_parent"
+	android:layout_height="wrap_content"
+	android:layout_weight="1.0"     	
+	android:text="Sign in"/>
+  </LinearLayout>       
 </LinearLayout>

@@ -3,93 +3,91 @@
 	    android:orientation="vertical"
 	    android:layout_width="fill_parent"
 	    android:layout_height="fill_parent">
-	<TextView
-		android:layout_width="fill_parent"
-		android:layout_height="wrap_content"
-		android:text="  "
-		/>
-	<TextView 
-		android:id="@+id/registration_message"
-		android:layout_width="fill_parent"
-		android:layout_height="wrap_content"
-		android:gravity="center"
-		android:text=" "
-		/>
-	<TextView
-		android:layout_width="fill_parent"
-		android:layout_height="wrap_content"
-		android:text="  "
-		/>
-	<ScrollView
-	    	android:layout_width="fill_parent"
-	    	android:layout_height="fill_parent"
-			android:layout_weight="5.0"
-			android:padding="4.0dip">
-		<LinearLayout
-		    android:orientation="vertical"
-	    	android:layout_width="fill_parent"
-	    	android:layout_height="fill_parent">
-		<TextView
-			android:layout_width="fill_parent"
-			android:layout_height="wrap_content"
-			android:text="Your name"/>
-		<EditText
-			android:id="@+id/name"
-	    	android:layout_height="wrap_content" 
-	    	android:layout_width="fill_parent"/>	
-		<TextView
-			android:layout_width="fill_parent"
-			android:layout_height="wrap_content"
-			android:text="Your email address"/>
-		<EditText
-			android:id="@+id/email"
-	    	android:layout_height="wrap_content" 
-	    	android:layout_width="fill_parent"/>	
-		<TextView
-			android:layout_width="fill_parent"
-			android:layout_height="wrap_content"
-			android:text=" "/>
-		<TextView
-			android:layout_width="fill_parent"
-			android:layout_height="wrap_content"
-			android:text="Desired username"/>
-		<EditText
-			android:id="@+id/username"
-	    	android:layout_height="wrap_content" 
-	    	android:layout_width="fill_parent"/>	
-		<TextView
-			android:layout_width="fill_parent"
-			android:layout_height="wrap_content"
-			android:text="Desired password"/>
-		<EditText
-			android:id="@+id/password"
-	    	android:layout_height="wrap_content" 
-	    	android:layout_width="fill_parent"
-	    	android:password="true"/>	
-		<TextView
-			android:layout_width="fill_parent"
-			android:layout_height="wrap_content"
-			android:text="Confirm password"/>
-		<EditText
-			android:id="@+id/confirm_password"
-	    	android:layout_height="wrap_content" 
-	    	android:layout_width="fill_parent"
-	    	android:password="true"/>	
-		</LinearLayout>       
-    </ScrollView>   
-	<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" 
-		android:orientation="horizontal" 
-		android:layout_width="fill_parent"
-		android:layout_height="wrap_content"
-		android:gravity="bottom">
-		<View
-	   	    android:layout_width="0.0dip"
-	       	android:layout_height="fill_parent"
-	       	android:layout_weight="1.0"/>				
-	    <Button android:text="Register" 
-	    	android:id="@+id/register_button" 
-	    	android:layout_height="wrap_content" 
-	    	android:layout_weight="1.0" 
-	    	android:layout_width="30dip"/>
-	</LinearLayout>       
+  <ScrollView
+      android:layout_width="fill_parent"
+      android:layout_height="fill_parent"
+      android:orientation="vertical"
+      android:layout_weight="5.0"
+      android:padding="4.0dip">
+    <LinearLayout
+	android:orientation="vertical"
+	android:layout_width="fill_parent"
+	android:layout_height="fill_parent">
+      <TextView
+	  android:layout_width="fill_parent"
+	  android:layout_height="wrap_content"
+	  android:text="  "/>
+      <TextView 
+	  android:id="@+id/registration_message"
+	  android:layout_width="fill_parent"
+	  android:layout_height="wrap_content"
+	  android:gravity="center"
+	  android:text=" "/>
+      <TextView
+	  android:layout_width="fill_parent"
+	  android:layout_height="wrap_content"
+	  android:text="  "/>
+      <TextView
+	  android:layout_width="fill_parent"
+	  android:layout_height="wrap_content"
+	  android:text="Your name"/>
+      <EditText
+	  android:id="@+id/name"
+	  android:layout_height="wrap_content" 
+	  android:layout_width="fill_parent"/>	
+      <TextView
+	  android:layout_width="fill_parent"
+	  android:layout_height="wrap_content"
+	  android:text="Your email address"/>
+      <EditText
+	  android:id="@+id/email"
+	  android:layout_height="wrap_content" 
+	  android:layout_width="fill_parent"/>	
+      <TextView
+	  android:layout_width="fill_parent"
+	  android:layout_height="wrap_content"
+	  android:text=" "/>
+      <TextView
+	  android:layout_width="fill_parent"
+	  android:layout_height="wrap_content"
+	  android:text="Desired username"/>
+      <EditText
+	  android:id="@+id/username"
+	  android:layout_height="wrap_content" 
+	  android:layout_width="fill_parent"/>	
+      <TextView
+	  android:layout_width="fill_parent"
+	  android:layout_height="wrap_content"
+	  android:text="Desired password"/>
+      <EditText
+	  android:id="@+id/password"
+	  android:layout_height="wrap_content" 
+	  android:layout_width="fill_parent"
+	  android:password="true"/>	
+      <TextView
+	  android:layout_width="fill_parent"
+	  android:layout_height="wrap_content"
+	  android:text="Confirm password"/>
+      <EditText
+	  android:id="@+id/confirm_password"
+	  android:layout_height="wrap_content" 
+	  android:layout_width="fill_parent"
+	  android:password="true"/>	
+    </LinearLayout>       
+  </ScrollView>   
+  <LinearLayout 
+      android:orientation="horizontal" 
+      android:layout_width="fill_parent"
+      android:layout_height="wrap_content"
+      android:gravity="bottom">
+    <View
+	android:layout_width="0.0dip"
+	android:layout_height="fill_parent"
+	android:layout_weight="1.0"/>				
+    <Button android:text="Register" 
+	    android:id="@+id/register_button" 
+	    android:layout_height="wrap_content" 
+	    android:layout_weight="1.0" 
+	    android:layout_width="30dip"/>
+  </LinearLayout>       
 </LinearLayout>
