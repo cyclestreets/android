@@ -28,8 +28,8 @@ public class PlannedRoute
 	{
 		final PlannedRoute pr = new PlannedRoute();
 		
-		final Journey journey = ApiClient.loadString(Journey.class, journeyXml);
-		if(journey.markers.isEmpty())
+		final Journey journey = ApiClient.loadString(Journey.factory(), journeyXml);
+		if(journey.isEmpty())
 			throw new RuntimeException();
 				
 		int total_time = 0;
@@ -37,39 +37,39 @@ public class PlannedRoute
 		
 		Segment.formatter = DistanceFormatter.formatter(CycleStreetsPreferences.units());
 		
-		for (final Marker marker : journey.markers) 
+		for (final Marker marker : journey.markers()) 
 		{
-			if (marker.type.equals("segment")) 
+			if (marker.isSegment()) 
 			{
-				total_time += marker.time;
-				total_distance += marker.distance;
-				final Segment seg = new Segment.Step(marker.name,
-													 marker.turn,
-													 (marker.walk == 1),
+				total_time += marker.time();
+				total_distance += marker.distance();
+				final Segment seg = new Segment.Step(marker.name(),
+													 marker.turn(),
+													 marker.shouldWalk(),
 													 total_time,
-													 marker.distance,
+													 marker.distance(),
 													 total_distance,
-													 grabPoints(marker));
+													 marker.points());
 				pr.add(seg);
 			} // if ...
 		} // for ...
 
-		for (final Marker marker : journey.markers) 
+		for (final Marker marker : journey.markers()) 
 		{ 
-			if(marker.type.equals("route"))			
+			if(marker.isRoute())			
 			{
 			  final GeoPoint pstart = pr.segments_.get(0).start();
 			  final GeoPoint pend = pr.segments_.get(pr.segments_.size()-1).end();
-				final Segment startSeg = new Segment.Start(marker.itinerary,
-														   name != null ? name : marker.name, 
-														   marker.plan, 
-														   marker.speed,
+				final Segment startSeg = new Segment.Start(marker.itinerary(),
+														   name != null ? name : marker.name(), 
+														   marker.plan(), 
+														   marker.speed(),
 														   total_time, 
 														   total_distance, 
-														   marker.calories,
-														   marker.grammesCO2saved,
+														   marker.calories(),
+														   marker.co2Saved(),
 														   Collections.list(pD(from, pstart), pstart));
-				final Segment endSeg = new Segment.End(marker.finish, 
+				final Segment endSeg = new Segment.End(marker.finish(), 
 													   total_time, 
 													   total_distance, 
 													   Collections.list(pend, pD(to, pend)));
@@ -86,19 +86,6 @@ public class PlannedRoute
 	{
 	  return a1 != null ? a1 : a2;
 	} // pD
-	
-	static private List<GeoPoint> grabPoints(final Marker marker)
-	{
-		final List<GeoPoint> points = new ArrayList<GeoPoint>();
-		final String[] coords = marker.points.split(" ");
-		for (final String coord : coords) 
-		{
-			final String[] yx = coord.split(",");
-			final GeoPoint p = new GeoPoint(Double.parseDouble(yx[1]), Double.parseDouble(yx[0]));
-			points.add(p);
-		} // for ...
-		return points;
-	} // grabPoints
 	
 	private final List<Segment> segments_;
 	private int activeSegment_;

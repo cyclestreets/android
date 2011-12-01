@@ -1,27 +1,53 @@
 package net.cyclestreets.api;
 
-import org.simpleframework.xml.Attribute;
-import org.simpleframework.xml.Root;
+import java.util.ArrayList;
+import java.util.List;
 
-@Root(strict=false)
-public class Marker {
-   @Attribute(required=false)
-   public String name, points, flow, turn, elevations, distances, provisionName, color, type;
+import org.osmdroid.util.GeoPoint;
 
-   @Attribute(required=false)
-   public int grammesCO2saved, calories;
+public class Marker 
+{
+  public String name() { return name_; }
+  public List<GeoPoint> points()
+  {
+    final List<GeoPoint> points = new ArrayList<GeoPoint>();
+    final String[] coords = points_.split(" ");
+    for (final String coord : coords) 
+    {
+      final String[] yx = coord.split(",");
+      final GeoPoint p = new GeoPoint(Double.parseDouble(yx[1]), Double.parseDouble(yx[0]));
+      points.add(p);
+    } // for ...
+    return points;
+  } // points
+  public String turn() { return turn_; }
+  public boolean isSegment() { return type_.equals("segment"); }
+  public boolean isRoute() { return type_.equals("route"); }
+  public int calories() { return calories_; }
+  public int co2Saved() { return grammesCO2saved_; }
+  public String finish() { return finish_; }
+  public String plan() { return plan_; }
+  public int distance() { return distance_; }
+  public int time() { return time_; }
+  public boolean shouldWalk() { return walk_ == 1; }
+  public int itinerary() { return itinerary_; }
+  public int speed() { return speed_; }
+
+  ///////////////////////////////////////////////
+  String name_; 
+  String points_;
+  String turn_;
+  String type_;
+
+  int grammesCO2saved_;
+  int calories_;
    
-   @Attribute(required=false)
-   public String start, finish, event, whence, plan, note, leaving, arriving, coordinates;
+  String finish_;
+  String plan_;
    	
-   @Attribute(required=false)
-   public double start_longitude, start_latitude, finish_longitude, finish_latitude,
-   	north, south, east, west;
-   
-   @Attribute(required=false)
-   public int startBearing, startSpeed, crow_fly_distance, speed, itinerary, clientRouteId,
-   		length;
-
-   @Attribute(required=false)
-   public int distance, time, busynance, quietness, walk, signalledJunctions, signalledCrossings;
-}
+  int speed_;
+  int itinerary_;
+  int distance_;
+  int time_;
+  int walk_;
+} // class Marker

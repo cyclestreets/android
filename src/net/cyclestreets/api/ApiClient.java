@@ -43,8 +43,6 @@ import org.apache.http.params.BasicHttpParams;
 import org.apache.http.params.HttpParams;
 import org.apache.http.protocol.HttpContext;
 import org.apache.http.util.EntityUtils;
-import org.simpleframework.xml.Serializer;
-import org.simpleframework.xml.core.Persister;
 
 import android.content.Context;
 import android.os.AsyncTask;
@@ -174,13 +172,13 @@ public class ApiClient
   /////////////////////////////////////////////////////////////////////////
   private ApiClient() {}
   
-  static public Journey getJourney(final String plan, final GeoPoint start, final GeoPoint finish) 
+  static Journey getJourney(final String plan, final GeoPoint start, final GeoPoint finish) 
     throws Exception 
   {
     return getJourney(plan, start, finish, DEFAULT_SPEED);
   } // getJourney
 
-  static public Journey getJourney(final String plan, final GeoPoint start, final GeoPoint finish, final int speed) 
+  static Journey getJourney(final String plan, final GeoPoint start, final GeoPoint finish, final int speed) 
     throws Exception 
   {
     return getJourney(plan,
@@ -193,7 +191,7 @@ public class ApiClient
                       speed);
   } // getJourney
 
-  static public Journey getJourney(final String plan, 
+  static Journey getJourney(final String plan, 
                                    final double startLon, 
                                    final double startLat, 
                                    final double finishLon, 
@@ -204,7 +202,7 @@ public class ApiClient
     throws Exception 
   {
     final String points = itineraryPoints(startLon, startLat, finishLon, finishLat);
-    return callApi(Journey.class, 
+    return callApi(Journey.factory(), 
              API_PATH_JOURNEY,
              "plan", plan,
              "itinerarypoints", points,
@@ -213,7 +211,7 @@ public class ApiClient
              "speed", Integer.toString(speed));
   } // getJourney
   
-  static public String getJourneyXml(final String plan, 
+  static String getJourneyXml(final String plan, 
                                      final GeoPoint start, 
                                      final GeoPoint finish) 
     throws Exception 
@@ -436,12 +434,6 @@ public class ApiClient
     return executeRaw(httpget);
   } // callApiRaw
   
-  static private <T> T callApi(final Class<T> returnClass, final String path, String... args) throws Exception 
-  {
-    final byte[] xml = callApiRaw(path, args);
-    return loadRaw(returnClass, xml);
-  } // callApi
-  
   static private <T> T callApi(final Factory<T> factory, final String path, String... args) throws Exception
   {
     final byte[] xml = callApiRaw(path, args);
@@ -547,13 +539,6 @@ public class ApiClient
     return params;
   } // createParamsList
   
-  static public <T> T loadRaw(final Class<T> returnClass, final byte[] xml) throws Exception
-  {
-    final Serializer serializer = new Persister();
-    final InputStream bais = new ByteArrayInputStream(xml);
-    return serializer.read(returnClass, bais);
-  } // loadRaw
-  
   static public <T> T loadRaw(final Factory<T> factory, final byte[] xml) throws Exception
   {
     try {
@@ -569,9 +554,16 @@ public class ApiClient
     return factory.get();
   } // loadRaw
 
-  static public <T> T loadString(final Class<T> returnClass, final String xml) throws Exception
+  static public <T> T loadString(final Factory<T> factory, final String xml) throws Exception
   {
-    final Serializer serializer = new Persister();
-    return serializer.read(returnClass, xml);
+    try {
+      Xml.parse(xml, 
+                factory.contentHandler());
+    } // try
+    catch(final Exception e) {
+      factory.parseException(e);
+    } // catch
+      
+    return factory.get();
   } // loadRaw
 } // ApiClient
