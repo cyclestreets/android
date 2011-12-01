@@ -366,18 +366,18 @@ public class ApiClient
                    "password", password);
     } // signin
 
-  static public RegistrationResult register(final String username, 
-                        final String password,
-                        final String name,
-                        final String email) 
+  static Registration.Result register(final String username, 
+                                      final String password,
+                                      final String name,
+                                      final String email) 
     throws Exception 
   {
-    return postApi(RegistrationResult.class,
-               API_PATH_REGISTER, 
-               "username", username,
-               "password", password,
-               "name", name,
-               "email", email);
+    return postApi(Registration.factory(),
+                   API_PATH_REGISTER, 
+                   "username", username,
+                   "password", password,
+                   "name", name,
+                   "email", email);
   } // register
   
   static POICategories getPOICategories(int iconSize)
@@ -461,13 +461,6 @@ public class ApiClient
     
     return loadRaw(factory, xml);
   } // callApiWithCache
-  
-  static private <T> T postApi(final Class<T> returnClass, final String path, Object... args) 
-    throws Exception 
-  {
-    final byte[] xml = postApiRaw(path, args);
-    return loadRaw(returnClass, xml);
-  } // postApi
   
   static private <T> T postApi(final Factory<T> factory, final String path, Object...args)
     throws Exception
