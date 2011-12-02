@@ -3,6 +3,8 @@ package net.cyclestreets.planned;
 import java.util.Iterator;
 import java.util.List;
 
+import net.cyclestreets.api.Segment;
+
 import org.osmdroid.util.GeoPoint;
 
 import android.content.Context;
@@ -12,6 +14,7 @@ import net.cyclestreets.CycleStreetsPreferences;
 import net.cyclestreets.R;
 import net.cyclestreets.content.RouteDatabase;
 import net.cyclestreets.content.RouteSummary;
+import net.cyclestreets.api.DistanceFormatter;
 
 public class Route 
 {

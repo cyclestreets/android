@@ -9,6 +9,8 @@ import org.osmdroid.util.GeoPoint;
 import net.cyclestreets.CycleStreetsPreferences;
 import net.cyclestreets.api.Journey;
 import net.cyclestreets.api.Marker;
+import net.cyclestreets.api.Segment;
+import net.cyclestreets.api.DistanceFormatter;
 import net.cyclestreets.util.Collections;
 
 public class PlannedRoute 
