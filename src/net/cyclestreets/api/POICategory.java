@@ -50,7 +50,10 @@ public class POICategory
     throws Exception
   {
     try {
-      final List<POI> pois = ApiClient.getPOIs(key_, centre, radius);
+      final List<POI> pois = ApiClient.getPOIs(key_, 
+                                               centre.getLatitudeE6() / 1E6,
+                                               centre.getLongitudeE6() / 1E6,
+                                               radius);
       for(final POI poi : pois)
         poi.setCategory(this);
       return pois;

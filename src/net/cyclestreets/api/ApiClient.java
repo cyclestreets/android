@@ -11,8 +11,6 @@ import java.util.List;
 
 import net.cyclestreets.R;
 
-import org.osmdroid.util.BoundingBoxE6;
-import org.osmdroid.util.GeoPoint;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpException;
 import org.apache.http.HttpRequest;
@@ -94,8 +92,6 @@ public class ApiClient
   private final static String API_PATH_POI_CATEGORIES = API_PATH + "poitypes.xml";
   private final static String API_PATH_POIS = API_PATH + "pois.xml";
 
-  private final static int DEFAULT_SPEED = 20;
-  
   private static Context context_;
   
   static Context context() 
@@ -172,73 +168,7 @@ public class ApiClient
   /////////////////////////////////////////////////////////////////////////
   private ApiClient() {}
   
-  static Journey getJourney(final String plan, final GeoPoint start, final GeoPoint finish) 
-    throws Exception 
-  {
-    return getJourney(plan, start, finish, DEFAULT_SPEED);
-  } // getJourney
-
-  static Journey getJourney(final String plan, final GeoPoint start, final GeoPoint finish, final int speed) 
-    throws Exception 
-  {
-    return getJourney(plan,
-                      start.getLongitudeE6() / 1E6, 
-                      start.getLatitudeE6() / 1E6,
-                      finish.getLongitudeE6() / 1E6, 
-                      finish.getLatitudeE6() / 1E6,
-                      null, 
-                      null, 
-                      speed);
-  } // getJourney
-
-  static Journey getJourney(final String plan, 
-                                   final double startLon, 
-                                   final double startLat, 
-                                   final double finishLon, 
-                                   final double finishLat,
-                                   final String leaving, 
-                                   final String arriving, 
-                                   final int speed) 
-    throws Exception 
-  {
-    final String points = itineraryPoints(startLon, startLat, finishLon, finishLat);
-    return callApi(Journey.factory(), 
-             API_PATH_JOURNEY,
-             "plan", plan,
-             "itinerarypoints", points,
-             "leaving", leaving,
-             "arriving", arriving,
-             "speed", Integer.toString(speed));
-  } // getJourney
-  
   static String getJourneyXml(final String plan, 
-                                     final GeoPoint start, 
-                                     final GeoPoint finish) 
-    throws Exception 
-  {
-    return getJourneyXml(plan,
-                         start,
-                         finish, 
-                         DEFAULT_SPEED);
-  } // getJourneyXml
-  
-  static public String getJourneyXml(final String plan, 
-                                     final GeoPoint start, 
-                                     final GeoPoint finish, 
-                                     final int speed) 
-    throws Exception 
-  {
-    return getJourneyXml(plan,
-               start.getLongitudeE6() / 1E6, 
-               start.getLatitudeE6() / 1E6,
-               finish.getLongitudeE6() / 1E6, 
-               finish.getLatitudeE6() / 1E6,
-               null, 
-               null, 
-               speed);
-  } // getJourneyXml
-  
-  static public String getJourneyXml(final String plan, 
                      final double startLon, 
                      final double startLat, 
                      final double finishLon, 
@@ -258,8 +188,8 @@ public class ApiClient
     return new String(xml, "UTF-8");
   } // getJourneyXml
   
-  static public String getJourneyXml(final String plan, 
-                                     final long itinerary) 
+  static String getJourneyXml(final String plan, 
+                              final long itinerary) 
     throws Exception
   {
     final byte[] xml =callApiRaw(API_PATH_JOURNEY,
@@ -387,28 +317,32 @@ public class ApiClient
   } // getPOICategories
   
   static List<POI> getPOIs(final String key,
-                                  final BoundingBoxE6 boundingBox)
+                           final double latN,
+                           final double latS,
+                           final double lonE,
+                           final double lonW)
     throws Exception
   {
     return callApi(POICategory.factory(),
                    API_PATH_POIS,
                    "type", key, 
-                   "n", Double.toString(boundingBox.getLatNorthE6() / 1E6),
-                   "s", Double.toString(boundingBox.getLatSouthE6() / 1E6),
-                   "e", Double.toString(boundingBox.getLonEastE6() / 1E6),
-                   "w", Double.toString(boundingBox.getLonWestE6() / 1E6));
+                   "n", Double.toString(latN),
+                   "s", Double.toString(latS),
+                   "e", Double.toString(lonE),
+                   "w", Double.toString(lonW));
   } // getPOIs
   
   static List<POI> getPOIs(final String key,
-                           final GeoPoint centre,
+                           final double lat,
+                           final double lon,
                            final int radius)
     throws Exception
   {
     return callApi(POICategory.factory(),
         API_PATH_POIS,
         "type", key, 
-        "latitude", Double.toString(centre.getLatitudeE6() / 1E6),
-        "longitude", Double.toString(centre.getLongitudeE6() / 1E6),
+        "latitude", Double.toString(lat),
+        "longitude", Double.toString(lon),
         "radius", Integer.toString(radius),
         "limit", "150");
   } // getPOIs
@@ -545,19 +479,6 @@ public class ApiClient
       final InputStream bais = new ByteArrayInputStream(xml);
       Xml.parse(bais, 
                 Xml.Encoding.UTF_8, 
-                factory.contentHandler());
-    } // try
-    catch(final Exception e) {
-      factory.parseException(e);
-    } // catch
-      
-    return factory.get();
-  } // loadRaw
-
-  static public <T> T loadString(final Factory<T> factory, final String xml) throws Exception
-  {
-    try {
-      Xml.parse(xml, 
                 factory.contentHandler());
     } // try
     catch(final Exception e) {

@@ -4,21 +4,72 @@ import java.util.Collection;
 import java.util.List;
 import java.util.ArrayList;
 
+import org.osmdroid.util.GeoPoint;
 import org.xml.sax.Attributes;
 import org.xml.sax.ContentHandler;
 
 import android.sax.Element;
 import android.sax.RootElement;
 import android.sax.StartElementListener;
+import android.util.Xml;
 
 public class Journey 
 {
 	public List<Marker> markers_ = new ArrayList<Marker>();		// default to empty list
 	
-	
 	public boolean isEmpty() { return markers_.isEmpty(); }
 	public Collection<Marker> markers() { return markers_; }
 
+  private final static int DEFAULT_SPEED = 20;
+  
+  static public String getJourneyXml(final String plan, 
+                                     final GeoPoint start, 
+                                     final GeoPoint finish)
+    throws Exception
+  {
+    return getJourneyXml(plan, start, finish, DEFAULT_SPEED);
+  } // getJourneyXml
+	
+  static public String getJourneyXml(final String plan, 
+                                     final GeoPoint start, 
+                                     final GeoPoint finish, 
+                                     final int speed) 
+    throws Exception 
+  {
+    return ApiClient.getJourneyXml(plan,
+                                   start.getLongitudeE6() / 1E6, 
+                                   start.getLatitudeE6() / 1E6,
+                                   finish.getLongitudeE6() / 1E6, 
+                                   finish.getLatitudeE6() / 1E6,
+                                   null, 
+                                   null, 
+                                   speed);
+  } // getJourneyXml
+	
+  static public String getJourneyXml(final String plan, 
+                                     final long itinerary) 
+    throws Exception
+  {
+    return ApiClient.getJourneyXml(plan, itinerary);
+  } // getJourneyXml
+    
+
+  static public Journey loadFromXml(final String xml) 
+    throws Exception
+  {
+    final Factory<Journey> factory = factory();
+    
+    try {
+      Xml.parse(xml, factory.contentHandler());
+    } // try
+    catch(final Exception e) {
+      factory.parseException(e);
+    } // catch
+      
+    return factory.get();
+  } // loadString
+
+  
 	////////////////////////////////////////////////////////////////////////////////
 	/*
 As at 01 December 2011

@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import org.osmdroid.util.GeoPoint;
 
 import net.cyclestreets.CycleStreetsPreferences;
-import net.cyclestreets.api.ApiClient;
 import net.cyclestreets.api.Journey;
 import net.cyclestreets.api.Marker;
 import net.cyclestreets.util.Collections;
@@ -28,7 +27,7 @@ public class PlannedRoute
 	{
 		final PlannedRoute pr = new PlannedRoute();
 		
-		final Journey journey = ApiClient.loadString(Journey.factory(), journeyXml);
+		final Journey journey = Journey.loadFromXml(journeyXml);
 		if(journey.isEmpty())
 			throw new RuntimeException();
 				
