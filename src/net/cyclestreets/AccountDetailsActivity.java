@@ -254,15 +254,7 @@ public class AccountDetailsActivity extends Activity
     
     protected Signin.Result doInBackground(Object... params)
     {
-      try {
-        final Signin.Result res =  Signin.signin(username_, 
-                                                 password_);
-        return res;
-      } // try
-      catch(final Exception e) {
-        final String msg = e.getMessage();
-        return Signin.error("Error: " + msg);
-      } // catch
+      return Signin.signin(username_, password_);
     } // doInBackground
     
     @Override
@@ -349,15 +341,10 @@ public class AccountDetailsActivity extends Activity
     
     protected Registration.Result doInBackground(Object... params)
     {
-      try {
-        return Registration.register(username_, 
-                                      password_,
-                                      name_,
-                                     email_);
-      } // try
-      catch(final Exception e) {
-        return Registration.error(e.getMessage());
-      } // catch
+      return Registration.register(username_, 
+                                   password_,
+                                   name_,
+                                   email_);
     } // doInBackground
     
     @Override

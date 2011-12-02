@@ -4,22 +4,31 @@ import java.util.Collection;
 import java.util.List;
 import java.util.ArrayList;
 
+import net.cyclestreets.CycleStreetsPreferences;
+import net.cyclestreets.util.Collections;
+
 import org.osmdroid.util.GeoPoint;
 import org.xml.sax.Attributes;
 import org.xml.sax.ContentHandler;
 
 import android.sax.Element;
+import android.sax.EndElementListener;
 import android.sax.RootElement;
 import android.sax.StartElementListener;
 import android.util.Xml;
 
 public class Journey 
 {
-	public List<Marker> markers_ = new ArrayList<Marker>();		// default to empty list
+	private List<Segment> segments_ = new ArrayList<Segment>();
 	
-	public boolean isEmpty() { return markers_.isEmpty(); }
-	public Collection<Marker> markers() { return markers_; }
-
+	public boolean isEmpty() { return segments_.isEmpty(); }
+	public Collection<Segment> segments() { return segments_; }
+	
+	static private GeoPoint pD(final GeoPoint a1, final GeoPoint a2)
+	{
+	  return a1 != null ? a1 : a2;
+	} // pD
+	  
   private final static int DEFAULT_SPEED = 20;
   
   static public String getJourneyXml(final String plan, 
@@ -54,10 +63,13 @@ public class Journey
   } // getJourneyXml
     
 
-  static public Journey loadFromXml(final String xml) 
+  static public Journey loadFromXml(final String xml, 
+                                    final GeoPoint from, 
+                                    final GeoPoint to,
+                                    final String name) 
     throws Exception
   {
-    final Factory<Journey> factory = factory();
+    final Factory<Journey> factory = factory(from, to, name);
     
     try {
       Xml.parse(xml, factory.contentHandler());
@@ -74,7 +86,9 @@ public class Journey
 	/*
 As at 01 December 2011
 <markers>
-  <marker start="King's Parade" finish="Orchard Tea Rooms, Grantchester" startBearing="360" startSpeed="0" start_longitude="0.117776" start_latitude="52.205296" finish_longitude="0.096399" finish_latitude="52.177109" crow_fly_distance="3461" event="depart" whence="2007-05-22 14:33:40" speed="16" clientRouteId="0" plan="balanced" note="" length="3949" time="1037" busynance="4471" quietness="88" signalledJunctions="0" signalledCrossings="0" south="52.176655" west="0.095602" north="52.205254" east="0.117861" name="King's Parade to Orchard Tea Rooms, Grantchester" walk="0" leaving="2007-05-22 14:33:40" arriving="2007-05-22 14:50:57" coordinates="0.117805,52.205254 0.117805,52.20517 0.117861,52.205139 0.117709,52.204628 0.117633,52.204128 0.117592,52.203735 0.117546,52.203403 0.117854,52.202404 0.117547,52.202351 0.117497,52.202339 0.116524,52.202164 0.116417,52.202141 0.11608,52.202072 0.115952,52.202053 0.1159,52.202038 0.116158,52.201519 0.116089,52.201496 0.116089,52.201424 0.115928,52.201378 0.115757,52.201298 0.115713,52.201279 0.115822,52.201069 0.115856,52.200619 0.115865,52.200504 0.11575,52.200047 0.115453,52.19978 0.114588,52.199219 0.114528,52.199203 0.114459,52.199165 0.114428,52.199123 0.114785,52.197998 0.114759,52.197975 0.114725,52.197956 0.114657,52.197933 0.114631,52.197929 0.114354,52.197842 0.114265,52.197811 0.112782,52.197372 0.112045,52.19717 0.111377,52.196945 0.111051,52.196774 0.110775,52.196556 0.110695,52.196445 0.110435,52.19648 0.110376,52.195969 0.110382,52.195675 0.110266,52.195194 0.110296,52.195114 0.110304,52.195007 0.108518,52.193333 0.108135,52.193214 0.106687,52.192776 0.106258,52.192623 0.105371,52.192345 0.104757,52.191967 0.103775,52.191292 0.103657,52.191154 0.103604,52.19109 0.103463,52.190895 0.103368,52.190716 0.103274,52.190453 0.103197,52.190189 0.103188,52.189888 0.103081,52.189617 0.102622,52.189152 0.10221,52.188732 0.101935,52.188522 0.101652,52.188236 0.101411,52.187943 0.101137,52.18763 0.100802,52.187153 0.100579,52.186707 0.100321,52.186256 0.100021,52.185848 0.099729,52.185631 0.099326,52.185196 0.098923,52.18475 0.098374,52.184139 0.09815,52.183842 0.097832,52.182858 0.097776,52.1828 0.09722,52.181778 0.097175,52.181702 0.097017,52.181332 0.096708,52.180386 0.096631,52.180122 0.096562,52.179935 0.096433,52.179558 0.096296,52.179333 0.09609,52.179111 0.095901,52.17886 0.096201,52.178658 0.096313,52.17852 0.09634,52.178406 0.096305,52.178154 0.09579,52.177231 0.095645,52.176991 0.095602,52.176872 0.095688,52.1768 0.095877,52.176723 0.096243,52.176655 0.096493,52.177063" grammesCO2saved="736" calories="50" itinerary="1" type="route"/><waypoint longitude="0.117776" latitude="52.205296" sequenceId="1" note="Experimental addition to the API do not use yet."/><waypoint longitude="0.096399" latitude="52.177109" sequenceId="2" note="Experimental addition to the API do not use yet."/>
+  <marker start="King's Parade" finish="Orchard Tea Rooms, Grantchester" startBearing="360" startSpeed="0" start_longitude="0.117776" start_latitude="52.205296" finish_longitude="0.096399" finish_latitude="52.177109" crow_fly_distance="3461" event="depart" whence="2007-05-22 14:33:40" speed="16" clientRouteId="0" plan="balanced" note="" length="3949" time="1037" busynance="4471" quietness="88" signalledJunctions="0" signalledCrossings="0" south="52.176655" west="0.095602" north="52.205254" east="0.117861" name="King's Parade to Orchard Tea Rooms, Grantchester" walk="0" leaving="2007-05-22 14:33:40" arriving="2007-05-22 14:50:57" coordinates="0.117805,52.205254 0.117805,52.20517 0.117861,52.205139 0.117709,52.204628 0.117633,52.204128 0.117592,52.203735 0.117546,52.203403 0.117854,52.202404 0.117547,52.202351 0.117497,52.202339 0.116524,52.202164 0.116417,52.202141 0.11608,52.202072 0.115952,52.202053 0.1159,52.202038 0.116158,52.201519 0.116089,52.201496 0.116089,52.201424 0.115928,52.201378 0.115757,52.201298 0.115713,52.201279 0.115822,52.201069 0.115856,52.200619 0.115865,52.200504 0.11575,52.200047 0.115453,52.19978 0.114588,52.199219 0.114528,52.199203 0.114459,52.199165 0.114428,52.199123 0.114785,52.197998 0.114759,52.197975 0.114725,52.197956 0.114657,52.197933 0.114631,52.197929 0.114354,52.197842 0.114265,52.197811 0.112782,52.197372 0.112045,52.19717 0.111377,52.196945 0.111051,52.196774 0.110775,52.196556 0.110695,52.196445 0.110435,52.19648 0.110376,52.195969 0.110382,52.195675 0.110266,52.195194 0.110296,52.195114 0.110304,52.195007 0.108518,52.193333 0.108135,52.193214 0.106687,52.192776 0.106258,52.192623 0.105371,52.192345 0.104757,52.191967 0.103775,52.191292 0.103657,52.191154 0.103604,52.19109 0.103463,52.190895 0.103368,52.190716 0.103274,52.190453 0.103197,52.190189 0.103188,52.189888 0.103081,52.189617 0.102622,52.189152 0.10221,52.188732 0.101935,52.188522 0.101652,52.188236 0.101411,52.187943 0.101137,52.18763 0.100802,52.187153 0.100579,52.186707 0.100321,52.186256 0.100021,52.185848 0.099729,52.185631 0.099326,52.185196 0.098923,52.18475 0.098374,52.184139 0.09815,52.183842 0.097832,52.182858 0.097776,52.1828 0.09722,52.181778 0.097175,52.181702 0.097017,52.181332 0.096708,52.180386 0.096631,52.180122 0.096562,52.179935 0.096433,52.179558 0.096296,52.179333 0.09609,52.179111 0.095901,52.17886 0.096201,52.178658 0.096313,52.17852 0.09634,52.178406 0.096305,52.178154 0.09579,52.177231 0.095645,52.176991 0.095602,52.176872 0.095688,52.1768 0.095877,52.176723 0.096243,52.176655 0.096493,52.177063" grammesCO2saved="736" calories="50" itinerary="1" type="route"/>
+  <waypoint longitude="0.117776" latitude="52.205296" sequenceId="1" note="Experimental addition to the API do not use yet."/>
+  <waypoint longitude="0.096399" latitude="52.177109" sequenceId="2" note="Experimental addition to the API do not use yet."/>
   <marker name="Link joining St Mary's Passage, King's Parade, NCN" legNumber="0" distance="14" time="4" busynance="14" flow="" walk="0" provisionName="Cycle Track" signalledJunctions="0" signalledCrossings="0" turn="straight on" startBearing="360" color="#ff0000" points="0.117805,52.205254 0.117805,52.20517 0.117861,52.205139" distances="0,9,5" elevations="17,17,17" type="segment"/>
   <marker name="King's Parade, NCN 11" legNumber="0" distance="158" time="43" busynance="226" flow="" walk="0" provisionName="Road" signalledJunctions="0" signalledCrossings="0" turn="straight on" startBearing="360" color="#33aa33" points="0.117861,52.205139 0.117709,52.204628 0.117633,52.204128 0.117592,52.203735" distances="0,58,56,44" elevations="17,17,16,17" type="segment"/>
   <marker name="Trumpington Street, NCN 11" legNumber="0" distance="150" time="30" busynance="215" flow="" walk="0" provisionName="Road" signalledJunctions="0" signalledCrossings="0" turn="straight on" startBearing="360" color="#33aa33" points="0.117592,52.203735 0.117546,52.203403 0.117854,52.202404" distances="0,37,113" elevations="17,17,16" type="segment"/>
@@ -106,49 +120,85 @@ As at 01 December 2011
 </markers>
 	 */
 	
-  static public Factory<Journey> factory() { 
-    return new JourneyFactory();
+  static public Factory<Journey> factory(final GeoPoint from, 
+                                         final GeoPoint to,
+                                         final String name) 
+  { 
+    return new JourneyFactory(from, to, name);
   } // factory
   
   static private class JourneyFactory extends Factory<Journey>
   {    
-    private Journey journey_;
+    private final Journey journey_;
+    private final GeoPoint from_;
+    private final GeoPoint to_;
+    private final String name_;
+    private int total_time = 0;
+    private int total_distance = 0;
+    private int itinerary_ = 0;
+    private int grammesCO2saved_ = 0;
+    private int calories_ = 0;
+    private String plan_;
+    private int speed_;
+    private String start_;
+    private String finish_;    
 
-    public JourneyFactory() 
+    public JourneyFactory(final GeoPoint from, 
+                          final GeoPoint to,
+                          final String name) 
     {
+      journey_ = new Journey();
+      
+      from_ = from;
+      to_ = to;
+      name_ = name;
     } // JourneyFactory
     
     @Override
     protected ContentHandler contentHandler()
     {
-      journey_ = new Journey();
-      
+      Segment.formatter = DistanceFormatter.formatter(CycleStreetsPreferences.units());
+
       final RootElement root = new RootElement("markers");
       final Element item = root.getChild("marker");
       item.setStartElementListener(new StartElementListener() {
         @Override
         public void start(final Attributes attr)
         {
-          final Marker marker = new Marker();
+          final String type = s(attr, "type");
+          final String name = s(attr, "name");
           
-          marker.name_ = s(attr, "name");
-          marker.points_ = s(attr, "points");
-          marker.turn_ = s(attr, "turn");
-          marker.type_ = s(attr, "type");
-
-          marker.grammesCO2saved_ = i(attr, "grammesCO2saved");
-          marker.calories_ = i(attr, "calories");
-           
-          marker.finish_ = s(attr, "finish"); 
-          marker.plan_ = s(attr, "plan");
+          if(type.equals("segment"))
+          {
+            final String points = s(attr, "points");
             
-          marker.speed_ = i(attr, "speed");
-          marker.itinerary_ = i(attr, "itinerary");
-          marker.distance_ = i(attr, "distance");
-          marker.time_ = i(attr, "time");
-          marker.walk_ = i(attr, "walk");
+            final String turn = s(attr, "turn");
+             
+            final int distance = i(attr, "distance");
+            final int time = i(attr, "time");
+            final boolean shouldWalk = "1".equals(s(attr, "walk"));
 
-          journey_.markers_.add(marker);
+            total_time += time;
+            total_distance += distance;
+            final Segment seg = new Segment.Step(name,
+                                                 turn,
+                                                 shouldWalk,
+                                                 total_time,
+                                                 distance,
+                                                 total_distance,
+                                                 pointsList(points));
+            journey_.segments_.add(seg);
+          } // if ...
+          if(type.equals("route"))
+          {
+            grammesCO2saved_ = i(attr, "grammesCO2saved");
+            calories_ = i(attr, "calories");
+            plan_ = s(attr, "plan");
+            speed_ = i(attr, "speed");
+            itinerary_ = i(attr, "itinerary");
+            start_ = s(attr, "start");
+            finish_ = s(attr, "finish");
+          } // if ...
         } // start
         
         private String s(final Attributes attr, final String name) { return attr.getValue(name); }
@@ -158,15 +208,53 @@ As at 01 December 2011
           return v != null ? Integer.parseInt(v) : 0; 
         } // i
       });
+      
+      root.setEndElementListener(new EndElementListener() {
+        @Override
+        public void end()
+        {
+          final GeoPoint pstart = journey_.segments_.get(0).start();
+          final GeoPoint pend = journey_.segments_.get(journey_.segments_.size()-1).end();
+          final Segment startSeg = new Segment.Start(itinerary_,
+                                 name_ != null ? name_ : start_,
+                                 plan_, 
+                                 speed_,
+                                 total_time, 
+                                 total_distance, 
+                                 calories_,
+                                 grammesCO2saved_,
+                                 Collections.list(pD(from_, pstart), pstart));
+          final Segment endSeg = new Segment.End(finish_, 
+                               total_time, 
+                               total_distance, 
+                               Collections.list(pend, pD(to_, pend)));
+          journey_.segments_.add(0, startSeg);
+          journey_.segments_.add(endSeg);
+        } // end
+      });
 
       return root.getContentHandler();
     } // contentHandler
-
+    
     @Override
     protected Journey get()
     {
       return journey_;
     } // get
+    
+    private List<GeoPoint> pointsList(final String points)
+    {
+      final List<GeoPoint> pl = new ArrayList<GeoPoint>();
+      final String[] coords = points.split(" ");
+      for (final String coord : coords) 
+      {
+        final String[] yx = coord.split(",");
+        final GeoPoint p = new GeoPoint(Double.parseDouble(yx[1]), Double.parseDouble(yx[0]));
+        pl.add(p);
+      } // for ...
+      return pl;
+    } // points
+
   } // class JourneyFactory
 	
 } // class Journey

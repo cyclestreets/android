@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import net.cyclestreets.planned.Route;
-import net.cyclestreets.planned.Segment;
+import net.cyclestreets.api.Segment;
 
 import android.app.ListActivity;
 import android.content.Context;

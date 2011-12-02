@@ -4,7 +4,7 @@ import java.util.List;
 
 import net.cyclestreets.content.RouteSummary;
 import net.cyclestreets.planned.Route;
-import net.cyclestreets.planned.Segment;
+import net.cyclestreets.api.Segment;
 import net.cyclestreets.util.Dialog;
 import android.app.ListActivity;
 import android.content.Context;
