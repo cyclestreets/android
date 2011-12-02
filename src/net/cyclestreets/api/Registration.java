@@ -40,15 +40,14 @@ public class Registration
                                 final String password,
                                 final String name,
                                 final String email) 
-    throws Exception 
   {
-    return ApiClient.register(username, password, name, email);
+    try {
+      return ApiClient.register(username, password, name, email);
+    } // try
+    catch(Exception e) {
+      return new Result(false, e.getMessage());
+    } // catch
   } // register
-
-  static public Result error(final String error)
-  {
-    return new Result(false, error);
-  } // error
   
   ///////////////////////////////////////////////////
   /*

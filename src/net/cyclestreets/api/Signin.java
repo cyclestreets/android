@@ -28,7 +28,7 @@ public class Signin
   	public String error() 
   	{
   		if(error_ != null)
-  			return error_;
+  			return "Error : " + error_;
   		return "Unknown error";
   	} // error
   	
@@ -40,14 +40,13 @@ public class Signin
   
   static public Result signin(final String username, 
                               final String password)
-                                  throws Exception
   {
-    return ApiClient.signin(username, password);
-  } // signin
-
-  static public Result error(final String errorMessage)
-  {
-    return new Signin.Result(errorMessage);  
+    try {
+      return ApiClient.signin(username, password);
+    } // try
+    catch(Exception e) {
+      return new Signin.Result(e.getMessage());
+    } // catch
   } // Result
 
 	/*

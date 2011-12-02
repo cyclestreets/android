@@ -473,7 +473,7 @@ public class ApiClient
     return params;
   } // createParamsList
   
-  static public <T> T loadRaw(final Factory<T> factory, final byte[] xml) throws Exception
+  static private <T> T loadRaw(final Factory<T> factory, final byte[] xml) throws Exception
   {
     try {
       final InputStream bais = new ByteArrayInputStream(xml);
