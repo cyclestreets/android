@@ -81,6 +81,7 @@ public class TapToRouteOverlay extends Overlay
   
   private OverlayItem startItem_;
   private OverlayItem endItem_;
+  private Rect tapStateRect_;
 
   private Paint textBrush_;
 
@@ -115,6 +116,12 @@ public class TapToRouteOverlay extends Overlay
                            radius_);
     restartButton_.centreAlign();
     restartButton_.bottomAlign();
+    
+    tapStateRect_ = new Rect();
+    tapStateRect_.left = stepBackButton_.right() + offset_; 
+    tapStateRect_.top = offset_;
+    tapStateRect_.bottom = tapStateRect_.top + stepBackButton_.height();
+
         
     textBrush_ = Brush.createTextBrush(offset_);
         
@@ -307,10 +314,11 @@ public class TapToRouteOverlay extends Overlay
       return;
         
     final Rect screen = canvas.getClipBounds();
-    screen.left += stepBackButton_.right() + offset_; 
-    screen.top += offset_;
-    screen.right -= offset_;
-    screen.bottom = screen.top + stepBackButton_.height();
+    screen.offset(tapStateRect_.left, tapStateRect_.top);
+    screen.right -= (tapStateRect_.left + offset_);
+    screen.bottom = screen.top + tapStateRect_.height();
+
+    tapStateRect_.right = tapStateRect_.left + screen.width();
     
     if(!DrawingHelper.drawRoundRect(canvas, screen, radius_, Brush.Grey))
       return;
@@ -431,37 +439,45 @@ public class TapToRouteOverlay extends Overlay
 
   private boolean tapMarker(final MotionEvent event)
   {
-    final GeoPoint p = mapView_.getProjection().fromPixels((int)event.getX(), (int)event.getY());
-    tapAction(p, true);    
+    final int x = (int)event.getX();
+    final int y = (int)event.getY();
+    final GeoPoint p = mapView_.getProjection().fromPixels(x, y);
+    tapAction(x, y, p, true);    
     return true;
   } // tapMarker
    
   public void setNextMarker(final GeoPoint point)
   {
-    tapAction(point, false);
+    tapAction(Integer.MIN_VALUE, Integer.MIN_VALUE, point, false);
   } // setNextMarker
   
-  private void tapAction(final GeoPoint point, boolean tap)
+  private void tapAction(final int x, final int y, final GeoPoint point, boolean tap)
   {
     switch(tapState_)
     {
       case WAITING_FOR_START:
+        if(tapStateRect_.contains(x, y))
+          return;
         setStart(point);
         mapView_.invalidate();
         break;
       case WAITING_FOR_END:
+        if(tapStateRect_.contains(x, y))
+          return;
         setEnd(point);
         mapView_.invalidate();
         break;
       case WAITING_TO_ROUTE:
         if(!tap)
           return;
+        if(!tapStateRect_.contains(x, y))
+          return;
+        
         callback_.onRouteNow(startItem_.getPoint(), endItem_.getPoint());
         break;
       case ALL_DONE:
         break;
     } // switch ...
-
     tapState_ = tapState_.next();
   } // tapMarker
   
