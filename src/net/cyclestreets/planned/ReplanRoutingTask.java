@@ -31,6 +31,6 @@ public class ReplanRoutingTask
 		  return rd;
 
 	  publishProgress(R.string.finding_route);
-	  return fetchRoute(newPlan_, pr.itinerary(), pr.start(), pr.finish(), 0);
+	  return fetchRoute(newPlan_, pr.itinerary(), 0, pr.start(), pr.finish());
 	} // doInBackground
 } // class ReplanRoutingTask

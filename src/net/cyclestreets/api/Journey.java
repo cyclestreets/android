@@ -132,27 +132,29 @@ public class Journey
   
   /////////////////////////////////////////////////////////////////
   static public String getJourneyXml(final String plan, 
-                                     final GeoPoint start, 
-                                     final GeoPoint finish)
+                                     final GeoPoint... waypoints)
     throws Exception
   {
-    return getJourneyXml(plan, start, finish, DEFAULT_SPEED);
+    return getJourneyXml(plan, DEFAULT_SPEED, waypoints);
   } // getJourneyXml
 	
   static public String getJourneyXml(final String plan, 
-                                     final GeoPoint start, 
-                                     final GeoPoint finish, 
-                                     final int speed) 
+                                     final int speed,
+                                     final GeoPoint... waypoints) 
     throws Exception 
   {
+    final double[] lonLat = new double[waypoints.length*2];
+    for(int i = 0; i != waypoints.length; ++i)
+    {
+      int l = i*2;
+      lonLat[l] = waypoints[i].getLongitudeE6() / 1E6;
+      lonLat[l+1] = waypoints[i].getLatitudeE6() / 1E6;
+    } // for ...
     return ApiClient.getJourneyXml(plan,
-                                   start.getLongitudeE6() / 1E6, 
-                                   start.getLatitudeE6() / 1E6,
-                                   finish.getLongitudeE6() / 1E6, 
-                                   finish.getLatitudeE6() / 1E6,
                                    null, 
                                    null, 
-                                   speed);
+                                   speed,
+                                   lonLat);
   } // getJourneyXml
 	
   static public String getJourneyXml(final String plan, 

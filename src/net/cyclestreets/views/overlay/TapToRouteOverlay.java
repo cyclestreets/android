@@ -46,7 +46,7 @@ public class TapToRouteOverlay extends Overlay
 {
   public interface Callback 
   {
-    void onRouteNow(final GeoPoint from, final GeoPoint to);
+    void onRouteNow(final GeoPoint... waypoints);
     void reRouteNow(final String plan);
     void onClearRoute();
   } // Callback
@@ -297,7 +297,7 @@ public class TapToRouteOverlay extends Overlay
   
   private void drawButtons(final Canvas canvas)
   {
-    stepBackButton_.enable(tapState_ == TapToRoute.WAITING_FOR_END || 
+    stepBackButton_.enable(tapState_ == TapToRoute.WAITING_FOR_NEXT || 
                            tapState_ == TapToRoute.WAITING_TO_ROUTE);
     if(tapState_ != TapToRoute.ALL_DONE)
       stepBackButton_.draw(canvas);
@@ -420,7 +420,7 @@ public class TapToRouteOverlay extends Overlay
     {
       case WAITING_FOR_START:
         return true;
-      case WAITING_FOR_END:
+      case WAITING_FOR_NEXT:
         setStart(null);
         break;
       case WAITING_TO_ROUTE:
@@ -461,7 +461,7 @@ public class TapToRouteOverlay extends Overlay
         setStart(point);
         mapView_.invalidate();
         break;
-      case WAITING_FOR_END:
+      case WAITING_FOR_NEXT:
         if(tapStateRect_.contains(x, y))
           return;
         setEnd(point);
@@ -472,7 +472,6 @@ public class TapToRouteOverlay extends Overlay
           return;
         if(!tapStateRect_.contains(x, y))
           return;
-        
         callback_.onRouteNow(startItem_.getPoint(), endItem_.getPoint());
         break;
       case ALL_DONE:
@@ -485,7 +484,7 @@ public class TapToRouteOverlay extends Overlay
   private enum TapToRoute 
   { 
     WAITING_FOR_START, 
-    WAITING_FOR_END, 
+    WAITING_FOR_NEXT, 
     WAITING_TO_ROUTE, 
     ALL_DONE;
     
@@ -511,10 +510,10 @@ public class TapToRouteOverlay extends Overlay
       {
         case WAITING_FOR_START:
           break;
-        case WAITING_FOR_END:
+        case WAITING_FOR_NEXT:
           return WAITING_FOR_START;
         case WAITING_TO_ROUTE:
-          return WAITING_FOR_END;
+          return WAITING_FOR_NEXT;
         case ALL_DONE:
           break;
       } // switch
@@ -526,8 +525,8 @@ public class TapToRouteOverlay extends Overlay
       switch(this) 
       {
         case WAITING_FOR_START:
-          return WAITING_FOR_END;
-        case WAITING_FOR_END:
+          return WAITING_FOR_NEXT;
+        case WAITING_FOR_NEXT:
           return WAITING_TO_ROUTE;
         case WAITING_TO_ROUTE:
           return ALL_DONE;
@@ -543,10 +542,10 @@ public class TapToRouteOverlay extends Overlay
       {
         case WAITING_FOR_START:
           return "Tap map to set Start";
-        case WAITING_FOR_END:
-          return "Tap map to set Finish";
+        case WAITING_FOR_NEXT:
+          return "Tap map to WayPoint\nTap here to Route";
         case WAITING_TO_ROUTE:
-          return "Tap map to Route";
+          return "Tap here to Route";
         case ALL_DONE:
           break;
       } // switch

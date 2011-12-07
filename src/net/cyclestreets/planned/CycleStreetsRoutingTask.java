@@ -25,10 +25,8 @@ class CycleStreetsRoutingTask extends RoutingTask<GeoPoint>
 	} // NewRouteTask
 	
 	@Override
-	protected RouteData doInBackground(GeoPoint... points)
+	protected RouteData doInBackground(GeoPoint... waypoints)
 	{
-		final GeoPoint start = points[0];
-		final GeoPoint finish = points[1];
-		return fetchRoute(routeType_, start, finish, speed_);
+		return fetchRoute(routeType_, speed_, waypoints);
 	} // doInBackgroud
 } // NewRouteTask

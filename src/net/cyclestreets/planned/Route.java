@@ -24,14 +24,13 @@ public class Route
 	}
 
 	static public void PlotRoute(final String plan,
-								 final GeoPoint placeFrom, 
-								 final GeoPoint placeTo,
-								 final int speed,
-								 final Callback whoToTell,
-								 final Context context)
+              								 final int speed,
+              								 final Callback whoToTell,
+              								 final Context context,
+                               final GeoPoint... waypoints)
 	{
 		final CycleStreetsRoutingTask query = new CycleStreetsRoutingTask(plan, speed, whoToTell, context);
-		query.execute(placeFrom, placeTo);
+		query.execute(waypoints);
 	} // PlotRoute
 	
 	static public void FetchRoute(final String plan,

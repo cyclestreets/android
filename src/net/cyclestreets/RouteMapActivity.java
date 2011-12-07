@@ -60,14 +60,13 @@ public class RouteMapActivity extends CycleMapActivity
 	  setJourneyPath(Route.points(), Route.start(), Route.finish());
   } // onResume
      
-	public void onRouteNow(final GeoPoint start, final GeoPoint end)
+	public void onRouteNow(final GeoPoint... waypoints)
 	{
 	  Route.PlotRoute(CycleStreetsPreferences.routeType(), 
-	                  start, 
-	                  end,
 	                  CycleStreetsPreferences.speed(),
 	                  this, 
-	                  this);
+	                  this,
+	                  waypoints);
 	} // onRouteNow
 
 	public void onRouteNow(int itinerary)
@@ -165,11 +164,11 @@ public class RouteMapActivity extends CycleMapActivity
 			final int speed = data.getIntExtra(CycleStreetsConstants.EXTRA_ROUTE_SPEED, 
 					                               CycleStreetsPreferences.speed());
 			Route.PlotRoute(routeType, 
-			                placeFrom, 
-			                placeTo,
 			                speed,
 			                this, 
-			                this);
+			                this,
+                      placeFrom, 
+                      placeTo);
 		} // if ...
 		
 		if(requestCode == R.string.ic_menu_route_number)

@@ -169,16 +169,13 @@ public class ApiClient
   private ApiClient() {}
   
   static String getJourneyXml(final String plan, 
-                     final double startLon, 
-                     final double startLat, 
-                     final double finishLon, 
-                     final double finishLat,
-                     final String leaving, 
-                     final String arriving, 
-                     final int speed) 
+                              final String leaving, 
+                              final String arriving, 
+                              final int speed,
+                              final double[] lonLat)
     throws Exception
   {
-    final String points = itineraryPoints(startLon, startLat, finishLon, finishLat);
+    final String points = itineraryPoints(lonLat);
     final byte[] xml = callApiRaw(API_PATH_JOURNEY,
               "plan", plan,
               "itinerarypoints", points,
@@ -349,14 +346,15 @@ public class ApiClient
 
   /////////////////////////////////////////////////////
   /////////////////////////////////////////////////////
-  static private String itineraryPoints(final double startLon, 
-          final double startLat, 
-          final double finishLon, 
-          final double finishLat)
+  static private String itineraryPoints(final double... lonLat)
   {
     final StringBuilder sb = new StringBuilder();
-    sb.append(startLon).append(",").append(startLat).append("|")
-      .append(finishLon).append(",").append(finishLat);
+    for(int i = 0; i != lonLat.length; i += 2)
+    {
+      if(i != 0)
+        sb.append("|");
+      sb.append(lonLat[i]).append(",").append(lonLat[i+1]);
+    } // for ...
     return sb.toString();
   } // itineraryPoints
 

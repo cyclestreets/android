@@ -37,30 +37,30 @@ public abstract class RoutingTask<Params>
 		initialMsg_ = progressMessage;
 	} // Routing Task
 
-	protected RouteData fetchRoute(final String routeType, 
-	                               final GeoPoint start, 
-	                               final GeoPoint finish,
-	                               final int speed) 
+	protected RouteData fetchRoute(final String routeType,
+	                               final int speed,
+	                               final GeoPoint... waypoints) 
 	{
-	  return fetchRoute(routeType, -1, start, finish, speed);
+	  return fetchRoute(routeType, -1, speed, waypoints);
 	} // fetchRoute
 	
 	protected RouteData fetchRoute(final String routeType,
 	                               final long itinerary,
 	                               final int speed)
 	{ 
-	  return fetchRoute(routeType, itinerary, null, null, speed);
+	  return fetchRoute(routeType, itinerary, speed, (GeoPoint[])null);
 	} // fetchRoute
 	
 	protected RouteData fetchRoute(final String routeType, 
 								                 final long itinerary,
-								                 final GeoPoint start, 
-								                 final GeoPoint finish,
-								                 final int speed) 
+								                 final int speed,
+								                 final GeoPoint... waypoints) 
 	{
 		try {
-		  final String xml = doFetchRoute(routeType, itinerary, start, finish, speed);
-		  return new RouteData(xml, start, finish, null);
+		  final String xml = doFetchRoute(routeType, itinerary, speed, waypoints);
+		  final GeoPoint start = (waypoints != null ? waypoints[0] : null);
+		  final GeoPoint end = (waypoints != null ? waypoints[waypoints.length-1] : null);
+		  return new RouteData(xml, start, end, null);
 		} // try
 	  catch (Exception e) {
 	    error_ = "Could not contact CycleStreets.net : " + e.getMessage();
@@ -70,14 +70,13 @@ public abstract class RoutingTask<Params>
 	
 	private String doFetchRoute(final String routeType, 
 								              final long itinerary,
-								              final GeoPoint start, 
-								              final GeoPoint finish,
-								              final int speed)
+								              final int speed,
+								              final GeoPoint... waypoints)
 		throws Exception
 	{
 		if(itinerary != -1)
    			return Journey.getJourneyXml(routeType, itinerary);
-		return Journey.getJourneyXml(routeType, start, finish, speed);
+		return Journey.getJourneyXml(routeType, speed, waypoints);
 	} // doFetchRoute
 	
 	@Override
