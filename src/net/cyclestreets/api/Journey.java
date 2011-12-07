@@ -1,6 +1,6 @@
 package net.cyclestreets.api;
 
-import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
 import java.util.ArrayList;
 
@@ -19,11 +19,110 @@ import android.util.Xml;
 
 public class Journey 
 {
-	private List<Segment> segments_ = new ArrayList<Segment>();
-	
+	private List<Segment> segments_;
+  private int activeSegment_;
+	  
+  static public final Journey NULL_JOURNEY;
+  static {
+    NULL_JOURNEY = new Journey();
+    NULL_JOURNEY.activeSegment_ = -1;
+  }
+
+  
+  private Journey() 
+  {
+    segments_ = new ArrayList<Segment>();
+    activeSegment_ = 0;   
+	} // PlannedRoute
+
 	public boolean isEmpty() { return segments_.isEmpty(); }
-	public Collection<Segment> segments() { return segments_; }
+	public List<Segment> segments() { return segments_; }
 	
+	private Segment.Start s() { return (Segment.Start)segments_.get(0); }
+	private Segment.End e() { return (Segment.End)segments_.get(segments_.size()-1); }
+	  
+	public GeoPoint start() { return s().start(); }
+	public GeoPoint finish() { return e().end(); }
+	  
+	public String url() { return "http://cycle.st/j" + itinerary(); }
+	public int itinerary() { return s().itinerary(); }
+	public String name() { return s().name(); }
+	public String plan() { return s().plan(); }
+	public int speed() { return s().speed(); }
+	public int total_distance() { return e().total_distance(); }
+
+  /////////////////////////////////////////
+  public void setActiveSegmentIndex(int index) { activeSegment_ = index; }
+  public int activeSegmentIndex() { return activeSegment_; }
+  
+  public Segment activeSegment() { return activeSegment_ >= 0 ? segments_.get(activeSegment_) : null; }
+  
+  public boolean atStart() { return activeSegment_ <= 0; }
+  public boolean atEnd() { return activeSegment_ == segments_.size()-1; }
+  
+  public void regressActiveSegment() 
+  { 
+    if(!atStart()) 
+      --activeSegment_; 
+  } // regressActiveSegment
+  public void advanceActiveSegment() 
+  { 
+    if(!atEnd()) 
+      ++activeSegment_; 
+  } // advanceActiveSegment
+  
+  public Iterator<GeoPoint> points()
+  {
+    return new PointsIterator(segments_);
+  } // points
+    
+  static class PointsIterator implements Iterator<GeoPoint>
+  {
+    private final Iterator<Segment> segments_;
+    private Iterator<GeoPoint> points_;
+    
+    PointsIterator(final List<Segment> segments)
+    {
+      segments_ = segments.iterator();
+      if(!segments_.hasNext())
+        return;
+      
+      points_ = segments_.next().points();
+    } // PointsIterator
+    
+    @Override
+    public boolean hasNext() 
+    {
+      return points_ != null && points_.hasNext();
+    } // hasNext
+
+    @Override
+    public GeoPoint next() 
+    {
+      if(!hasNext())
+        throw new IllegalStateException();
+      
+      final GeoPoint p = points_.next();
+      
+      if(!hasNext())
+      {
+        if(segments_.hasNext())
+          points_ = segments_.next().points();
+        else
+          points_ = null;
+      } // if ...
+      
+      return p;
+    } // next
+
+    @Override
+    public void remove() 
+    {
+      throw new UnsupportedOperationException();
+    } // remove
+  } // class PointsIterator
+
+  ////////////////////////////////////////////////////////////////
 	static private GeoPoint pD(final GeoPoint a1, final GeoPoint a2)
 	{
 	  return a1 != null ? a1 : a2;
@@ -31,6 +130,7 @@ public class Journey
 	  
   private final static int DEFAULT_SPEED = 20;
   
+  /////////////////////////////////////////////////////////////////
   static public String getJourneyXml(final String plan, 
                                      final GeoPoint start, 
                                      final GeoPoint finish)
@@ -196,7 +296,7 @@ As at 01 December 2011
             plan_ = s(attr, "plan");
             speed_ = i(attr, "speed");
             itinerary_ = i(attr, "itinerary");
-            start_ = s(attr, "start");
+            start_ = s(attr, "name");
             finish_ = s(attr, "finish");
           } // if ...
         } // start

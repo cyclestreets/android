@@ -3,6 +3,7 @@ package net.cyclestreets.planned;
 import java.util.Iterator;
 import java.util.List;
 
+import net.cyclestreets.api.Journey;
 import net.cyclestreets.api.Segment;
 
 import org.osmdroid.util.GeoPoint;
@@ -44,8 +45,8 @@ public class Route
 	} // FetchRoute
 
 	static public void RePlotRoute(final String plan,
-								   final Callback whoToTell,
-								   final Context context)
+              								   final Callback whoToTell,
+              								   final Context context)
 	{
 		final ReplanRoutingTask query = new ReplanRoutingTask(plan, db_, whoToTell, context);
 		query.execute(plannedRoute_);
@@ -70,7 +71,7 @@ public class Route
 	} // DeleteRoute
 	
 	/////////////////////////////////////////	
-	private static PlannedRoute plannedRoute_ = PlannedRoute.NULL_ROUTE;
+	private static Journey plannedRoute_ = Journey.NULL_JOURNEY;
 	private static GeoPoint start_;
 	private static GeoPoint finish_;
 	private static RouteDatabase db_;
@@ -136,11 +137,11 @@ public class Route
 	
 		if(journeyXml == null)
 		{
-			plannedRoute_ = PlannedRoute.NULL_ROUTE;
+			plannedRoute_ = Journey.NULL_JOURNEY;
 			return;
 		}
 		
-		plannedRoute_ = PlannedRoute.load(journeyXml, start, finish, name);
+		plannedRoute_ = Journey.loadFromXml(journeyXml, start, finish, name);
 		
 		db_.saveRoute(plannedRoute_.itinerary(), 
 					  plannedRoute_.name(), 
@@ -160,8 +161,8 @@ public class Route
 	static public GeoPoint finish() { return finish_; }
 	
 	static public int itinerary() { return planned().itinerary(); }
-	static public boolean available() { return plannedRoute_ != PlannedRoute.NULL_ROUTE; }
-	static public PlannedRoute planned() { return plannedRoute_; }
+	static public boolean available() { return plannedRoute_ != Journey.NULL_JOURNEY; }
+	static public Journey planned() { return plannedRoute_; }
 	static public Segment activeSegment() { return planned().activeSegment(); }
 	static public int activeSegmentIndex() { return planned().activeSegmentIndex(); }
 	static public void setActiveSegmentIndex(int index) { planned().setActiveSegmentIndex(index); }

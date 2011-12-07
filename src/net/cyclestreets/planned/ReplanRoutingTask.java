@@ -4,9 +4,10 @@ import android.content.Context;
 import net.cyclestreets.R;
 import net.cyclestreets.content.RouteData;
 import net.cyclestreets.content.RouteDatabase;
+import net.cyclestreets.api.Journey;
 
 public class ReplanRoutingTask 
-  extends RoutingTask<PlannedRoute>
+  extends RoutingTask<Journey>
 {
 	private final RouteDatabase db_;
 	private final String newPlan_;
@@ -22,9 +23,9 @@ public class ReplanRoutingTask
 	} // ReplanRouteTask
 
 	@Override
-	protected RouteData doInBackground(PlannedRoute... params) 
+	protected RouteData doInBackground(Journey... params) 
 	{
-	  final PlannedRoute pr = params[0];
+	  final Journey pr = params[0];
 	  final RouteData rd = db_.route(pr.itinerary(), newPlan_);
 	  if(rd != null)
 		  return rd;
