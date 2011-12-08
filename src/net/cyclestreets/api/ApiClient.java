@@ -201,24 +201,24 @@ public class ApiClient
     return callApiWithCache(PhotomapCategories.factory(), API_PATH_PHOTOMAP_CATEGORIES);
   } // getPhotomapCategories
   
-  static Photos getPhotos(final double latitude, 
-                          final double longitude,
-                          int zoom, 
+  static Photos getPhotos(final double longitude,
+                          final double latitude, 
+                          int zoom,
+                          double e,
+                          double w,
                           double n, 
-                          double s, 
-                          double e, 
-                          double w) 
+                          double s) 
     throws Exception 
   {
     return callApi(Photos.factory(), 
                     API_PATH_PHOTOS,
-                    "latitude", Double.toString(latitude),
                     "longitude", Double.toString(longitude),
+                    "latitude", Double.toString(latitude),
                     "zoom", Integer.toString(zoom),
-                    "n", Double.toString(n),
-                    "s", Double.toString(s),
                     "e", Double.toString(e),
                     "w", Double.toString(w),
+                    "n", Double.toString(n),
+                    "s", Double.toString(s),
                     "suppressplaceholders", "1",
                     "minimaldata", "1",
                     "limit", "30",
@@ -259,8 +259,8 @@ public class ApiClient
   static Upload.Result uploadPhoto(final String filename,
                                    final String username,
                                    final String password,
-                                   final double lat,
                                    final double lon,
+                                   final double lat,
                                    final String metaCat,
                                    final String category,
                                    final String dateTime,
@@ -272,8 +272,8 @@ public class ApiClient
              API_PATH_ADDPHOTO,
              "username", username,
              "password", password,
-             "latitude", Double.toString(lat),
              "longitude", Double.toString(lon),
+             "latitude", Double.toString(lat),
              "datetime", dateTime,
              "category", category,
              "metacategory", metaCat,
@@ -314,32 +314,32 @@ public class ApiClient
   } // getPOICategories
   
   static List<POI> getPOIs(final String key,
-                           final double latN,
-                           final double latS,
                            final double lonE,
-                           final double lonW)
+                           final double lonW,
+                           final double latN,
+                           final double latS)
     throws Exception
   {
     return callApi(POICategory.factory(),
                    API_PATH_POIS,
                    "type", key, 
-                   "n", Double.toString(latN),
-                   "s", Double.toString(latS),
                    "e", Double.toString(lonE),
-                   "w", Double.toString(lonW));
+                   "w", Double.toString(lonW),
+                   "n", Double.toString(latN),
+                   "s", Double.toString(latS));
   } // getPOIs
   
   static List<POI> getPOIs(final String key,
-                           final double lat,
                            final double lon,
+                           final double lat,
                            final int radius)
     throws Exception
   {
     return callApi(POICategory.factory(),
         API_PATH_POIS,
         "type", key, 
-        "latitude", Double.toString(lat),
         "longitude", Double.toString(lon),
+        "latitude", Double.toString(lat),
         "radius", Integer.toString(radius),
         "limit", "150");
   } // getPOIs

@@ -116,15 +116,7 @@ public class PhotosOverlay extends LiveItemOverlay<PhotosOverlay.PhotoItem>
                                            final int zoom,
                                            final BoundingBoxE6 boundingBox)
   {
-		double n = boundingBox.getLatNorthE6() / 1E6;
-		double s = boundingBox.getLatSouthE6() / 1E6;
-		double e = boundingBox.getLonEastE6() / 1E6;
-		double w = boundingBox.getLonWestE6() / 1E6;
-		
-		double clat = (double)mapCentre.getLatitudeE6() / 1E6;
-		double clon = (double)mapCentre.getLongitudeE6() / 1E6;
-
-		GetPhotosTask.fetch(this, clat, clon, zoom, n, s, e, w);
+		GetPhotosTask.fetch(this, mapCentre, zoom, boundingBox);
 		return true;
 	} // refreshPhotos
 	
@@ -148,17 +140,13 @@ public class PhotosOverlay extends LiveItemOverlay<PhotosOverlay.PhotoItem>
 		
 		protected Photos doInBackground(Object... params) 
 		{
-			double clat = (Double) params[0];
-			double clon = (Double) params[1];
-			int zoom = (Integer) params[2];
-			double n = (Double) params[3];
-			double s = (Double) params[4];
-			double e = (Double) params[5];
-			double w = (Double) params[6];
+			final GeoPoint mapCentre = (GeoPoint)params[0];
+			int zoom = (Integer) params[1];
+			final BoundingBoxE6 boundingBox = (BoundingBoxE6)params[2];
 
 			try {
-				return Photos.load(clat, clon, zoom, n, s, e, w);
-			}
+				return Photos.load(mapCentre, zoom, boundingBox);
+			} 
 			catch (final Exception ex) {
 				// never mind, eh?
 			}

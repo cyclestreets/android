@@ -51,8 +51,8 @@ public class POICategory
   {
     try {
       final List<POI> pois = ApiClient.getPOIs(key_, 
-                                               centre.getLatitudeE6() / 1E6,
                                                centre.getLongitudeE6() / 1E6,
+                                               centre.getLatitudeE6() / 1E6,
                                                radius);
       for(final POI poi : pois)
         poi.setCategory(this);

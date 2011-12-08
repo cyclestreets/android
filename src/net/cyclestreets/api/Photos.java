@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import org.osmdroid.util.BoundingBoxE6;
 import org.osmdroid.util.GeoPoint;
 import org.xml.sax.Attributes;
 import org.xml.sax.ContentHandler;
@@ -35,31 +36,28 @@ public class Photos implements Iterable<Photo>
   /////////////////////////////////////////////////////////////
 	static public Photos load(final GeoPoint centre,
 	                          final int zoom, 
-	                          final double n, 
-	                          final double s, 
-	                          final double e, 
-	                          final double w) 
+	                          final BoundingBoxE6 boundingBox) 
 	   throws Exception 
   {
-	  return load(centre.getLatitudeE6() / 1E6, 
-                centre.getLongitudeE6() / 1E6, 
-                zoom, 
-                n, 
-                s, 
-                e, 
-                w);
+	  return load(centre.getLongitudeE6() / 1E6, 
+                centre.getLatitudeE6() / 1E6, 
+                zoom,
+                boundingBox.getLonEastE6() / 1E6,
+                boundingBox.getLonWestE6() / 1E6,
+                boundingBox.getLatNorthE6() / 1E6,
+                boundingBox.getLatSouthE6() / 1E6);
   } // load
 	
-	static public Photos load(final double clat,
-	                          final double clong,
-	                          final int zoom,
-	                          final double n,
-	                          final double s, 
-	                          final double e,
-	                          final double w)
+	static private Photos load(final double clong,
+	                           final double clat,
+	                           final int zoom,
+	                           final double e,
+	                           final double w,
+	                           final double n,
+                             final double s)
 	    throws Exception
 	{
-	  return ApiClient.getPhotos(clat, clong, zoom, n, s, e, w);
+	  return ApiClient.getPhotos(clong, clat, zoom, e, w, n, s);
 	} // load
 	
   ////////////////////////////////////////////////////
