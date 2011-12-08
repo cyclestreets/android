@@ -1,5 +1,7 @@
 package net.cyclestreets.planned;
 
+import java.util.List;
+
 import org.osmdroid.util.GeoPoint;
 
 import net.cyclestreets.content.RouteData;
@@ -39,7 +41,7 @@ public abstract class RoutingTask<Params>
 
 	protected RouteData fetchRoute(final String routeType,
 	                               final int speed,
-	                               final GeoPoint... waypoints) 
+	                               final List<GeoPoint> waypoints) 
 	{
 	  return fetchRoute(routeType, -1, speed, waypoints);
 	} // fetchRoute
@@ -48,19 +50,17 @@ public abstract class RoutingTask<Params>
 	                               final long itinerary,
 	                               final int speed)
 	{ 
-	  return fetchRoute(routeType, itinerary, speed, (GeoPoint[])null);
+	  return fetchRoute(routeType, itinerary, speed, null);
 	} // fetchRoute
 	
 	protected RouteData fetchRoute(final String routeType, 
 								                 final long itinerary,
 								                 final int speed,
-								                 final GeoPoint... waypoints) 
+								                 final List<GeoPoint> waypoints) 
 	{
 		try {
 		  final String xml = doFetchRoute(routeType, itinerary, speed, waypoints);
-		  final GeoPoint start = (waypoints != null ? waypoints[0] : null);
-		  final GeoPoint end = (waypoints != null ? waypoints[waypoints.length-1] : null);
-		  return new RouteData(xml, start, end, null);
+		  return new RouteData(xml, waypoints, null);
 		} // try
 	  catch (Exception e) {
 	    error_ = "Could not contact CycleStreets.net : " + e.getMessage();
@@ -71,7 +71,7 @@ public abstract class RoutingTask<Params>
 	private String doFetchRoute(final String routeType, 
 								              final long itinerary,
 								              final int speed,
-								              final GeoPoint... waypoints)
+								              final List<GeoPoint> waypoints)
 		throws Exception
 	{
 		if(itinerary != -1)
@@ -98,7 +98,7 @@ public abstract class RoutingTask<Params>
 	{
 		if(route != null)
 		{
-			if(Route.onNewJourney(route.xml(), route.start(), route.finish(), route.name()))
+			if(Route.onNewJourney(route))
 				whoToTell_.onNewJourney();
 		} // if ...
 		progress_.dismiss();

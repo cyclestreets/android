@@ -170,10 +170,12 @@ public class RouteDatabase
         if(cursor.moveToFirst()) 
            do 
            {
+             final List<GeoPoint> points = new ArrayList<GeoPoint>();
+             points.add(new GeoPoint(cursor.getInt(1), cursor.getInt(2)));
+             points.add(new GeoPoint(cursor.getInt(3), cursor.getInt(4)));
         	   r = new RouteData(cursor.getString(0),
-        			   			 new GeoPoint(cursor.getInt(1), cursor.getInt(2)),
-        			   			 new GeoPoint(cursor.getInt(3), cursor.getInt(4)),
-        			   			 cursor.getString(5));
+        	                     points,
+        	                     cursor.getString(5));
            } 
            while (cursor.moveToNext());
  

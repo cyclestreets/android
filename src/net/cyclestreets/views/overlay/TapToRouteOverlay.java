@@ -49,7 +49,7 @@ public class TapToRouteOverlay extends Overlay
 {
   public interface Callback 
   {
-    void onRouteNow(final GeoPoint... waypoints);
+    void onRouteNow(final List<GeoPoint> waypoints);
     void reRouteNow(final String plan);
     void onClearRoute();
   } // Callback
@@ -176,19 +176,17 @@ public class TapToRouteOverlay extends Overlay
     return waypointsCount() > 1 ? waypoints_.get(waypointsCount()-1).getPoint() : null;
   } // getFinish
   
-  private GeoPoint[] waypointsArray()
-  {
-    final int count = waypointsCount();
-    final GeoPoint[] points = new GeoPoint[count];
-    for(int c = 0; c != count; ++c)
-      points[c] = waypoints_.get(c).getPoint();
-    return points;
-  } // waypointsArray
-  
   private int waypointsCount()
   {
     return waypoints_.size();
   } // waypointsCount
+  private List<GeoPoint> geoPoints()
+  {
+    final List<GeoPoint> p = new ArrayList<GeoPoint>();
+    for(final OverlayItem o : waypoints_)
+      p.add(o.getPoint());
+    return p;
+  } // geoPoints
 
   private void addWaypoint(final GeoPoint point)
   {
@@ -304,11 +302,15 @@ public class TapToRouteOverlay extends Overlay
         final Location lastFix = mapView_.getLastFix();
         final GeoPoint from = new GeoPoint((int)(lastFix.getLatitude() * 1E6),
                                            (int)(lastFix.getLongitude() * 1E6));
-        callback_.onRouteNow(from, getFinish());
+        callback_.onRouteNow(Collections.list(from, getFinish()));
       }
       break;
     case R.string.ic_menu_reverse:
-      callback_.onRouteNow(getFinish(), getStart());
+      {
+        final List<GeoPoint> points = geoPoints();
+        java.util.Collections.reverse(points);
+        callback_.onRouteNow(points);
+      }
       break;
     case R.string.ic_menu_share:
       Share.Url(mapView_, 
@@ -510,7 +512,7 @@ public class TapToRouteOverlay extends Overlay
         break;
       case WAITING_FOR_NEXT:
         if(tapStateRect_.contains(x, y))
-          callback_.onRouteNow(waypointsArray());
+          callback_.onRouteNow(geoPoints());
         addWaypoint(point);
         break;
       case WAITING_TO_ROUTE:
@@ -518,7 +520,7 @@ public class TapToRouteOverlay extends Overlay
           return;
         if(!tapStateRect_.contains(x, y))
           return;
-        callback_.onRouteNow(waypointsArray());
+        callback_.onRouteNow(geoPoints());
         break;
       case ALL_DONE:
         break;

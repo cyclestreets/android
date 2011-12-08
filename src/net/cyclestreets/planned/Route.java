@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import net.cyclestreets.CycleStreetsPreferences;
 import net.cyclestreets.R;
+import net.cyclestreets.content.RouteData;
 import net.cyclestreets.content.RouteDatabase;
 import net.cyclestreets.content.RouteSummary;
 import net.cyclestreets.api.DistanceFormatter;
@@ -23,11 +24,12 @@ public class Route
 		public void onNewJourney();
 	}
 
+	@SuppressWarnings("unchecked")
 	static public void PlotRoute(final String plan,
               								 final int speed,
               								 final Callback whoToTell,
               								 final Context context,
-                               final GeoPoint... waypoints)
+                               final List<GeoPoint> waypoints)
 	{
 		final CycleStreetsRoutingTask query = new CycleStreetsRoutingTask(plan, speed, whoToTell, context);
 		query.execute(waypoints);
@@ -90,7 +92,7 @@ public class Route
 	
 	static public void resetJourney()
 	{
-		onNewJourney(null, null, null, null);
+		onNewJourney(null);
 	} // resetJourney
 
 	static public void onResume()
@@ -110,13 +112,10 @@ public class Route
 	} // storedNames
 	
 	/////////////////////////////////////
-  static public boolean onNewJourney(final String journeyXml, 
-                   									 final GeoPoint from, 
-                   									 final GeoPoint to,
-                    								 final String name)
+  static public boolean onNewJourney(final RouteData route)
 	{
 		try {
-			doOnNewJourney(journeyXml, from, to, name);
+			doOnNewJourney(route);
 			return true;
 		} // try
 		catch(Exception e) {
@@ -125,30 +124,28 @@ public class Route
 		return false;
 	} // onNewJourney
 	
-	static private void doOnNewJourney(final String journeyXml, 
-									   final GeoPoint start, 
-									   final GeoPoint finish,
-									   final String name)
+	static private void doOnNewJourney(final RouteData route)
 		throws Exception
 	{
-		start_ = start;
-		finish_ = finish;
-	
-		if(journeyXml == null)
+		if(route == null)
 		{
 			plannedRoute_ = Journey.NULL_JOURNEY;
+			start_ = finish_ = null;
 			return;
 		}
 		
-		plannedRoute_ = Journey.loadFromXml(journeyXml, start, finish, name);
+    start_ = route.points().get(0);
+    finish_ = route.points().get(route.points().size()-1);
+  
+		plannedRoute_ = Journey.loadFromXml(route.xml(), start_, finish_, route.name());
 		
 		db_.saveRoute(plannedRoute_.itinerary(), 
-					  plannedRoute_.name(), 
-					  plannedRoute_.plan(),
-					  plannedRoute_.total_distance(),
-					  journeyXml, 
-					  plannedRoute_.start(), 
-					  plannedRoute_.finish());
+      					  plannedRoute_.name(), 
+      					  plannedRoute_.plan(),
+      					  plannedRoute_.total_distance(),
+      					  route.xml(), 
+      					  plannedRoute_.start(), 
+      					  plannedRoute_.finish());
 		
 		if(start_ == null)
 		  start_ = plannedRoute_.start();

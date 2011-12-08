@@ -1,5 +1,10 @@
 package net.cyclestreets.planned;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.osmdroid.util.GeoPoint;
+
 import android.content.Context;
 import net.cyclestreets.R;
 import net.cyclestreets.content.RouteData;
@@ -31,6 +36,9 @@ public class ReplanRoutingTask
 		  return rd;
 
 	  publishProgress(R.string.finding_route);
-	  return fetchRoute(newPlan_, pr.itinerary(), 0, pr.start(), pr.finish());
+	  final List<GeoPoint> gp = new ArrayList<GeoPoint>();
+	  gp.add(pr.start());
+	  gp.add(pr.finish());
+	  return fetchRoute(newPlan_, pr.itinerary(), 0, gp);
 	} // doInBackground
 } // class ReplanRoutingTask

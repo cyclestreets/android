@@ -8,7 +8,9 @@ import org.osmdroid.util.GeoPoint;
 
 import android.content.Context;
 
-class CycleStreetsRoutingTask extends RoutingTask<GeoPoint>
+import java.util.List;
+
+class CycleStreetsRoutingTask extends RoutingTask<List<GeoPoint>>
 {
 	/////////////////////////////////////////////////////
 	private final String routeType_;
@@ -25,8 +27,9 @@ class CycleStreetsRoutingTask extends RoutingTask<GeoPoint>
 	} // NewRouteTask
 	
 	@Override
-	protected RouteData doInBackground(GeoPoint... waypoints)
+	protected RouteData doInBackground(List<GeoPoint>... waypoints)
 	{
-		return fetchRoute(routeType_, speed_, waypoints);
+	  final List<GeoPoint> wp = waypoints[0];
+		return fetchRoute(routeType_, speed_, wp);
 	} // doInBackgroud
 } // NewRouteTask

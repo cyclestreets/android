@@ -1,6 +1,8 @@
 package net.cyclestreets;
 
 import java.util.Iterator;
+import java.util.List;
+import java.util.ArrayList;
 
 import net.cyclestreets.CycleStreetsConstants;
 import net.cyclestreets.R;
@@ -60,7 +62,7 @@ public class RouteMapActivity extends CycleMapActivity
 	  setJourneyPath(Route.points(), Route.start(), Route.finish());
   } // onResume
      
-	public void onRouteNow(final GeoPoint... waypoints)
+	public void onRouteNow(final List<GeoPoint> waypoints)
 	{
 	  Route.PlotRoute(CycleStreetsPreferences.routeType(), 
 	                  CycleStreetsPreferences.speed(),
@@ -158,8 +160,9 @@ public class RouteMapActivity extends CycleMapActivity
 		if(requestCode == R.string.ic_menu_directions)
 		{
 			// get start and finish points
-			final GeoPoint placeFrom = GeoIntent.getGeoPoint(data, "FROM");
-			final GeoPoint placeTo = GeoIntent.getGeoPoint(data, "TO");
+		  final List<GeoPoint> points = new ArrayList<GeoPoint>();
+			points.add(GeoIntent.getGeoPoint(data, "FROM"));
+			points.add(GeoIntent.getGeoPoint(data, "TO"));
 			final String routeType = data.getStringExtra(CycleStreetsConstants.EXTRA_ROUTE_TYPE);
 			final int speed = data.getIntExtra(CycleStreetsConstants.EXTRA_ROUTE_SPEED, 
 					                               CycleStreetsPreferences.speed());
@@ -167,8 +170,7 @@ public class RouteMapActivity extends CycleMapActivity
 			                speed,
 			                this, 
 			                this,
-                      placeFrom, 
-                      placeTo);
+                      points);
 		} // if ...
 		
 		if(requestCode == R.string.ic_menu_route_number)
