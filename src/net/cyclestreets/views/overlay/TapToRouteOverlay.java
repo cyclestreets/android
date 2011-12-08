@@ -150,14 +150,14 @@ public class TapToRouteOverlay extends Overlay
     tapState_ = tapState_.reset();
     if(start == null)
       return;    
-    tapState_ = tapState_.next();
+    tapState_ = tapState_.next(waypointsCount());
     if(end == null)
       return;
-    tapState_ = tapState_.next();
+    tapState_ = tapState_.next(waypointsCount());
     if(!complete)
       return;
     controller().flushUndo(this);
-    tapState_ = tapState_.next();
+    tapState_ = TapToRoute.ALL_DONE;
   } // setRoute
   
   public void resetRoute()
@@ -169,27 +169,32 @@ public class TapToRouteOverlay extends Overlay
   
   public GeoPoint getStart() 
   { 
-    return waypoints_.size() > 0 ? waypoints_.get(0).getPoint() : null; 
+    return waypointsCount() > 0 ? waypoints_.get(0).getPoint() : null; 
   } // getStart
   public GeoPoint getFinish() 
   { 
-    return waypoints_.size() > 1 ? waypoints_.get(waypoints_.size()-1).getPoint() : null;
+    return waypointsCount() > 1 ? waypoints_.get(waypointsCount()-1).getPoint() : null;
   } // getFinish
   
   private GeoPoint[] waypointsArray()
   {
-    final int count = waypoints_.size();
+    final int count = waypointsCount();
     final GeoPoint[] points = new GeoPoint[count];
     for(int c = 0; c != count; ++c)
       points[c] = waypoints_.get(c).getPoint();
     return points;
   } // waypointsArray
+  
+  private int waypointsCount()
+  {
+    return waypoints_.size();
+  } // waypointsCount
 
   private void addWaypoint(final GeoPoint point)
   {
     if(point == null)
       return;
-    switch(waypoints_.size())
+    switch(waypointsCount())
     {
     case 0:
       waypoints_.add(addMarker(point, "start", greenWisp_));
@@ -200,13 +205,32 @@ public class TapToRouteOverlay extends Overlay
     default:
       {
         final GeoPoint prevFinished = getFinish();
-        waypoints_.remove(waypoints_.size()-1);
+        waypoints_.remove(waypointsCount()-1);
         waypoints_.add(addMarker(prevFinished, "waypoint", orangeWisp_));
         waypoints_.add(addMarker(point, "finish", redWisp_));
       } // default
     } // switch ...
   } // addWayPoint
   
+  private void removeWaypoint()
+  {
+    switch(waypointsCount())
+    {
+    case 0:
+        break;
+    case 1:
+    case 2:
+        waypoints_.remove(waypointsCount()-1);
+        break;
+    default:
+      {
+        waypoints_.remove(waypointsCount()-1);
+        final GeoPoint prevFinished = getFinish();
+        waypoints_.remove(waypointsCount()-1);
+        waypoints_.add(addMarker(prevFinished, "finish", redWisp_));
+      } // default
+    }
+  }
   private OverlayItem addMarker(final GeoPoint point, final String label, final Drawable icon)
   {
     if(point == null)
@@ -320,13 +344,14 @@ public class TapToRouteOverlay extends Overlay
   
   private void drawButtons(final Canvas canvas)
   {
-    stepBackButton_.enable(tapState_ == TapToRoute.WAITING_FOR_NEXT || 
+    stepBackButton_.enable(tapState_ == TapToRoute.WAITING_FOR_SECOND || 
+                           tapState_ == TapToRoute.WAITING_FOR_NEXT || 
                            tapState_ == TapToRoute.WAITING_TO_ROUTE);
+    restartButton_.enable(tapState_ == TapToRoute.ALL_DONE);
+
     if(tapState_ != TapToRoute.ALL_DONE)
       stepBackButton_.draw(canvas);
-
-    restartButton_.enable(tapState_ == TapToRoute.ALL_DONE);
-    if(tapState_ == TapToRoute.ALL_DONE)
+    else
       restartButton_.draw(canvas);
   } // drawLocationButton
 
@@ -444,16 +469,17 @@ public class TapToRouteOverlay extends Overlay
     {
       case WAITING_FOR_START:
         return true;
+      case WAITING_FOR_SECOND:
       case WAITING_FOR_NEXT:
-        waypoints_.remove(waypoints_.size()-1);
+        removeWaypoint();
         break;
       case ALL_DONE:
         callback_.onClearRoute();
         break;
     } // switch ...
     
+    tapState_ = tapState_.previous(waypointsCount());
     mapView_.invalidate();
-    tapState_ = tapState_.previous();
     
     return true;
   } // tapStepBack
@@ -481,14 +507,12 @@ public class TapToRouteOverlay extends Overlay
         if(tapStateRect_.contains(x, y))
           return;
         addWaypoint(point);
-        mapView_.invalidate();
         break;
       case WAITING_FOR_NEXT:
         if(tapStateRect_.contains(x, y))
           callback_.onRouteNow(waypointsArray());
         addWaypoint(point);
-        mapView_.invalidate();
-        return;
+        break;
       case WAITING_TO_ROUTE:
         if(!tap)
           return;
@@ -499,8 +523,10 @@ public class TapToRouteOverlay extends Overlay
       case ALL_DONE:
         break;
     } // switch ...
-    tapState_ = tapState_.next();
-  } // tapMarker
+
+    tapState_ = tapState_.next(waypointsCount());
+    mapView_.invalidate();
+} // tapMarker
   
   ////////////////////////////////////
   private enum TapToRoute 
@@ -523,20 +549,20 @@ public class TapToRouteOverlay extends Overlay
     
     public boolean isAtEnd()
     {
-      return (this == previous()) ||
-             (this == next());
+      return (this == WAITING_FOR_START) ||
+             (this == ALL_DONE);
     } // isAtEnd
     
-    public TapToRoute previous() 
+    public TapToRoute previous(final int count) 
     {
       switch(this) 
       {
         case WAITING_FOR_START:
           break;
         case WAITING_FOR_SECOND:
-          return WAITING_FOR_NEXT;
+          return WAITING_FOR_START;
         case WAITING_FOR_NEXT:
-          return WAITING_FOR_SECOND;
+          return (count == 1) ? WAITING_FOR_SECOND : WAITING_FOR_NEXT;
         case WAITING_TO_ROUTE:
           return WAITING_FOR_NEXT;
         case ALL_DONE:
@@ -545,7 +571,7 @@ public class TapToRouteOverlay extends Overlay
       return WAITING_FOR_START;        
     } // previous()
 
-    public TapToRoute next() 
+    public TapToRoute next(final int count) 
     {
       switch(this) 
       {
@@ -554,7 +580,7 @@ public class TapToRouteOverlay extends Overlay
         case WAITING_FOR_SECOND:
           return WAITING_FOR_NEXT;
         case WAITING_FOR_NEXT:
-          return WAITING_TO_ROUTE;
+          return (count == 12) ? WAITING_TO_ROUTE : WAITING_FOR_NEXT;
         case WAITING_TO_ROUTE:
           return ALL_DONE;
         case ALL_DONE:
