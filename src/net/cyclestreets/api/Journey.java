@@ -19,6 +19,7 @@ import android.util.Xml;
 
 public class Journey 
 {
+  private List<GeoPoint> waypoints_;
 	private List<Segment> segments_;
   private int activeSegment_;
 	  
@@ -28,21 +29,26 @@ public class Journey
     NULL_JOURNEY.activeSegment_ = -1;
   }
 
-  
   private Journey() 
   {
+    waypoints_ = new ArrayList<GeoPoint>();
     segments_ = new ArrayList<Segment>();
     activeSegment_ = 0;   
 	} // PlannedRoute
+  
+  private Journey(final List<GeoPoint> waypoints)
+  {
+    this();
+    waypoints_.addAll(waypoints);
+  } // Journey
 
 	public boolean isEmpty() { return segments_.isEmpty(); }
 	public List<Segment> segments() { return segments_; }
 	
 	private Segment.Start s() { return (Segment.Start)segments_.get(0); }
 	private Segment.End e() { return (Segment.End)segments_.get(segments_.size()-1); }
-	  
-	public GeoPoint start() { return s().start(); }
-	public GeoPoint finish() { return e().end(); }
+
+	public List<GeoPoint> waypoints() { return waypoints_; }
 	  
 	public String url() { return "http://cycle.st/j" + itinerary(); }
 	public int itinerary() { return s().itinerary(); }
@@ -166,12 +172,11 @@ public class Journey
     
 
   static public Journey loadFromXml(final String xml, 
-                                    final GeoPoint from, 
-                                    final GeoPoint to,
+                                    final List<GeoPoint> points,
                                     final String name) 
     throws Exception
   {
-    final Factory<Journey> factory = factory(from, to, name);
+    final Factory<Journey> factory = factory(points, name);
     
     try {
       Xml.parse(xml, factory.contentHandler());
@@ -222,18 +227,15 @@ As at 01 December 2011
 </markers>
 	 */
 	
-  static public Factory<Journey> factory(final GeoPoint from, 
-                                         final GeoPoint to,
+  static public Factory<Journey> factory(final List<GeoPoint> waypoints,
                                          final String name) 
   { 
-    return new JourneyFactory(from, to, name);
+    return new JourneyFactory(waypoints, name);
   } // factory
   
   static private class JourneyFactory extends Factory<Journey>
   {    
     private final Journey journey_;
-    private final GeoPoint from_;
-    private final GeoPoint to_;
     private final String name_;
     private int total_time = 0;
     private int total_distance = 0;
@@ -245,14 +247,10 @@ As at 01 December 2011
     private String start_;
     private String finish_;    
 
-    public JourneyFactory(final GeoPoint from, 
-                          final GeoPoint to,
+    public JourneyFactory(final List<GeoPoint> waypoints,
                           final String name) 
     {
-      journey_ = new Journey();
-      
-      from_ = from;
-      to_ = to;
+      journey_ = new Journey(waypoints != null ? waypoints : new ArrayList<GeoPoint>());
       name_ = name;
     } // JourneyFactory
     
@@ -262,8 +260,8 @@ As at 01 December 2011
       Segment.formatter = DistanceFormatter.formatter(CycleStreetsPreferences.units());
 
       final RootElement root = new RootElement("markers");
-      final Element item = root.getChild("marker");
-      item.setStartElementListener(new StartElementListener() {
+      final Element marker = root.getChild("marker");
+      marker.setStartElementListener(new StartElementListener() {
         @Override
         public void start(final Attributes attr)
         {
@@ -302,6 +300,7 @@ As at 01 December 2011
             finish_ = s(attr, "finish");
           } // if ...
         } // start
+
         
         private String s(final Attributes attr, final String name) { return attr.getValue(name); }
         private int i(final Attributes attr, final String name) 
@@ -311,10 +310,31 @@ As at 01 December 2011
         } // i
       });
       
+      if(journey_.waypoints().size() == 0)
+        root.getChild("waypoint").setStartElementListener(new StartElementListener() {
+          @Override
+          public void start(final Attributes attr)
+          {
+            final double lat = d(attr, "latitude");
+            final double lon = d(attr, "longitude");
+            
+            journey_.waypoints().add(new GeoPoint(lat, lon));
+          } // start
+          
+          private double d(final Attributes attr, final String name) 
+          { 
+            final String v = attr.getValue(name);
+            return v != null ? Double.parseDouble(v) : 0; 
+          } // i
+        });
+      
       root.setEndElementListener(new EndElementListener() {
         @Override
         public void end()
         {
+          final GeoPoint from = journey_.waypoints().get(0);
+          final GeoPoint to = journey_.waypoints().get(journey_.waypoints().size()-1);
+
           final GeoPoint pstart = journey_.segments_.get(0).start();
           final GeoPoint pend = journey_.segments_.get(journey_.segments_.size()-1).end();
           final Segment startSeg = new Segment.Start(itinerary_,
@@ -325,11 +345,11 @@ As at 01 December 2011
                                  total_distance, 
                                  calories_,
                                  grammesCO2saved_,
-                                 Collections.list(pD(from_, pstart), pstart));
+                                 Collections.list(pD(from, pstart), pstart));
           final Segment endSeg = new Segment.End(finish_, 
                                total_time, 
                                total_distance, 
-                               Collections.list(pend, pD(to_, pend)));
+                               Collections.list(pend, pD(to, pend)));
           journey_.segments_.add(0, startSeg);
           journey_.segments_.add(endSeg);
         } // end

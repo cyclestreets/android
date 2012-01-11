@@ -51,7 +51,7 @@ public class RouteMapActivity extends CycleMapActivity
 	@Override
 	protected void onPause()
 	{
-	  Route.setTerminals(routeSetter_.getStart(), routeSetter_.getFinish());
+	  Route.setWaypoints(routeSetter_.waypoints());
 	  super.onPause();
   } // onPause
 
@@ -59,7 +59,7 @@ public class RouteMapActivity extends CycleMapActivity
 	protected void onResume()
 	{
 	  super.onResume();
-	  setJourneyPath(Route.points(), Route.start(), Route.finish());
+	  setJourneyPath(Route.points(), Route.waypoints());
   } // onResume
      
 	public void onRouteNow(final List<GeoPoint> waypoints)
@@ -199,8 +199,8 @@ public class RouteMapActivity extends CycleMapActivity
 	  GeoIntent.setBoundingBox(intent, mapView().getBoundingBox());
 	  final Location lastFix = mapView().getLastFix();
 	  GeoIntent.setLocation(intent, lastFix);	
-	  GeoIntent.setGeoPoint(intent, "START", routeSetter_.getStart());
-	  GeoIntent.setGeoPoint(intent, "FINISH", routeSetter_.getFinish());
+	  for(int w = 0; w != routeSetter_.waypoints().size(); ++w)
+	    GeoIntent.setGeoPoint(intent, "WP"+w, routeSetter_.waypoints().get(w));
 	  startActivityForResult(intent, R.string.ic_menu_directions);
 	} // doLaunchRouteDialog
 	
@@ -238,15 +238,15 @@ public class RouteMapActivity extends CycleMapActivity
 	@Override
 	public void onNewJourney() 
 	{
-	  setJourneyPath(Route.points(), Route.start(), Route.finish());
+	  setJourneyPath(Route.points(), Route.waypoints());
 	  
 	  mapView().getController().setCenter(Route.start());
 	  mapView().postInvalidate();
 	} // onNewJourney   
    
-	private void setJourneyPath(final Iterator<GeoPoint> points, final GeoPoint start, final GeoPoint finish)
+	private void setJourneyPath(final Iterator<GeoPoint> points, final List<GeoPoint> waypoints)
 	{
-	  routeSetter_.setRoute(start, finish, points.hasNext());	   
+	  routeSetter_.setRoute(waypoints, points.hasNext());	   
 	  path_.setRoute(points);
   } // setJourneyPath
 } // class MapActivity

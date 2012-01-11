@@ -83,7 +83,7 @@ public class TapToRouteOverlay extends Overlay
   
   private final Callback callback_;
 
-  private List<OverlayItem> waypoints_;
+  private List<OverlayItem> waymarkers_;
   private Rect tapStateRect_;
 
   private Paint textBrush_;
@@ -128,7 +128,7 @@ public class TapToRouteOverlay extends Overlay
         
     textBrush_ = Brush.createTextBrush(offset_);
         
-    waypoints_ = new ArrayList<OverlayItem>();
+    waymarkers_ = new ArrayList<OverlayItem>();
     
     tapState_ = TapToRoute.start();
     
@@ -140,20 +140,16 @@ public class TapToRouteOverlay extends Overlay
     return overlays_.controller();
   } // controller
   
-  public void setRoute(final GeoPoint start, final GeoPoint end, final boolean complete)
+  public void setRoute(final List<GeoPoint> waypoints, final boolean complete)
   {
     resetRoute();
     
-    addWaypoint(start);
-    addWaypoint(end);
-
-    tapState_ = tapState_.reset();
-    if(start == null)
-      return;    
-    tapState_ = tapState_.next(waypointsCount());
-    if(end == null)
-      return;
-    tapState_ = tapState_.next(waypointsCount());
+    for(final GeoPoint waypoint : waypoints)
+    {
+      addWaypoint(waypoint);
+      tapState_ = tapState_.next(waymarkersCount());
+    } // for ...
+    
     if(!complete)
       return;
     controller().flushUndo(this);
@@ -162,70 +158,67 @@ public class TapToRouteOverlay extends Overlay
   
   public void resetRoute()
   {
-    waypoints_.clear();
+    waymarkers_.clear();
     tapState_ = tapState_.reset();
     controller().flushUndo(this);
   } // resetRoute
   
-  public GeoPoint getStart() 
-  { 
-    return waypointsCount() > 0 ? waypoints_.get(0).getPoint() : null; 
-  } // getStart
-  public GeoPoint getFinish() 
-  { 
-    return waypointsCount() > 1 ? waypoints_.get(waypointsCount()-1).getPoint() : null;
-  } // getFinish
-  
-  private int waypointsCount()
+  private int waymarkersCount()
   {
-    return waypoints_.size();
+    return waymarkers_.size();
   } // waypointsCount
-  private List<GeoPoint> geoPoints()
+  
+  public List<GeoPoint> waypoints()
   {
     final List<GeoPoint> p = new ArrayList<GeoPoint>();
-    for(final OverlayItem o : waypoints_)
+    for(final OverlayItem o : waymarkers_)
       p.add(o.getPoint());
     return p;
-  } // geoPoints
+  } // waypoints
+  
+  private GeoPoint finish() 
+  { 
+    return waymarkersCount() > 1 ? waymarkers_.get(waymarkersCount()-1).getPoint() : null;
+  } // getFinish
 
   private void addWaypoint(final GeoPoint point)
   {
     if(point == null)
       return;
-    switch(waypointsCount())
+    switch(waymarkersCount())
     {
     case 0:
-      waypoints_.add(addMarker(point, "start", greenWisp_));
+      waymarkers_.add(addMarker(point, "start", greenWisp_));
       break;
     case 1:
-      waypoints_.add(addMarker(point, "finish", redWisp_));
+      waymarkers_.add(addMarker(point, "finish", redWisp_));
       break;
     default:
       {
-        final GeoPoint prevFinished = getFinish();
-        waypoints_.remove(waypointsCount()-1);
-        waypoints_.add(addMarker(prevFinished, "waypoint", orangeWisp_));
-        waypoints_.add(addMarker(point, "finish", redWisp_));
+        final GeoPoint prevFinished = finish();
+        waymarkers_.remove(waymarkersCount()-1);
+        waymarkers_.add(addMarker(prevFinished, "waypoint", orangeWisp_));
+        waymarkers_.add(addMarker(point, "finish", redWisp_));
       } // default
     } // switch ...
   } // addWayPoint
   
   private void removeWaypoint()
   {
-    switch(waypointsCount())
+    switch(waymarkersCount())
     {
     case 0:
         break;
     case 1:
     case 2:
-        waypoints_.remove(waypointsCount()-1);
+        waymarkers_.remove(waymarkersCount()-1);
         break;
     default:
       {
-        waypoints_.remove(waypointsCount()-1);
-        final GeoPoint prevFinished = getFinish();
-        waypoints_.remove(waypointsCount()-1);
-        waypoints_.add(addMarker(prevFinished, "finish", redWisp_));
+        waymarkers_.remove(waymarkersCount()-1);
+        final GeoPoint prevFinished = finish();
+        waymarkers_.remove(waymarkersCount()-1);
+        waymarkers_.add(addMarker(prevFinished, "finish", redWisp_));
       } // default
     }
   }
@@ -302,12 +295,12 @@ public class TapToRouteOverlay extends Overlay
         final Location lastFix = mapView_.getLastFix();
         final GeoPoint from = new GeoPoint((int)(lastFix.getLatitude() * 1E6),
                                            (int)(lastFix.getLongitude() * 1E6));
-        callback_.onRouteNow(Collections.list(from, getFinish()));
+        callback_.onRouteNow(Collections.list(from, finish()));
       }
       break;
     case R.string.ic_menu_reverse:
       {
-        final List<GeoPoint> points = geoPoints();
+        final List<GeoPoint> points = waypoints();
         java.util.Collections.reverse(points);
         callback_.onRouteNow(points);
       }
@@ -333,7 +326,7 @@ public class TapToRouteOverlay extends Overlay
   public void draw(final Canvas canvas, final MapView mapView, final boolean shadow) 
   {
     final Projection projection = mapView.getProjection();
-    for(final OverlayItem waypoint : waypoints_)
+    for(final OverlayItem waypoint : waymarkers_)
       drawMarker(canvas, projection, waypoint);
   } // draw
 
@@ -480,7 +473,7 @@ public class TapToRouteOverlay extends Overlay
         break;
     } // switch ...
     
-    tapState_ = tapState_.previous(waypointsCount());
+    tapState_ = tapState_.previous(waymarkersCount());
     mapView_.invalidate();
     
     return true;
@@ -511,8 +504,11 @@ public class TapToRouteOverlay extends Overlay
         addWaypoint(point);
         break;
       case WAITING_FOR_NEXT:
-        if(tapStateRect_.contains(x, y))
-          callback_.onRouteNow(geoPoints());
+        if(tapStateRect_.contains(x, y)) 
+        {
+          callback_.onRouteNow(waypoints());
+          return;
+        } // if ...
         addWaypoint(point);
         break;
       case WAITING_TO_ROUTE:
@@ -520,13 +516,13 @@ public class TapToRouteOverlay extends Overlay
           return;
         if(!tapStateRect_.contains(x, y))
           return;
-        callback_.onRouteNow(geoPoints());
+        callback_.onRouteNow(waypoints());
         break;
       case ALL_DONE:
         break;
     } // switch ...
 
-    tapState_ = tapState_.next(waypointsCount());
+    tapState_ = tapState_.next(waymarkersCount());
     mapView_.invalidate();
 } // tapMarker
   

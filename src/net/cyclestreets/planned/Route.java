@@ -1,5 +1,6 @@
 package net.cyclestreets.planned;
 
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
@@ -73,8 +74,7 @@ public class Route
 	
 	/////////////////////////////////////////	
 	private static Journey plannedRoute_ = Journey.NULL_JOURNEY;
-	private static GeoPoint start_;
-	private static GeoPoint finish_;
+  private static List<GeoPoint> waypoints_ = plannedRoute_.waypoints();
 	private static RouteDatabase db_;
 	private static Context context_;
 
@@ -84,10 +84,9 @@ public class Route
 		db_ = new RouteDatabase(context);
 	} // initialise
 
-	static public void setTerminals(final GeoPoint start, final GeoPoint finish)
+	static public void setWaypoints(final List<GeoPoint> waypoints)
 	{
-		start_ = start;
-		finish_ = finish;
+	  waypoints_ = waypoints;
 	} // setTerminals
 	
 	static public void resetJourney()
@@ -124,37 +123,25 @@ public class Route
 		return false;
 	} // onNewJourney
 	
-	static private void doOnNewJourney(final RouteData route)
+	@SuppressWarnings("unchecked")
+  static private void doOnNewJourney(final RouteData route)
 		throws Exception
 	{
 		if(route == null)
 		{
 			plannedRoute_ = Journey.NULL_JOURNEY;
-			start_ = finish_ = null;
+			waypoints_ = (List<GeoPoint>)Collections.EMPTY_LIST;
 			return;
-		}
+		} // if ...
 		
-    start_ = route.points().get(0);
-    finish_ = route.points().get(route.points().size()-1);
-  
-		plannedRoute_ = Journey.loadFromXml(route.xml(), start_, finish_, route.name());
+		plannedRoute_ = Journey.loadFromXml(route.xml(), route.points(), route.name());
 		
-		db_.saveRoute(plannedRoute_.itinerary(), 
-      					  plannedRoute_.name(), 
-      					  plannedRoute_.plan(),
-      					  plannedRoute_.total_distance(),
-      					  route.xml(), 
-      					  plannedRoute_.start(), 
-      					  plannedRoute_.finish());
-		
-		if(start_ == null)
-		  start_ = plannedRoute_.start();
-		if(finish_ == null)
-		  finish_ = plannedRoute_.finish();
+		db_.saveRoute(plannedRoute_, route.xml());
+		waypoints_ = plannedRoute_.waypoints();
 	} // onNewJourney
 	
-	static public GeoPoint start() { return start_; }
-	static public GeoPoint finish() { return finish_; }
+	static public GeoPoint start() { return (waypoints_.size() != 0) ? waypoints_.get(0) : null; }
+	static public List<GeoPoint> waypoints() { return waypoints_; }
 	
 	static public int itinerary() { return planned().itinerary(); }
 	static public boolean available() { return plannedRoute_ != Journey.NULL_JOURNEY; }

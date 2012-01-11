@@ -20,17 +20,6 @@ public class RouteData
 		name_ = name;
 	} // RouteData
 	
-	public RouteData(final String xml,
-	                 final GeoPoint[] points,
-	                 final String name)
-	{
-	  xml_ = xml;
-	  points_ = new ArrayList<GeoPoint>();
-	  for(final GeoPoint p : points)
-	    points_.add(p);
-	  name_ = name;   
-	} // RouteData
-	
 	public String name() { return name_; }
 	public String xml() { return xml_; }
 	public List<GeoPoint> points() { return points_; }

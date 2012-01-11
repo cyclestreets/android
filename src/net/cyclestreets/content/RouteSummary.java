@@ -9,10 +9,10 @@ public class RouteSummary
 	private int distance_;
 	
 	RouteSummary(final int localId,
-				 final int itinerary, 
-				 final String title,
-				 final String plan,
-				 final int distance)
+				       final int itinerary, 
+				       final String title,
+				       final String plan,
+				       final int distance)
 	{
 		localId_ = localId;
 		itinerary_ = itinerary;
