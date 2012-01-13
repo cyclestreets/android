@@ -21,12 +21,16 @@ public class ThereOverlay extends Overlay
   static public interface LocationListener {
     void onSetLocation(final GeoPoint point);
   }
-  
-  private final MapView mapView_;
-  
+    
   private final Drawable thereMarker_;
+  private MapView mapView_;
   private GeoPoint there_ = null;
   private LocationListener listener_;
+  
+  public ThereOverlay(final Context context)
+  {
+    this(context, null);
+  } // ThereOverlay
   
   public ThereOverlay(final Context context,
                       final MapView mapView)
@@ -37,6 +41,12 @@ public class ThereOverlay extends Overlay
     final Resources res = context.getResources();
     thereMarker_  = res.getDrawable(R.drawable.x_marks_spot);
   } // ThereOverlay
+  
+  public void setMapView(final MapView mapView)
+  {
+    mapView_ = mapView;
+    recentre();
+  } // setMapView
   
   public void setLocationListener(final LocationListener listener)
   {
@@ -56,13 +66,12 @@ public class ThereOverlay extends Overlay
   
   public void recentre()
   {
-    if(there_ == null)
+    if((there_ == null) || (mapView_ == null))
       return;
    
     mapView_.getController().animateTo(there_);
     mapView_.invalidate();    
   } // recentre
-    
   
   @Override
   protected void draw(final Canvas canvas, final MapView mapView, final boolean shadow) 
