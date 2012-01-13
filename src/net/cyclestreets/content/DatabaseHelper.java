@@ -20,7 +20,7 @@ class DatabaseHelper extends SQLiteOpenHelper
     		                     " plan TEXT, " +
     		                     " distance INTEGER, " +
     		                     " waypoints TEXT, " +
-    		                     " xml TEXT, " +
+    		                     " xml TEXT " +
     		                     " ) ";
   DatabaseHelper(final Context context) 
   {
