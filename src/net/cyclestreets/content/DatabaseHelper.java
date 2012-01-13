@@ -9,7 +9,7 @@ import android.provider.BaseColumns;
 class DatabaseHelper extends SQLiteOpenHelper 
 {
   private static final String DATABASE_NAME = "cyclestreets.db";
-  private static final int DATABASE_VERSION = 3;
+  private static final int DATABASE_VERSION = 2;
   public static final String ROUTE_TABLE_NAME = "route";
     
   private static final String ROUTE_TABLE_CREATE = 
@@ -41,16 +41,16 @@ class DatabaseHelper extends SQLiteOpenHelper
 	@Override
 	public void onUpgrade(final SQLiteDatabase db, final int oldVersion, final int newVersion) 
 	{
-	  if(oldVersion <= 3)
-	    upgradeTo3(db);
+	  if(oldVersion < 2)
+	    upgradeTo2(db);
 	} // onUpgrade
 	
-	private void upgradeTo3(final SQLiteDatabase db)
+	private void upgradeTo2(final SQLiteDatabase db)
 	{
 	  try {
   	  db.execSQL("ALTER TABLE route ADD COLUMN waypoints TEXT");
       final Cursor cursor = db.query(ROUTE_TABLE_NAME, 
-          new String[] { BaseColumns._ID, "start_long", "start_lat", "end_long", "end_lat" },
+          new String[] { BaseColumns._ID, "start_lat", "start_long", "end_lat", "end_long" },
           null, 
           null, 
           null, 
