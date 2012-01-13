@@ -3,7 +3,6 @@ package net.cyclestreets.content;
 import org.osmdroid.util.GeoPoint;
 
 import java.util.List;
-import java.util.ArrayList;
 
 public class RouteData 
 {
