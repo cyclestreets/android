@@ -60,9 +60,7 @@ public class AddPhotoActivity extends Activity
     CAPTION(PHOTO),
     CATEGORY(CAPTION),
     LOCATION(CATEGORY),
-    ACCOUNT(LOCATION),
-    SUBMIT(LOCATION),
-    VIEW(SUBMIT),
+    VIEW(LOCATION),
     DONE(VIEW);
     
     private AddStep(AddStep p)
@@ -273,12 +271,12 @@ public class AddPhotoActivity extends Activity
   ///////////////////////////////////////////////////////////////////
   @Override 
   public void onBackPressed()
-  {
-    if(step_ == AddStep.SUBMIT)
-      return;
-    
+  { 
     if(step_ == AddStep.PHOTO || step_ == AddStep.VIEW)
     {
+      step_ = AddStep.PHOTO;
+      store();
+      
       super.onBackPressed();
       return;
     } // if ...
@@ -332,9 +330,6 @@ public class AddPhotoActivity extends Activity
       setupMap();
       setContentView(photoLocation_);
       there_.recentre();
-      break;
-    case SUBMIT:
-      upload();
       break;
     case VIEW:
       setContentView(photoWebView_);
@@ -444,8 +439,13 @@ public class AddPhotoActivity extends Activity
       Share.Url(this, uploadedUrl_, caption_, "Photo on CycleStreets.net");
       break;
     case R.id.next:
-      if(step_ == AddStep.LOCATION && !CycleStreetsPreferences.accountOK())
-        i = new Intent(this, AccountDetailsActivity.class);
+      if(step_ == AddStep.LOCATION)
+      {
+        if(!CycleStreetsPreferences.accountOK())
+          i = new Intent(this, AccountDetailsActivity.class);
+        else
+          upload();
+      }
       else
         nextStep();
       break;
