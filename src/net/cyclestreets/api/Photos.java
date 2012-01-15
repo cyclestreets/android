@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import org.osmdroid.api.IGeoPoint;
 import org.osmdroid.util.BoundingBoxE6;
 import org.osmdroid.util.GeoPoint;
 import org.xml.sax.Attributes;
@@ -34,7 +35,7 @@ public class Photos implements Iterable<Photo>
   } // iterator
   
   /////////////////////////////////////////////////////////////
-	static public Photos load(final GeoPoint centre,
+	static public Photos load(final IGeoPoint centre,
 	                          final int zoom, 
 	                          final BoundingBoxE6 boundingBox) 
 	   throws Exception 

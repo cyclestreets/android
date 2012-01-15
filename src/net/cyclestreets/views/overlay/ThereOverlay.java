@@ -2,7 +2,7 @@ package net.cyclestreets.views.overlay;
 
 import net.cyclestreets.R;
 
-import org.osmdroid.util.GeoPoint;
+import org.osmdroid.api.IGeoPoint;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.MapView.Projection;
 import org.osmdroid.views.overlay.Overlay;
@@ -19,12 +19,12 @@ public class ThereOverlay extends Overlay
                           implements TapListener 
 {
   static public interface LocationListener {
-    void onSetLocation(final GeoPoint point);
+    void onSetLocation(final IGeoPoint point);
   }
     
   private final Drawable thereMarker_;
   private MapView mapView_;
-  private GeoPoint there_ = null;
+  private IGeoPoint there_ = null;
   private LocationListener listener_;
   
   public ThereOverlay(final Context context)
@@ -53,8 +53,8 @@ public class ThereOverlay extends Overlay
     listener_ = listener;
   } // setLocationListener
   
-  public GeoPoint there() { return there_; }
-  public void noOverThere(final GeoPoint there)
+  public IGeoPoint there() { return there_; }
+  public void noOverThere(final IGeoPoint there)
   {
     there_ = there;
     
@@ -101,7 +101,7 @@ public class ThereOverlay extends Overlay
   @Override
   public boolean onSingleTap(final MotionEvent event) 
   {
-    final GeoPoint p = mapView_.getProjection().fromPixels((int)event.getX(), (int)event.getY());
+    final IGeoPoint p = mapView_.getProjection().fromPixels((int)event.getX(), (int)event.getY());
     noOverThere(p);
     return true;
   } // onSingleTap

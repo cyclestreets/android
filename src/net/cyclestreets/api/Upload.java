@@ -1,6 +1,6 @@
 package net.cyclestreets.api;
 
-import org.osmdroid.util.GeoPoint;
+import org.osmdroid.api.IGeoPoint;
 import org.xml.sax.ContentHandler;
 
 import android.sax.Element;
@@ -28,7 +28,7 @@ public class Upload
   static public Upload.Result photo(final String filename,
                                     final String username,
                                     final String password,
-                                    final GeoPoint location,
+                                    final IGeoPoint location,
                                     final String metaCat,
                                     final String category,
                                     final String dateTime,

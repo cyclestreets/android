@@ -3,12 +3,12 @@ package net.cyclestreets.views.overlay;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.osmdroid.api.IGeoPoint;
 import org.osmdroid.events.DelayedMapListener;
 import org.osmdroid.events.MapListener;
 import org.osmdroid.events.ScrollEvent;
 import org.osmdroid.events.ZoomEvent;
 import org.osmdroid.util.BoundingBoxE6;
-import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.OverlayItem;
 
@@ -109,7 +109,7 @@ public abstract class LiveItemOverlay<T extends OverlayItem>
 	
 	protected void refreshItems() 
 	{		
-		final GeoPoint centre = mapView_.getMapCenter();
+		final IGeoPoint centre = mapView_.getMapCenter();
     final int zoom = mapView_.getZoomLevel();
     final BoundingBoxE6 bounds = mapView_.getBoundingBox();
 		
@@ -120,9 +120,9 @@ public abstract class LiveItemOverlay<T extends OverlayItem>
 		redraw();
 	} // refreshPhotos
 	
-	protected abstract boolean fetchItemsInBackground(final GeoPoint mapCentre,
-	                                               final int zoom,
-	                                               final BoundingBoxE6 boundingBox);
+	protected abstract boolean fetchItemsInBackground(final IGeoPoint mapCentre,
+	                                                  final int zoom,
+	                                                  final BoundingBoxE6 boundingBox);
 	
 	protected void setItems(final List<T> items)
 	{

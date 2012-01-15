@@ -48,6 +48,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.osmdroid.api.IGeoPoint;
 import org.osmdroid.util.GeoPoint;
 
 public class AddPhotoActivity extends Activity 
@@ -159,16 +160,9 @@ public class AddPhotoActivity extends Activity
     else
       setupSpinners();
     
-    map_ = new CycleMapView(this, this.getClass().getName());
-    map_.enableAndFollowLocation();
-    map_.getController().setZoom(map_.getMaxZoomLevel());
-    there_ = new ThereOverlay(this, map_);
+    there_ = new ThereOverlay(this);
     there_.setLocationListener(this);
-    map_.overlayPushTop(there_);
   
-    final LinearLayout v = (LinearLayout)(photoLocation_.findViewById(R.id.mapholder));
-    v.addView(map_, new LinearLayout.LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT));
-    
     setupView();
   } // class AddPhotoActivity
 
@@ -189,7 +183,7 @@ public class AddPhotoActivity extends Activity
     edit.putString("CAPTION", captionText());
     edit.putInt("METACAT", metaCategoryId());
     edit.putInt("CATEGORY", categoryId());        
-    final GeoPoint p = there_.there();
+    final IGeoPoint p = there_.there();
     if(p != null)
     {
       edit.putInt("THERE-LAT", p.getLatitudeE6());
@@ -199,7 +193,8 @@ public class AddPhotoActivity extends Activity
       edit.putInt("THERE-LAT", -1);
     edit.commit();
 
-    map_.onPause();        
+    if(map_ != null)
+      map_.onPause();        
     super.onPause();
   } // onPause
   
@@ -223,7 +218,8 @@ public class AddPhotoActivity extends Activity
     if((tlat != -1) && (tlon != -1))
       there_.noOverThere(new GeoPoint(tlat, tlon));
 
-    map_.onResume();
+    if(map_ != null)
+      map_.onResume();
     super.onResume();
 
     setupView();
@@ -333,6 +329,7 @@ public class AddPhotoActivity extends Activity
     case LOCATION:
       metaCatId_ = metaCategoryId();
       catId_ = categoryId();
+      setupMap();
       setContentView(photoLocation_);
       there_.recentre();
       break;
@@ -414,6 +411,21 @@ public class AddPhotoActivity extends Activity
       categorySpinner().setSelection(catId_);
   } // setSpinnerSelections
   
+  private void setupMap()
+  {
+    if(map_ != null)
+      return;
+    
+    map_ = new CycleMapView(this, this.getClass().getName());
+    map_.enableAndFollowLocation();
+    
+    final LinearLayout v = (LinearLayout)(photoLocation_.findViewById(R.id.mapholder));
+    v.addView(map_, new LinearLayout.LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT));
+
+    map_.overlayPushTop(there_);
+    there_.setMapView(map_);
+  } // setupMap
+  
   @Override
   public void onClick(final View v) 
   {
@@ -446,7 +458,7 @@ public class AddPhotoActivity extends Activity
   } // onClick
   
   @Override
-  public void onSetLocation(GeoPoint point)
+  public void onSetLocation(IGeoPoint point)
   {
     final Button u = (Button)photoLocation_.findViewById(R.id.next);
     u.setEnabled(point != null);
@@ -519,7 +531,7 @@ public class AddPhotoActivity extends Activity
     final String filename = photoFile_;
     final String username = CycleStreetsPreferences.username();
     final String password = CycleStreetsPreferences.password();
-    final GeoPoint location = there_.there();
+    final IGeoPoint location = there_.there();
     final String metaCat = photomapCategories.metaCategories().get(metaCatId_).getTag();
     final String category = photomapCategories.categories().get(catId_).getTag();
     final String dateTime = dateTime_;
@@ -618,7 +630,7 @@ public class AddPhotoActivity extends Activity
     private final String filename_;
     private final String username_;
     private final String password_;
-    private final GeoPoint location_;
+    private final IGeoPoint location_;
     private final String metaCat_;
     private final String category_;
     private final String dateTime_;
@@ -630,7 +642,7 @@ public class AddPhotoActivity extends Activity
                     final String filename,
                     final String username,
                     final String password,
-                    final GeoPoint location,
+                    final IGeoPoint location,
                     final String metaCat,
                     final String category,
                     final String dateTime,

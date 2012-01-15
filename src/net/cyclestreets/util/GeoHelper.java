@@ -1,7 +1,7 @@
 package net.cyclestreets.util;
 
 import org.osmdroid.util.BoundingBoxE6;
-import org.osmdroid.util.GeoPoint;
+import org.osmdroid.api.IGeoPoint;
 
 public class GeoHelper
 {
@@ -24,7 +24,7 @@ public class GeoHelper
     return d;
   } // boxWidthKm
   
-  static public double distanceBetween(final GeoPoint p1, final GeoPoint p2)
+  static public double distanceBetween(final IGeoPoint p1, final IGeoPoint p2)
   {
     // uses the Haversine formula, which I only know about because 
     // http://www.movable-type.co.uk/scripts/latlong.html was the

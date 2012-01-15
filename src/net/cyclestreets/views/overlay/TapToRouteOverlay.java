@@ -17,6 +17,7 @@ import net.cyclestreets.util.Share;
 import net.cyclestreets.views.CycleMapView;
 import net.cyclestreets.util.Collections;
 
+import org.osmdroid.api.IGeoPoint;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.MapView.Projection;
@@ -181,7 +182,7 @@ public class TapToRouteOverlay extends Overlay
     return waymarkersCount() > 1 ? waymarkers_.get(waymarkersCount()-1).getPoint() : null;
   } // getFinish
 
-  private void addWaypoint(final GeoPoint point)
+  private void addWaypoint(final IGeoPoint point)
   {
     if(point == null)
       return;
@@ -195,7 +196,7 @@ public class TapToRouteOverlay extends Overlay
       break;
     default:
       {
-        final GeoPoint prevFinished = finish();
+        final IGeoPoint prevFinished = finish();
         waymarkers_.remove(waymarkersCount()-1);
         waymarkers_.add(addMarker(prevFinished, "waypoint", orangeWisp_));
         waymarkers_.add(addMarker(point, "finish", redWisp_));
@@ -222,12 +223,12 @@ public class TapToRouteOverlay extends Overlay
       } // default
     }
   }
-  private OverlayItem addMarker(final GeoPoint point, final String label, final Drawable icon)
+  private OverlayItem addMarker(final IGeoPoint point, final String label, final Drawable icon)
   {
     if(point == null)
       return null;
     controller().pushUndo(this);
-    final OverlayItem marker = new OverlayItem(label, label, point);
+    final OverlayItem marker = new OverlayItem(label, label, new GeoPoint(point.getLatitudeE6(), point.getLongitudeE6()));
     marker.setMarker(icon);
     marker.setMarkerHotspot(OverlayItem.HotspotPlace.BOTTOM_CENTER);
     return marker;
@@ -483,7 +484,7 @@ public class TapToRouteOverlay extends Overlay
   {
     final int x = (int)event.getX();
     final int y = (int)event.getY();
-    final GeoPoint p = mapView_.getProjection().fromPixels(x, y);
+    final IGeoPoint p = mapView_.getProjection().fromPixels(x, y);
     tapAction(x, y, p, true);    
     return true;
   } // tapMarker
@@ -493,7 +494,7 @@ public class TapToRouteOverlay extends Overlay
     tapAction(Integer.MIN_VALUE, Integer.MIN_VALUE, point, false);
   } // setNextMarker
   
-  private void tapAction(final int x, final int y, final GeoPoint point, boolean tap)
+  private void tapAction(final int x, final int y, final IGeoPoint point, boolean tap)
   {
     switch(tapState_)
     {
