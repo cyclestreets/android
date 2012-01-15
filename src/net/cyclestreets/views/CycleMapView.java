@@ -113,7 +113,7 @@ public class CycleMapView extends MapView
     
     scrollTo(pref(PREFS_APP_SCROLL_X, 0), 
              pref(PREFS_APP_SCROLL_Y, -701896)); /* Greenwich */
-             getController().setZoom(pref(PREFS_APP_ZOOM_LEVEL, 14));
+    getController().setZoom(pref(PREFS_APP_ZOOM_LEVEL, 14));
              
     controllerOverlay_.onResume(prefs_);
   } // onResume 
