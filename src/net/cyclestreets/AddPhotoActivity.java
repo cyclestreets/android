@@ -189,6 +189,7 @@ public class AddPhotoActivity extends Activity
     } 
     else
       edit.putInt("THERE-LAT", -1);
+    edit.putLong("WHEN", new Date().getTime());
     edit.commit();
 
     if(map_ != null)
@@ -196,10 +197,13 @@ public class AddPhotoActivity extends Activity
     super.onPause();
   } // onPause
   
+  private final long fiveMinutes = 5 * 60 * 1000;
+  
   @Override
   protected void onResume()
   {
     final SharedPreferences prefs = prefs();
+
     step_ = AddStep.fromInt(prefs.getInt("STEP", 0));
     photoFile_ = prefs.getString("PHOTOFILE", photoFile_);
     if(photo_ == null && photoFile_ != null)
@@ -218,6 +222,12 @@ public class AddPhotoActivity extends Activity
 
     if(map_ != null)
       map_.onResume();
+
+    final long now = new Date().getTime();
+    final long when = prefs.getLong("WHEN", now);
+    if((now - when) > fiveMinutes)
+      step_ = AddStep.fromInt(0);
+ 
     super.onResume();
 
     setupView();
