@@ -17,7 +17,7 @@ import android.view.MotionEvent;
 public class LocationOverlay extends MyLocationOverlay 
 							               implements ButtonTapListener, DynamicMenuListener
 {
-	static private String LOCATION_ON = "Show Location";
+	static private String LOCATION_ON = "Follow Location";
 	static private String LOCATION_OFF = "Location Off";
 
 	private final int offset_;
@@ -28,7 +28,7 @@ public class LocationOverlay extends MyLocationOverlay
 	private final MapView mapView_;
 	
 	public LocationOverlay(final Context context, 
-						   final MapView mapView) 
+						             final MapView mapView) 
 	{
 		super(context, mapView);
 		
@@ -38,10 +38,11 @@ public class LocationOverlay extends MyLocationOverlay
 		radius_ = DrawingHelper.cornerRadius(context);
 
 		final Resources res = context.getResources();
-		locationButton_ = new OverlayButton(res.getDrawable(R.drawable.ic_menu_mylocation),
-											offset_,
-											offset_,
-											radius_);		
+		locationButton_ = new OverlayButton(res.getDrawable(R.drawable.ic_menu_followlocation),
+		                                    res.getDrawable(R.drawable.ic_menu_mylocation),
+		                                    offset_,
+		                                    offset_,
+		                                    radius_);		
 	} // LocationOverlay
 	
 	public void enableLocation(final boolean enable)
@@ -76,11 +77,6 @@ public class LocationOverlay extends MyLocationOverlay
 		mapView_.invalidate();
 	} // enableAndFollowLocation
 	
-	private void toggleFollowLocation()
-	{
-		enableAndFollowLocation(!isMyLocationEnabled());
-	} // toggleFollowLocation
-	
 	////////////////////////////////////////////
 	@Override
 	public void draw(final Canvas canvas, final MapView mapView, final boolean shadow) 
@@ -96,7 +92,8 @@ public class LocationOverlay extends MyLocationOverlay
 	@Override
 	public void drawButtons(final Canvas canvas, final MapView mapView)
 	{
-		locationButton_.pressed(isMyLocationEnabled());
+		locationButton_.pressed(isFollowLocationEnabled());
+		locationButton_.alternate(isMyLocationEnabled());
 		locationButton_.draw(canvas);
 	} // drawLocationButton
 
@@ -112,7 +109,7 @@ public class LocationOverlay extends MyLocationOverlay
 	public boolean onPrepareOptionsMenu(final Menu menu)
 	{
 		final MenuItem item = menu.findItem(R.string.ic_menu_mylocation);
-		if(item != null)
+		if(item != null) 
 			item.setTitle(isMyLocationEnabled() ? LOCATION_OFF : LOCATION_ON);
 		return true;
 	} // onPrepareOptionsMenu
@@ -123,7 +120,7 @@ public class LocationOverlay extends MyLocationOverlay
     if(item.getItemId() != R.string.ic_menu_mylocation)
       return false;
         
-    toggleFollowLocation();
+    enableAndFollowLocation(!isMyLocationEnabled());
         
     return true;
 	} // onMenuItemSelected
@@ -146,7 +143,7 @@ public class LocationOverlay extends MyLocationOverlay
 		if(!locationButton_.hit(event))
 			return false;
 		
-		toggleFollowLocation(); 
+    enableAndFollowLocation(!locationButton_.pressed());
 
 		return true;
 	} // tapLocation
