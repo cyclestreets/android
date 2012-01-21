@@ -202,6 +202,19 @@ public class AddPhotoActivity extends Activity
   @Override
   protected void onResume()
   {
+    try {
+      doOnResume();
+    } // try
+    catch(RuntimeException e) {
+      step_ = AddStep.fromInt(0);
+    } // catch
+    
+    super.onResume();
+    setupView();
+  } // onResume
+  
+  private void doOnResume()
+  {
     final SharedPreferences prefs = prefs();
 
     step_ = AddStep.fromInt(prefs.getInt("STEP", 0));
@@ -227,11 +240,7 @@ public class AddPhotoActivity extends Activity
     final long when = prefs.getLong("WHEN", now);
     if((now - when) > fiveMinutes)
       step_ = AddStep.fromInt(0);
- 
-    super.onResume();
-
-    setupView();
-  } // onResume
+  } // doOnResume
   
   private SharedPreferences prefs()
   {
