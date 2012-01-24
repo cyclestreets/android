@@ -103,9 +103,9 @@ public class TapToRouteOverlay extends Overlay
     callback_ = callback;
     
     final Resources res = context.getResources();
-    greenWisp_ = res.getDrawable(R.drawable.green_wisp_shadow_centred_big);
-    orangeWisp_ = res.getDrawable(R.drawable.orange_wisp_shadow_centred_big);
-    redWisp_ = res.getDrawable(R.drawable.red_wisp_shadow_centred_big);
+    greenWisp_ = res.getDrawable(R.drawable.greep_wisp);
+    orangeWisp_ = res.getDrawable(R.drawable.orange_wisp);
+    redWisp_ = res.getDrawable(R.drawable.red_wisp);
 
     offset_ = DrawingHelper.offset(context);
     radius_ = DrawingHelper.cornerRadius(context);
