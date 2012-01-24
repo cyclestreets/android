@@ -8,5 +8,5 @@
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
         android:singleLine="false"
-        android:text="Turn-by-turn route information will shown\nhere once a route is planned." />
+        android:text="Turn-by-turn route information will be shown\nhere once a route is planned." />
 </RelativeLayout>
