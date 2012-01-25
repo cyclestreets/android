@@ -54,13 +54,31 @@ public class RouteByAddressActivity extends Activity
 	    placeTo_.requestFocus();
     } // if ...
     	
-	  final GeoPoint start = GeoIntent.getGeoPoint(intent, "START");
-	  final GeoPoint finish = GeoIntent.getGeoPoint(intent, "FINISH");
-	  placeFrom_.allowLocation(start, "Start marker");
-	  placeTo_.allowLocation(finish, "Finish marker");
-	  placeTo_.allowLocation(start, "Start marker");
-	  placeFrom_.allowLocation(finish, "Finish marker");
-    	
+	  for(int waypoints = 0; ; ++waypoints )
+	  {
+	    final GeoPoint wp = GeoIntent.getGeoPoint(intent, "WP"+waypoints);
+	    final GeoPoint wpNext = GeoIntent.getGeoPoint(intent, "WP"+(waypoints+1));
+
+	    if(wp == null)
+	      break;
+
+	    if(waypoints == 0)
+	    {
+	      placeFrom_.allowLocation(wp, "Start marker");
+	      placeTo_.allowLocation(wp, "Start marker");
+	    } 
+	    else if(wpNext == null)
+	    {
+	      placeFrom_.allowLocation(wp, "Finish marker");
+	      placeTo_.allowLocation(wp, "Finish marker");
+	    } 
+	    else 
+	    {
+	      placeFrom_.allowLocation(wp, "Waypoint " + waypoints);
+        placeTo_.allowLocation(wp, "Waypoint " + waypoints);
+	    } // if ...
+	  } // for ...
+	  
 	  routeGo = (Button) findViewById(R.id.routeGo);
 	  routeGo.setOnClickListener(this);
 	  

@@ -221,8 +221,9 @@ public class TapToRouteOverlay extends Overlay
         waymarkers_.remove(waymarkersCount()-1);
         waymarkers_.add(addMarker(prevFinished, "finish", redWisp_));
       } // default
-    }
-  }
+    } // switch
+  } // removeWaypoint
+  
   private OverlayItem addMarker(final IGeoPoint point, final String label, final Drawable icon)
   {
     if(point == null)
