@@ -368,10 +368,15 @@ public class TapToRouteOverlay extends Overlay
       return;
 
     screen.offset(screen.width()/2, 0);
+    
+    if(msg.indexOf('\n') == -1)
+    {
+      final Rect bounds = new Rect();
+      textBrush_.getTextBounds(msg, 0, 1, bounds);
+      screen.offset(0, bounds.height());
+    }
+    
     Draw.drawTextInRect(canvas, textBrush_, screen, msg);
-    //final Rect bounds = new Rect();
-    //textBrush_.getTextBounds(msg, 0, msg.length(), bounds);
-    //canvas.drawText(msg, screen.centerX(), screen.centerY() + bounds.bottom, textBrush_);
   } // drawTapState
   
   private void drawMarker(final Canvas canvas, 
