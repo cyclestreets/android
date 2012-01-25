@@ -12,13 +12,11 @@ import java.util.List;
 import net.cyclestreets.R;
 
 import org.apache.http.HttpEntity;
-import org.apache.http.HttpException;
-import org.apache.http.HttpRequest;
-import org.apache.http.HttpRequestInterceptor;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.StatusLine;
 import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpClient;
 import org.apache.http.client.HttpResponseException;
 import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.client.methods.HttpGet;
@@ -39,7 +37,6 @@ import org.apache.http.impl.conn.tsccm.ThreadSafeClientConnManager;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.params.BasicHttpParams;
 import org.apache.http.params.HttpParams;
-import org.apache.http.protocol.HttpContext;
 import org.apache.http.util.EntityUtils;
 
 import android.content.Context;
@@ -48,27 +45,17 @@ import android.util.Xml;
 
 public class ApiClient 
 {
-  static private DefaultHttpClient httpclient;
-  static private SchemeRegistry schemeRegistry;
+  static private SchemeRegistry schemeRegistry_;
+  static private ClientConnectionManager connectionManager_;
+  static private HttpParams params_;
   static 
   {
-    schemeRegistry = new SchemeRegistry();
-    schemeRegistry.register(
-            new Scheme("http", PlainSocketFactory.getSocketFactory(), 80));
-    schemeRegistry.register(
-            new Scheme("https", SSLSocketFactory.getSocketFactory(), 443));
+    schemeRegistry_ = new SchemeRegistry();
+    schemeRegistry_.register(new Scheme("http", PlainSocketFactory.getSocketFactory(), 80));
+    schemeRegistry_.register(new Scheme("https", SSLSocketFactory.getSocketFactory(), 443));
 
-    final HttpParams params = new BasicHttpParams();
-    final ClientConnectionManager cm = new ThreadSafeClientConnManager(params, schemeRegistry);
-    httpclient = new DefaultHttpClient(cm, params);
-    
-    httpclient.addRequestInterceptor(new HttpRequestInterceptor() {            
-      public void process(
-          final HttpRequest request, 
-          final HttpContext context) throws HttpException, IOException {
-        request.setHeader("Accept-Encoding", "deflate");
-      }
-    });
+    params_ = new BasicHttpParams();
+    connectionManager_ = new ThreadSafeClientConnManager(params_, schemeRegistry_);
   } // static
   
   private final static int cacheExpiryDays_ = 7;
@@ -112,7 +99,7 @@ public class ApiClient
 
   static private void loadSslCertificates(final Context context)
   {    
-    final LoadSSLCertsTask load = new LoadSSLCertsTask(context, schemeRegistry);
+    final LoadSSLCertsTask load = new LoadSSLCertsTask(context, schemeRegistry_);
     load.execute();
   } // loadSslCertificates
     
@@ -189,9 +176,9 @@ public class ApiClient
                               final long itinerary) 
     throws Exception
   {
-    final byte[] xml =callApiRaw(API_PATH_JOURNEY,
-                                 "plan", plan,
-                                 "itinerary", Long.toString(itinerary));
+    final byte[] xml = callApiRaw(API_PATH_JOURNEY,
+                                  "plan", plan,
+                                  "itinerary", Long.toString(itinerary));
     return new String(xml, "UTF-8");
   } // getJourneyXml
     
@@ -432,6 +419,8 @@ public class ApiClient
       throws ClientProtocolException, IOException
   {
     method.setHeader("User-Agent", "CycleStreets Android/1.0");
+
+    final HttpClient httpclient = new DefaultHttpClient(connectionManager_, params_);
 
     final HttpResponse response = httpclient.execute(method);
     
