@@ -72,13 +72,14 @@ public class PlaceView extends LinearLayout
     allowedPlaces_ = new ArrayList<GeoPlace>();
   } // PlaceView
   
-  public void allowCurrentLocation(final GeoPoint loc) 
+  public void allowCurrentLocation(final GeoPoint loc, final boolean hint) 
   { 
     if(loc == null)
       return;
     final GeoPlace gp = new GeoPlace(loc, CURRENT_LOCATION, "");
     allowedPlaces_.add(gp);
-    setPlaceHint(gp);
+    if(hint)
+      setPlaceHint(gp);
   } // allowCurrentLocation  
   
   public void allowLocation(final GeoPoint loc, final String label)

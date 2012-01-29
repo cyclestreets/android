@@ -61,7 +61,7 @@ public class RouteByAddressActivity extends Activity
 	    places_.get(i).setBounds(bounds);
 
 	    if(loc != null)
-	      places_.get(i).allowCurrentLocation(loc);
+	      places_.get(i).allowCurrentLocation(loc, i == 0);
 	  } // for ...
 	  
 	  for(int waypoints = 0; ; ++waypoints )
