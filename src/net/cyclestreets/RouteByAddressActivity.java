@@ -1,5 +1,8 @@
 package net.cyclestreets;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import net.cyclestreets.CycleStreetsConstants;
 import net.cyclestreets.CycleStreetsPreferences;
 import net.cyclestreets.R;
@@ -16,21 +19,23 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout.LayoutParams;
 
 public class RouteByAddressActivity extends Activity 
 						   implements View.OnClickListener
 {
-	private PlaceView placeFrom_;
-	private PlaceView placeTo_;
-	private RadioGroup routeTypeGroup;
-	private Button routeGo;
+  private LinearLayout placeHolder_;
+	private List<PlaceView> places_;
+	private RadioGroup routeType_;
+	private Button routeGo_;
 	
 	@Override
-	public void onCreate(Bundle saved)
+	public void onCreate(final Bundle saved)
 	{
 	  super.onCreate(saved);
 
@@ -38,77 +43,64 @@ public class RouteByAddressActivity extends Activity
 	  getWindow().setGravity(Gravity.TOP|Gravity.FILL_HORIZONTAL);       
 	  getWindow().setLayout(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT);
 	  getWindow().setBackgroundDrawableResource(R.drawable.empty);
-	       
-	  placeFrom_ = (PlaceView)findViewById(R.id.placeFrom);
-	  placeTo_ = (PlaceView)findViewById(R.id.placeTo);
-	  
-	  final BoundingBoxE6 bounds = GeoIntent.getBoundingBox(getIntent());
-	  placeFrom_.setBounds(bounds);
-	  placeTo_.setBounds(bounds);
 
-	  final Intent intent = getIntent();
-	  final GeoPoint loc = GeoIntent.getGeoPoint(intent);
-	  if(loc != null)
+    final Intent intent = getIntent();
+    final BoundingBoxE6 bounds = GeoIntent.getBoundingBox(intent);
+    final GeoPoint loc = GeoIntent.getGeoPoint(intent);
+	  
+	  placeHolder_ = (LinearLayout)findViewById(R.id.places);
+	       
+	  places_ = new ArrayList<PlaceView>();
+	  
+	  for(int i = 0; i != 2; ++i)
 	  {
-	    placeFrom_.allowCurrentLocation(loc);
-	    placeTo_.requestFocus();
-    } // if ...
-    	
+	    places_.add(new PlaceView(this));
+	  
+	    placeHolder_.addView(places_.get(i));
+	  
+	    places_.get(i).setBounds(bounds);
+
+	    if(loc != null)
+	      places_.get(i).allowCurrentLocation(loc);
+	  } // for ...
+	  
 	  for(int waypoints = 0; ; ++waypoints )
 	  {
-	    final GeoPoint wp = GeoIntent.getGeoPoint(intent, "WP"+waypoints);
-	    final GeoPoint wpNext = GeoIntent.getGeoPoint(intent, "WP"+(waypoints+1));
+	    final GeoPoint wp = GeoIntent.getGeoPoint(intent, "WP" + waypoints);
+	    final GeoPoint wpNext = GeoIntent.getGeoPoint(intent, "WP" + (waypoints+1));
 
 	    if(wp == null)
 	      break;
 
+	    String label = "Waypoint " + waypoints;
+	    
 	    if(waypoints == 0)
-	    {
-	      placeFrom_.allowLocation(wp, "Start marker");
-	      placeTo_.allowLocation(wp, "Start marker");
-	    } 
+	      label = "Start marker";
 	    else if(wpNext == null)
-	    {
-	      placeFrom_.allowLocation(wp, "Finish marker");
-	      placeTo_.allowLocation(wp, "Finish marker");
-	    } 
-	    else 
-	    {
-	      placeFrom_.allowLocation(wp, "Waypoint " + waypoints);
-        placeTo_.allowLocation(wp, "Waypoint " + waypoints);
-	    } // if ...
+	      label = "Finish marker";
+
+	    for(final PlaceView p : places_)
+	      p.allowLocation(wp, label);
 	  } // for ...
 	  
-	  routeGo = (Button) findViewById(R.id.routeGo);
-	  routeGo.setOnClickListener(this);
+	  routeGo_ = (Button) findViewById(R.id.routeGo);
+	  routeGo_.setOnClickListener(this);
 	  
-	  routeTypeGroup = (RadioGroup) findViewById(R.id.routeTypeGroup);
-	  routeTypeGroup.check(RouteTypeMapper.idFromName(CycleStreetsPreferences.routeType()));  	
+	  routeType_ = (RadioGroup) findViewById(R.id.routeTypeGroup);
+	  routeType_.check(RouteTypeMapper.idFromName(CycleStreetsPreferences.routeType()));  	
   } // RouteActivity
     
-	private void resolvePlaces()
+	private void findRoute(final List<GeoPlace> waypoints)
 	{
-		placeFrom_.geoPlace(new PlaceView.OnResolveListener() {
-			public void onResolve(final GeoPlace f) {
-				placeTo_.geoPlace(new PlaceView.OnResolveListener() {
-					public void onResolve(final GeoPlace t) {
-						findRoute(f, t);
-					} // onResolve
-				}); // to listener
-			} // onResolve
-		}); // from listener
-	} // resolvePlaces
-	
-	private void findRoute(final GeoPlace from, final GeoPlace to)
-	{
-		placeFrom_.addHistory(from);
-		placeTo_.addHistory(to);
+	  for(final GeoPlace wp : waypoints)
+	    for(final PlaceView p : places_)
+	      p.addHistory(wp);
 			
 		// return start and finish points to RouteMapActivity and close
 		final Intent intent = new Intent(RouteByAddressActivity.this, RouteMapActivity.class);
-		GeoIntent.setGeoPoint(intent, "FROM", from.coord());
-		GeoIntent.setGeoPoint(intent, "TO", to.coord());
-		final String routeType = RouteTypeMapper.nameFromId(routeTypeGroup.getCheckedRadioButtonId());
+	  for(int i = 0; i != waypoints.size(); ++i)      
+	    GeoIntent.setGeoPoint(intent, "WP" + i, waypoints.get(i).coord());
+		final String routeType = RouteTypeMapper.nameFromId(routeType_.getCheckedRadioButtonId());
 		intent.putExtra(CycleStreetsConstants.EXTRA_ROUTE_TYPE, routeType);
 		setResult(RESULT_OK, intent);
 		finish();
@@ -119,4 +111,24 @@ public class RouteByAddressActivity extends Activity
 	{
 		resolvePlaces();
 	} // onClick
+
+  private void resolvePlaces()
+  {
+    resolveNextPlace(new ArrayList<GeoPlace>(), 0);
+  } // resolvePlaces
+  
+  private void resolveNextPlace(final List<GeoPlace> resolvedPlaces, final int index)
+  {
+    if(index != places_.size())
+      places_.get(index).geoPlace(new PlaceView.OnResolveListener() {
+        @Override
+        public void onResolve(GeoPlace place)
+        {
+          resolvedPlaces.add(place);
+          resolveNextPlace(resolvedPlaces, index+1);
+        }
+      });
+    else
+      findRoute(resolvedPlaces);
+  } // resolveNextPlace
 } // RouteActivity

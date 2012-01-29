@@ -8,19 +8,17 @@
 	    android:paddingRight="9dip"
 	    android:paddingTop="12dip"
 	    android:paddingBottom="6dip"
-	    android:background="@drawable/route_bg">            
-  <net.cyclestreets.views.PlaceView
-  	android:id="@+id/placeFrom"
-	android:layout_width="fill_parent"
-	android:layout_height="wrap_content"
-    android:hint="@string/route_from"
-  />
-  <net.cyclestreets.views.PlaceView
-  	android:id="@+id/placeTo"
-	android:layout_width="fill_parent"
-	android:layout_height="wrap_content"
-    android:hint="@string/route_to"
-  />
+	    android:background="@drawable/route_bg">
+	<LinearLayout
+	    android:id="@+id/places"
+	    android:orientation="vertical"
+      android:layout_width="fill_parent"
+      android:layout_height="wrap_content"
+      android:layout_marginLeft="2.0dip" 
+      android:layout_marginTop="1.0dip" 
+      android:layout_marginRight="2.0dip" 
+      android:layout_marginBottom="2.0dip">
+  </LinearLayout>            
   <!-- Route type / Go =============================== -->
   <LinearLayout
 	android:orientation="horizontal"

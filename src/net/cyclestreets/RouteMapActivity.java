@@ -161,8 +161,14 @@ public class RouteMapActivity extends CycleMapActivity
 		{
 			// get start and finish points
 		  final List<GeoPoint> points = new ArrayList<GeoPoint>();
-			points.add(GeoIntent.getGeoPoint(data, "FROM"));
-			points.add(GeoIntent.getGeoPoint(data, "TO"));
+		  
+	    for(int waypoints = 0; ; ++waypoints )
+	    {
+	      final GeoPoint wp = GeoIntent.getGeoPoint(data, "WP" + waypoints);
+	      if(wp == null)
+	        break;
+	      points.add(wp);
+	    } // for ...
 			final String routeType = data.getStringExtra(CycleStreetsConstants.EXTRA_ROUTE_TYPE);
 			final int speed = data.getIntExtra(CycleStreetsConstants.EXTRA_ROUTE_SPEED, 
 					                               CycleStreetsPreferences.speed());

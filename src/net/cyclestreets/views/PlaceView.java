@@ -80,6 +80,7 @@ public class PlaceView extends LinearLayout
     allowedPlaces_.add(gp);
     setPlaceHint(gp);
   } // allowCurrentLocation  
+  
   public void allowLocation(final GeoPoint loc, final String label)
   { 
     if(loc == null)
@@ -113,6 +114,7 @@ public class PlaceView extends LinearLayout
         return;      
     textView_.addHistory(place); 
   } // addHistory
+  
   private BoundingBoxE6 bounds() { return textView_.bounds(); }
   public void setBounds(final BoundingBoxE6 bounds) { textView_.setBounds(bounds); }
   
