@@ -28,6 +28,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.graphics.Paint;
@@ -68,6 +69,7 @@ public class TapToRouteOverlay extends Overlay
   private final Drawable greenWisp_;
   private final Drawable orangeWisp_;
   private final Drawable redWisp_;
+  private final Bitmap canRoute_;
   private final Point screenPos_ = new Point();
   private final Matrix canvasTransform_ = new Matrix();
   private final float[] transformValues_ = new float[9];
@@ -106,6 +108,7 @@ public class TapToRouteOverlay extends Overlay
     greenWisp_ = res.getDrawable(R.drawable.greep_wisp);
     orangeWisp_ = res.getDrawable(R.drawable.orange_wisp);
     redWisp_ = res.getDrawable(R.drawable.red_wisp);
+    canRoute_ = ((BitmapDrawable)res.getDrawable(R.drawable.ic_route_now)).getBitmap();
 
     offset_ = DrawingHelper.offset(context);
     radius_ = DrawingHelper.cornerRadius(context);
@@ -357,7 +360,7 @@ public class TapToRouteOverlay extends Overlay
     final String msg = tapState_.toString();
     if(msg.length() == 0)
       return;
-        
+    
     final Rect screen = canvas.getClipBounds();
     screen.offset(tapStateRect_.left, tapStateRect_.top);
     screen.right -= (tapStateRect_.left + offset_);
@@ -368,6 +371,15 @@ public class TapToRouteOverlay extends Overlay
     if(!DrawingHelper.drawRoundRect(canvas, screen, radius_, Brush.Grey))
       return;
 
+    if(tapState_ == TapToRoute.WAITING_FOR_NEXT || 
+       tapState_ == TapToRoute.WAITING_TO_ROUTE)
+    {
+      final Rect btn = new Rect(screen);
+      btn.left = btn.right - canRoute_.getWidth();
+      DrawingHelper.drawBitmap(canvas, canRoute_, btn);
+      screen.right -= canRoute_.getWidth();
+    } // if ...
+    
     screen.offset(screen.width()/2, 0);
     
     if(msg.indexOf('\n') == -1)
