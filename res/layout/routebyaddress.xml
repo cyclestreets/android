@@ -28,12 +28,21 @@
 	android:layout_marginTop="1.0dip" 
 	android:layout_marginRight="4.0dip" 
 	android:layout_marginBottom="5.0dip">
-	<RadioGroup
-	  android:id="@+id/routeTypeGroup"
-	  android:orientation="horizontal"
-	  android:layout_width="wrap_content"
-	  android:layout_height="wrap_content"
-	  android:layout_weight="1.0">
+	<LinearLayout
+	    android:orientation="vertical"
+	    android:layout_width="wrap_content"
+	    android:layout_height="fill_parent">
+
+      <Button
+          android:id="@+id/addVia"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:text="@string/addvia" />
+	   <RadioGroup
+	     android:id="@+id/routeTypeGroup"
+	     android:orientation="horizontal"
+	     android:layout_width="wrap_content"
+	     android:layout_height="wrap_content">
       <RadioButton
 		android:id="@+id/routeQuietest"
 		android:layout_width="wrap_content"
@@ -63,15 +72,13 @@
 	    android:button="@drawable/empty"
 	    android:layout_weight="1.0"/>
    </RadioGroup>
-   <View
-     android:layout_width="0.0dip"
-     android:layout_height="fill_parent"
-     android:layout_weight="1.0"/>				
+  </LinearLayout>				
+
    <Button
-	 android:id="@+id/routeGo"
-	 android:layout_width="wrap_content"
-	 android:layout_height="fill_parent"     	
-	 android:text="@string/go"
-	 android:layout_weight="2.0"/>
+       android:id="@+id/routeGo"
+       android:layout_width="match_parent"
+       android:layout_height="fill_parent"
+       android:text="@string/go" />
+
   </LinearLayout>
 </LinearLayout>

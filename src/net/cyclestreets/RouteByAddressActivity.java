@@ -33,6 +33,11 @@ public class RouteByAddressActivity extends Activity
 	private List<PlaceView> places_;
 	private RadioGroup routeType_;
 	private Button routeGo_;
+	private Button addWaypoint_;
+	
+	private BoundingBoxE6 bounds_;
+	private GeoPoint currentLoc_;
+	private List<GeoPoint> waypoints_;
 	
 	@Override
 	public void onCreate(final Bundle saved)
@@ -45,51 +50,64 @@ public class RouteByAddressActivity extends Activity
 	  getWindow().setBackgroundDrawableResource(R.drawable.empty);
 
     final Intent intent = getIntent();
-    final BoundingBoxE6 bounds = GeoIntent.getBoundingBox(intent);
-    final GeoPoint loc = GeoIntent.getGeoPoint(intent);
+    bounds_ = GeoIntent.getBoundingBox(intent);
+    currentLoc_ = GeoIntent.getGeoPoint(intent);
 	  
 	  placeHolder_ = (LinearLayout)findViewById(R.id.places);
 	       
 	  places_ = new ArrayList<PlaceView>();
 	  
-	  for(int i = 0; i != 2; ++i)
+	  waypoints_ = new ArrayList<GeoPoint>();
+	  for(int w = 0; ; ++w)
 	  {
-	    places_.add(new PlaceView(this));
-	  
-	    placeHolder_.addView(places_.get(i));
-	  
-	    places_.get(i).setBounds(bounds);
-
-	    if(loc != null)
-	      places_.get(i).allowCurrentLocation(loc, i == 0);
-	  } // for ...
-	  
-	  for(int waypoints = 0; ; ++waypoints )
-	  {
-	    final GeoPoint wp = GeoIntent.getGeoPoint(intent, "WP" + waypoints);
-	    final GeoPoint wpNext = GeoIntent.getGeoPoint(intent, "WP" + (waypoints+1));
+	    final GeoPoint wp = GeoIntent.getGeoPoint(intent, "WP" + w);
 
 	    if(wp == null)
 	      break;
 
-	    String label = "Waypoint " + waypoints;
-	    
-	    if(waypoints == 0)
-	      label = "Start marker";
-	    else if(wpNext == null)
-	      label = "Finish marker";
-
-	    for(final PlaceView p : places_)
-	      p.allowLocation(wp, label);
+	    waypoints_.add(wp);
 	  } // for ...
-	  
+	    
 	  routeGo_ = (Button) findViewById(R.id.routeGo);
 	  routeGo_.setOnClickListener(this);
 	  
+	  addWaypoint_ = (Button)findViewById(R.id.addVia);
+	  addWaypoint_.setOnClickListener(this);
+	  
 	  routeType_ = (RadioGroup) findViewById(R.id.routeTypeGroup);
-	  routeType_.check(RouteTypeMapper.idFromName(CycleStreetsPreferences.routeType()));  	
+	  routeType_.check(RouteTypeMapper.idFromName(CycleStreetsPreferences.routeType()));
+	  
+	  addWaypointBox();
+	  addWaypointBox();
   } // RouteActivity
+
+	private void addWaypointBox()
+	{
+	  final PlaceView pv = new PlaceView(this);
+	  
+    pv.setBounds(bounds_);
+
+    if(currentLoc_ != null)
+      pv.allowCurrentLocation(currentLoc_, places_.size() == 0);
+	
+    for(int w = 0; w != waypoints_.size(); ++w)
+    {
+      String label = "Waypoint " + w;
     
+      if(w == 0)
+        label = "Start marker";
+      else if(w+1 == waypoints_.size())
+        label = "Finish marker";
+
+      pv.allowLocation(waypoints_.get(w), label);
+    } // for ...
+        
+    places_.add(pv);
+    placeHolder_.addView(pv);
+
+    addWaypoint_.setEnabled(places_.size() < 12);
+	} // addWaypointBox
+	
 	private void findRoute(final List<GeoPlace> waypoints)
 	{
 	  for(final GeoPlace wp : waypoints)
@@ -109,7 +127,15 @@ public class RouteByAddressActivity extends Activity
 	@Override
 	public void onClick(final View view)
 	{
-		resolvePlaces();
+	  switch(view.getId())
+	  {
+	  case R.id.routeGo:
+	    resolvePlaces();
+	    break;
+	  case R.id.addVia:
+	    addWaypointBox();
+	    break;
+	  } // switch
 	} // onClick
 
   private void resolvePlaces()

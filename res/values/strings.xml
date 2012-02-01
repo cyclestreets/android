@@ -9,6 +9,7 @@
 	<string name="route_from">Route From</string>
 	<string name="route_to">Route To</string>
 	<string name="go">Find Route</string>
+	<string name="addvia">Add waypoint</string>
 	<string name="choose_from">Please choose a start location</string>
 	<string name="choose_to">Please choose a finish location</string>
 	<string name="choose_start">Choose Start Point</string>
