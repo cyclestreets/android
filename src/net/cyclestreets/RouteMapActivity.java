@@ -1,6 +1,8 @@
 package net.cyclestreets;
 
 import java.util.Iterator;
+import java.util.List;
+import java.util.ArrayList;
 
 import net.cyclestreets.CycleStreetsConstants;
 import net.cyclestreets.R;
@@ -49,7 +51,7 @@ public class RouteMapActivity extends CycleMapActivity
 	@Override
 	protected void onPause()
 	{
-	  Route.setTerminals(routeSetter_.getStart(), routeSetter_.getFinish());
+	  Route.setWaypoints(routeSetter_.waypoints());
 	  super.onPause();
   } // onPause
 
@@ -57,17 +59,16 @@ public class RouteMapActivity extends CycleMapActivity
 	protected void onResume()
 	{
 	  super.onResume();
-	  setJourneyPath(Route.points(), Route.start(), Route.finish());
+	  setJourneyPath(Route.points(), Route.waypoints());
   } // onResume
      
-	public void onRouteNow(final GeoPoint start, final GeoPoint end)
+	public void onRouteNow(final List<GeoPoint> waypoints)
 	{
 	  Route.PlotRoute(CycleStreetsPreferences.routeType(), 
-	                  start, 
-	                  end,
 	                  CycleStreetsPreferences.speed(),
 	                  this, 
-	                  this);
+	                  this,
+	                  waypoints);
 	} // onRouteNow
 
 	public void onRouteNow(int itinerary)
@@ -159,17 +160,23 @@ public class RouteMapActivity extends CycleMapActivity
 		if(requestCode == R.string.ic_menu_directions)
 		{
 			// get start and finish points
-			final GeoPoint placeFrom = GeoIntent.getGeoPoint(data, "FROM");
-			final GeoPoint placeTo = GeoIntent.getGeoPoint(data, "TO");
+		  final List<GeoPoint> points = new ArrayList<GeoPoint>();
+		  
+	    for(int waypoints = 0; ; ++waypoints )
+	    {
+	      final GeoPoint wp = GeoIntent.getGeoPoint(data, "WP" + waypoints);
+	      if(wp == null)
+	        break;
+	      points.add(wp);
+	    } // for ...
 			final String routeType = data.getStringExtra(CycleStreetsConstants.EXTRA_ROUTE_TYPE);
 			final int speed = data.getIntExtra(CycleStreetsConstants.EXTRA_ROUTE_SPEED, 
 					                               CycleStreetsPreferences.speed());
 			Route.PlotRoute(routeType, 
-			                placeFrom, 
-			                placeTo,
 			                speed,
 			                this, 
-			                this);
+			                this,
+                      points);
 		} // if ...
 		
 		if(requestCode == R.string.ic_menu_route_number)
@@ -198,8 +205,8 @@ public class RouteMapActivity extends CycleMapActivity
 	  GeoIntent.setBoundingBox(intent, mapView().getBoundingBox());
 	  final Location lastFix = mapView().getLastFix();
 	  GeoIntent.setLocation(intent, lastFix);	
-	  GeoIntent.setGeoPoint(intent, "START", routeSetter_.getStart());
-	  GeoIntent.setGeoPoint(intent, "FINISH", routeSetter_.getFinish());
+	  for(int w = 0; w != routeSetter_.waypoints().size(); ++w)
+	    GeoIntent.setGeoPoint(intent, "WP"+w, routeSetter_.waypoints().get(w));
 	  startActivityForResult(intent, R.string.ic_menu_directions);
 	} // doLaunchRouteDialog
 	
@@ -237,15 +244,15 @@ public class RouteMapActivity extends CycleMapActivity
 	@Override
 	public void onNewJourney() 
 	{
-	  setJourneyPath(Route.points(), Route.start(), Route.finish());
+	  setJourneyPath(Route.points(), Route.waypoints());
 	  
 	  mapView().getController().setCenter(Route.start());
 	  mapView().postInvalidate();
 	} // onNewJourney   
    
-	private void setJourneyPath(final Iterator<GeoPoint> points, final GeoPoint start, final GeoPoint finish)
+	private void setJourneyPath(final Iterator<GeoPoint> points, final List<GeoPoint> waypoints)
 	{
-	  routeSetter_.setRoute(start, finish, points.hasNext());	   
+	  routeSetter_.setRoute(waypoints, points.hasNext());	   
 	  path_.setRoute(points);
   } // setJourneyPath
 } // class MapActivity

@@ -1,4 +1,4 @@
-package net.cyclestreets.planned;
+package net.cyclestreets.api;
 
 public abstract class DistanceFormatter 
 {

@@ -2,7 +2,7 @@ package net.cyclestreets.views.overlay;
 
 import net.cyclestreets.R;
 
-import org.osmdroid.util.GeoPoint;
+import org.osmdroid.api.IGeoPoint;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.MapView.Projection;
 import org.osmdroid.views.overlay.Overlay;
@@ -19,14 +19,18 @@ public class ThereOverlay extends Overlay
                           implements TapListener 
 {
   static public interface LocationListener {
-    void onSetLocation(final GeoPoint point);
+    void onSetLocation(final IGeoPoint point);
   }
-  
-  private final MapView mapView_;
-  
+    
   private final Drawable thereMarker_;
-  private GeoPoint there_ = null;
+  private MapView mapView_;
+  private IGeoPoint there_ = null;
   private LocationListener listener_;
+  
+  public ThereOverlay(final Context context)
+  {
+    this(context, null);
+  } // ThereOverlay
   
   public ThereOverlay(final Context context,
                       final MapView mapView)
@@ -38,13 +42,19 @@ public class ThereOverlay extends Overlay
     thereMarker_  = res.getDrawable(R.drawable.x_marks_spot);
   } // ThereOverlay
   
+  public void setMapView(final MapView mapView)
+  {
+    mapView_ = mapView;
+    recentre();
+  } // setMapView
+  
   public void setLocationListener(final LocationListener listener)
   {
     listener_ = listener;
   } // setLocationListener
   
-  public GeoPoint there() { return there_; }
-  public void noOverThere(final GeoPoint there)
+  public IGeoPoint there() { return there_; }
+  public void noOverThere(final IGeoPoint there)
   {
     there_ = there;
     
@@ -56,13 +66,12 @@ public class ThereOverlay extends Overlay
   
   public void recentre()
   {
-    if(there_ == null)
+    if((there_ == null) || (mapView_ == null))
       return;
    
     mapView_.getController().animateTo(there_);
     mapView_.invalidate();    
   } // recentre
-    
   
   @Override
   protected void draw(final Canvas canvas, final MapView mapView, final boolean shadow) 
@@ -92,7 +101,7 @@ public class ThereOverlay extends Overlay
   @Override
   public boolean onSingleTap(final MotionEvent event) 
   {
-    final GeoPoint p = mapView_.getProjection().fromPixels((int)event.getX(), (int)event.getY());
+    final IGeoPoint p = mapView_.getProjection().fromPixels((int)event.getX(), (int)event.getY());
     noOverThere(p);
     return true;
   } // onSingleTap

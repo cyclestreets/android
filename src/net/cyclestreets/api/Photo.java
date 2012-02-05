@@ -1,43 +1,59 @@
 package net.cyclestreets.api;
 
-import org.simpleframework.xml.Attribute;
-import org.simpleframework.xml.Root;
+import org.osmdroid.util.GeoPoint;
 
-@Root(strict=false)
-public class Photo {
-	@Attribute(required=false)
-	public int id, bearing, feature, rating, gridx, gridy;
+public class Photo 
+{
+  private final int id_;
+  private final int feature_;
+  private final String caption_;
+  private final String url_;
+  private final String thumbnailUrl_;
+  private final GeoPoint position_;
+  
+  Photo(int id, 
+        int feature,
+        String caption,
+        String url,
+        String thumbnailUrl,
+        GeoPoint position)
+  {
+    id_ = id;
+    feature_ = feature;
+    caption_ = caption;
+    url_ = url;
+    thumbnailUrl_ = thumbnailUrl;
+    position_ = position;
+  } // Photo
+  
+  public int id() { return id_; }
+  public int feature() { return feature_; }
+  public String caption() { return caption_; }
+  public String url() { return url_; }
+  public String thumbnailUrl() { return thumbnailUrl_; }
+  public GeoPoint position() { return position_; }
 
-	@Attribute(required=false)
-	public double latitude, longitude;
-
-	@Attribute(required=false)
-	public String proximity, caption, privacy, type, url, imageUrl, thumbnailUrl, thumbnailSizes;
-
-	@Override
-	public int hashCode() {
-		return id;
-	}
+  @Override
+	public int hashCode() { return id_; }
 
 	/*
 	 * Photos are equal if they have the same id
 	 */
 	@Override
-	public boolean equals(Object obj) {
+	public boolean equals(Object obj) 
+	{
 		if (this == obj)
 			return true;
 		if (obj == null)
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Photo other = (Photo) obj;
-		if (id != other.id)
+		Photo other = (Photo)obj;
+		if (id_ != other.id_)
 			return false;
 		return true;
-	}
+	} // equals
 
 	@Override
-	public String toString() {
-		return id + ":" + caption;
-	}
-}
+	public String toString() { return id_ + ":" + caption_; }
+} // class Photo

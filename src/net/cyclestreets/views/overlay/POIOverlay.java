@@ -3,10 +3,10 @@ package net.cyclestreets.views.overlay;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.osmdroid.api.IGeoPoint;
 import org.osmdroid.events.MapListener;
 import org.osmdroid.events.ZoomEvent;
 import org.osmdroid.util.BoundingBoxE6;
-import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.MapView.Projection;
 import org.osmdroid.views.overlay.OverlayItem;
@@ -96,7 +96,7 @@ public class POIOverlay extends LiveItemOverlay<POIOverlay.POIItem>
   private POIItem active_;
   private final Point curScreenCoords_ = new Point();
   private final Point touchScreenPoint_ = new Point();
-  private GeoPoint lastFix_;
+  private IGeoPoint lastFix_;
   private Rect bubble_;
   private OverlayHelper overlays_;
   private boolean chooserShowing_;
@@ -322,7 +322,7 @@ public class POIOverlay extends LiveItemOverlay<POIOverlay.POIItem>
 	  return activeCategories_.contains(cat);
 	} // showing
 
-  protected boolean fetchItemsInBackground(final GeoPoint mapCentre,
+  protected boolean fetchItemsInBackground(final IGeoPoint mapCentre,
                                            final int zoom,
                                            final BoundingBoxE6 boundingBox)
 	{
@@ -409,7 +409,7 @@ public class POIOverlay extends LiveItemOverlay<POIOverlay.POIItem>
 	static private class GetPOIsTask extends AsyncTask<Object,Void,List<POI>> 
 	{
 		static void fetch(final POIOverlay overlay, 
-						          final GeoPoint centre,
+						          final IGeoPoint centre,
 						          final int radius)
 		{
 			new GetPOIsTask(overlay).execute(centre, radius);
@@ -425,7 +425,7 @@ public class POIOverlay extends LiveItemOverlay<POIOverlay.POIItem>
 		
 		protected List<POI> doInBackground(Object... params) 
 		{
-		  final GeoPoint centre = (GeoPoint)params[0];
+		  final IGeoPoint centre = (IGeoPoint)params[0];
 	    final int radius = (Integer)params[1];
 
       final List<POI> pois = new ArrayList<POI>();

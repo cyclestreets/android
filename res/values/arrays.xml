@@ -40,15 +40,6 @@
     <item>CycleStreets-OSM</item>
     <item>CycleStreets-OS</item>
   </string-array>
-  <string-array name="point_type3">
-    <item>My current location</item>
-    <item>Contacts</item>
-    <item>Point on map</item>
-  </string-array>
-  <string-array name="point_type">
-    <item>Contacts</item>
-    <item>Point on map</item>
-  </string-array>
   <string-array name="uploadsize">
     <item>Always resize to 320 pixels wide</item>
     <item>Full size when Wifi available</item>

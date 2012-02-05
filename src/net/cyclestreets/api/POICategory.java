@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import org.osmdroid.util.GeoPoint;
+import org.osmdroid.api.IGeoPoint;
 import org.xml.sax.Attributes;
 import org.xml.sax.ContentHandler;
 
@@ -45,12 +45,15 @@ public class POICategory
     return name_.equals(((POICategory)rhs).name_);
   } // equals
 
-  public List<POI> pois(final GeoPoint centre,
+  public List<POI> pois(final IGeoPoint centre,
                         final int radius)
     throws Exception
   {
     try {
-      final List<POI> pois = ApiClient.getPOIs(key_, centre, radius);
+      final List<POI> pois = ApiClient.getPOIs(key_, 
+                                               centre.getLongitudeE6() / 1E6,
+                                               centre.getLatitudeE6() / 1E6,
+                                               radius);
       for(final POI poi : pois)
         poi.setCategory(this);
       return pois;

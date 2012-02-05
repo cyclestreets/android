@@ -12,10 +12,12 @@ import android.view.MotionEvent;
 class OverlayButton
 {
   private final Bitmap img_;
+  private final Bitmap altImg_;
   private final Rect pos_;
   private final float radius_;
   private boolean enabled_;
   private boolean pressed_;
+  private boolean alt_;
 
   private boolean bottomAlign_;
   private boolean centreAlign_;
@@ -23,7 +25,17 @@ class OverlayButton
   
   public OverlayButton(final Drawable image, final int left, final int top, final float curveRadius)
   {
+    this(image, null, left, top, curveRadius);
+  } // OverlayButton
+  
+  
+  public OverlayButton(final Drawable image,
+                       final Drawable altImage,
+                       final int left, final int top, 
+                       final float curveRadius)
+  {
     img_ = ((BitmapDrawable)image).getBitmap();
+    altImg_ = (altImage != null) ? ((BitmapDrawable)altImage).getBitmap() : img_;
     pos_ = new Rect(left, 
                     top, 
                     left + image.getIntrinsicWidth(), 
@@ -31,12 +43,16 @@ class OverlayButton
     radius_ = curveRadius;
     enabled_ = true;
     pressed_ = false;
+    alt_ = false;
     rightAlign_ = false;
   } // OverlayButton
   
   public void enable(final boolean on) { enabled_ = on; }
   public boolean enabled() { return enabled_; }
   public void pressed(final boolean on) { pressed_ = on; }
+  public boolean pressed() { return pressed_; }
+  public void alternate(final boolean on) { alt_ = on; }
+  public boolean alternate() { return alt_; }
   
   public OverlayButton bottomAlign() { bottomAlign_ = true; return this; }
   public OverlayButton centreAlign() { centreAlign_ = true; return this; }
@@ -66,8 +82,13 @@ class OverlayButton
       shrinkAndDrawInner(canvas, inner, Brush.White);
     } // if ...
 
-    DrawingHelper.drawBitmap(canvas, img_, screen);
+    DrawingHelper.drawBitmap(canvas, bitmap(), screen);
   } // drawButton
+  
+  private Bitmap bitmap() 
+  {
+    return !alt_ ? img_ : altImg_;
+  } // bitmap
 
   private void drawOutLine(final Canvas canvas, final Rect button)
   {

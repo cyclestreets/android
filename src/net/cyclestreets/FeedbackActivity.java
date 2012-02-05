@@ -1,7 +1,6 @@
 package net.cyclestreets;
 
-import net.cyclestreets.api.ApiClient;
-import net.cyclestreets.api.FeedbackResult;
+import net.cyclestreets.api.Feedback;
 import net.cyclestreets.planned.Route;
 import net.cyclestreets.util.MessageBox;
 import android.app.Activity;
@@ -64,10 +63,10 @@ public class FeedbackActivity extends Activity implements TextWatcher, OnClickLi
 	public void onClick(View v) 
 	{
 		try { 
-			final FeedbackResult result = ApiClient.sendFeedback(Route.itinerary(), 
-																 text(R.id.comments), 
-																 text(R.id.name),
-																 text(R.id.email));
+			final Feedback.Result result = Feedback.send(Route.itinerary(), 
+              			                               text(R.id.comments), 
+              			                               text(R.id.name),
+              			                               text(R.id.email));
 			MessageBox.OKAndFinish(this.getCurrentFocus(), result.message(), this, result.ok());
 		}
 		catch(Exception e) {

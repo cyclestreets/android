@@ -1,4 +1,4 @@
-package net.cyclestreets.planned;
+package net.cyclestreets.api;
 
 import java.util.Iterator;
 import java.util.List;
@@ -105,7 +105,7 @@ public abstract class Segment
 		private final int calories_;
 		private final int co2_;
 		
-		Start(final int itinerary,
+		public Start(final int itinerary,
 			    final String journey, 
 			    final String plan, 
 			    final int speed,
@@ -155,7 +155,7 @@ public abstract class Segment
 	{
 		final int total_distance_; 
 		
-		End(final String destination, 
+		public End(final String destination, 
 			final int total_time, 
 			final int total_distance, 
 			final List<GeoPoint> points)	
@@ -171,7 +171,7 @@ public abstract class Segment
 	
 	static public class Step extends Segment
 	{
-		Step(final String name,
+		public Step(final String name,
 			 final String turn,
 			 final boolean walk,
 			 final int time,

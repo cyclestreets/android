@@ -55,14 +55,14 @@ public class GeoLiveAdapter extends GeoAdapter
 	 */
 	public void addHistory(final GeoPlace p)
 	{
-		if (p.name.equals(MY_LOCATION))
+		if (p.name().equals(MY_LOCATION))
 			return;
 		
-		final String key = p.name.toLowerCase();
+		final String key = p.name().toLowerCase();
 				
 		final SharedPreferences.Editor edit = prefs.edit();
-		edit.putString(PREFS_GEO_NAME_PREFIX + key, p.name);
-		edit.putString(PREFS_GEO_NEAR_PREFIX + key, p.near);
+		edit.putString(PREFS_GEO_NAME_PREFIX + key, p.name());
+		edit.putString(PREFS_GEO_NEAR_PREFIX + key, p.near());
 		edit.putInt(PREFS_GEO_LATITUDE_PREFIX + key, p.coord().getLatitudeE6());
 		edit.putInt(PREFS_GEO_LONGITUDE_PREFIX + key, p.coord().getLongitudeE6());
 		edit.commit();
@@ -91,7 +91,7 @@ public class GeoLiveAdapter extends GeoAdapter
 
 				// Only geocode if more than two characters
 				if (cs.length() > 2)
-					list.addAll(geoCode(cs.toString(), bounds_));
+					list.addAll(geoCode(cs.toString(), bounds_).asList());
 			}
 			else
 			{

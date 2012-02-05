@@ -1,9 +1,5 @@
 package net.cyclestreets.api;
 
-import java.util.List;
-
-import net.cyclestreets.api.GeoPlace;
-
 import org.osmdroid.util.BoundingBoxE6;
 
 import android.content.Context;
@@ -30,22 +26,22 @@ public class GeoStaticAdapter extends GeoAdapter
 		asyncGeoCode(search, bounds);
 	} // GeoAdapter
 	
-	private void populate(final List<GeoPlace> list)
+	private void populate(final GeoPlaces places)
 	{
-		addAll(list);
+		addAll(places.asList());
 		
 		if(listener_ != null)
 			listener_.onPopulated();
 	} // addAll
 	
 	private void asyncGeoCode(final String search,
-							  final BoundingBoxE6 bounds)
+							              final BoundingBoxE6 bounds)
 	{
 		final AsyncGeoCoder coder = new AsyncGeoCoder(this);
 		coder.execute(search, bounds);
 	} // asyncGeoCode
 	
-	static private class AsyncGeoCoder extends AsyncTask<Object, Void, List<GeoPlace>>
+	static private class AsyncGeoCoder extends AsyncTask<Object, Void, GeoPlaces>
 	{
 		private GeoStaticAdapter owner_;
 		
@@ -55,7 +51,7 @@ public class GeoStaticAdapter extends GeoAdapter
 		} // AsyncGeoCoder
 		
 		@Override
-		protected List<GeoPlace> doInBackground(Object... params) 
+		protected GeoPlaces doInBackground(Object... params) 
 		{
 			final String search = (String)params[0];
 			final BoundingBoxE6 box = (BoundingBoxE6)params[1];
@@ -63,7 +59,7 @@ public class GeoStaticAdapter extends GeoAdapter
 		} // doInBackground
 		
 		@Override
-		protected void onPostExecute(final List<GeoPlace> photos) 
+		protected void onPostExecute(final GeoPlaces photos) 
 		{
 			owner_.populate(photos);
 		} // onPostExecute

@@ -1,8 +1,9 @@
 package net.cyclestreets.planned;
 
+import java.util.List;
+
 import org.osmdroid.util.GeoPoint;
 
-import net.cyclestreets.api.ApiClient;
 import net.cyclestreets.content.RouteData;
 import net.cyclestreets.util.Dialog;
 
@@ -10,6 +11,8 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.widget.Toast;
+
+import net.cyclestreets.api.Journey;
 
 public abstract class RoutingTask<Params> 
   extends	AsyncTask<Params, Integer, RouteData> 
@@ -36,30 +39,28 @@ public abstract class RoutingTask<Params>
 		initialMsg_ = progressMessage;
 	} // Routing Task
 
-	protected RouteData fetchRoute(final String routeType, 
-	                               final GeoPoint start, 
-	                               final GeoPoint finish,
-	                               final int speed) 
+	protected RouteData fetchRoute(final String routeType,
+	                               final int speed,
+	                               final List<GeoPoint> waypoints) 
 	{
-	  return fetchRoute(routeType, -1, start, finish, speed);
+	  return fetchRoute(routeType, -1, speed, waypoints);
 	} // fetchRoute
 	
 	protected RouteData fetchRoute(final String routeType,
 	                               final long itinerary,
 	                               final int speed)
 	{ 
-	  return fetchRoute(routeType, itinerary, null, null, speed);
+	  return fetchRoute(routeType, itinerary, speed, null);
 	} // fetchRoute
 	
 	protected RouteData fetchRoute(final String routeType, 
 								                 final long itinerary,
-								                 final GeoPoint start, 
-								                 final GeoPoint finish,
-								                 final int speed) 
+								                 final int speed,
+								                 final List<GeoPoint> waypoints) 
 	{
 		try {
-		  final String xml = doFetchRoute(routeType, itinerary, start, finish, speed);
-		  return new RouteData(xml, start, finish, null);
+		  final String xml = doFetchRoute(routeType, itinerary, speed, waypoints);
+		  return new RouteData(xml, waypoints, null);
 		} // try
 	  catch (Exception e) {
 	    error_ = "Could not contact CycleStreets.net : " + e.getMessage();
@@ -69,14 +70,13 @@ public abstract class RoutingTask<Params>
 	
 	private String doFetchRoute(final String routeType, 
 								              final long itinerary,
-								              final GeoPoint start, 
-								              final GeoPoint finish,
-								              final int speed)
+								              final int speed,
+								              final List<GeoPoint> waypoints)
 		throws Exception
 	{
 		if(itinerary != -1)
-   			return ApiClient.getJourneyXml(routeType, itinerary);
-		return ApiClient.getJourneyXml(routeType, start, finish, speed);
+   			return Journey.getJourneyXml(routeType, itinerary);
+		return Journey.getJourneyXml(routeType, speed, waypoints);
 	} // doFetchRoute
 	
 	@Override
@@ -98,7 +98,7 @@ public abstract class RoutingTask<Params>
 	{
 		if(route != null)
 		{
-			if(Route.onNewJourney(route.xml(), route.start(), route.finish(), route.name()))
+			if(Route.onNewJourney(route))
 				whoToTell_.onNewJourney();
 		} // if ...
 		progress_.dismiss();

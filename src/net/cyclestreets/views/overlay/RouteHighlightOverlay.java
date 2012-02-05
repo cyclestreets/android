@@ -4,7 +4,7 @@ import java.util.Iterator;
 
 import net.cyclestreets.R;
 import net.cyclestreets.planned.Route;
-import net.cyclestreets.planned.Segment;
+import net.cyclestreets.api.Segment;
 import net.cyclestreets.util.Brush;
 import net.cyclestreets.util.Draw;
 
