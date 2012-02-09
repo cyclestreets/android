@@ -1,6 +1,5 @@
 package net.cyclestreets;
 
-import java.util.Iterator;
 import java.util.List;
 import java.util.ArrayList;
 
@@ -12,6 +11,7 @@ import net.cyclestreets.views.overlay.POIOverlay;
 import net.cyclestreets.views.overlay.PathOfRouteOverlay;
 import net.cyclestreets.views.overlay.RouteHighlightOverlay;
 import net.cyclestreets.views.overlay.TapToRouteOverlay;
+import net.cyclestreets.api.Segment;
 import net.cyclestreets.planned.Route;
 
 import org.osmdroid.util.GeoPoint;
@@ -59,7 +59,7 @@ public class RouteMapActivity extends CycleMapActivity
 	protected void onResume()
 	{
 	  super.onResume();
-	  setJourneyPath(Route.points(), Route.waypoints());
+	  setJourneyPath(Route.segments(), Route.waypoints());
   } // onResume
      
 	public void onRouteNow(final List<GeoPoint> waypoints)
@@ -244,15 +244,15 @@ public class RouteMapActivity extends CycleMapActivity
 	@Override
 	public void onNewJourney() 
 	{
-	  setJourneyPath(Route.points(), Route.waypoints());
+	  setJourneyPath(Route.segments(), Route.waypoints());
 	  
 	  mapView().getController().setCenter(Route.start());
 	  mapView().postInvalidate();
 	} // onNewJourney   
    
-	private void setJourneyPath(final Iterator<GeoPoint> points, final List<GeoPoint> waypoints)
+	private void setJourneyPath(final List<Segment> segments, final List<GeoPoint> waypoints)
 	{
-	  routeSetter_.setRoute(waypoints, points.hasNext());	   
-	  path_.setRoute(points);
+	  routeSetter_.setRoute(waypoints, !segments.isEmpty());	   
+	  path_.setRoute(segments);
   } // setJourneyPath
 } // class MapActivity
