@@ -16,7 +16,6 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.Point;
-import android.graphics.Rect;
 
 public class PathOfRouteOverlay extends Overlay 
 {
@@ -28,12 +27,6 @@ public class PathOfRouteOverlay extends Overlay
 
 	private int zoomLevel_ = -1;
 	private Path path_;
-
-	private final Point mTempPoint1 = new Point();
-	private final Point mTempPoint2 = new Point();
-
-	// bounding rectangle for the current line segment.
-	private final Rect mLineBounds = new Rect();
 
 	public PathOfRouteOverlay(final Context context) 
 	{
@@ -91,40 +84,24 @@ public class PathOfRouteOverlay extends Overlay
         points.add(p);
       } // for ...
 		
-		Point screenPoint0 = null;
-		Point screenPoint1 = null;
-		Point projectedPoint0; // points from the points list
-		Point projectedPoint1;
-
 		path_ = new Path();
 		path_.rewind();
-		final int size = points.size();
-		projectedPoint0 = points.get(size - 1);
 
+		final int size = points.size();
+    Point screenPoint = new Point();
 		for (int i = size - 2; i >= 0; i--) 
 		{
-			// compute next points
-			projectedPoint1 = points.get(i);
+			final Point projectedPoint = points.get(i);
 
-			// the starting point may be not calculated, because previous segment was out of clip
-			// bounds
-			if (screenPoint0 == null) 
+			if (path_.isEmpty()) 
 			{
-				screenPoint0 = projection.toMapPixelsTranslated(projectedPoint0, mTempPoint1);
-				path_.moveTo(screenPoint0.x, screenPoint0.y);
+				screenPoint = projection.toMapPixelsTranslated(projectedPoint, screenPoint);
+				path_.moveTo(screenPoint.x, screenPoint.y);
 			}
 
-			screenPoint1 = projection.toMapPixelsTranslated(projectedPoint1, mTempPoint2);
-
-			path_.lineTo(screenPoint1.x, screenPoint1.y);
-
-			// update starting point to next position
-			projectedPoint0 = projectedPoint1;
-			screenPoint0.x = screenPoint1.x;
-			screenPoint0.y = screenPoint1.y;
-			mLineBounds.set(projectedPoint0.x, projectedPoint0.y, 
-			                projectedPoint0.x, projectedPoint0.y);
-		}
+			screenPoint = projection.toMapPixelsTranslated(projectedPoint, screenPoint);
+			path_.lineTo(screenPoint.x, screenPoint.y);
+		} // for ...
 
     canvas.drawPath(path_, brush_);
 	} // draw
