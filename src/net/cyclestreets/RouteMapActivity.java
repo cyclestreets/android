@@ -96,7 +96,7 @@ public class RouteMapActivity extends CycleMapActivity
 	{
 	  Route.resetJourney();
 	  routeSetter_.resetRoute();
-	  path_.clearPath();
+	  path_.reset();
 	  mapView().invalidate();
   } // onClearRoute
     

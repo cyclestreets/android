@@ -13,6 +13,7 @@ import org.osmdroid.views.overlay.Overlay;
 
 import android.content.Context;
 import android.graphics.Canvas;
+import android.graphics.DashPathEffect;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.Point;
@@ -23,86 +24,104 @@ public class PathOfRouteOverlay extends Overlay
 
   private List<Segment> route_;
 
-	private Paint brush_;
+  private Paint rideBrush_;
+  private Paint walkBrush_;
+  
+  private int zoomLevel_ = -1;
+  private Path ridePath_;
+  private Path walkPath_;
+  
+  public PathOfRouteOverlay(final Context context) 
+  {
+    super(context);
+    
+    rideBrush_ = createBrush();
+    
+    walkBrush_ = createBrush();
+    walkBrush_.setPathEffect(new DashPathEffect(new float[] {5, 5}, 0));
 
-	private int zoomLevel_ = -1;
-	private Path path_;
-
-	public PathOfRouteOverlay(final Context context) 
-	{
-		super(context);
-		
-		brush_ = new Paint();
-		brush_.setColor(ROUTE_COLOUR);
-		brush_.setStrokeWidth(2.0f);
-		brush_.setStyle(Paint.Style.STROKE);
-    brush_.setStrokeWidth(10.0f);
-
-		clearPath();
-	} // PathOverlay
+    reset();
+  } // PathOverlay
+	
+  private Paint createBrush()
+  {
+    final Paint brush = new Paint();
+    
+    brush.setColor(ROUTE_COLOUR);
+    brush.setStrokeWidth(2.0f);
+    brush.setStyle(Paint.Style.STROKE);
+    brush.setStrokeWidth(10.0f);
+    
+    return brush;
+  } // createBrush	
 
   public void setRoute(final List<Segment> routeSegments)
   {
-    clearPath();
+    reset();
     route_ = routeSegments;
   } // setRoute
 
-  public void clearPath() 
+  public void reset() 
   {
-    path_ = null;
-	} // clearPath
+    ridePath_ = null;
+    route_ = null;
+  } // clearPath
 
-	@Override
-	protected void draw(final Canvas canvas, final MapView mapView, final boolean shadow) 
-	{
-		if (shadow) 
-			return;
+  @Override
+  protected void draw(final Canvas canvas, final MapView mapView, final boolean shadow) 
+  {
+    if (shadow) 
+      return;
+ 
+    if (route_ == null || route_.size() < 2) 
+      return;
 		
-		if (route_ == null || route_.size() < 2) 
-			return;
-		
-		if(zoomLevel_ != mapView.getZoomLevel() && !mapView.isAnimating())
-		{
-		  path_ = null;
-		  zoomLevel_ = mapView.getProjection().getZoomLevel();
-		} // if ... 
-		
-		if(path_ != null)
-		{
-	    canvas.drawPath(path_, brush_);
-		  return;
-		} // if ...
+    if(zoomLevel_ != mapView.getZoomLevel() && !mapView.isAnimating())
+    {
+      ridePath_ = null;
+      zoomLevel_ = mapView.getProjection().getZoomLevel();
+    } // if ... 
+  
+    if(ridePath_ == null)
+    {
+      ridePath_ = drawSegments(mapView.getProjection(), route_, false);
+      walkPath_ = drawSegments(mapView.getProjection(), route_, true);
+    } // if ...
 
-		final Projection projection = mapView.getProjection();
-		final List<Point> points = new ArrayList<Point>();
-		for(Segment s : route_)
+    canvas.drawPath(ridePath_, rideBrush_);
+    canvas.drawPath(walkPath_, walkBrush_);
+  } // draw
+	
+  private Path drawSegments(final Projection projection, final List<Segment> route,  final boolean walk)
+  {
+    final Path path = new Path();
+    path.rewind();
+
+    final List<Point> points = new ArrayList<Point>();
+    Point screenPoint = new Point();
+    for(Segment s : route)
+    {
+      if(s.walk() != walk)
+        continue;
+      
+      points.clear();
       for(Iterator<GeoPoint> i = s.points(); i.hasNext(); )
       {
         final GeoPoint gp = i.next();
-        final Point p = new Point(gp.getLatitudeE6(), gp.getLongitudeE6());
-        projection.toMapPixelsProjected(p.x, p.y, p);
+        final Point p = projection.toMapPixelsProjected(gp.getLatitudeE6(), gp.getLongitudeE6(), null);
         points.add(p);
       } // for ...
-		
-		path_ = new Path();
-		path_.rewind();
+    
+      screenPoint = projection.toMapPixelsTranslated(points.get(0), screenPoint);
+      path.moveTo(screenPoint.x, screenPoint.y);
+      
+      for (int i = 0; i != points.size(); ++i) 
+      {
+        screenPoint = projection.toMapPixelsTranslated(points.get(i), screenPoint);
+        path.lineTo(screenPoint.x, screenPoint.y);
+      } // for ...
+    } // for ...
 
-		final int size = points.size();
-    Point screenPoint = new Point();
-		for (int i = size - 2; i >= 0; i--) 
-		{
-			final Point projectedPoint = points.get(i);
-
-			if (path_.isEmpty()) 
-			{
-				screenPoint = projection.toMapPixelsTranslated(projectedPoint, screenPoint);
-				path_.moveTo(screenPoint.x, screenPoint.y);
-			}
-
-			screenPoint = projection.toMapPixelsTranslated(projectedPoint, screenPoint);
-			path_.lineTo(screenPoint.x, screenPoint.y);
-		} // for ...
-
-    canvas.drawPath(path_, brush_);
-	} // draw
+    return path;
+  } // drawSegments
 } // Path
