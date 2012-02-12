@@ -1,16 +1,13 @@
 package net.cyclestreets.views.overlay;
 
-import java.util.Iterator;
-
 import net.cyclestreets.R;
 import net.cyclestreets.planned.Route;
 import net.cyclestreets.api.Segment;
 import net.cyclestreets.util.Brush;
 import net.cyclestreets.util.Draw;
 
-import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
-import org.osmdroid.views.overlay.PathOverlay;
+import org.osmdroid.views.overlay.Overlay;
 
 import android.content.Context;
 import android.content.res.Resources;
@@ -20,11 +17,9 @@ import android.graphics.Rect;
 import android.graphics.Paint.Align;
 import android.view.MotionEvent;
 
-public class RouteHighlightOverlay extends PathOverlay 
+public class RouteHighlightOverlay extends Overlay 
 		                   implements ButtonTapListener
 {
-  static public int HIGHLIGHT_COLOUR = 0xff00ff00;
-
   private final MapView mapView_;
   
   private Segment current_;
@@ -39,8 +34,7 @@ public class RouteHighlightOverlay extends PathOverlay
 
   public RouteHighlightOverlay(final Context context, final MapView map)
   {
-    super(HIGHLIGHT_COLOUR, context);
-    mPaint.setStrokeWidth(8.0f);
+    super(context);
     
     mapView_ = map;
     current_ = null;
@@ -67,9 +61,14 @@ public class RouteHighlightOverlay extends PathOverlay
   @Override
   public void draw(final Canvas canvas, final MapView mapView, final boolean shadow)
   {
-    if(current_ != Route.activeSegment())
-      refresh();
-    super.draw(canvas, mapView, shadow);
+    if(current_ == Route.activeSegment())
+      return;
+
+    current_ = Route.activeSegment();
+    if(current_ == null)
+      return;
+                  
+    mapView_.getController().animateTo(current_.start());
   } // onDraw
 	
   @Override
@@ -112,18 +111,6 @@ public class RouteHighlightOverlay extends PathOverlay
     Draw.drawTextInRect(canvas, textBrush_, textBox, seg.toString());
   } // drawSegmentInfo
   
-  private void refresh()
-  {
-    clearPath();
-    current_ = Route.activeSegment();
-    if(current_ == null)
-      return;
-		
-    for(final Iterator<GeoPoint> points = current_.points(); points.hasNext(); )
-      addPoint(points.next());
-    mapView_.getController().animateTo(current_.start());
-  } // refresh
-
   //////////////////////////////////////////////
   @Override
   public boolean onButtonTap(final MotionEvent event) 

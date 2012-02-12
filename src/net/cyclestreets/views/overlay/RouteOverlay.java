@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.ArrayList;
 
 import net.cyclestreets.api.Segment;
+import net.cyclestreets.planned.Route;
 
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
@@ -21,33 +22,44 @@ import android.graphics.Point;
 public class RouteOverlay extends Overlay 
 {
   static public int ROUTE_COLOUR = 0x80ff00ff;
+  static public int HIGHLIGHT_COLOUR = 0xA000ff00;
 
   private List<Segment> route_;
 
-  private Paint rideBrush_;
-  private Paint walkBrush_;
-  
-  private int zoomLevel_ = -1;
+  private final Paint rideBrush_;
+  private final Paint walkBrush_;
+  private final Paint hiRideBrush_;
+  private final Paint hiWalkBrush_;
+   
   private Path ridePath_;
   private Path walkPath_;
+  private Path highlightPath_;
+  
+  private int zoomLevel_ = -1;
+  private Segment highlight_;
   
   public RouteOverlay(final Context context) 
   {
     super(context);
     
-    rideBrush_ = createBrush();
-    
-    walkBrush_ = createBrush();
+    rideBrush_ = createBrush(ROUTE_COLOUR);
+    walkBrush_ = createBrush(ROUTE_COLOUR);
     walkBrush_.setPathEffect(new DashPathEffect(new float[] {5, 5}, 0));
 
+    hiRideBrush_ = createBrush(HIGHLIGHT_COLOUR);
+    hiWalkBrush_ = createBrush(HIGHLIGHT_COLOUR);
+    hiWalkBrush_.setPathEffect(new DashPathEffect(new float[] {5, 5}, 0));
+
+    highlight_ = null;
+    
     reset();
   } // PathOverlay
 	
-  private Paint createBrush()
+  private Paint createBrush(int colour)
   {
     final Paint brush = new Paint();
     
-    brush.setColor(ROUTE_COLOUR);
+    brush.setColor(colour);
     brush.setStrokeWidth(2.0f);
     brush.setStyle(Paint.Style.STROKE);
     brush.setStrokeWidth(10.0f);
@@ -76,10 +88,12 @@ public class RouteOverlay extends Overlay
     if (route_ == null || route_.size() < 2) 
       return;
 		
-    if(zoomLevel_ != mapView.getZoomLevel() && !mapView.isAnimating())
+    if((zoomLevel_ != mapView.getZoomLevel() && !mapView.isAnimating()) ||
+       (highlight_ != Route.activeSegment()))
     {
       ridePath_ = null;
       zoomLevel_ = mapView.getProjection().getZoomLevel();
+      highlight_ = Route.activeSegment();
     } // if ... 
   
     if(ridePath_ == null)
@@ -87,6 +101,7 @@ public class RouteOverlay extends Overlay
 
     canvas.drawPath(ridePath_, rideBrush_);
     canvas.drawPath(walkPath_, walkBrush_);
+    canvas.drawPath(highlightPath_, Route.activeSegment().walk() ? hiWalkBrush_ : hiRideBrush_);
   } // draw
 
   private Path newPath()
@@ -100,12 +115,14 @@ public class RouteOverlay extends Overlay
   {
     ridePath_ = newPath();
     walkPath_ = newPath();
+    highlightPath_ = newPath();
 
     final List<Point> points = new ArrayList<Point>();
     Point screenPoint = new Point();
     for(Segment s : route_)
     {
-      final Path path = s.walk() ? walkPath_ : ridePath_;
+      Path path = s.walk() ? walkPath_ : ridePath_;
+      path = (Route.activeSegment() != s) ? path : highlightPath_; 
       
       points.clear();
       for(Iterator<GeoPoint> i = s.points(); i.hasNext(); )
