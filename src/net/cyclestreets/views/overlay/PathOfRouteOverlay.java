@@ -83,26 +83,29 @@ public class PathOfRouteOverlay extends Overlay
     } // if ... 
   
     if(ridePath_ == null)
-    {
-      ridePath_ = drawSegments(mapView.getProjection(), route_, false);
-      walkPath_ = drawSegments(mapView.getProjection(), route_, true);
-    } // if ...
+      drawSegments(mapView.getProjection());
 
     canvas.drawPath(ridePath_, rideBrush_);
     canvas.drawPath(walkPath_, walkBrush_);
   } // draw
-	
-  private Path drawSegments(final Projection projection, final List<Segment> route,  final boolean walk)
+
+  private Path newPath()
   {
     final Path path = new Path();
     path.rewind();
+    return path;
+  } // newPath
+  
+  private void drawSegments(final Projection projection)
+  {
+    ridePath_ = newPath();
+    walkPath_ = newPath();
 
     final List<Point> points = new ArrayList<Point>();
     Point screenPoint = new Point();
-    for(Segment s : route)
+    for(Segment s : route_)
     {
-      if(s.walk() != walk)
-        continue;
+      final Path path = s.walk() ? walkPath_ : ridePath_;
       
       points.clear();
       for(Iterator<GeoPoint> i = s.points(); i.hasNext(); )
@@ -121,7 +124,5 @@ public class PathOfRouteOverlay extends Overlay
         path.lineTo(screenPoint.x, screenPoint.y);
       } // for ...
     } // for ...
-
-    return path;
   } // drawSegments
 } // Path
