@@ -32,11 +32,9 @@
 	<Button android:id="@+id/takephoto_button"
 		android:layout_width="fill_parent"
 		android:layout_height="wrap_content"
-		android:layout_centerHorizontal="true"
 		android:text="Take a photo"/>
 	<Button android:id="@+id/chooseexisting_button"
 		android:layout_width="fill_parent"
 		android:layout_height="wrap_content"
-		android:layout_centerHorizontal="true"
 		android:text="Select existing photo"/>
 </LinearLayout>
