@@ -8,7 +8,7 @@ import net.cyclestreets.R;
 import net.cyclestreets.util.MessageBox;
 import net.cyclestreets.util.GeoIntent;
 import net.cyclestreets.views.overlay.POIOverlay;
-import net.cyclestreets.views.overlay.PathOfRouteOverlay;
+import net.cyclestreets.views.overlay.RouteOverlay;
 import net.cyclestreets.views.overlay.RouteHighlightOverlay;
 import net.cyclestreets.views.overlay.TapToRouteOverlay;
 import net.cyclestreets.api.Segment;
@@ -27,7 +27,7 @@ public class RouteMapActivity extends CycleMapActivity
                               implements TapToRouteOverlay.Callback, 
                                          Route.Callback
 {
-	private PathOfRouteOverlay path_;
+	private RouteOverlay path_;
 	private TapToRouteOverlay routeSetter_;
 	private POIOverlay poiOverlay_;
 	
@@ -41,7 +41,7 @@ public class RouteMapActivity extends CycleMapActivity
     poiOverlay_ = new POIOverlay(this, mapView());
     overlayPushBottom(poiOverlay_);
 
-    path_ = new PathOfRouteOverlay(this);
+    path_ = new RouteOverlay(this);
 	  overlayPushBottom(path_);
 	  
 	  routeSetter_ = new TapToRouteOverlay(this, mapView(), this);

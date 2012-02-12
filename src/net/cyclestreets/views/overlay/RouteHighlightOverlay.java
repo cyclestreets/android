@@ -21,7 +21,7 @@ import android.graphics.Paint.Align;
 import android.view.MotionEvent;
 
 public class RouteHighlightOverlay extends PathOverlay 
-								                   implements ButtonTapListener
+		                   implements ButtonTapListener
 {
   static public int HIGHLIGHT_COLOUR = 0xff00ff00;
 
