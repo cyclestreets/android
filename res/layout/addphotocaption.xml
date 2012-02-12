@@ -30,7 +30,7 @@
     		android:maxLines="4" 
     		android:layout_height="wrap_content" 
     		android:layout_width="fill_parent"
-    		android:capitalize="sentences"
+    		android:inputType="textCapSentences"
     		android:scrollbars="none"/>
     	</LinearLayout>
    	</ScrollView>	

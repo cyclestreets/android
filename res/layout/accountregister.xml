@@ -33,7 +33,8 @@
       <EditText
 	  android:id="@+id/name"
 	  android:layout_height="wrap_content" 
-	  android:layout_width="fill_parent"/>	
+	  android:layout_width="fill_parent"
+	  android:inputType="textPersonName"/>	
       <TextView
 	  android:layout_width="fill_parent"
 	  android:layout_height="wrap_content"
@@ -41,7 +42,8 @@
       <EditText
 	  android:id="@+id/email"
 	  android:layout_height="wrap_content" 
-	  android:layout_width="fill_parent"/>	
+	  android:layout_width="fill_parent"
+    android:inputType="textEmailAddress"/>	
       <TextView
 	  android:layout_width="fill_parent"
 	  android:layout_height="wrap_content"
@@ -53,7 +55,8 @@
       <EditText
 	  android:id="@+id/username"
 	  android:layout_height="wrap_content" 
-	  android:layout_width="fill_parent"/>	
+	  android:layout_width="fill_parent"
+	  android:inputType="text"/>	
       <TextView
 	  android:layout_width="fill_parent"
 	  android:layout_height="wrap_content"
@@ -61,7 +64,8 @@
       <EditText
 	  android:id="@+id/password"
 	  android:layout_height="wrap_content" 
-	  android:layout_width="fill_parent" android:password="true"/>
+	  android:layout_width="fill_parent"
+	  android:inputType="textPassword"/>
       <TextView
 	  android:layout_width="fill_parent"
 	  android:layout_height="wrap_content"
@@ -69,7 +73,8 @@
       <EditText
 	  android:id="@+id/confirm_password"
 	  android:layout_height="wrap_content" 
-	  android:layout_width="fill_parent" android:password="true"/>
+	  android:layout_width="fill_parent" 
+	  android:inputType="textPassword"/>
     </LinearLayout>       
   </ScrollView>   
   <LinearLayout 

@@ -33,7 +33,8 @@
       <EditText
 	  android:id="@+id/username"
 	  android:layout_height="wrap_content" 
-	  android:layout_width="fill_parent"/>	
+	  android:layout_width="fill_parent"
+	  android:inputType="text"/>	
       <TextView
 	  android:layout_width="fill_parent"
 	  android:layout_height="wrap_content"
@@ -42,7 +43,7 @@
 	  android:id="@+id/password"
 	  android:layout_height="wrap_content" 
 	  android:layout_width="fill_parent"
-	  android:password="true"/>	
+	  android:inputType="textPassword"/>	
     </LinearLayout>    	
   </ScrollView>
   <LinearLayout
