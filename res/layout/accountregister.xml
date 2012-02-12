@@ -85,11 +85,11 @@
     <View
 	android:layout_width="0.0dip"
 	android:layout_height="fill_parent"
-	android:layout_weight="1.0"/>				
+	android:layout_weight="1"/>				
     <Button android:text="Register" 
 	    android:id="@+id/register_button" 
 	    android:layout_height="wrap_content" 
-	    android:layout_weight="1.0" 
-	    android:layout_width="30dip"/>
+	    android:layout_weight="1" 
+	    android:layout_width="0dip"/>
   </LinearLayout>       
 </LinearLayout>
