@@ -143,18 +143,16 @@ public class POIOverlay extends LiveItemOverlay<POIOverlay.POIItem>
 	  activeCategories_.clear();
 	  
 	  final boolean firstTime = !POICategories.loaded(); 
-	  
-	  int count = prefs.getInt("category-count", 0);
-	  for(int i = 0; i != count; ++i)
-	  {
-	    final String name = prefs.getString("category-" + i, "");
-	    for(final POICategory cat : allCategories())
-	      if(name.equals(cat.name()))
-	      {
-	        activeCategories_.add(cat);
-	        break;
-	      } // if...
-	  } // for ...
+
+	  try {
+	    reloadActiveCategories(prefs);
+	  } // try
+	  catch(Exception e) {
+	    // very occasionally this throws a NullException, although it's not something
+      // I've been able to replicate :(  
+	    // Let's just carry on
+	    activeCategories_.clear();
+	  } // catch
 
 	  if(firstTime)
 	  {
@@ -164,6 +162,21 @@ public class POIOverlay extends LiveItemOverlay<POIOverlay.POIItem>
       refreshItems();
 	  } // if ... 
 	} // onResume
+	
+	private void reloadActiveCategories(final SharedPreferences prefs)
+	{
+	  int count = prefs.getInt("category-count", 0);
+	  for(int i = 0; i != count; ++i)
+    {
+	    final String name = prefs.getString("category-" + i, "");
+      for(final POICategory cat : allCategories())
+        if(name.equals(cat.name()))
+        {
+          activeCategories_.add(cat);
+          break;
+        } // if...
+    } // for ...
+	} // reloadActiveCategories
 	
 	///////////////////////////////////////////////////////
 	@Override

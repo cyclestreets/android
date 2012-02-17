@@ -5,13 +5,13 @@
 	    android:layout_height="fill_parent">
   <ScrollView
       android:layout_width="fill_parent"
-      android:layout_height="fill_parent"
+      android:layout_height="0dp"
       android:layout_weight="5.0"
       android:padding="4.0dip">
     <LinearLayout
 	android:orientation="vertical"
 	android:layout_width="fill_parent"
-	android:layout_height="fill_parent">
+	android:layout_height="wrap_content">
       <TextView
 	  android:layout_width="fill_parent"
 	  android:layout_height="wrap_content"
@@ -33,7 +33,8 @@
       <EditText
 	  android:id="@+id/username"
 	  android:layout_height="wrap_content" 
-	  android:layout_width="fill_parent"/>	
+	  android:layout_width="fill_parent"
+	  android:inputType="text"/>	
       <TextView
 	  android:layout_width="fill_parent"
 	  android:layout_height="wrap_content"
@@ -42,7 +43,7 @@
 	  android:id="@+id/password"
 	  android:layout_height="wrap_content" 
 	  android:layout_width="fill_parent"
-	  android:password="true"/>	
+	  android:inputType="textPassword"/>	
     </LinearLayout>    	
   </ScrollView>
   <LinearLayout
@@ -52,15 +53,15 @@
       android:gravity="bottom">    	
     <Button
 	android:id="@+id/cleardetails_button"
-	android:layout_width="fill_parent"
+	android:layout_width="0dip"
 	android:layout_height="wrap_content"
-	android:layout_weight="1.0"     	
+	android:layout_weight="1"     	
 	android:text="Clear stored details"/>
     <Button
 	android:id="@+id/signin_button"
-	android:layout_width="fill_parent"
+	android:layout_width="0dip"
 	android:layout_height="wrap_content"
-	android:layout_weight="1.0"     	
+	android:layout_weight="1"     	
 	android:text="Sign in"/>
   </LinearLayout>       
 </LinearLayout>

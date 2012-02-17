@@ -4,14 +4,14 @@
 	android:layout_height="fill_parent">
   <ScrollView 
       android:layout_width="fill_parent"
-      android:layout_height="wrap_content"
+      android:layout_height="0dp"
       android:orientation="vertical"
       android:layout_weight="5.0"
       android:padding="4.0dip">
     <LinearLayout
 	android:orientation="vertical"
 	android:layout_width="fill_parent"
-	android:layout_height="fill_parent">
+	android:layout_height="wrap_content">
       <TextView
 	  android:layout_width="fill_parent"
 	  android:layout_height="wrap_content"
@@ -25,7 +25,8 @@
 	  android:maxLines="8" 
 	  android:layout_height="wrap_content" 
 	  android:layout_width="fill_parent" 
-	  android:scrollbars="none"/>
+	  android:scrollbars="none"
+	  android:inputType="textCapSentences|textMultiLine"/>
       <TextView 
 	  android:layout_width="fill_parent"
 	  android:layout_height="wrap_content"
@@ -33,7 +34,8 @@
       <EditText 
 	  android:id="@+id/name"
 	  android:layout_width="fill_parent"
-	  android:layout_height="wrap_content"/>
+	  android:layout_height="wrap_content"
+	  android:inputType="textPersonName|textCapWords"/>
       <TextView 
 	  android:layout_width="fill_parent"
 	  android:layout_height="wrap_content"
@@ -41,7 +43,8 @@
       <EditText 
 	  android:id="@+id/email"
 	  android:layout_width="fill_parent"
-	  android:layout_height="wrap_content"/>
+	  android:layout_height="wrap_content"
+	  android:inputType="textEmailAddress"/>
     </LinearLayout>
   </ScrollView>	
   <LinearLayout
@@ -52,11 +55,11 @@
     <View
 	android:layout_width="0.0dip"
 	android:layout_height="fill_parent"
-	android:layout_weight="1.0"/>				
+	android:layout_weight="1"/>				
     <Button android:text="Upload!" 
 	    android:id="@+id/upload" 
 	    android:layout_height="wrap_content" 
-	    android:layout_weight="1.0" 
-	    android:layout_width="30dip"/>
+	    android:layout_weight="1" 
+	    android:layout_width="0dip"/>
   </LinearLayout>
 </LinearLayout>

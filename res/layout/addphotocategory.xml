@@ -4,18 +4,18 @@
 	android:layout_height="fill_parent">
 	<ScrollView 
 		android:layout_width="fill_parent"
-		android:layout_height="wrap_content"
+		android:layout_height="0dp"
 		android:orientation="vertical"
 		android:layout_weight="5.0"
 		android:padding="4.0dip">
 	    <LinearLayout
 			android:orientation="vertical"
 	    	android:layout_width="fill_parent"
-	    	android:layout_height="fill_parent">
+	    	android:layout_height="wrap_content">
 		<ImageView android:id="@+id/photo" 
 			android:layout_weight="1.0"
 			android:layout_width="fill_parent" 
-			android:layout_height="wrap_content"
+			android:layout_height="0dp"
 			android:cropToPadding="true"/>
 	  	<TextView
 			android:layout_width="fill_parent"

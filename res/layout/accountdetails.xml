@@ -33,11 +33,9 @@
 	<Button android:id="@+id/newaccount_button"
 		android:layout_width="fill_parent"
 		android:layout_height="wrap_content"
-		android:layout_centerHorizontal="true"
 		android:text="Register for an account"/>
 	<Button android:id="@+id/existingaccount_button"
 		android:layout_width="fill_parent"
 		android:layout_height="wrap_content"
-		android:layout_centerHorizontal="true"
 		android:text="Signin with an existing account"/>
 </LinearLayout>
