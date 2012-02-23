@@ -101,8 +101,18 @@ public abstract class RoutingTask<Params>
       if(Route.onNewJourney(route))
         whoToTell_.onNewJourney();
     } // if ...
-    progress_.dismiss();
+    progressDismiss();
     if(error_ != null)
       Toast.makeText(context_, error_, Toast.LENGTH_LONG).show();
   } // onPostExecute  
+  
+  private void progressDismiss()
+  {
+    try {
+      // some devices, in rare situations, can throw here so just catch and swallow
+      progress_.dismiss();
+    }
+    catch(Exception e) {
+    } // catch
+  } // progressDismiss
 } // class RoutingTask
