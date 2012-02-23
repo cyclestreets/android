@@ -47,48 +47,48 @@ public class POIOverlay extends LiveItemOverlay<POIOverlay.POIItem>
                                    UndoAction
 {
   static public class POIItem extends OverlayItem 
-	{
-		private final POI poi_;
+  {
+    private final POI poi_;
 		
-		public POIItem(final POI poi) 
-		{
-			super(poi.id() + "", poi.name(), poi.notes(), poi.position());
-			poi_ = poi;
-			setMarker(poi_.icon());
-			setMarkerHotspot(HotspotPlace.CENTER);
-		} // PhotoItem
+    public POIItem(final POI poi) 
+    {
+      super(poi.id() + "", poi.name(), poi.notes(), poi.position());
+      poi_ = poi;
+      setMarker(poi_.icon());
+      setMarkerHotspot(HotspotPlace.CENTER);
+    } // PhotoItem
 
-		public POI poi() { return poi_; }
-		public String getUrl() { return poi_.url(); }
-		public POICategory category() { return poi_.category(); }
-
-		// Equality testing
-		@Override
-		public int hashCode() { return ((poi_ == null) ? 0 : poi_.id()); }
+    public POI poi() { return poi_; }
+    public String getUrl() { return poi_.url(); }
+    public POICategory category() { return poi_.category(); }
+    
+    // Equality testing
+    @Override
+    public int hashCode() { return ((poi_ == null) ? 0 : poi_.id()); }
 		
-		@Override
-		public boolean equals(final Object obj) 
-		{
-			if (this == obj)
-				return true;
-			if (obj == null)
-				return false;
-			if (getClass() != obj.getClass())
-				return false;
-			final POIItem other = (POIItem) obj;
-			if (poi_ == null) 
-				return (other.poi_ == null);
-
-			return (poi_.id() == other.poi_.id());
-		} // equals
-
-		@Override
-		public String toString() 
-		{
-			return "POIItem [poi=" + poi_ + "]";
-		} // toString	
-	} // class POIItem
-
+    @Override
+    public boolean equals(final Object obj) 
+    {
+      if (this == obj)
+        return true;
+      if (obj == null)
+        return false;
+      if (getClass() != obj.getClass())
+        return false;
+      final POIItem other = (POIItem) obj;
+      if (poi_ == null) 
+        return (other.poi_ == null);
+      
+      return (poi_.id() == other.poi_.id());
+    } // equals
+    
+    @Override
+    public String toString() 
+    {
+      return "POIItem [poi=" + poi_ + "]";
+    } // toString	
+  } // class POIItem
+  
   /////////////////////////////////////////////////////
   /////////////////////////////////////////////////////
   private Context context_;
@@ -101,24 +101,21 @@ public class POIOverlay extends LiveItemOverlay<POIOverlay.POIItem>
   private OverlayHelper overlays_;
   private boolean chooserShowing_;
   
-	public POIOverlay(final Context context,
-							      final MapView mapView)
-	{
-		super(context, 
-			    mapView,
-			    null,
-			    false);
+  public POIOverlay(final Context context,
+                    final MapView mapView)
+  {
+    super(context, mapView, null, false);
 
-		context_ = context;
-		activeCategories_ = new ArrayList<POICategory>();
-		overlays_ = new OverlayHelper(mapView);
-		chooserShowing_ = false;
-	} // POIOverlay
+    context_ = context;
+    activeCategories_ = new ArrayList<POICategory>();
+    overlays_ = new OverlayHelper(mapView);
+    chooserShowing_ = false;
+  } // POIOverlay
 	
-	private POICategories allCategories()
-	{
-	  return POICategories.get();
-	} // allCategories
+  private POICategories allCategories()
+  {
+    return POICategories.get();
+  } // allCategories
 	
   private TapToRouteOverlay routeOverlay()
   {
@@ -131,44 +128,44 @@ public class POIOverlay extends LiveItemOverlay<POIOverlay.POIItem>
   } // controller
   
   /////////////////////////////////////////////////////
-	public void onPause(final SharedPreferences.Editor prefs)
-	{
-	  prefs.putInt("category-count", activeCategories_.size());
-	  for(int i = 0; i != activeCategories_.size(); ++i)
-	    prefs.putString("category-" + i, activeCategories_.get(i).name());
-	} // onPause
+  public void onPause(final SharedPreferences.Editor prefs)
+  {
+    prefs.putInt("category-count", activeCategories_.size());
+    for(int i = 0; i != activeCategories_.size(); ++i)
+      prefs.putString("category-" + i, activeCategories_.get(i).name());
+  } // onPause
 	
-	public void onResume(final SharedPreferences prefs)
-	{
-	  activeCategories_.clear();
-	  
-	  final boolean firstTime = !POICategories.loaded(); 
-
-	  try {
-	    reloadActiveCategories(prefs);
-	  } // try
-	  catch(Exception e) {
-	    // very occasionally this throws a NullException, although it's not something
+  public void onResume(final SharedPreferences prefs)
+  {
+    activeCategories_.clear();
+    
+    final boolean firstTime = !POICategories.loaded(); 
+    
+    try {
+      reloadActiveCategories(prefs);
+    } // try
+    catch(Exception e) {
+      // very occasionally this throws a NullException, although it's not something
       // I've been able to replicate :(  
-	    // Let's just carry on
-	    activeCategories_.clear();
-	  } // catch
+      // Let's just carry on
+      activeCategories_.clear();
+    } // catch
 
-	  if(firstTime)
-	  {
-	    items().clear();
-	    clearLastFix();
-	    active_ = null;
-      refreshItems();
-	  } // if ... 
-	} // onResume
-	
-	private void reloadActiveCategories(final SharedPreferences prefs)
-	{
-	  int count = prefs.getInt("category-count", 0);
-	  for(int i = 0; i != count; ++i)
+    if(firstTime)
     {
-	    final String name = prefs.getString("category-" + i, "");
+      items().clear();
+      clearLastFix();
+      active_ = null;
+      refreshItems();
+    } // if ... 
+  } // onResume
+	
+  private void reloadActiveCategories(final SharedPreferences prefs)
+  {
+    int count = prefs.getInt("category-count", 0);
+    for(int i = 0; i != count; ++i)
+    {
+      final String name = prefs.getString("category-" + i, "");
       for(final POICategory cat : allCategories())
         if(name.equals(cat.name()))
         {
@@ -176,15 +173,15 @@ public class POIOverlay extends LiveItemOverlay<POIOverlay.POIItem>
           break;
         } // if...
     } // for ...
-	} // reloadActiveCategories
+  } // reloadActiveCategories
 	
-	///////////////////////////////////////////////////////
-	@Override
-	public boolean onZoom(final ZoomEvent event) 
-	{
-	  clearLastFix();
-	  return super.onZoom(event);
-	} // onZoom
+  ///////////////////////////////////////////////////////
+  @Override
+  public boolean onZoom(final ZoomEvent event) 
+  {
+    clearLastFix();
+    return super.onZoom(event);
+  } // onZoom
 	
   ///////////////////////////////////////////////////
   @Override
@@ -210,7 +207,7 @@ public class POIOverlay extends LiveItemOverlay<POIOverlay.POIItem>
     return routeMarkerAtItem(active_);
   } // tappedInBubble
   
-	@Override
+  @Override
   protected boolean onItemSingleTap(final int index, final POIItem item, final MapView mapView) 
   {
     if(active_ == item)
@@ -222,18 +219,18 @@ public class POIOverlay extends LiveItemOverlay<POIOverlay.POIItem>
     return true;
   } // onItemSingleTap
 	
-	private void showBubble(final POIItem item)
-	{
-	  hideBubble();
-	  active_ = item;
-	  controller().pushUndo(this);
-	} // showBubble
+  private void showBubble(final POIItem item)
+  {
+    hideBubble();
+    active_ = item;
+    controller().pushUndo(this);
+  } // showBubble
 	
-	private void hideBubble()
-	{
-	  active_ = null;
-	  controller().flushUndo(this);
-	} // hideBubble
+  private void hideBubble()
+  {
+    active_ = null;
+    controller().flushUndo(this);
+  } // hideBubble
   
   @Override
   protected boolean onItemDoubleTap(final int index, final POIItem item, final MapView mapView) 
@@ -255,10 +252,10 @@ public class POIOverlay extends LiveItemOverlay<POIOverlay.POIItem>
   } // routeMarkerAtItem
 
   /////////////////////////////////////////////////////
-	protected void draw(final Canvas canvas, final MapView mapView, final boolean shadow) 
+  protected void draw(final Canvas canvas, final MapView mapView, final boolean shadow) 
   {
-	  if(activeCategories_.isEmpty())
-	    return;
+    if(activeCategories_.isEmpty())
+      return;
 	  
     super.draw(canvas, mapView, shadow);
     
@@ -330,15 +327,15 @@ public class POIOverlay extends LiveItemOverlay<POIOverlay.POIItem>
     return n;
   } // notIn
   
-	public boolean showing(final POICategory cat)
-	{
-	  return activeCategories_.contains(cat);
-	} // showing
+  public boolean showing(final POICategory cat)
+  {
+    return activeCategories_.contains(cat);
+  } // showing
 
   protected boolean fetchItemsInBackground(final IGeoPoint mapCentre,
                                            final int zoom,
                                            final BoundingBoxE6 boundingBox)
-	{
+  {
     if(activeCategories_.isEmpty())
       return false;
     
@@ -353,16 +350,16 @@ public class POIOverlay extends LiveItemOverlay<POIOverlay.POIItem>
       return false;
     
     lastFix_ = mapCentre;    
-		GetPOIsTask.fetch(this, mapCentre, (int)(diagonalWidth * 3) + 1);
-		return true;
-	} // refreshItemsInBackground
+    GetPOIsTask.fetch(this, mapCentre, (int)(diagonalWidth * 3) + 1);
+    return true;
+  } // refreshItemsInBackground
 
   protected void clearLastFix()
   {
     lastFix_ = null;
   } // clearLastFix
   
-	/////////////////////////////////////////////////////
+  /////////////////////////////////////////////////////
   ////////////////////////////////////////////////
   public boolean onCreateOptionsMenu(final Menu menu)
   {
@@ -410,7 +407,6 @@ public class POIOverlay extends LiveItemOverlay<POIOverlay.POIItem>
     return true;
   } // onMenuItemSelected
   
-
   @Override
   public void onBackPressed()
   {
@@ -419,56 +415,56 @@ public class POIOverlay extends LiveItemOverlay<POIOverlay.POIItem>
   } // onBackPressed
   
   /////////////////////////////////////////////////////
-	static private class GetPOIsTask extends AsyncTask<Object,Void,List<POI>> 
-	{
-		static void fetch(final POIOverlay overlay, 
-						          final IGeoPoint centre,
-						          final int radius)
-		{
-			new GetPOIsTask(overlay).execute(centre, radius);
-		} // fetch
+  static private class GetPOIsTask extends AsyncTask<Object,Void,List<POI>> 
+  {
+    static void fetch(final POIOverlay overlay, 
+                      final IGeoPoint centre,
+                      final int radius)
+    {
+      new GetPOIsTask(overlay).execute(centre, radius);
+    } // fetch
 		
-		//////////////////////////////////////////////////////
-		private final POIOverlay overlay_;
+    //////////////////////////////////////////////////////
+    private final POIOverlay overlay_;
 		
-		private  GetPOIsTask(final POIOverlay overlay)
-		{
-			overlay_ = overlay;
-		} // GetPhotosTask
+    private GetPOIsTask(final POIOverlay overlay)
+    {
+      overlay_ = overlay;
+    } // GetPhotosTask
 		
-		protected List<POI> doInBackground(Object... params) 
-		{
-		  final IGeoPoint centre = (IGeoPoint)params[0];
-	    final int radius = (Integer)params[1];
+    protected List<POI> doInBackground(Object... params) 
+    {
+      final IGeoPoint centre = (IGeoPoint)params[0];
+      final int radius = (Integer)params[1];
 
       final List<POI> pois = new ArrayList<POI>();
 
       for(final POICategory cat : overlay_.activeCategories_)
         try {
-			    pois.addAll(cat.pois(centre, radius));
-        }
-			  catch (final Exception ex) {
-			    // never mind, eh?
-			  }
+          pois.addAll(cat.pois(centre, radius));
+        } // try
+        catch (final Exception ex) {
+          // never mind, eh?
+        } // catch
       return pois;
-		} // doInBackground
+    } // doInBackground
 		
-		@Override
-		protected void onPostExecute(final List<POI> pois) 
-		{
-			final List<POIOverlay.POIItem> items = new ArrayList<POIOverlay.POIItem>();
+    @Override
+    protected void onPostExecute(final List<POI> pois) 
+    {
+      final List<POIOverlay.POIItem> items = new ArrayList<POIOverlay.POIItem>();
 			
-			if(pois != null)
-				for (final POI poi : pois)
-				{
-				  if(items.contains(poi))
-				    continue;
-					items.add(new POIOverlay.POIItem(poi));
-				} // for ...
+      if(pois != null)
+        for (final POI poi : pois)
+        {
+          if(items.contains(poi))
+            continue;
+          items.add(new POIOverlay.POIItem(poi));
+        } // for ...
 			
-			overlay_.setItems(items);
-		} // onPostExecute
-	} // GetPhotosTask
+      overlay_.setItems(items);
+    } // onPostExecute
+  } // GetPhotosTask
 	
   //////////////////////////////////
   static class POICategoryAdapter extends BaseAdapter 
