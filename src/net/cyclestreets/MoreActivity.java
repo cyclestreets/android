@@ -17,6 +17,7 @@ public class MoreActivity extends Activity implements View.OnClickListener
 		
 		setButtonListener(R.id.settings_button);
 		setButtonListener(R.id.about_button);
+		setButtonListener(R.id.cyclestreets_status_button);
 		
 		final WebView donate = (WebView)findViewById(R.id.donate_view);
 		donate.loadUrl("file:///android_asset/donate.html");
@@ -38,6 +39,9 @@ public class MoreActivity extends Activity implements View.OnClickListener
 				break;
 			case R.id.about_button:
 				start(AboutActivity.class);
+				break;
+			case R.id.cyclestreets_status_button:
+				start(CycleStreetsStatusActivity.class);
 				break;
 		} // switch
 	} // onClick

@@ -3,6 +3,7 @@
   <string name="app_name">CycleStreets</string>
   <string name="settings">Settings</string>
 	<string name="about">About</string>
+	<string name="cyclestreets_status">Countries and distance</string>
 	<string name="go">Find Route</string>
 	<string name="addvia">Add waypoint</string>
 	<string name="finding_route">Obtaining route from CycleStreets.net, please wait</string>
