@@ -41,4 +41,5 @@
 	<string name="ic_menu_reroute_from_here">Reroute from current location</string>
 	<string name="ic_menu_share">Share this route</string>
 	<string name="ic_menu_feedback">Comment on this route</string>
+	<string name="share_this_photo">Share this photo</string>
 </resources>
