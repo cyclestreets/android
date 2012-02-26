@@ -45,7 +45,7 @@ public class CycleStreets extends TabActivity
 	    tabHost.addTab(spec);
 
 	    // Add photo
-	    spec = tabHost.newTabSpec("Photo Upload").setIndicator("", res.getDrawable(R.drawable.ic_tab_addphoto));
+	    spec = tabHost.newTabSpec("Photo upload").setIndicator("", res.getDrawable(R.drawable.ic_tab_addphoto));
 	    spec.setContent(new Intent(this, AddPhotoActivity.class));
 	    tabHost.addTab(spec);
 
