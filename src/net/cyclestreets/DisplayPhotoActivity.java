@@ -6,6 +6,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.WindowManager;
 import android.view.animation.AnimationUtils;
@@ -25,8 +26,15 @@ public class DisplayPhotoActivity extends Activity
 
 		final ImageView iv = (ImageView)findViewById(R.id.photo);
 		final WindowManager wm = getWindowManager();
-		final int height = wm.getDefaultDisplay().getHeight() / 10 * 4;
-		final int width = wm.getDefaultDisplay().getWidth();
+		final int device_height = wm.getDefaultDisplay().getHeight();
+		final int device_width = wm.getDefaultDisplay().getWidth();
+		int height;
+		if(device_height > device_width) {
+			height = device_height / 10 * 4;
+		} else {
+			height = device_height / 10 * 8;
+		}
+		int width = device_width;
 		iv.setLayoutParams(new LinearLayout.LayoutParams(width, height));
 		iv.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
 		iv.startAnimation(AnimationUtils.loadAnimation(this, R.anim.spinner));
