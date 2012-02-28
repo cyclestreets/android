@@ -80,7 +80,7 @@ public class VectorCycleMapView extends ViewGroup
     getOverlays().add(new ZoomButtonsOverlay(context, this));
     
     location_ = new LocationOverlay(context, this);
-    //getOverlays().add(location_);
+    getOverlays().add(location_);
     
     controllerOverlay_ = new ControllerOverlay(context, this);
     getOverlays().add(controllerOverlay_);
