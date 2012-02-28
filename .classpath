@@ -4,8 +4,10 @@
 	<classpathentry kind="lib" path="lib/slf4j-android-1.5.8.jar"/>
 	<classpathentry kind="lib" path="lib/apache-mime4j-0.6.jar"/>
 	<classpathentry kind="lib" path="lib/httpmime-4.0.1.jar"/>
+	<classpathentry kind="lib" path="lib/mapsforge-map-0.3.0-SNAPSHOT.jar"/>
+	<classpathentry kind="lib" path="lib/mapsforge-map-reader-0.3.0-SNAPSHOT.jar"/>
+	<classpathentry kind="lib" path="lib/osmdroid-android-3.0.8-SNAPSHOT.jar"/>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="src" path="gen"/>
-	<classpathentry kind="lib" path="lib/osmdroid-android-3.0.6.jar"/>
 	<classpathentry kind="output" path="bin/classes"/>
 </classpath>
