@@ -77,7 +77,7 @@ public class ItemizedOverlay<Item extends OverlayItem> extends Overlay
 		for (int i = items_.size() -1; i >= 0; i--) 
 		{
 			final Item item = items_.get(i);
-			pj.toMapPixels(item.mGeoPoint, mCurScreenCoords);
+			pj.toPixels(item.mGeoPoint, mCurScreenCoords);
 			onDrawItem(canvas, item, mCurScreenCoords);
 		} // for ...
 	} // draw

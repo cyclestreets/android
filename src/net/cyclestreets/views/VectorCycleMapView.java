@@ -66,13 +66,13 @@ public class VectorCycleMapView extends ViewGroup
     mapsforge_.setMapFile(mapFile);
     mapsforge_.setClickable(true);
     mapsforge_.getMapScaleBar().setShowMapScaleBar(true);
+    mapsforge_.getMapZoomControls().setShowMapZoomControls(false);
     //mapsforge_.getFpsCounter().setFpsCounter(true);
 
     overlayAdaptor_ = new OverlayAdaptor(this, mapsforge_);
     
     prefs_ = context.getSharedPreferences("net.cyclestreets.mapview."+name, Context.MODE_PRIVATE);
     
-    //setBuiltInZoomControls(false);
     //setMultiTouchControls(true);
     
     overlayBottomIndex_ = getOverlays().size();
@@ -300,7 +300,7 @@ public class VectorCycleMapView extends ViewGroup
   @Override
   public IProjection getProjection()
   {
-    return new org.osmdroid.mapsforge.wrapper.Projection(mapsforge_.getProjection());
+    return new org.osmdroid.mapsforge.wrapper.Projection(mapsforge_);
   }
 
   @Override

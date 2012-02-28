@@ -82,7 +82,7 @@ public class ThereOverlay extends Overlay
     
     final Point screenPos = new Point();
     final IProjection projection = mapView.getProjection();
-    projection.toMapPixels(there_, screenPos);
+    projection.toPixels(there_, screenPos);
 
     final int halfWidth = thereMarker_.getIntrinsicWidth()/2;
     final int halfHeight = thereMarker_.getIntrinsicHeight()/2;

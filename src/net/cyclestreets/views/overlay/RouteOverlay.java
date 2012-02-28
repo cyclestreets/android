@@ -117,28 +117,25 @@ public class RouteOverlay extends Overlay
     walkPath_ = newPath();
     highlightPath_ = newPath();
 
-    final List<Point> points = new ArrayList<Point>();
     Point screenPoint = new Point();
     for(Segment s : route_)
     {
       Path path = s.walk() ? walkPath_ : ridePath_;
       path = (Route.activeSegment() != s) ? path : highlightPath_; 
       
-      points.clear();
+      boolean first = true;
       for(Iterator<GeoPoint> i = s.points(); i.hasNext(); )
       {
         final GeoPoint gp = i.next();
-        final Point p = projection.toMapPixelsProjected(gp.getLatitudeE6(), gp.getLongitudeE6(), null);
-        points.add(p);
-      } // for ...
-    
-      screenPoint = projection.toMapPixelsTranslated(points.get(0), screenPoint);
-      path.moveTo(screenPoint.x, screenPoint.y);
-      
-      for (int i = 0; i != points.size(); ++i) 
-      {
-        screenPoint = projection.toMapPixelsTranslated(points.get(i), screenPoint);
-        path.lineTo(screenPoint.x, screenPoint.y);
+        screenPoint = projection.toPixels(gp, screenPoint);
+        
+        if(first)
+        {
+          path.moveTo(screenPoint.x, screenPoint.y);
+          first = false;
+        } 
+        else
+          path.lineTo(screenPoint.x, screenPoint.y);
       } // for ...
     } // for ...
   } // drawSegments
