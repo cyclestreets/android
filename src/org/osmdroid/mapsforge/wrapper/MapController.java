@@ -1,5 +1,6 @@
 package org.osmdroid.mapsforge.wrapper;
 
+import org.mapsforge.core.GeoPoint;
 import org.osmdroid.api.IGeoPoint;
 import org.osmdroid.api.IMapController;
 
@@ -62,10 +63,4 @@ public class MapController implements IMapController {
 		// TODO call zoomToSpan if they define it
 		// mController.zoomToSpan(pLatSpanE6, pLonSpanE6);
 	}
-
-    public void animateTo(double p1, double p2)
-    {
-	throw new RuntimeException("animateTo not implemented");
-    } // animateTo
-
 }
