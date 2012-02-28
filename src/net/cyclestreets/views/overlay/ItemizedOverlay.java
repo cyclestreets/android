@@ -3,6 +3,8 @@ package net.cyclestreets.views.overlay;
 import java.util.List;
 
 import org.osmdroid.DefaultResourceProxyImpl;
+import org.osmdroid.api.IMapView;
+import org.osmdroid.api.IProjection;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.MapView.Projection;
 import org.osmdroid.views.overlay.Overlay;
@@ -29,7 +31,7 @@ public class ItemizedOverlay<Item extends OverlayItem> extends Overlay
     public boolean onItemDoubleTap(final int index, final Item item);
   } // interface OnItemGestureListener<Item>
 
-  private final MapView mapView_;
+  private final IMapView mapView_;
 	private final List<Item> items_;
 	private OnItemTapListener<Item> itemListener_;
 	private final Rect mRect = new Rect();
@@ -38,13 +40,13 @@ public class ItemizedOverlay<Item extends OverlayItem> extends Overlay
 	private final Point mItemPoint = new Point();
 
 	protected ItemizedOverlay(final Context context,
-	                          final MapView mapView,
+	                          final IMapView mapView,
 	                          final List<Item> items)
 	{
 	  this(context, mapView, items, null); 
 	} // ItemizedOverlay
 	
-	protected MapView mapView() { return mapView_; } 
+	protected IMapView mapView() { return mapView_; } 
 	
 	protected void setListener(final OnItemTapListener<Item> listener)
 	{
@@ -52,7 +54,7 @@ public class ItemizedOverlay<Item extends OverlayItem> extends Overlay
 	} // setListener
 	
 	public ItemizedOverlay(final Context context,
-                         final MapView mapView, 
+                         final IMapView mapView, 
 						             final List<Item> items, 
 						             final OnItemTapListener<Item> listener) 
 	{
@@ -178,7 +180,7 @@ public class ItemizedOverlay<Item extends OverlayItem> extends Overlay
 		}));
 	} // onSingleTap
 
-	protected boolean onItemSingleTap(final int index, final Item item, final MapView mapView) 
+	protected boolean onItemSingleTap(final int index, final Item item, final IMapView mapView) 
 	{
     if(itemListener_ == null)
       return false;
@@ -196,7 +198,7 @@ public class ItemizedOverlay<Item extends OverlayItem> extends Overlay
 		}));
 	} // onDoubleTap
 
-	protected boolean onItemDoubleTap(final int index, final Item item, final MapView mapView)  
+	protected boolean onItemDoubleTap(final int index, final Item item, final IMapView mapView)  
 	{
     if(itemListener_ == null)
       return false;
@@ -219,10 +221,10 @@ public class ItemizedOverlay<Item extends OverlayItem> extends Overlay
 	 * @return true if event is handled false otherwise
 	 */
 	private boolean activateSelectedItems(final MotionEvent event, 
-	                                      final MapView mapView,
+	                                      final IMapView mapView,
 	                                      final ActiveItem task) 
 	{
-		final Projection pj = mapView.getProjection();
+		final IProjection pj = mapView.getProjection();
 		final int eventX = (int) event.getX();
 		final int eventY = (int) event.getY();
 

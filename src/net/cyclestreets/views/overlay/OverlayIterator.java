@@ -2,7 +2,8 @@ package net.cyclestreets.views.overlay;
 
 import java.util.Iterator;
 
-import org.osmdroid.views.MapView;
+import net.cyclestreets.views.CycleMapView;
+
 import org.osmdroid.views.overlay.Overlay;
 
 public class OverlayIterator<T> implements Iterator<T> 
@@ -11,7 +12,7 @@ public class OverlayIterator<T> implements Iterator<T>
 	private Class<T> targetClass_;
 	private T current_;
 	
-	public OverlayIterator(final MapView mapView, final Class<T> cl)
+	public OverlayIterator(final CycleMapView mapView, final Class<T> cl)
 	{
 		targetClass_ = cl;
 		iter_ = mapView.getOverlays().iterator();

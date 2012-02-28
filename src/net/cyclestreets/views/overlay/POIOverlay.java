@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.osmdroid.api.IGeoPoint;
+import org.osmdroid.api.IMapView;
+import org.osmdroid.api.IProjection;
 import org.osmdroid.events.MapListener;
 import org.osmdroid.events.ZoomEvent;
 import org.osmdroid.util.BoundingBoxE6;
@@ -39,6 +41,7 @@ import net.cyclestreets.api.POICategory;
 import net.cyclestreets.util.Dialog;
 import net.cyclestreets.util.Draw;
 import net.cyclestreets.util.GeoHelper;
+import net.cyclestreets.views.CycleMapView;
 
 public class POIOverlay extends LiveItemOverlay<POIOverlay.POIItem>
                         implements MapListener, 
@@ -102,7 +105,7 @@ public class POIOverlay extends LiveItemOverlay<POIOverlay.POIItem>
   private boolean chooserShowing_;
   
   public POIOverlay(final Context context,
-                    final MapView mapView)
+                    final CycleMapView mapView)
   {
     super(context, mapView, null, false);
 
@@ -195,7 +198,7 @@ public class POIOverlay extends LiveItemOverlay<POIOverlay.POIItem>
   
   private boolean tappedInBubble(final MotionEvent event)
   {
-    final Projection pj = mapView().getProjection();
+    final IProjection pj = mapView().getProjection();
     final int eventX = (int) event.getX();
     final int eventY = (int) event.getY();
 
@@ -208,7 +211,7 @@ public class POIOverlay extends LiveItemOverlay<POIOverlay.POIItem>
   } // tappedInBubble
   
   @Override
-  protected boolean onItemSingleTap(final int index, final POIItem item, final MapView mapView) 
+  protected boolean onItemSingleTap(final int index, final POIItem item, final IMapView mapView) 
   {
     if(active_ == item)
       hideBubble();
@@ -233,7 +236,7 @@ public class POIOverlay extends LiveItemOverlay<POIOverlay.POIItem>
   } // hideBubble
   
   @Override
-  protected boolean onItemDoubleTap(final int index, final POIItem item, final MapView mapView) 
+  protected boolean onItemDoubleTap(final int index, final POIItem item, final IMapView mapView) 
   {
     return routeMarkerAtItem(item);
   } // onItemDoubleTap

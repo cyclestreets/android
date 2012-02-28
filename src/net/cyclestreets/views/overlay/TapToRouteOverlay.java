@@ -311,7 +311,7 @@ public class TapToRouteOverlay extends Overlay
       }
       break;
     case R.string.ic_menu_share:
-      Share.Url(mapView_, 
+      Share.Url(mapView_.view(), 
                 Route.planned().url(), 
                 Route.planned().name(),
                 "CycleStreets journey");
@@ -458,7 +458,7 @@ public class TapToRouteOverlay extends Overlay
     if(!CycleStreetsPreferences.confirmNewRoute())
       return stepBack(true);
     
-    MessageBox.YesNo(mapView_,
+    MessageBox.YesNo(mapView_.view(),
                      "Start a new route?",
                      new DialogInterface.OnClickListener() {
                        public void onClick(DialogInterface arg0, int arg1) {

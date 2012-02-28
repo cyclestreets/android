@@ -18,6 +18,7 @@ import android.graphics.Paint;
 import android.graphics.Rect;
 
 import net.cyclestreets.util.Brush;
+import net.cyclestreets.views.CycleMapView;
 
 public abstract class LiveItemOverlay<T extends OverlayItem> 
           extends ItemizedOverlay<T>
@@ -25,7 +26,7 @@ public abstract class LiveItemOverlay<T extends OverlayItem>
 {
 	/////////////////////////////////////////////////////
 	/////////////////////////////////////////////////////
-	private final MapView mapView_;
+	private final CycleMapView mapView_;
 	private int zoomLevel_;
 	private boolean loading_;
 	
@@ -37,7 +38,7 @@ public abstract class LiveItemOverlay<T extends OverlayItem>
 	static private final String LOADING = "Loading ...";
 	
 	public LiveItemOverlay(final Context context,
-							                   final MapView mapView,
+							                   final CycleMapView mapView,
 							                   final OnItemTapListener<T> listener,
 							                   final boolean showLoading)
 	{

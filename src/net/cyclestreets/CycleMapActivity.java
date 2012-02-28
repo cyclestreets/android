@@ -2,6 +2,8 @@ package net.cyclestreets;
 
 import net.cyclestreets.R;
 import net.cyclestreets.views.CycleMapView;
+import net.cyclestreets.views.OSMCycleMapView;
+import net.cyclestreets.views.VectorCycleMapView;
 
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.overlay.Overlay;
@@ -28,10 +30,11 @@ public class CycleMapActivity extends Activity
   {
     super.onCreate(saved);
     
-    map_ = new CycleMapView(this, this.getClass().getName());
+    //map_ = new OSMCycleMapView(this, this.getClass().getName());
+    map_ = new VectorCycleMapView(this, this.getClass().getName());
 	  
     final RelativeLayout rl = new RelativeLayout(this);
-    rl.addView(map_, new RelativeLayout.LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT));
+    rl.addView(map_.view(), new RelativeLayout.LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT));
     setContentView(rl);
   } // onCreate
      

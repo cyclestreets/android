@@ -1,6 +1,7 @@
 package net.cyclestreets.views.overlay;
 
 import net.cyclestreets.R;
+import net.cyclestreets.views.CycleMapView;
 
 import org.osmdroid.api.IGeoPoint;
 import org.osmdroid.views.MapView;
@@ -23,7 +24,7 @@ public class ThereOverlay extends Overlay
   }
     
   private final Drawable thereMarker_;
-  private MapView mapView_;
+  private CycleMapView mapView_;
   private IGeoPoint there_ = null;
   private LocationListener listener_;
   
@@ -33,7 +34,7 @@ public class ThereOverlay extends Overlay
   } // ThereOverlay
   
   public ThereOverlay(final Context context,
-                      final MapView mapView)
+                      final CycleMapView mapView)
   {
     super(context);
     mapView_ = mapView;
@@ -42,7 +43,7 @@ public class ThereOverlay extends Overlay
     thereMarker_  = res.getDrawable(R.drawable.x_marks_spot);
   } // ThereOverlay
   
-  public void setMapView(final MapView mapView)
+  public void setMapView(final CycleMapView mapView)
   {
     mapView_ = mapView;
     recentre();

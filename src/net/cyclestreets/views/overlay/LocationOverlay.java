@@ -2,6 +2,7 @@ package net.cyclestreets.views.overlay;
 
 import net.cyclestreets.R;
 
+import org.osmdroid.api.IMapView;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.MyLocationOverlay;
@@ -25,10 +26,10 @@ public class LocationOverlay extends MyLocationOverlay
 
 	private final OverlayButton locationButton_;	
 	
-	private final MapView mapView_;
+	private final IMapView mapView_;
 	
-	public LocationOverlay(final Context context, 
-						             final MapView mapView) 
+	public LocationOverlay(final Context context,
+	                        final IMapView mapView) 
 	{
 		super(context, mapView);
 		

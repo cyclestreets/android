@@ -5,6 +5,7 @@ import net.cyclestreets.planned.Route;
 import net.cyclestreets.api.Segment;
 import net.cyclestreets.util.Brush;
 import net.cyclestreets.util.Draw;
+import net.cyclestreets.views.CycleMapView;
 
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.Overlay;
@@ -20,7 +21,7 @@ import android.view.MotionEvent;
 public class RouteHighlightOverlay extends Overlay 
 		                   implements ButtonTapListener
 {
-  private final MapView mapView_;
+  private final CycleMapView mapView_;
   
   private Segment current_;
   
@@ -32,7 +33,7 @@ public class RouteHighlightOverlay extends Overlay
   
   private Paint textBrush_;
 
-  public RouteHighlightOverlay(final Context context, final MapView map)
+  public RouteHighlightOverlay(final Context context, final CycleMapView map)
   {
     super(context);
     
