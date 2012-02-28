@@ -53,10 +53,9 @@ public class VectorCycleMapView extends ViewGroup
   
   private GeoPoint centreOn_ = null;
 
-  private List<Overlay> overlays_ = new ArrayList<Overlay>();
-  
   private final org.mapsforge.android.maps.MapView mapsforge_;
-
+  private final OverlayAdaptor overlayAdaptor_;
+  
   public VectorCycleMapView(final Context context, final String name)
   {
     super(context);
@@ -69,6 +68,8 @@ public class VectorCycleMapView extends ViewGroup
     mapsforge_.getMapScaleBar().setShowMapScaleBar(true);
     //mapsforge_.getFpsCounter().setFpsCounter(true);
 
+    overlayAdaptor_ = new OverlayAdaptor(this, mapsforge_);
+    
     prefs_ = context.getSharedPreferences("net.cyclestreets.mapview."+name, Context.MODE_PRIVATE);
     
     //setBuiltInZoomControls(false);
@@ -79,7 +80,7 @@ public class VectorCycleMapView extends ViewGroup
     getOverlays().add(new ZoomButtonsOverlay(context, this));
     
     location_ = new LocationOverlay(context, this);
-    getOverlays().add(location_);
+    //getOverlays().add(location_);
     
     controllerOverlay_ = new ControllerOverlay(context, this);
     getOverlays().add(controllerOverlay_);
@@ -335,8 +336,26 @@ public class VectorCycleMapView extends ViewGroup
   @Override
   public List<Overlay> getOverlays()
   {
-    return overlays_;
-  }
+    return overlayAdaptor_.overlays();
+  } // getOverlays
+  
+  @Override
+  public boolean isAnimating() 
+  {
+    return mapsforge_.isZoomAnimatorRunning();
+  } // isAnimating
+  
+  @Override
+  public boolean canZoomIn()
+  {
+    return true;
+  } // canZoomIn
+  
+  @Override
+  public boolean canZoomOut()
+  {
+    return true;
+  } // canZoomOut
 
   // ViewGroup
   @Override
@@ -344,4 +363,30 @@ public class VectorCycleMapView extends ViewGroup
   {
     mapsforge_.getMapZoomControls().onLayout(changed, l, t, r, b);
   } // onLayout
+  
+  // OverlayAdaptor
+  static private class OverlayAdaptor extends org.mapsforge.android.maps.overlay.Overlay
+  {
+    private final List<Overlay> overlays_ = new ArrayList<Overlay>();
+    private final VectorCycleMapView owner_;
+
+    public OverlayAdaptor(VectorCycleMapView owner,
+                          org.mapsforge.android.maps.MapView mapView)
+    {
+      mapView.getOverlays().add(this);
+      owner_ = owner;
+    } // OverlayAdaptor
+    
+    public List<Overlay> overlays() { return overlays_; }
+    
+    @Override
+    protected void drawOverlayBitmap(final Canvas canvas, 
+                                     final Point position, 
+                                     final Projection projection,
+                                     final byte zoomLevel)
+    {
+      for(final Overlay o : overlays_)
+        o.draw(canvas, owner_, false);
+    } // drawOverlayBitmap    
+  } // class OverlayAdaptor
 } // CycleMapView

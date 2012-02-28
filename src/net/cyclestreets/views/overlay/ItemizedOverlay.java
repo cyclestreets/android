@@ -5,8 +5,6 @@ import java.util.List;
 import org.osmdroid.DefaultResourceProxyImpl;
 import org.osmdroid.api.IMapView;
 import org.osmdroid.api.IProjection;
-import org.osmdroid.views.MapView;
-import org.osmdroid.views.MapView.Projection;
 import org.osmdroid.views.overlay.Overlay;
 import org.osmdroid.views.overlay.OverlayItem;
 import org.osmdroid.views.overlay.OverlayItem.HotspotPlace;
@@ -67,7 +65,7 @@ public class ItemizedOverlay<Item extends OverlayItem> extends Overlay
 	protected List<Item> items() { return items_; }
 	
 	@Override
-	protected void draw(final Canvas canvas, final MapView mapView, final boolean shadow) 
+	public void draw(final Canvas canvas, final IMapView mapView, final boolean shadow) 
 	{
 		if(shadow)
 			return;
@@ -75,7 +73,7 @@ public class ItemizedOverlay<Item extends OverlayItem> extends Overlay
 		if(DrawingHelper.isDragging(canvas))
 		  return;
 
-		final Projection pj = mapView.getProjection();
+		final IProjection pj = mapView.getProjection();
 		for (int i = items_.size() -1; i >= 0; i--) 
 		{
 			final Item item = items_.get(i);
@@ -205,7 +203,7 @@ public class ItemizedOverlay<Item extends OverlayItem> extends Overlay
 		return itemListener_.onItemDoubleTap(index, item);
 	} // onLongPressHelper
 
-  public void drawButtons(final Canvas canvas, final MapView mapView)
+  public void drawButtons(final Canvas canvas, final IMapView mapView)
   {
     
   } // drawButtons

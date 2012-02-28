@@ -4,8 +4,8 @@ import net.cyclestreets.R;
 import net.cyclestreets.views.CycleMapView;
 
 import org.osmdroid.api.IGeoPoint;
-import org.osmdroid.views.MapView;
-import org.osmdroid.views.MapView.Projection;
+import org.osmdroid.api.IMapView;
+import org.osmdroid.api.IProjection;
 import org.osmdroid.views.overlay.Overlay;
 
 import android.content.Context;
@@ -75,13 +75,13 @@ public class ThereOverlay extends Overlay
   } // recentre
   
   @Override
-  protected void draw(final Canvas canvas, final MapView mapView, final boolean shadow) 
+  public void draw(final Canvas canvas, final IMapView mapView, final boolean shadow) 
   {
     if(there_ == null)
       return;
     
     final Point screenPos = new Point();
-    final Projection projection = mapView.getProjection();
+    final IProjection projection = mapView.getProjection();
     projection.toMapPixels(there_, screenPos);
 
     final int halfWidth = thereMarker_.getIntrinsicWidth()/2;

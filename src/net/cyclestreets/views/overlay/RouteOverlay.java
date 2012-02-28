@@ -8,8 +8,8 @@ import net.cyclestreets.api.Segment;
 import net.cyclestreets.planned.Route;
 
 import org.osmdroid.util.GeoPoint;
-import org.osmdroid.views.MapView;
-import org.osmdroid.views.MapView.Projection;
+import org.osmdroid.api.IMapView;
+import org.osmdroid.api.IProjection;
 import org.osmdroid.views.overlay.Overlay;
 
 import android.content.Context;
@@ -80,7 +80,7 @@ public class RouteOverlay extends Overlay
   } // clearPath
 
   @Override
-  protected void draw(final Canvas canvas, final MapView mapView, final boolean shadow) 
+  public void draw(final Canvas canvas, final IMapView mapView, final boolean shadow) 
   {
     if (shadow) 
       return;
@@ -111,7 +111,7 @@ public class RouteOverlay extends Overlay
     return path;
   } // newPath
   
-  private void drawSegments(final Projection projection)
+  private void drawSegments(final IProjection projection)
   {
     ridePath_ = newPath();
     walkPath_ = newPath();

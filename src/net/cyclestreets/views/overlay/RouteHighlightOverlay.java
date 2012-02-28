@@ -7,7 +7,7 @@ import net.cyclestreets.util.Brush;
 import net.cyclestreets.util.Draw;
 import net.cyclestreets.views.CycleMapView;
 
-import org.osmdroid.views.MapView;
+import org.osmdroid.api.IMapView;
 import org.osmdroid.views.overlay.Overlay;
 
 import android.content.Context;
@@ -60,7 +60,7 @@ public class RouteHighlightOverlay extends Overlay
   } // MapActivityPathOverlay
 	
   @Override
-  public void draw(final Canvas canvas, final MapView mapView, final boolean shadow)
+  public void draw(final Canvas canvas, final IMapView mapView, final boolean shadow)
   {
     if(current_ == Route.activeSegment())
       return;
@@ -73,7 +73,7 @@ public class RouteHighlightOverlay extends Overlay
   } // onDraw
 	
   @Override
-  public void drawButtons(final Canvas canvas, final MapView mapView)
+  public void drawButtons(final Canvas canvas, final IMapView mapView)
   {
     if(!Route.available())
       return;

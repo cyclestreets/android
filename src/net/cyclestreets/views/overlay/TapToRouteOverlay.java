@@ -19,8 +19,8 @@ import net.cyclestreets.util.Collections;
 
 import org.osmdroid.api.IGeoPoint;
 import org.osmdroid.util.GeoPoint;
-import org.osmdroid.views.MapView;
-import org.osmdroid.views.MapView.Projection;
+import org.osmdroid.api.IMapView;
+import org.osmdroid.api.IProjection;
 import org.osmdroid.views.overlay.Overlay;
 import org.osmdroid.views.overlay.OverlayItem;
 
@@ -328,15 +328,15 @@ public class TapToRouteOverlay extends Overlay
   
   ////////////////////////////////////////////
   @Override
-  public void draw(final Canvas canvas, final MapView mapView, final boolean shadow) 
+  public void draw(final Canvas canvas, final IMapView mapView, final boolean shadow) 
   {
-    final Projection projection = mapView.getProjection();
+    final IProjection projection = mapView.getProjection();
     for(final OverlayItem waypoint : waymarkers_)
       drawMarker(canvas, projection, waypoint);
   } // draw
 
   @Override
-  public void drawButtons(final Canvas canvas, final MapView mapView)
+  public void drawButtons(final Canvas canvas, final IMapView mapView)
   {
     drawButtons(canvas);
     drawTapState(canvas);
@@ -393,7 +393,7 @@ public class TapToRouteOverlay extends Overlay
   } // drawTapState
   
   private void drawMarker(final Canvas canvas, 
-                          final Projection projection,
+                          final IProjection projection,
                           final OverlayItem marker)
   {
     if(marker == null)

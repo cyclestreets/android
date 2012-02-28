@@ -4,7 +4,6 @@ import net.cyclestreets.R;
 
 import org.osmdroid.api.IMapView;
 import org.osmdroid.util.GeoPoint;
-import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.MyLocationOverlay;
 
 import android.content.Context;
@@ -80,7 +79,7 @@ public class LocationOverlay extends MyLocationOverlay
 	
 	////////////////////////////////////////////
 	@Override
-	public void draw(final Canvas canvas, final MapView mapView, final boolean shadow) 
+	public void draw(final Canvas canvas, final IMapView mapView, final boolean shadow) 
 	{
 		// I'm not thrilled about this but there isn't any other way (short of killing
 		// and recreating the overlay) of turning off the little here-you-are man
@@ -91,7 +90,7 @@ public class LocationOverlay extends MyLocationOverlay
 	} // onDraw
 	
 	@Override
-	public void drawButtons(final Canvas canvas, final MapView mapView)
+	public void drawButtons(final Canvas canvas, final IMapView mapView)
 	{
 		locationButton_.pressed(isFollowLocationEnabled());
 		locationButton_.alternate(isMyLocationEnabled());

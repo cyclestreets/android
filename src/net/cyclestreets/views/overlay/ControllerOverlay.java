@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import net.cyclestreets.util.Brush;
 import net.cyclestreets.views.CycleMapView;
 
-import org.osmdroid.views.MapView;
+import org.osmdroid.api.IMapView;
 import org.osmdroid.views.overlay.Overlay;
 
 import android.content.Context;
@@ -133,7 +133,7 @@ public class ControllerOverlay extends Overlay implements OnDoubleTapListener,
 	
 	////////////////////////////////////////////////////////////////
 	@Override
-	public boolean onTouchEvent(final MotionEvent event, final MapView mapView)
+	public boolean onTouchEvent(final MotionEvent event, final IMapView mapView)
 	{
 		if(gestureDetector_.onTouchEvent(event))
 			return true;
@@ -165,7 +165,7 @@ public class ControllerOverlay extends Overlay implements OnDoubleTapListener,
 	} // onDoubleTap
 	
 	@Override
-	protected void draw(final Canvas canvas, final MapView mapView, final boolean shadow) 
+	public void draw(final Canvas canvas, final IMapView mapView, final boolean shadow) 
 	{	
 		isDragging_ = DrawingHelper.isDragging(canvas);
 		for(final Iterator<ButtonTapListener> overlays = buttonTapOverlays(); overlays.hasNext(); )

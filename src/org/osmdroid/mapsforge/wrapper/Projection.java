@@ -5,6 +5,7 @@ import org.osmdroid.api.IProjection;
 import org.osmdroid.util.GeoPoint;
 
 import android.graphics.Point;
+import android.graphics.Rect;
 
 /**
  * A wrapper for the Google {@link org.mapsforge.android.maps.Projection} implementation.
@@ -34,7 +35,7 @@ public class Projection implements IProjection {
 		final org.mapsforge.core.GeoPoint googleGeoPoint = mProjection.fromPixels(x, y);
 		return new GeoPoint(googleGeoPoint.getLatitudeE6(), googleGeoPoint.getLongitudeE6());
 	}
-
+	
 	@Override
 	public float metersToEquatorPixels(final float meters) {
 		return 0;
@@ -42,6 +43,42 @@ public class Projection implements IProjection {
 	}
 
     public Point fromMapPixels(final int x, final int y, final Point reuse) {
-	throw new RuntimeException("Project.fromMapPixels not implemented");
+	throw new RuntimeException("Projection.fromMapPixels not implemented");
+    }
+
+    @Override
+    public Rect fromPixelsToProjected(Rect arg0)
+    {
+      throw new RuntimeException("Projection.fromPixelsToProjected not implemented");
+    }
+
+    @Override
+    public Rect getScreenRect()
+    {
+      throw new RuntimeException("Projection.getScreenRect not implemented");
+    }
+
+    @Override
+    public int getZoomLevel()
+    {
+      throw new RuntimeException("Projection.getZoomLevel not implemented");
+    }
+
+    @Override
+    public Point toMapPixels(IGeoPoint arg0, Point arg1)
+    {
+      throw new RuntimeException("Projection.toMapPixels not implemented");
+    }
+
+    @Override
+    public Point toMapPixelsProjected(int arg0, int arg1, Point arg2)
+    {
+      throw new RuntimeException("Projection.toMapPixelsProjected not implemented");
+    }
+
+    @Override
+    public Point toMapPixelsTranslated(Point arg0, Point arg1)
+    {
+      throw new RuntimeException("Projection.toMapPixelsTranslated not implemented");
     } 
 }

@@ -4,12 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.osmdroid.api.IGeoPoint;
+import org.osmdroid.api.IMapView;
 import org.osmdroid.events.DelayedMapListener;
 import org.osmdroid.events.MapListener;
 import org.osmdroid.events.ScrollEvent;
 import org.osmdroid.events.ZoomEvent;
 import org.osmdroid.util.BoundingBoxE6;
-import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.OverlayItem;
 
 import android.content.Context;
@@ -64,7 +64,7 @@ public abstract class LiveItemOverlay<T extends OverlayItem>
 	protected float cornerRadius() { return radius_; }
 
 	@Override
-	protected void draw(final Canvas canvas, final MapView mapView, final boolean shadow) 
+	public void draw(final Canvas canvas, final IMapView mapView, final boolean shadow) 
 	{
 		super.draw(canvas, mapView, shadow);
 		
