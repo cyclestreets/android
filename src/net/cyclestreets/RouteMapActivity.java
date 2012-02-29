@@ -234,7 +234,7 @@ public class RouteMapActivity extends CycleMapActivity
 	private void startNewRoute(final DialogInterface.OnClickListener listener)
 	{
     if(Route.available() && CycleStreetsPreferences.confirmNewRoute())
-      MessageBox.YesNo(mapView().view(),
+      MessageBox.YesNo(mapView(),
                        "Start a new route?",
                        listener);
     else

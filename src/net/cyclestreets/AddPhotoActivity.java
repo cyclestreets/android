@@ -8,7 +8,6 @@ import net.cyclestreets.util.Dialog;
 import net.cyclestreets.util.MessageBox;
 import net.cyclestreets.util.Share;
 import net.cyclestreets.views.CycleMapView;
-import net.cyclestreets.views.OSMCycleMapView;
 import net.cyclestreets.views.overlay.ThereOverlay;
 import net.cyclestreets.views.overlay.ThereOverlay.LocationListener;
 import android.app.Activity;
@@ -431,11 +430,11 @@ public class AddPhotoActivity extends Activity
     if(map_ != null)
       return;
     
-    map_ = new OSMCycleMapView(this, this.getClass().getName());
+    map_ = new CycleMapView(this, this.getClass().getName());
     map_.enableAndFollowLocation();
     
     final LinearLayout v = (LinearLayout)(photoLocation_.findViewById(R.id.mapholder));
-    v.addView(map_.view(), new LinearLayout.LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT));
+    v.addView(map_, new LinearLayout.LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT));
 
     map_.overlayPushTop(there_);
     there_.setMapView(map_);

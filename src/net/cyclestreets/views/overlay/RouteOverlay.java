@@ -2,7 +2,6 @@ package net.cyclestreets.views.overlay;
 
 import java.util.Iterator;
 import java.util.List;
-import java.util.ArrayList;
 
 import net.cyclestreets.api.Segment;
 import net.cyclestreets.planned.Route;
@@ -88,7 +87,7 @@ public class RouteOverlay extends Overlay
     if (route_ == null || route_.size() < 2) 
       return;
 		
-/*    if((zoomLevel_ != mapView.getZoomLevel() && !mapView.isAnimating()) ||
+    if((zoomLevel_ != mapView.getZoomLevel() && !mapView.isAnimating()) ||
        (highlight_ != Route.activeSegment()))
     {
       ridePath_ = null;
@@ -97,7 +96,7 @@ public class RouteOverlay extends Overlay
     } // if ... 
   
     if(ridePath_ == null)
-  */
+  
       drawSegments(mapView.getProjection());
 
     canvas.drawPath(ridePath_, rideBrush_);
