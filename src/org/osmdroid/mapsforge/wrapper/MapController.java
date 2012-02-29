@@ -22,8 +22,7 @@ public class MapController implements IMapController {
 
 	@Override
 	public void animateTo(final IGeoPoint pGeoPoint) {
-		// TODO call animateTo if they define it
-		mController.setCenter(new org.mapsforge.core.GeoPoint(pGeoPoint.getLatitudeE6(), pGeoPoint.getLongitudeE6()));
+	       setCenter(pGeoPoint);
 	}
 
 	@Override
