@@ -23,6 +23,7 @@ public class SettingsActivity extends PreferenceActivity
     setSummary(CycleStreetsPreferences.PREF_UNITS_KEY);
     setSummary(CycleStreetsPreferences.PREF_SPEED_KEY);
     setSummary(CycleStreetsPreferences.PREF_MAPSTYLE_KEY);
+    setSummary(CycleStreetsPreferences.PREF_MAPFILE_KEY);
     setSummary(CycleStreetsPreferences.PREF_ICON_SIZE);
     setSummary(CycleStreetsPreferences.PREF_UPLOAD_SIZE);
   } // onCreate
@@ -68,6 +69,8 @@ public class SettingsActivity extends PreferenceActivity
     {
       final String t = ((EditTextPreference)prefUI).getText();
       prefUI.setSummary(t);
+      if(t == null && key.equals(CycleStreetsPreferences.PREF_MAPFILE_KEY))
+        prefUI.setSummary(CycleStreetsPreferences.mapfile());
     }
   } // setSummary
 } // class SettingsActivity
