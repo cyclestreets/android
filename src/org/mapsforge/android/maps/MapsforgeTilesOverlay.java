@@ -105,12 +105,12 @@ public class MapsforgeTilesOverlay extends TilesOverlay
     if(shadow)
       return;
 
-    this.frameBuffer.draw(canvas);
     if(!getCentre().equals(lastCentre_))
     {
       lastCentre_ = getCentre();
       clearAndRedrawMapView();
     }
+    this.frameBuffer.draw(canvas);
   }
   
   @Override
@@ -306,8 +306,6 @@ public class MapsforgeTilesOverlay extends TilesOverlay
           }
         }
       }
-      
-      invalidateOnUiThread();
       
       this.jobQueue.requestSchedule();
       synchronized (this.mapWorker) {
