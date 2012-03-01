@@ -50,7 +50,7 @@ public class MapsforgeTilesOverlay extends TilesOverlay
     this.frameBuffer = new OverlayFrameBuffer();
     this.inMemoryTileCache = new InMemoryTileCache(DEFAULT_TILE_CACHE_SIZE_IN_MEMORY);
     this.jobParameters = new JobParameters(DEFAULT_RENDER_THEME, DEFAULT_TEXT_SCALE);
-    this.jobQueue = new OverlayJobQueue();
+    this.jobQueue = new OverlayJobQueue(this);
     this.mapDatabase = new MapDatabase();
     this.mapWorker = new OverlayMapWorker(this);
     this.mapWorker.start();
@@ -113,6 +113,24 @@ public class MapsforgeTilesOverlay extends TilesOverlay
     }
   }
   
+  @Override
+  public void onDetach(IMapView mapView)
+  {
+    this.mapWorker.interrupt();
+
+    try {
+      this.mapWorker.join();
+    } catch (InterruptedException e) {
+      // restore the interrupted status
+      Thread.currentThread().interrupt();
+    }
+
+    this.frameBuffer.destroy();
+    this.inMemoryTileCache.destroy();
+    this.fileSystemTileCache.destroy();
+
+    this.mapDatabase.closeFile();
+  } // onDetach
   
   ////////////////////////////////////////////////////////////////////////////////////////////
     public static final InternalRenderTheme DEFAULT_RENDER_THEME = InternalRenderTheme.OSMARENDER;
@@ -219,14 +237,14 @@ public class MapsforgeTilesOverlay extends TilesOverlay
       }
     }
 
-    protected GeoPoint getCentre()
+    public GeoPoint getCentre()
     {
       final IGeoPoint centre = mapView_.getMapCenter();
       final GeoPoint topLeft = new GeoPoint(centre.getLatitude(), centre.getLongitude());
       return topLeft;
     } // getTopLeft
     
-    protected byte zoomLevel()
+    public byte zoomLevel()
     {
       return (byte)mapView_.getZoomLevel();
     } // zoomLevel

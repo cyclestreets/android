@@ -16,7 +16,11 @@ package org.mapsforge.android.maps.mapgenerator;
 
 import java.util.PriorityQueue;
 
+import org.mapsforge.android.maps.MapsforgeTilesOverlay;
 import org.mapsforge.android.maps.mapgenerator.MapGeneratorJob;
+import org.mapsforge.core.MercatorProjection;
+import org.mapsforge.core.Tile;
+import org.mapsforge.core.GeoPoint;
 
 /**
  * A JobQueue keeps the list of pending jobs for a MapView and prioritizes them.
@@ -25,9 +29,11 @@ public class OverlayJobQueue {
 	private static final int INITIAL_CAPACITY = 128;
 
 	private PriorityQueue<MapGeneratorJob> priorityQueue;
+	private MapsforgeTilesOverlay overlay;
 	private boolean scheduleNeeded;
 
-	public OverlayJobQueue() {
+	public OverlayJobQueue(MapsforgeTilesOverlay overlay) {
+	  this.overlay = overlay;
 		this.priorityQueue = new PriorityQueue<MapGeneratorJob>(INITIAL_CAPACITY);
 	}
 
@@ -83,12 +89,59 @@ public class OverlayJobQueue {
 
 		while (!this.priorityQueue.isEmpty()) {
 			MapGeneratorJob mapGeneratorJob = this.priorityQueue.poll();
-			//TODO double priority = TileScheduler.getPriority(mapGeneratorJob.tile, this.mapView);
-			double priority = 1;
+			double priority = getPriority(mapGeneratorJob.tile);
 			mapGeneratorJob.setPriority(priority);
 			tempJobQueue.offer(mapGeneratorJob);
 		}
 
 		this.priorityQueue = tempJobQueue;
 	}
+	
+	private static final int ZOOM_LEVEL_PENALTY = 5;
+	
+	/**
+	 * Calculates the priority for the given tile based on the current position and zoom level of the supplied MapView.
+	 * The smaller the distance from the tile center to the MapView center, the higher its priority. If the zoom level
+	 * of a tile differs from the zoom level of the MapView, its priority decreases.
+	 *
+	 * @param tile
+	 *            the tile whose priority should be calculated.
+	 * @param mapView
+	 *            the MapView whose current position and zoom level define the priority of the tile.
+	 * @return the current priority of the tile. A smaller number means a higher priority.
+	 */
+	double getPriority(Tile tile) {
+               byte tileZoomLevel = tile.zoomLevel;
+
+               // calculate the center coordinates of the tile
+               long tileCenterPixelX = tile.getPixelX() + (Tile.TILE_SIZE >> 1);
+               long tileCenterPixelY = tile.getPixelY() + (Tile.TILE_SIZE >> 1);
+               double tileCenterLongitude = MercatorProjection.pixelXToLongitude(tileCenterPixelX, tileZoomLevel);
+               double tileCenterLatitude = MercatorProjection.pixelYToLatitude(tileCenterPixelY, tileZoomLevel);
+
+               // calculate the Euclidian distance from the MapView center to the tile center
+               GeoPoint geoPoint = overlay.getCentre();
+               double longitudeDiff = geoPoint.getLongitude() - tileCenterLongitude;
+               double latitudeDiff = geoPoint.getLatitude() - tileCenterLatitude;
+               double euclidianDistance = Math.sqrt(longitudeDiff * longitudeDiff + latitudeDiff * latitudeDiff);
+
+               if (overlay.zoomLevel() == tileZoomLevel) {
+                       return euclidianDistance;
+               }
+
+               int zoomLevelDiff = Math.abs(overlay.zoomLevel() - tileZoomLevel);
+               double scaleFactor = Math.pow(2, zoomLevelDiff);
+
+               double scaledEuclidianDistance;
+               if (overlay.zoomLevel() < tileZoomLevel) {
+                       scaledEuclidianDistance = euclidianDistance * scaleFactor;
+               } else {
+                       scaledEuclidianDistance = euclidianDistance / scaleFactor;
+               }
+
+               double zoomLevelPenalty = zoomLevelDiff * ZOOM_LEVEL_PENALTY;
+               return scaledEuclidianDistance * zoomLevelPenalty;
+       }
+
+
 }

@@ -98,6 +98,8 @@ public class CycleMapView extends MapView
     
     controllerOverlay_.onPause(edit);
     edit.commit();
+    
+    mapsforge_.onPause();
   } // onPause
 
   public void onResume()
@@ -122,6 +124,7 @@ public class CycleMapView extends MapView
     getController().setZoom(pref(PREFS_APP_ZOOM_LEVEL, 14));
              
     controllerOverlay_.onResume(prefs_);
+    mapsforge_.onResume();
   } // onResume 
   
   ////////////////////////////////////////////////////////////
