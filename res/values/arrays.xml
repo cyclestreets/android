@@ -34,13 +34,11 @@
     <item>OpenCycleMap (shows hills)</item>
     <item>OpenStreetMap default style</item>
     <item>Ordnance Survey OpenData</item>
-    <item>Offline Vector Maps</item>
   </string-array>
   <string-array name="mapstyle_values">
     <item>CycleStreets</item>
     <item>CycleStreets-OSM</item>
     <item>CycleStreets-OS</item>
-    <item>vector</item>
   </string-array>
   <string-array name="uploadsize">
     <item>Always resize to 320 pixels wide</item>
