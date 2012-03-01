@@ -64,6 +64,8 @@ public class CycleMapView extends MapView
     getOverlays().add(controllerOverlay_);
     
     mapsforge_ = new MapsforgeTilesOverlay(context, this);
+    mapsforge_.setMapFile(CycleStreetsPreferences.mapfile());
+
     getOverlayManager().setTilesOverlay(mapsforge_);
         
     onResume();

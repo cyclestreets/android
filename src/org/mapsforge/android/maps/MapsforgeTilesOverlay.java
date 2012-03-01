@@ -32,7 +32,6 @@ import org.osmdroid.views.overlay.TilesOverlay;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
-import android.os.Environment;
 
 public class MapsforgeTilesOverlay extends TilesOverlay
 {
@@ -57,8 +56,6 @@ public class MapsforgeTilesOverlay extends TilesOverlay
     this.mapGenerator = new DatabaseRenderer();
 
     setMapGeneratorInternal(mapGenerator);
-
-    setMapFile(Environment.getExternalStorageDirectory() + "/download/great_britain-0.3.0.map");
   } // MapsforgeTilesOverlay
   
   @Override
