@@ -2,10 +2,7 @@ package org.mapsforge.android.maps;
 
 import java.io.FileNotFoundException;
 
-import net.cyclestreets.R;
 import net.cyclestreets.views.CycleMapView;
-import net.cyclestreets.views.overlay.DrawingHelper;
-import net.cyclestreets.views.overlay.OverlayButton;
 
 import org.mapsforge.android.AndroidUtils;
 import org.mapsforge.android.maps.DebugSettings;
@@ -30,11 +27,9 @@ import org.mapsforge.map.reader.MapDatabase;
 import org.mapsforge.map.reader.header.FileOpenResult;
 import org.osmdroid.api.IGeoPoint;
 import org.osmdroid.api.IMapView;
-import org.osmdroid.util.BoundingBoxE6;
 import org.osmdroid.views.overlay.TilesOverlay;
 
 import android.content.Context;
-import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.os.Environment;
@@ -220,10 +215,10 @@ public class MapsforgeTilesOverlay extends TilesOverlay
       }
     }
 
-    protected GeoPoint getTopLeft()
+    protected GeoPoint getCentre()
     {
-      final BoundingBoxE6 bounds = mapView_.getBoundingBox();
-      final GeoPoint topLeft = new GeoPoint(bounds.getLatNorthE6(), bounds.getLonWestE6());
+      final IGeoPoint centre = mapView_.getMapCenter();
+      final GeoPoint topLeft = new GeoPoint(centre.getLatitude(), centre.getLongitude());
       return topLeft;
     } // getTopLeft
     
@@ -237,7 +232,7 @@ public class MapsforgeTilesOverlay extends TilesOverlay
      */
     public void redrawTiles() 
     {
-      final GeoPoint topLeft = getTopLeft();
+      final GeoPoint centre = getCentre();
       final int width = mapView_.getWidth();
       final int height = mapView_.getHeight();
       
@@ -246,8 +241,8 @@ public class MapsforgeTilesOverlay extends TilesOverlay
         return;
       }
 
-      double pixelLeft = MercatorProjection.longitudeToPixelX(topLeft.getLongitude(), zoomLevel());
-      double pixelTop = MercatorProjection.latitudeToPixelY(topLeft.getLatitude(), zoomLevel());
+      double pixelLeft = MercatorProjection.longitudeToPixelX(centre.getLongitude(), zoomLevel());
+      double pixelTop = MercatorProjection.latitudeToPixelY(centre.getLatitude(), zoomLevel());
       pixelLeft -= width >> 1;
       pixelTop -= height >> 1;
 
@@ -273,11 +268,11 @@ public class MapsforgeTilesOverlay extends TilesOverlay
           
           if (this.inMemoryTileCache.containsKey(mapGeneratorJob)) {
             Bitmap bitmap = this.inMemoryTileCache.get(mapGeneratorJob);
-            this.frameBuffer.drawBitmap(mapGeneratorJob.tile, bitmap, topLeft, zoomLevel());
+            this.frameBuffer.drawBitmap(mapGeneratorJob.tile, bitmap, centre, zoomLevel());
           } else if (this.fileSystemTileCache.containsKey(mapGeneratorJob)) {
             Bitmap bitmap = this.fileSystemTileCache.get(mapGeneratorJob);
             if (bitmap != null) {
-              this.frameBuffer.drawBitmap(mapGeneratorJob.tile, bitmap, topLeft, zoomLevel());
+              this.frameBuffer.drawBitmap(mapGeneratorJob.tile, bitmap, centre, zoomLevel());
               this.inMemoryTileCache.put(mapGeneratorJob, bitmap);
             } else {
               // the image data could not be read from the cache

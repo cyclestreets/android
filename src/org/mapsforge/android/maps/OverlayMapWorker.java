@@ -79,7 +79,7 @@ public class OverlayMapWorker extends PausableThread
     boolean success = this.mapGenerator.executeJob(mapGeneratorJob, this.tileBitmap);
 
     if (!isInterrupted() && success) {
-      if (this.mapView.getFrameBuffer().drawBitmap(mapGeneratorJob.tile, this.tileBitmap, mapView.getTopLeft(), mapView.zoomLevel())) {
+      if (this.mapView.getFrameBuffer().drawBitmap(mapGeneratorJob.tile, this.tileBitmap, mapView.getCentre(), mapView.zoomLevel())) {
       	this.inMemoryTileCache.put(mapGeneratorJob, this.tileBitmap);
       }
       this.mapView.postInvalidate();

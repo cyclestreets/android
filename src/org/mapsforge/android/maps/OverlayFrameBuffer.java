@@ -147,8 +147,6 @@ public class OverlayFrameBuffer {
 		if (this.mapViewBitmap1 != null) {
 		  final Rect screen = canvas.getClipBounds();
 		  canvas.drawRect(screen.left, screen.top, screen.right, screen.bottom, Brush.LightGrey);
-		  int w = mapViewBitmap1.getWidth();
-		  int sw = mapViewBitmap1.getScaledWidth(canvas);
 		  canvas.drawBitmap(mapViewBitmap1, screen.left, screen.top, Brush.LightGrey);
 		}
 	}
