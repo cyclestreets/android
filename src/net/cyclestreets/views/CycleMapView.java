@@ -6,8 +6,9 @@ import net.cyclestreets.CycleStreetsPreferences;
 import net.cyclestreets.util.MapFactory;
 import net.cyclestreets.views.overlay.LocationOverlay;
 import net.cyclestreets.views.overlay.ControllerOverlay;
-import net.cyclestreets.views.overlay.MapsforgeTilesOverlay;
 import net.cyclestreets.views.overlay.ZoomButtonsOverlay;
+
+import org.mapsforge.android.maps.MapsforgeTilesOverlay;
 
 import org.osmdroid.tileprovider.tilesource.ITileSource;
 import org.osmdroid.tileprovider.tilesource.OnlineTileSourceBase;
@@ -38,6 +39,7 @@ public class CycleMapView extends MapView
   private final SharedPreferences prefs_;
   private final ControllerOverlay controllerOverlay_;
   private final LocationOverlay location_;
+  private final MapsforgeTilesOverlay mapsforge_;
   private final int overlayBottomIndex_;
   
   private GeoPoint centreOn_ = null;
@@ -61,7 +63,8 @@ public class CycleMapView extends MapView
     controllerOverlay_ = new ControllerOverlay(context, this);
     getOverlays().add(controllerOverlay_);
     
-    getOverlayManager().setTilesOverlay(new MapsforgeTilesOverlay(context));
+    mapsforge_ = new MapsforgeTilesOverlay(context, this);
+    getOverlayManager().setTilesOverlay(mapsforge_);
         
     onResume();
   } // CycleMapView
@@ -121,6 +124,8 @@ public class CycleMapView extends MapView
     controllerOverlay_.onResume(prefs_);
   } // onResume 
   
+  ////////////////////////////////////////////////////////////
+  ////////////////////////////////////////////////////////////
   public boolean onCreateOptionsMenu(final Menu menu)
   {
     return controllerOverlay_.onCreateOptionsMenu(menu);    
@@ -177,6 +182,24 @@ public class CycleMapView extends MapView
     super.dispatchDraw(canvas);
   } // dispatchDraw
 
+  @Override
+  protected void onLayout(final boolean changed, 
+                          final int l, 
+                          final int t, 
+                          final int r,
+                          final int b) 
+  {
+    super.onLayout(changed, l, t, r, b);
+    mapsforge_.onSizeChanged(r-l, b-t);
+  } // onLayout
+
+  @Override
+  protected void onAnimationEnd() 
+  {
+    super.onAnimationEnd();
+    mapsforge_.clearAndRedrawMapView();
+  }
+  
   ///////////////////////////////////////////////////////
   private int pref(final String key, int defValue)
   {
