@@ -106,8 +106,11 @@ public class MapsforgeTilesOverlay extends TilesOverlay
       return;
 
     this.frameBuffer.draw(canvas);
-
-    this.fpsCounter.draw(canvas);
+    if(!getCentre().equals(lastCentre_))
+    {
+      lastCentre_ = getCentre();
+      clearAndRedrawMapView();
+    }
   }
   
   
@@ -130,6 +133,7 @@ public class MapsforgeTilesOverlay extends TilesOverlay
     private String mapFile;
     private MapGenerator mapGenerator;
     private final OverlayMapWorker mapWorker;
+    private GeoPoint lastCentre_;
 
     /**
      * @return the debug settings which are used in this MapView.
