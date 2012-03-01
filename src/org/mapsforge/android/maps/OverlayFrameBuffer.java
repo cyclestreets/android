@@ -151,11 +151,16 @@ public class OverlayFrameBuffer {
 		}
 	}
 
-	synchronized void onSizeChanged(final int width, final int height) {
+	void sizeBuffer(final int width, final int height) {
+	  if((width == this.width) && (height == this.height))
+	    return;
+	    
+	    this.destroy();
+	    
 		this.width = width;
 		this.height = height;
-		this.mapViewBitmap1 = Bitmap.createBitmap(this.width, this.height, Bitmap.Config.ARGB_8888);
-		this.mapViewBitmap2 = Bitmap.createBitmap(this.width, this.height, Bitmap.Config.ARGB_8888);
+		this.mapViewBitmap1 = Bitmap.createBitmap(this.width, this.height, Bitmap.Config.RGB_565);
+		this.mapViewBitmap2 = Bitmap.createBitmap(this.width, this.height, Bitmap.Config.RGB_565);
 		clear();
 		this.mapViewCanvas.setBitmap(this.mapViewBitmap1);
 	}

@@ -99,11 +99,15 @@ public class MapsforgeTilesOverlay extends TilesOverlay
     if(shadow)
       return;
 
-    if(!getCentre().equals(lastCentre_))
+    this.frameBuffer.sizeBuffer(canvas.getWidth(), canvas.getHeight());
+    
+    if((!getCentre().equals(lastCentre_)) || (lastZoom_ != this.zoomLevel()))
     {
       lastCentre_ = getCentre();
+      lastZoom_ = this.zoomLevel();
       clearAndRedrawMapView();
     }
+    
     this.frameBuffer.draw(canvas);
   } // draw
   
@@ -146,6 +150,7 @@ public class MapsforgeTilesOverlay extends TilesOverlay
     private MapGenerator mapGenerator;
     private final OverlayMapWorker mapWorker;
     private GeoPoint lastCentre_;
+    private byte lastZoom_;
 
     /**
      * @return the debug settings which are used in this MapView.
@@ -436,15 +441,6 @@ public class MapsforgeTilesOverlay extends TilesOverlay
             }
             this.mapGenerator = mapGenerator;
             this.mapWorker.setMapGenerator(this.mapGenerator);
-    }
-
-    public synchronized void onSizeChanged(int width, int height) {
-            this.frameBuffer.destroy();
-
-            if (width > 0 && height > 0) {
-                    this.frameBuffer.onSizeChanged(width, height);
-                    clearAndRedrawMapView();
-            }
     }
 
     public void clearAndRedrawMapView() {

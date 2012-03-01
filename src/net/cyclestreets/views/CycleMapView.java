@@ -186,24 +186,6 @@ public class CycleMapView extends MapView
     
     super.dispatchDraw(canvas);
   } // dispatchDraw
-
-  @Override
-  protected void onLayout(final boolean changed, 
-                          final int l, 
-                          final int t, 
-                          final int r,
-                          final int b) 
-  {
-    super.onLayout(changed, l, t, r, b);
-    mapsforge_.onSizeChanged(r-l, b-t);
-  } // onLayout
-
-  @Override
-  protected void onAnimationEnd() 
-  {
-    super.onAnimationEnd();
-    mapsforge_.clearAndRedrawMapView();
-  }
   
   ///////////////////////////////////////////////////////
   private int pref(final String key, int defValue)
