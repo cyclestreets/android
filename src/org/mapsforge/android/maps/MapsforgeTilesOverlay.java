@@ -74,7 +74,7 @@ public class MapsforgeTilesOverlay extends TilesOverlay
   @Override
   public int getMinimumZoomLevel()
   {
-    return 4;
+    return 6;
   }
 
   @Override
@@ -85,15 +85,12 @@ public class MapsforgeTilesOverlay extends TilesOverlay
   @Override
   public void setUseDataConnection(boolean arg0)
   {
-    // TODO Auto-generated method stub
-    
-  }
+  } // setUseDataConnection
 
   @Override
   public boolean useDataConnection()
   {
-    // TODO Auto-generated method stub
-    return false;
+    return this.mapGenerator.requiresInternetConnection();
   }
 
   @Override
@@ -108,7 +105,7 @@ public class MapsforgeTilesOverlay extends TilesOverlay
       clearAndRedrawMapView();
     }
     this.frameBuffer.draw(canvas);
-  }
+  } // draw
   
   @Override
   public void onDetach(IMapView mapView)
