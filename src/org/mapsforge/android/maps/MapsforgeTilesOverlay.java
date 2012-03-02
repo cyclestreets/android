@@ -37,6 +37,7 @@ import org.osmdroid.views.overlay.TilesOverlay;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 
 public class MapsforgeTilesOverlay extends TilesOverlay implements ITileSource
@@ -105,7 +106,8 @@ public class MapsforgeTilesOverlay extends TilesOverlay implements ITileSource
     if(shadow)
       return;
 
-    this.frameBuffer.sizeBuffer(canvas.getWidth(), canvas.getHeight());
+    final Rect screen = canvas.getClipBounds();
+    this.frameBuffer.sizeBuffer(screen.width(), screen.height());
     
     if((!getCentre().equals(lastCentre_)) || (lastZoom_ != this.zoomLevel()))
     {
