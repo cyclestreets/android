@@ -1,6 +1,7 @@
 package org.mapsforge.android.maps;
 
 import java.io.FileNotFoundException;
+import java.io.InputStream;
 
 import net.cyclestreets.views.CycleMapView;
 
@@ -25,15 +26,20 @@ import org.mapsforge.core.MercatorProjection;
 import org.mapsforge.core.Tile;
 import org.mapsforge.map.reader.MapDatabase;
 import org.mapsforge.map.reader.header.FileOpenResult;
+import org.osmdroid.ResourceProxy;
 import org.osmdroid.api.IGeoPoint;
 import org.osmdroid.api.IMapView;
+import org.osmdroid.tileprovider.MapTile;
+import org.osmdroid.tileprovider.tilesource.BitmapTileSourceBase.LowMemoryException;
+import org.osmdroid.tileprovider.tilesource.ITileSource;
 import org.osmdroid.views.overlay.TilesOverlay;
 
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.drawable.Drawable;
 
-public class MapsforgeTilesOverlay extends TilesOverlay
+public class MapsforgeTilesOverlay extends TilesOverlay implements ITileSource
 {
   public MapsforgeTilesOverlay(final Context context, final CycleMapView mapView)
   {
@@ -105,7 +111,7 @@ public class MapsforgeTilesOverlay extends TilesOverlay
     {
       lastCentre_ = getCentre();
       lastZoom_ = this.zoomLevel();
-      clearAndRedrawMapView();
+      redrawMapView();
     }
     
     this.frameBuffer.draw(canvas);
@@ -445,8 +451,12 @@ public class MapsforgeTilesOverlay extends TilesOverlay
 
     public void clearAndRedrawMapView() {
             this.jobQueue.clear();
-            this.frameBuffer.clear();
-            redrawTiles();
+            redrawMapView();
+    }
+    
+    private void redrawMapView() {
+      this.frameBuffer.clear();
+      redrawTiles();
     }
 
     void destroy() {
@@ -483,4 +493,48 @@ public class MapsforgeTilesOverlay extends TilesOverlay
     {
       mapView_.postInvalidate();
     } // postInvalidate
+
+    ///////////////////////////////////////////////////////////
+    // Dummy ITileSource interface
+    @Override
+    public Drawable getDrawable(String arg0) throws LowMemoryException
+    {
+      return null;
+    }
+
+    @Override
+    public Drawable getDrawable(InputStream arg0) throws LowMemoryException
+    {
+      return null;
+    }
+
+    @Override
+    public String getTileRelativeFilenameString(MapTile arg0)
+    {
+      return null;
+    }
+
+    @Override
+    public int getTileSizePixels()
+    {
+      return Tile.TILE_SIZE;
+    }
+
+    @Override
+    public String localizedName(ResourceProxy arg0)
+    {
+      return name();
+    }
+
+    @Override
+    public String name()
+    {
+      return "Mapsforge";
+    }
+
+    @Override
+    public int ordinal()
+    {
+      return 0;
+    }
 } // class MapsforgeTilesOverlay

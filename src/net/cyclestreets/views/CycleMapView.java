@@ -1,5 +1,6 @@
 package net.cyclestreets.views;
 
+import java.io.InputStream;
 import java.util.Map;
 
 import net.cyclestreets.CycleStreetsPreferences;
@@ -10,6 +11,8 @@ import net.cyclestreets.views.overlay.ZoomButtonsOverlay;
 
 import org.mapsforge.android.maps.MapsforgeTilesOverlay;
 
+import org.osmdroid.tileprovider.MapTile;
+import org.osmdroid.tileprovider.tilesource.BitmapTileSourceBase.LowMemoryException;
 import org.osmdroid.tileprovider.tilesource.ITileSource;
 import org.osmdroid.tileprovider.tilesource.OnlineTileSourceBase;
 import org.osmdroid.tileprovider.tilesource.XYTileSource;
@@ -106,7 +109,7 @@ public class CycleMapView extends MapView
 
   public void onResume()
   {
-    final ITileSource tileSource = mapRenderer();
+    final ITileSource tileSource = mapsforge_; //mapRenderer();
     if(!tileSource.equals(renderer_))
     {
       renderer_ = tileSource;
