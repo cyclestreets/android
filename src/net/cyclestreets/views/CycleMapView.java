@@ -9,15 +9,25 @@ import net.cyclestreets.views.overlay.LocationOverlay;
 import net.cyclestreets.views.overlay.ControllerOverlay;
 import net.cyclestreets.views.overlay.ZoomButtonsOverlay;
 
-import org.mapsforge.android.maps.MapsforgeTilesOverlay;
 
-import org.osmdroid.tileprovider.MapTile;
-import org.osmdroid.tileprovider.tilesource.BitmapTileSourceBase.LowMemoryException;
+import org.mapsforge.android.maps.MapsforgeOSMDroidTileProvider;
+import org.mapsforge.android.maps.MapsforgeOSMTileSource;
+import org.osmdroid.tileprovider.IMapTileProviderCallback;
+import org.osmdroid.tileprovider.IRegisterReceiver;
+import org.osmdroid.tileprovider.MapTileProviderArray;
+import org.osmdroid.tileprovider.MapTileProviderBase;
+import org.osmdroid.tileprovider.MapTileProviderBasic;
+import org.osmdroid.tileprovider.modules.MapTileDownloader;
+import org.osmdroid.tileprovider.modules.MapTileFilesystemProvider;
+import org.osmdroid.tileprovider.modules.NetworkAvailabliltyCheck;
+import org.osmdroid.tileprovider.modules.TileWriter;
 import org.osmdroid.tileprovider.tilesource.ITileSource;
 import org.osmdroid.tileprovider.tilesource.OnlineTileSourceBase;
 import org.osmdroid.tileprovider.tilesource.XYTileSource;
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
+import org.osmdroid.tileprovider.util.SimpleRegisterReceiver;
 import org.osmdroid.util.GeoPoint;
+import org.osmdroid.DefaultResourceProxyImpl;
 import org.osmdroid.ResourceProxy;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.Overlay;
@@ -42,14 +52,16 @@ public class CycleMapView extends MapView
   private final SharedPreferences prefs_;
   private final ControllerOverlay controllerOverlay_;
   private final LocationOverlay location_;
-  private final MapsforgeTilesOverlay mapsforge_;
   private final int overlayBottomIndex_;
   
   private GeoPoint centreOn_ = null;
 
   public CycleMapView(final Context context, final String name)
   {
-    super(context, null);
+    super(context, 
+          256, 
+          new DefaultResourceProxyImpl(context),
+          mapTileProvider(context));
 
     prefs_ = context.getSharedPreferences("net.cyclestreets.mapview."+name, Context.MODE_PRIVATE);
     
@@ -66,11 +78,6 @@ public class CycleMapView extends MapView
     controllerOverlay_ = new ControllerOverlay(context, this);
     getOverlays().add(controllerOverlay_);
     
-    mapsforge_ = new MapsforgeTilesOverlay(context, this);
-    mapsforge_.setMapFile(CycleStreetsPreferences.mapfile());
-
-    getOverlayManager().setTilesOverlay(mapsforge_);
-        
     onResume();
   } // CycleMapView
   
@@ -103,13 +110,11 @@ public class CycleMapView extends MapView
     
     controllerOverlay_.onPause(edit);
     edit.commit();
-    
-    mapsforge_.onPause();
   } // onPause
 
   public void onResume()
   {
-    final ITileSource tileSource = mapsforge_; //mapRenderer();
+    final ITileSource tileSource = mapRenderer();
     if(!tileSource.equals(renderer_))
     {
       renderer_ = tileSource;
@@ -129,7 +134,6 @@ public class CycleMapView extends MapView
     getController().setZoom(pref(PREFS_APP_ZOOM_LEVEL, 14));
              
     controllerOverlay_.onResume(prefs_);
-    mapsforge_.onResume();
   } // onResume 
   
   ////////////////////////////////////////////////////////////
@@ -226,7 +230,8 @@ public class CycleMapView extends MapView
   static private Map<String, String> attribution_ = 
       MapFactory.map("CycleStreets", "\u00a9 OpenStreetMap and contributors, CC-BY-SA. Map images \u00a9 OpenCycleMap")
                 .map("CycleStreets-OSM", "\u00a9 OpenStreetMap and contributors, CC-BY-SA")
-                .map("CycleStreets-OS", "Contains Ordnance Survey Data \u00a9 Crown copyright and database right 2010");
+                .map("CycleStreets-OS", "Contains Ordnance Survey Data \u00a9 Crown copyright and database right 2010")
+                .map("CycleStreets-Mapsforge", "\u00a9 OpenStreetMap and contributors, CC-BY-SA");
   
   static 
   { 
@@ -245,8 +250,49 @@ public class CycleMapView extends MapView
                     "http://a.os.openstreetmap.org/sv/",
                     "http://b.os.openstreetmap.org/sv/",
                     "http://c.os.openstreetmap.org/sv/");
+    final MapsforgeOSMTileSource MAPSFORGE = new MapsforgeOSMTileSource("CycleStreets-Mapsforge");
     TileSourceFactory.addTileSource(OPENCYCLEMAP);
     TileSourceFactory.addTileSource(OPENSTREETMAP);
     TileSourceFactory.addTileSource(OSMAP);
+    TileSourceFactory.addTileSource(MAPSFORGE);
   } // static
+  
+  static private MapTileProviderBase mapTileProvider(final Context context)
+  {
+    return new CycleMapTileProvider(context);
+  } // MapTileProviderBase
+  
+  static private class CycleMapTileProvider extends MapTileProviderArray 
+                                            implements IMapTileProviderCallback
+  {
+    public CycleMapTileProvider(final Context context)
+    {
+      this(context,
+           TileSourceFactory.getTileSource(DEFAULT_RENDERER),
+           new SimpleRegisterReceiver(context));
+    } // CycleMapTileProvider
+    
+    private CycleMapTileProvider(final Context context,
+                                 final ITileSource tileSource,
+                                 final IRegisterReceiver registerReceiver)
+    {
+      super(tileSource, registerReceiver);
+      
+      final TileWriter tileWriter = new TileWriter();
+
+      final MapTileFilesystemProvider fileSystemProvider = 
+            new MapTileFilesystemProvider(registerReceiver, tileSource);
+      mTileProviderList.add(fileSystemProvider);
+      
+      final MapTileDownloader downloaderProvider = 
+            new MapTileDownloader(tileSource, 
+                                  tileWriter, 
+                                  new NetworkAvailabliltyCheck(context));
+      mTileProviderList.add(downloaderProvider);
+      
+      final MapsforgeOSMDroidTileProvider mapsforgeProvider = 
+            new MapsforgeOSMDroidTileProvider();
+      mTileProviderList.add(mapsforgeProvider);
+    } // CycleMapTileProvider
+  } // CycleMapTileProvider  
 } // CycleMapView
