@@ -3,6 +3,7 @@ package org.mapsforge.android.maps;
 import org.osmdroid.tileprovider.MapTile;
 import org.osmdroid.tileprovider.MapTileRequestState;
 import org.osmdroid.tileprovider.modules.MapTileModuleProviderBase;
+import org.osmdroid.tileprovider.tilesource.BitmapTileSourceBase.LowMemoryException;
 import org.osmdroid.tileprovider.tilesource.ITileSource;
 
 import android.graphics.drawable.Drawable;
@@ -61,9 +62,13 @@ public class MapsforgeOSMDroidTileProvider extends MapTileModuleProviderBase
       if(tileSource_ == null) 
         return null;
 
-      final MapTile tile = aState.getMapTile();
-      
-      return null;
+      try {
+        final MapTile tile = aState.getMapTile();
+        return tileSource_.getDrawable(tile.getX(), tile.getY(), tile.getZoomLevel());
+      }
+      catch(LowMemoryException e) {
+        return null;
+      }
     } // loadFile
   } // TileLoader
 } // MapsForgeOSMDroidTileProvider

@@ -1,6 +1,5 @@
 package net.cyclestreets.views;
 
-import java.io.InputStream;
 import java.util.Map;
 
 import net.cyclestreets.CycleStreetsPreferences;
@@ -16,7 +15,6 @@ import org.osmdroid.tileprovider.IMapTileProviderCallback;
 import org.osmdroid.tileprovider.IRegisterReceiver;
 import org.osmdroid.tileprovider.MapTileProviderArray;
 import org.osmdroid.tileprovider.MapTileProviderBase;
-import org.osmdroid.tileprovider.MapTileProviderBasic;
 import org.osmdroid.tileprovider.modules.MapTileDownloader;
 import org.osmdroid.tileprovider.modules.MapTileFilesystemProvider;
 import org.osmdroid.tileprovider.modules.NetworkAvailabliltyCheck;
