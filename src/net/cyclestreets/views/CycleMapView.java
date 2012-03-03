@@ -216,7 +216,12 @@ public class CycleMapView extends MapView
   private ITileSource mapRenderer()
   {    
     try { 
-      return TileSourceFactory.getTileSource(CycleStreetsPreferences.mapstyle());
+      final ITileSource renderer = TileSourceFactory.getTileSource(CycleStreetsPreferences.mapstyle());
+      
+      if(renderer_ instanceof MapsforgeOSMTileSource)
+        ((MapsforgeOSMTileSource)renderer).setMapFile(CycleStreetsPreferences.mapfile());
+      
+      return renderer;
      } // try
     catch(Exception e) {
       // oh dear 

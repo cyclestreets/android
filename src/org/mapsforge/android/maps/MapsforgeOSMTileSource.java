@@ -8,7 +8,6 @@ import org.mapsforge.android.maps.mapgenerator.MapGeneratorJob;
 import org.mapsforge.android.maps.mapgenerator.databaserenderer.DatabaseRenderer;
 import org.mapsforge.core.Tile;
 import org.mapsforge.map.reader.MapDatabase;
-import org.mapsforge.map.reader.header.FileOpenResult;
 import org.osmdroid.ResourceProxy;
 import org.osmdroid.tileprovider.ExpirableBitmapDrawable;
 import org.osmdroid.tileprovider.MapTile;
@@ -39,6 +38,7 @@ public class MapsforgeOSMTileSource implements ITileSource
   private final MapDatabase mapDatabase_;
   private final JobParameters jobParameters_;
   private final DebugSettings debugSettings_;
+  private String mapFile_;
   
   public MapsforgeOSMTileSource(final String name)
   {
@@ -47,14 +47,19 @@ public class MapsforgeOSMTileSource implements ITileSource
     mapDatabase_ = new MapDatabase();
     mapGenerator_.setMapDatabase(mapDatabase_);
     
-    mapDatabase_.closeFile();
-    FileOpenResult fileOpenResult = mapDatabase_.openFile(Environment.getExternalStorageDirectory() + "/download/great_britain-0.3.0.map");
-    if (fileOpenResult.isSuccess()) 
-      System.out.println("Yay!");
-    
     jobParameters_ = new JobParameters(new RenderTheme(), DEFAULT_TEXT_SCALE);
     debugSettings_ = new DebugSettings(false, false, false);
   } // MapsforgeOSMTileSource
+  
+  public void setMapFile(final String mapFile)
+  {
+    if((mapFile == null) || (mapFile.equals(mapFile_)))
+        return;
+    
+    mapFile_ = mapFile;
+    mapDatabase_.closeFile();
+    mapDatabase_.openFile(Environment.getExternalStorageDirectory() + "/download/great_britain-0.3.0.map");
+  } // setMapFile
 
   @Override
   public String localizedName(ResourceProxy proxy) { return name(); }
