@@ -58,7 +58,7 @@ public class MapsforgeOSMTileSource implements ITileSource
     
     mapFile_ = mapFile;
     mapDatabase_.closeFile();
-    mapDatabase_.openFile(Environment.getExternalStorageDirectory() + "/download/great_britain-0.3.0.map");
+    mapDatabase_.openFile(mapFile_);
   } // setMapFile
 
   @Override
