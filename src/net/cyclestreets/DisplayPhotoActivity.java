@@ -66,11 +66,10 @@ public class DisplayPhotoActivity extends Activity implements View.OnClickListen
 		switch(v.getId())
 		{
 			case R.id.photo_share:
-				String uploadedUrl_ = i.getStringExtra("photoUrl");
+				String photoUrl_ = i.getStringExtra("url");
 				String caption_ = i.getStringExtra("caption");
-			    Share.Url(this, uploadedUrl_, caption_, "Photo on CycleStreets.net");
+			    Share.Url(this, photoUrl_, caption_, "Photo on CycleStreets.net");
 
-				//start(SettingsActivity.class);
 				break;
 		} // switch
 	} // onClick
