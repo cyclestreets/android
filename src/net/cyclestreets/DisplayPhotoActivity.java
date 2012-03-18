@@ -1,27 +1,31 @@
 package net.cyclestreets;
 
 import net.cyclestreets.util.ImageDownloader;
+import net.cyclestreets.util.Share;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.MotionEvent;
+import android.view.View;
 import android.view.WindowManager;
 import android.view.animation.AnimationUtils;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-public class DisplayPhotoActivity extends Activity 
+public class DisplayPhotoActivity extends Activity implements View.OnClickListener
 {
+	Intent i;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) 
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.showphoto);
 		
-		final Intent i = getIntent();
+		i = getIntent();
 
 		final ImageView iv = (ImageView)findViewById(R.id.photo);
 		final WindowManager wm = getWindowManager();
@@ -41,6 +45,9 @@ public class DisplayPhotoActivity extends Activity
 		final TextView text = (TextView)findViewById(R.id.photo_text);
 		text.setText(i.getStringExtra("caption"));
 
+		final Button b = (Button)findViewById(R.id.photo_share);
+		b.setOnClickListener(this);
+
 		final Uri uri = i.getData();
 		ImageDownloader.get(uri.toString(), iv);
 	} // onCreate
@@ -52,4 +59,18 @@ public class DisplayPhotoActivity extends Activity
 			finish();
 		return false;
 	} // onTouchEvent
+
+	@Override
+	public void onClick(View v)
+	{
+		switch(v.getId())
+		{
+			case R.id.photo_share:
+				String photoUrl_ = i.getStringExtra("url");
+				String caption_ = i.getStringExtra("caption");
+			    Share.Url(this, photoUrl_, caption_, "Photo on CycleStreets.net");
+
+				break;
+		} // switch
+	} // onClick
 } // DisplayPhotoActivity
