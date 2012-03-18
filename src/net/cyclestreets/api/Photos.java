@@ -88,7 +88,7 @@ public class Photos implements Iterable<Photo>
           final String id = attributes.getValue("id");
           final String feature = attributes.getValue("feature");
           final String caption = attributes.getValue("caption");
-          final String url = attributes.getValue("url");
+          final String url = attributes.getValue("shortlink");
           final String thumbnailUrl = attributes.getValue("thumbnailUrl");
           final String lat = attributes.getValue("latitude");
           final String lon = attributes.getValue("longitude");
