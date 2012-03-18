@@ -64,7 +64,7 @@
 			android:key="uploadsize"
 			android:title="Photo Upload"
 			android:summary="medium"
-			android:defaultValue="bigIfWifi"
+			android:defaultValue="big"
 			android:entries="@array/uploadsize"
 			android:entryValues="@array/uploadsize_values"/>
 	</PreferenceCategory>
