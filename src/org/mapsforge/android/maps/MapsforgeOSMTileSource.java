@@ -16,7 +16,6 @@ import org.osmdroid.tileprovider.tilesource.ITileSource;
 
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
-import android.os.Environment;
 
 public class MapsforgeOSMTileSource implements ITileSource
 {
