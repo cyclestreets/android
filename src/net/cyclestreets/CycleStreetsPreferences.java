@@ -79,7 +79,7 @@ public class CycleStreetsPreferences
   }
   
   static public boolean uploadSmallImages() {
-    final String resize = getString(PREF_UPLOAD_SIZE, "big");
+    final String resize = getString(PREF_UPLOAD_SIZE, "bigIfWifi");
     if("320px".equals(resize))
       return true;
     if("big".equals(resize))
