@@ -6,6 +6,7 @@ import android.content.SharedPreferences.Editor;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.preference.PreferenceManager;
+import android.telephony.TelephonyManager;
 
 public class CycleStreetsPreferences 
 {
@@ -28,8 +29,16 @@ public class CycleStreetsPreferences
   static public void initialise(final Context context) {
     context_ = context;
     PreferenceManager.setDefaultValues(context_, R.xml.preferences, false);
+
+    // upgrades
+    if(uploadSize().equals("320px"))
+    {
+      final Editor editor = editor();
+      editor.putString(PREF_UPLOAD_SIZE, "640px");
+      editor.commit();
+    } // if ...
   } // initialise
-    
+  
   static public String routeType() {
     return getString(PREF_ROUTE_TYPE_KEY, CycleStreetsConstants.PLAN_BALANCED);
   }
@@ -78,15 +87,29 @@ public class CycleStreetsPreferences
     return getBoolean(PREF_CONFIRM_NEW_ROUTE, true);
   }
   
+  static public String uploadSize() {
+    return getString(PREF_UPLOAD_SIZE, "bigIfWifi");
+  } // uploadSize
+  
   static public boolean uploadSmallImages() {
-    final String resize = getString(PREF_UPLOAD_SIZE, "big");
-    if("320px".equals(resize))
+    final String resize = uploadSize();
+    if("640px".equals(resize))
       return true;
     if("big".equals(resize))
-      return false;    
+      return false;   
+    
     final ConnectivityManager connMgr = (ConnectivityManager)context_.getSystemService(Context.CONNECTIVITY_SERVICE);
     final NetworkInfo ni = connMgr.getActiveNetworkInfo();
-    return !("WIFI".equals(ni.getTypeName()));
+    
+    final int type = ni.getType();
+    if((type == ConnectivityManager.TYPE_WIFI) || (type == ConnectivityManager.TYPE_WIMAX))
+      return false;
+    
+    // so it's mobile, but is it still quick?
+    final int subtype = ni.getSubtype();
+    return !((subtype == TelephonyManager.NETWORK_TYPE_HSDPA) || 
+             (subtype == TelephonyManager.NETWORK_TYPE_HSPA) ||
+             (subtype == TelephonyManager.NETWORK_TYPE_HSUPA));
   } // uploadSmallImages
   
   static private String getString(final String key, final String defVal) {
