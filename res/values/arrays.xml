@@ -43,12 +43,12 @@
     <item>CycleStreets-Mapsforge</item>
   </string-array>
   <string-array name="uploadsize">
-    <item>Always resize to 320 pixels wide</item>
-    <item>Full size when Wifi available</item>
+    <item>Always resize to 640 pixels wide</item>
+    <item>Full size when WiFi, 3.5G or 4G available</item>
     <item>Full size</item>
   </string-array>
   <string-array name="uploadsize_values">
-    <item>320px</item>
+    <item>640px</item>
     <item>bigIfWifi</item>
     <item>big</item>
   </string-array>

@@ -52,7 +52,7 @@ public class Bitmaps
 
 		int srcWidth = options.outWidth;
 
-		final int desiredWidth = Math.min(320, srcWidth);
+		final int desiredWidth = Math.min(640, srcWidth);
 
 		// Calculate the correct inSampleSize/scale value. This helps 
 		// reduce memory use. It should be a power of 2
