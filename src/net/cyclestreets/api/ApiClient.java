@@ -78,6 +78,7 @@ public class ApiClient
   private final static String API_PATH_GEOCODER = API_PATH + "geocoder.xml";
   private final static String API_PATH_POI_CATEGORIES = API_PATH + "poitypes.xml";
   private final static String API_PATH_POIS = API_PATH + "pois.xml";
+  private final static String API_PATH_STATUS = API_PATH + "status.xml";
 
   private static Context context_;
   
@@ -188,7 +189,16 @@ public class ApiClient
     return callApiWithCache(PhotomapCategories.factory(), API_PATH_PHOTOMAP_CATEGORIES);
   } // getPhotomapCategories
   
-  static Photos getPhotos(final double longitude,
+	
+  	static CycleStreetsStatus getCycleStreetsStatus()
+	throws Exception
+	{
+		return callApiWithCache(CycleStreetsStatus.factory(), API_PATH_STATUS);
+	} // getCycleStreetsStatus
+		  
+
+
+	static Photos getPhotos(final double longitude,
                           final double latitude, 
                           int zoom,
                           double e,

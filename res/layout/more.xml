@@ -27,6 +27,11 @@
 		android:layout_below="@id/settings_button"
 		android:layout_width="fill_parent" 
 		android:layout_height="wrap_content"></Button>
+<Button android:text="@string/cyclestreets_status" 
+		android:id="@+id/cyclestreets_status_button"
+		android:layout_below="@id/about_button"
+		android:layout_width="fill_parent" 
+		android:layout_height="wrap_content"></Button>
 
 </RelativeLayout>
 </RelativeLayout>

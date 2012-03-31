@@ -38,6 +38,8 @@
               android:label="CycleStreets : Upload Photo"/>
     <activity android:name=".SettingsActivity"
               android:label="CycleStreets : Settings"/>
+    <activity android:name=".CycleStreetsStatusActivity" 
+              android:label="CycleStreets : Countries and distance"/>
     <activity android:name=".AboutActivity"
               android:label="CycleStreets : About"/>
     <activity android:name=".RouteMapActivity"  
