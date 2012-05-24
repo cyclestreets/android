@@ -32,7 +32,10 @@
 			android:defaultValue="CycleStreets-OSM"
 			android:entries="@array/mapstyle"
 			android:entryValues="@array/mapstyle_values" />
-	  <ListPreference 
+    <EditTextPreference
+      android:key="mapfile"
+      android:title="Vector Mapfile Location"/>
+		<ListPreference 
 	    android:key="iconsize"
 	    android:title="Icon size"
 	    android:summary="Icon Size"
@@ -64,7 +67,7 @@
 			android:key="uploadsize"
 			android:title="Photo Upload"
 			android:summary="medium"
-			android:defaultValue="bigIfWifi"
+			android:defaultValue="big"
 			android:entries="@array/uploadsize"
 			android:entryValues="@array/uploadsize_values"/>
 	</PreferenceCategory>

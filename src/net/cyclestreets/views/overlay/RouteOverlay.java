@@ -2,14 +2,13 @@ package net.cyclestreets.views.overlay;
 
 import java.util.Iterator;
 import java.util.List;
-import java.util.ArrayList;
 
 import net.cyclestreets.api.Segment;
 import net.cyclestreets.planned.Route;
 
 import org.osmdroid.util.GeoPoint;
-import org.osmdroid.views.MapView;
-import org.osmdroid.views.MapView.Projection;
+import org.osmdroid.api.IMapView;
+import org.osmdroid.api.IProjection;
 import org.osmdroid.views.overlay.Overlay;
 
 import android.content.Context;
@@ -80,7 +79,7 @@ public class RouteOverlay extends Overlay
   } // clearPath
 
   @Override
-  protected void draw(final Canvas canvas, final MapView mapView, final boolean shadow) 
+  public void draw(final Canvas canvas, final IMapView mapView, final boolean shadow) 
   {
     if (shadow) 
       return;
@@ -97,6 +96,7 @@ public class RouteOverlay extends Overlay
     } // if ... 
   
     if(ridePath_ == null)
+  
       drawSegments(mapView.getProjection());
 
     canvas.drawPath(ridePath_, rideBrush_);
@@ -111,34 +111,31 @@ public class RouteOverlay extends Overlay
     return path;
   } // newPath
   
-  private void drawSegments(final Projection projection)
+  private void drawSegments(final IProjection projection)
   {
     ridePath_ = newPath();
     walkPath_ = newPath();
     highlightPath_ = newPath();
 
-    final List<Point> points = new ArrayList<Point>();
     Point screenPoint = new Point();
     for(Segment s : route_)
     {
       Path path = s.walk() ? walkPath_ : ridePath_;
       path = (Route.activeSegment() != s) ? path : highlightPath_; 
       
-      points.clear();
+      boolean first = true;
       for(Iterator<GeoPoint> i = s.points(); i.hasNext(); )
       {
         final GeoPoint gp = i.next();
-        final Point p = projection.toMapPixelsProjected(gp.getLatitudeE6(), gp.getLongitudeE6(), null);
-        points.add(p);
-      } // for ...
-    
-      screenPoint = projection.toMapPixelsTranslated(points.get(0), screenPoint);
-      path.moveTo(screenPoint.x, screenPoint.y);
-      
-      for (int i = 0; i != points.size(); ++i) 
-      {
-        screenPoint = projection.toMapPixelsTranslated(points.get(i), screenPoint);
-        path.lineTo(screenPoint.x, screenPoint.y);
+        screenPoint = projection.toPixels(gp, screenPoint);
+        
+        if(first)
+        {
+          path.moveTo(screenPoint.x, screenPoint.y);
+          first = false;
+        } 
+        else
+          path.lineTo(screenPoint.x, screenPoint.y);
       } // for ...
     } // for ...
   } // drawSegments

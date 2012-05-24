@@ -4,12 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.osmdroid.api.IGeoPoint;
+import org.osmdroid.api.IMapView;
 import org.osmdroid.events.DelayedMapListener;
 import org.osmdroid.events.MapListener;
 import org.osmdroid.events.ScrollEvent;
 import org.osmdroid.events.ZoomEvent;
 import org.osmdroid.util.BoundingBoxE6;
-import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.OverlayItem;
 
 import android.content.Context;
@@ -18,6 +18,7 @@ import android.graphics.Paint;
 import android.graphics.Rect;
 
 import net.cyclestreets.util.Brush;
+import net.cyclestreets.views.CycleMapView;
 
 public abstract class LiveItemOverlay<T extends OverlayItem> 
           extends ItemizedOverlay<T>
@@ -25,7 +26,7 @@ public abstract class LiveItemOverlay<T extends OverlayItem>
 {
 	/////////////////////////////////////////////////////
 	/////////////////////////////////////////////////////
-	private final MapView mapView_;
+	private final CycleMapView mapView_;
 	private int zoomLevel_;
 	private boolean loading_;
 	
@@ -37,7 +38,7 @@ public abstract class LiveItemOverlay<T extends OverlayItem>
 	static private final String LOADING = "Loading ...";
 	
 	public LiveItemOverlay(final Context context,
-							                   final MapView mapView,
+							                   final CycleMapView mapView,
 							                   final OnItemTapListener<T> listener,
 							                   final boolean showLoading)
 	{
@@ -63,7 +64,7 @@ public abstract class LiveItemOverlay<T extends OverlayItem>
 	protected float cornerRadius() { return radius_; }
 
 	@Override
-	protected void draw(final Canvas canvas, final MapView mapView, final boolean shadow) 
+	public void draw(final Canvas canvas, final IMapView mapView, final boolean shadow) 
 	{
 		super.draw(canvas, mapView, shadow);
 		

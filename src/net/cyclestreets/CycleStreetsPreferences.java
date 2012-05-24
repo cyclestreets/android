@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.Environment;
 import android.preference.PreferenceManager;
 import android.telephony.TelephonyManager;
 
@@ -15,6 +16,7 @@ public class CycleStreetsPreferences
   public final static String PREF_UNITS_KEY = "units";
   public final static String PREF_SPEED_KEY = "speed";
   public final static String PREF_MAPSTYLE_KEY = "mapstyle";
+  public final static String PREF_MAPFILE_KEY = "mapfile";
   public final static String PREF_CONFIRM_NEW_ROUTE = "confirm-new-route";
   public final static String PREF_USERNAME_KEY = "username";
   public final static String PREF_PASSWORD_KEY = "password";
@@ -53,6 +55,10 @@ public class CycleStreetsPreferences
   
   static public String mapstyle() {
     return getString(PREF_MAPSTYLE_KEY, "CycleMap");  
+  }
+  
+  static public String mapfile() {
+    return getString(PREF_MAPFILE_KEY, Environment.getExternalStorageDirectory() + "/download/great_britain-0.3.0.map");
   }
   
   static public int iconSize() { 
