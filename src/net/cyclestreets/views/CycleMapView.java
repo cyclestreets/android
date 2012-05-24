@@ -244,7 +244,7 @@ public class CycleMapView extends MapView
                     "http://b.tile.opencyclemap.org/cycle/",
                     "http://c.tile.opencyclemap.org/cycle/");
     final OnlineTileSourceBase OPENSTREETMAP = new XYTileSource("CycleStreets-OSM",
-                    ResourceProxy.string.osmarender, 0, 17, 256, ".png",
+                    ResourceProxy.string.base, 0, 17, 256, ".png",
                     "http://a.tile.openstreetmap.org/",
                     "http://b.tile.openstreetmap.org/",
                     "http://c.tile.openstreetmap.org/");

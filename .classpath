@@ -6,8 +6,9 @@
 	<classpathentry kind="lib" path="libs/httpmime-4.0.1.jar"/>
 	<classpathentry kind="lib" path="libs/mapsforge-map-0.3.0-SNAPSHOT.jar"/>
 	<classpathentry kind="lib" path="libs/mapsforge-map-reader-0.3.0-SNAPSHOT.jar"/>
-	<classpathentry kind="lib" path="libs/osmdroid-android-3.0.8-SNAPSHOT.jar"/>
+	<classpathentry kind="lib" path="libs/osmdroid-android-3.0.9-SNAPSHOT.jar"/>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="src" path="gen"/>
+	<classpathentry exported="true" kind="con" path="com.android.ide.eclipse.adt.LIBRARIES"/>
 	<classpathentry kind="output" path="bin/classes"/>
 </classpath>

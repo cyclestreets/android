@@ -22,11 +22,18 @@ public class MapsforgeOSMTileSource implements ITileSource
   @SuppressWarnings("serial")
   static private class RenderTheme implements JobTheme 
   {
-    static private final String path = "/org/mapsforge/android/maps/rendertheme/osmarender/osmarender.xml";
+    static private final String path = "/org/mapsforge/android/maps/rendertheme/osmarender/";
+    static private final String file = "osmarender.xml";
+
+    //@Override
+    //public String getRelativePathPrefix() {
+    //  return path;
+    //}
     
     @Override
     public InputStream getRenderThemeAsStream() {
-      return getClass().getResourceAsStream(path);
+      final InputStream is = getClass().getResourceAsStream(path+file);
+      return is;
     }
   }          
 
