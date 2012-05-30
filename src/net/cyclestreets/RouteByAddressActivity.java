@@ -103,7 +103,8 @@ public class RouteByAddressActivity extends Activity
         
     places_.add(pv);
     placeHolder_.addView(pv);
-
+    pv.requestFocus();
+    
     addWaypoint_.setEnabled(places_.size() < 12);
   } // addWaypointBox
   
