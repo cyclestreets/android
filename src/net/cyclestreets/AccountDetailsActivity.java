@@ -11,6 +11,8 @@ import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.Editable;
+import android.text.InputFilter;
+import android.text.Spanned;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -58,11 +60,16 @@ public class AccountDetailsActivity extends Activity
     
     final LayoutInflater inflater = (LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
+    final InputFilter[] usernameFilters = new InputFilter[]{ new WhitespaceInputFilter() };
+    
     registerView_ = inflater.inflate(R.layout.accountdetails, null);
     registerDetails_ = inflater.inflate(R.layout.accountregister, null);
+    textView(registerDetails_, R.id.username).setFilters(usernameFilters);
     signinDetails_ = inflater.inflate(R.layout.accountsignin, null);
     signinButton_ = (Button)signinDetails_.findViewById(R.id.signin_button);
-    textView(signinDetails_, R.id.username).addTextChangedListener(this);
+    TextView usernameTV = textView(signinDetails_, R.id.username);
+    usernameTV.addTextChangedListener(this);
+    usernameTV.setFilters(usernameFilters); 
     textView(signinDetails_, R.id.password).addTextChangedListener(this);
     signinButton_.setEnabled(false);
 
@@ -355,4 +362,22 @@ public class AccountDetailsActivity extends Activity
       MessageBox(result.message(), result.ok());
     } // onPostExecute
   } // class RegisterTask  
+  
+  private class WhitespaceInputFilter implements InputFilter
+  { 
+    public CharSequence filter(CharSequence source, 
+                               int start, int end, 
+                               Spanned dest, 
+                               int dstart, int dend) 
+    { 
+      StringBuilder sb = new StringBuilder();
+      for (int i = start; i < end; i++) { 
+        char c = source.charAt(i);
+        if (!Character.isWhitespace(c)) { 
+          sb.append(c); 
+        } 
+      } 
+      return sb.toString(); 
+    } // filter
+  } // class WhitespaceInputFilter
 } // class AccountDetailsActivity
