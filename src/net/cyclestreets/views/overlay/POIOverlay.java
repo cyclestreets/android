@@ -4,7 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.osmdroid.api.IGeoPoint;
-import org.osmdroid.api.IMapView;
+import org.osmdroid.views.MapView;
+import org.osmdroid.views.MapView.Projection;
 import org.osmdroid.api.IProjection;
 import org.osmdroid.events.MapListener;
 import org.osmdroid.events.ZoomEvent;
@@ -196,7 +197,7 @@ public class POIOverlay extends LiveItemOverlay<POIOverlay.POIItem>
   
   private boolean tappedInBubble(final MotionEvent event)
   {
-    final IProjection pj = mapView().getProjection();
+    final Projection pj = mapView().getProjection();
     final int eventX = (int) event.getX();
     final int eventY = (int) event.getY();
 
@@ -209,7 +210,7 @@ public class POIOverlay extends LiveItemOverlay<POIOverlay.POIItem>
   } // tappedInBubble
   
   @Override
-  protected boolean onItemSingleTap(final int index, final POIItem item, final IMapView mapView) 
+  protected boolean onItemSingleTap(final int index, final POIItem item, final MapView mapView) 
   {
     if(active_ == item)
       hideBubble();
@@ -234,7 +235,7 @@ public class POIOverlay extends LiveItemOverlay<POIOverlay.POIItem>
   } // hideBubble
   
   @Override
-  protected boolean onItemDoubleTap(final int index, final POIItem item, final IMapView mapView) 
+  protected boolean onItemDoubleTap(final int index, final POIItem item, final MapView mapView) 
   {
     return routeMarkerAtItem(item);
   } // onItemDoubleTap
@@ -253,7 +254,7 @@ public class POIOverlay extends LiveItemOverlay<POIOverlay.POIItem>
   } // routeMarkerAtItem
 
   /////////////////////////////////////////////////////
-  public void draw(final Canvas canvas, final IMapView mapView, final boolean shadow) 
+  public void draw(final Canvas canvas, final MapView mapView, final boolean shadow) 
   {
     if(activeCategories_.isEmpty())
       return;

@@ -3,8 +3,8 @@ package net.cyclestreets.views.overlay;
 import java.util.List;
 
 import org.osmdroid.DefaultResourceProxyImpl;
-import org.osmdroid.api.IMapView;
-import org.osmdroid.api.IProjection;
+import org.osmdroid.views.MapView;
+import org.osmdroid.views.MapView.Projection;
 import org.osmdroid.views.overlay.Overlay;
 import org.osmdroid.views.overlay.OverlayItem;
 import org.osmdroid.views.overlay.OverlayItem.HotspotPlace;
@@ -29,7 +29,7 @@ public class ItemizedOverlay<Item extends OverlayItem> extends Overlay
     public boolean onItemDoubleTap(final int index, final Item item);
   } // interface OnItemGestureListener<Item>
 
-  private final IMapView mapView_;
+  private final MapView mapView_;
 	private final List<Item> items_;
 	private OnItemTapListener<Item> itemListener_;
 	private final Rect mRect = new Rect();
@@ -38,13 +38,13 @@ public class ItemizedOverlay<Item extends OverlayItem> extends Overlay
 	private final Point mItemPoint = new Point();
 
 	protected ItemizedOverlay(final Context context,
-	                          final IMapView mapView,
+	                          final MapView mapView,
 	                          final List<Item> items)
 	{
 	  this(context, mapView, items, null); 
 	} // ItemizedOverlay
 	
-	protected IMapView mapView() { return mapView_; } 
+	protected MapView mapView() { return mapView_; } 
 	
 	protected void setListener(final OnItemTapListener<Item> listener)
 	{
@@ -52,7 +52,7 @@ public class ItemizedOverlay<Item extends OverlayItem> extends Overlay
 	} // setListener
 	
 	public ItemizedOverlay(final Context context,
-                         final IMapView mapView, 
+                         final MapView mapView, 
 						             final List<Item> items, 
 						             final OnItemTapListener<Item> listener) 
 	{
@@ -65,7 +65,7 @@ public class ItemizedOverlay<Item extends OverlayItem> extends Overlay
 	protected List<Item> items() { return items_; }
 	
 	@Override
-	public void draw(final Canvas canvas, final IMapView mapView, final boolean shadow) 
+	public void draw(final Canvas canvas, final MapView mapView, final boolean shadow) 
 	{
 		if(shadow)
 			return;
@@ -73,7 +73,7 @@ public class ItemizedOverlay<Item extends OverlayItem> extends Overlay
 		if(DrawingHelper.isDragging(canvas))
 		  return;
 
-		final IProjection pj = mapView.getProjection();
+		final Projection pj = mapView.getProjection();
 		for (int i = items_.size() -1; i >= 0; i--) 
 		{
 			final Item item = items_.get(i);
@@ -178,7 +178,7 @@ public class ItemizedOverlay<Item extends OverlayItem> extends Overlay
 		}));
 	} // onSingleTap
 
-	protected boolean onItemSingleTap(final int index, final Item item, final IMapView mapView) 
+	protected boolean onItemSingleTap(final int index, final Item item, final MapView mapView) 
 	{
     if(itemListener_ == null)
       return false;
@@ -196,14 +196,14 @@ public class ItemizedOverlay<Item extends OverlayItem> extends Overlay
 		}));
 	} // onDoubleTap
 
-	protected boolean onItemDoubleTap(final int index, final Item item, final IMapView mapView)  
+	protected boolean onItemDoubleTap(final int index, final Item item, final MapView mapView)  
 	{
     if(itemListener_ == null)
       return false;
 		return itemListener_.onItemDoubleTap(index, item);
 	} // onLongPressHelper
 
-  public void drawButtons(final Canvas canvas, final IMapView mapView)
+  public void drawButtons(final Canvas canvas, final MapView mapView)
   {
     
   } // drawButtons
@@ -219,10 +219,10 @@ public class ItemizedOverlay<Item extends OverlayItem> extends Overlay
 	 * @return true if event is handled false otherwise
 	 */
 	private boolean activateSelectedItems(final MotionEvent event, 
-	                                      final IMapView mapView,
+	                                      final MapView mapView,
 	                                      final ActiveItem task) 
 	{
-		final IProjection pj = mapView.getProjection();
+		final Projection pj = mapView.getProjection();
 		final int eventX = (int) event.getX();
 		final int eventY = (int) event.getY();
 

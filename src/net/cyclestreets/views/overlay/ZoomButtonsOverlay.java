@@ -2,7 +2,7 @@ package net.cyclestreets.views.overlay;
 
 import net.cyclestreets.R;
 
-import org.osmdroid.api.IMapView;
+import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.Overlay;
 
 import android.content.Context;
@@ -13,12 +13,12 @@ import android.view.MotionEvent;
 public class ZoomButtonsOverlay extends Overlay 
                                 implements ButtonTapListener
 {
-  private final IMapView mapView_;
+  private final MapView mapView_;
   private final OverlayButton zoomIn_;
   private final OverlayButton zoomOut_;
   
   public ZoomButtonsOverlay(final Context context, 
-                final IMapView mapView)
+                final MapView mapView)
   {
     super(context);
     
@@ -42,12 +42,12 @@ public class ZoomButtonsOverlay extends Overlay
   } // ZoomButtonsOverlay
   
   @Override
-  public void draw(final Canvas canvas, final IMapView mapView, final boolean shadow) 
+  public void draw(final Canvas canvas, final MapView mapView, final boolean shadow) 
   {
   } // draw
   
   @Override
-  public void drawButtons(final Canvas canvas, final IMapView mapView)
+  public void drawButtons(final Canvas canvas, final MapView mapView)
   {
     zoomIn_.enable(mapView.canZoomIn());
     zoomIn_.draw(canvas);

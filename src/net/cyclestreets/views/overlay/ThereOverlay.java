@@ -4,7 +4,7 @@ import net.cyclestreets.R;
 import net.cyclestreets.views.CycleMapView;
 
 import org.osmdroid.api.IGeoPoint;
-import org.osmdroid.api.IMapView;
+import org.osmdroid.views.MapView;
 import org.osmdroid.api.IProjection;
 import org.osmdroid.views.overlay.Overlay;
 
@@ -75,7 +75,7 @@ public class ThereOverlay extends Overlay
   } // recentre
   
   @Override
-  public void draw(final Canvas canvas, final IMapView mapView, final boolean shadow) 
+  public void draw(final Canvas canvas, final MapView mapView, final boolean shadow) 
   {
     if(there_ == null)
       return;

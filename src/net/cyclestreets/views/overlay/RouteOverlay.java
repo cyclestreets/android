@@ -7,7 +7,7 @@ import net.cyclestreets.api.Segment;
 import net.cyclestreets.planned.Route;
 
 import org.osmdroid.util.GeoPoint;
-import org.osmdroid.api.IMapView;
+import org.osmdroid.views.MapView;
 import org.osmdroid.api.IProjection;
 import org.osmdroid.views.overlay.Overlay;
 
@@ -79,7 +79,7 @@ public class RouteOverlay extends Overlay
   } // clearPath
 
   @Override
-  public void draw(final Canvas canvas, final IMapView mapView, final boolean shadow) 
+  public void draw(final Canvas canvas, final MapView mapView, final boolean shadow) 
   {
     if (shadow) 
       return;

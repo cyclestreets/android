@@ -29,7 +29,6 @@ public class RouteByAddressActivity extends Activity
                implements View.OnClickListener
 {
   private LinearLayout placeHolder_;
-  private List<PlaceView> places_;
   private RadioGroup routeType_;
   private Button routeGo_;
   private Button addWaypoint_;
@@ -54,8 +53,6 @@ public class RouteByAddressActivity extends Activity
     
     placeHolder_ = (LinearLayout)findViewById(R.id.places);
          
-    places_ = new ArrayList<PlaceView>();
-    
     waypoints_ = new ArrayList<GeoPoint>();
     for(int w = 0; ; ++w)
     {
@@ -87,7 +84,7 @@ public class RouteByAddressActivity extends Activity
     pv.setBounds(bounds_);
 
     if(currentLoc_ != null)
-      pv.allowCurrentLocation(currentLoc_, places_.size() == 0);
+      pv.allowCurrentLocation(currentLoc_, placeHolder_.getChildCount() == 0);
   
     for(int w = 0; w != waypoints_.size(); ++w)
     {
@@ -101,18 +98,20 @@ public class RouteByAddressActivity extends Activity
       pv.allowLocation(waypoints_.get(w), label);
     } // for ...
         
-    places_.add(pv);
     placeHolder_.addView(pv);
     pv.requestFocus();
     
-    addWaypoint_.setEnabled(places_.size() < 12);
+    addWaypoint_.setEnabled(placeHolder_.getChildCount() < 12);
   } // addWaypointBox
   
   private void findRoute(final List<GeoPlace> waypoints)
   {
     for(final GeoPlace wp : waypoints)
-      for(final PlaceView p : places_)
+      for(int i = 0; i != placeHolder_.getChildCount(); ++i)
+      {
+        final PlaceView p = (PlaceView)placeHolder_.getChildAt(i);
         p.addHistory(wp);
+      } // for ...
       
     // return start and finish points to RouteMapActivity and close
     final Intent intent = new Intent(RouteByAddressActivity.this, RouteMapActivity.class);
@@ -145,8 +144,10 @@ public class RouteByAddressActivity extends Activity
   
   private void resolveNextPlace(final List<GeoPlace> resolvedPlaces, final int index)
   {
-    if(index != places_.size())
-      places_.get(index).geoPlace(new PlaceView.OnResolveListener() {
+    if(index != placeHolder_.getChildCount())
+    {
+      final PlaceView pv = (PlaceView)placeHolder_.getChildAt(index);
+      pv.geoPlace(new PlaceView.OnResolveListener() {
         @Override
         public void onResolve(GeoPlace place)
         {
@@ -154,6 +155,7 @@ public class RouteByAddressActivity extends Activity
           resolveNextPlace(resolvedPlaces, index+1);
         }
       });
+    }
     else
       findRoute(resolvedPlaces);
   } // resolveNextPlace

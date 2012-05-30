@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.osmdroid.api.IGeoPoint;
-import org.osmdroid.api.IMapView;
+import org.osmdroid.views.MapView;
 import org.osmdroid.util.BoundingBoxE6;
 import org.osmdroid.views.overlay.OverlayItem;
 
@@ -91,20 +91,20 @@ public class PhotosOverlay extends LiveItemOverlay<PhotosOverlay.PhotoItem>
 
 	///////////////////////////////////////////////////
 	@Override
-  protected boolean onItemSingleTap(final int index, final PhotoItem item, final IMapView mapView) 
+  protected boolean onItemSingleTap(final int index, final PhotoItem item, final MapView mapView) 
   {
     showPhoto(item, mapView);
     return true;
   } // onItemSingleTap
   
   @Override
-  protected boolean onItemDoubleTap(final int index, final PhotoItem item, final IMapView mapView) 
+  protected boolean onItemDoubleTap(final int index, final PhotoItem item, final MapView mapView) 
   {
     showPhoto(item, mapView);
     return true;
   } // onItemDoubleTap
 
-  private void showPhoto(final PhotoItem item, final IMapView mapView)
+  private void showPhoto(final PhotoItem item, final MapView mapView)
   {
     final Intent intent = new Intent(context_, DisplayPhotoActivity.class);
     intent.setData(Uri.parse(item.photo().thumbnailUrl()));
