@@ -2,8 +2,8 @@ package net.cyclestreets.views.overlay;
 
 import net.cyclestreets.R;
 
-import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
+import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.overlay.MyLocationOverlay;
 
 import android.content.Context;
@@ -27,8 +27,8 @@ public class LocationOverlay extends MyLocationOverlay
 	
 	private final MapView mapView_;
 	
-	public LocationOverlay(final Context context, 
-						             final MapView mapView) 
+	public LocationOverlay(final Context context,
+	                        final MapView mapView) 
 	{
 		super(context, mapView);
 		

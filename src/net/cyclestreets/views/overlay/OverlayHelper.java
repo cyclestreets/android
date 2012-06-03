@@ -3,13 +3,14 @@ package net.cyclestreets.views.overlay;
 import java.util.Map;
 import java.util.HashMap;
 
-import org.osmdroid.views.MapView;
+import net.cyclestreets.views.CycleMapView;
+
 import org.osmdroid.views.overlay.Overlay;
 
 public class OverlayHelper
 {
   @SuppressWarnings("unchecked")
-  public static <T extends Overlay> T findOverlay(final MapView view, final Class<T> type)
+  public static <T extends Overlay> T findOverlay(final CycleMapView view, final Class<T> type)
   {
     for(Overlay o : view.getOverlays())
       if(type.isInstance(o))
@@ -17,12 +18,12 @@ public class OverlayHelper
     return null;
   } // findOverlay
   
-  public static ControllerOverlay findController(final MapView view)
+  public static ControllerOverlay findController(final CycleMapView view)
   {
     return findOverlay(view, ControllerOverlay.class);
   } // controller
   
-  public OverlayHelper(final MapView view)
+  public OverlayHelper(final CycleMapView view)
   {
     view_ = view;
   } // OverlayHelper
@@ -41,7 +42,7 @@ public class OverlayHelper
   
   public ControllerOverlay controller() { return get(ControllerOverlay.class); }
   
-  private MapView view_;
+  private CycleMapView view_;
   @SuppressWarnings("rawtypes")
   private Map<Class, Overlay> memo_ = new HashMap<Class, Overlay>();
 } // OverlayHelper

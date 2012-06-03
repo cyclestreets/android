@@ -4,11 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.osmdroid.api.IGeoPoint;
+import org.osmdroid.views.MapView;
+import org.osmdroid.views.MapView.Projection;
+import org.osmdroid.api.IProjection;
 import org.osmdroid.events.MapListener;
 import org.osmdroid.events.ZoomEvent;
 import org.osmdroid.util.BoundingBoxE6;
-import org.osmdroid.views.MapView;
-import org.osmdroid.views.MapView.Projection;
 import org.osmdroid.views.overlay.OverlayItem;
 
 import android.content.Context;
@@ -39,6 +40,7 @@ import net.cyclestreets.api.POICategory;
 import net.cyclestreets.util.Dialog;
 import net.cyclestreets.util.Draw;
 import net.cyclestreets.util.GeoHelper;
+import net.cyclestreets.views.CycleMapView;
 
 public class POIOverlay extends LiveItemOverlay<POIOverlay.POIItem>
                         implements MapListener, 
@@ -102,7 +104,7 @@ public class POIOverlay extends LiveItemOverlay<POIOverlay.POIItem>
   private boolean chooserShowing_;
   
   public POIOverlay(final Context context,
-                    final MapView mapView)
+                    final CycleMapView mapView)
   {
     super(context, mapView, null, false);
 
@@ -252,7 +254,7 @@ public class POIOverlay extends LiveItemOverlay<POIOverlay.POIItem>
   } // routeMarkerAtItem
 
   /////////////////////////////////////////////////////
-  protected void draw(final Canvas canvas, final MapView mapView, final boolean shadow) 
+  public void draw(final Canvas canvas, final MapView mapView, final boolean shadow) 
   {
     if(activeCategories_.isEmpty())
       return;
@@ -266,8 +268,8 @@ public class POIOverlay extends LiveItemOverlay<POIOverlay.POIItem>
                           (active_.getSnippet().length() > 0 ? "\n" + active_.getSnippet() : "") +
                           (active_.getUrl().length() > 0 ? "\n" + active_.getUrl() : "");
 
-    final Projection pj = mapView.getProjection();
-    pj.toMapPixels(active_.getPoint(), curScreenCoords_);
+    final IProjection pj = mapView.getProjection();
+    pj.toPixels(active_.getPoint(), curScreenCoords_);
     
     bubble_ = Draw.drawBubble(canvas, textBrush(), offset(), cornerRadius(), curScreenCoords_, bubble);
   } // draw

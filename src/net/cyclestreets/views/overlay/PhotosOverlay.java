@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.osmdroid.api.IGeoPoint;
-import org.osmdroid.util.BoundingBoxE6;
 import org.osmdroid.views.MapView;
+import org.osmdroid.util.BoundingBoxE6;
 import org.osmdroid.views.overlay.OverlayItem;
 
 import android.content.Context;
@@ -18,6 +18,7 @@ import net.cyclestreets.DisplayPhotoActivity;
 import net.cyclestreets.api.Photo;
 import net.cyclestreets.api.PhotoMarkers;
 import net.cyclestreets.api.Photos;
+import net.cyclestreets.views.CycleMapView;
 
 public class PhotosOverlay extends LiveItemOverlay<PhotosOverlay.PhotoItem>
 {
@@ -77,7 +78,7 @@ public class PhotosOverlay extends LiveItemOverlay<PhotosOverlay.PhotoItem>
 	private final PhotoMarkers photoMarkers_;
 	
 	public PhotosOverlay(final Context context,
-	                        final MapView mapView)
+	                     final CycleMapView mapView)
 	{
 		super(context, 
 			    mapView, 

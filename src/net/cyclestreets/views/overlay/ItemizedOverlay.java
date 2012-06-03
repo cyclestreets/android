@@ -65,7 +65,7 @@ public class ItemizedOverlay<Item extends OverlayItem> extends Overlay
 	protected List<Item> items() { return items_; }
 	
 	@Override
-	protected void draw(final Canvas canvas, final MapView mapView, final boolean shadow) 
+	public void draw(final Canvas canvas, final MapView mapView, final boolean shadow) 
 	{
 		if(shadow)
 			return;
@@ -77,7 +77,7 @@ public class ItemizedOverlay<Item extends OverlayItem> extends Overlay
 		for (int i = items_.size() -1; i >= 0; i--) 
 		{
 			final Item item = items_.get(i);
-			pj.toMapPixels(item.mGeoPoint, mCurScreenCoords);
+			pj.toPixels(item.mGeoPoint, mCurScreenCoords);
 			onDrawItem(canvas, item, mCurScreenCoords);
 		} // for ...
 	} // draw
