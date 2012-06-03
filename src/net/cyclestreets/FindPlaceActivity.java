@@ -15,10 +15,10 @@ import android.widget.Toast;
 import android.widget.RelativeLayout.LayoutParams;
 
 public class FindPlaceActivity extends Activity 
-	implements View.OnClickListener, PlaceView.OnResolveListener
+implements View.OnClickListener, PlaceView.OnResolveListener
 {
   private PlaceView place_;
-	
+
   @Override
   public void onCreate(final Bundle saved)
   {
@@ -36,35 +36,35 @@ public class FindPlaceActivity extends Activity
     findButton.setOnClickListener(this);
   } // onCreate
 
-	private void placeSelected(final GeoPlace place)
-	{
-		if (place == null || place.coord() == null)
-			return;
+  private void placeSelected(final GeoPlace place)
+  {
+    if (place == null || place.coord() == null)
+      return;
 
-		place_.addHistory(place);
-			
-		final Intent intent = new Intent(this, RouteMapActivity.class);
-		GeoIntent.setGeoPoint(intent, place.coord());
-		setResult(RESULT_OK, intent);
-		finish();
-	} // placeSelected
+    place_.addHistory(place);
 
-	@Override
-	public void onClick(final View view)
-	{
-		final String from = place_.getText();	
-		if(from.length() == 0)
-		{
-			Toast.makeText(this, R.string.lbl_choose_place, Toast.LENGTH_LONG).show();
-			return;
-		} // if ...
-		
-		place_.geoPlace(this);
-	} // onClick
-	
-	@Override
-	public void onResolve(final GeoPlace place) 
-	{
-		placeSelected(place);
-	} // onResolve
+    final Intent intent = new Intent(this, RouteMapActivity.class);
+    GeoIntent.setGeoPoint(intent, place.coord());
+    setResult(RESULT_OK, intent);
+    finish();
+  } // placeSelected
+
+  @Override
+  public void onClick(final View view)
+  {
+    final String from = place_.getText();
+    if(from.length() == 0)
+    {
+      Toast.makeText(this, R.string.lbl_choose_place, Toast.LENGTH_LONG).show();
+      return;
+    } // if ...
+
+    place_.geoPlace(this);
+  } // onClick
+
+  @Override
+  public void onResolve(final GeoPlace place)   
+  {
+    placeSelected(place);
+  } // onResolve
 } // class FindPlaceActivity
