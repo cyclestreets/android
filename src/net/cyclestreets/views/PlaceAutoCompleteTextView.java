@@ -1,5 +1,8 @@
 package net.cyclestreets.views;
 
+import java.util.Set;
+import java.util.HashSet;
+
 import net.cyclestreets.api.GeoPlace;
 import net.cyclestreets.api.GeoLiveAdapter;
 import net.cyclestreets.contacts.Contact;
@@ -21,6 +24,7 @@ public class PlaceAutoCompleteTextView extends AutoCompleteTextView
   private GeoLiveAdapter adapter_;
   private GeoPlace place_;
   private Contact contact_;
+  private Set<GeoPlace> localHistory_ = new HashSet<GeoPlace>();
   
   public PlaceAutoCompleteTextView(final Context context)
   {
@@ -55,19 +59,31 @@ public class PlaceAutoCompleteTextView extends AutoCompleteTextView
     setAdapter(adapter_);  
   } // setBounds
   
-  public GeoPlace geoPlace() { return place_; }  
+  public GeoPlace geoPlace() 
+  { 
+    if(place_ == null)
+    {
+      final String t = getEditableText().toString();
+      for(final GeoPlace gp : localHistory_)
+        if(t.equals(gp.toString()))
+          place_ = gp;
+    } // if ...
+    return place_; 
+  } // geoPlace
   public void setGeoPlace(final GeoPlace place)
   {
     // set text first because we clear place_ in the callback
     // then set place_
     setText(place.toString());
     place_ = place;
+    localHistory_.add(place);
   } // setGeoPlace
   public void setGeoPlaceHint(final GeoPlace place)
   {
     setText("");
     setHint(place.toString());
     place_ = place;
+    localHistory_.add(place);
   } // setGeoPlaceHint
   
   public Contact contact() { return contact_; }
@@ -128,6 +144,6 @@ public class PlaceAutoCompleteTextView extends AutoCompleteTextView
     place_ = null;
     contact_ = null;
     setHint("");
-    super.onTextChanged(s, start, before, after);    
+    super.onTextChanged(s, start, before, after);   
   } // onTextChanged
 } // PlaceAutoCompleteTextView

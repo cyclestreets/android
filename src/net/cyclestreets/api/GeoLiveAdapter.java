@@ -49,6 +49,17 @@ public class GeoLiveAdapter extends GeoAdapter
   } // getFilter
 	
   public BoundingBoxE6 bounds() { return bounds_; }
+  
+  public GeoPlace exactMatch(final String p)
+  {
+    for(int i = 0; i != getCount(); ++i)
+    {
+      final GeoPlace gp = getItem(i);
+      if(p.equals(gp.toString()))
+        return gp;
+    } // for ...
+    return null;
+  } // exactMatch
 	
   /*
    * Add to geocoding history
