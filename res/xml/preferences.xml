@@ -32,9 +32,9 @@
 			android:defaultValue="CycleStreets-OSM"
 			android:entries="@array/mapstyle"
 			android:entryValues="@array/mapstyle_values" />
-    <EditTextPreference
+    <ListPreference 
       android:key="mapfile"
-      android:title="Vector Mapfile Location"/>
+      android:title="Vector Mapfile"/>
 		<ListPreference 
 	    android:key="iconsize"
 	    android:title="Icon size"

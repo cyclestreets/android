@@ -1,8 +1,14 @@
 package net.cyclestreets;
 
+import java.io.File;
+import java.io.FilenameFilter;
+import java.util.ArrayList;
+import java.util.List;
+
 import net.cyclestreets.api.POICategories;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Environment;
 import android.preference.EditTextPreference;
 import android.preference.ListPreference;
 import android.preference.Preference;
@@ -19,6 +25,9 @@ public class SettingsActivity extends PreferenceActivity
     super.onCreate(savedInstanceState); 
 
     addPreferencesFromResource(R.xml.preferences);
+    
+    populateMapFileList();
+
     setSummary(CycleStreetsPreferences.PREF_ROUTE_TYPE_KEY);
     setSummary(CycleStreetsPreferences.PREF_UNITS_KEY);
     setSummary(CycleStreetsPreferences.PREF_SPEED_KEY);
@@ -27,6 +36,30 @@ public class SettingsActivity extends PreferenceActivity
     setSummary(CycleStreetsPreferences.PREF_ICON_SIZE);
     setSummary(CycleStreetsPreferences.PREF_UPLOAD_SIZE);
   } // onCreate
+  
+  private class CycleStreetsMapFilter implements FilenameFilter
+  {
+    public boolean accept(final File dir, final String name)
+    {
+      return name.startsWith("net.cyclestreets.maps");
+    } // accept
+  } // class CycleStreetsMapFilter
+  
+  private void populateMapFileList()
+  {
+    final ListPreference mapfilePref= (ListPreference)findPreference(CycleStreetsPreferences.PREF_MAPFILE_KEY);
+
+    final File obbDir = new File(Environment.getExternalStorageDirectory(), "Android/obb");
+    final List<String> entries = new ArrayList<String>();
+    for(final File mapdir : obbDir.listFiles(new CycleStreetsMapFilter()))
+    {
+      final File mapfile = mapdir.listFiles()[0];
+      entries.add(mapfile.getAbsolutePath());
+    } // for
+    
+    mapfilePref.setEntries(entries.toArray(new String[] { }));
+    mapfilePref.setEntryValues(entries.toArray(new String[] { }));
+  } // populateMapFileList
 
   @Override
   protected void onResume() 
