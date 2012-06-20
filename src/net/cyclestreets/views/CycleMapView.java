@@ -231,29 +231,29 @@ public class CycleMapView extends MapView
   
   static private String DEFAULT_RENDERER = "CycleStreets-OSM";
   static private Map<String, String> attribution_ = 
-      MapFactory.map("CycleStreets", "\u00a9 OpenStreetMap and contributors, CC-BY-SA. Map images \u00a9 OpenCycleMap")
-                .map("CycleStreets-OSM", "\u00a9 OpenStreetMap and contributors, CC-BY-SA")
-                .map("CycleStreets-OS", "Contains Ordnance Survey Data \u00a9 Crown copyright and database right 2010")
-                .map("CycleStreets-Mapsforge", "\u00a9 OpenStreetMap and contributors, CC-BY-SA");
+      MapFactory.map(CycleStreetsPreferences.MAPSTYLE_OCM, "\u00a9 OpenStreetMap and contributors, CC-BY-SA. Map images \u00a9 OpenCycleMap")
+                .map(CycleStreetsPreferences.MAPSTYLE_OSM, "\u00a9 OpenStreetMap and contributors, CC-BY-SA")
+                .map(CycleStreetsPreferences.MAPSTYLE_OS, "Contains Ordnance Survey Data \u00a9 Crown copyright and database right 2010")
+                .map(CycleStreetsPreferences.MAPSTYLE_MAPSFORGE, "\u00a9 OpenStreetMap and contributors, CC-BY-SA");
   
   static 
   { 
-    final OnlineTileSourceBase OPENCYCLEMAP = new XYTileSource("CycleStreets",
+    final OnlineTileSourceBase OPENCYCLEMAP = new XYTileSource(CycleStreetsPreferences.MAPSTYLE_OCM,
                     ResourceProxy.string.cyclemap, 0, 17, 256, ".png",
                     "http://a.tile.opencyclemap.org/cycle/",
                     "http://b.tile.opencyclemap.org/cycle/",
                     "http://c.tile.opencyclemap.org/cycle/");
-    final OnlineTileSourceBase OPENSTREETMAP = new XYTileSource("CycleStreets-OSM",
+    final OnlineTileSourceBase OPENSTREETMAP = new XYTileSource(CycleStreetsPreferences.MAPSTYLE_OSM,
                     ResourceProxy.string.base, 0, 17, 256, ".png",
                     "http://a.tile.openstreetmap.org/",
                     "http://b.tile.openstreetmap.org/",
                     "http://c.tile.openstreetmap.org/");
-    final OnlineTileSourceBase OSMAP = new XYTileSource("CycleStreets-OS",
+    final OnlineTileSourceBase OSMAP = new XYTileSource(CycleStreetsPreferences.MAPSTYLE_OS,
                     ResourceProxy.string.unknown, 0, 17, 256, ".png",
                     "http://a.os.openstreetmap.org/sv/",
                     "http://b.os.openstreetmap.org/sv/",
                     "http://c.os.openstreetmap.org/sv/");
-    final MapsforgeOSMTileSource MAPSFORGE = new MapsforgeOSMTileSource("CycleStreets-Mapsforge");
+    final MapsforgeOSMTileSource MAPSFORGE = new MapsforgeOSMTileSource(CycleStreetsPreferences.MAPSTYLE_MAPSFORGE);
     TileSourceFactory.addTileSource(OPENCYCLEMAP);
     TileSourceFactory.addTileSource(OPENSTREETMAP);
     TileSourceFactory.addTileSource(OSMAP);

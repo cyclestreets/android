@@ -31,8 +31,12 @@ public class MessageBox
     Dialog.show(alertbox);
   } // YesNo
   
-  static public void OK(final View parent,
-                        final String msg)
+  static public void OK(final View parent, final int msg)
+  {
+    OK(parent, parent.getContext().getString(msg));
+  } // OK
+  
+  static public void OK(final View parent, final String msg)
   {
     OK(parent, msg, NoAction);
   } // OK

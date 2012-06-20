@@ -27,6 +27,11 @@ public class CycleStreetsPreferences
   public final static String PREF_ACCOUNT_KEY = "cyclestreets-account";
   public final static String PREF_UPLOAD_SIZE = "uploadsize";
   public final static String PREF_ICON_SIZE = "iconsize";
+  
+  public final static String MAPSTYLE_OCM = "CycleStreets";
+  public final static String MAPSTYLE_OSM = "CycleStreets-OSM";
+  public final static String MAPSTYLE_OS = "CycleStreets-OS";
+  public final static String MAPSTYLE_MAPSFORGE = "CycleStreets-Mapsforge";
 
   static public void initialise(final Context context) {
     context_ = context;
@@ -58,7 +63,7 @@ public class CycleStreetsPreferences
   }
   
   static public String mapfile() {
-    return getString(PREF_MAPFILE_KEY, Environment.getExternalStorageDirectory() + "/download/great_britain-0.3.0.map");
+    return getString(PREF_MAPFILE_KEY, "not-set");
   }
   
   static public int iconSize() { 
