@@ -6,6 +6,7 @@ import java.util.List;
 import net.cyclestreets.api.POICategories;
 import net.cyclestreets.util.MapPack;
 import net.cyclestreets.util.MessageBox;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.EditTextPreference;
@@ -99,30 +100,37 @@ public class SettingsActivity extends PreferenceActivity
       prefUI.setSummary(((EditTextPreference)prefUI).getText());
     
     if(CycleStreetsPreferences.PREF_MAPSTYLE_KEY.equals(key))
-    {
-      final String style = ((ListPreference)prefUI).getValue();
-      final ListPreference mapfilePref= (ListPreference)findPreference(CycleStreetsPreferences.PREF_MAPFILE_KEY);
-      final boolean enabled = style.equals(CycleStreetsPreferences.MAPSTYLE_MAPSFORGE);
-      mapfilePref.setEnabled(enabled);
-      if(enabled)
-      {
-        final String mapfile = CycleStreetsPreferences.mapfile();
-        int index = mapfilePref.findIndexOfValue(mapfile);
-        if(index == -1)
-        {
-          if(mapfilePref.getEntryValues() == null ||
-             mapfilePref.getEntryValues().length == 0) 
-          {
-            mapfilePref.setEnabled(false);
-            MessageBox.OK(getListView(), R.string.no_map_packs);
-            return;
-          } // if ...
-          
-          mapfilePref.setValueIndex(0);
-          index = 0;
-        } 
-        mapfilePref.setSummary(mapfilePref.getEntries()[index]);
-      }
-    } // if ...
+      setMapFileSummary(((ListPreference)prefUI).getValue());
   } // setSummary
+  
+  private void setMapFileSummary(final String style)
+  {
+    final ListPreference mapfilePref= (ListPreference)findPreference(CycleStreetsPreferences.PREF_MAPFILE_KEY);
+    final boolean enabled = style.equals(CycleStreetsPreferences.MAPSTYLE_MAPSFORGE);
+    mapfilePref.setEnabled(enabled);
+    
+    if(!enabled)
+      return;  
+    
+    if(mapfilePref.getEntryValues().length == 0) 
+    {  
+      mapfilePref.setEnabled(false);
+      MessageBox.YesNo(getListView(), 
+                       R.string.no_map_packs,
+                       new DialogInterface.OnClickListener() {
+                         public void onClick(DialogInterface arg0, int arg1) {  
+                           MapPack.searchGooglePlay(SettingsActivity.this);
+                         } // onClick
+                       });
+      return;
+    } // if ...
+  
+    final String mapfile = CycleStreetsPreferences.mapfile();
+    int index = mapfilePref.findIndexOfValue(mapfile);
+    if(index == -1)
+      index = 0; // default to something
+
+    mapfilePref.setValueIndex(index);
+    mapfilePref.setSummary(mapfilePref.getEntries()[index]);
+  } // setMapFileSummary
 } // class SettingsActivity

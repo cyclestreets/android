@@ -8,6 +8,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
+import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Environment;
 
 public class MapPack
@@ -15,6 +18,13 @@ public class MapPack
   final public String name;
   final public String path;
 
+  static public void searchGooglePlay(final Context context)
+  {
+    final Intent play = new Intent(Intent.ACTION_VIEW);
+    play.setData(Uri.parse("market://search?q=net.cyclestreets"));
+    context.startActivity(play);
+  } // searchGooglePlay
+  
   static public List<MapPack> availableMapPacks()
   {
     final List<MapPack> packs = new ArrayList<MapPack>();
