@@ -14,6 +14,9 @@
 	<string name="registering">Registering with CycleStreets.net</string>
 	
 	<string name="no_map_packs">You do not have any map packs installed.  Vector maps for offline use are available as separate downloads.</string>
+	
+	<string name="settings_signed_in">Signed in to CycleStreets</string>
+	<string name="settings_awaiting">Account registration awaiting verification</string>
 
   <string name="crash_notif_ticker_text">Unexpected error, please send a report …</string>
   <string name="crash_notif_title">CycleStreets has crashed …</string>

@@ -67,9 +67,9 @@ public class SettingsActivity extends PreferenceActivity
         
     final PreferenceScreen account = (PreferenceScreen)findPreference(CycleStreetsPreferences.PREF_ACCOUNT_KEY);
     if(CycleStreetsPreferences.accountOK())
-      account.setSummary("Signed in to CycleStreets");
+      account.setSummary(R.string.settings_signed_in);
     else if(CycleStreetsPreferences.accountPending())
-      account.setSummary("Account registration awaiting verification");
+      account.setSummary(R.string.settings_awaiting);
     else
       account.setSummary("");
   } // onResume
