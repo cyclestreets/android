@@ -45,6 +45,14 @@ public class MapPack
     
     return packs;
   } // availableMapPacks
+  
+  static public MapPack findByPackage(final String packageName)
+  {
+    for(final MapPack pack : availableMapPacks())
+      if(pack.path.contains(packageName))
+        return pack;
+    return null;
+  } // findByPackage
 
   private MapPack(final String n, final File p) 
   { 

@@ -179,6 +179,14 @@ public class CycleStreetsPreferences
     editor.commit();
   } // clearUsernamePassword
   
+  static public void enableMapFile(final String filename)
+  {
+    final Editor editor = editor();
+    editor.putString(PREF_MAPSTYLE_KEY, MAPSTYLE_MAPSFORGE);
+    editor.putString(PREF_MAPFILE_KEY, filename);
+    editor.commit();
+  } // setMapFile
+  
   static private Editor editor() {
     final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context_);
     return prefs.edit();
