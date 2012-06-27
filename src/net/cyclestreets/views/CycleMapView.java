@@ -281,20 +281,20 @@ public class CycleMapView extends MapView
     {
       super(tileSource, registerReceiver);
       
-      final TileWriter tileWriter = new TileWriter();
-
       final MapTileFilesystemProvider fileSystemProvider = 
             new MapTileFilesystemProvider(registerReceiver, tileSource);
       mTileProviderList.add(fileSystemProvider);
       
+      final NetworkAvailabliltyCheck networkCheck = new NetworkAvailabliltyCheck(context);
+      
       final MapTileDownloader downloaderProvider = 
             new MapTileDownloader(tileSource, 
-                                  tileWriter, 
-                                  new NetworkAvailabliltyCheck(context));
+            					  new TileWriter(), 
+                                  networkCheck);
       mTileProviderList.add(downloaderProvider);
       
       final MapsforgeOSMDroidTileProvider mapsforgeProvider = 
-            new MapsforgeOSMDroidTileProvider();
+            new MapsforgeOSMDroidTileProvider(tileSource, networkCheck);
       mTileProviderList.add(mapsforgeProvider);
     } // CycleMapTileProvider
   } // CycleMapTileProvider  
