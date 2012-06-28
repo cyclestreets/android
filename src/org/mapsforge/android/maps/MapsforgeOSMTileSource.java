@@ -1,5 +1,6 @@
 package org.mapsforge.android.maps;
 
+import java.io.File;
 import java.io.InputStream;
 
 import org.mapsforge.android.maps.mapgenerator.JobParameters;
@@ -71,7 +72,7 @@ public class MapsforgeOSMTileSource implements ITileSource
     
     mapFile_ = mapFile;
     mapDatabase_.closeFile();
-    mapDatabase_.openFile(mapFile_);
+    mapDatabase_.openFile(new File(mapFile));
     mapBounds_ = mapDatabase_.getMapFileInfo().boundingBox;
     zoomBounds_ = -1;
   } // setMapFile
