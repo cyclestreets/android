@@ -7,11 +7,18 @@ import android.view.View;
 
 public class MessageBox 
 {
-	static final DialogInterface.OnClickListener NoAction = 
-			new DialogInterface.OnClickListener() {
+  static final DialogInterface.OnClickListener NoAction = 
+      new DialogInterface.OnClickListener() {
         public void onClick(DialogInterface arg0, int arg1) {  }
       };
         
+  static public void YesNo(final View parent,
+                           final int msg,
+                           final DialogInterface.OnClickListener yesAction)
+  {
+    YesNo(parent, parent.getContext().getString(msg), yesAction, NoAction);
+  } // YesNo
+  
   static public void YesNo(final View parent,
                            final String msg,
                            final DialogInterface.OnClickListener yesAction)
@@ -31,8 +38,12 @@ public class MessageBox
     Dialog.show(alertbox);
   } // YesNo
   
-  static public void OK(final View parent,
-                        final String msg)
+  static public void OK(final View parent, final int msg)
+  {
+    OK(parent, parent.getContext().getString(msg));
+  } // OK
+  
+  static public void OK(final View parent, final String msg)
   {
     OK(parent, msg, NoAction);
   } // OK

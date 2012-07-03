@@ -3,11 +3,13 @@ package net.cyclestreets.views;
 import java.util.Map;
 
 import net.cyclestreets.CycleStreetsPreferences;
+import net.cyclestreets.R;
 import net.cyclestreets.util.MapFactory;
+import net.cyclestreets.util.MapPack;
+import net.cyclestreets.util.MessageBox;
 import net.cyclestreets.views.overlay.LocationOverlay;
 import net.cyclestreets.views.overlay.ControllerOverlay;
 import net.cyclestreets.views.overlay.ZoomButtonsOverlay;
-
 
 import org.mapsforge.android.maps.MapsforgeOSMDroidTileProvider;
 import org.mapsforge.android.maps.MapsforgeOSMTileSource;
@@ -31,6 +33,7 @@ import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.Overlay;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.graphics.Canvas;
 import android.location.Location;
@@ -117,6 +120,7 @@ public class CycleMapView extends MapView
     {
       renderer_ = tileSource;
       setTileSource(renderer_);
+      invalidate();
     } // if ...
     
     location_.enableLocation(pref(PREFS_APP_MY_LOCATION, true));
@@ -218,42 +222,59 @@ public class CycleMapView extends MapView
     try { 
       final ITileSource renderer = TileSourceFactory.getTileSource(CycleStreetsPreferences.mapstyle());
       
-      if(renderer_ instanceof MapsforgeOSMTileSource)
-        ((MapsforgeOSMTileSource)renderer).setMapFile(CycleStreetsPreferences.mapfile());
+      if(renderer instanceof MapsforgeOSMTileSource)
+      {
+    	final String mapFile = CycleStreetsPreferences.mapfile();
+        final MapPack pack = MapPack.findByPackage(mapFile);
+        if(pack.current())
+          ((MapsforgeOSMTileSource)renderer).setMapFile(mapFile);
+        else
+        {
+          MessageBox.YesNo(this, 
+                           R.string.out_of_date_map_pack,
+                           new DialogInterface.OnClickListener() {
+                             public void onClick(DialogInterface arg0, int arg1) {  
+                               MapPack.searchGooglePlay(getContext());
+                             } // onClick
+                           });
+          CycleStreetsPreferences.resetMapstyle();
+          return TileSourceFactory.getTileSource(DEFAULT_RENDERER);
+        }
+      }
       
       return renderer;
-     } // try
+    } // try
     catch(Exception e) {
       // oh dear 
     } // catch
     return TileSourceFactory.getTileSource(DEFAULT_RENDERER);
   } // mapRenderer
   
-  static private String DEFAULT_RENDERER = "CycleStreets-OSM";
+  static private String DEFAULT_RENDERER = CycleStreetsPreferences.MAPSTYLE_OCM;
   static private Map<String, String> attribution_ = 
-      MapFactory.map("CycleStreets", "\u00a9 OpenStreetMap and contributors, CC-BY-SA. Map images \u00a9 OpenCycleMap")
-                .map("CycleStreets-OSM", "\u00a9 OpenStreetMap and contributors, CC-BY-SA")
-                .map("CycleStreets-OS", "Contains Ordnance Survey Data \u00a9 Crown copyright and database right 2010")
-                .map("CycleStreets-Mapsforge", "\u00a9 OpenStreetMap and contributors, CC-BY-SA");
+      MapFactory.map(CycleStreetsPreferences.MAPSTYLE_OCM, "\u00a9 OpenStreetMap and contributors, CC-BY-SA. Map images \u00a9 OpenCycleMap")
+                .map(CycleStreetsPreferences.MAPSTYLE_OSM, "\u00a9 OpenStreetMap and contributors, CC-BY-SA")
+                .map(CycleStreetsPreferences.MAPSTYLE_OS, "Contains Ordnance Survey Data \u00a9 Crown copyright and database right 2010")
+                .map(CycleStreetsPreferences.MAPSTYLE_MAPSFORGE, "\u00a9 OpenStreetMap and contributors, CC-BY-SA");
   
   static 
   { 
-    final OnlineTileSourceBase OPENCYCLEMAP = new XYTileSource("CycleStreets",
+    final OnlineTileSourceBase OPENCYCLEMAP = new XYTileSource(CycleStreetsPreferences.MAPSTYLE_OCM,
                     ResourceProxy.string.cyclemap, 0, 17, 256, ".png",
                     "http://a.tile.opencyclemap.org/cycle/",
                     "http://b.tile.opencyclemap.org/cycle/",
                     "http://c.tile.opencyclemap.org/cycle/");
-    final OnlineTileSourceBase OPENSTREETMAP = new XYTileSource("CycleStreets-OSM",
+    final OnlineTileSourceBase OPENSTREETMAP = new XYTileSource(CycleStreetsPreferences.MAPSTYLE_OSM,
                     ResourceProxy.string.base, 0, 17, 256, ".png",
                     "http://a.tile.openstreetmap.org/",
                     "http://b.tile.openstreetmap.org/",
                     "http://c.tile.openstreetmap.org/");
-    final OnlineTileSourceBase OSMAP = new XYTileSource("CycleStreets-OS",
+    final OnlineTileSourceBase OSMAP = new XYTileSource(CycleStreetsPreferences.MAPSTYLE_OS,
                     ResourceProxy.string.unknown, 0, 17, 256, ".png",
                     "http://a.os.openstreetmap.org/sv/",
                     "http://b.os.openstreetmap.org/sv/",
                     "http://c.os.openstreetmap.org/sv/");
-    final MapsforgeOSMTileSource MAPSFORGE = new MapsforgeOSMTileSource("CycleStreets-Mapsforge");
+    final MapsforgeOSMTileSource MAPSFORGE = new MapsforgeOSMTileSource(CycleStreetsPreferences.MAPSTYLE_MAPSFORGE);
     TileSourceFactory.addTileSource(OPENCYCLEMAP);
     TileSourceFactory.addTileSource(OPENSTREETMAP);
     TileSourceFactory.addTileSource(OSMAP);
@@ -281,20 +302,20 @@ public class CycleMapView extends MapView
     {
       super(tileSource, registerReceiver);
       
-      final TileWriter tileWriter = new TileWriter();
-
       final MapTileFilesystemProvider fileSystemProvider = 
             new MapTileFilesystemProvider(registerReceiver, tileSource);
       mTileProviderList.add(fileSystemProvider);
       
+      final NetworkAvailabliltyCheck networkCheck = new NetworkAvailabliltyCheck(context);
+      
       final MapTileDownloader downloaderProvider = 
             new MapTileDownloader(tileSource, 
-                                  tileWriter, 
-                                  new NetworkAvailabliltyCheck(context));
+            					  new TileWriter(), 
+                                  networkCheck);
       mTileProviderList.add(downloaderProvider);
       
       final MapsforgeOSMDroidTileProvider mapsforgeProvider = 
-            new MapsforgeOSMDroidTileProvider();
+            new MapsforgeOSMDroidTileProvider(tileSource, networkCheck);
       mTileProviderList.add(mapsforgeProvider);
     } // CycleMapTileProvider
   } // CycleMapTileProvider  

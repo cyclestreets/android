@@ -5,7 +5,6 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.os.Environment;
 import android.preference.PreferenceManager;
 import android.telephony.TelephonyManager;
 
@@ -27,6 +26,11 @@ public class CycleStreetsPreferences
   public final static String PREF_ACCOUNT_KEY = "cyclestreets-account";
   public final static String PREF_UPLOAD_SIZE = "uploadsize";
   public final static String PREF_ICON_SIZE = "iconsize";
+  
+  public final static String MAPSTYLE_OCM = "CycleStreets";
+  public final static String MAPSTYLE_OSM = "CycleStreets-OSM";
+  public final static String MAPSTYLE_OS = "CycleStreets-OS";
+  public final static String MAPSTYLE_MAPSFORGE = "CycleStreets-Mapsforge";
 
   static public void initialise(final Context context) {
     context_ = context;
@@ -54,11 +58,17 @@ public class CycleStreetsPreferences
   }
   
   static public String mapstyle() {
-    return getString(PREF_MAPSTYLE_KEY, "CycleMap");  
+    return getString(PREF_MAPSTYLE_KEY, MAPSTYLE_OCM);  
+  }
+  
+  static public void resetMapstyle() {
+	final Editor editor = editor();
+	editor.putString(PREF_MAPSTYLE_KEY, MAPSTYLE_OCM);
+    editor.commit();
   }
   
   static public String mapfile() {
-    return getString(PREF_MAPFILE_KEY, Environment.getExternalStorageDirectory() + "/download/great_britain-0.3.0.map");
+    return getString(PREF_MAPFILE_KEY, "not-set");
   }
   
   static public int iconSize() { 
@@ -174,6 +184,14 @@ public class CycleStreetsPreferences
     editor.putBoolean(PREF_VALIDATED_KEY, false);
     editor.commit();
   } // clearUsernamePassword
+  
+  static public void enableMapFile(final String filename)
+  {
+    final Editor editor = editor();
+    editor.putString(PREF_MAPSTYLE_KEY, MAPSTYLE_MAPSFORGE);
+    editor.putString(PREF_MAPFILE_KEY, filename);
+    editor.commit();
+  } // setMapFile
   
   static private Editor editor() {
     final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context_);

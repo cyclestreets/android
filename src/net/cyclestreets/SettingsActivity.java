@@ -1,6 +1,12 @@
 package net.cyclestreets;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import net.cyclestreets.api.POICategories;
+import net.cyclestreets.util.MapPack;
+import net.cyclestreets.util.MessageBox;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.EditTextPreference;
@@ -19,6 +25,9 @@ public class SettingsActivity extends PreferenceActivity
     super.onCreate(savedInstanceState); 
 
     addPreferencesFromResource(R.xml.preferences);
+
+    setupMapFileList();
+
     setSummary(CycleStreetsPreferences.PREF_ROUTE_TYPE_KEY);
     setSummary(CycleStreetsPreferences.PREF_UNITS_KEY);
     setSummary(CycleStreetsPreferences.PREF_SPEED_KEY);
@@ -27,6 +36,28 @@ public class SettingsActivity extends PreferenceActivity
     setSummary(CycleStreetsPreferences.PREF_ICON_SIZE);
     setSummary(CycleStreetsPreferences.PREF_UPLOAD_SIZE);
   } // onCreate
+  
+  private void setupMapFileList()
+  {
+    final ListPreference mapfilePref= (ListPreference)findPreference(CycleStreetsPreferences.PREF_MAPFILE_KEY);
+    populateMapFileList(mapfilePref);
+  } // setupMapFileList
+  
+  private void populateMapFileList(final ListPreference mapfilePref)
+  {
+    final List<String> names = new ArrayList<String>();
+    final List<String> files = new ArrayList<String>();
+
+    for(final MapPack pack : MapPack.availableMapPacks())
+    {
+      names.add(pack.name());
+      files.add(pack.path());      
+    } // for
+    
+    mapfilePref.setEntries(names.toArray(new String[] { }));
+    mapfilePref.setEntryValues(files.toArray(new String[] { }));
+  } // populateMapFileList
+  
 
   @Override
   protected void onResume() 
@@ -37,9 +68,9 @@ public class SettingsActivity extends PreferenceActivity
         
     final PreferenceScreen account = (PreferenceScreen)findPreference(CycleStreetsPreferences.PREF_ACCOUNT_KEY);
     if(CycleStreetsPreferences.accountOK())
-      account.setSummary("Signed in to CycleStreets");
+      account.setSummary(R.string.settings_signed_in);
     else if(CycleStreetsPreferences.accountPending())
-      account.setSummary("Account registration awaiting verification");
+      account.setSummary(R.string.settings_awaiting);
     else
       account.setSummary("");
   } // onResume
@@ -66,11 +97,40 @@ public class SettingsActivity extends PreferenceActivity
     if (prefUI instanceof ListPreference) 
       prefUI.setSummary(((ListPreference)prefUI).getEntry());
     if (prefUI instanceof EditTextPreference)
-    {
-      final String t = ((EditTextPreference)prefUI).getText();
-      prefUI.setSummary(t);
-      if(t == null && key.equals(CycleStreetsPreferences.PREF_MAPFILE_KEY))
-        prefUI.setSummary(CycleStreetsPreferences.mapfile());
-    }
+      prefUI.setSummary(((EditTextPreference)prefUI).getText());
+    
+    if(CycleStreetsPreferences.PREF_MAPSTYLE_KEY.equals(key))
+      setMapFileSummary(((ListPreference)prefUI).getValue());
   } // setSummary
+  
+  private void setMapFileSummary(final String style)
+  {
+    final ListPreference mapfilePref= (ListPreference)findPreference(CycleStreetsPreferences.PREF_MAPFILE_KEY);
+    final boolean enabled = style.equals(CycleStreetsPreferences.MAPSTYLE_MAPSFORGE);
+    mapfilePref.setEnabled(enabled);
+    
+    if(!enabled)
+      return;  
+    
+    if(mapfilePref.getEntryValues().length == 0) 
+    {  
+      mapfilePref.setEnabled(false);
+      MessageBox.YesNo(getListView(), 
+                       R.string.no_map_packs,
+                       new DialogInterface.OnClickListener() {
+                         public void onClick(DialogInterface arg0, int arg1) {  
+                           MapPack.searchGooglePlay(SettingsActivity.this);
+                         } // onClick
+                       });
+      return;
+    } // if ...
+  
+    final String mapfile = CycleStreetsPreferences.mapfile();
+    int index = mapfilePref.findIndexOfValue(mapfile);
+    if(index == -1)
+      index = 0; // default to something
+
+    mapfilePref.setValueIndex(index);
+    mapfilePref.setSummary(mapfilePref.getEntries()[index]);
+  } // setMapFileSummary
 } // class SettingsActivity

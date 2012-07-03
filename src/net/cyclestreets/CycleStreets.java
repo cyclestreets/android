@@ -1,5 +1,6 @@
 package net.cyclestreets;
 
+import net.cyclestreets.util.MapPack;
 import android.app.AlertDialog;
 import android.app.TabActivity;
 import android.content.Context;
@@ -60,11 +61,24 @@ public class CycleStreets extends TabActivity
 		    tabHost.getTabWidget().getChildAt(i).setLayoutParams(layout);
 	    } // for ...
 	    
+	    switchMapFile();
+	    
 	    // start with route tab
 	    showMap();
 
 	    showWhatsNew();
 	} // onCreate
+	
+	private void switchMapFile()
+	{
+	  final String mappackage = getIntent().getStringExtra("mapfile");
+	  if(mappackage == null)
+	    return;
+	  final MapPack pack = MapPack.findByPackage(mappackage);
+	  if(pack == null)
+	    return;
+	  CycleStreetsPreferences.enableMapFile(pack.path());
+	} // switchMapFile
 	
 	public void showMap()
 	{
