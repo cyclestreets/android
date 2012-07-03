@@ -10,10 +10,9 @@ import org.acra.ReportingInteractionMode;
 import org.acra.ReportField;
 import org.acra.annotation.ReportsCrashes;
 
-/* TODO: push to Google Docs rather than Email */
-@ReportsCrashes(formKey="",
-                mailTo = "jez@jezuk.co.uk",
-                customReportContent = { ReportField.APP_VERSION_CODE, 
+@ReportsCrashes(formKey="dHBMQkk3aldWaW8tYlA0eVMzQ0ltQ2c6MQ",
+                customReportContent = { ReportField.REPORT_ID,
+		                                ReportField.APP_VERSION_CODE, 
                                         ReportField.APP_VERSION_NAME,
                                         ReportField.ANDROID_VERSION, 
                                         ReportField.PHONE_MODEL, 
