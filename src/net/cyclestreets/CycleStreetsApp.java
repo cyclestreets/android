@@ -7,16 +7,9 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import org.acra.ACRA;
 import org.acra.ReportingInteractionMode;
-import org.acra.ReportField;
 import org.acra.annotation.ReportsCrashes;
 
-@ReportsCrashes(formKey="dHBMQkk3aldWaW8tYlA0eVMzQ0ltQ2c6MQ",
-                customReportContent = { ReportField.REPORT_ID,
-		                                ReportField.APP_VERSION_CODE, 
-                                        ReportField.APP_VERSION_NAME,
-                                        ReportField.ANDROID_VERSION, 
-                                        ReportField.PHONE_MODEL, 
-                                        ReportField.STACK_TRACE },                
+@ReportsCrashes(formKey="dHBMQkk3aldWaW8tYlA0eVMzQ0ltQ2c6MQ",             
                 mode = ReportingInteractionMode.NOTIFICATION,
                 resNotifTickerText = R.string.crash_notif_ticker_text,
                 resNotifTitle = R.string.crash_notif_title,
