@@ -77,7 +77,7 @@ public class CycleStreets extends TabActivity
 	  final MapPack pack = MapPack.findByPackage(mappackage);
 	  if(pack == null)
 	    return;
-	  CycleStreetsPreferences.enableMapFile(pack.path);
+	  CycleStreetsPreferences.enableMapFile(pack.path());
 	} // switchMapFile
 	
 	public void showMap()

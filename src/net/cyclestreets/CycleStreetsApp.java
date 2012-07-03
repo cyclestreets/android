@@ -11,7 +11,6 @@ import org.acra.ReportField;
 import org.acra.annotation.ReportsCrashes;
 
 /* TODO: push to Google Docs rather than Email */
-/* TODO: Generate own mapfile using Osmosis+Mapforge */
 @ReportsCrashes(formKey="",
                 mailTo = "jez@jezuk.co.uk",
                 customReportContent = { ReportField.APP_VERSION_CODE, 

@@ -3,11 +3,13 @@ package net.cyclestreets.views;
 import java.util.Map;
 
 import net.cyclestreets.CycleStreetsPreferences;
+import net.cyclestreets.R;
 import net.cyclestreets.util.MapFactory;
+import net.cyclestreets.util.MapPack;
+import net.cyclestreets.util.MessageBox;
 import net.cyclestreets.views.overlay.LocationOverlay;
 import net.cyclestreets.views.overlay.ControllerOverlay;
 import net.cyclestreets.views.overlay.ZoomButtonsOverlay;
-
 
 import org.mapsforge.android.maps.MapsforgeOSMDroidTileProvider;
 import org.mapsforge.android.maps.MapsforgeOSMTileSource;
@@ -31,6 +33,7 @@ import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.Overlay;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.graphics.Canvas;
 import android.location.Location;
@@ -117,6 +120,7 @@ public class CycleMapView extends MapView
     {
       renderer_ = tileSource;
       setTileSource(renderer_);
+      invalidate();
     } // if ...
     
     location_.enableLocation(pref(PREFS_APP_MY_LOCATION, true));
@@ -218,18 +222,35 @@ public class CycleMapView extends MapView
     try { 
       final ITileSource renderer = TileSourceFactory.getTileSource(CycleStreetsPreferences.mapstyle());
       
-      if(renderer_ instanceof MapsforgeOSMTileSource)
-        ((MapsforgeOSMTileSource)renderer).setMapFile(CycleStreetsPreferences.mapfile());
+      if(renderer instanceof MapsforgeOSMTileSource)
+      {
+    	final String mapFile = CycleStreetsPreferences.mapfile();
+        final MapPack pack = MapPack.findByPackage(mapFile);
+        if(pack.current())
+          ((MapsforgeOSMTileSource)renderer).setMapFile(mapFile);
+        else
+        {
+          MessageBox.YesNo(this, 
+                           R.string.out_of_date_map_pack,
+                           new DialogInterface.OnClickListener() {
+                             public void onClick(DialogInterface arg0, int arg1) {  
+                               MapPack.searchGooglePlay(getContext());
+                             } // onClick
+                           });
+          CycleStreetsPreferences.resetMapstyle();
+          return TileSourceFactory.getTileSource(DEFAULT_RENDERER);
+        }
+      }
       
       return renderer;
-     } // try
+    } // try
     catch(Exception e) {
       // oh dear 
     } // catch
     return TileSourceFactory.getTileSource(DEFAULT_RENDERER);
   } // mapRenderer
   
-  static private String DEFAULT_RENDERER = "CycleStreets-OSM";
+  static private String DEFAULT_RENDERER = CycleStreetsPreferences.MAPSTYLE_OCM;
   static private Map<String, String> attribution_ = 
       MapFactory.map(CycleStreetsPreferences.MAPSTYLE_OCM, "\u00a9 OpenStreetMap and contributors, CC-BY-SA. Map images \u00a9 OpenCycleMap")
                 .map(CycleStreetsPreferences.MAPSTYLE_OSM, "\u00a9 OpenStreetMap and contributors, CC-BY-SA")

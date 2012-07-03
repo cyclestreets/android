@@ -50,8 +50,8 @@ public class SettingsActivity extends PreferenceActivity
 
     for(final MapPack pack : MapPack.availableMapPacks())
     {
-      names.add(pack.name);
-      files.add(pack.path);      
+      names.add(pack.name());
+      files.add(pack.path());      
     } // for
     
     mapfilePref.setEntries(names.toArray(new String[] { }));

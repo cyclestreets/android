@@ -15,9 +15,8 @@ import android.os.Environment;
 
 public class MapPack
 {
-  final public String name;
-  final public String path;
-
+  private static String MAPSFORGE_VERSION = "0.3.0";
+	
   static public void searchGooglePlay(final Context context)
   {
     final Intent play = new Intent(Intent.ACTION_VIEW);
@@ -36,11 +35,13 @@ public class MapPack
     for(final File mapDir : obbDir.listFiles(new CycleStreetsMapFilter()))
     {
       final File map = findMapFile(mapDir, "main.");
-      final String name = mapName(mapDir);
+      final Properties props = mapProperties(mapDir);
+      final String name = props.getProperty("title");
+      final String version = props.getProperty("version");
       if(map == null || name == null)
         continue;
 
-      packs.add(new MapPack(name, map));
+      packs.add(new MapPack(name, version, map));
     } // for
     
     return packs;
@@ -49,16 +50,10 @@ public class MapPack
   static public MapPack findByPackage(final String packageName)
   {
     for(final MapPack pack : availableMapPacks())
-      if(pack.path.contains(packageName))
+      if(pack.path().contains(packageName))
         return pack;
     return null;
   } // findByPackage
-
-  private MapPack(final String n, final File p) 
-  { 
-    name = n;
-    path = p.getAbsolutePath();
-  } // MapPack
 
   static private File findMapFile(final File mapDir, final String prefix)
   {
@@ -68,17 +63,18 @@ public class MapPack
     return null;
   } // findMapFile
   
-  static private String mapName(final File mapDir)
+  static private Properties mapProperties(final File mapDir)
   {
+    final Properties details = new Properties();
     try {
       final File detailsFile = findMapFile(mapDir, "patch.");
-      final Properties details = new Properties();
       details.load(new FileInputStream(detailsFile));
-      return details.getProperty("title");
     } // try
-    catch(IOException e) {
-      return null;
+    catch(IOException e) { 
+    }
+    catch(RuntimeException e) {
     } // catch
+    return details;
   } // mapName
   
   static private class CycleStreetsMapFilter implements FilenameFilter
@@ -88,4 +84,22 @@ public class MapPack
       return name.contains("net.cyclestreets.maps");
     } // accept
   } // class CycleStreetsMapFilter
+
+  //////////////////////////////////////////////////////
+  private final String name_;
+  private final String path_;
+  private final String version_;
+  
+  private MapPack(final String n,
+		  		  final String v,
+		  		  final File p) 
+  { 
+    name_ = n;
+    path_ = p.getAbsolutePath();
+    version_ = v;
+  } // MapPack
+  
+  public String name() { return name_; }
+  public String path() { return path_; }
+  public boolean current() { return MAPSFORGE_VERSION.equals(version_); }
 } // class MapPack

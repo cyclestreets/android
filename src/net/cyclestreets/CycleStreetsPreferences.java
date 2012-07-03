@@ -58,7 +58,13 @@ public class CycleStreetsPreferences
   }
   
   static public String mapstyle() {
-    return getString(PREF_MAPSTYLE_KEY, "CycleMap");  
+    return getString(PREF_MAPSTYLE_KEY, MAPSTYLE_OCM);  
+  }
+  
+  static public void resetMapstyle() {
+	final Editor editor = editor();
+	editor.putString(PREF_MAPSTYLE_KEY, MAPSTYLE_OCM);
+    editor.commit();
   }
   
   static public String mapfile() {
