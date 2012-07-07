@@ -428,10 +428,13 @@ public class POIOverlay extends LiveItemOverlay<POIOverlay.POIItem>
 		
     //////////////////////////////////////////////////////
     private final POIOverlay overlay_;
+    private final List<POICategory> activeCategories_;
 		
     private GetPOIsTask(final POIOverlay overlay)
     {
       overlay_ = overlay;
+      // take snapshot of categories to avoid later contention
+      activeCategories_ = new ArrayList<POICategory>(overlay.activeCategories_);
     } // GetPhotosTask
 		
     protected List<POI> doInBackground(Object... params) 
@@ -440,8 +443,8 @@ public class POIOverlay extends LiveItemOverlay<POIOverlay.POIItem>
       final int radius = (Integer)params[1];
 
       final List<POI> pois = new ArrayList<POI>();
-
-      for(final POICategory cat : overlay_.activeCategories_)
+      
+      for(final POICategory cat : activeCategories_)
         try {
           pois.addAll(cat.pois(centre, radius));
         } // try
@@ -456,13 +459,12 @@ public class POIOverlay extends LiveItemOverlay<POIOverlay.POIItem>
     {
       final List<POIOverlay.POIItem> items = new ArrayList<POIOverlay.POIItem>();
 			
-      if(pois != null)
-        for (final POI poi : pois)
-        {
-          if(items.contains(poi))
-            continue;
-          items.add(new POIOverlay.POIItem(poi));
-        } // for ...
+      for (final POI poi : pois)
+      {
+        if(items.contains(poi))
+          continue;
+        items.add(new POIOverlay.POIItem(poi));
+      } // for ...
 			
       overlay_.setItems(items);
     } // onPostExecute
