@@ -31,6 +31,8 @@
   <string name="crash_dialog_comment_prompt">You might add your comments about the problem below:</string>
   <string name="crash_dialog_ok_toast">Thank you !</string>
 	
+  <string name="no_location">Location not currently available.</string>
+  
 	<!-- Map menu -->
 	<string name="ic_menu_directions">Plan a route</string>
 	<string name="ic_menu_saved_routes">Saved routes</string>
