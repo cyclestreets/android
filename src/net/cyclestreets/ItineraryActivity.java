@@ -103,11 +103,11 @@ public class ItineraryActivity extends ListActivity
 		
 			if(position == 0)
 				setText(v, R.id.segment_bonus, seg.extraInfo(), highlight);
-			setText(v, R.id.segment_street, seg.street(), highlight);
 			setText(v, R.id.segment_distance, seg.distance(), highlight);
 			setText(v, R.id.segment_cumulative_distance, seg.runningDistance(), highlight);
 			setText(v, R.id.segment_time, seg.runningTime(), highlight);
 
+			setMainText(v, R.id.segment_street, seg.turn(), seg.street(), highlight);
 			setTurnIcon(v, R.id.segment_type, seg.turn(), seg.walk());
 			
 			if(highlight && (position != 0) && (position != getCount()-1))
@@ -128,16 +128,29 @@ public class ItineraryActivity extends ListActivity
 				n.setTextColor(Color.BLACK);
 		} // setText
 		
+		private void setMainText(final View v, final int id, final String turn, final String street, final boolean highlight)
+		{
+			String t = street;
+			if(turnIcon(turn) == null && turn.length() != 0)
+				t = turn + " into " + street;
+			setText(v, id, t, highlight);
+		} // setMainText
+		
 		private void setTurnIcon(final View v, final int id, final String turn, final boolean walk)		
 		{
 			final ImageView iv = (ImageView)v.findViewById(id);
 
-			final Drawable icon = iconMappings_.get(turn.toLowerCase()); 
+			final Drawable icon = turnIcon(turn); 
 			if(icon != null)
 				iv.setImageDrawable(icon);
 			if(walk)
 				iv.setBackgroundDrawable(footprints_);
 		} // setTurnIcon
+		
+		private Drawable turnIcon(final String turn)
+		{
+			return iconMappings_.get(turn.toLowerCase());
+		} // turnIcon
 		
 		private int getColour(final Segment s)
 		{
