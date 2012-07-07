@@ -174,6 +174,7 @@ public class ItineraryActivity extends ListActivity
 			map.put("turn right", res.getDrawable(R.drawable.turn_right));
 			map.put("sharp right", res.getDrawable(R.drawable.sharp_right));
 			map.put("double-back", res.getDrawable(R.drawable.double_back));
+			map.put("join roundabout", res.getDrawable(R.drawable.roundabout));
 			return map;
 		
 			// 'straight on', 'sharp left', 'turn left', 'bear left'
