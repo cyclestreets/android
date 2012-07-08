@@ -1,6 +1,5 @@
 package net.cyclestreets;
 
-import java.util.HashMap;
 import java.util.Map;
 
 import net.cyclestreets.planned.Route;
@@ -19,6 +18,8 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+
+import net.cyclestreets.util.MapFactory;
 
 public class ItineraryActivity extends ListActivity 
 {
@@ -165,20 +166,18 @@ public class ItineraryActivity extends ListActivity
 		{
 			final Resources res = context.getResources();
 			
-			final Map<String, Drawable> map = new HashMap<String, Drawable>();
-			map.put("straight on", res.getDrawable(R.drawable.straight_on));
-			map.put("bear left", res.getDrawable(R.drawable.bear_left));
-			map.put("turn left", res.getDrawable(R.drawable.turn_left));
-			map.put("sharp left", res.getDrawable(R.drawable.sharp_left));
-			map.put("bear right", res.getDrawable(R.drawable.bear_right));
-			map.put("turn right", res.getDrawable(R.drawable.turn_right));
-			map.put("sharp right", res.getDrawable(R.drawable.sharp_right));
-			map.put("double-back", res.getDrawable(R.drawable.double_back));
-			map.put("join roundabout", res.getDrawable(R.drawable.roundabout));
-			return map;
-		
-			// 'straight on', 'sharp left', 'turn left', 'bear left'
-			// 'bear right', 'turn right', 'sharp right', 'double-back',  'unknown'
+			return MapFactory.map("straight on", res.getDrawable(R.drawable.straight_on))
+					         .map("bear left", res.getDrawable(R.drawable.bear_left))
+							 .map("turn left", res.getDrawable(R.drawable.turn_left))
+							 .map("sharp left", res.getDrawable(R.drawable.sharp_left))
+							 .map("bear right", res.getDrawable(R.drawable.bear_right))
+							 .map("turn right", res.getDrawable(R.drawable.turn_right))
+							 .map("sharp right", res.getDrawable(R.drawable.sharp_right))
+							 .map("double-back", res.getDrawable(R.drawable.double_back))
+							 .map("join roundabout", res.getDrawable(R.drawable.roundabout))
+			                 .map("first exit", res.getDrawable(R.drawable.first_exit))
+			                 .map("second exit", res.getDrawable(R.drawable.second_exit))
+			                 .map("third exit", res.getDrawable(R.drawable.third_exit));
 		} // loadIconMappings
 	
   } // class SegmentAdaptor
