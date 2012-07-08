@@ -9,7 +9,7 @@ import net.cyclestreets.R;
 import net.cyclestreets.RouteMapActivity;
 import net.cyclestreets.util.RouteTypeMapper;
 import net.cyclestreets.util.GeoIntent;
-import net.cyclestreets.views.PlaceView;
+import net.cyclestreets.views.PlaceViewWithCancel;
 import net.cyclestreets.api.GeoPlace;
 
 import org.osmdroid.util.BoundingBoxE6;
@@ -79,8 +79,7 @@ public class RouteByAddressActivity extends Activity
 
   private void addWaypointBox()
   {
-    final PlaceView pv = new PlaceView(this);
-    
+    final PlaceViewWithCancel pv = new PlaceViewWithCancel(this);
     pv.setBounds(bounds_);
 
     if(currentLoc_ != null)
@@ -97,19 +96,32 @@ public class RouteByAddressActivity extends Activity
 
       pv.allowLocation(waypoints_.get(w), label);
     } // for ...
-        
+
     placeHolder_.addView(pv);
     pv.requestFocus();
+
+    enableRemoveButtons();
+  } // addWaypointBox
+  
+  private void enableRemoveButtons()
+  {
+    final boolean enable = placeHolder_.getChildCount() > 2;
+
+    for(int i = 0; i != placeHolder_.getChildCount(); ++i)
+    {
+      final PlaceViewWithCancel p = (PlaceViewWithCancel)placeHolder_.getChildAt(i);
+      p.enableCancel(enable);
+    } // for ...
     
     addWaypoint_.setEnabled(placeHolder_.getChildCount() < 12);
-  } // addWaypointBox
+} // enableRemoveButtons
   
   private void findRoute(final List<GeoPlace> waypoints)
   {
     for(final GeoPlace wp : waypoints)
       for(int i = 0; i != placeHolder_.getChildCount(); ++i)
       {
-        final PlaceView p = (PlaceView)placeHolder_.getChildAt(i);
+        final PlaceViewWithCancel p = (PlaceViewWithCancel)placeHolder_.getChildAt(i);
         p.addHistory(wp);
       } // for ...
       
@@ -146,8 +158,8 @@ public class RouteByAddressActivity extends Activity
   {
     if(index != placeHolder_.getChildCount())
     {
-      final PlaceView pv = (PlaceView)placeHolder_.getChildAt(index);
-      pv.geoPlace(new PlaceView.OnResolveListener() {
+      final PlaceViewWithCancel pv = (PlaceViewWithCancel)placeHolder_.getChildAt(index);
+      pv.geoPlace(new PlaceViewWithCancel.OnResolveListener() {
         @Override
         public void onResolve(GeoPlace place)
         {
