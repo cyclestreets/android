@@ -38,11 +38,19 @@ public class RouteByAddressActivity extends Activity
   private GeoPoint currentLoc_;
   private List<GeoPoint> waypoints_;
   
+  private String START_MARKER_LABEL;
+  private String FINISH_MARKER_LABEL;
+  private String WAYPOINT_LABEL;
+  
   @Override
   public void onCreate(final Bundle saved)
   {
     super.onCreate(saved);
 
+    START_MARKER_LABEL = getResources().getString(R.string.rba_start);
+    FINISH_MARKER_LABEL = getResources().getString(R.string.rba_finish);
+    WAYPOINT_LABEL = getResources().getString(R.string.rba_waypoint);
+    
     setContentView(R.layout.routebyaddress);
     getWindow().setGravity(Gravity.TOP|Gravity.FILL_HORIZONTAL);       
     getWindow().setLayout(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT);
@@ -79,12 +87,12 @@ public class RouteByAddressActivity extends Activity
   
     for(int w = 0; w != waypoints_.size(); ++w)
     {
-      String label = "Waypoint " + w;
+      String label = String.format(WAYPOINT_LABEL, w);
     
       if(w == 0)
-        label = "Start marker";
+        label = START_MARKER_LABEL;
       else if(w+1 == waypoints_.size())
-        label = "Finish marker";
+        label = FINISH_MARKER_LABEL;
 
       pv.allowLocation(waypoints_.get(w), label);
     } // for ...
