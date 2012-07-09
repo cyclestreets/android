@@ -20,6 +20,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.RadioGroup;
@@ -97,11 +98,19 @@ public class RouteByAddressActivity extends Activity
       pv.allowLocation(waypoints_.get(w), label);
     } // for ...
 
+    pv.setCancelOnClick(new OnRemove(pv));
+    
     placeHolder_.addView(pv);
     pv.requestFocus();
 
     enableRemoveButtons();
   } // addWaypointBox
+  
+  private void removeWaypointBox(final PlaceViewWithCancel pv)
+  {
+   	placeHolder_.removeView(pv);
+   	enableRemoveButtons();
+  } // removeWaypointBox
   
   private void enableRemoveButtons()
   {
@@ -171,4 +180,19 @@ public class RouteByAddressActivity extends Activity
     else
       findRoute(resolvedPlaces);
   } // resolveNextPlace
+  
+  private class OnRemove implements OnClickListener
+  {
+	private final PlaceViewWithCancel pv_;
+	public OnRemove(final PlaceViewWithCancel pv)
+	{
+	  pv_ = pv;
+	} // OnRemove
+	
+	@Override
+	public void onClick(final View view) 
+	{
+	  removeWaypointBox(pv_);
+	} // onClick
+  } // class OnRemove
 } // RouteActivity
