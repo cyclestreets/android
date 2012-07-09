@@ -54,17 +54,8 @@ public class RouteByAddressActivity extends Activity
     
     placeHolder_ = (LinearLayout)findViewById(R.id.places);
          
-    waypoints_ = new ArrayList<GeoPoint>();
-    for(int w = 0; ; ++w)
-    {
-      final GeoPoint wp = GeoIntent.getGeoPoint(intent, "WP" + w);
-
-      if(wp == null)
-        break;
-
-      waypoints_.add(wp);
-    } // for ...
-      
+    waypoints_ = GeoIntent.getWaypoints(intent);
+    
     routeGo_ = (Button) findViewById(R.id.routeGo);
     routeGo_.setOnClickListener(this);
     
@@ -136,8 +127,7 @@ public class RouteByAddressActivity extends Activity
       
     // return start and finish points to RouteMapActivity and close
     final Intent intent = new Intent(RouteByAddressActivity.this, RouteMapActivity.class);
-    for(int i = 0; i != waypoints.size(); ++i)      
-      GeoIntent.setGeoPoint(intent, "WP" + i, waypoints.get(i).coord());
+    GeoIntent.setWaypointsFromPlaces(intent, waypoints);
     final String routeType = RouteTypeMapper.nameFromId(routeType_.getCheckedRadioButtonId());
     intent.putExtra(CycleStreetsConstants.EXTRA_ROUTE_TYPE, routeType);
     setResult(RESULT_OK, intent);
