@@ -55,6 +55,8 @@
               android:theme="@style/Theme.RouteInputDialog"/>
     <activity android:name=".RouteNumberActivity" 
               android:theme="@style/Theme.RouteInputDialog"/>
+    <activity android:name=".BlogActivity" 
+              android:label="CycleStreets : Blog"/>
     <!-- ACRA support -->
     <activity android:name="org.acra.CrashReportDialog"
               android:theme="@android:style/Theme.Dialog"

@@ -33,11 +33,24 @@ public class Blog
     return (entries_.size() != 0) ? entries_.get(0).date() : null;
   } // mostRecent
   
-  ////////////////////////////////////////////////////
-  static public Factory<Blog> factory() { 
-    return new BlogFactory();
-  } // factory
+  public String mostRecentTitle()
+  {
+    return (entries_.size() != 0) ? entries_.get(0).title() : null;
+  } // mostRecentTitle
   
+  public String toHtml()
+  {
+    final StringBuilder sb = new StringBuilder();
+    for(final BlogEntry be : entries_)
+    {
+      if(sb.length() != 0)
+        sb.append("\n<hr/>\n");
+      sb.append(be.toHtml());
+    } // for ...
+    return sb.toString();
+  } // toHtml
+  
+  ////////////////////////////////////////////////////
   /*
 <rss version="2.0"
   xmlns:content="http://purl.org/rss/1.0/modules/content/"
@@ -139,6 +152,11 @@ public class Blog
       return blog_;
     } // get
   } // class BlogFactory
+
+  /////////////////////////////////////////////////////////////////////
+  static public Factory<Blog> factory() { 
+    return new BlogFactory();
+  } // factory
   
   static public Blog load()
   {

@@ -23,7 +23,7 @@ public class BlogEntry
   
   public String toHtml()
   {
-    return String.format("<h3><a href='%s'>%s</a><h3><p>%s</p><p><small>%s</small></p>",
+    return String.format("<h3><a href='%s'>%s</a></h3><p>%s</p><p><small>%s</small></p>",
                          link_, title_, description_, date_); 
   } // toHtml
 } // class BlogEntry
