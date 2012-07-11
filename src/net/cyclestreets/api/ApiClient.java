@@ -78,7 +78,10 @@ public class ApiClient
   private final static String API_PATH_GEOCODER = API_PATH + "geocoder.xml";
   private final static String API_PATH_POI_CATEGORIES = API_PATH + "poitypes.xml";
   private final static String API_PATH_POIS = API_PATH + "pois.xml";
-
+  
+  private final static String BLOG_PATH = "/blog/";
+  private final static String BLOG_PATH_FEED = BLOG_PATH + "feed/";
+  
   private static Context context_;
   
   static Context context() 
@@ -331,6 +334,13 @@ public class ApiClient
         "limit", "150");
   } // getPOIs
 
+  static Blog getBlogEntries()
+    throws Exception
+  {
+    return callApi(Blog.factory(),
+                   BLOG_PATH_FEED);
+  } // getBlogEntries
+  
   /////////////////////////////////////////////////////
   /////////////////////////////////////////////////////
   static private String itineraryPoints(final double... lonLat)
