@@ -24,6 +24,13 @@
 	
 	<string name="placeview_menu">Menu</string>
 	<string name="placeview_remove">Remove</string>
+	<string name="placeview_current_location">Current Location</string>
+  <string name="placeview_choose_location">Choose location</string>
+  <string name="placeview_location_not_found">No locations found</string>
+  <string name="placeview_location_search">Searching for location</string>
+  <string name="placeview_contacts">Contacts</string>
+  <string name="placeview_no_contacts_with_addresses">None of your contacts have addresses.</string>
+  <string name="placeview_contacts_loading">Loading contacts</string>
 	
 	<string name="settings_signed_in">Signed in to CycleStreets</string>
 	<string name="settings_awaiting">Account registration awaiting verification</string>

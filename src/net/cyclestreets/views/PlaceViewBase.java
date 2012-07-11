@@ -17,6 +17,7 @@ import net.cyclestreets.util.MessageBox;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.res.Resources;
 import android.os.AsyncTask;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
@@ -34,17 +35,17 @@ public class PlaceViewBase extends LinearLayout
   } // interface ResolveListener
   
   ////////////////////////////////
-  static private final String CURRENT_LOCATION = "Current Location";
-  static private final String CHOOSE_LOCATION = "Choose location";
-  static private final String LOCATION_NOT_FOUND = "No locations found";
-  static private final String LOCATION_SEARCH = "Searching for location";
-  static private final String CONTACTS = "Contacts";
-  static private final String NO_CONTACTS_WITH_ADDRESSES = "None of your contacts have addresses.";
-  static private final String CONTACTS_LOADING = "Loading contacts";
+  static private String CURRENT_LOCATION;
+  static private String CHOOSE_LOCATION;
+  static private String LOCATION_NOT_FOUND;
+  static private String LOCATION_SEARCH;
+  static private String CONTACTS;
+  static private String NO_CONTACTS_WITH_ADDRESSES;
+  static private String CONTACTS_LOADING;
   
-  final private Context context_;
-  final private PlaceAutoCompleteTextView textView_;
-  final private ImageButton button_;
+  private final Context context_;
+  private final PlaceAutoCompleteTextView textView_;
+  private final ImageButton button_;
   private List<GeoPlace> allowedPlaces_;
   private List<String> options_;
   private List<Contact> contacts_;
@@ -65,8 +66,25 @@ public class PlaceViewBase extends LinearLayout
     button_.setOnClickListener(this);
     
     allowedPlaces_ = new ArrayList<GeoPlace>();
+
+    loadStrings(context);
   } // PlaceViewBase
   
+  private void loadStrings(final Context context)
+  {
+    if(CURRENT_LOCATION != null) 
+      return;
+    final Resources res = context.getResources();
+    CURRENT_LOCATION = res.getString(R.string.placeview_current_location);
+    CHOOSE_LOCATION = res.getString(R.string.placeview_choose_location);
+    LOCATION_NOT_FOUND = res.getString(R.string.placeview_location_not_found);
+    LOCATION_SEARCH = res.getString(R.string.placeview_location_search);
+    CONTACTS = res.getString(R.string.placeview_contacts);
+    NO_CONTACTS_WITH_ADDRESSES = res.getString(R.string.placeview_no_contacts_with_addresses);
+    CONTACTS_LOADING = res.getString(R.string.placeview_contacts_loading);
+  } // loadStrings
+  
+  ////////////////////////////////////
   public void allowCurrentLocation(final GeoPoint loc, final boolean hint) 
   { 
     if(loc == null)
@@ -299,7 +317,8 @@ public class PlaceViewBase extends LinearLayout
       view_.onContactsLoaded(results);
     } // onPostExecute
   } // class AsyncContactLoad
-  
+ 
+  ////////////////////////////////  
   static private class AsyncContactLookup extends AsyncTask<Object, Void, GeoPlaces>
   {
     final ProgressDialog progress_;
