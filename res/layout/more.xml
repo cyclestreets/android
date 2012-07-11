@@ -12,6 +12,7 @@
 <ImageView android:layout_height="wrap_content" 
 		   android:layout_width="wrap_content"
 		   android:id="@+id/splash" 
+		   android:contentDescription="@string/app_name"
 		   android:src="@drawable/cyclestreets"></ImageView>
 <RelativeLayout
 	android:orientation="vertical"
