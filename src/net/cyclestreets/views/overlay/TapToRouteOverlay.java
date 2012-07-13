@@ -41,6 +41,7 @@ import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
+import android.widget.Toast;
 
 public class TapToRouteOverlay extends Overlay 
                                implements ButtonTapListener,
@@ -298,6 +299,11 @@ public class TapToRouteOverlay extends Overlay
       case R.string.ic_menu_reroute_from_here:
       {
         final Location lastFix = mapView_.getLastFix();
+        if(lastFix == null)
+        {
+          Toast.makeText(mapView_.getContext(), R.string.no_location, Toast.LENGTH_LONG);
+          return false;
+        }
         final GeoPoint from = new GeoPoint((int)(lastFix.getLatitude() * 1E6),
                                            (int)(lastFix.getLongitude() * 1E6));
         callback_.onRouteNow(Collections.list(from, finish()));

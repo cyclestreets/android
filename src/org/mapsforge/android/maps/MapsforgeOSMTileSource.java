@@ -24,7 +24,8 @@ public class MapsforgeOSMTileSource implements ITileSource
   @SuppressWarnings("serial")
   static private class RenderTheme implements JobTheme 
   {
-    static private final String path = "/org/mapsforge/android/maps/rendertheme/osmarender/";
+    //static private final String path = "/org/mapsforge/android/maps/rendertheme/osmarender/";
+    static private final String path="/assets/rendertheme/";
     static private final String file = "osmarender.xml";
 
     //@Override

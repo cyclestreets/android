@@ -16,14 +16,12 @@ import android.content.Context;
 public class ApiCallCache
 {
   private final Context context_;
-  private final int defaultMaxAge_;
   private final Map<Integer, Long> daysToMs = new HashMap<Integer, Long>();
   private static final int DEFAULT_BUFFER_SIZE = 40960;
   
-  ApiCallCache(final Context context, final int defaultMaxAge)
+  ApiCallCache(final Context context)
   {
     context_ = context;
-    defaultMaxAge_ = defaultMaxAge;
   } // ApiCallCache
   
   private boolean isAvailable() 
@@ -38,7 +36,7 @@ public class ApiCallCache
   
   boolean expired(final String name) 
   { 
-    return expired(name, defaultMaxAge_); 
+    return expired(name); 
   } // expired
   
   private boolean expired(final File file, int maxAgeInDays)
@@ -91,11 +89,6 @@ public class ApiCallCache
     } // catch
     
     return output.toByteArray();    
-  } // fetch
-  
-  byte[] fetch(final String name) 
-  { 
-    return fetch(name, defaultMaxAge_); 
   } // fetch
   
   void store(final String name, final byte[] value) 

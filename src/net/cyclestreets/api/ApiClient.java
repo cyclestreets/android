@@ -78,7 +78,10 @@ public class ApiClient
   private final static String API_PATH_GEOCODER = API_PATH + "geocoder.xml";
   private final static String API_PATH_POI_CATEGORIES = API_PATH + "poitypes.xml";
   private final static String API_PATH_POIS = API_PATH + "pois.xml";
-
+  
+  private final static String BLOG_PATH = "/blog/";
+  private final static String BLOG_PATH_FEED = BLOG_PATH + "feed/";
+  
   private static Context context_;
   
   static Context context() 
@@ -91,12 +94,12 @@ public class ApiClient
   static public void initialise(final Context context)
   {
     context_ = context;
-    cache_ = new ApiCallCache(context_, cacheExpiryDays_);
+    cache_ = new ApiCallCache(context_);
     loadSslCertificates(context);
     POICategories.backgroundLoad();
     PhotomapCategories.backgroundLoad();
   } // initialise
-
+  
   static private void loadSslCertificates(final Context context)
   {    
     final LoadSSLCertsTask load = new LoadSSLCertsTask(context, schemeRegistry_);
@@ -331,6 +334,14 @@ public class ApiClient
         "limit", "150");
   } // getPOIs
 
+  static Blog getBlogEntries()
+    throws Exception
+  {
+    return callApiWithCache(1, // only cache for a day
+                            Blog.factory(),
+                            BLOG_PATH_FEED);
+  } // getBlogEntries
+  
   /////////////////////////////////////////////////////
   /////////////////////////////////////////////////////
   static private String itineraryPoints(final double... lonLat)
@@ -361,8 +372,13 @@ public class ApiClient
 
   static private <T> T callApiWithCache(final Factory<T> factory, final String path, String... args) throws Exception
   {
+    return callApiWithCache(cacheExpiryDays_, factory, path, args);
+  } // callApiWithCache
+  
+  static private <T> T callApiWithCache(final int expiryInDays, final Factory<T> factory, final String path, String... args) throws Exception
+  {
     final String name = cacheName(path, args);
-    byte[] xml = cache_.fetch(name);
+    byte[] xml = cache_.fetch(name, expiryInDays);
     
     if(xml == null)
     {
