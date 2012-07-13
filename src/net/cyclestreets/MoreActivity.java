@@ -16,6 +16,7 @@ public class MoreActivity extends Activity implements View.OnClickListener
 		setContentView(R.layout.more);
 		
 		setButtonListener(R.id.settings_button);
+		setButtonListener(R.id.blog_button);
 		setButtonListener(R.id.about_button);
 		
 		final WebView donate = (WebView)findViewById(R.id.donate_view);
@@ -36,6 +37,9 @@ public class MoreActivity extends Activity implements View.OnClickListener
 			case R.id.settings_button:
 				start(SettingsActivity.class);
 				break;
+			case R.id.blog_button:
+			  start(BlogActivity.class);
+			  break;
 			case R.id.about_button:
 				start(AboutActivity.class);
 				break;

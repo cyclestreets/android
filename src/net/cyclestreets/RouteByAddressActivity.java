@@ -9,7 +9,7 @@ import net.cyclestreets.R;
 import net.cyclestreets.RouteMapActivity;
 import net.cyclestreets.util.RouteTypeMapper;
 import net.cyclestreets.util.GeoIntent;
-import net.cyclestreets.views.PlaceView;
+import net.cyclestreets.views.PlaceViewWithCancel;
 import net.cyclestreets.api.GeoPlace;
 
 import org.osmdroid.util.BoundingBoxE6;
@@ -20,6 +20,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.RadioGroup;
@@ -37,11 +38,19 @@ public class RouteByAddressActivity extends Activity
   private GeoPoint currentLoc_;
   private List<GeoPoint> waypoints_;
   
+  private String START_MARKER_LABEL;
+  private String FINISH_MARKER_LABEL;
+  private String WAYPOINT_LABEL;
+  
   @Override
   public void onCreate(final Bundle saved)
   {
     super.onCreate(saved);
 
+    START_MARKER_LABEL = getResources().getString(R.string.rba_start);
+    FINISH_MARKER_LABEL = getResources().getString(R.string.rba_finish);
+    WAYPOINT_LABEL = getResources().getString(R.string.rba_waypoint);
+    
     setContentView(R.layout.routebyaddress);
     getWindow().setGravity(Gravity.TOP|Gravity.FILL_HORIZONTAL);       
     getWindow().setLayout(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT);
@@ -53,17 +62,8 @@ public class RouteByAddressActivity extends Activity
     
     placeHolder_ = (LinearLayout)findViewById(R.id.places);
          
-    waypoints_ = new ArrayList<GeoPoint>();
-    for(int w = 0; ; ++w)
-    {
-      final GeoPoint wp = GeoIntent.getGeoPoint(intent, "WP" + w);
-
-      if(wp == null)
-        break;
-
-      waypoints_.add(wp);
-    } // for ...
-      
+    waypoints_ = GeoIntent.getWaypoints(intent);
+    
     routeGo_ = (Button) findViewById(R.id.routeGo);
     routeGo_.setOnClickListener(this);
     
@@ -79,8 +79,7 @@ public class RouteByAddressActivity extends Activity
 
   private void addWaypointBox()
   {
-    final PlaceView pv = new PlaceView(this);
-    
+    final PlaceViewWithCancel pv = new PlaceViewWithCancel(this);
     pv.setBounds(bounds_);
 
     if(currentLoc_ != null)
@@ -88,35 +87,55 @@ public class RouteByAddressActivity extends Activity
   
     for(int w = 0; w != waypoints_.size(); ++w)
     {
-      String label = "Waypoint " + w;
+      String label = String.format(WAYPOINT_LABEL, w);
     
       if(w == 0)
-        label = "Start marker";
+        label = START_MARKER_LABEL;
       else if(w+1 == waypoints_.size())
-        label = "Finish marker";
+        label = FINISH_MARKER_LABEL;
 
       pv.allowLocation(waypoints_.get(w), label);
     } // for ...
-        
+
+    pv.setCancelOnClick(new OnRemove(pv));
+    
     placeHolder_.addView(pv);
     pv.requestFocus();
+
+    enableRemoveButtons();
+  } // addWaypointBox
+  
+  private void removeWaypointBox(final PlaceViewWithCancel pv)
+  {
+   	placeHolder_.removeView(pv);
+   	enableRemoveButtons();
+  } // removeWaypointBox
+  
+  private void enableRemoveButtons()
+  {
+    final boolean enable = placeHolder_.getChildCount() > 2;
+
+    for(int i = 0; i != placeHolder_.getChildCount(); ++i)
+    {
+      final PlaceViewWithCancel p = (PlaceViewWithCancel)placeHolder_.getChildAt(i);
+      p.enableCancel(enable);
+    } // for ...
     
     addWaypoint_.setEnabled(placeHolder_.getChildCount() < 12);
-  } // addWaypointBox
+} // enableRemoveButtons
   
   private void findRoute(final List<GeoPlace> waypoints)
   {
     for(final GeoPlace wp : waypoints)
       for(int i = 0; i != placeHolder_.getChildCount(); ++i)
       {
-        final PlaceView p = (PlaceView)placeHolder_.getChildAt(i);
+        final PlaceViewWithCancel p = (PlaceViewWithCancel)placeHolder_.getChildAt(i);
         p.addHistory(wp);
       } // for ...
       
     // return start and finish points to RouteMapActivity and close
     final Intent intent = new Intent(RouteByAddressActivity.this, RouteMapActivity.class);
-    for(int i = 0; i != waypoints.size(); ++i)      
-      GeoIntent.setGeoPoint(intent, "WP" + i, waypoints.get(i).coord());
+    GeoIntent.setWaypointsFromPlaces(intent, waypoints);
     final String routeType = RouteTypeMapper.nameFromId(routeType_.getCheckedRadioButtonId());
     intent.putExtra(CycleStreetsConstants.EXTRA_ROUTE_TYPE, routeType);
     setResult(RESULT_OK, intent);
@@ -146,8 +165,8 @@ public class RouteByAddressActivity extends Activity
   {
     if(index != placeHolder_.getChildCount())
     {
-      final PlaceView pv = (PlaceView)placeHolder_.getChildAt(index);
-      pv.geoPlace(new PlaceView.OnResolveListener() {
+      final PlaceViewWithCancel pv = (PlaceViewWithCancel)placeHolder_.getChildAt(index);
+      pv.geoPlace(new PlaceViewWithCancel.OnResolveListener() {
         @Override
         public void onResolve(GeoPlace place)
         {
@@ -159,4 +178,19 @@ public class RouteByAddressActivity extends Activity
     else
       findRoute(resolvedPlaces);
   } // resolveNextPlace
+  
+  private class OnRemove implements OnClickListener
+  {
+	private final PlaceViewWithCancel pv_;
+	public OnRemove(final PlaceViewWithCancel pv)
+	{
+	  pv_ = pv;
+	} // OnRemove
+	
+	@Override
+	public void onClick(final View view) 
+	{
+	  removeWaypointBox(pv_);
+	} // onClick
+  } // class OnRemove
 } // RouteActivity

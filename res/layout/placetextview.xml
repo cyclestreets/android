@@ -12,8 +12,9 @@
 	  android:freezesText="true"
 	  android:imeOptions="actionNext"/>
 	<ImageButton
-      android:id="@+id/optionsBtn"
-      android:layout_width="40.0dip"
-      android:layout_height="fill_parent"
-      android:src="@android:drawable/ic_input_get"/>
+    android:id="@+id/optionsBtn"
+    android:layout_width="40.0dip"
+    android:layout_height="fill_parent"
+    android:src="@android:drawable/ic_input_get" 
+    android:contentDescription="@string/placeview_menu"/>
 </LinearLayout>
