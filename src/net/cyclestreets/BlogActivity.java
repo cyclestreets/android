@@ -14,8 +14,6 @@ public class BlogActivity extends Activity
 		setContentView(R.layout.about);
 		
     final WebView htmlView = (WebView)findViewById(R.id.html_view);
-    htmlView.loadData(Blog.load().toHtml(),
-                      "text/html; charset=UTF-8", 
-                      null);
+    htmlView.loadDataWithBaseURL(null, Blog.load().toHtml(), "text/html", "utf-8", null);
 	} // onCreate
 } // HtmlActivity
