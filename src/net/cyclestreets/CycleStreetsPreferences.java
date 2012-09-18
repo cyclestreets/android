@@ -39,11 +39,7 @@ public class CycleStreetsPreferences
 
     // upgrades
     if(uploadSize().equals("320px"))
-    {
-      final Editor editor = editor();
-      editor.putString(PREF_UPLOAD_SIZE, "640px");
-      editor.commit();
-    } // if ...
+      putString(PREF_UPLOAD_SIZE, "640px");
   } // initialise
   
   static public String routeType() {
@@ -63,9 +59,7 @@ public class CycleStreetsPreferences
   }
   
   static public void resetMapstyle() {
-	final Editor editor = editor();
-	editor.putString(PREF_MAPSTYLE_KEY, MAPSTYLE_OCM);
-    editor.commit();
+    putString(PREF_MAPSTYLE_KEY, MAPSTYLE_OCM);
   }
   
   static public String mapfile() {
@@ -138,10 +132,22 @@ public class CycleStreetsPreferences
     return prefs.getString(key, defVal);
   } // getStirng
   
-  static private boolean getBoolean(final String key, boolean defVal) {
+  static private void putString(final String key, final String value) {
+    final Editor editor = editor();
+    editor.putString(key, value);
+    editor.commit();
+  } // putString
+  
+  static private boolean getBoolean(final String key, final boolean defVal) {
     final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context_);
     return prefs.getBoolean(key, defVal);
   } // getBoolean    
+  
+  static private void putBoolean(final String key, final boolean value) {
+    final Editor editor = editor();
+    editor.putBoolean(key, value);
+    editor.commit();
+  } // putBoolean
   
   static public void setUsernamePassword(final String username, 
                                          final String password,
