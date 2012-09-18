@@ -25,7 +25,7 @@ import org.acra.annotation.ReportsCrashes;
 public class CycleStreetsApp extends Application 
 {
   private final static int oneMinute = 1000*60;
-  private final static int aDay = 1000*60*60*24; // in milliseconds
+  private final static int halfADay = 1000*60*60*12; // in milliseconds
   
 	@Override
 	public void onCreate()
@@ -38,7 +38,7 @@ public class CycleStreetsApp extends Application
 	  Route.initialise(this);
 	  ApiClient.initialise(this);
 	 
-	  RegularUpdates.schedule(this, oneMinute, aDay);
+	  RegularUpdates.schedule(this, oneMinute, halfADay);
 	} // onCreate
 	
 	public String version()
