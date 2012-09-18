@@ -26,6 +26,7 @@ public class CycleStreetsPreferences
   public final static String PREF_ACCOUNT_KEY = "cyclestreets-account";
   public final static String PREF_UPLOAD_SIZE = "uploadsize";
   public final static String PREF_ICON_SIZE = "iconsize";
+  public final static String PREF_BLOG_NOTIFICATIONS = "blog-notifications";
   
   public final static String MAPSTYLE_OCM = "CycleStreets";
   public final static String MAPSTYLE_OSM = "CycleStreets-OSM";
@@ -93,19 +94,23 @@ public class CycleStreetsPreferences
   
   static public boolean accountOK() { 
     return getBoolean(PREF_VALIDATED_KEY, false);
-  }
+  } // accountOK
   
   static public boolean accountPending() { 
     return getBoolean(PREF_PENDING_KEY, false);
-  }
+  } // accountPending
   
   static public boolean confirmNewRoute() {
     return getBoolean(PREF_CONFIRM_NEW_ROUTE, true);
-  }
+  } // confirmNewRoute
   
   static public String uploadSize() {
     return getString(PREF_UPLOAD_SIZE, "bigIfWifi");
   } // uploadSize
+  
+  static public boolean blogNotifications() {
+    return getBoolean(PREF_BLOG_NOTIFICATIONS, true);
+  } // blogNotifications
   
   static public boolean uploadSmallImages() {
     final String resize = uploadSize();

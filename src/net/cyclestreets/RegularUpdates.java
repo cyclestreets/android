@@ -44,6 +44,9 @@ class RegularUpdates
       
       setLastBlogUpdate(blog.mostRecent());
   
+      if(CycleStreetsPreferences.blogNotifications() == false)
+        return;
+      
       notify(s(R.string.blog_cyclestreets_update), blog.mostRecentTitle(), s(R.string.blog_update), BlogActivity.class);
     } // run
   
