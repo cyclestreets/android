@@ -106,6 +106,10 @@ public class CycleStreetsPreferences
     return getBoolean(PREF_BLOG_NOTIFICATIONS, true);
   } // blogNotifications
   
+  static public void setBlogNotifications(final boolean active) {
+    putBoolean(PREF_BLOG_NOTIFICATIONS, active);
+  } // setBlogNotifications
+  
   static public boolean uploadSmallImages() {
     final String resize = uploadSize();
     if("640px".equals(resize))
