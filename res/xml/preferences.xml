@@ -48,7 +48,7 @@
 			android:defaultValue="true"/>
 		<CheckBoxPreference 
 		  android:key="blog-notifications"
-		  android:title="Show Blog update notifications"
+		  android:title="@string/blog_notifications"
 		  android:defaultValue="true"/>
 	</PreferenceCategory>
     <PreferenceCategory
