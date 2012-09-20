@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:orientation="vertical" android:layout_width="fill_parent"
+	android:layout_height="fill_parent">
+	<TextView
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:text="  "
+		/>
+	<TextView android:id="@+id/addphoto_text"
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:gravity="center"
+		android:text="Add photos of cycling-related problems and good practice."
+		/>
+	<TextView
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:text="  "
+		/>
+	<TextView android:id="@+id/addphoto_text2"
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:gravity="center"
+		android:text="These will then appear on the CycleStreets website and be used so that we can report problems to decision makers."
+		/>		
+	<TextView
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:text="  "
+		/>
+	<Button android:id="@+id/takephoto_button"
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:text="Take a photo"/>
+	<Button android:id="@+id/chooseexisting_button"
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:text="Select existing photo"/>
+</LinearLayout>
