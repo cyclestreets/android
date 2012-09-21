@@ -455,15 +455,18 @@ public class PhotoUploadFragment extends Fragment
   public void onClick(final View v) 
   {
     Intent i = null;
+    int activityId = 0;
     
     switch(v.getId())
     {
     case R.id.takephoto_button:
-      i = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);        
+      i = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);  
+      activityId = ActivityId.TakePhoto;
       break;
     case R.id.chooseexisting_button:
       i = new Intent(Intent.ACTION_PICK,
                      android.provider.MediaStore.Images.Media.INTERNAL_CONTENT_URI);
+      activityId = ActivityId.ChoosePhoto;
       break;
     case R.id.photo_share:
       Share.Url(getActivity(), uploadedUrl_, caption_, "Photo on CycleStreets.net");
@@ -471,8 +474,10 @@ public class PhotoUploadFragment extends Fragment
     case R.id.next:
       if(step_ == AddStep.LOCATION)
       {
-        if(!CycleStreetsPreferences.accountOK())
+        if(!CycleStreetsPreferences.accountOK()) {
           i = new Intent(getActivity(), AccountDetailsActivity.class);
+          activityId = ActivityId.AccountDetails;
+        }
         else
           upload();
       }
@@ -484,7 +489,7 @@ public class PhotoUploadFragment extends Fragment
     if(i == null)
       return;
     
-    startActivityForResult(i, v.getId());
+    startActivityForResult(i, activityId);
   } // onClick
   
   @Override
@@ -519,10 +524,10 @@ public class PhotoUploadFragment extends Fragment
     catch(Exception e)
     {
       Toast.makeText(getActivity(), "There was a problem grabbing the photo : " + e.getMessage(), Toast.LENGTH_LONG).show();
-      if(requestCode == R.id.takephoto_button)
+      if(requestCode == ActivityId.TakePhoto)
         startActivityForResult(new Intent(Intent.ACTION_PICK,
                                           android.provider.MediaStore.Images.Media.INTERNAL_CONTENT_URI),
-                               R.id.chooseexisting_button);        
+                               ActivityId.ChoosePhoto);        
     }
   } // onActivityResult
   

@@ -158,7 +158,7 @@ public class RouteMapFragment extends CycleMapFragment
 		if(resultCode != Activity.RESULT_OK)
 			return;
 		
-		if(requestCode == R.string.ic_menu_saved_routes)
+		if(requestCode == ActivityId.StoredRoutes)
 		{
 			final int localId = data.getIntExtra(CycleStreetsConstants.ROUTE_ID, 0);
 			if(localId != 0)
@@ -166,7 +166,7 @@ public class RouteMapFragment extends CycleMapFragment
 			return;
 		} // if ...
 		
-		if(requestCode == R.string.ic_menu_directions)
+		if(requestCode == ActivityId.Directions)
 		{
 		  final List<GeoPoint> points = GeoIntent.getWaypoints(data);
 			final String routeType = data.getStringExtra(CycleStreetsConstants.EXTRA_ROUTE_TYPE);
@@ -179,7 +179,7 @@ public class RouteMapFragment extends CycleMapFragment
                       points);
 		} // if ...
 		
-		if(requestCode == R.string.ic_menu_route_number)
+		if(requestCode == ActivityId.RouteNumber)
 		{
 		  final long routeNumber = data.getLongExtra(CycleStreetsConstants.EXTRA_ROUTE_NUMBER, -1);
 		  final String routeType = data.getStringExtra(CycleStreetsConstants.EXTRA_ROUTE_TYPE);
@@ -206,7 +206,7 @@ public class RouteMapFragment extends CycleMapFragment
 	  final Location lastFix = mapView().getLastFix();
 	  GeoIntent.setLocation(intent, lastFix);	
     GeoIntent.setWaypoints(intent, routeSetter_.waypoints());
-	  startActivityForResult(intent, R.string.ic_menu_directions);
+	  startActivityForResult(intent, ActivityId.Directions);
 	} // doLaunchRouteDialog
 	
 	private void launchFetchRouteDialog()
@@ -221,13 +221,13 @@ public class RouteMapFragment extends CycleMapFragment
 	private void doLaunchFetchRouteDialog()
 	{
 	  final Intent intent = new Intent(getActivity(), RouteNumberActivity.class);
-	  startActivityForResult(intent, R.string.ic_menu_route_number);
+	  startActivityForResult(intent, ActivityId.RouteNumber);
 	} // doLaunchFetchRouteDialog
 	
 	private void launchStoredRoutesDialog()
 	{
 	  final Intent intent = new Intent(getActivity(), StoredRoutesActivity.class);
-    startActivityForResult(intent, R.string.ic_menu_saved_routes);
+    startActivityForResult(intent, ActivityId.StoredRoutes);
 	} // launchStoredRoutesDialog
 	
 	private void startNewRoute(final DialogInterface.OnClickListener listener)

@@ -103,7 +103,7 @@ public class CycleMapFragment extends Fragment implements Undoable
     if(resultCode != Activity.RESULT_OK)
       return;
     
-    if(requestCode != R.string.ic_menu_findplace)
+    if(requestCode != ActivityId.FindPlace)
       return;
     
     final GeoPoint place = GeoIntent.getGeoPoint(data);
@@ -115,7 +115,7 @@ public class CycleMapFragment extends Fragment implements Undoable
   {
     final Intent intent = new Intent(getActivity(), FindPlaceActivity.class);
     GeoIntent.setBoundingBox(intent, map_.getBoundingBox());
-    startActivityForResult(intent, R.string.ic_menu_findplace);
+    startActivityForResult(intent, ActivityId.FindPlace);
   } // launchFindDialog
   
 /*
