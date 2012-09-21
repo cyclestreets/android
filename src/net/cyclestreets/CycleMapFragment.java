@@ -10,12 +10,10 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
@@ -69,6 +67,8 @@ public class CycleMapFragment extends Fragment
   public void onPrepareOptionsMenu(final Menu menu)
   {
     map_.onPrepareOptionsMenu(menu);
+    menu.findItem(R.string.ic_menu_findplace).setVisible(true);
+    menu.findItem(R.string.ic_menu_settings).setVisible(true);
   } // onPrepareOptionsMenu
     
   @Override

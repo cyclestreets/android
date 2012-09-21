@@ -11,8 +11,12 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
@@ -118,19 +122,71 @@ public class CycleStreets extends FragmentActivity implements OnTabChangeListene
   
   //////////////////////////////////////////////////////////////////////////////////////////////////
   // Tab handling
-  static final class TabInfo 
+  final class TabInfo 
   {
-    private final String tag;
-    private final Class<? extends Fragment> clss;
-    private final Bundle args;
-    private Fragment fragment;
+    private final String tag_;
+    private final Class<? extends Fragment> clss_;
+    private final Bundle args_;
+    private Fragment fragment_;
+    private boolean menuCreated_;
 
-    TabInfo(final String t, Class<? extends Fragment> fc, final Bundle a) 
+    TabInfo(final FragmentManager fm,
+            final String t, 
+            final Class<? extends Fragment> fc, 
+            final Bundle a) 
     {
-      tag = t;
-      clss = fc;
-      args = a;
+      tag_ = t;
+      clss_ = fc;
+      args_ = a;
+      menuCreated_ = false;
+
+      // Check to see if we already have a fragment for this tab, probably
+      // from a previously saved state.  If so, deactivate it, because our
+      // initial state is that a tab isn't shown.
+      
+      fragment_ = fm.findFragmentByTag(tag_);
+      if (fragment_ != null && !fragment_.isDetached()) 
+      {
+        final FragmentTransaction ft = fm.beginTransaction();
+        ft.detach(fragment_);
+        ft.commit();
+      } // if
     } // TabInfo
+    
+    void attach(final FragmentTransaction ft)
+    {
+      if(fragment_ == null) 
+      {
+        fragment_ = Fragment.instantiate(CycleStreets.this,
+                                         clss_.getName(), 
+                                         args_);
+        ft.add(R.id.realtabcontent, fragment_, tag_);
+      }
+      else 
+        ft.attach(fragment_);
+    } // attach
+    
+    void detach(final FragmentTransaction ft)
+    {
+      if(fragment_ == null)
+        return;
+      ft.detach(fragment_);
+    } // detach
+    
+    void onPrepareOptionsMenu(final Menu menu, final MenuInflater inflater) 
+    {
+      if(!menuCreated_)
+      {
+        fragment_.onCreateOptionsMenu(menu, inflater);
+        menuCreated_ = true;
+      } // if ...
+      fragment_.onPrepareOptionsMenu(menu);
+    } // onPrepareOptionsMenu
+
+    boolean onOptionsItemSelected(final MenuItem item)
+    {
+      return fragment_.onOptionsItemSelected(item);
+    } // onOptionsItemSelected
   }  // class TabInfo
 
   @Override
@@ -148,18 +204,8 @@ public class CycleStreets extends FragmentActivity implements OnTabChangeListene
     tabSpec.setIndicator("", getResources().getDrawable(iconId));
     tabSpec.setContent(this);
 
-    final TabInfo info = new TabInfo(tabId, fragClass, null);
-
-    // Check to see if we already have a fragment for this tab, probably
-    // from a previously saved state.  If so, deactivate it, because our
-    // initial state is that a tab isn't shown.
-    info.fragment = getSupportFragmentManager().findFragmentByTag(tabId);
-    if (info.fragment != null && !info.fragment.isDetached()) 
-    {
-      final FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-      ft.detach(info.fragment);
-      ft.commit();
-    } // if
+    final TabInfo info = new TabInfo(getSupportFragmentManager(),
+                                     tabId, fragClass, null);
 
     tabs_.put(tabId, info);
     tabHost_.addTab(tabSpec);
@@ -173,23 +219,11 @@ public class CycleStreets extends FragmentActivity implements OnTabChangeListene
       return;
 
     final FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-    if(lastTab_ != null && lastTab_.fragment != null) 
-      ft.detach(lastTab_.fragment);
+    if(lastTab_ != null) 
+      lastTab_.detach(ft);
 
-    if(newTab != null) 
-    {
-       if(newTab.fragment == null) 
-       {
-         newTab.fragment = Fragment.instantiate(this,
-                                                newTab.clss.getName(), 
-                                                newTab.args);
-         ft.add(R.id.realtabcontent, newTab.fragment, newTab.tag);
-       }
-       else 
-       {
-         ft.attach(newTab.fragment);
-       }
-    }
+    if(newTab != null)
+      newTab.attach(ft);
 
     lastTab_ = newTab;
     ft.commit();
@@ -197,5 +231,38 @@ public class CycleStreets extends FragmentActivity implements OnTabChangeListene
     
     setTitle("CycleStreets : " + tabId);
   } // onTabChanged
+  
+  @Override
+  public boolean onCreateOptionsMenu(final Menu menu)
+  {
+    // fragments all share the same menu
+    super.onCreateOptionsMenu(menu); 
+    return true;
+  } // onCreateOptionsMenu
+
+  @Override
+  public boolean onPrepareOptionsMenu(final Menu menu)
+  {
+    // turn them all off
+    for(int i = 0; i != menu.size(); ++i)
+    {
+      final MenuItem mi = menu.getItem(i);
+      mi.setVisible(false);
+    } // for ...
+    
+    // then let each fragment reenable
+    lastTab_.onPrepareOptionsMenu(menu, getMenuInflater());
+    return super.onPrepareOptionsMenu(menu);
+  } // onPrepareOptionsMenu
+  
+  
+  @Override
+  public boolean onOptionsItemSelected(final MenuItem item)
+  {
+    if(lastTab_.onOptionsItemSelected(item))
+      return true;
+    
+    return super.onOptionsItemSelected(item);
+  } // onOptionsItemSelected
 } // class CycleStreets
 
