@@ -15,14 +15,19 @@ import net.cyclestreets.planned.Route;
 
 import org.osmdroid.util.GeoPoint;
 
+import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.location.Location;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
 
-public class RouteMapActivity extends CycleMapActivity 
+public class RouteMapFragment extends CycleMapFragment
                               implements TapToRouteOverlay.Callback, 
                                          Route.Callback
 {
@@ -31,31 +36,33 @@ public class RouteMapActivity extends CycleMapActivity
 	private POIOverlay poiOverlay_;
 	
 	@Override
-	public void onCreate(final Bundle saved)
-	{
-	  super.onCreate(saved);
+  public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle saved)
+  {
+    final View v = super.onCreateView(inflater, container, saved);
 
-	  overlayPushBottom(new RouteHighlightOverlay(this, mapView()));
+	  overlayPushBottom(new RouteHighlightOverlay(getActivity(), mapView()));
         
-    poiOverlay_ = new POIOverlay(this, mapView());
+    poiOverlay_ = new POIOverlay(getActivity(), mapView());
     overlayPushBottom(poiOverlay_);
 
-    path_ = new RouteOverlay(this);
+    path_ = new RouteOverlay(getActivity());
 	  overlayPushBottom(path_);
 	  
-	  routeSetter_ = new TapToRouteOverlay(this, mapView(), this);
+	  routeSetter_ = new TapToRouteOverlay(getActivity(), mapView(), this);
 	  overlayPushTop(routeSetter_);
+	  
+	  return v;
   } // onCreate
 
 	@Override
-	protected void onPause()
+  public void onPause()
 	{
 	  Route.setWaypoints(routeSetter_.waypoints());
 	  super.onPause();
   } // onPause
 
 	@Override
-	protected void onResume()
+	public void onResume()
 	{
 	  super.onResume();
 	  setJourneyPath(Route.segments(), Route.waypoints());
@@ -66,7 +73,7 @@ public class RouteMapActivity extends CycleMapActivity
 	  Route.PlotRoute(CycleStreetsPreferences.routeType(), 
 	                  CycleStreetsPreferences.speed(),
 	                  this, 
-	                  this,
+	                  getActivity(),
 	                  waypoints);
 	} // onRouteNow
 
@@ -76,19 +83,19 @@ public class RouteMapActivity extends CycleMapActivity
 	                   itinerary, 
 	                   CycleStreetsPreferences.speed(), 
 	                   this,
-	                   this);
+	                   getActivity());
 	}
 	
 	public void reRouteNow(final String plan)
 	{
 	  Route.RePlotRoute(plan,
 	                    this, 
-	                    this);
+	                    getActivity());
 	} // reRouteNow
 
 	public void onStoredRouteNow(final int localId)
 	{
-	  Route.PlotStoredRoute(localId, this, this);
+	  Route.PlotStoredRoute(localId, this, getActivity());
   } // onStoredRouteNow
     
 	public void onClearRoute()
@@ -100,28 +107,26 @@ public class RouteMapActivity extends CycleMapActivity
   } // onClearRoute
     
 	@Override
-	public boolean onCreateOptionsMenu(final Menu menu)
+	public void onCreateOptionsMenu(final Menu menu, final MenuInflater inflater)
 	{
 	  menu.add(0, R.string.ic_menu_directions, Menu.NONE, R.string.ic_menu_directions).setIcon(R.drawable.ic_menu_directions);
 	  menu.add(0, R.string.ic_menu_saved_routes, Menu.NONE, R.string.ic_menu_saved_routes).setIcon(R.drawable.ic_menu_places);
-	  super.onCreateOptionsMenu(menu);
     menu.add(0, R.string.ic_menu_route_number, Menu.NONE, R.string.ic_menu_route_number).setIcon(R.drawable.ic_menu_route_number);
-	  return true;
+    super.onCreateOptionsMenu(menu, inflater);
 	} // onCreateOptionsMenu
     
 	@Override
-	public boolean onPrepareOptionsMenu(final Menu menu)
+	public void onPrepareOptionsMenu(final Menu menu)
 	{
 	  final MenuItem i = menu.findItem(R.string.ic_menu_saved_routes);
 		i.setVisible(Route.storedCount() != 0);
 		super.onPrepareOptionsMenu(menu);
-		return true;
 	} // onPrepareOptionsMenu
     
 	@Override
-	public boolean onMenuItemSelected(final int featureId, final MenuItem item)
+	public boolean onOptionsItemSelected(final MenuItem item)
 	{
-		if(super.onMenuItemSelected(featureId, item))
+		if(super.onOptionsItemSelected(item))
 			return true;
 		
 		switch(item.getItemId())
@@ -141,11 +146,11 @@ public class RouteMapActivity extends CycleMapActivity
 	} // onMenuItemSelected
 	
 	@Override
-	protected void onActivityResult(int requestCode, int resultCode, Intent data) 
+  public void onActivityResult(int requestCode, int resultCode, Intent data) 
   {
 	  super.onActivityResult(requestCode, resultCode, data);
 		
-		if(resultCode != RESULT_OK)
+		if(resultCode != Activity.RESULT_OK)
 			return;
 		
 		if(requestCode == R.string.ic_menu_saved_routes)
@@ -165,7 +170,7 @@ public class RouteMapActivity extends CycleMapActivity
 			Route.PlotRoute(routeType, 
 			                speed,
 			                this, 
-			                this,
+			                getActivity(),
                       points);
 		} // if ...
 		
@@ -176,7 +181,7 @@ public class RouteMapActivity extends CycleMapActivity
       final int speed = data.getIntExtra(CycleStreetsConstants.EXTRA_ROUTE_SPEED, 
                                          CycleStreetsPreferences.speed());
       
-      Route.FetchRoute(routeType, routeNumber, speed, this, this);
+      Route.FetchRoute(routeType, routeNumber, speed, this, getActivity());
 		} // if ...
 	} // onActivityResult
     
@@ -191,7 +196,7 @@ public class RouteMapActivity extends CycleMapActivity
     
 	private void doLaunchRouteDialog()
 	{
-	  final Intent intent = new Intent(this, RouteByAddressActivity.class);
+	  final Intent intent = new Intent(getActivity(), RouteByAddressActivity.class);
 	  GeoIntent.setBoundingBox(intent, mapView().getBoundingBox());
 	  final Location lastFix = mapView().getLastFix();
 	  GeoIntent.setLocation(intent, lastFix);	
@@ -210,13 +215,13 @@ public class RouteMapActivity extends CycleMapActivity
 
 	private void doLaunchFetchRouteDialog()
 	{
-	  final Intent intent = new Intent(this, RouteNumberActivity.class);
+	  final Intent intent = new Intent(getActivity(), RouteNumberActivity.class);
 	  startActivityForResult(intent, R.string.ic_menu_route_number);
 	} // doLaunchFetchRouteDialog
 	
 	private void launchStoredRoutesDialog()
 	{
-	  final Intent intent = new Intent(this, StoredRoutesActivity.class);
+	  final Intent intent = new Intent(getActivity(), StoredRoutesActivity.class);
     startActivityForResult(intent, R.string.ic_menu_saved_routes);
 	} // launchStoredRoutesDialog
 	

@@ -34,8 +34,6 @@
               android:label="CycleStreets : Settings"/>
     <activity android:name=".AboutActivity"
               android:label="CycleStreets : About"/>
-    <activity android:name=".RouteMapActivity"  
-              android:label="CycleStreets: Route Map"/>
     <activity android:name=".FindPlaceActivity"
               android:label="@string/app_name"
               android:theme="@style/Theme.RouteInputDialog"/>

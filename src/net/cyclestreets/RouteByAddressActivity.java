@@ -6,7 +6,7 @@ import java.util.List;
 import net.cyclestreets.CycleStreetsConstants;
 import net.cyclestreets.CycleStreetsPreferences;
 import net.cyclestreets.R;
-import net.cyclestreets.RouteMapActivity;
+import net.cyclestreets.RouteMapFragment;
 import net.cyclestreets.util.RouteTypeMapper;
 import net.cyclestreets.util.GeoIntent;
 import net.cyclestreets.views.PlaceViewWithCancel;
@@ -134,7 +134,7 @@ public class RouteByAddressActivity extends Activity
       } // for ...
       
     // return start and finish points to RouteMapActivity and close
-    final Intent intent = new Intent(RouteByAddressActivity.this, RouteMapActivity.class);
+    final Intent intent = new Intent(RouteByAddressActivity.this, RouteMapFragment.class);
     GeoIntent.setWaypointsFromPlaces(intent, waypoints);
     final String routeType = RouteTypeMapper.nameFromId(routeType_.getCheckedRadioButtonId());
     intent.putExtra(CycleStreetsConstants.EXTRA_ROUTE_TYPE, routeType);

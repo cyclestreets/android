@@ -3,7 +3,7 @@ package net.cyclestreets;
 import net.cyclestreets.CycleStreetsConstants;
 import net.cyclestreets.CycleStreetsPreferences;
 import net.cyclestreets.R;
-import net.cyclestreets.RouteMapActivity;
+import net.cyclestreets.RouteMapFragment;
 import net.cyclestreets.util.EditTextHistory;
 import net.cyclestreets.util.RouteTypeMapper;
 
@@ -48,7 +48,7 @@ public class RouteNumberActivity extends Activity
 
 	private void findRoute(long routeNumber)
 	{
-		final Intent intent = new Intent(this, RouteMapActivity.class);
+		final Intent intent = new Intent(this, RouteMapFragment.class);
 		intent.putExtra(CycleStreetsConstants.EXTRA_ROUTE_NUMBER, routeNumber);
 		final String routeType = RouteTypeMapper.nameFromId(routeTypeGroup.getCheckedRadioButtonId());
 		intent.putExtra(CycleStreetsConstants.EXTRA_ROUTE_TYPE, routeType);

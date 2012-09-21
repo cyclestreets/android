@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import net.cyclestreets.util.MapPack;
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -35,26 +34,12 @@ public class CycleStreets extends FragmentActivity implements OnTabChangeListene
       tabHost_.setup();
       tabHost_.setOnTabChangedListener(this);
 
+      addTab("Route Map", R.drawable.ic_tab_planroute, RouteMapFragment.class);
+      //addTab("Itinerary", R.drawable.ic_tab_itinerary, ItineraryFragment.class);
       addTab("Photomap", R.drawable.ic_tab_photomap, PhotoMapFragment.class);
       addTab("Photo upload", R.drawable.ic_tab_addphoto, PhotoUploadFragment.class);
       addTab("More ...", R.drawable.ic_tab_more, MoreFragment.class);
 
-	    // initialize objects
-/*	    
-	    // Plan route
-	    spec = tabHost.newTabSpec("Route Map").setIndicator("", res.getDrawable(R.drawable.ic_tab_planroute));
-	    spec.setContent(new Intent(this, RouteMapActivity.class));
-	    
-	    // Itinerary
-	    spec = tabHost.newTabSpec("Itinerary").setIndicator("", res.getDrawable(R.drawable.ic_tab_itinerary));
-	    spec.setContent(new Intent(this, ItineraryActivity.class));
-	    
-	    // Photomap
-	    spec = tabHost.newTabSpec("Photomap").setIndicator("", res.getDrawable(R.drawable.ic_tab_photomap));
-	    spec.setContent(new Intent(this, PhotomapActivity.class));
-	    
-*/
-	    
 	    for(int i = 0; i != tabs_.size(); ++i)
 	    {
 	    	final ViewGroup.LayoutParams layout = tabHost_.getTabWidget().getChildAt(i).getLayoutParams();

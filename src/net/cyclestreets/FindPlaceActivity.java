@@ -43,7 +43,7 @@ implements View.OnClickListener, PlaceView.OnResolveListener
 
     place_.addHistory(place);
 
-    final Intent intent = new Intent(this, RouteMapActivity.class);
+    final Intent intent = new Intent(this, RouteMapFragment.class);
     GeoIntent.setGeoPoint(intent, place.coord());
     setResult(RESULT_OK, intent);
     finish();
