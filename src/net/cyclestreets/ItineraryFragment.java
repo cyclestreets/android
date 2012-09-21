@@ -5,7 +5,6 @@ import java.util.Map;
 import net.cyclestreets.planned.Route;
 import net.cyclestreets.api.Segment;
 
-import android.app.ListActivity;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Color;
