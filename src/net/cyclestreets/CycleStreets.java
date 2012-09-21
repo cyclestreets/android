@@ -187,6 +187,13 @@ public class CycleStreets extends FragmentActivity implements OnTabChangeListene
     {
       return fragment_.onOptionsItemSelected(item);
     } // onOptionsItemSelected
+    
+    boolean onBackPressed()
+    {
+      if(!(fragment_ instanceof Undoable))
+        return false;
+      return ((Undoable)fragment_).onBackPressed();
+    } // onBackPressed
   }  // class TabInfo
 
   @Override
@@ -255,7 +262,6 @@ public class CycleStreets extends FragmentActivity implements OnTabChangeListene
     return super.onPrepareOptionsMenu(menu);
   } // onPrepareOptionsMenu
   
-  
   @Override
   public boolean onOptionsItemSelected(final MenuItem item)
   {
@@ -264,5 +270,15 @@ public class CycleStreets extends FragmentActivity implements OnTabChangeListene
     
     return super.onOptionsItemSelected(item);
   } // onOptionsItemSelected
+
+  @Override
+  public void onBackPressed()
+  {
+    if(lastTab_.onBackPressed())
+      return;
+    super.onBackPressed();
+  }
+  
+  
 } // class CycleStreets
 

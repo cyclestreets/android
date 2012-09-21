@@ -4,6 +4,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.ArrayList;
 
+import net.cyclestreets.Undoable;
 import net.cyclestreets.util.Brush;
 import net.cyclestreets.views.CycleMapView;
 
@@ -31,7 +32,7 @@ public class ControllerOverlay extends Overlay implements OnDoubleTapListener,
 	private final CycleMapView mapView_;
 	private final Paint textBrush_;
 	private boolean isDragging_;
-	private List<UndoAction> undoStack_;
+	private List<Undoable> undoStack_;
 	
 	public ControllerOverlay(final Context context, final CycleMapView mapView)
 	{
@@ -45,7 +46,7 @@ public class ControllerOverlay extends Overlay implements OnDoubleTapListener,
 		gestureDetector_ = new GestureDetector(context, this);
 		gestureDetector_.setOnDoubleTapListener(this);
 		
-		undoStack_ = new ArrayList<UndoAction>();
+		undoStack_ = new ArrayList<Undoable>();
 	} // SingleTapOverlay
 	
 	public void onPause(final SharedPreferences.Editor prefEditor)
@@ -93,25 +94,25 @@ public class ControllerOverlay extends Overlay implements OnDoubleTapListener,
 	    return false;
 	  
 	  int last = undoStack_.size()-1;
-    final UndoAction undo = undoStack_.get(last);
+    final Undoable undo = undoStack_.get(last);
     undoStack_.remove(last);
     undo.onBackPressed();
 	  return true;
 	} // onBackPressed
 	
-	public void pushUndo(final UndoAction undo)
+	public void pushUndo(final Undoable undo)
 	{
 	  undoStack_.add(undo);
 	} // pushUndo
 	
-	public void flushUndo(final UndoAction undo)
+	public void flushUndo(final Undoable undo)
 	{
 	  for(int i = undoStack_.size() - 1; i >= 0; --i)
 	    if(undoStack_.get(i).equals(undo))
 	      undoStack_.remove(i);
 	} // flushUndo
 
-  public void popUndo(final UndoAction undo)
+  public void popUndo(final Undoable undo)
   {
     for(int i = undoStack_.size() - 1; i >= 0; --i)
       if(undoStack_.get(i).equals(undo))

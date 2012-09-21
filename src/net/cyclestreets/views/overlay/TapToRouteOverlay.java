@@ -9,6 +9,7 @@ import net.cyclestreets.CycleStreetsConstants;
 import net.cyclestreets.CycleStreetsPreferences;
 import net.cyclestreets.FeedbackActivity;
 import net.cyclestreets.R;
+import net.cyclestreets.Undoable;
 import net.cyclestreets.planned.Route;
 import net.cyclestreets.util.Brush;
 import net.cyclestreets.util.Draw;
@@ -50,7 +51,7 @@ public class TapToRouteOverlay extends Overlay
                                           TapListener,
                                           ContextMenuListener, 
                                           MenuListener, 
-                                          UndoAction
+                                          Undoable
 {
   public interface Callback 
   {
@@ -474,9 +475,9 @@ public class TapToRouteOverlay extends Overlay
     return true;
   } // tapRestart
   
-  public void onBackPressed()
+  public boolean onBackPressed()
   {
-    stepBack(false);
+    return stepBack(false);
   } // onBackPressed
   
   private boolean stepBack(final boolean tap)

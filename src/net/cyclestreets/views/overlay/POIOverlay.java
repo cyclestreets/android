@@ -34,6 +34,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import net.cyclestreets.R;
+import net.cyclestreets.Undoable;
 import net.cyclestreets.api.POI;
 import net.cyclestreets.api.POICategories;
 import net.cyclestreets.api.POICategory;
@@ -49,7 +50,7 @@ public class POIOverlay extends LiveItemOverlay<POIOverlay.POIItem>
                         implements MapListener, 
                                    MenuListener, 
                                    PauseResumeListener, 
-                                   UndoAction
+                                   Undoable
 {
   static public class POIItem extends OverlayItem 
   {
@@ -411,10 +412,11 @@ public class POIOverlay extends LiveItemOverlay<POIOverlay.POIItem>
   } // onMenuItemSelected
   
   @Override
-  public void onBackPressed()
+  public boolean onBackPressed()
   {
     hideBubble();
     redraw();
+    return true;
   } // onBackPressed
   
   /////////////////////////////////////////////////////

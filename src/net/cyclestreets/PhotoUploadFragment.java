@@ -57,7 +57,7 @@ import static net.cyclestreets.FragmentHelper.createMenuItem;
 import static net.cyclestreets.FragmentHelper.enableMenuItem;
 
 public class PhotoUploadFragment extends Fragment 
-                implements View.OnClickListener, LocationListener
+                implements View.OnClickListener, LocationListener, Undoable
 {
   public enum AddStep
   {
@@ -298,6 +298,7 @@ public class PhotoUploadFragment extends Fragment
   } // onMenuItemSelected
   
   ///////////////////////////////////////////////////////////////////
+  @Override
   public boolean onBackPressed()
   { 
     if(step_ == AddStep.PHOTO || step_ == AddStep.VIEW)

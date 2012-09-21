@@ -22,7 +22,7 @@ import android.widget.RelativeLayout.LayoutParams;
 import static net.cyclestreets.FragmentHelper.createMenuItem;
 import static net.cyclestreets.FragmentHelper.enableMenuItem;
 
-public class CycleMapFragment extends Fragment
+public class CycleMapFragment extends Fragment implements Undoable
 {
   private CycleMapView map_; 
   
@@ -132,12 +132,10 @@ public class CycleMapFragment extends Fragment
       map_.disableFollowLocation();
     return super.onTouchEvent(event);
   } // onTouchEvent   
-  
+*/
   @Override 
-  public void onBackPressed()
+  public boolean onBackPressed()
   {
-    if(!map_.onBackPressed())
-      super.onBackPressed();
+    return map_.onBackPressed();
   } // onBackPressed
-  */
 }
