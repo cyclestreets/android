@@ -22,8 +22,6 @@
         <category android:name="android.intent.category.LAUNCHER" />
       </intent-filter>
     </activity>
-    <activity android:name=".ItineraryActivity"
-              android:label="CycleStreets : Itinerary"/>
     <activity android:name=".DisplayPhotoActivity"
               android:label="@string/app_name"
               android:theme="@style/Theme.Photo"/>

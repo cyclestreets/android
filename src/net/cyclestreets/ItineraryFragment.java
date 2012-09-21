@@ -11,6 +11,7 @@ import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.support.v4.app.ListFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,34 +22,31 @@ import android.widget.TextView;
 
 import net.cyclestreets.util.MapFactory;
 
-public class ItineraryActivity extends ListActivity 
+public class ItineraryFragment extends ListFragment 
 {
 	@Override
-	public void onCreate(Bundle savedInstanceState) 
+	public void onCreate(final Bundle savedInstanceState) 
 	{
 	  super.onCreate(savedInstanceState);
-	  setListAdapter(new SegmentAdapter(this));
+	  setListAdapter(new SegmentAdapter(getActivity()));
 	} // onCreate
 
 	@Override
-	protected void onResume() 
+  public void onResume() 
 	{
 		super.onResume();
-		
-		onContentChanged();
-		
 		Route.onResume();
 		setSelection(Route.activeSegmentIndex());
 	} // onResume	
     
 	@Override
-	protected void onListItemClick(ListView l, View v, int position, long id)
+  public void onListItemClick(ListView l, View v, int position, long id)
 	{
 	  if(!Route.available())
 	    return;
     	  
 	  Route.setActiveSegmentIndex(position);
-	  ((CycleStreets)getParent()).showMap();
+	  ((CycleStreets)getActivity()).showMap();
 	} // onListItemClick
     
 	//////////////////////////////////
