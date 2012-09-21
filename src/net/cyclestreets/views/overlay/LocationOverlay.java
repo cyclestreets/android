@@ -13,9 +13,11 @@ import android.location.Location;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
+import static net.cyclestreets.FragmentHelper.createMenuItem;
+import static net.cyclestreets.FragmentHelper.enableMenuItem;
 
 public class LocationOverlay extends MyLocationOverlay 
-							               implements ButtonTapListener, DynamicMenuListener
+							               implements ButtonTapListener, MenuListener
 {
 	static private String LOCATION_ON = "Follow Location";
 	static private String LOCATION_OFF = "Location Off";
@@ -99,19 +101,18 @@ public class LocationOverlay extends MyLocationOverlay
 
 	////////////////////////////////////////////////
   @Override
-	public boolean onCreateOptionsMenu(final Menu menu)
+	public void onCreateOptionsMenu(final Menu menu)
 	{
-	  menu.add(0, R.string.ic_menu_mylocation, Menu.NONE, isMyLocationEnabled() ? LOCATION_OFF : LOCATION_ON).setIcon(R.drawable.ic_menu_mylocation);
-	  return true;
+    createMenuItem(menu, R.string.ic_menu_mylocation, Menu.NONE, R.drawable.ic_menu_mylocation);
 	} // onCreateOptionsMenu
 	
   @Override
-	public boolean onPrepareOptionsMenu(final Menu menu)
+	public void onPrepareOptionsMenu(final Menu menu)
 	{
-		final MenuItem item = menu.findItem(R.string.ic_menu_mylocation);
+    
+		final MenuItem item = enableMenuItem(menu, R.string.ic_menu_mylocation, true);
 		if(item != null) 
 			item.setTitle(isMyLocationEnabled() ? LOCATION_OFF : LOCATION_ON);
-		return true;
 	} // onPrepareOptionsMenu
 
   @Override

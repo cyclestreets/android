@@ -60,24 +60,16 @@ public class ControllerOverlay extends Overlay implements OnDoubleTapListener,
       overlays.next().onResume(prefs);
 	} // onResume
 
-	public boolean onCreateOptionsMenu(final Menu menu)
+	public void onCreateOptionsMenu(final Menu menu)
 	{
-		boolean ret = false;
-		
 		for(final Iterator<MenuListener> overlays = menuOverlays(); overlays.hasNext(); )
-			ret |= overlays.next().onCreateOptionsMenu(menu);
-		
-		return ret;
+			overlays.next().onCreateOptionsMenu(menu);
 	} // onCreateOptionsMenu
 	
-	public boolean onPrepareOptionsMenu(final Menu menu)
+	public void onPrepareOptionsMenu(final Menu menu)
 	{
-		boolean ret = false;
-		
-		for(final Iterator<DynamicMenuListener> overlays = dynamicMenuOverlays(); overlays.hasNext(); )
-			ret |= overlays.next().onPrepareOptionsMenu(menu);
-		
-		return ret;
+		for(final Iterator<MenuListener> overlays = menuOverlays(); overlays.hasNext(); )
+			overlays.next().onPrepareOptionsMenu(menu);
 	} // onPrepareOptionsMenu
 	
 	public void onCreateContextMenu(final ContextMenu menu)
@@ -214,10 +206,6 @@ public class ControllerOverlay extends Overlay implements OnDoubleTapListener,
 	{
 		return new OverlayIterator<MenuListener>(mapView_, MenuListener.class);
 	} // menuOverlays
-	private Iterator<DynamicMenuListener> dynamicMenuOverlays()
-	{
-		return new OverlayIterator<DynamicMenuListener>(mapView_, DynamicMenuListener.class);
-	} // dynamicMenuOverlays
 	private Iterator<ContextMenuListener> contextMenuOverlays()
 	{
 		return new OverlayIterator<ContextMenuListener>(mapView_, ContextMenuListener.class);

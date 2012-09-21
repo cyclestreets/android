@@ -13,7 +13,6 @@ import android.os.Bundle;
 import android.view.ContextMenu;
 import android.view.Gravity;
 import android.view.LayoutInflater;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,12 +22,10 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.RelativeLayout.LayoutParams;
 
+import static net.cyclestreets.FragmentHelper.createMenuItem;
+
 public class StoredRoutesActivity extends ListActivity 
 {
-  private static final int MENU_OPEN = 1;
-  private static final int MENU_DELETE = 2;
-  private static final int MENU_RENAME = 3;
-  
   private RouteSummaryAdaptor listAdaptor_;
   
   @Override
@@ -51,9 +48,9 @@ public class StoredRoutesActivity extends ListActivity
                                   final View v, 
                                   final ContextMenu.ContextMenuInfo menuInfo) 
   {
-     menu.add(0, MENU_OPEN, Menu.NONE, "Open");
-     menu.add(0, MENU_RENAME, Menu.NONE, "Rename");
-     menu.add(0, MENU_DELETE, Menu.NONE, "Delete");
+    createMenuItem(menu, R.string.ic_menu_open);
+    createMenuItem(menu, R.string.ic_menu_rename);
+    createMenuItem(menu, R.string.ic_menu_delete);
   }  // onCreateContextMenu
 
   @Override
@@ -66,13 +63,13 @@ public class StoredRoutesActivity extends ListActivity
 
       switch(item.getItemId())
       {
-        case MENU_OPEN:
+        case R.string.ic_menu_open:
           openRoute(localId);
           break;
-        case MENU_RENAME:
+        case R.string.ic_menu_rename:
           renameRoute(localId);
           break;
-        case MENU_DELETE:
+        case R.string.ic_menu_delete:
           deleteRoute(localId);
           break;
       } // switch

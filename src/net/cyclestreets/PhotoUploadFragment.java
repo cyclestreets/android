@@ -53,6 +53,9 @@ import java.util.Map;
 import org.osmdroid.api.IGeoPoint;
 import org.osmdroid.util.GeoPoint;
 
+import static net.cyclestreets.FragmentHelper.createMenuItem;
+import static net.cyclestreets.FragmentHelper.enableMenuItem;
+
 public class PhotoUploadFragment extends Fragment 
                 implements View.OnClickListener, LocationListener
 {
@@ -264,18 +267,15 @@ public class PhotoUploadFragment extends Fragment
   @Override
   public void onCreateOptionsMenu(final Menu menu, final MenuInflater inflater) 
   {
-    menu.add(0, R.string.ic_menu_restart, Menu.NONE, R.string.ic_menu_restart).setIcon(R.drawable.ic_menu_rotate);
-    menu.add(0, R.string.ic_menu_back, Menu.NONE, R.string.ic_menu_back).setIcon(R.drawable.ic_menu_revert);
+    createMenuItem(menu, R.string.ic_menu_restart, Menu.NONE, R.drawable.ic_menu_rotate);
+    createMenuItem(menu, R.string.ic_menu_back, Menu.NONE, R.drawable.ic_menu_revert);
   } // onCreateOptionsMenu
   
   @Override
   public void onPrepareOptionsMenu(final Menu menu)
   {
-    final MenuItem restart = menu.findItem(R.string.ic_menu_restart);
-    final MenuItem back = menu.findItem(R.string.ic_menu_back);
-    
-    restart.setEnabled(step_ != AddStep.PHOTO);
-    back.setEnabled(step_ != AddStep.PHOTO && step_ != AddStep.VIEW);
+    enableMenuItem(menu, R.string.ic_menu_restart, step_ != AddStep.PHOTO);
+    enableMenuItem(menu, R.string.ic_menu_back, step_ != AddStep.PHOTO && step_ != AddStep.VIEW);
   } // onPrepareOptionsMenu
     
   @Override

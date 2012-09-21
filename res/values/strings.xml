@@ -66,6 +66,10 @@
   
   <string name="ic_menu_poi">Points of Interest</string>
 	<string name="ic_menu_poi_clear_all">Clear all</string>
+	
+	<string name="ic_menu_open">Open</string>
+	<string name="ic_menu_rename">Rename</string>
+	<string name="ic_menu_delete">Delete</string>
   
 	<!-- find place dialog -->
 	<string name="btn_find_place">Find</string>

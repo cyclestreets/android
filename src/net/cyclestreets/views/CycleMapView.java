@@ -140,14 +140,14 @@ public class CycleMapView extends MapView
   
   ////////////////////////////////////////////////////////////
   ////////////////////////////////////////////////////////////
-  public boolean onCreateOptionsMenu(final Menu menu)
+  public void onCreateOptionsMenu(final Menu menu)
   {
-    return controllerOverlay_.onCreateOptionsMenu(menu);    
+    controllerOverlay_.onCreateOptionsMenu(menu);    
   } // onCreateOptionsMenu
   
-  public boolean onPrepareOptionsMenu(final Menu menu)
+  public void onPrepareOptionsMenu(final Menu menu)
   {
-    return controllerOverlay_.onPrepareOptionsMenu(menu);
+    controllerOverlay_.onPrepareOptionsMenu(menu);
   } // onPrepareOptionsMenu
 
   public boolean onMenuItemSelected(final int featureId, final MenuItem item)

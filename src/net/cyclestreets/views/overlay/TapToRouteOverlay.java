@@ -42,12 +42,14 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.widget.Toast;
+import static net.cyclestreets.FragmentHelper.createMenuItem;
+import static net.cyclestreets.FragmentHelper.showMenuItem;
 
 public class TapToRouteOverlay extends Overlay 
                                implements ButtonTapListener,
                                           TapListener,
                                           ContextMenuListener, 
-                                          DynamicMenuListener, 
+                                          MenuListener, 
                                           UndoAction
 {
   public interface Callback 
@@ -241,18 +243,15 @@ public class TapToRouteOverlay extends Overlay
 
   ////////////////////////////////////////////
   @Override
-  public boolean onCreateOptionsMenu(final Menu menu) 
+  public void onCreateOptionsMenu(final Menu menu) 
   { 
-    menu.add(0, R.string.ic_menu_replan, Menu.NONE, R.string.ic_menu_replan).setIcon(R.drawable.ic_menu_more);
-    return true;
+    createMenuItem(menu, R.string.ic_menu_replan, Menu.NONE, R.drawable.ic_menu_more);
   } // onCreateOptionsMenu
   
   @Override
-  public boolean onPrepareOptionsMenu(final Menu menu)
+  public void onPrepareOptionsMenu(final Menu menu)
   {    
-    final MenuItem i = menu.findItem(R.string.ic_menu_replan);
-    i.setVisible(tapState_ == TapToRoute.ALL_DONE);
-    return true;
+    showMenuItem(menu, R.string.ic_menu_replan, tapState_ == TapToRoute.ALL_DONE);
   } // onPrepareOptionsMenu
   
   @Override
@@ -301,7 +300,7 @@ public class TapToRouteOverlay extends Overlay
         final Location lastFix = mapView_.getLastFix();
         if(lastFix == null)
         {
-          Toast.makeText(mapView_.getContext(), R.string.no_location, Toast.LENGTH_LONG);
+          Toast.makeText(mapView_.getContext(), R.string.no_location, Toast.LENGTH_LONG).show();
           return false;
         }
         final GeoPoint from = new GeoPoint((int)(lastFix.getLatitude() * 1E6),

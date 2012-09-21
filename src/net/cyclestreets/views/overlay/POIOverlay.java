@@ -42,9 +42,12 @@ import net.cyclestreets.util.Draw;
 import net.cyclestreets.util.GeoHelper;
 import net.cyclestreets.views.CycleMapView;
 
+import static net.cyclestreets.FragmentHelper.createMenuItem;
+import static net.cyclestreets.FragmentHelper.enableMenuItem;
+
 public class POIOverlay extends LiveItemOverlay<POIOverlay.POIItem>
                         implements MapListener, 
-                                   DynamicMenuListener, 
+                                   MenuListener, 
                                    PauseResumeListener, 
                                    UndoAction
 {
@@ -363,16 +366,14 @@ public class POIOverlay extends LiveItemOverlay<POIOverlay.POIItem>
   
   /////////////////////////////////////////////////////
   ////////////////////////////////////////////////
-  public boolean onCreateOptionsMenu(final Menu menu)
+  public void onCreateOptionsMenu(final Menu menu)
   {
-    menu.add(0, R.string.ic_menu_poi, Menu.NONE, R.string.ic_menu_poi).setIcon(R.drawable.ic_menu_poi);
-    
-    return true;
+    createMenuItem(menu, R.string.ic_menu_poi, Menu.NONE, R.drawable.ic_menu_poi);
   } // onCreateOptionsMenu
   
-  public boolean onPrepareOptionsMenu(final Menu menu)
+  public void onPrepareOptionsMenu(final Menu menu)
   {
-    return true;
+    enableMenuItem(menu, R.string.ic_menu_poi, true);
   } // onPrepareOptionsMenu
   
   public boolean onMenuItemSelected(final int featureId, final MenuItem item)
