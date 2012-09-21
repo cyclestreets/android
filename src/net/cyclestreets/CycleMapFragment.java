@@ -19,6 +19,9 @@ import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.RelativeLayout.LayoutParams;
 
+import static net.cyclestreets.FragmentHelper.createMenuItem;
+import static net.cyclestreets.FragmentHelper.enableMenuItem;
+
 public class CycleMapFragment extends Fragment
 {
   private CycleMapView map_; 
@@ -59,16 +62,16 @@ public class CycleMapFragment extends Fragment
   public void onCreateOptionsMenu(final Menu menu, final MenuInflater inflater)
   {
     map_.onCreateOptionsMenu(menu);
-    menu.add(0, R.string.ic_menu_findplace, Menu.NONE, R.string.ic_menu_findplace).setIcon(R.drawable.ic_menu_search);
-    menu.add(0, R.string.ic_menu_settings, 99, R.string.ic_menu_settings).setIcon(R.drawable.ic_menu_settings);
+    createMenuItem(menu, R.string.ic_menu_findplace, Menu.NONE, R.drawable.ic_menu_search);
+    createMenuItem(menu, R.string.ic_menu_settings, 99, R.drawable.ic_menu_settings);
   } // onCreateOptionsMenu
     
   @Override
   public void onPrepareOptionsMenu(final Menu menu)
   {
     map_.onPrepareOptionsMenu(menu);
-    menu.findItem(R.string.ic_menu_findplace).setVisible(true);
-    menu.findItem(R.string.ic_menu_settings).setVisible(true);
+    enableMenuItem(menu, R.string.ic_menu_findplace, true);
+    enableMenuItem(menu, R.string.ic_menu_settings, true);
   } // onPrepareOptionsMenu
     
   @Override

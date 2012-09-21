@@ -27,6 +27,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import static net.cyclestreets.FragmentHelper.createMenuItem;
+import static net.cyclestreets.FragmentHelper.enableMenuItem;
+import static net.cyclestreets.FragmentHelper.showMenuItem;
+
 public class RouteMapFragment extends CycleMapFragment
                               implements TapToRouteOverlay.Callback, 
                                          Route.Callback
@@ -109,17 +113,18 @@ public class RouteMapFragment extends CycleMapFragment
 	@Override
 	public void onCreateOptionsMenu(final Menu menu, final MenuInflater inflater)
 	{
-	  menu.add(0, R.string.ic_menu_directions, Menu.NONE, R.string.ic_menu_directions).setIcon(R.drawable.ic_menu_directions);
-	  menu.add(0, R.string.ic_menu_saved_routes, Menu.NONE, R.string.ic_menu_saved_routes).setIcon(R.drawable.ic_menu_places);
-    menu.add(0, R.string.ic_menu_route_number, Menu.NONE, R.string.ic_menu_route_number).setIcon(R.drawable.ic_menu_route_number);
+	  createMenuItem(menu, R.string.ic_menu_directions, Menu.NONE, R.drawable.ic_menu_directions);
+	  createMenuItem(menu, R.string.ic_menu_saved_routes, Menu.NONE, R.drawable.ic_menu_places);
+	  createMenuItem(menu, R.string.ic_menu_route_number, Menu.NONE, R.drawable.ic_menu_route_number);
     super.onCreateOptionsMenu(menu, inflater);
 	} // onCreateOptionsMenu
     
 	@Override
 	public void onPrepareOptionsMenu(final Menu menu)
 	{
-	  final MenuItem i = menu.findItem(R.string.ic_menu_saved_routes);
-		i.setVisible(Route.storedCount() != 0);
+	  enableMenuItem(menu, R.string.ic_menu_directions, true);
+	  showMenuItem(menu, R.string.ic_menu_saved_routes, Route.storedCount() != 0);
+	  enableMenuItem(menu, R.string.ic_menu_route_number, true);
 		super.onPrepareOptionsMenu(menu);
 	} // onPrepareOptionsMenu
     
