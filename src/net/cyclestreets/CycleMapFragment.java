@@ -94,6 +94,13 @@ public class CycleMapFragment extends Fragment implements Undoable
     
     return false;
   } // onMenuItemSelected
+  
+  @Override 
+  public boolean onContextItemSelected(final MenuItem item)
+  {
+    return map_.onMenuItemSelected(item.getItemId(), item);
+  } // onContextItemSelected
+  
     
   @Override
   public void onActivityResult(int requestCode, int resultCode, Intent data) 

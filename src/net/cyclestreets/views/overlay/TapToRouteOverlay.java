@@ -45,12 +45,12 @@ import android.view.MotionEvent;
 import android.widget.Toast;
 import static net.cyclestreets.FragmentHelper.createMenuItem;
 import static net.cyclestreets.FragmentHelper.showMenuItem;
+import static net.cyclestreets.FragmentHelper.createMenuItem;
 
 public class TapToRouteOverlay extends Overlay 
                                implements ButtonTapListener,
                                           TapListener,
                                           ContextMenuListener, 
-                                          MenuListener, 
                                           Undoable
 {
   public interface Callback 
@@ -246,7 +246,7 @@ public class TapToRouteOverlay extends Overlay
   @Override
   public void onCreateOptionsMenu(final Menu menu) 
   { 
-    createMenuItem(menu, R.string.ic_menu_replan, Menu.NONE, R.drawable.ic_menu_more);
+    createMenuItem(menu, R.string.ic_menu_replan, Menu.FIRST, R.drawable.ic_menu_more);
   } // onCreateOptionsMenu
   
   @Override
@@ -264,19 +264,14 @@ public class TapToRouteOverlay extends Overlay
     final String currentPlan = Route.planned().plan();
     for(int id : Replan_Menu_Ids)
       if(!currentPlan.equals(Replan_Menu_Plans.get(id)))
-          add(menu, id);
+        createMenuItem(menu, id);
     if(mapView_.isMyLocationEnabled())
-      add(menu, R.string.ic_menu_reroute_from_here);
-    add(menu, R.string.ic_menu_reverse);
-    add(menu, R.string.ic_menu_share);
-    add(menu, R.string.ic_menu_feedback);
+      createMenuItem(menu, R.string.ic_menu_reroute_from_here);
+    createMenuItem(menu, R.string.ic_menu_reverse);
+    createMenuItem(menu, R.string.ic_menu_share);
+    createMenuItem(menu, R.string.ic_menu_feedback);
   } // onCreateContextMenu
   
-  private void add(ContextMenu menu, int id)
-  {
-    menu.add(0, id, 0, id);
-  } // add
-
   @Override
   public boolean onMenuItemSelected(int featureId, final MenuItem item)
   {

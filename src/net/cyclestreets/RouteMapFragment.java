@@ -149,7 +149,7 @@ public class RouteMapFragment extends CycleMapFragment
 		
 		return false;
 	} // onMenuItemSelected
-	
+		
 	@Override
   public void onActivityResult(int requestCode, int resultCode, Intent data) 
   {
