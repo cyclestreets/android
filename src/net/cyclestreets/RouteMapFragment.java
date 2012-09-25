@@ -6,6 +6,7 @@ import net.cyclestreets.CycleStreetsConstants;
 import net.cyclestreets.R;
 import net.cyclestreets.util.MessageBox;
 import net.cyclestreets.util.GeoIntent;
+import net.cyclestreets.views.overlay.LiveRideOverlay;
 import net.cyclestreets.views.overlay.POIOverlay;
 import net.cyclestreets.views.overlay.RouteOverlay;
 import net.cyclestreets.views.overlay.RouteHighlightOverlay;
@@ -51,6 +52,8 @@ public class RouteMapFragment extends CycleMapFragment
 
     path_ = new RouteOverlay(getActivity());
 	  overlayPushBottom(path_);
+	  
+	  overlayPushBottom(new LiveRideOverlay(getActivity()));
 	  
 	  routeSetter_ = new TapToRouteOverlay(getActivity(), mapView(), this);
 	  overlayPushTop(routeSetter_);

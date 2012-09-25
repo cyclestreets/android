@@ -13,7 +13,10 @@ public class FragmentHelper
     final MenuItem item = menu.findItem(itemId);
     if(item != null)
       return item;
-    return menu.add(0, itemId, order, itemId).setIcon(iconId);
+    final MenuItem newItem = menu.add(0, itemId, order, itemId);
+    if(iconId != 0)
+      newItem.setIcon(iconId);
+    return newItem;
   } // createMenuItem
 
   static public MenuItem createMenuItem(final Menu menu, final int itemId)
