@@ -239,6 +239,27 @@ public class CycleStreets extends FragmentActivity implements OnTabChangeListene
     setTitle("CycleStreets : " + tabId);
   } // onTabChanged
   
+  // pause/resume
+  @Override
+  protected void onPause()
+  {
+    super.onPause();
+
+    final SharedPreferences.Editor edit = prefs().edit();
+    edit.putString("TAB", tabHost_.getCurrentTabTag());
+    edit.commit();
+  } // onPause
+
+  @Override
+  protected void onResume()
+  {
+    final String tab = prefs().getString("TAB", "");
+    tabHost_.setCurrentTabByTag(tab);
+    
+    super.onResume();
+  } // onResume
+
+  // menus
   @Override
   public boolean onCreateOptionsMenu(final Menu menu)
   {
@@ -271,6 +292,7 @@ public class CycleStreets extends FragmentActivity implements OnTabChangeListene
     return super.onOptionsItemSelected(item);
   } // onOptionsItemSelected
 
+  // touch and buttons
   @Override
   public void onBackPressed()
   {
