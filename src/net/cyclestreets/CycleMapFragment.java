@@ -125,24 +125,9 @@ public class CycleMapFragment extends Fragment implements Undoable
     startActivityForResult(intent, ActivityId.FindPlace);
   } // launchFindDialog
   
-/*
-  @Override
-  public boolean onTrackballEvent(MotionEvent event)
-  {
-    return map_.onTrackballEvent(event);
-  } // onTrackballEvent
-  
-  @Override
-  public boolean onTouchEvent(MotionEvent event)
-  {
-    if (event.getAction() == MotionEvent.ACTION_MOVE)
-      map_.disableFollowLocation();
-    return super.onTouchEvent(event);
-  } // onTouchEvent   
-*/
   @Override 
   public boolean onBackPressed()
   {
     return map_.onBackPressed();
   } // onBackPressed
-}
+} // CycleMapFragment

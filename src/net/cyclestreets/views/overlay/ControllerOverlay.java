@@ -122,8 +122,6 @@ public class ControllerOverlay extends Overlay implements OnDoubleTapListener,
       } // if ...
   } // flushUndo
 
-
-	
 	////////////////////////////////////////////////////////////////
 	@Override
 	public boolean onTouchEvent(final MotionEvent event, final MapView mapView)

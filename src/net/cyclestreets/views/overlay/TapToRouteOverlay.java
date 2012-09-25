@@ -45,7 +45,6 @@ import android.view.MotionEvent;
 import android.widget.Toast;
 import static net.cyclestreets.FragmentHelper.createMenuItem;
 import static net.cyclestreets.FragmentHelper.showMenuItem;
-import static net.cyclestreets.FragmentHelper.createMenuItem;
 
 public class TapToRouteOverlay extends Overlay 
                                implements ButtonTapListener,
