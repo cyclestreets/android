@@ -72,7 +72,8 @@ public class RouteMapFragment extends CycleMapFragment
 	public void onResume()
 	{
 	  super.onResume();
-	  setJourneyPath(Route.segments(), Route.waypoints());
+	  Route.onResume();
+	  setJourneyPath(Route.journey().segments(), Route.waypoints());
   } // onResume
      
 	public void onRouteNow(final List<GeoPoint> waypoints)
@@ -91,7 +92,7 @@ public class RouteMapFragment extends CycleMapFragment
 	                   CycleStreetsPreferences.speed(), 
 	                   this,
 	                   getActivity());
-	}
+	} // onRouteNow
 	
 	public void reRouteNow(final String plan)
 	{
@@ -246,7 +247,7 @@ public class RouteMapFragment extends CycleMapFragment
 	@Override
 	public void onNewJourney() 
 	{
-	  setJourneyPath(Route.segments(), Route.waypoints());
+	  setJourneyPath(Route.journey().segments(), Route.waypoints());
 	  
 	  mapView().getController().setCenter(Route.start());
 	  mapView().postInvalidate();

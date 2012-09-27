@@ -260,7 +260,7 @@ public class TapToRouteOverlay extends Overlay
     if(tapState_ != TapToRoute.ALL_DONE)
       return;
 
-    final String currentPlan = Route.planned().plan();
+    final String currentPlan = Route.journey().plan();
     for(int id : Replan_Menu_Ids)
       if(!currentPlan.equals(Replan_Menu_Plans.get(id)))
         createMenuItem(menu, id);
@@ -312,8 +312,8 @@ public class TapToRouteOverlay extends Overlay
       break;
     case R.string.ic_menu_share:
       Share.Url(mapView_, 
-                Route.planned().url(), 
-                Route.planned().name(),
+                Route.journey().url(), 
+                Route.journey().name(),
                 "CycleStreets journey");
       break;
     case R.string.ic_menu_feedback:

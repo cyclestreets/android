@@ -35,7 +35,7 @@ public class ItineraryFragment extends ListFragment
 	{
 		super.onResume();
 		Route.onResume();
-		setSelection(Route.activeSegmentIndex());
+		setSelection(Route.journey().activeSegmentIndex());
 	} // onResume	
     
 	@Override
@@ -44,7 +44,7 @@ public class ItineraryFragment extends ListFragment
 	  if(!Route.available())
 	    return;
     	  
-	  Route.setActiveSegmentIndex(position);
+	  Route.journey().setActiveSegmentIndex(position);
 	  ((CycleStreets)getActivity()).showMap();
 	} // onListItemClick
     
@@ -64,13 +64,13 @@ public class ItineraryFragment extends ListFragment
 
 	  private boolean hasSegments() 
 	  {
-	    return (Route.segments() != null) && (Route.segments().size() != 0);
+	    return (Route.journey().segments() != null) && (Route.journey().segments().size() != 0);
     } // hasSegments
     	
 		@Override
 		public int getCount() 
 		{ 
-			return hasSegments() ? Route.segments().size() : 1; 
+			return hasSegments() ? Route.journey().segments().size() : 1; 
 		} // getCount
 
 		@Override
@@ -78,7 +78,7 @@ public class ItineraryFragment extends ListFragment
 		{ 
 			if(!hasSegments())
 				return null;
-			return Route.segments().get(position); 
+			return Route.journey().segments().get(position); 
 		} // getItem
 
 		@Override
@@ -93,11 +93,11 @@ public class ItineraryFragment extends ListFragment
 			if(!hasSegments())
 				return inflater_.inflate(R.layout.itinerary_not_available, parent, false);
 			
-			final Segment seg = Route.segments().get(position);
+			final Segment seg = Route.journey().segments().get(position);
 			final int layout_id = position != 0 ? R.layout.itinerary_item : R.layout.itinerary_header_item;
 			final View v = inflater_.inflate(layout_id, parent, false);
 
-			final boolean highlight = (position == Route.activeSegmentIndex());
+			final boolean highlight = (position == Route.journey().activeSegmentIndex());
 		
 			if(position == 0)
 				setText(v, R.id.segment_bonus, seg.extraInfo(), highlight);

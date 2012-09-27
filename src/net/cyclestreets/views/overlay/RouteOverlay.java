@@ -88,11 +88,11 @@ public class RouteOverlay extends Overlay
       return;
 		
     if((zoomLevel_ != mapView.getZoomLevel() && !mapView.isAnimating()) ||
-       (highlight_ != Route.activeSegment()))
+       (highlight_ != Route.journey().activeSegment()))
     {
       ridePath_ = null;
       zoomLevel_ = mapView.getProjection().getZoomLevel();
-      highlight_ = Route.activeSegment();
+      highlight_ = Route.journey().activeSegment();
     } // if ... 
   
     if(ridePath_ == null)
@@ -101,7 +101,7 @@ public class RouteOverlay extends Overlay
 
     canvas.drawPath(ridePath_, rideBrush_);
     canvas.drawPath(walkPath_, walkBrush_);
-    canvas.drawPath(highlightPath_, Route.activeSegment().walk() ? hiWalkBrush_ : hiRideBrush_);
+    canvas.drawPath(highlightPath_, Route.journey().activeSegment().walk() ? hiWalkBrush_ : hiRideBrush_);
   } // draw
 
   private Path newPath()
@@ -121,7 +121,7 @@ public class RouteOverlay extends Overlay
     for(Segment s : route_)
     {
       Path path = s.walk() ? walkPath_ : ridePath_;
-      path = (Route.activeSegment() != s) ? path : highlightPath_; 
+      path = (Route.journey().activeSegment() != s) ? path : highlightPath_; 
       
       boolean first = true;
       for(Iterator<GeoPoint> i = s.points(); i.hasNext(); )

@@ -1,7 +1,6 @@
 package net.cyclestreets.planned;
 
 import java.util.Collections;
-import java.util.Iterator;
 import java.util.List;
 
 import net.cyclestreets.api.Journey;
@@ -96,7 +95,7 @@ public class Route
 
 	static public void onResume()
 	{
-		Segment.formatter = DistanceFormatter.formatter(CycleStreetsPreferences.units());
+		Segment.formatter = DistanceFormatter.formatter(CycleStreetsPreferences .units());
 	} // onResult
 	
 	/////////////////////////////////////
@@ -143,20 +142,8 @@ public class Route
 	static public GeoPoint start() { return (waypoints_.size() != 0) ? waypoints_.get(0) : null; }
 	static public List<GeoPoint> waypoints() { return waypoints_; }
 	
-	static public int itinerary() { return planned().itinerary(); }
 	static public boolean available() { return plannedRoute_ != Journey.NULL_JOURNEY; }
-	static public Journey planned() { return plannedRoute_; }
-	static public Segment activeSegment() { return planned().activeSegment(); }
-	static public int activeSegmentIndex() { return planned().activeSegmentIndex(); }
-	static public void setActiveSegmentIndex(int index) { planned().setActiveSegmentIndex(index); }
-	static public void advanceActiveSegment() { planned().advanceActiveSegment(); }
-	static public void regressActiveSegment() { planned().regressActiveSegment(); }
-	
-	static public List<Segment> segments() { return planned().segments(); }
-	static public Iterator<GeoPoint> points() { return planned().points(); }
-	
-	static public boolean atStart() { return planned().atStart(); }
-	static public boolean atEnd() { return planned().atEnd(); }
+	static public Journey journey() { return plannedRoute_; }
 	
 	private Route() 
 	{

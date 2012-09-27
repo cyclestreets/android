@@ -62,10 +62,10 @@ public class RouteHighlightOverlay extends Overlay
   @Override
   public void draw(final Canvas canvas, final MapView mapView, final boolean shadow)
   {
-    if(current_ == Route.activeSegment())
+    if(current_ == Route.journey().activeSegment())
       return;
 
-    current_ = Route.activeSegment();
+    current_ = Route.journey().activeSegment();
     if(current_ == null)
       return;
                   
@@ -80,15 +80,15 @@ public class RouteHighlightOverlay extends Overlay
 		
     drawSegmentInfo(canvas);
 
-    prevButton_.enable(!Route.atStart());
+    prevButton_.enable(!Route.journey().atStart());
     prevButton_.draw(canvas);
-    nextButton_.enable(!Route.atEnd());
+    nextButton_.enable(!Route.journey().atEnd());
     nextButton_.draw(canvas);
   } // drawButtons
 	
   private void drawSegmentInfo(final Canvas canvas)
   {
-    final Segment seg = Route.activeSegment();
+    final Segment seg = Route.journey().activeSegment();
     if(seg == null)
       return;
     
@@ -133,10 +133,10 @@ public class RouteHighlightOverlay extends Overlay
       return false;
 		
     if(prevButton_.hit(event))
-      Route.regressActiveSegment();
+      Route.journey().regressActiveSegment();
 
     if(nextButton_.hit(event))
-      Route.advanceActiveSegment();
+      Route.journey().advanceActiveSegment();
 
     mapView_.invalidate();
     return true;
@@ -151,12 +151,12 @@ public class RouteHighlightOverlay extends Overlay
       return false;
 
     if(prevButton_.hit(event))
-      while(!Route.atStart())
-        Route.regressActiveSegment();
+      while(!Route.journey().atStart())
+        Route.journey().regressActiveSegment();
 
     if(nextButton_.hit(event))
-      while(!Route.atEnd())
-        Route.advanceActiveSegment();
+      while(!Route.journey().atEnd())
+        Route.journey().advanceActiveSegment();
 		
     mapView_.invalidate();
     return true;

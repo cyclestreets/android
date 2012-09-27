@@ -17,7 +17,7 @@ public class FeedbackActivity extends Activity implements TextWatcher, OnClickLi
 	private Button upload_;
 	
 	@Override
-	protected void onCreate(Bundle savedInstanceState) 
+	protected void onCreate(final Bundle savedInstanceState) 
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.routefeedback);
@@ -63,7 +63,7 @@ public class FeedbackActivity extends Activity implements TextWatcher, OnClickLi
 	public void onClick(View v) 
 	{
 		try { 
-			final Feedback.Result result = Feedback.send(Route.itinerary(), 
+			final Feedback.Result result = Feedback.send(Route.journey().itinerary(), 
               			                               text(R.id.comments), 
               			                               text(R.id.name),
               			                               text(R.id.email));
