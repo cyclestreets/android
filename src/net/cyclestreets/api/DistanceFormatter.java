@@ -40,7 +40,7 @@ public abstract class DistanceFormatter
 		{
 			int yards = metresToYards(metres);
 			if(yards <= 750)
-				return String.format("%dyds", yards);
+				return String.format("%d yards", yards);
 			return total_distance(metres);
 		} // distance
 		

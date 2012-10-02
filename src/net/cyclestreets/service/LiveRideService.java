@@ -22,7 +22,8 @@ import android.os.IBinder;
 import android.speech.tts.TextToSpeech;
 import android.speech.tts.TextToSpeech.OnInitListener;
 
-public class LiveRideService extends Service implements LocationListener, OnInitListener
+public class LiveRideService extends Service
+  implements LocationListener, OnInitListener
 {
   private IBinder binder_;
   private LocationManager locationManager_;
@@ -30,70 +31,66 @@ public class LiveRideService extends Service implements LocationListener, OnInit
   private boolean riding_;
 
   @Override
-  public void onCreate() 
+  public void onCreate()
   {
     binder_ = new Binding();
     locationManager_ = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
     tts_ = new TextToSpeech(this, this);
   } // onCreate
-  
+
   @Override
-  public int onStartCommand(final Intent intent, final int flags, final int startId) 
-  {    
+  public int onStartCommand(final Intent intent, final int flags, final int startId)
+  {
     return Service.START_NOT_STICKY;
   } // onStartCommand
-  
-  @Override 
-  public void onDestroy() 
+
+  @Override
+  public void onDestroy()
   {
     stopRiding();
     cancelNotification();
     super.onDestroy();
   } // onDestroy
-  
+
   @Override
   public IBinder onBind(final Intent intent)
   {
     return binder_;
   } // onBind
-  
-  public void startRiding() 
+
+  public void startRiding()
   {
     if(riding_)
       return;
-    
+
     locationManager_.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
     riding_ = true;
     notify("Live Ride", "Starting Live Ride");
   } // startRiding
-  
-  public void stopRiding() 
+
+  public void stopRiding()
   {
     if(!riding_)
       return;
-    
+
     locationManager_.removeUpdates(this);
     riding_ = false;
   } // stopRiding
-  
+
   public boolean areRiding()
   {
     return riding_;
   } // onRide
-  
-  public class Binding extends Binder 
+
+  public class Binding extends Binder
   {
-    private LiveRideService service() 
-    {
-      return LiveRideService.this;
-    } // getService
-    
+    private LiveRideService service() { return LiveRideService.this; }
     public void startRiding() { service().startRiding(); }
     public void stopRiding() { service().stopRiding(); }
     public boolean areRiding() { return service().areRiding(); }
   } // class LocalBinder
 
-  /////////////////////////////////////////////////
+  // ///////////////////////////////////////////////
   // location listener
   @Override
   public void onLocationChanged(final Location location)
@@ -105,7 +102,7 @@ public class LiveRideService extends Service implements LocationListener, OnInit
     } // if ...
 
     final GeoPoint whereIam = new GeoPoint(location);
-    
+
     final Journey journey = Route.journey();
 
     int minDistance = Integer.MAX_VALUE;
@@ -116,19 +113,18 @@ public class LiveRideService extends Service implements LocationListener, OnInit
         int distance = pos.distanceTo(whereIam);
         if(distance > minDistance)
           continue;
-        
+
         minDistance = distance;
         nearestSeg = seg;
       } // for ...
-        
+
     if(nearestSeg != journey.activeSegment())
     {
       journey.setActiveSegment(nearestSeg);
-      
-      notify(nearestSeg.street() + " " + nearestSeg.distance(), 
-             nearestSeg.toString());
+
+      notify(nearestSeg);
     } // if ...
-    
+
     if(journey.atEnd())
     {
       notify("Arrivee", "Arrivee");
@@ -151,27 +147,42 @@ public class LiveRideService extends Service implements LocationListener, OnInit
   {
   } // onStatusChanged
 
-  private void notify(final String text, final String ticker)
+  private void notify(final Segment seg) 
+  {
+    notification(seg.street() + " " + seg.distance(), seg.toString());
+    
+    final StringBuilder instruction = new StringBuilder();
+    if(seg.turn().length() != 0)
+      instruction.append(seg.turn()).append(" into ");
+    instruction.append(seg.street().replace("un-", "un").replace("Un-", "un"));
+    instruction.append(". Continue ").append(seg.distance());
+    tts_.speak(instruction.toString(), TextToSpeech.QUEUE_FLUSH, null);
+  } // notify
+  
+  private void notify(final String text, final String ticker) 
+  {
+    notification(text, ticker);
+    tts_.speak(text, TextToSpeech.QUEUE_FLUSH, null);
+  } // notify
+  
+  private void notification(final String text, final String ticker)
   {
     final NotificationManager nm = nm();
     final Notification notification = new Notification(R.drawable.icon, ticker, System.currentTimeMillis());
     notification.flags = Notification.FLAG_AUTO_CANCEL | Notification.FLAG_ONGOING_EVENT;
     final Intent notificationIntent = new Intent(this, CycleStreets.class);
-    final PendingIntent contentIntent = 
-         PendingIntent.getActivity(this, 0, notificationIntent, PendingIntent.FLAG_CANCEL_CURRENT);
+    final PendingIntent contentIntent = PendingIntent.getActivity(this, 0, notificationIntent, PendingIntent.FLAG_CANCEL_CURRENT);
     notification.setLatestEventInfo(this, "CycleStreets", text, contentIntent);
     nm.notify(1, notification);
-    
-    tts_.speak(text, TextToSpeech.QUEUE_FLUSH, null);
   } // notify
-  
+
   private void cancelNotification()
   {
     final NotificationManager nm = nm();
     nm.cancel(1);
   } // cancelNotification
 
-  private NotificationManager nm() 
+  private NotificationManager nm()
   {
     return (NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);
   } // nm
