@@ -19,11 +19,14 @@ import android.location.LocationManager;
 import android.os.Binder;
 import android.os.Bundle;
 import android.os.IBinder;
+import android.speech.tts.TextToSpeech;
+import android.speech.tts.TextToSpeech.OnInitListener;
 
-public class LiveRideService extends Service implements LocationListener
+public class LiveRideService extends Service implements LocationListener, OnInitListener
 {
   private IBinder binder_;
   private LocationManager locationManager_;
+  private TextToSpeech tts_;
   private boolean riding_;
 
   @Override
@@ -31,6 +34,7 @@ public class LiveRideService extends Service implements LocationListener
   {
     binder_ = new Binding();
     locationManager_ = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
+    tts_ = new TextToSpeech(this, this);
   } // onCreate
   
   @Override
@@ -60,6 +64,7 @@ public class LiveRideService extends Service implements LocationListener
     
     locationManager_.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
     riding_ = true;
+    notify("Live Ride", "Starting Live Ride");
   } // startRiding
   
   public void stopRiding() 
@@ -120,14 +125,13 @@ public class LiveRideService extends Service implements LocationListener
     {
       journey.setActiveSegment(nearestSeg);
       
-      notify("CycleStreets", 
-             nearestSeg.street() + " " + nearestSeg.distance(), 
+      notify(nearestSeg.street() + " " + nearestSeg.distance(), 
              nearestSeg.toString());
     } // if ...
     
     if(journey.atEnd())
     {
-      notify("CycleStreets", "Arrivee", "Arrivee");
+      notify("Arrivee", "Arrivee");
       stopRiding();
     } // if ...
   } // onLocationChanged
@@ -147,7 +151,7 @@ public class LiveRideService extends Service implements LocationListener
   {
   } // onStatusChanged
 
-  private <T> void notify(final String title, final String text, final String ticker)
+  private void notify(final String text, final String ticker)
   {
     final NotificationManager nm = nm();
     final Notification notification = new Notification(R.drawable.icon, ticker, System.currentTimeMillis());
@@ -155,8 +159,10 @@ public class LiveRideService extends Service implements LocationListener
     final Intent notificationIntent = new Intent(this, CycleStreets.class);
     final PendingIntent contentIntent = 
          PendingIntent.getActivity(this, 0, notificationIntent, PendingIntent.FLAG_CANCEL_CURRENT);
-    notification.setLatestEventInfo(this, title, text, contentIntent);
+    notification.setLatestEventInfo(this, "CycleStreets", text, contentIntent);
     nm.notify(1, notification);
+    
+    tts_.speak(text, TextToSpeech.QUEUE_FLUSH, null);
   } // notify
   
   private void cancelNotification()
@@ -169,4 +175,9 @@ public class LiveRideService extends Service implements LocationListener
   {
     return (NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);
   } // nm
+
+  @Override
+  public void onInit(int arg0)
+  {
+  } // onInit
 } // class LiveRideService
