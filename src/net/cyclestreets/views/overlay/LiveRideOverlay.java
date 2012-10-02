@@ -70,7 +70,7 @@ public class LiveRideOverlay extends Overlay implements MenuListener, PauseResum
   @Override
   public void onPause(final Editor prefs)
   {
-    context_.unbindService(this);
+    //context_.unbindService(this);
   } // onPause
 
   @Override

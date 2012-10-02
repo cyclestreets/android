@@ -1,9 +1,9 @@
 package net.cyclestreets.api;
 
-import java.util.Iterator;
 import java.util.List;
 
 import net.cyclestreets.CycleStreetsPreferences;
+import net.cyclestreets.util.IterableIterator;
 
 import org.osmdroid.util.GeoPoint;
 
@@ -95,7 +95,7 @@ public abstract class Segment
 	public String distance() { return formatter.distance(distance_); }
 	public String runningDistance() { return formatter.total_distance(running_distance_); }
 	public String extraInfo() { return ""; }
-	public Iterator<GeoPoint> points() { return points_.iterator(); }
+	public IterableIterator<GeoPoint> points() { return new IterableIterator<GeoPoint>(points_.iterator()); }
 
 	static public class Start extends Segment 
 	{

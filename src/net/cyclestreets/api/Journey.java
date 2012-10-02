@@ -59,6 +59,15 @@ public class Journey
 
   /////////////////////////////////////////
   public void setActiveSegmentIndex(int index) { activeSegment_ = index; }
+  public void setActiveSegment(final Segment seg) 
+  {
+    for(int i = 0; i != segments_.size(); ++i)
+      if(seg == segments_.get(i))
+      {
+        setActiveSegmentIndex(i);
+        break;
+      }
+  } // setActiveSegment
   public int activeSegmentIndex() { return activeSegment_; }
   
   public Segment activeSegment() { return activeSegment_ >= 0 ? segments_.get(activeSegment_) : null; }

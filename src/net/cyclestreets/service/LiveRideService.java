@@ -1,7 +1,12 @@
 package net.cyclestreets.service;
 
+import org.osmdroid.util.GeoPoint;
+
 import net.cyclestreets.CycleStreets;
 import net.cyclestreets.R;
+import net.cyclestreets.api.Journey;
+import net.cyclestreets.api.Segment;
+import net.cyclestreets.planned.Route;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -26,7 +31,6 @@ public class LiveRideService extends Service implements LocationListener
   {
     binder_ = new Binding();
     locationManager_ = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
-    notify("CycleStreets", "Here we go!", "We're off!");
   } // onCreate
   
   @Override
@@ -63,7 +67,7 @@ public class LiveRideService extends Service implements LocationListener
     if(!riding_)
       return;
     
-    locationManager_.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
+    locationManager_.removeUpdates(this);
     riding_ = false;
   } // stopRiding
   
@@ -71,24 +75,6 @@ public class LiveRideService extends Service implements LocationListener
   {
     return riding_;
   } // onRide
-  
-  private <T> void notify(final String title, final String text, final String ticker)
-  {
-    final NotificationManager nm = (NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);
-    final Notification notification = new Notification(R.drawable.icon, ticker, System.currentTimeMillis());
-    notification.flags = Notification.FLAG_AUTO_CANCEL | Notification.FLAG_ONGOING_EVENT;
-    final Intent notificationIntent = new Intent(this, CycleStreets.class);
-    final PendingIntent contentIntent = 
-         PendingIntent.getActivity(this, 0, notificationIntent, PendingIntent.FLAG_CANCEL_CURRENT);
-    notification.setLatestEventInfo(this, title, text, contentIntent);
-    nm.notify(1, notification);
-  } // notify
-  
-  void cancelNotification()
-  {
-    final NotificationManager nm = (NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);
-    nm.cancel(1);
-  } // cancelNotification
   
   public class Binding extends Binder 
   {
@@ -107,7 +93,43 @@ public class LiveRideService extends Service implements LocationListener
   @Override
   public void onLocationChanged(final Location location)
   {
-    notify("CycleStreets", "We've moved", "Cooking with gas");
+    if(!Route.available())
+    {
+      stopRiding();
+      return;
+    } // if ...
+
+    final GeoPoint whereIam = new GeoPoint(location);
+    
+    final Journey journey = Route.journey();
+
+    int minDistance = Integer.MAX_VALUE;
+    Segment nearestSeg = null;
+    for(final Segment seg : journey.segments())
+      for(final GeoPoint pos : seg.points())
+      {
+        int distance = pos.distanceTo(whereIam);
+        if(distance > minDistance)
+          continue;
+        
+        minDistance = distance;
+        nearestSeg = seg;
+      } // for ...
+        
+    if(nearestSeg != journey.activeSegment())
+    {
+      journey.setActiveSegment(nearestSeg);
+      
+      notify("CycleStreets", 
+             nearestSeg.street() + " " + nearestSeg.distance(), 
+             nearestSeg.toString());
+    } // if ...
+    
+    if(journey.atEnd())
+    {
+      notify("CycleStreets", "Arrivee", "Arrivee");
+      stopRiding();
+    } // if ...
   } // onLocationChanged
 
   @Override
@@ -124,5 +146,27 @@ public class LiveRideService extends Service implements LocationListener
   public void onStatusChanged(String arg0, int arg1, Bundle arg2)
   {
   } // onStatusChanged
+
+  private <T> void notify(final String title, final String text, final String ticker)
+  {
+    final NotificationManager nm = nm();
+    final Notification notification = new Notification(R.drawable.icon, ticker, System.currentTimeMillis());
+    notification.flags = Notification.FLAG_AUTO_CANCEL | Notification.FLAG_ONGOING_EVENT;
+    final Intent notificationIntent = new Intent(this, CycleStreets.class);
+    final PendingIntent contentIntent = 
+         PendingIntent.getActivity(this, 0, notificationIntent, PendingIntent.FLAG_CANCEL_CURRENT);
+    notification.setLatestEventInfo(this, title, text, contentIntent);
+    nm.notify(1, notification);
+  } // notify
   
+  private void cancelNotification()
+  {
+    final NotificationManager nm = nm();
+    nm.cancel(1);
+  } // cancelNotification
+
+  private NotificationManager nm() 
+  {
+    return (NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);
+  } // nm
 } // class LiveRideService
