@@ -25,10 +25,25 @@ import android.speech.tts.TextToSpeech.OnInitListener;
 public class LiveRideService extends Service
   implements LocationListener, OnInitListener
 {
+  private enum Stage 
+  {
+    SETTING_OFF,
+    ON_THE_MOVE,
+    NEARING_TURN,
+    MOVING_AWAY,
+    MOVING_AWAY_FROM_START,
+    ARRIVEE,
+    STOPPED;
+
+    public boolean arePedalling() { return !isStopped(); }
+    public boolean isStopped() { return this == STOPPED; }
+    public boolean offCourse() { return this == MOVING_AWAY || this == MOVING_AWAY_FROM_START; }
+  };
+  
   private IBinder binder_;
-  private LocationManager locationManager_;
-  private TextToSpeech tts_;
-  private boolean riding_;
+  private LocationManager locationManager_ = null;
+  private TextToSpeech tts_ = null;
+  private Stage stage_ = Stage.STOPPED;
 
   @Override
   public void onCreate()
@@ -60,26 +75,27 @@ public class LiveRideService extends Service
 
   public void startRiding()
   {
-    if(riding_)
+    if(!stage_.isStopped())
       return;
 
     locationManager_.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
-    riding_ = true;
+    stage_ = Stage.SETTING_OFF;
     notify("Live Ride", "Starting Live Ride");
   } // startRiding
 
   public void stopRiding()
   {
-    if(!riding_)
+    if(stage_.isStopped())
       return;
 
     locationManager_.removeUpdates(this);
-    riding_ = false;
+    cancelNotification();
+    stage_ = Stage.STOPPED;
   } // stopRiding
 
   public boolean areRiding()
   {
-    return riding_;
+    return stage_.arePedalling();
   } // onRide
 
   public class Binding extends Binder
@@ -104,34 +120,77 @@ public class LiveRideService extends Service
     final GeoPoint whereIam = new GeoPoint(location);
 
     final Journey journey = Route.journey();
-
-    int minDistance = Integer.MAX_VALUE;
-    Segment nearestSeg = null;
-    for(final Segment seg : journey.segments())
-      for(final GeoPoint pos : seg.points())
-      {
-        int distance = pos.distanceTo(whereIam);
-        if(distance > minDistance)
-          continue;
-
-        minDistance = distance;
-        nearestSeg = seg;
-      } // for ...
-
-    if(nearestSeg != journey.activeSegment())
+    
+    checkIfTooFarAway(journey, whereIam);
+    
+    switch(stage_) 
     {
-      journey.setActiveSegment(nearestSeg);
-
-      notify(nearestSeg);
-    } // if ...
-
-    if(journey.atEnd())
-    {
-      notify("Arrivee", "Arrivee");
+    case SETTING_OFF:
+      journey.setActiveSegmentIndex(0);
+      notify(journey.activeSegment());
+      stage_ = Stage.ON_THE_MOVE;
+      break;
+    case ON_THE_MOVE:
+      checkApproachingTurn(journey, whereIam);
+      break;
+    case NEARING_TURN:
+      checkNextSegImminent(journey, whereIam);
+      break;
+    case ARRIVEE:
+      notify("You have arrived at your destination.", "Destination");
       stopRiding();
-    } // if ...
+      break;
+    case STOPPED:
+      // whoa, something's gone wonky
+      break;
+    } // switch
   } // onLocationChanged
 
+  private void checkIfTooFarAway(final Journey journey, final GeoPoint whereIam)
+  {
+    final int distance = journey.activeSegment().distanceFrom(whereIam);
+    
+    if(distance > 50)
+    {
+      notify("Too far away. Suggest replanning the journey.");
+      stopRiding();
+    } 
+    
+    if(!stage_.offCourse() && (distance > 30))
+    {
+      notify(stage_ == Stage.SETTING_OFF ? "Someway from start" : "Moving away from route");
+      stage_ = (stage_ == Stage.SETTING_OFF) ? Stage.MOVING_AWAY_FROM_START : Stage.MOVING_AWAY;
+    } // if ...
+    else if(stage_.offCourse() && (distance < 20))
+    {
+      notify("Getting back on track");
+      stage_ = (stage_ == Stage.MOVING_AWAY_FROM_START) ? Stage.SETTING_OFF: Stage.ON_THE_MOVE;
+    }
+  } // checkIfTooFarAway
+  
+  private void checkApproachingTurn(final Journey journey, final GeoPoint whereIam)
+  {
+    final int distanceFromEnd = journey.activeSegment().distanceFromEnd(whereIam);
+
+    if(distanceFromEnd > 30)
+      return;
+    
+    notify("Get ready");
+    stage_ = Stage.NEARING_TURN;
+  } // checkApproachingTurn
+  
+  private void checkNextSegImminent(final Journey journey, final GeoPoint whereIam)
+  {
+    final int distanceFromEnd = journey.activeSegment().distanceFromEnd(whereIam);
+    if(distanceFromEnd > 15)
+      return;
+    
+    journey.advanceActiveSegment();
+    notify(journey.activeSegment());
+    
+    stage_ = journey.atEnd() ? Stage.ARRIVEE : Stage.ON_THE_MOVE;
+  } // checkNextSegImminent
+  
   @Override
   public void onProviderDisabled(final String arg0)
   {
@@ -157,6 +216,11 @@ public class LiveRideService extends Service
     instruction.append(seg.street().replace("un-", "un").replace("Un-", "un"));
     instruction.append(". Continue ").append(seg.distance());
     tts_.speak(instruction.toString(), TextToSpeech.QUEUE_FLUSH, null);
+  } // notify
+  
+  private void notify(final String text)
+  {
+    notify(text, text);
   } // notify
   
   private void notify(final String text, final String ticker) 

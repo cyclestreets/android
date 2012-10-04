@@ -88,6 +88,25 @@ public abstract class Segment
 	public GeoPoint start() { return points_.get(0); }
 	public GeoPoint end() { return points_.get(points_.size()-1); }
 	
+	public int distanceFrom(final GeoPoint location) 
+	{
+	  int minDistance = Integer.MAX_VALUE;
+	  for(final GeoPoint pos : points())
+    {
+      int distance = pos.distanceTo(location);
+      if(distance > minDistance)
+        continue;
+
+      minDistance = distance;
+    } // for ...
+    return minDistance;
+	} // distanceFrom
+	
+	public int distanceFromEnd(final GeoPoint location)
+	{
+	  return end().distanceTo(location);
+	} // distanceFromEnd
+	
 	public String street() { return name_; }
 	public String turn() { return turn_; }
 	public boolean walk() { return walk_; }
