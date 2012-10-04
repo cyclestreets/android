@@ -34,26 +34,26 @@ public class Photo
   public GeoPoint position() { return position_; }
 
   @Override
-	public int hashCode() { return id_; }
+  public int hashCode() { return id_; }
 
-	/*
-	 * Photos are equal if they have the same id
-	 */
-	@Override
-	public boolean equals(Object obj) 
-	{
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Photo other = (Photo)obj;
-		if (id_ != other.id_)
-			return false;
-		return true;
-	} // equals
+  /*
+   * Photos are equal if they have the same id
+   */
+  @Override
+  public boolean equals(Object obj) 
+  {
+    if (this == obj)
+      return true;
+    if (obj == null)
+      return false;
+    if (getClass() != obj.getClass())
+      return false;
+    Photo other = (Photo)obj;
+    if (id_ != other.id_)
+      return false;
+    return true;
+  } // equals
 
-	@Override
-	public String toString() { return id_ + ":" + caption_; }
+  @Override
+  public String toString() { return id_ + ":" + caption_; }
 } // class Photo

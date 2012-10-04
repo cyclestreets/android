@@ -21,19 +21,19 @@ public class PhotomapCategories
   static private PhotomapCategories loaded_;
 
   private List<PhotomapCategory> categories_ = new ArrayList<PhotomapCategory>();
-	private List<PhotomapCategory> metaCategories_ = new ArrayList<PhotomapCategory>();
+  private List<PhotomapCategory> metaCategories_ = new ArrayList<PhotomapCategory>();
 
-	public List<PhotomapCategory> categories() { return categories_; }
-	public List<PhotomapCategory> metaCategories() { return metaCategories_; }
-	
-	void addCategory(final String tag, 
+  public List<PhotomapCategory> categories() { return categories_; }
+  public List<PhotomapCategory> metaCategories() { return metaCategories_; }
+  
+  void addCategory(final String tag, 
                    final String name, 
                    final String description,
                    final long ordering)
-	{
-	  categories_.add(new PhotomapCategory(tag, name, description, ordering));
-	} // addCategory
-	
+  {
+    categories_.add(new PhotomapCategory(tag, name, description, ordering));
+  } // addCategory
+  
   void addMetaCategory(final String tag, 
                        final String name, 
                        final String description,
@@ -43,8 +43,8 @@ public class PhotomapCategories
   } // addMetaCategory
 
   //////////////////////////////////////////////////////////////
-	static private class Listener 
-	{
+  static private class Listener 
+  {
     private String tag_;
     private String name_;
     private String description_;
@@ -107,8 +107,8 @@ public class PhotomapCategories
     public String name() { return name_; }
     public String description() { return description_; }
     public long ordering() { return ordering_; }
-	} // class Listener
-	
+  } // class Listener
+  
   static private class PhotomapCategoriesFactory extends Factory<PhotomapCategories>
   {    
     private PhotomapCategories cats_;

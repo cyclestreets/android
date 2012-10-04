@@ -35,12 +35,12 @@ public class Photos implements Iterable<Photo>
   } // iterator
   
   /////////////////////////////////////////////////////////////
-	static public Photos load(final IGeoPoint centre,
-	                          final int zoom, 
-	                          final BoundingBoxE6 boundingBox) 
-	   throws Exception 
+  static public Photos load(final IGeoPoint centre,
+                            final int zoom, 
+                            final BoundingBoxE6 boundingBox) 
+     throws Exception 
   {
-	  return load(centre.getLongitudeE6() / 1E6, 
+    return load(centre.getLongitudeE6() / 1E6, 
                 centre.getLatitudeE6() / 1E6, 
                 zoom,
                 boundingBox.getLonEastE6() / 1E6,
@@ -48,19 +48,19 @@ public class Photos implements Iterable<Photo>
                 boundingBox.getLatNorthE6() / 1E6,
                 boundingBox.getLatSouthE6() / 1E6);
   } // load
-	
-	static private Photos load(final double clong,
-	                           final double clat,
-	                           final int zoom,
-	                           final double e,
-	                           final double w,
-	                           final double n,
+  
+  static private Photos load(final double clong,
+                             final double clat,
+                             final int zoom,
+                             final double e,
+                             final double w,
+                             final double n,
                              final double s)
-	    throws Exception
-	{
-	  return ApiClient.getPhotos(clong, clat, zoom, e, w, n, s);
-	} // load
-	
+      throws Exception
+  {
+    return ApiClient.getPhotos(clong, clat, zoom, e, w, n, s);
+  } // load
+  
   ////////////////////////////////////////////////////
   static public Factory<Photos> factory() { 
     return new PhotosFactory();

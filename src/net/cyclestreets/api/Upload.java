@@ -11,18 +11,18 @@ public class Upload
 {
   static public class Result
   {
-  	public Result() { }
-  	public Result(final String error)
-  	{
-  		error_ = error;
-  	} // UploadResult
+    public Result() { }
+    public Result(final String error)
+    {
+      error_ = error;
+    } // UploadResult
 
-  	public boolean ok() { return url_ != null; }
-  	public String url() { return url_; }	   
-  	public String error() { return error_; }
-  	
-  	private String url_;
-  	private String error_;
+    public boolean ok() { return url_ != null; }
+    public String url() { return url_; }     
+    public String error() { return error_; }
+    
+    private String url_;
+    private String error_;
   } // class Result
 
   static public Upload.Result photo(final String filename,

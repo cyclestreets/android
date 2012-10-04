@@ -18,39 +18,39 @@ import android.sax.StartElementListener;
 
 public class GeoPlaces implements Iterable<GeoPlace>
 {
-	private List<GeoPlace> places_;
-	
-	private GeoPlaces()
-	{
-	  places_ = new ArrayList<GeoPlace>();
-	} // GeoPlaces
-	
-	private void add(final GeoPlace place) { places_.add(place); }
-	
-	@Override
-	public Iterator<GeoPlace> iterator() { return places_.iterator(); }
-	
-	public boolean isEmpty() { return places_.isEmpty(); }
-	
-	public int size() { return places_.size(); }
-	public GeoPlace get(int index) { return places_.get(index); }
-	
-	public List<GeoPlace> asList() { return places_; }
-	
-	static public GeoPlaces EMPTY = new GeoPlaces();
-	
-	///////////////////////////////////////////////
-	static public GeoPlaces search(final String searchTerm,
-	                               final BoundingBoxE6 bounds)
+  private List<GeoPlace> places_;
+  
+  private GeoPlaces()
+  {
+    places_ = new ArrayList<GeoPlace>();
+  } // GeoPlaces
+  
+  private void add(final GeoPlace place) { places_.add(place); }
+  
+  @Override
+  public Iterator<GeoPlace> iterator() { return places_.iterator(); }
+  
+  public boolean isEmpty() { return places_.isEmpty(); }
+  
+  public int size() { return places_.size(); }
+  public GeoPlace get(int index) { return places_.get(index); }
+  
+  public List<GeoPlace> asList() { return places_; }
+  
+  static public GeoPlaces EMPTY = new GeoPlaces();
+  
+  ///////////////////////////////////////////////
+  static public GeoPlaces search(final String searchTerm,
+                                 final BoundingBoxE6 bounds)
     throws Exception
-	{
-	  return search(searchTerm,
+  {
+    return search(searchTerm,
                   bounds.getLatNorthE6() / 1E6,
                   bounds.getLatSouthE6() / 1E6,
                   bounds.getLonEastE6() / 1E6,
                   bounds.getLonWestE6() / 1E6);
-	} // search
-	
+  } // search
+  
   static public GeoPlaces search(final String searchTerm,
                                  double n,
                                  double s,
