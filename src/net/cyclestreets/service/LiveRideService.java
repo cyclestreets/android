@@ -28,6 +28,7 @@ public class LiveRideService extends Service
   private enum Stage 
   {
     SETTING_OFF,
+    HUNTING,
     ON_THE_MOVE,
     NEARING_TURN,
     MOVING_AWAY,
@@ -121,19 +122,23 @@ public class LiveRideService extends Service
 
     final Journey journey = Route.journey();
     
-    checkIfTooFarAway(journey, whereIam);
     
     switch(stage_) 
     {
     case SETTING_OFF:
       journey.setActiveSegmentIndex(0);
       notify(journey.activeSegment());
-      stage_ = Stage.ON_THE_MOVE;
+      stage_ = Stage.HUNTING;
+      break;
+    case HUNTING:
+      findNearestSeg(journey, whereIam);
       break;
     case ON_THE_MOVE:
+      checkIfTooFarAway(journey, whereIam);
       checkApproachingTurn(journey, whereIam);
       break;
     case NEARING_TURN:
+      checkIfTooFarAway(journey, whereIam);
       checkNextSegImminent(journey, whereIam);
       break;
     case ARRIVEE:
@@ -145,6 +150,30 @@ public class LiveRideService extends Service
       break;
     } // switch
   } // onLocationChanged
+  
+  private void findNearestSeg(final Journey journey, final GeoPoint whereIam)
+  {
+    Segment nearestSeg = null;
+    int distance = Integer.MAX_VALUE;
+    
+    for(final Segment seg : journey.segments())
+    {
+      int from = seg.distanceFrom(whereIam);
+      if(from < distance) 
+      {
+        distance = from;
+        nearestSeg = seg;
+      } // if ...
+    } // for ...
+    
+    stage_ = Stage.ON_THE_MOVE;
+    
+    if(nearestSeg == journey.activeSegment())
+      return;
+    
+    journey.setActiveSegment(nearestSeg);
+    notify(nearestSeg);
+  } // findNearestSeg
 
   private void checkIfTooFarAway(final Journey journey, final GeoPoint whereIam)
   {
