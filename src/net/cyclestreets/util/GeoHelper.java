@@ -66,11 +66,11 @@ public class GeoHelper
     double distanceToLoc = distanceBetween(p1, location);
     double bp1l = bearingTo(p1, location);
     double bp1p2 = bearingTo(p1, p2);
-    double d2 = Math.asin(
+    double ct = Math.asin(
         Math.sin(distanceToLoc/RadiusInMetres) *
         Math.sin(bp1l - bp1p2)
       ) * RadiusInMetres;
     
-    return d2;
+    return ct;
   } // crossTrack
 } // class GeoHelpers
