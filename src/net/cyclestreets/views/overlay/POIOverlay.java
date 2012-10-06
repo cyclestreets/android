@@ -345,18 +345,18 @@ public class POIOverlay extends LiveItemOverlay<POIOverlay.POIItem>
     if(activeCategories_.isEmpty())
       return false;
     
-    final double moved = lastFix_ != null ? GeoHelper.distanceBetween(mapCentre, lastFix_) : Double.MAX_VALUE;
-    final double diagonalWidth = boundingBox.getDiagonalLengthInMeters() / 1000.0;
+    final int moved = lastFix_ != null ? GeoHelper.distanceBetween(mapCentre, lastFix_) : Integer.MAX_VALUE;
+    final int diagonalWidth = boundingBox.getDiagonalLengthInMeters();
     
     // first time through width can be zero
-    if(diagonalWidth == 0.0)
+    if(diagonalWidth == 0)
       return false;
     
     if(moved < (diagonalWidth/2))
       return false;
     
     lastFix_ = mapCentre;    
-    GetPOIsTask.fetch(this, mapCentre, (int)(diagonalWidth * 3) + 1);
+    GetPOIsTask.fetch(this, mapCentre, (diagonalWidth * 3) + 1);
     return true;
   } // refreshItemsInBackground
 

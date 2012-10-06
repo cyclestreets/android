@@ -1,21 +1,17 @@
 package net.cyclestreets.util;
 
 import org.osmdroid.util.BoundingBoxE6;
+import org.osmdroid.util.GeoPoint;
 import org.osmdroid.api.IGeoPoint;
 
 public class GeoHelper
 {
-  private static final int Radius = 6371; // mean radius of Earth km
+  private static final int RadiusInMetres = 6378137; // mean radius of Earth km
 
-  static public double convertToRadians(double val) 
-  {
-    return val * Math.PI / 180;
-  } // convertToRadians
-  
   static public double boxWidthKm(final BoundingBoxE6 boundingBox)
   {
     final int Radius = 6371; // mean radius of Earth km
-    final double dLat = convertToRadians(boundingBox.getLatitudeSpanE6() / 1E6);
+    final double dLat = Math.toRadians(boundingBox.getLatitudeSpanE6() / 1E6);
 
     final double a = Math.pow(Math.sin(dLat/2.0), 2); 
     final double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
@@ -24,7 +20,7 @@ public class GeoHelper
     return d;
   } // boxWidthKm
   
-  static public double distanceBetween(final IGeoPoint p1, final IGeoPoint p2)
+  static public int distanceBetween(final IGeoPoint p1, final IGeoPoint p2)
   {
     // uses the Haversine formula, which I only know about because 
     // http://www.movable-type.co.uk/scripts/latlong.html was the
@@ -34,15 +30,47 @@ public class GeoHelper
     final double lat2 = p2.getLatitudeE6() / 1E6;
     final double lon2 = p2.getLongitudeE6() / 1E6;
 
-    final double dLat = convertToRadians(lat2-lat1);
-    final double dLon = convertToRadians(lon2-lon1);
-    final double rLat1 = convertToRadians(lat1);
-    final double rLat2 = convertToRadians(lat2);
+    final double dLat = Math.toRadians(lat2-lat1);
+    final double dLon = Math.toRadians(lon2-lon1);
+    final double rLat1 = Math.toRadians(lat1);
+    final double rLat2 = Math.toRadians(lat2);
 
     final double a = Math.sin(dLat/2) * Math.sin(dLat/2) +
             Math.sin(dLon/2) * Math.sin(dLon/2) * Math.cos(rLat1) * Math.cos(rLat2); 
     final double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
-    final double d = Radius * c;
-    return d;
+    final double d = RadiusInMetres * c;
+    return (int)d;
   } // distanceBetween
+  
+  static public double bearingTo(final IGeoPoint p1, final IGeoPoint p2)
+  {
+    final double rlat1 = Math.toRadians(p1.getLatitudeE6() / 1E6);
+    final double rlon1 = Math.toRadians(p1.getLongitudeE6() / 1E6);
+    final double rlat2 = Math.toRadians(p2.getLatitudeE6() / 1E6);
+    final double rlon2 = Math.toRadians(p2.getLongitudeE6() / 1E6);
+
+    final double deltaLon = rlon2 - rlon1;
+
+    final double y = Math.sin(deltaLon) * Math.cos(rlat2);
+    final double x = Math.cos(rlat1) * Math.sin(rlat2) -
+                     Math.sin(rlat1) * Math.cos(rlat2) * Math.cos(deltaLon);
+    final double bearing = Math.atan2(y, x);
+    final double normalised = (Math.toDegrees(bearing)+360) % 360;
+    return Math.toRadians(normalised);
+  } // bearingTo
+  
+  static public double crossTrack(final IGeoPoint p1, final IGeoPoint p2, final IGeoPoint location)
+  {
+    // how far from the line p1p2 is location
+    // http://www.movable-type.co.uk/scripts/latlong.html
+    double distanceToLoc = distanceBetween(p1, location);
+    double bp1l = bearingTo(p1, location);
+    double bp1p2 = bearingTo(p1, p2);
+    double d2 = Math.asin(
+        Math.sin(distanceToLoc/RadiusInMetres) *
+        Math.sin(bp1l - bp1p2)
+      ) * RadiusInMetres;
+    
+    return d2;
+  } // crossTrack
 } // class GeoHelpers
