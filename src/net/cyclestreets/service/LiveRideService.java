@@ -122,7 +122,6 @@ public class LiveRideService extends Service
 
     final Journey journey = Route.journey();
     
-    
     switch(stage_) 
     {
     case SETTING_OFF:
@@ -183,6 +182,7 @@ public class LiveRideService extends Service
     {
       notify("Too far away. Suggest replanning the journey.");
       stopRiding();
+      return;
     } 
     
     if(!stage_.offCourse() && (distance > 30))
