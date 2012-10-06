@@ -3,6 +3,7 @@ package net.cyclestreets.api;
 import java.util.List;
 
 import net.cyclestreets.CycleStreetsPreferences;
+import net.cyclestreets.util.GeoHelper;
 import net.cyclestreets.util.IterableIterator;
 
 import org.osmdroid.util.GeoPoint;
@@ -90,17 +91,33 @@ public abstract class Segment
       
   public int distanceFrom(final GeoPoint location) 
   {
+    int minIndex = -1;
     int minDistance = Integer.MAX_VALUE;
-    for(final GeoPoint pos : points())
+    for(int p = 0; p != points_.size(); ++p) 
     {
-      int distance = pos.distanceTo(location);
+      int distance = points_.get(p).distanceTo(location);
       if(distance > minDistance)
         continue;
 
       minDistance = distance;
+      minIndex = p;
     } // for ...
-    return minDistance;
+    
+    int ct0 = (minIndex != 0) ? crossTrack(minIndex - 1, location) : Integer.MAX_VALUE;
+    int ct1 = (minIndex+1 != points_.size()) ? crossTrack(minIndex, location) : Integer.MAX_VALUE;
+
+    return Math.min(ct0,  ct1);
   } // distanceFrom
+  
+  private int crossTrack(final int index, final GeoPoint location)
+  {
+    final GeoPoint p1 = points_.get(index);
+    final GeoPoint p2 = points_.get(index+1);
+    
+    double crossTrack = GeoHelper.crossTrack(p1, p2, location);
+
+    return Math.abs((int)crossTrack); 
+  } // crossTrack
   
   public int distanceFromEnd(final GeoPoint location)
   {
