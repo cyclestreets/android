@@ -68,7 +68,7 @@ public class ZoomButtonsOverlay extends Overlay
     return zoomIn_.hit(event) || zoomOut_.hit(event);
   } // onDoubleTap
 
-    private boolean tapZoom(final MotionEvent event)
+  private boolean tapZoom(final MotionEvent event)
   {
     if(zoomIn_.hit(event))
     {
