@@ -48,7 +48,8 @@
     <activity android:name=".BlogActivity" 
               android:label="CycleStreets : Blog"/>
     <activity android:name=".LiveRideActivity" 
-              android:label="CycleStreets : LiveRide"/>
+              android:label="CycleStreets : LiveRide"
+              android:screenOrientation="portrait"/>
     <!-- ACRA support -->
     <activity android:name="org.acra.CrashReportDialog"
               android:theme="@android:style/Theme.Dialog"
