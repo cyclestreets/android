@@ -29,8 +29,9 @@ public class LocationOverlay extends MyLocationOverlay
 	
 	private final MapView mapView_;
 	
-	public LocationOverlay(final Context context,
-	                        final MapView mapView) 
+	private boolean hidden_;
+	
+	public LocationOverlay(final Context context, final MapView mapView) 
 	{
 		super(context, mapView);
 		
@@ -45,6 +46,8 @@ public class LocationOverlay extends MyLocationOverlay
 		                                    offset_,
 		                                    offset_,
 		                                    radius_);		
+		
+		hidden_ = false;
 	} // LocationOverlay
 	
 	public void enableLocation(final boolean enable)
@@ -79,6 +82,11 @@ public class LocationOverlay extends MyLocationOverlay
 		mapView_.invalidate();
 	} // enableAndFollowLocation
 	
+	public void hideButton() 
+	{
+	  hidden_ = true;
+	} // hideButton
+	
 	////////////////////////////////////////////
 	@Override
 	public void draw(final Canvas canvas, final MapView mapView, final boolean shadow) 
@@ -94,6 +102,8 @@ public class LocationOverlay extends MyLocationOverlay
 	@Override
 	public void drawButtons(final Canvas canvas, final MapView mapView)
 	{
+	  if(hidden_)
+	    return;
 		locationButton_.pressed(isFollowLocationEnabled());
 		locationButton_.alternate(isMyLocationEnabled());
 		locationButton_.draw(canvas);
@@ -109,7 +119,6 @@ public class LocationOverlay extends MyLocationOverlay
   @Override
 	public void onPrepareOptionsMenu(final Menu menu)
 	{
-    
 		final MenuItem item = enableMenuItem(menu, R.string.ic_menu_mylocation, true);
 		if(item != null) 
 			item.setTitle(isMyLocationEnabled() ? LOCATION_OFF : LOCATION_ON);
@@ -130,12 +139,16 @@ public class LocationOverlay extends MyLocationOverlay
 	@Override
 	public boolean onButtonTap(final MotionEvent event) 
 	{
+	   if(hidden_)
+	      return false;
 	  return tapLocation(event);
 	} // onSingleTapUp
 	
 	@Override
 	public boolean onButtonDoubleTap(final MotionEvent event)
 	{
+    if(hidden_)
+      return false;
 		return locationButton_.hit(event);
 	} // onDoubleTap
     
