@@ -2,7 +2,7 @@ package net.cyclestreets.service;
 
 import org.osmdroid.util.GeoPoint;
 
-import net.cyclestreets.CycleStreets;
+import net.cyclestreets.LiveRideActivity;
 import net.cyclestreets.R;
 import net.cyclestreets.api.Journey;
 import net.cyclestreets.api.Segment;
@@ -263,7 +263,7 @@ public class LiveRideService extends Service
     final NotificationManager nm = nm();
     final Notification notification = new Notification(R.drawable.icon, ticker, System.currentTimeMillis());
     notification.flags = Notification.FLAG_AUTO_CANCEL | Notification.FLAG_ONGOING_EVENT;
-    final Intent notificationIntent = new Intent(this, CycleStreets.class);
+    final Intent notificationIntent = new Intent(this, LiveRideActivity.class);
     final PendingIntent contentIntent = PendingIntent.getActivity(this, 0, notificationIntent, PendingIntent.FLAG_CANCEL_CURRENT);
     notification.setLatestEventInfo(this, "CycleStreets", text, contentIntent);
     nm.notify(1, notification);

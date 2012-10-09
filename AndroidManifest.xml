@@ -47,6 +47,8 @@
               android:theme="@style/Theme.RouteInputDialog"/>
     <activity android:name=".BlogActivity" 
               android:label="CycleStreets : Blog"/>
+    <activity android:name=".LiveRideActivity" 
+              android:label="CycleStreets : LiveRide"/>
     <!-- ACRA support -->
     <activity android:name="org.acra.CrashReportDialog"
               android:theme="@android:style/Theme.Dialog"
