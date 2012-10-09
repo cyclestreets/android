@@ -2,11 +2,13 @@ package net.cyclestreets.service;
 
 import org.osmdroid.util.GeoPoint;
 
+import net.cyclestreets.CycleStreetsPreferences;
 import net.cyclestreets.LiveRideActivity;
 import net.cyclestreets.R;
 import net.cyclestreets.api.Journey;
 import net.cyclestreets.api.Segment;
 import net.cyclestreets.planned.Route;
+import net.cyclestreets.util.Collections;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -23,7 +25,9 @@ import android.speech.tts.TextToSpeech;
 import android.speech.tts.TextToSpeech.OnInitListener;
 
 public class LiveRideService extends Service
-  implements LocationListener, OnInitListener
+  implements LocationListener, 
+             OnInitListener,
+             Route.Listener
 {
   private enum Stage 
   {
@@ -34,6 +38,7 @@ public class LiveRideService extends Service
     MOVING_AWAY,
     MOVING_AWAY_FROM_START,
     ARRIVEE,
+    REPLANNING,
     STOPPED;
 
     public boolean arePedalling() { return !isStopped(); }
@@ -78,10 +83,11 @@ public class LiveRideService extends Service
   {
     if(!stage_.isStopped())
       return;
-
+    
     locationManager_.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
     stage_ = Stage.SETTING_OFF;
     notify("Live Ride", "Starting Live Ride");
+    Route.registerListener(this);
   } // startRiding
 
   public void stopRiding()
@@ -89,6 +95,7 @@ public class LiveRideService extends Service
     if(stage_.isStopped())
       return;
 
+    Route.unregisterListener(this);
     locationManager_.removeUpdates(this);
     cancelNotification();
     stage_ = Stage.STOPPED;
@@ -164,6 +171,9 @@ public class LiveRideService extends Service
         nearestSeg = seg;
       } // if ...
     } // for ...
+
+    if(needsReplan(distance, whereIam))
+      return;
     
     stage_ = Stage.ON_THE_MOVE;
     
@@ -173,17 +183,29 @@ public class LiveRideService extends Service
     journey.setActiveSegment(nearestSeg);
     notify(nearestSeg);
   } // findNearestSeg
+  
+  private boolean needsReplan(final int distance, final GeoPoint whereIam) 
+  {
+    if(distance <= 50)
+      return false;
+    
+    notify("Too far away. Re-planning the journey.");
 
+    stage_ = Stage.REPLANNING;
+    final GeoPoint finish = Route.waypoints().get(Route.waypoints().size()-1);      
+    Route.PlotRoute(CycleStreetsPreferences.routeType(), 
+                    CycleStreetsPreferences.speed(),
+                    this,
+                    Collections.list(whereIam, finish));
+    return true;
+  } // needsReplan
+  
   private void checkIfTooFarAway(final Journey journey, final GeoPoint whereIam)
   {
     final int distance = journey.activeSegment().distanceFrom(whereIam);
     
-    if(distance > 50)
-    {
-      notify("Too far away. Suggest replanning the journey.");
-      stopRiding();
+    if(needsReplan(distance, whereIam))
       return;
-    } 
     
     if(!stage_.offCourse() && (distance > 30))
     {
@@ -284,4 +306,16 @@ public class LiveRideService extends Service
   public void onInit(int arg0)
   {
   } // onInit
+
+  @Override
+  public void onNewJourney()
+  {    
+    if(stage_ == Stage.REPLANNING)
+      stage_ = Stage.HUNTING; 
+  } // onNewJourney
+
+  @Override
+  public void onResetJourney()
+  {
+  } // onResetJourney
 } // class LiveRideService

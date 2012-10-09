@@ -1,6 +1,5 @@
 package net.cyclestreets;
 
-import net.cyclestreets.planned.Route;
 import net.cyclestreets.service.LiveRideService;
 import net.cyclestreets.views.CycleMapView;
 import net.cyclestreets.views.overlay.RouteOverlay;
@@ -18,7 +17,6 @@ import android.widget.RelativeLayout;
 public class LiveRideActivity extends Activity implements ServiceConnection
 {
   private CycleMapView map_; 
-  private RouteOverlay path_;
   private LiveRideService.Binding binding_;
 
   @Override
@@ -27,8 +25,7 @@ public class LiveRideActivity extends Activity implements ServiceConnection
     super.onCreate(saved);
     
     map_ = new CycleMapView(this, this.getClass().getName());
-    path_ = new RouteOverlay(this);
-    map_.overlayPushBottom(path_);
+    map_.overlayPushBottom(new RouteOverlay(this));
     map_.overlayPushTop(new StopActivityOverlay(this));
     map_.hideLocationButton();
     
@@ -38,8 +35,6 @@ public class LiveRideActivity extends Activity implements ServiceConnection
 
     final Intent intent = new Intent(this, LiveRideService.class);
     bindService(intent, this, Context.BIND_AUTO_CREATE);
-    
-    path_.setRoute(Route.journey().segments());
   } // onCreate
      
   //////////////////////////
