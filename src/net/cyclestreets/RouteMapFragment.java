@@ -6,7 +6,6 @@ import net.cyclestreets.CycleStreetsConstants;
 import net.cyclestreets.R;
 import net.cyclestreets.util.MessageBox;
 import net.cyclestreets.util.GeoIntent;
-import net.cyclestreets.views.overlay.LiveRideOverlay;
 import net.cyclestreets.views.overlay.POIOverlay;
 import net.cyclestreets.views.overlay.RouteOverlay;
 import net.cyclestreets.views.overlay.RouteHighlightOverlay;
@@ -52,8 +51,6 @@ public class RouteMapFragment extends CycleMapFragment
 
     path_ = new RouteOverlay(getActivity());
 	  overlayPushBottom(path_);
-	  
-	  overlayPushBottom(new LiveRideOverlay(getActivity()));
 	  
 	  routeSetter_ = new TapToRouteOverlay(getActivity(), mapView(), this);
 	  overlayPushTop(routeSetter_);
@@ -117,6 +114,7 @@ public class RouteMapFragment extends CycleMapFragment
 	@Override
 	public void onCreateOptionsMenu(final Menu menu, final MenuInflater inflater)
 	{
+    createMenuItem(menu, R.string.ic_menu_liveride, Menu.NONE, 0);
 	  createMenuItem(menu, R.string.ic_menu_directions, Menu.NONE, R.drawable.ic_menu_directions);
 	  createMenuItem(menu, R.string.ic_menu_saved_routes, Menu.NONE, R.drawable.ic_menu_places);
 	  createMenuItem(menu, R.string.ic_menu_route_number, Menu.NONE, R.drawable.ic_menu_route_number);
@@ -126,6 +124,7 @@ public class RouteMapFragment extends CycleMapFragment
 	@Override
 	public void onPrepareOptionsMenu(final Menu menu)
 	{
+    showMenuItem(menu, R.string.ic_menu_liveride, Route.available());
 	  enableMenuItem(menu, R.string.ic_menu_directions, true);
 	  showMenuItem(menu, R.string.ic_menu_saved_routes, Route.storedCount() != 0);
 	  enableMenuItem(menu, R.string.ic_menu_route_number, true);
@@ -140,6 +139,9 @@ public class RouteMapFragment extends CycleMapFragment
 		
 		switch(item.getItemId())
 		{
+		  case R.string.ic_menu_liveride:
+		    startLiveRide();
+		    return true;
 		  case R.string.ic_menu_directions:
 		    launchRouteDialog();
 		    return true;
@@ -194,6 +196,12 @@ public class RouteMapFragment extends CycleMapFragment
 		} // if ...
 	} // onActivityResult
     
+	private void startLiveRide() 
+	{
+    final Intent intent = new Intent(getActivity(), LiveRideActivity.class);
+	  startActivity(intent);
+	} // startLiveRide
+	
   private void launchRouteDialog()
   {
     startNewRoute(new DialogInterface.OnClickListener() {
