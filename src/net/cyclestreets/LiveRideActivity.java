@@ -16,6 +16,13 @@ import android.widget.RelativeLayout;
 
 public class LiveRideActivity extends Activity implements ServiceConnection
 {
+  static public void launch(final Context context) 
+  {
+    final Intent intent = new Intent(context, LiveRideActivity.class);
+    context.startActivity(intent);
+  } // launch
+  
+  
   private CycleMapView map_; 
   private LiveRideService.Binding binding_;
 
@@ -43,6 +50,7 @@ public class LiveRideActivity extends Activity implements ServiceConnection
   {
     map_.disableFollowLocation();
     map_.onPause();
+    
     super.onPause();
   } // onPause
   
@@ -50,6 +58,7 @@ public class LiveRideActivity extends Activity implements ServiceConnection
   public void onResume()
   {
     super.onResume();
+
     map_.onResume();
     map_.enableAndFollowLocation();
   } // onResume
@@ -57,7 +66,8 @@ public class LiveRideActivity extends Activity implements ServiceConnection
   @Override
   protected void onDestroy()
   {
-    binding_.stopRiding();
+    if(binding_ != null)
+      binding_.stopRiding();
     super.onDestroy();
   } // onStop
 

@@ -169,8 +169,7 @@ public class RouteMapFragment extends CycleMapFragment
     
 	private void startLiveRide() 
 	{
-    final Intent intent = new Intent(getActivity(), LiveRideActivity.class);
-	  startActivity(intent);
+	  LiveRideActivity.launch(getActivity());
 	} // startLiveRide
 	
   private void launchRouteDialog()
