@@ -11,10 +11,9 @@ public class StoredRoutingTask extends RoutingTask<Integer>
 	private final RouteDatabase db_;
 
 	StoredRoutingTask(final RouteDatabase db,
-					  final Route.Callback whoToTell,
-					  final Context context) 
+	                  final Context context) 
 	{
-		super(R.string.loading_route, whoToTell, context);
+		super(R.string.loading_route, context);
 		db_ = db;
 	} // StoredRoutingTask
 

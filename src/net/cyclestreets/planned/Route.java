@@ -1,5 +1,6 @@
 package net.cyclestreets.planned;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -20,44 +21,79 @@ import net.cyclestreets.api.DistanceFormatter;
 
 public class Route 
 {
-	public interface Callback {
-		public void onNewJourney();
-	}
+  public interface Listener {
+    public void onNewJourney();
+    public void onResetJourney();
+  } // Listener
 
+  static private class Listeners
+  {
+    private List<Listener> listeners_ = new ArrayList<Listener>();
+  
+    public void register(final Listener listener) 
+    {
+      if(listeners_.contains(listener))
+        return;
+    
+      listeners_.add(listener);
+      
+      if(Route.journey() != Journey.NULL_JOURNEY)
+        listener.onNewJourney();
+      else
+        listener.onResetJourney();      
+    } // registerListener
+  
+    public void unregister(final Listener listener) 
+    {
+      listeners_.remove(listener);
+    } // unregisterListener
+   
+    public void onNewJourney() {
+      for(final Listener l : listeners_)
+        l.onNewJourney();
+    } // onNewJourney
+    
+    public void onReset() {
+      for(final Listener l : listeners_)
+        l.onResetJourney();
+    } // onReset
+  } // Listeners
+  
+  static private final Listeners listeners_ = new Listeners();
+  
+  static public void registerListener(final Listener l) { listeners_.register(l); }
+  static public void unregisterListener(final Listener l) { listeners_.unregister(l); }
+  
 	@SuppressWarnings("unchecked")
 	static public void PlotRoute(final String plan,
               								 final int speed,
-              								 final Callback whoToTell,
               								 final Context context,
                                final List<GeoPoint> waypoints)
 	{
-		final CycleStreetsRoutingTask query = new CycleStreetsRoutingTask(plan, speed, whoToTell, context);
+		final CycleStreetsRoutingTask query = new CycleStreetsRoutingTask(plan, speed, context);
 		query.execute(waypoints);
 	} // PlotRoute
 	
 	static public void FetchRoute(final String plan,
 	                              final long itinerary,
 	                              final int speed,
-	                              final Callback whoToTell,
 	                              final Context context)
 	{
-	  final FetchCycleStreetsRouteTask query = new FetchCycleStreetsRouteTask(plan, speed, whoToTell, context);
+	  final FetchCycleStreetsRouteTask query = new FetchCycleStreetsRouteTask(plan, speed, context);
 	  query.execute(itinerary);
 	} // FetchRoute
 
 	static public void RePlotRoute(final String plan,
-              								   final Callback whoToTell,
               								   final Context context)
 	{
-		final ReplanRoutingTask query = new ReplanRoutingTask(plan, db_, whoToTell, context);
+		final ReplanRoutingTask query = new ReplanRoutingTask(plan, db_, context);
 		query.execute(plannedRoute_);
 	} // PlotRoute
 
 	static public void PlotStoredRoute(final int localId,
-								 final Callback whoToTell,
 								 final Context context)
 	{
-		final StoredRoutingTask query = new StoredRoutingTask(db_, whoToTell, context);
+		final StoredRoutingTask query = new StoredRoutingTask(db_, context);
 		query.execute(localId);
 	} // PlotRoute
 	
@@ -130,6 +166,7 @@ public class Route
 		{
 			plannedRoute_ = Journey.NULL_JOURNEY;
 			waypoints_ = (List<GeoPoint>)Collections.EMPTY_LIST;
+			listeners_.onReset();
 			return;
 		} // if ...
 		
@@ -137,6 +174,7 @@ public class Route
 		
 		db_.saveRoute(plannedRoute_, route.xml());
 		waypoints_ = plannedRoute_.waypoints();
+    listeners_.onNewJourney();
 	} // onNewJourney
 	
 	static public GeoPoint start() { return (waypoints_.size() != 0) ? waypoints_.get(0) : null; }

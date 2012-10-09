@@ -4,6 +4,6 @@ import android.content.SharedPreferences;
 
 public interface PauseResumeListener
 {
-  public void onPause(SharedPreferences.Editor prefs);
   public void onResume(SharedPreferences prefs);
+  public void onPause(SharedPreferences.Editor prefs);
 } // interface PauseResumeListener

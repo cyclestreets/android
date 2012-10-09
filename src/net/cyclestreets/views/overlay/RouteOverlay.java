@@ -5,6 +5,7 @@ import java.util.List;
 
 import net.cyclestreets.api.Segment;
 import net.cyclestreets.planned.Route;
+import net.cyclestreets.planned.Route.Listener;
 
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
@@ -12,13 +13,15 @@ import org.osmdroid.api.IProjection;
 import org.osmdroid.views.overlay.Overlay;
 
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.graphics.Canvas;
 import android.graphics.DashPathEffect;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.Point;
 
-public class RouteOverlay extends Overlay 
+public class RouteOverlay extends Overlay implements PauseResumeListener, Listener
 {
   static public int ROUTE_COLOUR = 0x80ff00ff;
   static public int HIGHLIGHT_COLOUR = 0xA000ff00;
@@ -66,13 +69,13 @@ public class RouteOverlay extends Overlay
     return brush;
   } // createBrush	
 
-  public void setRoute(final List<Segment> routeSegments)
+  private void setRoute(final List<Segment> routeSegments)
   {
     reset();
     route_ = routeSegments;
   } // setRoute
 
-  public void reset() 
+  private void reset() 
   {
     ridePath_ = null;
     route_ = null;
@@ -96,7 +99,6 @@ public class RouteOverlay extends Overlay
     } // if ... 
   
     if(ridePath_ == null)
-  
       drawSegments(mapView.getProjection());
 
     canvas.drawPath(ridePath_, rideBrush_);
@@ -139,4 +141,30 @@ public class RouteOverlay extends Overlay
       } // for ...
     } // for ...
   } // drawSegments
+
+  // pause/resume
+  @Override
+  public void onResume(SharedPreferences prefs)
+  {
+    Route.registerListener(this);
+  } // onResume
+
+  @Override
+  public void onPause(Editor prefs)
+  {
+    Route.unregisterListener(this);
+  } // onPause
+
+  // route listener
+  @Override
+  public void onNewJourney()
+  {
+    setRoute(Route.journey().segments());
+  } // onNewJourney
+  
+  @Override
+  public void onResetJourney()
+  {
+    reset();
+  } // onReset
 } // Path

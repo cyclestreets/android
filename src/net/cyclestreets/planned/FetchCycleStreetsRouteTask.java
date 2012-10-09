@@ -2,8 +2,6 @@ package net.cyclestreets.planned;
 
 import net.cyclestreets.R;
 import net.cyclestreets.content.RouteData;
-import net.cyclestreets.planned.Route;
-
 import android.content.Context;
 
 public class FetchCycleStreetsRouteTask extends RoutingTask<Long>
@@ -13,10 +11,9 @@ public class FetchCycleStreetsRouteTask extends RoutingTask<Long>
         
   FetchCycleStreetsRouteTask(final String routeType,
                              final int speed,  
-                             final Route.Callback whoToTell,
                              final Context context) 
   {
-    super(R.string.fetching_route, whoToTell, context);
+    super(R.string.fetching_route, context);
     routeType_ = routeType;
     speed_ = speed;
   } // FetchCycleStreetsRouteTask

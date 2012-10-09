@@ -10,7 +10,6 @@ import net.cyclestreets.views.overlay.POIOverlay;
 import net.cyclestreets.views.overlay.RouteOverlay;
 import net.cyclestreets.views.overlay.RouteHighlightOverlay;
 import net.cyclestreets.views.overlay.TapToRouteOverlay;
-import net.cyclestreets.api.Segment;
 import net.cyclestreets.planned.Route;
 
 import org.osmdroid.util.GeoPoint;
@@ -32,10 +31,8 @@ import static net.cyclestreets.FragmentHelper.enableMenuItem;
 import static net.cyclestreets.FragmentHelper.showMenuItem;
 
 public class RouteMapFragment extends CycleMapFragment
-                              implements TapToRouteOverlay.Callback, 
-                                         Route.Callback
+                              implements Route.Listener
 {
-	private RouteOverlay path_;
 	private TapToRouteOverlay routeSetter_;
 	private POIOverlay poiOverlay_;
 	
@@ -49,10 +46,9 @@ public class RouteMapFragment extends CycleMapFragment
     poiOverlay_ = new POIOverlay(getActivity(), mapView());
     overlayPushBottom(poiOverlay_);
 
-    path_ = new RouteOverlay(getActivity());
-	  overlayPushBottom(path_);
+	  overlayPushBottom(new RouteOverlay(getActivity()));
 	  
-	  routeSetter_ = new TapToRouteOverlay(getActivity(), mapView(), this);
+	  routeSetter_ = new TapToRouteOverlay(getActivity(), mapView());
 	  overlayPushTop(routeSetter_);
 	  
 	  return v;
@@ -62,6 +58,7 @@ public class RouteMapFragment extends CycleMapFragment
   public void onPause()
 	{
 	  Route.setWaypoints(routeSetter_.waypoints());
+	  Route.unregisterListener(this);
 	  super.onPause();
   } // onPause
 
@@ -69,47 +66,22 @@ public class RouteMapFragment extends CycleMapFragment
 	public void onResume()
 	{
 	  super.onResume();
+	  Route.registerListener(this);
 	  Route.onResume();
-	  setJourneyPath(Route.journey().segments(), Route.waypoints());
   } // onResume
-     
-	public void onRouteNow(final List<GeoPoint> waypoints)
-	{
-	  Route.PlotRoute(CycleStreetsPreferences.routeType(), 
-	                  CycleStreetsPreferences.speed(),
-	                  this, 
-	                  getActivity(),
-	                  waypoints);
-	} // onRouteNow
 
 	public void onRouteNow(int itinerary)
 	{
 	  Route.FetchRoute(CycleStreetsPreferences.routeType(),
 	                   itinerary, 
 	                   CycleStreetsPreferences.speed(), 
-	                   this,
 	                   getActivity());
 	} // onRouteNow
 	
-	public void reRouteNow(final String plan)
-	{
-	  Route.RePlotRoute(plan,
-	                    this, 
-	                    getActivity());
-	} // reRouteNow
-
 	public void onStoredRouteNow(final int localId)
 	{
-	  Route.PlotStoredRoute(localId, this, getActivity());
+	  Route.PlotStoredRoute(localId, getActivity());
   } // onStoredRouteNow
-    
-	public void onClearRoute()
-	{
-	  Route.resetJourney();
-	  routeSetter_.resetRoute();
-	  path_.reset();
-	  mapView().invalidate();
-  } // onClearRoute
     
 	@Override
 	public void onCreateOptionsMenu(final Menu menu, final MenuInflater inflater)
@@ -180,7 +152,6 @@ public class RouteMapFragment extends CycleMapFragment
 					                               CycleStreetsPreferences.speed());
 			Route.PlotRoute(routeType, 
 			                speed,
-			                this, 
 			                getActivity(),
                       points);
 		} // if ...
@@ -192,7 +163,7 @@ public class RouteMapFragment extends CycleMapFragment
       final int speed = data.getIntExtra(CycleStreetsConstants.EXTRA_ROUTE_SPEED, 
                                          CycleStreetsPreferences.speed());
       
-      Route.FetchRoute(routeType, routeNumber, speed, this, getActivity());
+      Route.FetchRoute(routeType, routeNumber, speed, getActivity());
 		} // if ...
 	} // onActivityResult
     
@@ -255,15 +226,13 @@ public class RouteMapFragment extends CycleMapFragment
 	@Override
 	public void onNewJourney() 
 	{
-	  setJourneyPath(Route.journey().segments(), Route.waypoints());
-	  
 	  mapView().getController().setCenter(Route.start());
 	  mapView().postInvalidate();
 	} // onNewJourney   
-   
-	private void setJourneyPath(final List<Segment> segments, final List<GeoPoint> waypoints)
+	
+	@Override
+	public void onResetJourney()
 	{
-	  routeSetter_.setRoute(waypoints, !segments.isEmpty());	   
-	  path_.setRoute(segments);
-  } // setJourneyPath
+    mapView().invalidate();
+	} // onReset
 } // class MapActivity

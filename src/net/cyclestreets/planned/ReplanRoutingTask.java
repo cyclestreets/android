@@ -14,10 +14,9 @@ public class ReplanRoutingTask
 
 	ReplanRoutingTask(final String newPlan,
 	                  final RouteDatabase db,
-	                  final Route.Callback whoToTell,
 	                  final Context context) 
 	{
-		super(R.string.loading_route, whoToTell, context);
+		super(R.string.loading_route, context);
 		db_ = db;
 		newPlan_ = newPlan;
 	} // ReplanRouteTask

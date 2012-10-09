@@ -17,24 +17,20 @@ import net.cyclestreets.api.Journey;
 public abstract class RoutingTask<Params> 
     extends AsyncTask<Params, Integer, RouteData> 
 {
-  private final Route.Callback whoToTell_;
   private final String initialMsg_;
   private ProgressDialog progress_;
   private Context context_;
   private String error_;
   
   protected RoutingTask(final int progressMessageId,
-                        final Route.Callback whoToTell,
                         final Context context)
   {
-    this(context.getString(progressMessageId), whoToTell, context);
+    this(context.getString(progressMessageId), context);
   } // RoutingTask
 			
   protected RoutingTask(final String progressMessage,
-                        final Route.Callback whoToTell,
                         final Context context)
   {
-    whoToTell_ = whoToTell;
     context_ = context;
     initialMsg_ = progressMessage;
   } // Routing Task
@@ -83,13 +79,20 @@ public abstract class RoutingTask<Params>
   protected void onPreExecute() 
   {
     super.onPreExecute();
-    progress_ = Dialog.createProgressDialog(context_, initialMsg_);
-    progress_.show();
+    try {
+      progress_ = Dialog.createProgressDialog(context_, initialMsg_);
+      progress_.show();
+    }
+    catch(Exception e) {
+      progress_ = null;
+    }
   } // onPreExecute
 	
   @Override
   protected void onProgressUpdate(final Integer... p)
   {
+    if(progress_ == null)
+      return;
     progress_.setMessage(context_.getString(p[0]));
   } // onProgressUpdate
 
@@ -97,10 +100,7 @@ public abstract class RoutingTask<Params>
   protected void onPostExecute(final RouteData route) 
   {
     if(route != null)
-    {
-      if(Route.onNewJourney(route))
-        whoToTell_.onNewJourney();
-    } // if ...
+      Route.onNewJourney(route);
     progressDismiss();
     if(error_ != null)
       Toast.makeText(context_, error_, Toast.LENGTH_LONG).show();
@@ -108,6 +108,8 @@ public abstract class RoutingTask<Params>
   
   private void progressDismiss()
   {
+    if(progress_ == null)
+      return;
     try {
       // some devices, in rare situations, can throw here so just catch and swallow
       progress_.dismiss();
