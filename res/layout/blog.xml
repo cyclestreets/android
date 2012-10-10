@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  android:orientation="vertical"
+  android:layout_width="fill_parent"
+  android:layout_height="fill_parent">
+  <WebView android:id="@+id/html_view"
+		 android:layout_width="fill_parent"
+		 android:layout_height="0dip"
+     android:layout_weight="1.0"
+		 android:scrollbars="vertical">
+  </WebView>
+
+  <LinearLayout
+      android:layout_width="fill_parent"
+      android:layout_height="wrap_content"
+      android:gravity="center">
+      <TextView
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+      		android:text="@string/blog_notifications"/>
+		  <CheckBox
+    		  android:id="@+id/blog_notifications"
+      		android:layout_width="wrap_content"
+      		android:layout_height="wrap_content"/>
+  </LinearLayout>
+</LinearLayout>

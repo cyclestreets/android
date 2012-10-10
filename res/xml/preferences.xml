@@ -46,6 +46,10 @@
 			android:key="confirm-new-route"
 			android:title="Confirm Start New Route"
 			android:defaultValue="true"/>
+		<CheckBoxPreference 
+		  android:key="blog-notifications"
+		  android:title="@string/blog_notifications"
+		  android:defaultValue="true"/>
 	</PreferenceCategory>
     <PreferenceCategory
     	android:title="CycleStreets Account">
