@@ -49,6 +49,7 @@
               android:label="CycleStreets : Blog"/>
     <activity android:name=".LiveRideActivity" 
               android:label="CycleStreets : LiveRide"
+              android:launchMode="singleTop"
               android:screenOrientation="portrait"/>
     <!-- ACRA support -->
     <activity android:name="org.acra.CrashReportDialog"
