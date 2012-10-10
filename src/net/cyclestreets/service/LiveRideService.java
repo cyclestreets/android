@@ -84,10 +84,10 @@ public class LiveRideService extends Service
     if(!stage_.isStopped())
       return;
     
-    locationManager_.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
     stage_ = Stage.SETTING_OFF;
     notify("Live Ride", "Starting Live Ride");
     Route.registerListener(this);
+    locationManager_.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
   } // startRiding
 
   public void stopRiding()
@@ -209,7 +209,7 @@ public class LiveRideService extends Service
     
     if(!stage_.offCourse() && (distance > 30))
     {
-      notify(stage_ == Stage.SETTING_OFF ? "Someway from start" : "Moving away from route");
+      notify(stage_ == Stage.SETTING_OFF ? "Some way from start" : "Moving away from route");
       stage_ = (stage_ == Stage.SETTING_OFF) ? Stage.MOVING_AWAY_FROM_START : Stage.MOVING_AWAY;
     } // if ...
     else if(stage_.offCourse() && (distance < 20))
@@ -277,7 +277,7 @@ public class LiveRideService extends Service
   private void notify(final String text, final String ticker) 
   {
     notification(text, ticker);
-    tts_.speak(text, TextToSpeech.QUEUE_FLUSH, null);
+    tts_.speak(text, TextToSpeech.QUEUE_ADD, null);
   } // notify
   
   private void notification(final String text, final String ticker)
