@@ -175,6 +175,7 @@ public class CycleMapView extends MapView
   public void disableFollowLocation() { location_.disableFollowLocation(); }
 
   public void enableAndFollowLocation() { location_.enableAndFollowLocation(true); }
+  public void lockOnLocation() { location_.lockOnLocation(); }
   public void hideLocationButton() { location_.hideButton(); }
   
   ///////////////////////////////////////////////////////

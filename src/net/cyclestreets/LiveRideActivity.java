@@ -34,6 +34,7 @@ public class LiveRideActivity extends Activity implements ServiceConnection
     map_ = new CycleMapView(this, this.getClass().getName());
     map_.overlayPushBottom(new RouteOverlay(this));
     map_.overlayPushTop(new StopActivityOverlay(this));
+    map_.lockOnLocation();
     map_.hideLocationButton();
     
     final RelativeLayout rl = new RelativeLayout(this);

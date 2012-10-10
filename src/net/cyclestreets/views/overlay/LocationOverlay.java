@@ -30,6 +30,7 @@ public class LocationOverlay extends MyLocationOverlay
 	private final MapView mapView_;
 	
 	private boolean hidden_;
+	private boolean lockedOn_;
 	
 	public LocationOverlay(final Context context, final MapView mapView) 
 	{
@@ -46,7 +47,7 @@ public class LocationOverlay extends MyLocationOverlay
 		                                    offset_,
 		                                    offset_,
 		                                    radius_);		
-		
+		lockedOn_ = false;
 		hidden_ = false;
 	} // LocationOverlay
 	
@@ -82,15 +83,31 @@ public class LocationOverlay extends MyLocationOverlay
 		mapView_.invalidate();
 	} // enableAndFollowLocation
 	
+	public void lockOnLocation() 
+	{
+	  lockedOn_ = true;
+	} // lockOnLocation
+	
 	public void hideButton() 
 	{
 	  hidden_ = true;
 	} // hideButton
 	
-	////////////////////////////////////////////
+	@Override
+  public boolean onTouchEvent(final MotionEvent event, final MapView mapView)
+  {
+    final boolean handled = super.onTouchEvent(event, mapView);
+    
+    if(lockedOn_ && isMyLocationEnabled() && (event.getAction() == MotionEvent.ACTION_MOVE)) 
+      enableFollowLocation();
+    
+    return handled;
+  } // onTouchEvent
+
+  ////////////////////////////////////////////
 	@Override
 	public void draw(final Canvas canvas, final MapView mapView, final boolean shadow) 
-	{
+	{	  
 		// I'm not thrilled about this but there isn't any other way (short of killing
 		// and recreating the overlay) of turning off the little here-you-are man
 		if(!isMyLocationEnabled())
