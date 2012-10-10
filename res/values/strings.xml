@@ -4,6 +4,7 @@
   <string name="settings">Settings</string>
 	<string name="about">About</string>
 	<string name="blog">Blog</string>
+	<string name="blog_notifications">Show Blog update notifications</string>
 	<string name="go">Find Route</string>
 	<string name="addvia">Add waypoint</string>
 	<string name="finding_route">Obtaining route from CycleStreets.net, please wait</string>
