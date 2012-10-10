@@ -29,6 +29,8 @@ public class LiveRideService extends Service
              OnInitListener,
              Route.Listener
 {
+  private static int NOTIFICATION_ID = 1;
+  
   private enum Stage 
   {
     SETTING_OFF,
@@ -85,7 +87,6 @@ public class LiveRideService extends Service
       return;
     
     stage_ = Stage.SETTING_OFF;
-    notify("Live Ride", "Starting Live Ride");
     Route.registerListener(this);
     locationManager_.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
   } // startRiding
@@ -133,6 +134,7 @@ public class LiveRideService extends Service
     {
     case SETTING_OFF:
       journey.setActiveSegmentIndex(0);
+      notify("Live Ride", "Starting Live Ride");
       notify(journey.activeSegment());
       stage_ = Stage.HUNTING;
       break;
@@ -266,7 +268,7 @@ public class LiveRideService extends Service
       instruction.append(seg.turn()).append(" into ");
     instruction.append(seg.street().replace("un-", "un").replace("Un-", "un"));
     instruction.append(". Continue ").append(seg.distance());
-    tts_.speak(instruction.toString(), TextToSpeech.QUEUE_FLUSH, null);
+    speak(instruction.toString());
   } // notify
   
   private void notify(final String text)
@@ -277,7 +279,7 @@ public class LiveRideService extends Service
   private void notify(final String text, final String ticker) 
   {
     notification(text, ticker);
-    tts_.speak(text, TextToSpeech.QUEUE_ADD, null);
+    speak(text);
   } // notify
   
   private void notification(final String text, final String ticker)
@@ -288,13 +290,12 @@ public class LiveRideService extends Service
     final Intent notificationIntent = new Intent(this, LiveRideActivity.class);
     final PendingIntent contentIntent = PendingIntent.getActivity(this, 0, notificationIntent, PendingIntent.FLAG_CANCEL_CURRENT);
     notification.setLatestEventInfo(this, "CycleStreets", text, contentIntent);
-    nm.notify(1, notification);
+    nm.notify(NOTIFICATION_ID, notification);
   } // notify
 
   private void cancelNotification()
   {
-    final NotificationManager nm = nm();
-    nm.cancel(1);
+    nm().cancel(NOTIFICATION_ID);
   } // cancelNotification
 
   private NotificationManager nm()
@@ -302,6 +303,11 @@ public class LiveRideService extends Service
     return (NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);
   } // nm
 
+  private void speak(final String words)
+  {
+    tts_.speak(words, TextToSpeech.QUEUE_ADD, null);
+  } // speak
+  
   @Override
   public void onInit(int arg0)
   {
