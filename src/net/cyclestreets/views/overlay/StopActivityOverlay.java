@@ -28,7 +28,7 @@ public class StopActivityOverlay extends Overlay implements ButtonTapListener
 		radius_ = DrawingHelper.cornerRadius(context);
 
 		final Resources res = context.getResources();
-		stopButton_ = new OverlayButton(res.getDrawable(R.drawable.btn_plus),
+		stopButton_ = new OverlayButton(res.getDrawable(R.drawable.btn_stop),
 		                                offset_,
 		                                offset_,
 		                                radius_);		
