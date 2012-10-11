@@ -2,6 +2,7 @@ package net.cyclestreets;
 
 import net.cyclestreets.service.LiveRideService;
 import net.cyclestreets.views.CycleMapView;
+import net.cyclestreets.views.overlay.LockScreenOnOverlay;
 import net.cyclestreets.views.overlay.RouteOverlay;
 import net.cyclestreets.views.overlay.StopActivityOverlay;
 import android.app.Activity;
@@ -33,6 +34,7 @@ public class LiveRideActivity extends Activity implements ServiceConnection
     
     map_ = new CycleMapView(this, this.getClass().getName());
     map_.overlayPushBottom(new RouteOverlay(this));
+    map_.overlayPushTop(new LockScreenOnOverlay(this, map_));
     map_.overlayPushTop(new StopActivityOverlay(this));
     map_.lockOnLocation();
     map_.hideLocationButton();
