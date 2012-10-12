@@ -37,6 +37,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -438,14 +439,15 @@ public class PhotoUploadFragment extends Fragment
   
   private void setupMap()
   {
+    final RelativeLayout v = (RelativeLayout)(photoLocation_.findViewById(R.id.mapholder));
+
     if(map_ != null)
-      return;
+      v.removeView(map_);
     
     map_ = new CycleMapView(getActivity(), this.getClass().getName());
     map_.enableAndFollowLocation();
     
-    final LinearLayout v = (LinearLayout)(photoLocation_.findViewById(R.id.mapholder));
-    v.addView(map_, new LinearLayout.LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT));
+    v.addView(map_, new RelativeLayout.LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT));
 
     map_.overlayPushTop(there_);
     there_.setMapView(map_);
