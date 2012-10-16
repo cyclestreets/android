@@ -87,7 +87,7 @@ public abstract class Segment
   } // toString
   
   public GeoPoint start() { return points_.get(0); }
-  public GeoPoint end() { return points_.get(points_.size()-1); }
+  public GeoPoint finish() { return points_.get(points_.size()-1); }
       
   public int distanceFrom(final GeoPoint location) 
   {
@@ -121,7 +121,7 @@ public abstract class Segment
   
   public int distanceFromEnd(final GeoPoint location)
   {
-    return end().distanceTo(location);
+    return finish().distanceTo(location);
   } // distanceFromEnd
   
   public String street() { return name_; }

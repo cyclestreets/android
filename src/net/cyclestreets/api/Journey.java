@@ -20,7 +20,7 @@ import android.util.Xml;
 public class Journey 
 {
   private Waypoints waypoints_;
-  private List<Segment> segments_;
+  private Segments segments_;
   private int activeSegment_;
     
   static public final Journey NULL_JOURNEY;
@@ -32,7 +32,7 @@ public class Journey
   private Journey() 
   {
     waypoints_ = new Waypoints();
-    segments_ = new ArrayList<Segment>();
+    segments_ = new Segments();
     activeSegment_ = 0;   
   } // PlannedRoute
   
@@ -43,10 +43,10 @@ public class Journey
   } // Journey
 
   public boolean isEmpty() { return segments_.isEmpty(); }
-  public List<Segment> segments() { return segments_; }
+  public Segments segments() { return segments_; }
   
-  private Segment.Start s() { return (Segment.Start)segments_.get(0); }
-  private Segment.End e() { return (Segment.End)segments_.get(segments_.size()-1); }
+  private Segment.Start s() { return segments_.first(); }
+  private Segment.End e() { return segments_.last(); }
 
   public Waypoints waypoints() { return waypoints_; }
     
@@ -61,7 +61,7 @@ public class Journey
   public void setActiveSegmentIndex(int index) { activeSegment_ = index; }
   public void setActiveSegment(final Segment seg) 
   {
-    for(int i = 0; i != segments_.size(); ++i)
+    for(int i = 0; i != segments_.count(); ++i)
       if(seg == segments_.get(i))
       {
         setActiveSegmentIndex(i);
@@ -73,7 +73,7 @@ public class Journey
   public Segment activeSegment() { return activeSegment_ >= 0 ? segments_.get(activeSegment_) : null; }
   
   public boolean atStart() { return activeSegment_ <= 0; }
-  public boolean atEnd() { return activeSegment_ == segments_.size()-1; }
+  public boolean atEnd() { return activeSegment_ == segments_.count()-1; }
   
   public void regressActiveSegment() 
   { 
@@ -88,54 +88,9 @@ public class Journey
   
   public Iterator<GeoPoint> points()
   {
-    return new PointsIterator(segments_);
+    return segments_.pointsIterator();
   } // points
     
-  static class PointsIterator implements Iterator<GeoPoint>
-  {
-    private final Iterator<Segment> segments_;
-    private Iterator<GeoPoint> points_;
-    
-    PointsIterator(final List<Segment> segments)
-    {
-      segments_ = segments.iterator();
-      if(!segments_.hasNext())
-        return;
-      
-      points_ = segments_.next().points();
-    } // PointsIterator
-    
-    @Override
-    public boolean hasNext() 
-    {
-      return points_ != null && points_.hasNext();
-    } // hasNext
-
-    @Override
-    public GeoPoint next() 
-    {
-      if(!hasNext())
-        throw new IllegalStateException();
-      
-      final GeoPoint p = points_.next();
-      
-      if(!hasNext())
-      {
-        if(segments_.hasNext())
-          points_ = segments_.next().points();
-        else
-          points_ = null;
-      } // if ...
-      
-      return p;
-    } // next
-
-    @Override
-    public void remove() 
-    {
-      throw new UnsupportedOperationException();
-    } // remove
-  } // class PointsIterator
 
   ////////////////////////////////////////////////////////////////
   static private GeoPoint pD(final GeoPoint a1, final GeoPoint a2)
@@ -344,8 +299,8 @@ As at 01 December 2011
           final GeoPoint from = journey_.waypoints().first();
           final GeoPoint to = journey_.waypoints().last();
 
-          final GeoPoint pstart = journey_.segments_.get(0).start();
-          final GeoPoint pend = journey_.segments_.get(journey_.segments_.size()-1).end();
+          final GeoPoint pstart = journey_.segments_.startPoint();
+          final GeoPoint pend = journey_.segments_.finishPoint();
           final Segment startSeg = new Segment.Start(itinerary_,
                                  name_ != null ? name_ : start_,
                                  plan_, 
@@ -359,7 +314,7 @@ As at 01 December 2011
                                total_time, 
                                total_distance, 
                                Collections.list(pend, pD(to, pend)));
-          journey_.segments_.add(0, startSeg);
+          journey_.segments_.add(startSeg);
           journey_.segments_.add(endSeg);
         } // end
       });

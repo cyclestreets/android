@@ -128,7 +128,7 @@ public class Route
 
 	static public void onResume()
 	{
-		Segment.formatter = DistanceFormatter.formatter(CycleStreetsPreferences .units());
+		Segment.formatter = DistanceFormatter.formatter(CycleStreetsPreferences.units());
 	} // onResult
 	
 	/////////////////////////////////////

@@ -64,13 +64,13 @@ public class ItineraryFragment extends ListFragment
 
 	  private boolean hasSegments() 
 	  {
-	    return (Route.journey().segments() != null) && (Route.journey().segments().size() != 0);
+	    return Route.journey().isEmpty();
     } // hasSegments
     	
 		@Override
 		public int getCount() 
 		{ 
-			return hasSegments() ? Route.journey().segments().size() : 1; 
+			return hasSegments() ? Route.journey().segments().count() : 1; 
 		} // getCount
 
 		@Override

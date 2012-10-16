@@ -1,10 +1,10 @@
 package net.cyclestreets.views.overlay;
 
 import java.util.Iterator;
-import java.util.List;
 
 import net.cyclestreets.api.Journey;
 import net.cyclestreets.api.Segment;
+import net.cyclestreets.api.Segments;
 import net.cyclestreets.api.Waypoints;
 import net.cyclestreets.planned.Route;
 import net.cyclestreets.planned.Route.Listener;
@@ -28,7 +28,7 @@ public class RouteOverlay extends Overlay implements PauseResumeListener, Listen
   static public int ROUTE_COLOUR = 0x80ff00ff;
   static public int HIGHLIGHT_COLOUR = 0xA000ff00;
 
-  private List<Segment> route_;
+  private Segments route_;
 
   private final Paint rideBrush_;
   private final Paint walkBrush_;
@@ -71,7 +71,7 @@ public class RouteOverlay extends Overlay implements PauseResumeListener, Listen
     return brush;
   } // createBrush	
 
-  private void setRoute(final List<Segment> routeSegments)
+  private void setRoute(final Segments routeSegments)
   {
     reset();
     route_ = routeSegments;
@@ -89,7 +89,7 @@ public class RouteOverlay extends Overlay implements PauseResumeListener, Listen
     if (shadow) 
       return;
  
-    if (route_ == null || route_.size() < 2) 
+    if (route_ == null || route_.count() < 2) 
       return;
 		
     if((zoomLevel_ != mapView.getZoomLevel() && !mapView.isAnimating()) ||
