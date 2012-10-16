@@ -53,20 +53,20 @@ public class RouteMapFragment extends CycleMapFragment
   } // onCreate
 
 	@Override
-  public void onPause()
-	{
-	  Route.setWaypoints(routeSetter_.waypoints());
-	  Route.unregisterListener(this);
-	  super.onPause();
-  } // onPause
-
-	@Override
 	public void onResume()
 	{
 	  super.onResume();
 	  Route.registerListener(this);
 	  Route.onResume();
   } // onResume
+
+  @Override
+  public void onPause()
+  {
+    Route.setWaypoints(routeSetter_.waypoints());
+    Route.unregisterListener(this);
+    super.onPause();
+  } // onPause
 
 	public void onRouteNow(int itinerary)
 	{

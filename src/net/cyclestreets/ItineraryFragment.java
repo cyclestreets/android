@@ -3,7 +3,9 @@ package net.cyclestreets;
 import java.util.Map;
 
 import net.cyclestreets.planned.Route;
+import net.cyclestreets.api.Journey;
 import net.cyclestreets.api.Segment;
+import net.cyclestreets.api.Waypoints;
 
 import android.content.Context;
 import android.content.res.Resources;
@@ -22,12 +24,15 @@ import android.widget.TextView;
 import net.cyclestreets.util.MapFactory;
 
 public class ItineraryFragment extends ListFragment 
+                               implements Route.Listener
 {
+  private Journey journey_ = Journey.NULL_JOURNEY;
+  
 	@Override
 	public void onCreate(final Bundle savedInstanceState) 
 	{
 	  super.onCreate(savedInstanceState);
-	  setListAdapter(new SegmentAdapter(getActivity()));
+	  setListAdapter(new SegmentAdapter(getActivity(), this));
 	} // onCreate
 
 	@Override
@@ -35,42 +40,66 @@ public class ItineraryFragment extends ListFragment
 	{
 		super.onResume();
 		Route.onResume();
-		setSelection(Route.journey().activeSegmentIndex());
+    Route.registerListener(this);
 	} // onResume	
-    
+  
+  @Override
+  public void onPause()
+  {
+    Route.unregisterListener(this);
+    super.onPause();
+  } // onPause
+	
 	@Override
   public void onListItemClick(ListView l, View v, int position, long id)
 	{
-	  if(!Route.available())
+	  if(journey_.isEmpty())
 	    return;
     	  
-	  Route.journey().setActiveSegmentIndex(position);
+	  journey_.setActiveSegmentIndex(position);
 	  ((CycleStreets)getActivity()).showMap();
 	} // onListItemClick
     
+  @Override
+  public void onNewJourney(final Journey journey, final Waypoints waypoints)
+  {
+    journey_ = journey;
+    setSelection(journey_.activeSegmentIndex());
+  } // onNewJourney
+
+  @Override
+  public void onResetJourney()
+  {
+    journey_ = Journey.NULL_JOURNEY;
+  } // onResetJourney
+
 	//////////////////////////////////
 	static class SegmentAdapter extends BaseAdapter
 	{
+	  private final ItineraryFragment itinerary_;
 	  private final Map<String, Drawable> iconMappings_;
 	  private final Drawable footprints_;
 	  private final LayoutInflater inflater_;
 	  
-	  SegmentAdapter(final Context context)
+	  SegmentAdapter(final Context context, final ItineraryFragment itinerary)
 	  {
+	    itinerary_ = itinerary;
 	    iconMappings_ = loadIconMappings(context);
 	    footprints_ = context.getResources().getDrawable(R.drawable.footprints);
 	    inflater_ = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-	  } // SegmentAdaptor    	
+	  } // SegmentAdaptor
+	  
+	  private Journey journey() { return itinerary_.journey_; }
 
 	  private boolean hasSegments() 
 	  {
-	    return Route.journey().isEmpty();
+	    return !journey().isEmpty();
     } // hasSegments
     	
 		@Override
 		public int getCount() 
 		{ 
-			return hasSegments() ? Route.journey().segments().count() : 1; 
+			return hasSegments() ? journey().segments().count() : 1; 
 		} // getCount
 
 		@Override
@@ -78,7 +107,7 @@ public class ItineraryFragment extends ListFragment
 		{ 
 			if(!hasSegments())
 				return null;
-			return Route.journey().segments().get(position); 
+			return journey().segments().get(position); 
 		} // getItem
 
 		@Override
@@ -178,5 +207,4 @@ public class ItineraryFragment extends ListFragment
 		} // loadIconMappings
 	
   } // class SegmentAdaptor
-
 } // ItineraryActivity
