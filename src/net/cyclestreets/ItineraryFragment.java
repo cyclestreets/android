@@ -193,17 +193,18 @@ public class ItineraryFragment extends ListFragment
 			final Resources res = context.getResources();
 			
 			return MapFactory.map("straight on", res.getDrawable(R.drawable.straight_on))
-					         .map("bear left", res.getDrawable(R.drawable.bear_left))
-							 .map("turn left", res.getDrawable(R.drawable.turn_left))
-							 .map("sharp left", res.getDrawable(R.drawable.sharp_left))
-							 .map("bear right", res.getDrawable(R.drawable.bear_right))
-							 .map("turn right", res.getDrawable(R.drawable.turn_right))
-							 .map("sharp right", res.getDrawable(R.drawable.sharp_right))
-							 .map("double-back", res.getDrawable(R.drawable.double_back))
-							 .map("join roundabout", res.getDrawable(R.drawable.roundabout))
-			                 .map("first exit", res.getDrawable(R.drawable.first_exit))
-			                 .map("second exit", res.getDrawable(R.drawable.second_exit))
-			                 .map("third exit", res.getDrawable(R.drawable.third_exit));
+					             .map("bear left", res.getDrawable(R.drawable.bear_left))
+                       .map("turn left", res.getDrawable(R.drawable.turn_left))
+                       .map("sharp left", res.getDrawable(R.drawable.sharp_left))
+                       .map("bear right", res.getDrawable(R.drawable.bear_right))
+                       .map("turn right", res.getDrawable(R.drawable.turn_right))
+                       .map("sharp right", res.getDrawable(R.drawable.sharp_right))
+                       .map("double-back", res.getDrawable(R.drawable.double_back))
+                       .map("join roundabout", res.getDrawable(R.drawable.roundabout))
+                       .map("first exit", res.getDrawable(R.drawable.first_exit))
+                       .map("second exit", res.getDrawable(R.drawable.second_exit))
+                       .map("third exit", res.getDrawable(R.drawable.third_exit))
+                       .map("waymark", res.getDrawable(R.drawable.waymark));
 		} // loadIconMappings
 	
   } // class SegmentAdaptor

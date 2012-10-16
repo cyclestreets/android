@@ -3,6 +3,7 @@ package net.cyclestreets.api;
 import java.util.List;
 
 import net.cyclestreets.CycleStreetsPreferences;
+import net.cyclestreets.util.Collections;
 import net.cyclestreets.util.GeoHelper;
 import net.cyclestreets.util.IterableIterator;
 
@@ -225,4 +226,24 @@ public abstract class Segment
           false);
     } // Step
   } // class Step
+  
+  static public class Waymark extends Segment
+  {
+    public Waymark(final int count,
+                   final int running_distance,
+                   final GeoPoint gp)
+    {
+      super("Waypoint " + count,
+            "Waymark",
+            false, 
+            0, 
+            0,
+            running_distance,
+            Collections.list(gp, gp),
+            false);
+    } // Waymark
+
+    public String distance() { return ""; }
+    public String toString() { return street(); } 
+  } // class Waymark
 } // class Segment
