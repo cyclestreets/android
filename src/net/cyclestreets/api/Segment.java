@@ -81,7 +81,9 @@ public abstract class Segment
   
   public String toString() 
   {
-    String s = turn() + " into " + street();
+    String s = name_;
+    if(turn_.length() != 0)
+      s = turn_ + " into " + name_;
     if(walk())
       s += "\nPlease dismount and walk.";
     return s;
