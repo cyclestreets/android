@@ -1,9 +1,9 @@
 package net.cyclestreets.util;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import net.cyclestreets.api.GeoPlace;
+import net.cyclestreets.api.Waypoints;
 
 import org.osmdroid.util.BoundingBoxE6;
 import org.osmdroid.util.GeoPoint;
@@ -95,9 +95,9 @@ public class GeoIntent
    	intent.putExtra(GEO_LONGITUDE, (int)(location.getLongitude() * 1E6));
   } // setLocation
   
-  static public List<GeoPoint> getWaypoints(final Intent intent)
+  static public Waypoints getWaypoints(final Intent intent)
   {
-    final List<GeoPoint> points = new ArrayList<GeoPoint>();    
+    final Waypoints points = new Waypoints();    
     for(int waypoints = 0; ; ++waypoints)
     {
       final GeoPoint wp = getWaypoint(intent, waypoints);
@@ -108,9 +108,9 @@ public class GeoIntent
     return points;
   } // getWaypoints
   
-  static public void setWaypoints(final Intent intent, final List<GeoPoint> points)
+  static public void setWaypoints(final Intent intent, final Waypoints points)
   {
-    for(int i = 0; i != points.size(); ++i)
+    for(int i = 0; i != points.count(); ++i)
       setWaypoint(intent, i, points.get(i));
   } // setWaypoints
   

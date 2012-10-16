@@ -10,6 +10,8 @@ import net.cyclestreets.CycleStreetsPreferences;
 import net.cyclestreets.FeedbackActivity;
 import net.cyclestreets.R;
 import net.cyclestreets.Undoable;
+import net.cyclestreets.api.Journey;
+import net.cyclestreets.api.Waypoints;
 import net.cyclestreets.planned.Route;
 import net.cyclestreets.util.Brush;
 import net.cyclestreets.util.Draw;
@@ -143,7 +145,7 @@ public class TapToRouteOverlay extends Overlay
     return overlays_.controller();
   } // controller
   
-  public void setRoute(final List<GeoPoint> waypoints, final boolean complete)
+  public void setRoute(final Waypoints waypoints, final boolean complete)
   {
     resetRoute();
     
@@ -171,9 +173,9 @@ public class TapToRouteOverlay extends Overlay
     return waymarkers_.size();
   } // waypointsCount
   
-  public List<GeoPoint> waypoints()
+  public Waypoints waypoints()
   {
-    final List<GeoPoint> p = new ArrayList<GeoPoint>();
+    final Waypoints p = new Waypoints();
     for(final OverlayItem o : waymarkers_)
       p.add(o.getPoint());
     return p;
@@ -237,7 +239,7 @@ public class TapToRouteOverlay extends Overlay
     return marker;
   } // addMarker
 
-  private void onRouteNow(final List<GeoPoint> waypoints)
+  private void onRouteNow(final Waypoints waypoints)
   {
     Route.PlotRoute(CycleStreetsPreferences.routeType(), 
                     CycleStreetsPreferences.speed(),
@@ -301,17 +303,16 @@ public class TapToRouteOverlay extends Overlay
         {
           Toast.makeText(mapView_.getContext(), R.string.no_location, Toast.LENGTH_LONG).show();
           return false;
-        }
+        } // if ...
+        
         final GeoPoint from = new GeoPoint((int)(lastFix.getLatitude() * 1E6),
                                            (int)(lastFix.getLongitude() * 1E6));
-        onRouteNow(Collections.list(from, finish()));
+        onRouteNow(Waypoints.fromTo(from, finish()));
       }
       break;
     case R.string.ic_menu_reverse:
       {
-        final List<GeoPoint> points = waypoints();
-        java.util.Collections.reverse(points);
-        onRouteNow(points);
+        onRouteNow(waypoints().reversed());
       }
       break;
     case R.string.ic_menu_share:
@@ -642,9 +643,9 @@ public class TapToRouteOverlay extends Overlay
   } // onPause
   
   @Override
-  public void onNewJourney()
+  public void onNewJourney(final Journey journey, final Waypoints waypoints)
   {
-    setRoute(Route.waypoints(), !Route.journey().segments().isEmpty());    
+    setRoute(waypoints, !journey.isEmpty());    
   } // onNewJourney
 
   @Override

@@ -19,7 +19,7 @@ import android.util.Xml;
 
 public class Journey 
 {
-  private List<GeoPoint> waypoints_;
+  private Waypoints waypoints_;
   private List<Segment> segments_;
   private int activeSegment_;
     
@@ -31,15 +31,15 @@ public class Journey
 
   private Journey() 
   {
-    waypoints_ = new ArrayList<GeoPoint>();
+    waypoints_ = new Waypoints();
     segments_ = new ArrayList<Segment>();
     activeSegment_ = 0;   
   } // PlannedRoute
   
-  private Journey(final List<GeoPoint> waypoints)
+  private Journey(final Waypoints waypoints)
   {
     this();
-    waypoints_.addAll(waypoints);
+    waypoints_ = waypoints;
   } // Journey
 
   public boolean isEmpty() { return segments_.isEmpty(); }
@@ -48,7 +48,7 @@ public class Journey
   private Segment.Start s() { return (Segment.Start)segments_.get(0); }
   private Segment.End e() { return (Segment.End)segments_.get(segments_.size()-1); }
 
-  public List<GeoPoint> waypoints() { return waypoints_; }
+  public Waypoints waypoints() { return waypoints_; }
     
   public String url() { return "http://cycle.st/j" + itinerary(); }
   public int itinerary() { return s().itinerary(); }
@@ -147,7 +147,7 @@ public class Journey
   
   /////////////////////////////////////////////////////////////////
   static public String getJourneyXml(final String plan, 
-                                     final List<GeoPoint> waypoints)
+                                     final Waypoints waypoints)
     throws Exception
   {
     return getJourneyXml(plan, DEFAULT_SPEED, waypoints);
@@ -155,11 +155,11 @@ public class Journey
   
   static public String getJourneyXml(final String plan, 
                                      final int speed,
-                                     final List<GeoPoint> waypoints) 
+                                     final Waypoints waypoints) 
     throws Exception 
   {
-    final double[] lonLat = new double[waypoints.size()*2];
-    for(int i = 0; i != waypoints.size(); ++i)
+    final double[] lonLat = new double[waypoints.count()*2];
+    for(int i = 0; i != waypoints.count(); ++i)
     {
       int l = i*2;
       lonLat[l] = waypoints.get(i).getLongitudeE6() / 1E6;
@@ -181,7 +181,7 @@ public class Journey
     
 
   static public Journey loadFromXml(final String xml, 
-                                    final List<GeoPoint> points,
+                                    final Waypoints points,
                                     final String name) 
     throws Exception
   {
@@ -236,7 +236,7 @@ As at 01 December 2011
 </markers>
    */
   
-  static public Factory<Journey> factory(final List<GeoPoint> waypoints,
+  static public Factory<Journey> factory(final Waypoints waypoints,
                                          final String name) 
   { 
     return new JourneyFactory(waypoints, name);
@@ -256,10 +256,10 @@ As at 01 December 2011
     private String start_;
     private String finish_;    
 
-    public JourneyFactory(final List<GeoPoint> waypoints,
+    public JourneyFactory(final Waypoints waypoints,
                           final String name) 
     {
-      journey_ = new Journey(waypoints != null ? waypoints : new ArrayList<GeoPoint>());
+      journey_ = new Journey(waypoints);
       name_ = name;
     } // JourneyFactory
     
@@ -319,7 +319,7 @@ As at 01 December 2011
         } // i
       });
       
-      if(journey_.waypoints().size() == 0)
+      if(journey_.waypoints().count() == 0)
         root.getChild("waypoint").setStartElementListener(new StartElementListener() {
           @Override
           public void start(final Attributes attr)
@@ -327,7 +327,7 @@ As at 01 December 2011
             final double lat = d(attr, "latitude");
             final double lon = d(attr, "longitude");
             
-            journey_.waypoints().add(new GeoPoint(lat, lon));
+            journey_.waypoints().add(lat, lon);
           } // start
           
           private double d(final Attributes attr, final String name) 
@@ -341,8 +341,8 @@ As at 01 December 2011
         @Override
         public void end()
         {
-          final GeoPoint from = journey_.waypoints().get(0);
-          final GeoPoint to = journey_.waypoints().get(journey_.waypoints().size()-1);
+          final GeoPoint from = journey_.waypoints().first();
+          final GeoPoint to = journey_.waypoints().last();
 
           final GeoPoint pstart = journey_.segments_.get(0).start();
           final GeoPoint pend = journey_.segments_.get(journey_.segments_.size()-1).end();

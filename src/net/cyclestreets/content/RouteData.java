@@ -1,17 +1,15 @@
 package net.cyclestreets.content;
 
-import org.osmdroid.util.GeoPoint;
-
-import java.util.List;
+import net.cyclestreets.api.Waypoints;
 
 public class RouteData 
 {
 	final String name_;
 	final String xml_;
-	final List<GeoPoint> points_;
+	final Waypoints points_;
 	
 	public RouteData(final String xml, 
-        					 final List<GeoPoint> points,
+        					 final Waypoints points,
         					 final String name)
 	{
 		xml_ = xml;
@@ -21,5 +19,5 @@ public class RouteData
 	
 	public String name() { return name_; }
 	public String xml() { return xml_; }
-	public List<GeoPoint> points() { return points_; }
+	public Waypoints points() { return points_; }
 } // class RouteData

@@ -11,6 +11,7 @@ import net.cyclestreets.util.RouteTypeMapper;
 import net.cyclestreets.util.GeoIntent;
 import net.cyclestreets.views.PlaceViewWithCancel;
 import net.cyclestreets.api.GeoPlace;
+import net.cyclestreets.api.Waypoints;
 
 import org.osmdroid.util.BoundingBoxE6;
 import org.osmdroid.util.GeoPoint;
@@ -36,7 +37,7 @@ public class RouteByAddressActivity extends Activity
   
   private BoundingBoxE6 bounds_;
   private GeoPoint currentLoc_;
-  private List<GeoPoint> waypoints_;
+  private Waypoints waypoints_;
   
   private String START_MARKER_LABEL;
   private String FINISH_MARKER_LABEL;
@@ -84,14 +85,14 @@ public class RouteByAddressActivity extends Activity
 
     if(currentLoc_ != null)
       pv.allowCurrentLocation(currentLoc_, placeHolder_.getChildCount() == 0);
-  
-    for(int w = 0; w != waypoints_.size(); ++w)
+      
+    for(int w = 0; w != waypoints_.count(); ++w)
     {
       String label = String.format(WAYPOINT_LABEL, w);
     
       if(w == 0)
         label = START_MARKER_LABEL;
-      else if(w+1 == waypoints_.size())
+      else if(w+1 == waypoints_.count())
         label = FINISH_MARKER_LABEL;
 
       pv.allowLocation(waypoints_.get(w), label);

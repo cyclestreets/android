@@ -1,7 +1,5 @@
 package net.cyclestreets;
 
-import java.util.List;
-
 import net.cyclestreets.CycleStreetsConstants;
 import net.cyclestreets.R;
 import net.cyclestreets.util.MessageBox;
@@ -10,9 +8,9 @@ import net.cyclestreets.views.overlay.POIOverlay;
 import net.cyclestreets.views.overlay.RouteOverlay;
 import net.cyclestreets.views.overlay.RouteHighlightOverlay;
 import net.cyclestreets.views.overlay.TapToRouteOverlay;
+import net.cyclestreets.api.Journey;
+import net.cyclestreets.api.Waypoints;
 import net.cyclestreets.planned.Route;
-
-import org.osmdroid.util.GeoPoint;
 
 import android.app.Activity;
 import android.content.DialogInterface;
@@ -146,7 +144,7 @@ public class RouteMapFragment extends CycleMapFragment
 		
 		if(requestCode == ActivityId.Directions)
 		{
-		  final List<GeoPoint> points = GeoIntent.getWaypoints(data);
+		  final Waypoints points = GeoIntent.getWaypoints(data);
 			final String routeType = data.getStringExtra(CycleStreetsConstants.EXTRA_ROUTE_TYPE);
 			final int speed = data.getIntExtra(CycleStreetsConstants.EXTRA_ROUTE_SPEED, 
 					                               CycleStreetsPreferences.speed());
@@ -223,9 +221,10 @@ public class RouteMapFragment extends CycleMapFragment
 	} // startNewRoute
 	
 	@Override
-	public void onNewJourney() 
+	public void onNewJourney(final Journey journey, final Waypoints waypoints) 
 	{
-	  mapView().getController().setCenter(Route.start());
+	  if(!waypoints.isEmpty())
+	    mapView().getController().setCenter(waypoints.first());
 	  mapView().postInvalidate();
 	} // onNewJourney   
 	

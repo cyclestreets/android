@@ -1,15 +1,12 @@
 package net.cyclestreets.planned;
 
 import net.cyclestreets.R;
+import net.cyclestreets.api.Waypoints;
 import net.cyclestreets.content.RouteData;
-
-import org.osmdroid.util.GeoPoint;
 
 import android.content.Context;
 
-import java.util.List;
-
-class CycleStreetsRoutingTask extends RoutingTask<List<GeoPoint>>
+class CycleStreetsRoutingTask extends RoutingTask<Waypoints>
 {
 	/////////////////////////////////////////////////////
 	private final String routeType_;
@@ -25,9 +22,9 @@ class CycleStreetsRoutingTask extends RoutingTask<List<GeoPoint>>
 	} // NewRouteTask
 	
 	@Override
-	protected RouteData doInBackground(List<GeoPoint>... waypoints)
+	protected RouteData doInBackground(final Waypoints... waypoints)
 	{
-	  final List<GeoPoint> wp = waypoints[0];
+	  final Waypoints wp = waypoints[0];
 		return fetchRoute(routeType_, speed_, wp);
 	} // doInBackgroud
 } // NewRouteTask

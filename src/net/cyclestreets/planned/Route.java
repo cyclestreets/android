@@ -1,13 +1,11 @@
 package net.cyclestreets.planned;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import net.cyclestreets.api.Journey;
 import net.cyclestreets.api.Segment;
-
-import org.osmdroid.util.GeoPoint;
+import net.cyclestreets.api.Waypoints;
 
 import android.content.Context;
 import android.widget.Toast;
@@ -22,7 +20,7 @@ import net.cyclestreets.api.DistanceFormatter;
 public class Route 
 {
   public interface Listener {
-    public void onNewJourney();
+    public void onNewJourney(final Journey journey, final Waypoints waypoints);
     public void onResetJourney();
   } // Listener
 
@@ -37,8 +35,8 @@ public class Route
     
       listeners_.add(listener);
       
-      if(Route.journey() != Journey.NULL_JOURNEY)
-        listener.onNewJourney();
+      if((Route.journey() != Journey.NULL_JOURNEY) || (Route.waypoints() != Waypoints.NULL_WAYPOINTS))
+        listener.onNewJourney(Route.journey(), Route.waypoints());
       else
         listener.onResetJourney();      
     } // registerListener
@@ -48,9 +46,9 @@ public class Route
       listeners_.remove(listener);
     } // unregisterListener
    
-    public void onNewJourney() {
+    public void onNewJourney(final Journey journey, final Waypoints waypoints) {
       for(final Listener l : listeners_)
-        l.onNewJourney();
+        l.onNewJourney(journey, waypoints);
     } // onNewJourney
     
     public void onReset() {
@@ -64,11 +62,10 @@ public class Route
   static public void registerListener(final Listener l) { listeners_.register(l); }
   static public void unregisterListener(final Listener l) { listeners_.unregister(l); }
   
-	@SuppressWarnings("unchecked")
 	static public void PlotRoute(final String plan,
               								 final int speed,
               								 final Context context,
-                               final List<GeoPoint> waypoints)
+                               final Waypoints waypoints)
 	{
 		final CycleStreetsRoutingTask query = new CycleStreetsRoutingTask(plan, speed, context);
 		query.execute(waypoints);
@@ -109,7 +106,7 @@ public class Route
 	
 	/////////////////////////////////////////	
 	private static Journey plannedRoute_ = Journey.NULL_JOURNEY;
-  private static List<GeoPoint> waypoints_ = plannedRoute_.waypoints();
+  private static Waypoints waypoints_ = plannedRoute_.waypoints();
 	private static RouteDatabase db_;
 	private static Context context_;
 
@@ -119,7 +116,7 @@ public class Route
 		db_ = new RouteDatabase(context);
 	} // initialise
 
-	static public void setWaypoints(final List<GeoPoint> waypoints)
+	static public void setWaypoints(final Waypoints waypoints)
 	{
 	  waypoints_ = waypoints;
 	} // setTerminals
@@ -158,14 +155,13 @@ public class Route
 		return false;
 	} // onNewJourney
 	
-	@SuppressWarnings("unchecked")
   static private void doOnNewJourney(final RouteData route)
 		throws Exception
 	{
 		if(route == null)
 		{
 			plannedRoute_ = Journey.NULL_JOURNEY;
-			waypoints_ = (List<GeoPoint>)Collections.EMPTY_LIST;
+			waypoints_ = Waypoints.NULL_WAYPOINTS;
 			listeners_.onReset();
 			return;
 		} // if ...
@@ -174,11 +170,10 @@ public class Route
 		
 		db_.saveRoute(plannedRoute_, route.xml());
 		waypoints_ = plannedRoute_.waypoints();
-    listeners_.onNewJourney();
+    listeners_.onNewJourney(plannedRoute_, waypoints_);
 	} // onNewJourney
 	
-	static public GeoPoint start() { return (waypoints_.size() != 0) ? waypoints_.get(0) : null; }
-	static public List<GeoPoint> waypoints() { return waypoints_; }
+	static public Waypoints waypoints() { return waypoints_; }
 	
 	static public boolean available() { return plannedRoute_ != Journey.NULL_JOURNEY; }
 	static public Journey journey() { return plannedRoute_; }

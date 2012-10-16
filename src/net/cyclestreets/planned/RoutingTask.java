@@ -1,9 +1,5 @@
 package net.cyclestreets.planned;
 
-import java.util.List;
-
-import org.osmdroid.util.GeoPoint;
-
 import net.cyclestreets.content.RouteData;
 import net.cyclestreets.util.Dialog;
 
@@ -13,6 +9,7 @@ import android.os.AsyncTask;
 import android.widget.Toast;
 
 import net.cyclestreets.api.Journey;
+import net.cyclestreets.api.Waypoints;
 
 public abstract class RoutingTask<Params> 
     extends AsyncTask<Params, Integer, RouteData> 
@@ -37,7 +34,7 @@ public abstract class RoutingTask<Params>
 
   protected RouteData fetchRoute(final String routeType,
                                  final int speed,
-                                 final List<GeoPoint> waypoints) 
+                                 final Waypoints waypoints) 
   {
     return fetchRoute(routeType, -1, speed, waypoints);
   } // fetchRoute
@@ -52,7 +49,7 @@ public abstract class RoutingTask<Params>
   protected RouteData fetchRoute(final String routeType, 
                                  final long itinerary,
                                  final int speed,
-                                 final List<GeoPoint> waypoints) 
+                                 final Waypoints waypoints) 
   {
     try {
       final String xml = doFetchRoute(routeType, itinerary, speed, waypoints);
@@ -67,7 +64,7 @@ public abstract class RoutingTask<Params>
   private String doFetchRoute(final String routeType, 
                               final long itinerary,
                               final int speed,
-                              final List<GeoPoint> waypoints)
+                              final Waypoints waypoints)
     throws Exception
   {
     if(itinerary != -1)

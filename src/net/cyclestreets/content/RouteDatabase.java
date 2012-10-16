@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import net.cyclestreets.api.Journey;
+import net.cyclestreets.api.Waypoints;
 
 import org.osmdroid.util.GeoPoint;
 
@@ -169,7 +170,7 @@ public class RouteDatabase
     return r;
   } // fetchRoute
   
-  private String flattenWaypoints(final List<GeoPoint> waypoints)
+  private String flattenWaypoints(final Waypoints waypoints)
   {
     final StringBuilder sb = new StringBuilder();
     for(final GeoPoint waypoint : waypoints)
@@ -183,16 +184,16 @@ public class RouteDatabase
     return sb.toString();
   } // flattenWaypoints
 
-  private List<GeoPoint> expandWaypoints(final String str)
+  private Waypoints expandWaypoints(final String str)
   {
-    final List<GeoPoint> points = new ArrayList<GeoPoint>();
+    final Waypoints points = new Waypoints();
     for(final String coords : str.split("\\|"))
     {
       final String[] latlon = coords.split(",");
       final double lat = Long.parseLong(latlon[0])/1E6;
       final double lon = Long.parseLong(latlon[1])/1E6;
       
-      points.add(new GeoPoint(lat, lon));
+      points.add(lat, lon);
     } // for ... 
     return points;
   } // expandWaypoints

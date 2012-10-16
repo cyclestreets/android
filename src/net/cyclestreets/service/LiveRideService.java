@@ -7,8 +7,8 @@ import net.cyclestreets.LiveRideActivity;
 import net.cyclestreets.R;
 import net.cyclestreets.api.Journey;
 import net.cyclestreets.api.Segment;
+import net.cyclestreets.api.Waypoints;
 import net.cyclestreets.planned.Route;
-import net.cyclestreets.util.Collections;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -194,11 +194,11 @@ public class LiveRideService extends Service
     notify("Too far away. Re-planning the journey.");
 
     stage_ = Stage.REPLANNING;
-    final GeoPoint finish = Route.waypoints().get(Route.waypoints().size()-1);      
+    final GeoPoint finish = Route.waypoints().last();      
     Route.PlotRoute(CycleStreetsPreferences.routeType(), 
                     CycleStreetsPreferences.speed(),
                     this,
-                    Collections.list(whereIam, finish));
+                    Waypoints.fromTo(whereIam, finish));
     return true;
   } // needsReplan
   
@@ -314,7 +314,7 @@ public class LiveRideService extends Service
   } // onInit
 
   @Override
-  public void onNewJourney()
+  public void onNewJourney(final Journey journey, final Waypoints waypoints)
   {    
     if(stage_ == Stage.REPLANNING)
       stage_ = Stage.HUNTING; 

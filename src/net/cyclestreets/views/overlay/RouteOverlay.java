@@ -3,7 +3,9 @@ package net.cyclestreets.views.overlay;
 import java.util.Iterator;
 import java.util.List;
 
+import net.cyclestreets.api.Journey;
 import net.cyclestreets.api.Segment;
+import net.cyclestreets.api.Waypoints;
 import net.cyclestreets.planned.Route;
 import net.cyclestreets.planned.Route.Listener;
 
@@ -157,9 +159,9 @@ public class RouteOverlay extends Overlay implements PauseResumeListener, Listen
 
   // route listener
   @Override
-  public void onNewJourney()
+  public void onNewJourney(final Journey journey, final Waypoints waypoints)
   {
-    setRoute(Route.journey().segments());
+    setRoute(journey.segments());
   } // onNewJourney
   
   @Override
