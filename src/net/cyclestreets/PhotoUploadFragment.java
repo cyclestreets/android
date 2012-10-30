@@ -441,15 +441,19 @@ public class PhotoUploadFragment extends Fragment
   {
     final RelativeLayout v = (RelativeLayout)(photoLocation_.findViewById(R.id.mapholder));
 
-    if(map_ != null)
-      v.removeView(map_);
-    
-    map_ = new CycleMapView(getActivity(), this.getClass().getName());
-    map_.enableAndFollowLocation();
-    
+    if(map_ != null) {
+      map_.onPause();
+      ((RelativeLayout)map_.getParent()).removeView(map_);
+    }
+    else
+    {
+      map_ = new CycleMapView(getActivity(), this.getClass().getName());
+      map_.overlayPushTop(there_);
+    } 
+      
     v.addView(map_, new RelativeLayout.LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT));
-
-    map_.overlayPushTop(there_);
+    map_.enableAndFollowLocation();
+    map_.onResume();
     there_.setMapView(map_);
   } // setupMap
   

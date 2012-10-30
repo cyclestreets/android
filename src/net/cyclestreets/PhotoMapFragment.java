@@ -17,5 +17,4 @@ public class PhotoMapFragment extends CycleMapFragment
     
     return v;
   } // onCreate
-
 } // PhotomapActivity

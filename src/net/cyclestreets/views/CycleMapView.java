@@ -78,8 +78,6 @@ public class CycleMapView extends MapView
     
     controllerOverlay_ = new ControllerOverlay(context, this);
     getOverlays().add(controllerOverlay_);
-    
-    onResume();
   } // CycleMapView
   
   public Overlay overlayPushBottom(final Overlay overlay)

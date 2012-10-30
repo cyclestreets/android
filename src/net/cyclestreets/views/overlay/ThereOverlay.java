@@ -70,6 +70,7 @@ public class ThereOverlay extends Overlay
     if((there_ == null) || (mapView_ == null))
       return;
    
+    mapView_.disableFollowLocation();
     mapView_.getController().animateTo(there_);
     mapView_.invalidate();    
   } // recentre
