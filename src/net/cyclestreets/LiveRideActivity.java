@@ -31,7 +31,7 @@ public class LiveRideActivity extends Activity
     map_.overlayPushBottom(new RouteOverlay(this));
     map_.overlayPushTop(new LockScreenOnOverlay(this, map_));
     map_.overlayPushTop(new StopActivityOverlay(this));
-    map_.overlayPushTop(new LiveRideOverlay(this));
+    map_.overlayPushTop(new LiveRideOverlay(this, map_));
     map_.lockOnLocation();
     map_.hideLocationButton();
     

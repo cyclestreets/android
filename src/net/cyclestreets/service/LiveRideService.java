@@ -55,8 +55,6 @@ public class LiveRideService extends Service
   private LocationManager locationManager_ = null;
   private TextToSpeech tts_ = null;
   private Stage stage_ = Stage.STOPPED;
-  private Location lastLocation_ = null;
-  private int crossTrack_ = 0;
 
   @Override
   public void onCreate()
@@ -112,30 +110,12 @@ public class LiveRideService extends Service
     return stage_.arePedalling();
   } // onRide
   
-  public int speed() // m/s 
-  {
-    return lastLocation_ != null ? (int)lastLocation_.getSpeed() : 0;    
-  } // speed
-  
-  public int bearing() 
-  {
-    return lastLocation_ != null ? (int)lastLocation_.getBearing() : 0;    
-  } // bearingDegrees
-  
-  public int crossTrack() 
-  {
-    return crossTrack_;
-  } // crossTrack
-
   public class Binding extends Binder
   {
     private LiveRideService service() { return LiveRideService.this; }
     public void startRiding() { service().startRiding(); }
     public void stopRiding() { service().stopRiding(); }
     public boolean areRiding() { return service().areRiding(); }
-    public int speed() { return service().speed(); }
-    public int bearing() { return service().bearing(); }
-    public int crossTrack() { return service().crossTrack(); }
   } // class LocalBinder
 
   // ///////////////////////////////////////////////
@@ -143,8 +123,6 @@ public class LiveRideService extends Service
   @Override
   public void onLocationChanged(final Location location)
   {
-    lastLocation_ = location;
-    
     if(!Route.available())
     {
       stopRiding();
@@ -230,7 +208,6 @@ public class LiveRideService extends Service
   private void checkIfTooFarAway(final Journey journey, final GeoPoint whereIam)
   {
     final int distance = journey.activeSegment().distanceFrom(whereIam);
-    crossTrack_ = distance;
     
     if(needsReplan(distance, whereIam))
       return;

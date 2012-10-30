@@ -11,19 +11,20 @@ import android.content.SharedPreferences.Editor;
 import android.content.res.Resources;
 import android.graphics.Canvas;
 import android.view.MotionEvent;
+import android.view.View;
 
 public class LockScreenOnOverlay extends Overlay implements ButtonTapListener, PauseResumeListener
 {
   private static String LOCK_PREF = "lockScreen"; 
   
-  private final MapView view_;
+  private final View view_;
   
   private final int offset_;
 	private final float radius_;
 
 	private final OverlayButton lockButton_;	
 	
-	public LockScreenOnOverlay(final Context context, final MapView view) 
+	public LockScreenOnOverlay(final Context context, final View view) 
 	{
 		super(context);
 		
@@ -42,7 +43,7 @@ public class LockScreenOnOverlay extends Overlay implements ButtonTapListener, P
 	
 	////////////////////////////////////////////
   @Override
-  protected void draw(Canvas arg0, MapView arg1, boolean arg2)
+  protected void draw(final Canvas canvas, final MapView mapView, final boolean shadow)
   {
   } // draw
   
