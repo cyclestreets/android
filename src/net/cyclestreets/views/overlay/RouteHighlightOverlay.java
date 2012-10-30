@@ -31,7 +31,7 @@ public class RouteHighlightOverlay extends Overlay
   private final int offset_;
   private final float radius_;
   
-  private Paint textBrush_;
+  private final Paint textBrush_;
 
   public RouteHighlightOverlay(final Context context, final CycleMapView map)
   {

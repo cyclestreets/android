@@ -157,7 +157,6 @@ public class RouteOverlay extends Overlay implements PauseResumeListener, Listen
     Route.unregisterListener(this);
   } // onPause
 
-  // route listener
   @Override
   public void onNewJourney(final Journey journey, final Waypoints waypoints)
   {

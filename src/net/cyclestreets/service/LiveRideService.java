@@ -31,6 +31,9 @@ public class LiveRideService extends Service
 {
   private static int NOTIFICATION_ID = 1;
   
+  private static int NEAR_DISTANCE = 30;
+  private static int IMMEDIATE_DISTANCE = 15;
+  
   private enum Stage 
   {
     SETTING_OFF,
@@ -52,6 +55,8 @@ public class LiveRideService extends Service
   private LocationManager locationManager_ = null;
   private TextToSpeech tts_ = null;
   private Stage stage_ = Stage.STOPPED;
+  private Location lastLocation_ = null;
+  private int crossTrack_ = 0;
 
   @Override
   public void onCreate()
@@ -106,6 +111,21 @@ public class LiveRideService extends Service
   {
     return stage_.arePedalling();
   } // onRide
+  
+  public int speed() // m/s 
+  {
+    return lastLocation_ != null ? (int)lastLocation_.getSpeed() : 0;    
+  } // speed
+  
+  public int bearing() 
+  {
+    return lastLocation_ != null ? (int)lastLocation_.getBearing() : 0;    
+  } // bearingDegrees
+  
+  public int crossTrack() 
+  {
+    return crossTrack_;
+  } // crossTrack
 
   public class Binding extends Binder
   {
@@ -113,6 +133,9 @@ public class LiveRideService extends Service
     public void startRiding() { service().startRiding(); }
     public void stopRiding() { service().stopRiding(); }
     public boolean areRiding() { return service().areRiding(); }
+    public int speed() { return service().speed(); }
+    public int bearing() { return service().bearing(); }
+    public int crossTrack() { return service().crossTrack(); }
   } // class LocalBinder
 
   // ///////////////////////////////////////////////
@@ -120,6 +143,8 @@ public class LiveRideService extends Service
   @Override
   public void onLocationChanged(final Location location)
   {
+    lastLocation_ = location;
+    
     if(!Route.available())
     {
       stopRiding();
@@ -205,16 +230,17 @@ public class LiveRideService extends Service
   private void checkIfTooFarAway(final Journey journey, final GeoPoint whereIam)
   {
     final int distance = journey.activeSegment().distanceFrom(whereIam);
+    crossTrack_ = distance;
     
     if(needsReplan(distance, whereIam))
       return;
     
-    if(!stage_.offCourse() && (distance > 30))
+    if(!stage_.offCourse() && (distance > NEAR_DISTANCE))
     {
       notify(stage_ == Stage.SETTING_OFF ? "Some way from start" : "Moving away from route");
       stage_ = (stage_ == Stage.SETTING_OFF) ? Stage.MOVING_AWAY_FROM_START : Stage.MOVING_AWAY;
     } // if ...
-    else if(stage_.offCourse() && (distance < 20))
+    else if(stage_.offCourse() && (distance < (NEAR_DISTANCE-5)))
     {
       notify("Getting back on track");
       stage_ = (stage_ == Stage.MOVING_AWAY_FROM_START) ? Stage.SETTING_OFF: Stage.ON_THE_MOVE;
@@ -225,7 +251,7 @@ public class LiveRideService extends Service
   {
     final int distanceFromEnd = journey.activeSegment().distanceFromEnd(whereIam);
 
-    if(distanceFromEnd > 30)
+    if(distanceFromEnd > NEAR_DISTANCE)
       return;
     
     notify("Get ready");
@@ -235,7 +261,7 @@ public class LiveRideService extends Service
   private void checkNextSegImminent(final Journey journey, final GeoPoint whereIam)
   {
     final int distanceFromEnd = journey.activeSegment().distanceFromEnd(whereIam);
-    if(distanceFromEnd > 15)
+    if(distanceFromEnd > IMMEDIATE_DISTANCE)
       return;
     
     journey.advanceActiveSegment();
