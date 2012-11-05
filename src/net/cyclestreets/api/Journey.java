@@ -39,7 +39,8 @@ public class Journey
   private Journey(final Waypoints waypoints)
   {
     this();
-    waypoints_ = waypoints;
+    if(waypoints != null)
+      waypoints_ = waypoints;
   } // Journey
 
   public boolean isEmpty() { return segments_.isEmpty(); }
