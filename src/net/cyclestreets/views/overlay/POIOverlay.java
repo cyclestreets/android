@@ -513,7 +513,11 @@ public class POIOverlay extends LiveItemOverlay<POIOverlay.POIItem>
       n.setText(cat.name());
 
       final ImageView iv = (ImageView)v.findViewById(R.id.icon);
-      iv.setImageDrawable(massiveIconCats_.get(cat.name()).icon());
+      try {
+        iv.setImageDrawable(massiveIconCats_.get(cat.name()).icon());
+      } catch(final NullPointerException e) {
+        // might get NPE here if icons haven't loaded yet
+      } // catch
       
       final CheckBox chk = (CheckBox)v.findViewById(R.id.checkbox);
       chk.setChecked(isSelected(cat));
