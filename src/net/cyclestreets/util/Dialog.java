@@ -12,6 +12,28 @@ import android.widget.ListView;
 
 public class Dialog 
 {
+  private static class CycleStreetsProgressDialog extends ProgressDialog
+  {
+    public CycleStreetsProgressDialog(final Context context, final String message) 
+    {
+      super(context);
+      setMessage(message);
+      setIndeterminate(true);
+      setCancelable(false);
+    } // CycleStreetsProgressDialog
+    
+    @Override
+    public void dismiss() 
+    {
+      try {
+        super.dismiss();
+      } // try
+      catch(final IllegalArgumentException e) {
+        // suppress
+      } // catch
+    } // dismiss
+  } // class CycleStreetsProgressDialog
+  
 	static public ProgressDialog createProgressDialog(final Context context,
 	                                                  final int messageId)
 	{
@@ -21,10 +43,7 @@ public class Dialog
 	static public ProgressDialog createProgressDialog(final Context context,
 	                                                  final String message)
 	{
-		final ProgressDialog progress = new ProgressDialog(context);
-		progress.setMessage(message);
-		progress.setIndeterminate(true);
-		progress.setCancelable(false);
+		final ProgressDialog progress = new CycleStreetsProgressDialog(context, message);
 		return progress;
 	} // createProgressDialog
 	
