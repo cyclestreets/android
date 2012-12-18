@@ -74,6 +74,7 @@ public class Journey
   public Segment activeSegment() { return activeSegment_ >= 0 ? segments_.get(activeSegment_) : null; }
   
   public boolean atStart() { return activeSegment_ <= 0; }
+  public boolean atWaypoint() { return activeSegment() instanceof Segment.Waymark; }
   public boolean atEnd() { return activeSegment_ == segments_.count()-1; }
   
   public void regressActiveSegment() 
