@@ -122,11 +122,8 @@ public class GeoLiveAdapter extends GeoAdapter
     {
       clear();
 
-      final List<GeoPlace> list = (List<GeoPlace>)fr.values;
-      if (list != null)
-      {
-        addAll(list);
-      } // if ...
+      if (fr != null && fr.values != null)
+        addAll((List<GeoPlace>)fr.values);
       
       notifyDataSetChanged();
     } // publishResults
