@@ -1,7 +1,7 @@
 package net.cyclestreets.views.overlay;
 
+import net.cyclestreets.liveride.LiveRideService;
 import net.cyclestreets.planned.Route;
-import net.cyclestreets.service.LiveRideService;
 import net.cyclestreets.util.Brush;
 import net.cyclestreets.util.Draw;
 
