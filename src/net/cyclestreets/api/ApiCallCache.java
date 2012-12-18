@@ -82,6 +82,7 @@ public class ApiCallCache
       int n = 0;
       while ((n = fis.read(buffer)) != -1)
         output.write(buffer, 0, n);            
+      fis.close();
     } // try
     catch(IOException e)
     {

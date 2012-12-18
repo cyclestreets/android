@@ -14,12 +14,22 @@ import android.sax.StartElementListener;
 
 public class Blog
 {
+  private static final Blog NULL_BLOG;
+  static {
+    NULL_BLOG = new Blog();
+    NULL_BLOG.add(new BlogEntry("ERROR", "http://www.cyclestreets.net/blog/", "Could not retrieve CycleStreets blog entries", ""));
+  }
   private List<BlogEntry> entries_;
   
   private Blog()
   {
     entries_ = new ArrayList<BlogEntry>();
   } // Blog
+  
+  public boolean isNull() 
+  {
+    return this == NULL_BLOG;
+  } // isNull
   
   private void add(final BlogEntry entry)
   {
@@ -166,6 +176,6 @@ public class Blog
     catch(Exception e) {
       // ah
     }
-    return null;
+    return NULL_BLOG;
   } // load
 } // class Blog

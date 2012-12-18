@@ -36,7 +36,11 @@ class RegularUpdates
       final Blog blog = Blog.load();
     
       // check for new blog entries
+<<<<<<< HEAD
       if(blog == null)
+=======
+      if(blog.isNull())
+>>>>>>> master
         return;
       
       if(blog.mostRecent().equals(lastBlogUpdate()))
