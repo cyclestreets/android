@@ -8,13 +8,19 @@ import org.osmdroid.util.GeoPoint;
 final class AdvanceToSegment extends LiveRideState
 {
   AdvanceToSegment(final LiveRideState previous,
+                   final Journey journey)
+  {
+    this(previous, journey, journey.segments().get(journey.activeSegmentIndex()+1));
+  } // AdvanceToSegment    
+  
+  AdvanceToSegment(final LiveRideState previous,
                    final Journey journey,
                    final Segment segment) 
   {
     super(previous);
     journey.setActiveSegment(segment);
     notify(segment);
-  }
+  } // AdvanceToSegment
   
   @Override
   public LiveRideState update(Journey journey, GeoPoint whereIam)

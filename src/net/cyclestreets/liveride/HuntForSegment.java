@@ -28,9 +28,9 @@ final class HuntForSegment extends LiveRideState
       } // if ...
     } // for ...
 
-    if(distance < NEAR_DISTANCE)
+    if(distance > FAR_DISTANCE)
       return new ReplanFromHere(this, whereIam);
-    
+
     if(nearestSeg == journey.activeSegment())
       return new OnTheMove(this);
     

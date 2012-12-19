@@ -58,7 +58,7 @@
               android:launchMode="singleInstance"
               android:excludeFromRecents="true"
               android:finishOnTaskLaunch="true" />
-    <service android:name="net.cyclestreets.service.LiveRideService"/>
+    <service android:name="net.cyclestreets.liveride.LiveRideService"/>
   </application>
 </manifest>
 

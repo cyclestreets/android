@@ -18,7 +18,7 @@ public class LiveRideService extends Service
   implements LocationListener
 {
   private IBinder binder_;
-  private LocationManager locationManager_ = null;
+  private LocationManager locationManager_;
   private LiveRideState stage_;
 
   @Override
@@ -26,6 +26,7 @@ public class LiveRideService extends Service
   {
     binder_ = new Binding();
     locationManager_ = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
+    stage_ = LiveRideState.StoppedState(this);
   } // onCreate
 
   @Override
@@ -58,11 +59,8 @@ public class LiveRideService extends Service
 
   public void stopRiding()
   {
-    if(stage_.isStopped())
-      return;
-
-    locationManager_.removeUpdates(this);
     stage_ = LiveRideState.StoppedState(this);
+    locationManager_.removeUpdates(this);
   } // stopRiding
 
   public boolean areRiding()

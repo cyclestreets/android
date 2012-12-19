@@ -15,8 +15,7 @@ final class PassingWaypoint extends LiveRideState
   @Override
   public LiveRideState update(Journey journey, GeoPoint whereIam)
   {
-    int current = journey.activeSegmentIndex();
-    return new AdvanceToSegment(this, journey, journey.segments().get(++current));
+    return new AdvanceToSegment(this, journey);
   } // update
 
   @Override

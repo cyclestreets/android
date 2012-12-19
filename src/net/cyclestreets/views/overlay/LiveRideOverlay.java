@@ -133,6 +133,9 @@ public class LiveRideOverlay extends Overlay implements ServiceConnection,
   @Override
   public void onLocationChanged(final Location location)
   {
+    if(!Route.available())
+      return;
+    
     final double speed = location.getSpeed() * 60.0 * 60.0 / 1000.0; 
     final int bearing = (int)location.getBearing();
     final int crossTrack = Route.journey().activeSegment().distanceFrom(new GeoPoint(location));

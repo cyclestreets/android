@@ -12,13 +12,13 @@ final class LiveRideStart extends LiveRideState
   LiveRideStart(final Context context, final TextToSpeech tts)
   {
     super(context, tts);
+    notify("Live Ride", "Starting Live Ride");
   } // LiveRideStart
   
   @Override
   public LiveRideState update(Journey journey, GeoPoint whereIam)
   {
     journey.setActiveSegmentIndex(0);
-    notify("Live Ride", "Starting Live Ride");
     notify(journey.activeSegment());
     return new HuntForSegment(this);
   }

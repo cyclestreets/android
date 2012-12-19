@@ -188,6 +188,8 @@ public abstract class Segment
       return String.format("Journey number : #%d\nCalories : %dkcal\nCO\u2082 saved : %d.%02dkg", 
                            itinerary_, calories_, kg, g); 
     } // extraInfo
+
+    public int distanceFrom(final GeoPoint location) { return Integer.MAX_VALUE; } 
   } // class Start
   
   static public class End extends Segment
