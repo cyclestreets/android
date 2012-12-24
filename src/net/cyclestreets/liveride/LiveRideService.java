@@ -74,6 +74,7 @@ public class LiveRideService extends Service
     public void startRiding() { service().startRiding(); }
     public void stopRiding() { service().stopRiding(); }
     public boolean areRiding() { return service().areRiding(); }
+    public String stage() { return stage_.getClass().getSimpleName(); }
   } // class LocalBinder
 
   // ///////////////////////////////////////////////

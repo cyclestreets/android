@@ -1,5 +1,6 @@
 package net.cyclestreets.views.overlay;
 
+import net.cyclestreets.api.Segment;
 import net.cyclestreets.liveride.LiveRideService;
 import net.cyclestreets.planned.Route;
 import net.cyclestreets.util.Brush;
@@ -88,15 +89,17 @@ public class LiveRideOverlay extends Overlay implements ServiceConnection,
     textBox.left += offset_;
     textBox.right -= offset_;
     
-    int bottom = Draw.measureTextInRect(canvas, speedBrush_, textBox, speed_);
-    int height = bottom - box.top; 
-    box.top = box.bottom - (height + offset_*6);
+    int sHeight = Draw.measureTextInRect(canvas, speedBrush_, textBox, speed_) - box.top;
+    int iHeight = Draw.measureTextInRect(canvas, textBrush_, textBox, info_) - box.top;
+    
+    int height = sHeight + iHeight + (offset_*2); 
+    box.top = box.bottom - height;
     
     if(!DrawingHelper.drawRoundRect(canvas, box, radius_, Brush.Grey))
       return;
     box.left += offset_;
     Draw.drawTextInRect(canvas, speedBrush_, box, speed_);
-    box.top += height;
+    box.top += sHeight;
     Draw.drawTextInRect(canvas, textBrush_, box, info_);
     box.top -= offset_*2;
     box.left += (box.width() * 3 / 4); 
@@ -138,11 +141,17 @@ public class LiveRideOverlay extends Overlay implements ServiceConnection,
     
     final double speed = location.getSpeed() * 60.0 * 60.0 / 1000.0; 
     final int bearing = (int)location.getBearing();
-    final int crossTrack = Route.journey().activeSegment().distanceFrom(new GeoPoint(location));
+    
+    final GeoPoint whereIam = new GeoPoint(location);
+    final Segment activeSeg = Route.journey().activeSegment();
+    final int crossTrack = activeSeg.distanceFrom(whereIam);
+    final int fromEnd = activeSeg.distanceFromEnd(whereIam);
 
-    final String info = String.format("Bearing : %d deg\nError : %d m",
+    final String info = String.format("Bearing : %d deg\nCross-track : %d m\nFrom end : %d m\n%s",
                         bearing,
-                        crossTrack);
+                        crossTrack,
+                        fromEnd,
+                        binding_.stage());
     
     if(info.equals(info_))
       return;
