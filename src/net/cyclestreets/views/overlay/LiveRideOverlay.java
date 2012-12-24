@@ -82,7 +82,7 @@ public class LiveRideOverlay extends Overlay implements ServiceConnection,
     final Rect box = canvas.getClipBounds();
     box.left += offset_; 
     box.right = box.left + (box.width()/2);
-    box.bottom -= offset_;
+    box.bottom -= (offset_*2);
     box.top = box.bottom - offset_;
         
     final Rect textBox = new Rect(box);
