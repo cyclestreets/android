@@ -92,7 +92,23 @@ public abstract class Segment
   public GeoPoint start() { return points_.get(0); }
   public GeoPoint finish() { return points_.get(points_.size()-1); }
       
-  public int distanceFrom(final GeoPoint location) 
+  public int distanceFrom(final GeoPoint location)
+  {
+    int minDistance = Integer.MAX_VALUE;
+    
+    for(final GeoPoint gp : points_)
+    {
+      int distance = gp.distanceTo(location);
+      if(distance > minDistance)
+        continue;
+      
+      minDistance = distance;
+    } // for ...
+    
+    return minDistance;
+  } // distanceFrom
+  
+  public int crossTrack(final GeoPoint location) 
   {
     int minIndex = -1;
     int minDistance = Integer.MAX_VALUE;
@@ -189,7 +205,7 @@ public abstract class Segment
                            itinerary_, calories_, kg, g); 
     } // extraInfo
 
-    public int distanceFrom(final GeoPoint location) { return Integer.MAX_VALUE; } 
+    public int crossTrack(final GeoPoint location) { return Integer.MAX_VALUE; } 
   } // class Start
   
   static public class End extends Segment
