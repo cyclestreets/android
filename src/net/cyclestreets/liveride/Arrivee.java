@@ -9,7 +9,7 @@ final class Arrivee extends LiveRideState
   Arrivee(final LiveRideState previous) 
   {
     super(previous);
-    notify("Arrivee");
+    notify("Arreeve eh", "Arriv\u00e9e");
   } // Arrivee
   
   @Override
