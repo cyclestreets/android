@@ -487,6 +487,7 @@ public class TapToRouteOverlay extends Overlay
     switch(tapState_)
     {
       case WAITING_FOR_START:
+      case WAITING_TO_ROUTE:
         return true;
       case WAITING_FOR_SECOND:
       case WAITING_FOR_NEXT:
