@@ -18,10 +18,11 @@ final class LiveRideStart extends LiveRideState
   @Override
   public LiveRideState update(Journey journey, GeoPoint whereIam)
   {
+    notify("Live Ride", "Live Ride");
     journey.setActiveSegmentIndex(0);
     notify(journey.activeSegment());
     return new HuntForSegment(this);
-  }
+  } // update
 
   @Override
   public boolean isStopped() { return false; }
