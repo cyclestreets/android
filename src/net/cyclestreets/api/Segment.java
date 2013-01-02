@@ -94,18 +94,7 @@ public abstract class Segment
       
   public int distanceFrom(final GeoPoint location)
   {
-    int minDistance = Integer.MAX_VALUE;
-    
-    for(final GeoPoint gp : points_)
-    {
-      int distance = gp.distanceTo(location);
-      if(distance > minDistance)
-        continue;
-      
-      minDistance = distance;
-    } // for ...
-    
-    return minDistance;
+    return crossTrack(location);
   } // distanceFrom
   
   public int crossTrack(final GeoPoint location) 
@@ -126,7 +115,7 @@ public abstract class Segment
     int ct1 = (minIndex+1 != points_.size()) ? crossTrack(minIndex, location) : Integer.MAX_VALUE;
 
     return Math.min(ct0,  ct1);
-  } // distanceFrom
+  } // crossTrack
   
   private int crossTrack(final int index, final GeoPoint location)
   {
@@ -138,6 +127,36 @@ public abstract class Segment
     return Math.abs((int)crossTrack); 
   } // crossTrack
   
+  public int alongTrack(final GeoPoint location) 
+  {
+    int minIndex = -1;
+    int minDistance = Integer.MAX_VALUE;
+    for(int p = 0; p != points_.size(); ++p) 
+    {
+      int distance = points_.get(p).distanceTo(location);
+      if(distance > minDistance)
+        continue;
+
+      minDistance = distance;
+      minIndex = p;
+    } // for ...
+    
+    int ct0 = (minIndex != 0) ? alongTrack(minIndex - 1, location) : Integer.MAX_VALUE;
+    int ct1 = (minIndex+1 != points_.size()) ? alongTrack(minIndex, location) : Integer.MAX_VALUE;
+
+    return Math.min(ct0,  ct1);
+  } // alongTrack
+  
+  private int alongTrack(final int index, final GeoPoint location)
+  {
+    final GeoPoint p1 = points_.get(index);
+    final GeoPoint p2 = points_.get(index+1);
+  
+    double alongTrack = GeoHelper.alongTrackOffset(p1, p2, location);
+
+    return (int)alongTrack; 
+  } // alongTrack
+
   public int distanceFromEnd(final GeoPoint location)
   {
     return finish().distanceTo(location);

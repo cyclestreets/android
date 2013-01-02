@@ -60,7 +60,7 @@ public class GeoHelper
   
   static public double crossTrack(final IGeoPoint p1, final IGeoPoint p2, final IGeoPoint location)
   {
-    // how far from the line p1p2 is location
+    // how far from the line defined by p1p2 is location
     // http://www.movable-type.co.uk/scripts/latlong.html
     double distanceToLoc = distanceBetween(p1, location);
     double bp1l = bearingTo(p1, location);
@@ -72,4 +72,25 @@ public class GeoHelper
     
     return ct;
   } // crossTrack
+  
+  static public double alongTrackOffset(final IGeoPoint p1, final IGeoPoint p2, final IGeoPoint location)
+  {
+    double distanceToLoc = distanceBetween(p1, location);
+    double crossTrack = crossTrack(p1, p2, location);
+    double at = Math.acos(
+        Math.cos(distanceToLoc/RadiusInMetres) /
+        Math.cos(crossTrack/RadiusInMetres)
+      ) * RadiusInMetres;
+    
+    double blp1 = bearingTo(location, p1);
+    double blp2 = bearingTo(location, p2);
+    
+    double angle = Math.abs(blp1 - blp2);
+    if(angle > Math.PI)
+      angle = (Math.PI*2) - angle;
+    if(angle < (Math.PI/2))
+      at = -at;
+    
+    return at;
+  } // alongTrackOffset
 } // class GeoHelpers

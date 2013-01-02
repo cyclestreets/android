@@ -146,12 +146,14 @@ public class LiveRideOverlay extends Overlay implements ServiceConnection,
     final Segment activeSeg = Route.journey().activeSegment();
     final int distance = activeSeg.distanceFrom(whereIam);
     final int crossTrack = activeSeg.crossTrack(whereIam);
+    final int alongTrack = activeSeg.alongTrack(whereIam);
     final int fromEnd = activeSeg.distanceFromEnd(whereIam);
 
-    final String info = String.format("Bearing : %d deg\nDistance : %d m\nCross-track : %d m\nFrom end : %d m\n%s",
+    final String info = String.format("Bearing : %d deg\nDistance : %d m\nCross-track : %d m\nAlong-track : %dm\nFrom end : %d m\n%s",
                         bearing,
                         distance,
                         crossTrack,
+                        alongTrack,
                         fromEnd,
                         binding_.stage());
     
