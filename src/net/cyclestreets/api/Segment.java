@@ -94,7 +94,12 @@ public abstract class Segment
       
   public int distanceFrom(final GeoPoint location)
   {
-    return crossTrack(location);
+    int ct = crossTrack(location);
+    int at = alongTrack(location);
+    
+    if(at < 0) // off end
+      return Math.max(Math.abs(at), ct);
+    return ct;
   } // distanceFrom
   
   public int crossTrack(final GeoPoint location) 
