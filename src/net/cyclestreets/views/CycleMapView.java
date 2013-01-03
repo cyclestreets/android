@@ -13,6 +13,7 @@ import net.cyclestreets.views.overlay.ZoomButtonsOverlay;
 
 import org.mapsforge.android.maps.MapsforgeOSMDroidTileProvider;
 import org.mapsforge.android.maps.MapsforgeOSMTileSource;
+import org.osmdroid.api.IGeoPoint;
 import org.osmdroid.tileprovider.IMapTileProviderCallback;
 import org.osmdroid.tileprovider.IRegisterReceiver;
 import org.osmdroid.tileprovider.MapTileProviderArray;
@@ -43,8 +44,8 @@ import android.view.ContextMenu;
 
 public class CycleMapView extends MapView
 {
-  private static final String PREFS_APP_SCROLL_X = "scrollX";
-  private static final String PREFS_APP_SCROLL_Y = "scrollY";
+  private static final String PREFS_APP_CENTRE_LON = "centreLon";
+  private static final String PREFS_APP_CENTRE_LAT = "centreLat";
   private static final String PREFS_APP_ZOOM_LEVEL = "zoomLevel";
   private static final String PREFS_APP_MY_LOCATION = "myLocation";
   private static final String PREFS_APP_FOLLOW_LOCATION = "followLocation";
@@ -99,8 +100,11 @@ public class CycleMapView extends MapView
   public void onPause()
   {
     final SharedPreferences.Editor edit = prefs_.edit();
-    edit.putInt(PREFS_APP_SCROLL_X, getScrollX());
-    edit.putInt(PREFS_APP_SCROLL_Y, getScrollY());
+    final IGeoPoint centre = getMapCenter();
+    int lon = centre.getLongitudeE6();
+    int lat = centre.getLatitudeE6();
+    edit.putInt(PREFS_APP_CENTRE_LON, lon);
+    edit.putInt(PREFS_APP_CENTRE_LAT, lat);
     edit.putInt(PREFS_APP_ZOOM_LEVEL, getZoomLevel());
     edit.putBoolean(PREFS_APP_MY_LOCATION, location_.isMyLocationEnabled());
     edit.putBoolean(PREFS_APP_FOLLOW_LOCATION, location_.isFollowLocationEnabled());
@@ -118,9 +122,8 @@ public class CycleMapView extends MapView
     {
       renderer_ = tileSource;
       setTileSource(renderer_);
-      invalidate();
     } // if ...
-    
+
     location_.enableLocation(pref(PREFS_APP_MY_LOCATION, true));
     if(pref(PREFS_APP_FOLLOW_LOCATION, true))
       location_.enableFollowLocation();
@@ -129,10 +132,12 @@ public class CycleMapView extends MapView
         
     getScroller().abortAnimation();
     
-    int prefX = pref(PREFS_APP_SCROLL_X, 0);
-    int prefY = pref(PREFS_APP_SCROLL_Y, -701896); /* Greenwich */
-    
-    scrollTo(prefX, prefY); 
+    int lon = pref(PREFS_APP_CENTRE_LON, 0);
+    int lat = pref(PREFS_APP_CENTRE_LAT, 51477841); /* Greenwich */
+    final GeoPoint centre = new GeoPoint(lat, lon);
+    getController().setCenter(centre);
+    centreOn(centre);
+
     getController().setZoom(pref(PREFS_APP_ZOOM_LEVEL, 14));
              
     controllerOverlay_.onResume(prefs_);
