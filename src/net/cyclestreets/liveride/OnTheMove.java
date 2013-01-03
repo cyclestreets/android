@@ -4,7 +4,7 @@ import net.cyclestreets.api.Journey;
 
 import org.osmdroid.util.GeoPoint;
 
-final class OnTheMove extends LiveRideState
+final class OnTheMove extends MovingState
 {
   OnTheMove(final LiveRideState previous) 
   {
@@ -19,19 +19,6 @@ final class OnTheMove extends LiveRideState
     if(distanceFromEnd < NEAR_DISTANCE)
       return new NearingTurn(this);
 
-    final int distance = journey.activeSegment().distanceFrom(whereIam);
-    
-    if(distance > FAR_DISTANCE)
-      return new ReplanFromHere(this, whereIam);
-
-    if(distance > NEAR_DISTANCE)
-      return new GoingOffCourse(this);
-      
-    return this;
+    return checkCourse(journey, whereIam);
   } // update
-
-  @Override
-  public boolean isStopped() { return false; }
-  @Override
-  public boolean arePedalling() { return true; }
 } // class OnTheMove
