@@ -11,10 +11,13 @@ final class ReplanFromHere extends LiveRideState
       implements Route.Listener
 {
   private LiveRideState next_;
+
   ReplanFromHere(final LiveRideState previous, final GeoPoint whereIam)
   {
     super(previous);
     notify("Too far away. Re-planning the journey.");
+
+    next_ = this;
 
     final GeoPoint finish = Route.waypoints().last();    
     Route.registerListener(this);
@@ -22,9 +25,7 @@ final class ReplanFromHere extends LiveRideState
                     CycleStreetsPreferences.speed(),
                     context(),
                     Waypoints.fromTo(whereIam, finish));
-    
-    next_ = this;
-  }
+  } // ReplanFromHere
   
   @Override
   public LiveRideState update(Journey journey, GeoPoint whereIam)
@@ -41,8 +42,8 @@ final class ReplanFromHere extends LiveRideState
   @Override
   public void onNewJourney(Journey journey, Waypoints waypoints)
   {
-    Route.unregisterListener(this);
     next_ = new HuntForSegment(this);
+    Route.unregisterListener(this);
   } // onNewJourney
 
   @Override
