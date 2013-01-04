@@ -146,10 +146,10 @@ public abstract class Segment
       minIndex = p;
     } // for ...
     
-    int ct0 = (minIndex != 0) ? alongTrack(minIndex - 1, location) : Integer.MAX_VALUE;
-    int ct1 = (minIndex+1 != points_.size()) ? alongTrack(minIndex, location) : Integer.MAX_VALUE;
+    int at0 = (minIndex != 0) ? alongTrack(minIndex - 1, location) : Integer.MAX_VALUE;
+    int at1 = (minIndex+1 != points_.size()) ? alongTrack(minIndex, location) : Integer.MAX_VALUE;
 
-    return Math.min(ct0,  ct1);
+    return Math.min(Math.abs(at0),  Math.abs(at1));
   } // alongTrack
   
   private int alongTrack(final int index, final GeoPoint location)
