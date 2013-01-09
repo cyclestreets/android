@@ -149,7 +149,7 @@ public abstract class Segment
     int at0 = (minIndex != 0) ? alongTrack(minIndex - 1, location) : Integer.MAX_VALUE;
     int at1 = (minIndex+1 != points_.size()) ? alongTrack(minIndex, location) : Integer.MAX_VALUE;
 
-    return Math.min(Math.abs(at0),  Math.abs(at1));
+    return (Math.abs(at0) < Math.abs(at1)) ? at0 : at1;
   } // alongTrack
   
   private int alongTrack(final int index, final GeoPoint location)
