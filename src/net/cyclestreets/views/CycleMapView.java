@@ -129,14 +129,17 @@ public class CycleMapView extends MapView
       location_.enableFollowLocation();
     else
       location_.disableFollowLocation();
-        
-    getScroller().abortAnimation();
-    
-    int lon = pref(PREFS_APP_CENTRE_LON, 0);
-    int lat = pref(PREFS_APP_CENTRE_LAT, 51477841); /* Greenwich */
-    final GeoPoint centre = new GeoPoint(lat, lon);
-    getController().setCenter(centre);
-    centreOn(centre);
+
+    if(centreOn_ == null) {
+      // mild data race if we're setting centre in onActivityResult 
+      // because that's followed by an onResume
+      int lon = pref(PREFS_APP_CENTRE_LON, 0);
+      int lat = pref(PREFS_APP_CENTRE_LAT, 51477841); /* Greenwich */
+      final GeoPoint centre = new GeoPoint(lat, lon);
+      getScroller().abortAnimation();
+      getController().setCenter(centre);
+      centreOn(centre);
+    } // if ...
 
     getController().setZoom(pref(PREFS_APP_ZOOM_LEVEL, 14));
              
