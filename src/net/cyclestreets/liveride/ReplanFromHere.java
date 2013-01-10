@@ -28,7 +28,7 @@ final class ReplanFromHere extends LiveRideState
   } // ReplanFromHere
   
   @Override
-  public LiveRideState update(Journey journey, GeoPoint whereIam)
+  public LiveRideState update(Journey journey, GeoPoint whereIam, int accuracy)
   {
     return next_;
   } // update

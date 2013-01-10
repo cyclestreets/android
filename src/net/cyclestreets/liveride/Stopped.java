@@ -15,7 +15,10 @@ final class Stopped extends LiveRideState
   } // Stopped
   
   @Override
-  public LiveRideState update(Journey journey, GeoPoint whereIam) { return this; }
+  public LiveRideState update(Journey journey, GeoPoint whereIam, int accuracy) 
+  { 
+    return this; 
+  } // update
 
   @Override
   public boolean isStopped() { return true; }

@@ -2,23 +2,17 @@ package net.cyclestreets.liveride;
 
 import net.cyclestreets.api.Journey;
 
-import org.osmdroid.util.GeoPoint;
-
 final class NearingTurn extends MovingState
 {
   NearingTurn(final LiveRideState previous) 
   {
-    super(previous);
+    super(previous, IMMEDIATE_DISTANCE);
     notify("Get ready");
   } // NearingEnd
 
   @Override
-  public LiveRideState update(Journey journey, GeoPoint whereIam)
+  protected LiveRideState transitionState(final Journey journey)
   {
-    final int distanceFromEnd = journey.activeSegment().distanceFromEnd(whereIam);
-    if(distanceFromEnd < IMMEDIATE_DISTANCE)
-      return new AdvanceToSegment(this, journey);
-    
-    return checkCourse(journey, whereIam);
-  } // update
+    return new AdvanceToSegment(this, journey);
+  } // transitionStatue
 } // class NearingTurn

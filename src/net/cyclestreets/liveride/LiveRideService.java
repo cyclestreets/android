@@ -89,10 +89,11 @@ public class LiveRideService extends Service
     } // if ...
 
     final GeoPoint whereIam = new GeoPoint(location);
+    final float accuracy = location.hasAccuracy() ? location.getAccuracy() : 2;
 
     final Journey journey = Route.journey();
  
-    stage_ = stage_.update(journey, whereIam);
+    stage_ = stage_.update(journey, whereIam, (int)accuracy);
 /*    switch(stage_) 
     {
     case ON_THE_MOVE:

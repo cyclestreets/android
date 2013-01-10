@@ -14,7 +14,7 @@ final class GoingOffCourse extends LiveRideState
   }
 
   @Override
-  public LiveRideState update(Journey journey, GeoPoint whereIam)
+  public LiveRideState update(Journey journey, GeoPoint whereIam, int accuracy)
   {
     Segment nearestSeg = null;
     int distance = Integer.MAX_VALUE;
@@ -28,6 +28,8 @@ final class GoingOffCourse extends LiveRideState
         nearestSeg = seg;
       } // if ...
     } // for ...
+    
+    distance -= accuracy;
     
     if(distance > FAR_DISTANCE)
       return new ReplanFromHere(this, whereIam);
