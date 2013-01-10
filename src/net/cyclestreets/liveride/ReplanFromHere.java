@@ -20,7 +20,7 @@ final class ReplanFromHere extends LiveRideState
     next_ = this;
 
     final GeoPoint finish = Route.waypoints().last();    
-    Route.registerListener(this);
+    Route.softRegisterListener(this);
     Route.PlotRoute(CycleStreetsPreferences.routeType(), 
                     CycleStreetsPreferences.speed(),
                     context(),

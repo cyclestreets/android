@@ -30,17 +30,27 @@ public class Route
   
     public void register(final Listener listener) 
     {
-      if(listeners_.contains(listener))
+      if(!doRegister(listener))
         return;
     
-      listeners_.add(listener);
-      
       if((Route.journey() != Journey.NULL_JOURNEY) || (Route.waypoints() != Waypoints.NULL_WAYPOINTS))
         listener.onNewJourney(Route.journey(), Route.waypoints());
       else
         listener.onResetJourney();      
     } // registerListener
-  
+    
+    public void softRegister(final Listener listener) 
+    {
+      doRegister(listener);
+    } // softRegister
+    
+    private boolean doRegister(final Listener listener) 
+    {
+      if(listeners_.contains(listener))
+        return false;
+      listeners_.add(listener);
+      return true;
+    } // doRegister  
     public void unregister(final Listener listener) 
     {
       listeners_.remove(listener);
@@ -60,6 +70,7 @@ public class Route
   static private final Listeners listeners_ = new Listeners();
   
   static public void registerListener(final Listener l) { listeners_.register(l); }
+  static public void softRegisterListener(final Listener l) { listeners_.softRegister(l); }
   static public void unregisterListener(final Listener l) { listeners_.unregister(l); }
   
 	static public void PlotRoute(final String plan,
