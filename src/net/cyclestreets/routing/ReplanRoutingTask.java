@@ -4,7 +4,6 @@ import android.content.Context;
 import net.cyclestreets.R;
 import net.cyclestreets.content.RouteData;
 import net.cyclestreets.content.RouteDatabase;
-import net.cyclestreets.api.Journey;
 
 public class ReplanRoutingTask 
   extends RoutingTask<Journey>

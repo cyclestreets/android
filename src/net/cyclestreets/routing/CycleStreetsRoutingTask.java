@@ -1,7 +1,6 @@
 package net.cyclestreets.routing;
 
 import net.cyclestreets.R;
-import net.cyclestreets.api.Waypoints;
 import net.cyclestreets.content.RouteData;
 
 import android.content.Context;

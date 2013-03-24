@@ -7,11 +7,11 @@ import net.cyclestreets.CycleStreetsConstants;
 import net.cyclestreets.CycleStreetsPreferences;
 import net.cyclestreets.R;
 import net.cyclestreets.RouteMapFragment;
+import net.cyclestreets.routing.Waypoints;
 import net.cyclestreets.util.RouteTypeMapper;
 import net.cyclestreets.util.GeoIntent;
 import net.cyclestreets.views.PlaceViewWithCancel;
 import net.cyclestreets.api.GeoPlace;
-import net.cyclestreets.api.Waypoints;
 
 import org.osmdroid.util.BoundingBoxE6;
 import org.osmdroid.util.GeoPoint;

@@ -2,10 +2,10 @@ package net.cyclestreets;
 
 import java.util.Map;
 
+import net.cyclestreets.routing.Journey;
 import net.cyclestreets.routing.Route;
-import net.cyclestreets.api.Journey;
-import net.cyclestreets.api.Segment;
-import net.cyclestreets.api.Waypoints;
+import net.cyclestreets.routing.Segment;
+import net.cyclestreets.routing.Waypoints;
 
 import android.content.Context;
 import android.content.res.Resources;

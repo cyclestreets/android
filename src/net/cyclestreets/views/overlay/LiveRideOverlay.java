@@ -1,9 +1,12 @@
 package net.cyclestreets.views.overlay;
 
-import net.cyclestreets.api.Segment;
+import java.util.List;
+
 import net.cyclestreets.liveride.LiveRideService;
 import net.cyclestreets.routing.Route;
+import net.cyclestreets.routing.Segment;
 import net.cyclestreets.util.Brush;
+import net.cyclestreets.util.Collections;
 import net.cyclestreets.util.Draw;
 
 import org.osmdroid.util.GeoPoint;
@@ -43,6 +46,8 @@ public class LiveRideOverlay extends Overlay implements ServiceConnection,
 
   private String speed_ = null;
   private String info_ = null;
+  
+  private static List<String> headings_ = Collections.list("N", "NE", "E", "SE", "S", "SW", "W", "NW");
 
   public LiveRideOverlay(final Activity context, final View view) 
   {
@@ -149,8 +154,9 @@ public class LiveRideOverlay extends Overlay implements ServiceConnection,
     final int alongTrack = activeSeg.alongTrack(whereIam);
     final int fromEnd = activeSeg.distanceFromEnd(whereIam);
 
-    final String info = String.format("Bearing : %d deg\nDistance : %d m\nCross-track : %d m\nAlong-track : %dm\nFrom end : %d m\n%s",
+    final String info = String.format("Bearing : %d deg\nHeading : %s\nDistance : %d m\nCross-track : %d m\nAlong-track : %dm\nFrom end : %d m\n%s",
                         bearing,
+                        heading(bearing),
                         distance,
                         crossTrack,
                         alongTrack,
@@ -164,6 +170,21 @@ public class LiveRideOverlay extends Overlay implements ServiceConnection,
     info_ = info;
     view_.invalidate();
   } // onLocationChanged
+  
+  public String heading(int bearing) 
+  {
+    final int step = 360 / headings_.size();
+    int chunk = step/2;
+    
+    for(final String h : headings_)
+    {
+      if(bearing < chunk) 
+        return h;
+      chunk += step;
+    }
+    
+    return "Cthulhu has risen";
+  } // heading
 
   @Override
   public void onProviderDisabled(String arg0)

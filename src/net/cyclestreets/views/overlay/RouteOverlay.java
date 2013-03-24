@@ -2,11 +2,11 @@ package net.cyclestreets.views.overlay;
 
 import java.util.Iterator;
 
-import net.cyclestreets.api.Journey;
-import net.cyclestreets.api.Segment;
-import net.cyclestreets.api.Segments;
-import net.cyclestreets.api.Waypoints;
+import net.cyclestreets.routing.Journey;
 import net.cyclestreets.routing.Route;
+import net.cyclestreets.routing.Segment;
+import net.cyclestreets.routing.Segments;
+import net.cyclestreets.routing.Waypoints;
 import net.cyclestreets.routing.Route.Listener;
 
 import org.osmdroid.util.GeoPoint;

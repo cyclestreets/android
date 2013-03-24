@@ -2,8 +2,8 @@ package net.cyclestreets.liveride;
 
 import net.cyclestreets.LiveRideActivity;
 import net.cyclestreets.R;
-import net.cyclestreets.api.Journey;
-import net.cyclestreets.api.Segment;
+import net.cyclestreets.routing.Journey;
+import net.cyclestreets.routing.Segment;
 
 import org.osmdroid.util.GeoPoint;
 

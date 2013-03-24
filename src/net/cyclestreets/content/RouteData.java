@@ -1,6 +1,6 @@
 package net.cyclestreets.content;
 
-import net.cyclestreets.api.Waypoints;
+import net.cyclestreets.routing.Waypoints;
 
 public class RouteData 
 {

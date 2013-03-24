@@ -3,7 +3,7 @@ package net.cyclestreets.util;
 import java.util.List;
 
 import net.cyclestreets.api.GeoPlace;
-import net.cyclestreets.api.Waypoints;
+import net.cyclestreets.routing.Waypoints;
 
 import org.osmdroid.util.BoundingBoxE6;
 import org.osmdroid.util.GeoPoint;

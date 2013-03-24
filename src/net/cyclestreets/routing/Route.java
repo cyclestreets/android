@@ -3,9 +3,6 @@ package net.cyclestreets.routing;
 import java.util.ArrayList;
 import java.util.List;
 
-import net.cyclestreets.api.Journey;
-import net.cyclestreets.api.Segment;
-import net.cyclestreets.api.Waypoints;
 
 import android.content.Context;
 import android.widget.Toast;
@@ -15,7 +12,6 @@ import net.cyclestreets.R;
 import net.cyclestreets.content.RouteData;
 import net.cyclestreets.content.RouteDatabase;
 import net.cyclestreets.content.RouteSummary;
-import net.cyclestreets.api.DistanceFormatter;
 
 public class Route 
 {

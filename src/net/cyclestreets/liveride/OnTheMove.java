@@ -1,6 +1,6 @@
 package net.cyclestreets.liveride;
 
-import net.cyclestreets.api.Journey;
+import net.cyclestreets.routing.Journey;
 
 final class OnTheMove extends MovingState
 {

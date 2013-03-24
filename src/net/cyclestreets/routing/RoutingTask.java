@@ -1,5 +1,6 @@
 package net.cyclestreets.routing;
 
+import net.cyclestreets.api.JourneyPlanner;
 import net.cyclestreets.content.RouteData;
 import net.cyclestreets.util.Dialog;
 
@@ -8,8 +9,6 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.widget.Toast;
 
-import net.cyclestreets.api.Journey;
-import net.cyclestreets.api.Waypoints;
 
 public abstract class RoutingTask<Params> 
     extends AsyncTask<Params, Integer, RouteData> 
@@ -68,8 +67,8 @@ public abstract class RoutingTask<Params>
     throws Exception
   {
     if(itinerary != -1)
-      return Journey.getJourneyXml(routeType, itinerary);
-    return Journey.getJourneyXml(routeType, speed, waypoints);
+      return JourneyPlanner.getJourneyXml(routeType, itinerary);
+    return JourneyPlanner.getJourneyXml(routeType, speed, waypoints);
   } // doFetchRoute
 	
   @Override

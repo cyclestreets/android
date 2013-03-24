@@ -3,8 +3,8 @@ package net.cyclestreets.content;
 import java.util.ArrayList;
 import java.util.List;
 
-import net.cyclestreets.api.Journey;
-import net.cyclestreets.api.Waypoints;
+import net.cyclestreets.routing.Journey;
+import net.cyclestreets.routing.Waypoints;
 
 import org.osmdroid.util.GeoPoint;
 

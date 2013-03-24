@@ -1,9 +1,9 @@
 package net.cyclestreets.liveride;
 
 import net.cyclestreets.CycleStreetsPreferences;
-import net.cyclestreets.api.Journey;
-import net.cyclestreets.api.Waypoints;
+import net.cyclestreets.routing.Journey;
 import net.cyclestreets.routing.Route;
+import net.cyclestreets.routing.Waypoints;
 
 import org.osmdroid.util.GeoPoint;
 

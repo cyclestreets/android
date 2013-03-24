@@ -8,9 +8,9 @@ import net.cyclestreets.views.overlay.POIOverlay;
 import net.cyclestreets.views.overlay.RouteOverlay;
 import net.cyclestreets.views.overlay.RouteHighlightOverlay;
 import net.cyclestreets.views.overlay.TapToRouteOverlay;
-import net.cyclestreets.api.Journey;
-import net.cyclestreets.api.Waypoints;
+import net.cyclestreets.routing.Journey;
 import net.cyclestreets.routing.Route;
+import net.cyclestreets.routing.Waypoints;
 
 import android.app.Activity;
 import android.content.DialogInterface;
