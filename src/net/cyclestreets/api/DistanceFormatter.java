@@ -20,7 +20,7 @@ public abstract class DistanceFormatter
     public String distance(int metres)
     {    
       if(metres < 2000)
-        return String.format("%dm", metres);
+        return String.format("%dm", round_distance(metres));
       return total_distance(metres);
     } // distance
     
@@ -40,7 +40,7 @@ public abstract class DistanceFormatter
     {
       int yards = metresToYards(metres);
       if(yards <= 750)
-        return String.format("%d yards", yards);
+        return String.format("%d yards", round_distance(yards));
       return total_distance(metres);
     } // distance
     
@@ -52,4 +52,12 @@ public abstract class DistanceFormatter
       return String.format("%d.%02d miles", miles, frackm);
     } // total_distance
   } // class MilesFormatter
+  
+  static protected int round_distance(int units) 
+  {
+    if(units < 500)
+      return (int)
+          (units/5.0) * 5;
+    return (int)(units/10.0) * 10;
+  } // round_distance
 } // DistanceFormatter
