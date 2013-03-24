@@ -100,9 +100,9 @@ public class Journey
     return a1 != null ? a1 : a2;
   } // pD
     
-  static public Journey loadFromXml(final String xml, 
-                                    final Waypoints points,
-                                    final String name) 
+  static Journey loadFromXml(final String xml, 
+                             final Waypoints points,
+                             final String name) 
     throws Exception
   {
     final JourneyFactory factory = factory(points, name);
@@ -144,7 +144,7 @@ As at 16 October 2012
 </markers>
    */
   
-  static public JourneyFactory factory(final Waypoints waypoints,
+  static private JourneyFactory factory(final Waypoints waypoints,
                                          final String name) 
   { 
     return new JourneyFactory(waypoints, name);
@@ -227,7 +227,6 @@ As at 16 October 2012
           } // if ...
         } // start
 
-        
         private String s(final Attributes attr, final String name) { return attr.getValue(name); }
         private int i(final Attributes attr, final String name) 
         { 
