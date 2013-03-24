@@ -313,7 +313,5 @@ public class CycleStreets extends FragmentActivity implements OnTabChangeListene
       return;
     super.onBackPressed();
   }
-  
-  
 } // class CycleStreets
 

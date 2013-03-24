@@ -6,8 +6,8 @@ import net.cyclestreets.api.Journey;
 import net.cyclestreets.api.Segment;
 import net.cyclestreets.api.Segments;
 import net.cyclestreets.api.Waypoints;
-import net.cyclestreets.planned.Route;
-import net.cyclestreets.planned.Route.Listener;
+import net.cyclestreets.routing.Route;
+import net.cyclestreets.routing.Route.Listener;
 
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;

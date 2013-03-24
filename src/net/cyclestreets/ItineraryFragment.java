@@ -2,7 +2,7 @@ package net.cyclestreets;
 
 import java.util.Map;
 
-import net.cyclestreets.planned.Route;
+import net.cyclestreets.routing.Route;
 import net.cyclestreets.api.Journey;
 import net.cyclestreets.api.Segment;
 import net.cyclestreets.api.Waypoints;

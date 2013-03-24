@@ -1,7 +1,7 @@
 package net.cyclestreets;
 
 import net.cyclestreets.api.Feedback;
-import net.cyclestreets.planned.Route;
+import net.cyclestreets.routing.Route;
 import net.cyclestreets.util.MessageBox;
 import android.app.Activity;
 import android.os.Bundle;

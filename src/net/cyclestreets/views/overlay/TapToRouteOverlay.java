@@ -12,7 +12,7 @@ import net.cyclestreets.R;
 import net.cyclestreets.Undoable;
 import net.cyclestreets.api.Journey;
 import net.cyclestreets.api.Waypoints;
-import net.cyclestreets.planned.Route;
+import net.cyclestreets.routing.Route;
 import net.cyclestreets.util.Brush;
 import net.cyclestreets.util.Draw;
 import net.cyclestreets.util.MessageBox;

@@ -10,7 +10,7 @@ import net.cyclestreets.views.overlay.RouteHighlightOverlay;
 import net.cyclestreets.views.overlay.TapToRouteOverlay;
 import net.cyclestreets.api.Journey;
 import net.cyclestreets.api.Waypoints;
-import net.cyclestreets.planned.Route;
+import net.cyclestreets.routing.Route;
 
 import android.app.Activity;
 import android.content.DialogInterface;

@@ -2,7 +2,7 @@ package net.cyclestreets.views.overlay;
 
 import net.cyclestreets.api.Segment;
 import net.cyclestreets.liveride.LiveRideService;
-import net.cyclestreets.planned.Route;
+import net.cyclestreets.routing.Route;
 import net.cyclestreets.util.Brush;
 import net.cyclestreets.util.Draw;
 

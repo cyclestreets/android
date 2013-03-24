@@ -3,7 +3,7 @@ package net.cyclestreets.liveride;
 import net.cyclestreets.CycleStreetsPreferences;
 import net.cyclestreets.api.Journey;
 import net.cyclestreets.api.Waypoints;
-import net.cyclestreets.planned.Route;
+import net.cyclestreets.routing.Route;
 
 import org.osmdroid.util.GeoPoint;
 

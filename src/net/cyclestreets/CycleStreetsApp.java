@@ -2,7 +2,7 @@ package net.cyclestreets;
 
 
 import net.cyclestreets.api.ApiClient;
-import net.cyclestreets.planned.Route;
+import net.cyclestreets.routing.Route;
 import android.app.Application;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
