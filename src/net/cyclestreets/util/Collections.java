@@ -31,6 +31,13 @@ public class Collections
   {
     return list(values.iterator());
   } // list
+  
+  static public <T> List<T> concatenate(final Collection<T> v1, final Collection<T> v2) 
+  {
+    final List<T> l = list(v1);
+    l.addAll(v2);
+    return l;
+  } // concatenate
 
   private Collections() { }
 } // Collections}

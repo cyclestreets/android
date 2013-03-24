@@ -26,10 +26,24 @@ public class Segments implements Iterable<Segment>
   
   public void add(final Segment seg) 
   { 
-    if(seg instanceof Segment.Start)
+    if(seg instanceof Segment.Start) 
+    {
       segments_.add(0, seg);
-    else
-      segments_.add(seg); 
+      return;
+    } // if ...
+
+    if(count() != 0)
+    {
+      final Segment previous = segments_.get(count()-1);
+      if("join roundabout".equals(previous.turn().toLowerCase()))
+      {
+        segments_.remove(previous);
+        segments_.add(new Segment.Step(previous, seg));
+        return;
+      } // if ...
+    }
+    
+    segments_.add(seg); 
   } // add
   
   public Segment get(final int i) { return segments_.get(i); }

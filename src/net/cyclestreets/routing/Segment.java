@@ -11,13 +11,13 @@ import org.osmdroid.util.GeoPoint;
 
 public abstract class Segment 
 {
-  private final String name_;
-  private final String turn_;
-  private final boolean walk_;
-  private final String running_time_;
-  private final int distance_;
-  private final int running_distance_;
-  private final List<GeoPoint> points_;
+  protected final String name_;
+  protected final String turn_;
+  protected final boolean walk_;
+  protected final String running_time_;
+  protected final int distance_;
+  protected final int running_distance_;
+  protected final List<GeoPoint> points_;
 
   static public DistanceFormatter formatter = DistanceFormatter.formatter(CycleStreetsPreferences.units());
   
@@ -30,10 +30,29 @@ public abstract class Segment
           final List<GeoPoint> points,
           final boolean terminal)
   {  
+    this(name, 
+         turn,
+         walk,
+         formatTime(time, terminal),
+         distance,
+         running_distance,
+         points,
+         terminal);
+  } // Segment
+  
+  Segment(final String name, 
+          final String turn,
+          final boolean walk,
+          final String running_time,
+          final int distance,
+          final int running_distance,
+          final List<GeoPoint> points,
+          final boolean terminal)
+  {
     name_ = name;
     turn_ = initCap(turn);
     walk_ = walk;
-    running_time_ = formatTime(time, terminal);
+    running_time_ = running_time;
     distance_ = distance;
     running_distance_ = running_distance;
     points_ = points;
@@ -268,6 +287,18 @@ public abstract class Segment
           running_distance,
           points,
           false);
+    } // Step
+    
+    public Step(final Segment s1, final Segment s2) 
+    {
+      super(s2.name_,
+            s2.turn_,
+            s1.walk_ || s2.walk_,
+            s2.running_time_,
+            s1.distance_ + s2.distance_,
+            s2.running_distance_,
+            Collections.concatenate(s1.points_, s2.points_),
+            false);
     } // Step
   } // class Step
   

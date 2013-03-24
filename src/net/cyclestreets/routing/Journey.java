@@ -115,8 +115,7 @@ public class Journey
     } // catch
       
     return factory.get();
-  } // loadString
-
+  } // loadFromXml
   
   ////////////////////////////////////////////////////////////////////////////////
   /*
