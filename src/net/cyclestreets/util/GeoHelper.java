@@ -1,6 +1,7 @@
 package net.cyclestreets.util;
 
 import org.osmdroid.util.BoundingBoxE6;
+import org.osmdroid.util.GeoPoint;
 import org.osmdroid.api.IGeoPoint;
 
 public class GeoHelper
@@ -72,25 +73,29 @@ public class GeoHelper
     
     return ct;
   } // crossTrack
-  
+    
   static public double alongTrackOffset(final IGeoPoint p1, final IGeoPoint p2, final IGeoPoint location)
   {
-    double distanceToLoc = distanceBetween(p1, location);
-    double crossTrack = crossTrack(p1, p2, location);
-    double at = Math.acos(
+    final double distanceToLoc = distanceBetween(p1, location);
+    final double crossTrack = crossTrack(p1, p2, location);
+    final double at = Math.acos(
         Math.cos(distanceToLoc/RadiusInMetres) /
         Math.cos(crossTrack/RadiusInMetres)
       ) * RadiusInMetres;
+
+    final double p1p2 = bearingTo(p1, p2);
+    double p1l = bearingTo(p1, location);
+    double p2l = bearingTo(p2, location);
     
-    double blp1 = bearingTo(location, p1);
-    double blp2 = bearingTo(location, p2);
+    p1l -= p1p2;
+    p2l -= p1p2;
     
-    double angle = Math.abs(blp1 - blp2);
+    double angle = Math.abs(p2l - p1l);
     if(angle > Math.PI)
       angle = (Math.PI*2) - angle;
     if(angle < (Math.PI/2))
       at = -at;
-    
+
     return at;
   } // alongTrackOffset
 } // class GeoHelpers
