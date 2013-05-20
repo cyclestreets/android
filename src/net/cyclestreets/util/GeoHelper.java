@@ -1,7 +1,6 @@
 package net.cyclestreets.util;
 
 import org.osmdroid.util.BoundingBoxE6;
-import org.osmdroid.util.GeoPoint;
 import org.osmdroid.api.IGeoPoint;
 
 public class GeoHelper
