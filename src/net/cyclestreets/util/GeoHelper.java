@@ -78,7 +78,7 @@ public class GeoHelper
   {
     final double distanceToLoc = distanceBetween(p1, location);
     final double crossTrack = crossTrack(p1, p2, location);
-    final double at = Math.acos(
+    double at = Math.acos(
         Math.cos(distanceToLoc/RadiusInMetres) /
         Math.cos(crossTrack/RadiusInMetres)
       ) * RadiusInMetres;
