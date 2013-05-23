@@ -123,17 +123,7 @@ public abstract class Segment
   
   public int crossTrack(final GeoPoint location) 
   {
-    int minIndex = -1;
-    int minDistance = Integer.MAX_VALUE;
-    for(int p = 0; p != points_.size(); ++p) 
-    {
-      int distance = points_.get(p).distanceTo(location);
-      if(distance > minDistance)
-        continue;
-
-      minDistance = distance;
-      minIndex = p;
-    } // for ...
+    int minIndex = closestPoint(location);
     
     int ct0 = (minIndex != 0) ? crossTrack(minIndex - 1, location) : Integer.MAX_VALUE;
     int ct1 = (minIndex+1 != points_.size()) ? crossTrack(minIndex, location) : Integer.MAX_VALUE;
@@ -153,8 +143,50 @@ public abstract class Segment
   
   public int alongTrack(final GeoPoint location) 
   {
+    int minIndex = closestPoint(location);
+    final int lastIndex = points_.size() - 1;
+    
+    if(minIndex == lastIndex)
+      --minIndex;
+    
+    if(minIndex == 0) {
+      final GeoHelper.AlongTrack at = alongTrack(minIndex, location);
+      return at.onTrack() ? at.offset() : -at.offset();
+    }
+
+    GeoHelper.AlongTrack at = alongTrack(minIndex, location);
+    if(at.position() == GeoHelper.AlongTrack.Position.BEFORE_START) {
+      --minIndex;
+      at = alongTrack(minIndex, location);
+    }
+    
+    int cumulative = 0;
+    for(int i = 1; i != minIndex; ++i) {
+      final GeoPoint p1 = points_.get(i-1);
+      final GeoPoint p2 = points_.get(i);
+      cumulative += p1.distanceTo(p2);
+    }
+    
+    cumulative += at.offset();
+    
+    return at.onTrack() ? cumulative : -cumulative;
+  } // alongTrack
+  
+  private GeoHelper.AlongTrack alongTrack(final int index, final GeoPoint location)
+  {
+    final GeoPoint p1 = points_.get(index);
+    final GeoPoint p2 = points_.get(index+1);
+  
+    GeoHelper.AlongTrack alongTrack = GeoHelper.alongTrackOffset(p1, p2, location);
+
+    return alongTrack; 
+  } // alongTrack
+
+  private int closestPoint(final GeoPoint location) 
+  {
     int minIndex = -1;
     int minDistance = Integer.MAX_VALUE;
+    
     for(int p = 0; p != points_.size(); ++p) 
     {
       int distance = points_.get(p).distanceTo(location);
@@ -165,22 +197,9 @@ public abstract class Segment
       minIndex = p;
     } // for ...
     
-    int at0 = (minIndex != 0) ? alongTrack(minIndex - 1, location) : Integer.MAX_VALUE;
-    int at1 = (minIndex+1 != points_.size()) ? alongTrack(minIndex, location) : Integer.MAX_VALUE;
-
-    return (Math.abs(at0) < Math.abs(at1)) ? at0 : at1;
-  } // alongTrack
+    return minIndex;
+  }// closestPoint
   
-  private int alongTrack(final int index, final GeoPoint location)
-  {
-    final GeoPoint p1 = points_.get(index);
-    final GeoPoint p2 = points_.get(index+1);
-  
-    double alongTrack = GeoHelper.alongTrackOffset(p1, p2, location);
-
-    return (int)alongTrack; 
-  } // alongTrack
-
   public int distanceFromEnd(final GeoPoint location)
   {
     return finish().distanceTo(location);

@@ -72,16 +72,38 @@ public class GeoHelper
     
     return ct;
   } // crossTrack
+
+  public static class AlongTrack
+  {
+    public enum Position {
+      ON_TRACK,
+      BEFORE_START,
+      OFF_END
+    };
+    private final int offset_;
+    private Position position_ = Position.ON_TRACK;
     
-  static public double alongTrackOffset(final IGeoPoint p1, final IGeoPoint p2, final IGeoPoint location)
+    AlongTrack(final int offset) {
+      offset_ = offset;
+    }
+    void position(final Position newPos) { position_ = newPos; }
+    
+    public int offset() { return offset_; }
+    public boolean onTrack() { return position_ == Position.ON_TRACK; }
+    public Position position() { return position_; }
+  } // AlongTrack
+  
+  static public AlongTrack alongTrackOffset(final IGeoPoint p1, final IGeoPoint p2, final IGeoPoint location)
   {
     final double distanceToLoc = distanceBetween(p1, location);
     final double crossTrack = crossTrack(p1, p2, location);
-    double at = Math.acos(
+    double offset = Math.acos(
         Math.cos(distanceToLoc/RadiusInMetres) /
         Math.cos(crossTrack/RadiusInMetres)
       ) * RadiusInMetres;
 
+    final AlongTrack at = new AlongTrack((int)offset); 
+    
     final double p1p2 = bearingTo(p1, p2);
     double p1l = bearingTo(p1, location);
     double p2l = bearingTo(p2, location);
@@ -92,8 +114,8 @@ public class GeoHelper
     double angle = Math.abs(p2l - p1l);
     if(angle > Math.PI)
       angle = (Math.PI*2) - angle;
-    if(angle < (Math.PI/2))
-      at = -at;
+    if(angle < (Math.PI/2)) 
+      at.position((p1l > Math.PI/2) ? AlongTrack.Position.BEFORE_START : AlongTrack.Position.OFF_END); 
 
     return at;
   } // alongTrackOffset
