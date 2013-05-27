@@ -115,7 +115,7 @@ public class GeoHelper
     if(angle > Math.PI)
       angle = (Math.PI*2) - angle;
     if(angle < (Math.PI/2)) 
-      at.position((p1l > Math.PI/2) ? AlongTrack.Position.BEFORE_START : AlongTrack.Position.OFF_END); 
+      at.position((Math.abs(p1l) > Math.PI/2) ? AlongTrack.Position.BEFORE_START : AlongTrack.Position.OFF_END); 
 
     return at;
   } // alongTrackOffset

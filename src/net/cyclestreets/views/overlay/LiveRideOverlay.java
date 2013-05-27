@@ -150,15 +150,16 @@ public class LiveRideOverlay extends Overlay implements ServiceConnection,
     final GeoPoint whereIam = new GeoPoint(location);
     final Segment activeSeg = Route.journey().activeSegment();
     final int distance = activeSeg.distanceFrom(whereIam);
-    final int crossTrack = activeSeg.crossTrack(whereIam);
+    final int crossTrack = activeSeg.crossTrackError(whereIam);
+    final int alongTrackError = activeSeg.alongTrackError(whereIam);
     final int alongTrack = activeSeg.alongTrack(whereIam);
     final int fromEnd = activeSeg.distanceFromEnd(whereIam);
 
-    final String info = String.format("Bearing : %d deg\nHeading : %s\nDistance : %d m\nCross-track : %d m\nAlong-track : %dm\nFrom end : %d m\n%s",
-                        bearing,
+    final String info = String.format("Heading : %s\nDistance : %d m\nCross-track : %dm\nAlong-track error : %dm\nAlong-track : %dm\nFrom end : %d m\n%s",
                         heading(bearing),
                         distance,
                         crossTrack,
+                        alongTrackError,
                         alongTrack,
                         fromEnd,
                         binding_.stage());
@@ -173,8 +174,8 @@ public class LiveRideOverlay extends Overlay implements ServiceConnection,
   
   public String heading(int bearing) 
   {
-    final int step = 360 / headings_.size();
-    int chunk = step/2;
+    final double step = 360.0 / headings_.size();
+    double chunk = step/2;
     
     for(final String h : headings_)
     {
@@ -183,7 +184,7 @@ public class LiveRideOverlay extends Overlay implements ServiceConnection,
       chunk += step;
     }
     
-    return "Cthulhu has risen";
+    return headings_.get(0);
   } // heading
 
   @Override

@@ -113,15 +113,13 @@ public abstract class Segment
       
   public int distanceFrom(final GeoPoint location)
   {
-    int ct = crossTrack(location);
-    int at = alongTrack(location);
+    int ct = crossTrackError(location);
+    int at = alongTrackError(location);
     
-    if(at < 0) // off end
-      return Math.max(Math.abs(at), ct);
-    return ct;
+    return Math.max(Math.abs(at), ct);
   } // distanceFrom
   
-  public int crossTrack(final GeoPoint location) 
+  public int crossTrackError(final GeoPoint location) 
   {
     int minIndex = closestPoint(location);
     
@@ -141,6 +139,18 @@ public abstract class Segment
     return Math.abs((int)crossTrack); 
   } // crossTrack
   
+  public int alongTrackError(final GeoPoint location) 
+  {
+    int minIndex = closestPoint(location);
+    final int lastIndex = points_.size() - 1;
+    
+    if(minIndex != 0 && minIndex != lastIndex)
+      return 0;
+    
+    final GeoHelper.AlongTrack at = alongTrack(minIndex == 0 ? minIndex : minIndex-1, location);
+    return at.onTrack() ? 0 : at.offset();
+  } // alongTrackError
+  
   public int alongTrack(final GeoPoint location) 
   {
     int minIndex = closestPoint(location);
@@ -155,13 +165,14 @@ public abstract class Segment
     }
 
     GeoHelper.AlongTrack at = alongTrack(minIndex, location);
-    if(at.position() == GeoHelper.AlongTrack.Position.BEFORE_START) {
+    if(at.position() == GeoHelper.AlongTrack.Position.BEFORE_START) 
       --minIndex;
-      at = alongTrack(minIndex, location);
-    }
+    if(at.position() == GeoHelper.AlongTrack.Position.OFF_END)
+      ++minIndex;
+    at = alongTrack(minIndex, location);
     
     int cumulative = 0;
-    for(int i = 1; i != minIndex; ++i) {
+    for(int i = 1; i <= minIndex; ++i) {
       final GeoPoint p1 = points_.get(i-1);
       final GeoPoint p2 = points_.get(i);
       cumulative += p1.distanceTo(p2);
@@ -267,7 +278,7 @@ public abstract class Segment
                            itinerary_, calories_, kg, g); 
     } // extraInfo
 
-    public int crossTrack(final GeoPoint location) { return Integer.MAX_VALUE; } 
+    public int crossTrackError(final GeoPoint location) { return Integer.MAX_VALUE; } 
   } // class Start
   
   static public class End extends Segment
