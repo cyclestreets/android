@@ -7,14 +7,22 @@ import org.osmdroid.util.GeoPoint;
 
 final class HuntForSegment extends LiveRideState
 {
+  private int waitToSettle_;
+  
   HuntForSegment(final LiveRideState state) 
   {
     super(state);
+    waitToSettle_ = 5;
   } // HuntForSegment
   
   @Override
   public LiveRideState update(Journey journey, GeoPoint whereIam, int accuracy)
   {
+    if(waitToSettle_ > 0) {
+      --waitToSettle_;
+      return this;
+    }
+    
     Segment nearestSeg = null;
     int distance = Integer.MAX_VALUE;
     
