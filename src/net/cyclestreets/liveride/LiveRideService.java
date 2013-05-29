@@ -19,6 +19,7 @@ public class LiveRideService extends Service
 {
   private IBinder binder_;
   private LocationManager locationManager_;
+  private Location lastLocation_;
   private LiveRideState stage_;
 
   @Override
@@ -68,6 +69,11 @@ public class LiveRideService extends Service
     return stage_.arePedalling();
   } // onRide
   
+  public Location lastLocation()
+  {
+    return lastLocation_;
+  } // lastLocation
+  
   public class Binding extends Binder
   {
     private LiveRideService service() { return LiveRideService.this; }
@@ -75,6 +81,7 @@ public class LiveRideService extends Service
     public void stopRiding() { service().stopRiding(); }
     public boolean areRiding() { return service().areRiding(); }
     public String stage() { return stage_.getClass().getSimpleName(); }
+    public Location lastLocation() { return service().lastLocation(); }
   } // class LocalBinder
 
   // ///////////////////////////////////////////////
@@ -88,77 +95,16 @@ public class LiveRideService extends Service
       return;
     } // if ...
 
+    lastLocation_ = location;
+    
     final GeoPoint whereIam = new GeoPoint(location);
     final float accuracy = location.hasAccuracy() ? location.getAccuracy() : 2;
 
     final Journey journey = Route.journey();
  
     stage_ = stage_.update(journey, whereIam, (int)accuracy);
-/*    switch(stage_) 
-    {
-    case ON_THE_MOVE:
-      checkIfTooFarAway(journey, whereIam);
-      checkApproachingTurn(journey, whereIam);
-      break;
-    case NEARING_TURN:
-      checkIfTooFarAway(journey, whereIam);
-      checkNextSegImminent(journey, whereIam);
-      break;
-    case ARRIVEE:
-      notify("You have arrived at your destination.", "Destination");
-      stopRiding();
-      break;
-    case STOPPED:
-      // whoa, something's gone wonky
-      break;
-    } // switch
-*/
-    
   } // onLocationChanged
 
-/*  private void checkIfTooFarAway(final Journey journey, final GeoPoint whereIam)
-  {
-    final int distance = journey.activeSegment().distanceFrom(whereIam);
-    
-    if(needsReplan(distance, whereIam))
-      return;
-    
-    if(!stage_.offCourse() && (distance > NEAR_DISTANCE))
-    {
-      notify(stage_ == Stage.SETTING_OFF ? "Some way from start" : "Moving away from route");
-      stage_ = (stage_ == Stage.SETTING_OFF) ? Stage.MOVING_AWAY_FROM_START : Stage.MOVING_AWAY;
-    } // if ...
-    else if(stage_.offCourse() && (distance < (NEAR_DISTANCE-5)))
-    {
-      notify("Getting back on track");
-      stage_ = (stage_ == Stage.MOVING_AWAY_FROM_START) ? Stage.SETTING_OFF: Stage.ON_THE_MOVE;
-    }
-  } // checkIfTooFarAway
-  
-  private void checkApproachingTurn(final Journey journey, final GeoPoint whereIam)
-  {
-    final int distanceFromEnd = journey.activeSegment().distanceFromEnd(whereIam);
-
-    if(distanceFromEnd > NEAR_DISTANCE)
-      return;
-    
-    notify("Get ready");
-    stage_ = Stage.NEARING_TURN;
-  } // checkApproachingTurn
-  
-  private void checkNextSegImminent(final Journey journey, final GeoPoint whereIam)
-  {
-    final int distanceFromEnd = journey.activeSegment().distanceFromEnd(whereIam);
-    if(distanceFromEnd > IMMEDIATE_DISTANCE)
-      return;
-    
-    journey.advanceActiveSegment();
-    notify(journey.activeSegment());
-    
-    stage_ = journey.atEnd() ? Stage.ARRIVEE : Stage.ON_THE_MOVE;
-  } // checkNextSegImminent
-  */
-  
   @Override
   public void onProviderDisabled(String arg0) { }
   @Override

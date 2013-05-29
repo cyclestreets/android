@@ -25,28 +25,19 @@ import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.Paint.Align;
 import android.location.Location;
-import android.location.LocationListener;
-import android.location.LocationManager;
-import android.os.Bundle;
 import android.os.IBinder;
 import android.view.View;
 
 public class LiveRideOverlay extends Overlay implements ServiceConnection, 
-                                                        LocationListener,
                                                         PauseResumeListener
 {
   private final Activity activity_;
-  private final View view_;
-  private final LocationManager locationManager_;
   private LiveRideService.Binding binding_;
   private final int offset_;
   private final float radius_;
   private final Paint speedBrush_;
   private final Paint textBrush_;
 
-  private String speed_ = null;
-  private String info_ = null;
-  
   private static List<String> headings_ = Collections.list("N", "NE", "E", "SE", "S", "SW", "W", "NW");
 
   public LiveRideOverlay(final Activity context, final View view) 
@@ -54,12 +45,9 @@ public class LiveRideOverlay extends Overlay implements ServiceConnection,
     super(context);
     
     activity_ = context;
-    view_ = view;
 
     final Intent intent = new Intent(activity_, LiveRideService.class);
     activity_.bindService(intent, this, Context.BIND_AUTO_CREATE);
-    
-    locationManager_ = (LocationManager)activity_.getSystemService(Context.LOCATION_SERVICE);
     
     offset_ = DrawingHelper.offset(context);
     radius_ = DrawingHelper.cornerRadius(context);
@@ -81,7 +69,9 @@ public class LiveRideOverlay extends Overlay implements ServiceConnection,
   @Override
   protected void draw(final Canvas canvas, final MapView mapView, final boolean shadow)
   {
-    if(info_ == null)
+    final String speed = speed();
+    final String info = movementDetails();
+    if(info == null)
       return;
     
     final Rect box = canvas.getClipBounds();
@@ -94,8 +84,8 @@ public class LiveRideOverlay extends Overlay implements ServiceConnection,
     textBox.left += offset_;
     textBox.right -= offset_;
     
-    int sHeight = Draw.measureTextInRect(canvas, speedBrush_, textBox, speed_) - box.top;
-    int iHeight = Draw.measureTextInRect(canvas, textBrush_, textBox, info_) - box.top;
+    int sHeight = Draw.measureTextInRect(canvas, speedBrush_, textBox, speed) - box.top;
+    int iHeight = Draw.measureTextInRect(canvas, textBrush_, textBox, info) - box.top;
     
     int height = sHeight + iHeight + (offset_*2); 
     box.top = box.bottom - height;
@@ -103,9 +93,9 @@ public class LiveRideOverlay extends Overlay implements ServiceConnection,
     if(!DrawingHelper.drawRoundRect(canvas, box, radius_, Brush.Grey))
       return;
     box.left += offset_;
-    Draw.drawTextInRect(canvas, speedBrush_, box, speed_);
+    Draw.drawTextInRect(canvas, speedBrush_, box, speed);
     box.top += sHeight;
-    Draw.drawTextInRect(canvas, textBrush_, box, info_);
+    Draw.drawTextInRect(canvas, textBrush_, box, info);
     box.top -= offset_*2;
     box.left += (box.width() * 3 / 4); 
     Draw.drawTextInRect(canvas, textBrush_, box, "kmh");
@@ -129,22 +119,44 @@ public class LiveRideOverlay extends Overlay implements ServiceConnection,
   @Override
   public void onResume(SharedPreferences prefs)
   {
-    locationManager_.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
   } // onResume
 
   @Override
   public void onPause(Editor prefs)
   {
-    locationManager_.removeUpdates(this);
   } // onPause
 
-  @Override
-  public void onLocationChanged(final Location location)
+  private Location lastLocation() 
   {
     if(!Route.available())
-      return;
+      return null;
+
+    if(binding_ == null)
+      return null;
+    
+    final Location location = binding_.lastLocation();
+    if(location == null)
+      return null;
+
+    return location;
+  } // lastLocation
+
+  private String speed() 
+  {
+    final Location location = lastLocation();
+    if(location == null)
+      return "0.0";
     
     final double speed = location.getSpeed() * 60.0 * 60.0 / 1000.0; 
+    return String.format("%.1f", speed);
+  } // speed
+  
+  private String movementDetails()
+  {
+    final Location location = lastLocation();
+    if(location == null)
+      return null;
+    
     final int bearing = (int)location.getBearing();
     
     final GeoPoint whereIam = new GeoPoint(location);
@@ -164,12 +176,7 @@ public class LiveRideOverlay extends Overlay implements ServiceConnection,
                         fromEnd,
                         binding_.stage());
     
-    if(info.equals(info_))
-      return;
-
-    speed_ = String.format("%.1f", speed);
-    info_ = info;
-    view_.invalidate();
+    return info;
   } // onLocationChanged
   
   public String heading(int bearing) 
@@ -187,18 +194,4 @@ public class LiveRideOverlay extends Overlay implements ServiceConnection,
     return headings_.get(0);
   } // heading
 
-  @Override
-  public void onProviderDisabled(String arg0)
-  {
-  }
-
-  @Override
-  public void onProviderEnabled(String arg0)
-  {
-  }
-
-  @Override
-  public void onStatusChanged(String arg0, int arg1, Bundle arg2)
-  {
-  }
 } // class LiveRideOverlay
