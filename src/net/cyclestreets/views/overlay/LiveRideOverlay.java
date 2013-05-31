@@ -20,6 +20,7 @@ import android.content.Intent;
 import android.content.ServiceConnection;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.graphics.Paint.FontMetricsInt;
 import android.graphics.Rect;
 import android.graphics.Paint.Align;
 import android.location.Location;
@@ -34,6 +35,10 @@ public class LiveRideOverlay extends Overlay implements ServiceConnection
   private final float radius_;
   private final Paint speedBrush_;
   private final Paint textBrush_;
+  private final int speedWidth_;
+  private final int kmWidth_;
+  private final int lineHeight_;
+
 
   private static List<String> headings_ = Collections.list("N", "NE", "E", "SE", "S", "SW", "W", "NW");
 
@@ -52,7 +57,11 @@ public class LiveRideOverlay extends Overlay implements ServiceConnection
     speedBrush_.setTextAlign(Align.LEFT);
     textBrush_ = Brush.createTextBrush(offset_);
     textBrush_.setTextAlign(Align.LEFT);
-} // LiveRideOverlay
+    
+    speedWidth_ = (int)speedBrush_.measureText("0.0");
+    kmWidth_ = (int)textBrush_.measureText("km/h");
+    lineHeight_ = speedBrush_.getFontMetricsInt(null);
+  } // LiveRideOverlay
 
   @Override
   public void onDetach(final MapView mapView)
@@ -67,17 +76,14 @@ public class LiveRideOverlay extends Overlay implements ServiceConnection
   protected void draw(final Canvas canvas, final MapView mapView, final boolean shadow)
   {
     final String speed = speed();
-    final int speedWidth = (int)speedBrush_.measureText(speed);
-    final int kmWidth = (int)textBrush_.measureText("km/h");
 
-    final int fullWidth = speedWidth + kmWidth;
-    final int lineHeight = speedBrush_.getFontMetricsInt(null);
-
+    final int fullWidth_ = speedWidth_ + kmWidth_;
+    
     final Rect box = canvas.getClipBounds();
     box.left += offset_; 
-    box.right = box.left + fullWidth + (offset_*2);
+    box.right = box.left + fullWidth_ + (offset_*2);
     box.bottom -= (offset_*2);
-    box.top = box.bottom - (lineHeight + offset_*2);
+    box.top = box.bottom - (lineHeight_ + offset_*2);
 
     if(!DrawingHelper.drawRoundRect(canvas, box, radius_, Brush.Grey))
       return;
@@ -89,11 +95,11 @@ public class LiveRideOverlay extends Overlay implements ServiceConnection
     textBox.right -= offset_;
     
     Draw.drawTextInRect(canvas, speedBrush_, textBox, speed);
-    textBox.left += speedWidth;
+    textBox.left += speedWidth_;
     textBox.top = textBox.bottom - textBrush_.getFontMetricsInt(null);
     Draw.drawTextInRect(canvas, textBrush_, textBox, "km/h");
   } // draw
-
+  
   ///////////////////////////
   @Override
   public void onServiceConnected(final ComponentName className, final IBinder binder)
