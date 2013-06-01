@@ -1,14 +1,11 @@
 package net.cyclestreets;
 
-import java.util.Map;
-
 import net.cyclestreets.routing.Journey;
 import net.cyclestreets.routing.Route;
 import net.cyclestreets.routing.Segment;
 import net.cyclestreets.routing.Waypoints;
 
 import android.content.Context;
-import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -21,7 +18,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import net.cyclestreets.util.MapFactory;
+import net.cyclestreets.util.TurnIcons;
 
 public class ItineraryFragment extends ListFragment 
                                implements Route.Listener
@@ -77,14 +74,14 @@ public class ItineraryFragment extends ListFragment
 	static class SegmentAdapter extends BaseAdapter
 	{
 	  private final ItineraryFragment itinerary_;
-	  private final Map<String, Drawable> iconMappings_;
+	  private final TurnIcons.Mapping iconMappings_;
 	  private final Drawable footprints_;
 	  private final LayoutInflater inflater_;
 	  
 	  SegmentAdapter(final Context context, final ItineraryFragment itinerary)
 	  {
 	    itinerary_ = itinerary;
-	    iconMappings_ = loadIconMappings(context);
+	    iconMappings_ = TurnIcons.LoadMapping(context);
 	    footprints_ = context.getResources().getDrawable(R.drawable.footprints);
 	    inflater_ = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 	  } // SegmentAdaptor
@@ -158,7 +155,7 @@ public class ItineraryFragment extends ListFragment
 		private void setMainText(final View v, final int id, final String turn, final String street, final boolean highlight)
 		{
 			String t = street;
-			if(turnIcon(turn) == null && turn.length() != 0)
+			if(turn.length() != 0)
 				t = turn + " into " + street;
 			setText(v, id, t, highlight);
 		} // setMainText
@@ -168,15 +165,14 @@ public class ItineraryFragment extends ListFragment
 			final ImageView iv = (ImageView)v.findViewById(id);
 
 			final Drawable icon = turnIcon(turn); 
-			if(icon != null)
-				iv.setImageDrawable(icon);
+  		iv.setImageDrawable(icon);
 			if(walk)
 				iv.setBackgroundDrawable(footprints_);
 		} // setTurnIcon
 		
 		private Drawable turnIcon(final String turn)
 		{
-			return iconMappings_.get(turn.toLowerCase());
+			return iconMappings_.icon(turn);
 		} // turnIcon
 		
 		private int getColour(final Segment s)
@@ -187,25 +183,5 @@ public class ItineraryFragment extends ListFragment
 				return Color.rgb(128, 0, 0);
 			return Color.BLACK;
 		} // getColour
-    
-		static private Map<String, Drawable> loadIconMappings(final Context context)
-		{
-			final Resources res = context.getResources();
-			
-			return MapFactory.map("straight on", res.getDrawable(R.drawable.straight_on))
-					             .map("bear left", res.getDrawable(R.drawable.bear_left))
-                       .map("turn left", res.getDrawable(R.drawable.turn_left))
-                       .map("sharp left", res.getDrawable(R.drawable.sharp_left))
-                       .map("bear right", res.getDrawable(R.drawable.bear_right))
-                       .map("turn right", res.getDrawable(R.drawable.turn_right))
-                       .map("sharp right", res.getDrawable(R.drawable.sharp_right))
-                       .map("double-back", res.getDrawable(R.drawable.double_back))
-                       .map("join roundabout", res.getDrawable(R.drawable.roundabout))
-                       .map("first exit", res.getDrawable(R.drawable.first_exit))
-                       .map("second exit", res.getDrawable(R.drawable.second_exit))
-                       .map("third exit", res.getDrawable(R.drawable.third_exit))
-                       .map("waymark", res.getDrawable(R.drawable.waymark));
-		} // loadIconMappings
-	
   } // class SegmentAdaptor
 } // ItineraryActivity
