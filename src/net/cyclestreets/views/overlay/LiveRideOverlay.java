@@ -39,7 +39,6 @@ public class LiveRideOverlay extends Overlay implements ServiceConnection
   private final int kmWidth_;
   private final int lineHeight_;
 
-
   private static List<String> headings_ = Collections.list("N", "NE", "E", "SE", "S", "SW", "W", "NW");
 
   public LiveRideOverlay(final Activity context, final View view) 
@@ -60,7 +59,10 @@ public class LiveRideOverlay extends Overlay implements ServiceConnection
     
     speedWidth_ = (int)speedBrush_.measureText("0.0");
     kmWidth_ = (int)textBrush_.measureText("km/h");
-    lineHeight_ = speedBrush_.getFontMetricsInt(null);
+
+    final Rect bounds = new Rect();
+    speedBrush_.getTextBounds("0.0", 0, 3, bounds); // Measure the text
+    lineHeight_ = bounds.height();    
   } // LiveRideOverlay
 
   @Override
@@ -88,16 +90,12 @@ public class LiveRideOverlay extends Overlay implements ServiceConnection
     if(!DrawingHelper.drawRoundRect(canvas, box, radius_, Brush.Grey))
       return;
     
-    final Rect textBox = new Rect(box);
-    textBox.top += offset_;
-    textBox.bottom -= offset_;
-    textBox.left += offset_;
-    textBox.right -= offset_;
+    box.left += offset_;
+    box.bottom -= offset_;
     
-    Draw.drawTextInRect(canvas, speedBrush_, textBox, speed);
-    textBox.left += speedWidth_;
-    textBox.top = textBox.bottom - textBrush_.getFontMetricsInt(null);
-    Draw.drawTextInRect(canvas, textBrush_, textBox, "km/h");
+    canvas.drawText(speed, box.left, box.bottom, speedBrush_);
+    box.left += speedWidth_;
+    canvas.drawText("km/h", box.left, box.bottom, textBrush_);
   } // draw
   
   ///////////////////////////
