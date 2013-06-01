@@ -72,6 +72,12 @@ public class Journey
   public int activeSegmentIndex() { return activeSegment_; }
   
   public Segment activeSegment() { return activeSegment_ >= 0 ? segments_.get(activeSegment_) : null; }
+  public Segment nextSegment() 
+  {
+    if(atEnd())
+      return activeSegment();
+    return segments_.get(activeSegment_+1);
+  } // nextSegment
   
   public boolean atStart() { return activeSegment_ <= 0; }
   public boolean atWaypoint() { return activeSegment() instanceof Segment.Waymark; }
@@ -92,8 +98,7 @@ public class Journey
   {
     return segments_.pointsIterator();
   } // points
-    
-
+  
   ////////////////////////////////////////////////////////////////
   static private GeoPoint pD(final GeoPoint a1, final GeoPoint a2)
   {
