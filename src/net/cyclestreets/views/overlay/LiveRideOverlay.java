@@ -2,7 +2,9 @@ package net.cyclestreets.views.overlay;
 
 import java.util.List;
 
+import net.cyclestreets.CycleStreetsPreferences;
 import net.cyclestreets.liveride.LiveRideService;
+import net.cyclestreets.routing.DistanceFormatter;
 import net.cyclestreets.routing.Route;
 import net.cyclestreets.routing.Segment;
 import net.cyclestreets.util.Brush;
@@ -40,8 +42,7 @@ public class LiveRideOverlay extends Overlay implements ServiceConnection
   private final int kmWidth_;
   private final int lineHeight_;
   private final TurnIcons.Mapping iconMappings_;
-
-  private static List<String> headings_ = Collections.list("N", "NE", "E", "SE", "S", "SW", "W", "NW");
+  private final DistanceFormatter formatter_;
 
   public LiveRideOverlay(final Activity context, final View view) 
   {
@@ -67,6 +68,7 @@ public class LiveRideOverlay extends Overlay implements ServiceConnection
     lineHeight_ = bounds.height();
     
     iconMappings_ = TurnIcons.LoadMapping(context);
+    formatter_ = DistanceFormatter.formatter(CycleStreetsPreferences.units());
   } // LiveRideOverlay
 
   @Override
@@ -207,6 +209,6 @@ public class LiveRideOverlay extends Overlay implements ServiceConnection
     final Segment activeSeg = Route.journey().activeSegment();
     final int fromEnd = activeSeg.distanceFromEnd(whereIam);
     
-    return String.format("%dm", fromEnd); 
+    return formatter_.distance(fromEnd); 
   } // distanceUntilTurn
 } // class LiveRideOverlay
