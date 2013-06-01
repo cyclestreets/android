@@ -4,7 +4,6 @@ import net.cyclestreets.views.CycleMapView;
 import net.cyclestreets.views.overlay.LiveRideOverlay;
 import net.cyclestreets.views.overlay.LockScreenOnOverlay;
 import net.cyclestreets.views.overlay.RouteOverlay;
-import net.cyclestreets.views.overlay.StopActivityOverlay;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -30,7 +29,6 @@ public class LiveRideActivity extends Activity
     map_ = new CycleMapView(this, this.getClass().getName());
     map_.overlayPushBottom(new RouteOverlay(this));
     map_.overlayPushTop(new LockScreenOnOverlay(this, map_));
-    map_.overlayPushTop(new StopActivityOverlay(this));
     map_.overlayPushTop(new LiveRideOverlay(this, map_));
     map_.lockOnLocation();
     map_.hideLocationButton();
