@@ -60,15 +60,15 @@ public class LiveRideOverlay extends Overlay implements ServiceConnection
     textBrush_ = Brush.createTextBrush(offset_);
     textBrush_.setTextAlign(Align.LEFT);
     
+    iconMappings_ = TurnIcons.LoadMapping(context);
+    formatter_ = DistanceFormatter.formatter(CycleStreetsPreferences.units());
+    
     speedWidth_ = (int)speedBrush_.measureText("0.0");
-    kmWidth_ = (int)textBrush_.measureText("km/h");
+    kmWidth_ = (int)textBrush_.measureText(formatter_.speedUnit());
 
     final Rect bounds = new Rect();
     speedBrush_.getTextBounds("0.0", 0, 3, bounds); // Measure the text
     lineHeight_ = bounds.height();
-    
-    iconMappings_ = TurnIcons.LoadMapping(context);
-    formatter_ = DistanceFormatter.formatter(CycleStreetsPreferences.units());
   } // LiveRideOverlay
 
   @Override
@@ -154,7 +154,7 @@ public class LiveRideOverlay extends Overlay implements ServiceConnection
     
     canvas.drawText(speed, box.left, box.bottom, speedBrush_);
     box.left += speedWidth_;
-    canvas.drawText("km/h", box.left, box.bottom, textBrush_);
+    canvas.drawText(formatter_.speedUnit(), box.left, box.bottom, textBrush_);
   } // drawSpeed
   
   ///////////////////////////
@@ -193,10 +193,7 @@ public class LiveRideOverlay extends Overlay implements ServiceConnection
     if(location == null)
       return "0.0";
     
-    final double speed = location.getSpeed() * 60.0 * 60.0 / 1000.0;
-    if(speed < 10)
-      return String.format("%.1f", speed);
-    return String.format("%d", (int)speed);
+    return formatter_.speed(location.getSpeed());
   } // speed
   
   private String distanceUntilTurn()
