@@ -102,6 +102,9 @@ public class LiveRideOverlay extends Overlay implements ServiceConnection
     final Drawable turnIcon = iconMappings_.icon(nextSeg.turn());
     turnIcon.setBounds(box);
     turnIcon.draw(canvas);
+
+    if(Route.journey().atStart())
+      return;
     
     final String next = distanceUntilTurn() + "\n" + nextSeg.street();
     
@@ -114,10 +117,8 @@ public class LiveRideOverlay extends Overlay implements ServiceConnection
     textBox.bottom = bottom + offset_;
 
     DrawingHelper.drawRoundRect(canvas, textBox, radius_, Brush.Grey);
-    
     Draw.drawTextInRect(canvas, textBrush_, textBox, next);
 
-    turnIcon.setBounds(box);
     turnIcon.draw(canvas);
   } // drawNextTurn
   
@@ -207,48 +208,5 @@ public class LiveRideOverlay extends Overlay implements ServiceConnection
     final int fromEnd = activeSeg.distanceFromEnd(whereIam);
     
     return String.format("%dm", fromEnd); 
-  } // movementDetails
-  
-  private String debugMovementDetails()
-  {    
-    final Location location = lastLocation();
-    if(location == null)
-      return null;
-
-    final int bearing = (int)location.getBearing();
-    final GeoPoint whereIam = new GeoPoint(location);
-    final Segment activeSeg = Route.journey().activeSegment();
-    final int distance = activeSeg.distanceFrom(whereIam);
-    final int crossTrack = activeSeg.crossTrackError(whereIam);
-    final int alongTrackError = activeSeg.alongTrackError(whereIam);
-    final int alongTrack = activeSeg.alongTrack(whereIam);
-    final int fromEnd = activeSeg.distanceFromEnd(whereIam);
-
-    final String info = String.format("Heading : %s\nDistance : %d m\nCross-track : %dm\nAlong-track error : %dm\nAlong-track : %dm\nFrom end : %d m\n%s",
-                        heading(bearing),
-                        distance,
-                        crossTrack,
-                        alongTrackError,
-                        alongTrack,
-                        fromEnd,
-                        binding_.stage());
-     
-    return info;
-  } // onLocationChanged
-  
-  public String heading(int bearing) 
-  {
-    final double step = 360.0 / headings_.size();
-    double chunk = step/2;
-    
-    for(final String h : headings_)
-    {
-      if(bearing < chunk) 
-        return h;
-      chunk += step;
-    }
-    
-    return headings_.get(0);
-  } // heading
-
+  } // distanceUntilTurn
 } // class LiveRideOverlay
