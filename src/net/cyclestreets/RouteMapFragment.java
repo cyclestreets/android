@@ -84,7 +84,7 @@ public class RouteMapFragment extends CycleMapFragment
 	@Override
 	public void onCreateOptionsMenu(final Menu menu, final MenuInflater inflater)
 	{
-    createMenuItem(menu, R.string.ic_menu_liveride, Menu.NONE, 0);
+    createMenuItem(menu, R.string.ic_menu_liveride, Menu.NONE, R.drawable.ic_menu_live_ride);
 	  createMenuItem(menu, R.string.ic_menu_directions, Menu.NONE, R.drawable.ic_menu_directions);
 	  createMenuItem(menu, R.string.ic_menu_saved_routes, Menu.NONE, R.drawable.ic_menu_places);
 	  createMenuItem(menu, R.string.ic_menu_route_number, Menu.NONE, R.drawable.ic_menu_route_number);
