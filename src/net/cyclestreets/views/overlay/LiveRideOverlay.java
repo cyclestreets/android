@@ -1,14 +1,11 @@
 package net.cyclestreets.views.overlay;
 
-import java.util.List;
-
 import net.cyclestreets.CycleStreetsPreferences;
 import net.cyclestreets.liveride.LiveRideService;
 import net.cyclestreets.routing.DistanceFormatter;
 import net.cyclestreets.routing.Route;
 import net.cyclestreets.routing.Segment;
 import net.cyclestreets.util.Brush;
-import net.cyclestreets.util.Collections;
 import net.cyclestreets.util.Draw;
 import net.cyclestreets.util.TurnIcons;
 
