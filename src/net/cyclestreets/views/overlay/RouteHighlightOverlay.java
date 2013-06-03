@@ -1,5 +1,6 @@
 package net.cyclestreets.views.overlay;
 
+import net.cyclestreets.LiveRideActivity;
 import net.cyclestreets.R;
 import net.cyclestreets.routing.Route;
 import net.cyclestreets.routing.Segment;
@@ -26,16 +27,21 @@ public class RouteHighlightOverlay extends Overlay
   private Segment current_;
   
   private final OverlayButton prevButton_;
-  private final OverlayButton nextButton_;	
+  private final OverlayButton nextButton_;
+  private final OverlayButton liveRideButton_;
 
   private final int offset_;
   private final float radius_;
   
   private final Paint textBrush_;
+  
+  private final Context context_;
 
   public RouteHighlightOverlay(final Context context, final CycleMapView map)
   {
     super(context);
+    
+    context_ = context;
     
     mapView_ = map;
     current_ = null;
@@ -54,6 +60,12 @@ public class RouteHighlightOverlay extends Overlay
                                     offset_*2,
                                     radius_);
     nextButton_.bottomAlign();
+    
+    liveRideButton_ = new OverlayButton(res.getDrawable(R.drawable.ic_menu_live_ride),
+                                        offset_,
+                                        prevButton_.bottom() + offset_,
+                                        radius_);
+    liveRideButton_.bottomAlign();
 
     textBrush_ = Brush.createTextBrush(offset_);
     textBrush_.setTextAlign(Align.LEFT);
@@ -84,6 +96,9 @@ public class RouteHighlightOverlay extends Overlay
     prevButton_.draw(canvas);
     nextButton_.enable(!Route.journey().atEnd());
     nextButton_.draw(canvas);
+    
+    if(Route.available())
+      liveRideButton_.draw(canvas);
   } // drawButtons
 	
   private void drawSegmentInfo(final Canvas canvas)
@@ -116,22 +131,18 @@ public class RouteHighlightOverlay extends Overlay
   @Override
   public boolean onButtonTap(final MotionEvent event) 
   {
-    return tapPrevNext(event);
-  } // onSingleTapUp
-	
-  public boolean onButtonDoubleTap(final MotionEvent event)
-  {
-    return doubleTapPrevNext(event);
-  } // onDoubleTap
-
-  private boolean tapPrevNext(final MotionEvent event)
-  {
     if(!Route.available())
       return false;
-		
+        
+    if(liveRideButton_.hit(event))
+    {
+      startLiveRide();
+      return true;
+    } // if ...
+
     if(!prevButton_.hit(event) && !nextButton_.hit(event))
       return false;
-		
+    
     if(prevButton_.hit(event))
       Route.journey().regressActiveSegment();
 
@@ -140,13 +151,13 @@ public class RouteHighlightOverlay extends Overlay
 
     mapView_.invalidate();
     return true;
-  } // tapPrevNext
-    
-  private boolean doubleTapPrevNext(final MotionEvent event)
+  } // onSingleTapUp
+	
+  public boolean onButtonDoubleTap(final MotionEvent event)
   {
     if(!Route.available())
       return false;
-    	
+      
     if(!prevButton_.hit(event) && !nextButton_.hit(event))
       return false;
 
@@ -157,8 +168,13 @@ public class RouteHighlightOverlay extends Overlay
     if(nextButton_.hit(event))
       while(!Route.journey().atEnd())
         Route.journey().advanceActiveSegment();
-		
+    
     mapView_.invalidate();
     return true;
-  } // doubleTapPrevNext
+  } // onDoubleTap
+
+  private void startLiveRide() 
+  {
+    LiveRideActivity.launch(context_);
+  } // startLiveRide
 } // RouteHighlightOverlay
