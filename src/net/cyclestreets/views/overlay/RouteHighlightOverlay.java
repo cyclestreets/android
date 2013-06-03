@@ -62,8 +62,10 @@ public class RouteHighlightOverlay extends Overlay
     nextButton_.bottomAlign();
     
     liveRideButton_ = new OverlayButton(res.getDrawable(R.drawable.ic_menu_live_ride),
+                                        "Start\nLiveRide",
                                         offset_,
                                         prevButton_.bottom() + offset_,
+                                        (prevButton_.width() * 2) + offset_,                                        
                                         radius_);
     liveRideButton_.bottomAlign();
 

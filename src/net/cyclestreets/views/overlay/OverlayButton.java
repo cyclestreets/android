@@ -1,10 +1,12 @@
 package net.cyclestreets.views.overlay;
 
 import net.cyclestreets.util.Brush;
+import net.cyclestreets.util.Draw;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.graphics.Paint.Align;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.view.MotionEvent;
@@ -18,6 +20,9 @@ class OverlayButton
   private boolean enabled_;
   private boolean pressed_;
   private boolean alt_;
+  
+  private String label_;
+  private Paint labelBrush_;
 
   private boolean bottomAlign_;
   private boolean centreAlign_;
@@ -28,10 +33,10 @@ class OverlayButton
     this(image, null, left, top, curveRadius);
   } // OverlayButton
   
-  
   public OverlayButton(final Drawable image,
                        final Drawable altImage,
-                       final int left, final int top, 
+                       final int left, 
+                       final int top, 
                        final float curveRadius)
   {
     img_ = ((BitmapDrawable)image).getBitmap();
@@ -46,6 +51,30 @@ class OverlayButton
     alt_ = false;
     rightAlign_ = false;
   } // OverlayButton
+
+  public OverlayButton(final Drawable image, 
+                       final String label, 
+                       final int left, 
+                       final int top, 
+                       final int width, 
+                       final float curveRadius)
+  {
+    img_ = ((BitmapDrawable)image).getBitmap();
+    altImg_ = img_;
+    pos_ = new Rect(left, 
+                    top, 
+                    left + width, 
+                    top + image.getIntrinsicHeight());
+    radius_ = curveRadius;
+    enabled_ = true;
+    pressed_ = false;
+    alt_ = false;
+    rightAlign_ = false;
+    
+    label_ = label;
+    labelBrush_ = Brush.createTextBrush(pos_.height()/7, 255, 127, 127, 127);
+    labelBrush_.setTextAlign(Align.CENTER);
+  } // OverlayButton  
   
   public void enable(final boolean on) { enabled_ = on; }
   public boolean enabled() { return enabled_; }
@@ -60,6 +89,7 @@ class OverlayButton
   
   public int right() { return pos_.right;  }
   public int bottom() { return pos_.bottom; }
+  public int width() { return pos_.width(); }
   public int height() { return pos_.height(); }
   
   public void draw(final Canvas canvas)
@@ -84,6 +114,16 @@ class OverlayButton
     } // if ...
 
     DrawingHelper.drawBitmap(canvas, bitmap(), screen);
+    
+    if(label_ == null)
+      return;
+    
+    screen.left += img_.getWidth();
+    screen.offset(screen.width()/2, 0);
+    int y = Draw.measureTextInRect(canvas, labelBrush_, screen, label_);
+    int height = y - screen.top;
+    screen.top += (screen.height() - height) / 2;
+    Draw.drawTextInRect(canvas, labelBrush_, screen, label_);
   } // drawButton
   
   private Bitmap bitmap() 

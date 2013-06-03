@@ -35,12 +35,17 @@ public class Brush
 	
 	static public Paint createTextBrush(final int size)
 	{
-		final Paint paint = createFillBrush(255, 255, 255, 255);
+	  return createTextBrush(size, 255, 255, 255, 255);
+	} // createTextBrush
+	
+	static public Paint createTextBrush(final int size, final int a, final int r, final int g, final int b)
+	{
+    final Paint paint = createFillBrush(a, r, g, b);
 
-		paint.setTextAlign(Align.CENTER);
-		paint.setTypeface(Typeface.DEFAULT);
-		paint.setTextSize(size * 2);
-		
-		return paint;
+    paint.setTextAlign(Align.CENTER);
+    paint.setTypeface(Typeface.DEFAULT);
+    paint.setTextSize(size * 2);
+    
+    return paint;
 	} // createTextBrush
 } // Brushes
