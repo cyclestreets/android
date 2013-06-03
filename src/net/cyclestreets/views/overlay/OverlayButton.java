@@ -59,6 +59,7 @@ class OverlayButton
   public OverlayButton rightAlign() { rightAlign_ = true; return this; }
   
   public int right() { return pos_.right;  }
+  public int bottom() { return pos_.bottom; }
   public int height() { return pos_.height(); }
   
   public void draw(final Canvas canvas)
