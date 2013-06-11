@@ -33,8 +33,9 @@ public class LiveRideOverlay extends Overlay implements ServiceConnection
   private LiveRideService.Binding binding_;
   private final int offset_;
   private final float radius_;
-  private final Paint speedBrush_;
-  private final Paint textBrush_;
+  private final Paint largeTextBrush_;
+  private final Paint midTextBrush_;
+  private final Paint smallTextBrush_;
   private final int speedWidth_;
   private final int kmWidth_;
   private final int lineHeight_;
@@ -52,19 +53,21 @@ public class LiveRideOverlay extends Overlay implements ServiceConnection
     
     offset_ = DrawingHelper.offset(context);
     radius_ = DrawingHelper.cornerRadius(context);
-    speedBrush_ = Brush.createTextBrush(offset_*4);
-    speedBrush_.setTextAlign(Align.LEFT);
-    textBrush_ = Brush.createTextBrush(offset_);
-    textBrush_.setTextAlign(Align.LEFT);
+    largeTextBrush_ = Brush.createTextBrush(offset_*4);
+    largeTextBrush_.setTextAlign(Align.LEFT);
+    midTextBrush_ = Brush.createTextBrush(offset_*2);
+    midTextBrush_.setTextAlign(Align.LEFT);
+    smallTextBrush_ = Brush.createTextBrush(offset_);
+    smallTextBrush_.setTextAlign(Align.LEFT);
     
     iconMappings_ = TurnIcons.LoadMapping(context);
     formatter_ = DistanceFormatter.formatter(CycleStreetsPreferences.units());
     
-    speedWidth_ = (int)speedBrush_.measureText("0.0");
-    kmWidth_ = (int)textBrush_.measureText(formatter_.speedUnit());
+    speedWidth_ = (int)largeTextBrush_.measureText("0.0");
+    kmWidth_ = (int)midTextBrush_.measureText(formatter_.speedUnit());
 
     final Rect bounds = new Rect();
-    speedBrush_.getTextBounds("0.0", 0, 3, bounds); // Measure the text
+    largeTextBrush_.getTextBounds("0.0", 0, 3, bounds); // Measure the text
     lineHeight_ = bounds.height();
   } // LiveRideOverlay
 
@@ -105,18 +108,29 @@ public class LiveRideOverlay extends Overlay implements ServiceConnection
     if(Route.journey().atStart())
       return;
     
-    final String next = distanceUntilTurn() + "\n" + nextSeg.street();
+    final String distanceTo = distanceUntilTurn();
+    final String nextStreet = nextSeg.street();
     
-    final Rect textBox = canvas.getClipBounds();
-    textBox.left = box.right + (offset_*2);
-    textBox.right -= offset_;
-    textBox.top += offset_;
-    textBox.bottom = textBox.top + offset_;
-    int bottom = Draw.measureTextInRect(canvas, textBrush_, textBox, next);
-    textBox.bottom = bottom + offset_;
-
-    DrawingHelper.drawRoundRect(canvas, textBox, radius_, Brush.Grey);
-    Draw.drawTextInRect(canvas, textBrush_, textBox, next);
+    final Rect distanceToBox = canvas.getClipBounds();
+    distanceToBox.left = box.right + (offset_*2);
+    distanceToBox.right -= offset_;
+    distanceToBox.top += offset_;
+    distanceToBox.bottom = distanceToBox.top + offset_;
+    int bottom = Draw.measureTextInRect(canvas, midTextBrush_, distanceToBox, distanceTo);
+    distanceToBox.bottom = bottom + offset_;
+    
+    final Rect nextBox = new Rect(distanceToBox);
+    nextBox.top = distanceToBox.bottom;
+    nextBox.bottom = nextBox.top + offset_;
+    bottom = Draw.measureTextInRect(canvas, smallTextBrush_, nextBox, nextStreet);
+    nextBox.bottom = bottom + offset_;
+    
+    final Rect wrapperBox = new Rect(distanceToBox);
+    wrapperBox.bottom = nextBox.bottom;
+    
+    DrawingHelper.drawRoundRect(canvas, wrapperBox, radius_, Brush.Grey);
+    Draw.drawTextInRect(canvas, midTextBrush_, distanceToBox, distanceTo);
+    Draw.drawTextInRect(canvas, smallTextBrush_, nextBox, nextStreet);
 
     turnIcon.draw(canvas);
   } // drawNextTurn
@@ -149,9 +163,9 @@ public class LiveRideOverlay extends Overlay implements ServiceConnection
     box.left += offset_;
     box.bottom -= offset_;
     
-    canvas.drawText(speed, box.left, box.bottom, speedBrush_);
+    canvas.drawText(speed, box.left, box.bottom, largeTextBrush_);
     box.left += speedWidth_;
-    canvas.drawText(formatter_.speedUnit(), box.left, box.bottom, textBrush_);
+    canvas.drawText(formatter_.speedUnit(), box.left, box.bottom, midTextBrush_);
   } // drawSpeed
   
   ///////////////////////////
