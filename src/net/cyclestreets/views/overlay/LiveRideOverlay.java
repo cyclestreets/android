@@ -112,8 +112,8 @@ public class LiveRideOverlay extends Overlay implements ServiceConnection
     final String nextStreet = nextSeg.street();
     
     final Rect distanceToBox = canvas.getClipBounds();
-    distanceToBox.left = box.right + (offset_*2);
-    distanceToBox.right -= offset_;
+    distanceToBox.left = box.right + (offset_*3);
+    distanceToBox.right -= (offset_*2);
     distanceToBox.top += offset_;
     distanceToBox.bottom = distanceToBox.top + offset_;
     int bottom = Draw.measureTextInRect(canvas, midTextBrush_, distanceToBox, distanceTo);
@@ -126,6 +126,8 @@ public class LiveRideOverlay extends Overlay implements ServiceConnection
     nextBox.bottom = bottom + offset_;
     
     final Rect wrapperBox = new Rect(distanceToBox);
+    wrapperBox.left -= offset_;
+    wrapperBox.right += offset_;
     wrapperBox.bottom = nextBox.bottom;
     
     DrawingHelper.drawRoundRect(canvas, wrapperBox, radius_, Brush.Grey);
