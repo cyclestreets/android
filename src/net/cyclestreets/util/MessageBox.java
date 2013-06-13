@@ -2,6 +2,7 @@ package net.cyclestreets.util;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.view.View;
 
@@ -40,23 +41,28 @@ public class MessageBox
   
   static public void OK(final View parent, final int msg)
   {
-    OK(parent, parent.getContext().getString(msg));
+    OK(parent.getContext(), parent.getContext().getString(msg));
   } // OK
   
-  static public void OK(final View parent, final String msg)
-  {
-    OK(parent, msg, NoAction);
-  } // OK
+  static public void OK(final View parent, final String msg) { OK(parent.getContext(), msg); } 
+  static public void OK(final Context context, final String msg) { OK(context, msg, NoAction); }
   
   static public void OK(final View parent,
                         final String msg,
+                        final DialogInterface.OnClickListener okAction) 
+  { OK(parent.getContext(), msg, okAction); }
+  
+  static public void OK(final Context context,
+                        final String msg,
                         final DialogInterface.OnClickListener okAction)
   {
-    final AlertDialog.Builder alertbox = Dialog.newBuilder(parent);
+    final AlertDialog.Builder alertbox = Dialog.newBuilder(context);
     alertbox.setMessage(msg)
             .setPositiveButton("OK", okAction);
     Dialog.show(alertbox);
   } // OK
+  
+  
   
   static public void OKAndFinish(final View view,
                                  final String msg,
