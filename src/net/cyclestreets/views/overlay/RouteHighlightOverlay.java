@@ -6,6 +6,7 @@ import net.cyclestreets.routing.Route;
 import net.cyclestreets.routing.Segment;
 import net.cyclestreets.util.Brush;
 import net.cyclestreets.util.Draw;
+import net.cyclestreets.util.GPS;
 import net.cyclestreets.views.CycleMapView;
 
 import org.osmdroid.views.MapView;
@@ -29,6 +30,7 @@ public class RouteHighlightOverlay extends Overlay
   private final OverlayButton prevButton_;
   private final OverlayButton nextButton_;
   private final OverlayButton liveRideButton_;
+  private final boolean hasGps_;
 
   private final int offset_;
   private final float radius_;
@@ -36,7 +38,7 @@ public class RouteHighlightOverlay extends Overlay
   private final Paint textBrush_;
   
   private final Context context_;
-
+  
   public RouteHighlightOverlay(final Context context, final CycleMapView map)
   {
     super(context);
@@ -68,9 +70,12 @@ public class RouteHighlightOverlay extends Overlay
                                         (prevButton_.width() * 2) + offset_,                                        
                                         radius_);
     liveRideButton_.bottomAlign();
+    
 
     textBrush_ = Brush.createTextBrush(offset_);
     textBrush_.setTextAlign(Align.LEFT);
+    
+    hasGps_ = GPS.deviceHasGPS(context);
   } // MapActivityPathOverlay
 	
   @Override
@@ -99,7 +104,7 @@ public class RouteHighlightOverlay extends Overlay
     nextButton_.enable(!Route.journey().atEnd());
     nextButton_.draw(canvas);
     
-    if(Route.available())
+    if(hasGps_)
       liveRideButton_.draw(canvas);
   } // drawButtons
 	
@@ -136,7 +141,7 @@ public class RouteHighlightOverlay extends Overlay
     if(!Route.available())
       return false;
         
-    if(liveRideButton_.hit(event))
+    if(hasGps_ && liveRideButton_.hit(event))
     {
       startLiveRide();
       return true;

@@ -24,7 +24,14 @@ public class MessageBox
                            final String msg,
                            final DialogInterface.OnClickListener yesAction)
   {
-    YesNo(parent, msg, yesAction, NoAction);
+    YesNo(parent.getContext(), msg, yesAction);
+  }
+  
+  static public void YesNo(final Context context,
+                           final String msg,
+                           final DialogInterface.OnClickListener yesAction)
+  {
+    YesNo(context, msg, yesAction, NoAction);
   } // YesNo
   
   static public void YesNo(final View parent, 
@@ -32,7 +39,15 @@ public class MessageBox
                            final DialogInterface.OnClickListener yesAction,
                            final DialogInterface.OnClickListener noAction)
   {
-    final AlertDialog.Builder alertbox = Dialog.newBuilder(parent);
+    YesNo(parent.getContext(), msg, yesAction, noAction);
+  }
+
+  static public void YesNo(final Context context, 
+      final String msg, 
+      final DialogInterface.OnClickListener yesAction,
+      final DialogInterface.OnClickListener noAction)
+{
+    final AlertDialog.Builder alertbox = Dialog.newBuilder(context);
     alertbox.setMessage(msg)
             .setPositiveButton("Yes", yesAction)
             .setNegativeButton("No", noAction);

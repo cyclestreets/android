@@ -2,6 +2,7 @@ package net.cyclestreets;
 
 import net.cyclestreets.CycleStreetsConstants;
 import net.cyclestreets.R;
+import net.cyclestreets.util.GPS;
 import net.cyclestreets.util.MessageBox;
 import net.cyclestreets.util.GeoIntent;
 import net.cyclestreets.views.overlay.POIOverlay;
@@ -33,6 +34,7 @@ public class RouteMapFragment extends CycleMapFragment
 {
 	private TapToRouteOverlay routeSetter_;
 	private POIOverlay poiOverlay_;
+	private boolean hasGps_;
 	
 	@Override
   public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle saved)
@@ -48,6 +50,8 @@ public class RouteMapFragment extends CycleMapFragment
 	  
 	  routeSetter_ = new TapToRouteOverlay(getActivity(), mapView());
 	  overlayPushTop(routeSetter_);
+	  
+	  hasGps_ = GPS.deviceHasGPS(getActivity());
 	  
 	  return v;
   } // onCreate
@@ -94,7 +98,7 @@ public class RouteMapFragment extends CycleMapFragment
 	@Override
 	public void onPrepareOptionsMenu(final Menu menu)
 	{
-    showMenuItem(menu, R.string.ic_menu_liveride, Route.available());
+    showMenuItem(menu, R.string.ic_menu_liveride, Route.available() && hasGps_);
 	  enableMenuItem(menu, R.string.ic_menu_directions, true);
 	  showMenuItem(menu, R.string.ic_menu_saved_routes, Route.storedCount() != 0);
 	  enableMenuItem(menu, R.string.ic_menu_route_number, true);

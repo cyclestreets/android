@@ -1,5 +1,6 @@
 package net.cyclestreets;
 
+import net.cyclestreets.util.GPS;
 import net.cyclestreets.util.MessageBox;
 import net.cyclestreets.views.CycleMapView;
 import net.cyclestreets.views.overlay.LiveRideOverlay;
@@ -7,8 +8,8 @@ import net.cyclestreets.views.overlay.LockScreenOnOverlay;
 import net.cyclestreets.views.overlay.RouteOverlay;
 import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
-import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager.LayoutParams;
 import android.widget.RelativeLayout;
@@ -17,18 +18,18 @@ public class LiveRideActivity extends Activity
 {
   static public void launch(final Context context) 
   {
-    if(!isGPSOn(context)) {
-      MessageBox.OK(context, "LiveRide needs the GPS location.  Please turn it on.");
+    if(!GPS.isOn(context)) {
+      MessageBox.YesNo(context, 
+                       "LiveRide needs the GPS location service.\n\nWould you like to turn it on now?",
+                       new DialogInterface.OnClickListener() {
+                          public void onClick(DialogInterface arg0, int arg1) { 
+                            GPS.showSettings(context);
+                          }
+                       });
       return;
     }
     launchActivity(context);
   } // launch
-  
-  static private boolean isGPSOn(final Context context)
-  {
-    final LocationManager service = (LocationManager)context.getSystemService(LOCATION_SERVICE);
-    return service.isProviderEnabled(LocationManager.GPS_PROVIDER);
-  } // isGPSOn
   
   static private void launchActivity(final Context context) 
   {
