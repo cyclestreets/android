@@ -36,6 +36,9 @@ public class LocationOverlay extends MyLocationOverlay
 	{
 		super(context, mapView);
 		
+		setLocationUpdateMinTime(500);
+		setLocationUpdateMinDistance(10);
+		
 		mapView_ = mapView;
 		
 		offset_ = DrawingHelper.offset(context);

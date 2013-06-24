@@ -21,6 +21,9 @@ public class LiveRideService extends Service
   private LocationManager locationManager_;
   private Location lastLocation_;
   private LiveRideState stage_;
+  
+  private static int updateDistance = 5;  // metres
+  private static int updateTime = 500;    // milliseconds
 
   @Override
   public void onCreate()
@@ -55,7 +58,7 @@ public class LiveRideService extends Service
       return;
     
     stage_ = LiveRideState.InitialState(this);
-    locationManager_.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
+    locationManager_.requestLocationUpdates(LocationManager.GPS_PROVIDER, updateTime, updateDistance, this);
   } // startRiding
 
   public void stopRiding()
