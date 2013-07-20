@@ -50,7 +50,7 @@ public class GeoPlaces implements Iterable<GeoPlace>
                   bounds.getLonEastE6() / 1E6,
                   bounds.getLonWestE6() / 1E6);
   } // search
-  
+
   static public GeoPlaces search(final String searchTerm,
                                  double n,
                                  double s,

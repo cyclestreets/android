@@ -108,7 +108,7 @@ public class PhotomapCategories
     public String description() { return description_; }
     public long ordering() { return ordering_; }
   } // class Listener
-  
+
   static private class PhotomapCategoriesFactory extends Factory<PhotomapCategories>
   {    
     private PhotomapCategories cats_;

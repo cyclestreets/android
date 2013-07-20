@@ -60,7 +60,7 @@ public class Photos implements Iterable<Photo>
   {
     return ApiClient.getPhotos(clong, clat, zoom, e, w, n, s);
   } // load
-  
+
   ////////////////////////////////////////////////////
   static public Factory<Photos> factory() { 
     return new PhotosFactory();
