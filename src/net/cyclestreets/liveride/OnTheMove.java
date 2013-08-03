@@ -6,12 +6,12 @@ final class OnTheMove extends MovingState
 {
   OnTheMove(final LiveRideState previous) 
   {
-    super(previous, NEAR_DISTANCE);
+    super(previous, APPROACHING_TURN);
   } // OnTheMove
   
   @Override
   protected LiveRideState transitionState(final Journey journey)
   {
-    return new NearingTurn(this);
+    return new NearingTurn(this, journey);
   } // transitionStatue
 } // class OnTheMove

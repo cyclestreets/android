@@ -1,13 +1,16 @@
 package net.cyclestreets.liveride;
 
+import net.cyclestreets.routing.Segment;
 import net.cyclestreets.routing.Journey;
 
 final class NearingTurn extends MovingState
 {
-  NearingTurn(final LiveRideState previous) 
+  NearingTurn(final LiveRideState previous, final Journey journey) 
   {
-    super(previous, IMMEDIATE_DISTANCE);
-    notify("Get ready");
+    super(previous, TURN_NOW);
+    
+    final Segment segment = journey.segments().get(journey.activeSegmentIndex()+1);
+    notify("Get ready to " + segment.turn());
   } // NearingEnd
 
   @Override

@@ -38,7 +38,7 @@ final class HuntForSegment extends LiveRideState
     
     distance -= accuracy;
 
-    if(distance > FAR_DISTANCE)
+    if(distance > RIGHT_OFF_PISTE)
       return new ReplanFromHere(this, whereIam);
 
     if(nearestSeg == journey.activeSegment())

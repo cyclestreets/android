@@ -31,13 +31,13 @@ final class GoingOffCourse extends LiveRideState
     
     distance -= accuracy;
     
-    if(distance > FAR_DISTANCE)
+    if(distance > RIGHT_OFF_PISTE)
       return new ReplanFromHere(this, whereIam);
     
     if(nearestSeg != journey.activeSegment())
       return new AdvanceToSegment(this, journey, nearestSeg);
 
-    if(distance <= NEAR_DISTANCE-5) {
+    if(distance <= OFF_PISTE-5) {
       notify("Getting back on track");
       return new OnTheMove(this);
     }
