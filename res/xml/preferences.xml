@@ -56,8 +56,8 @@
 		<ListPreference
 			android:key="immediate-distance"
 			android:title="Turn warning distance"
-			android:summary="15 m"
-			android:defaultValue="15"
+			android:summary="100 m"
+			android:defaultValue="100"
 			android:entries="@array/distance"
 			android:entryValues="@array/distance_values" />
 		<ListPreference

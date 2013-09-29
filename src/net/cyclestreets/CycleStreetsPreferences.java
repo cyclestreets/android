@@ -114,7 +114,7 @@ public class CycleStreetsPreferences
   } // setBlogNotifications
   
   static public int immediateDistance() {
-    return Integer.parseInt(getString(PREF_IMMEDIATE_DISTANCE, "15"));
+    return Integer.parseInt(getString(PREF_IMMEDIATE_DISTANCE, "100"));
   }
 
   static public int nearDistance() {
