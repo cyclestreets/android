@@ -1,12 +1,13 @@
 package net.cyclestreets.liveride;
 
+import net.cyclestreets.CycleStreetsPreferences;
 import net.cyclestreets.routing.Journey;
 
 final class NearingTurn extends MovingState
 {
   NearingTurn(final LiveRideState previous) 
   {
-    super(previous, IMMEDIATE_DISTANCE);
+    super(previous, CycleStreetsPreferences.immediateDistance());
     notify("Get ready");
   } // NearingEnd
 

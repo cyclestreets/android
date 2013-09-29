@@ -51,6 +51,30 @@
 		  android:title="@string/blog_notifications"
 		  android:defaultValue="true"/>
 	</PreferenceCategory>
+	<PreferenceCategory
+		android:title="LiveRide">
+		<ListPreference
+			android:key="immediate-distance"
+			android:title="Turn warning distance"
+			android:summary="15 m"
+			android:defaultValue="15"
+			android:entries="@array/distance"
+			android:entryValues="@array/distance_values" />
+		<ListPreference
+			android:key="near-distance"
+			android:title="Going off course distance"
+			android:summary="30 m"
+			android:defaultValue="30"
+			android:entries="@array/distance"
+			android:entryValues="@array/distance_values" />
+		<ListPreference
+			android:key="far-distance"
+			android:title="Route replanning distance"
+			android:summary="50 m"
+			android:defaultValue="50"
+			android:entries="@array/distance"
+			android:entryValues="@array/distance_values" />
+	</PreferenceCategory>
     <PreferenceCategory
     	android:title="CycleStreets Account">
 		<PreferenceScreen

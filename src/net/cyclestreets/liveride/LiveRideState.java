@@ -18,10 +18,6 @@ public abstract class LiveRideState
 {
   private static final int NOTIFICATION_ID = 1;
   
-  protected static final int FAR_DISTANCE = 50;
-  protected static final int NEAR_DISTANCE = 30;
-  protected static final int IMMEDIATE_DISTANCE = 15;
-
   static public LiveRideState InitialState(final Context context) 
   { 
     final TextToSpeech tts = new TextToSpeech(context, 

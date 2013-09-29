@@ -1,12 +1,13 @@
 package net.cyclestreets.liveride;
 
+import net.cyclestreets.CycleStreetsPreferences;
 import net.cyclestreets.routing.Journey;
 
 final class OnTheMove extends MovingState
 {
   OnTheMove(final LiveRideState previous) 
   {
-    super(previous, NEAR_DISTANCE);
+    super(previous, CycleStreetsPreferences.nearDistance());
   } // OnTheMove
   
   @Override
