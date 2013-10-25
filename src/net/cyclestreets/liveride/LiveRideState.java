@@ -18,12 +18,6 @@ public abstract class LiveRideState
 {
   private static final int NOTIFICATION_ID = 1;
   
-  protected static final int RIGHT_OFF_PISTE = 50;
-  protected static final int OFF_PISTE = 30;
-
-  protected static final int APPROACHING_TURN = 40;
-  protected static final int TURN_NOW = 20;
-
   static public LiveRideState InitialState(final Context context) 
   { 
     final TextToSpeech tts = new TextToSpeech(context, 

@@ -1,5 +1,6 @@
 package net.cyclestreets.liveride;
 
+import net.cyclestreets.CycleStreetsPreferences;
 import net.cyclestreets.routing.Journey;
 import net.cyclestreets.routing.Segment;
 
@@ -31,13 +32,13 @@ final class GoingOffCourse extends LiveRideState
     
     distance -= accuracy;
     
-    if(distance > RIGHT_OFF_PISTE)
+    if(distance > CycleStreetsPreferences.farDistance())
       return new ReplanFromHere(this, whereIam);
     
     if(nearestSeg != journey.activeSegment())
       return new AdvanceToSegment(this, journey, nearestSeg);
 
-    if(distance <= OFF_PISTE-5) {
+    if(distance <= CycleStreetsPreferences.nearDistance() - 5) {
       notify("Getting back on track");
       return new OnTheMove(this);
     }

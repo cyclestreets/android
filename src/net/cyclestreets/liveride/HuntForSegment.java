@@ -1,5 +1,6 @@
 package net.cyclestreets.liveride;
 
+import net.cyclestreets.CycleStreetsPreferences;
 import net.cyclestreets.routing.Journey;
 import net.cyclestreets.routing.Segment;
 
@@ -38,7 +39,7 @@ final class HuntForSegment extends LiveRideState
     
     distance -= accuracy;
 
-    if(distance > RIGHT_OFF_PISTE)
+    if(distance > CycleStreetsPreferences.farDistance())
       return new ReplanFromHere(this, whereIam);
 
     if(nearestSeg == journey.activeSegment())

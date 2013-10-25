@@ -1,5 +1,6 @@
 package net.cyclestreets.liveride;
 
+import net.cyclestreets.CycleStreetsPreferences;
 import net.cyclestreets.routing.Journey;
 
 import org.osmdroid.util.GeoPoint;
@@ -32,10 +33,10 @@ abstract class MovingState extends LiveRideState
     int distance = journey.activeSegment().distanceFrom(whereIam);
     distance -= accuracy;
     
-    if(distance > RIGHT_OFF_PISTE)
+    if(distance > CycleStreetsPreferences.farDistance())
       return new ReplanFromHere(this, whereIam);
 
-    if(distance > OFF_PISTE)
+    if(distance > CycleStreetsPreferences.nearDistance())
       return new GoingOffCourse(this);
       
     return this;
