@@ -12,7 +12,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.InputFilter;
-import android.text.Spanned;
+import android.text.LoginFilter;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -363,21 +363,14 @@ public class AccountDetailsActivity extends Activity
     } // onPostExecute
   } // class RegisterTask  
   
-  private class WhitespaceInputFilter implements InputFilter
-  { 
-    public CharSequence filter(CharSequence source, 
-                               int start, int end, 
-                               Spanned dest, 
-                               int dstart, int dend) 
-    { 
-      StringBuilder sb = new StringBuilder();
-      for (int i = start; i < end; i++) { 
-        char c = source.charAt(i);
-        if (!Character.isWhitespace(c)) { 
-          sb.append(c); 
-        } 
-      } 
-      return sb.toString(); 
-    } // filter
+  private class WhitespaceInputFilter extends LoginFilter.UsernameFilterGeneric {
+    public WhitespaceInputFilter() {
+      super(false);
+    }
+
+    @Override
+    public boolean isAllowed(char c) {
+      return !Character.isWhitespace(c);
+    }
   } // class WhitespaceInputFilter
 } // class AccountDetailsActivity
