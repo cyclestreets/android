@@ -39,7 +39,7 @@ final class HuntForSegment extends LiveRideState
     
     distance -= accuracy;
 
-    if(distance > CycleStreetsPreferences.farDistance())
+    if(distance > CycleStreetsPreferences.replanDistance())
       return new ReplanFromHere(this, whereIam);
 
     if(nearestSeg == journey.activeSegment())

@@ -35,9 +35,9 @@ public class SettingsActivity extends PreferenceActivity
     setSummary(CycleStreetsPreferences.PREF_MAPFILE_KEY);
     setSummary(CycleStreetsPreferences.PREF_ICON_SIZE);
     setSummary(CycleStreetsPreferences.PREF_UPLOAD_SIZE);
-    setSummary(CycleStreetsPreferences.PREF_IMMEDIATE_DISTANCE);
-    setSummary(CycleStreetsPreferences.PREF_NEAR_DISTANCE);
-    setSummary(CycleStreetsPreferences.PREF_FAR_DISTANCE);
+    setSummary(CycleStreetsPreferences.PREF_NEARING_TURN);
+    setSummary(CycleStreetsPreferences.PREF_OFFTRACK_DISTANCE);
+    setSummary(CycleStreetsPreferences.PREF_REPLAN_DISTANCE);
   } // onCreate
   
   private void setupMapFileList()

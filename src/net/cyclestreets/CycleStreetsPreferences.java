@@ -27,9 +27,10 @@ public class CycleStreetsPreferences
   public final static String PREF_UPLOAD_SIZE = "uploadsize";
   public final static String PREF_ICON_SIZE = "iconsize";
   public final static String PREF_BLOG_NOTIFICATIONS = "blog-notifications";
-  public final static String PREF_IMMEDIATE_DISTANCE = "immediate-distance";
-  public final static String PREF_NEAR_DISTANCE = "near-distance";
-  public final static String PREF_FAR_DISTANCE = "far-distance";
+  public final static String PREF_TURN_NOW = "turn-now-distance";
+  public final static String PREF_NEARING_TURN = "nearing-turn-distance";
+  public final static String PREF_OFFTRACK_DISTANCE = "offtrack-distance";
+  public final static String PREF_REPLAN_DISTANCE = "replan-distance";
   
   public final static String MAPSTYLE_OCM = "CycleStreets";
   public final static String MAPSTYLE_OSM = "CycleStreets-OSM";
@@ -113,16 +114,20 @@ public class CycleStreetsPreferences
     putBoolean(PREF_BLOG_NOTIFICATIONS, active);
   } // setBlogNotifications
   
-  static public int immediateDistance() {
-    return Integer.parseInt(getString(PREF_IMMEDIATE_DISTANCE, "100"));
+  static public int turnNowDistance() {
+    return Integer.parseInt(getString(PREF_TURN_NOW, "15"));
+  }
+  
+  static public int nearingTurnDistance() {
+    return Integer.parseInt(getString(PREF_NEARING_TURN, "50"));
   }
 
-  static public int nearDistance() {
-    return Integer.parseInt(getString(PREF_NEAR_DISTANCE, "30"));
+  static public int offtrackDistance() {
+    return Integer.parseInt(getString(PREF_OFFTRACK_DISTANCE, "30"));
   }
 
-  static public int farDistance() {
-    return Integer.parseInt(getString(PREF_FAR_DISTANCE, "50"));
+  static public int replanDistance() {
+    return Integer.parseInt(getString(PREF_REPLAN_DISTANCE, "50"));
   }
 
   static public boolean uploadSmallImages() {

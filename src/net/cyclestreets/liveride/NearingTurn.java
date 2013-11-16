@@ -9,7 +9,7 @@ final class NearingTurn extends MovingState
 {
   NearingTurn(final LiveRideState previous, final Journey journey) 
   {
-    super(previous, CycleStreetsPreferences.immediateDistance());
+    super(previous, CycleStreetsPreferences.turnNowDistance());
     
     final Segment segment = journey.segments().get(journey.activeSegmentIndex()+1);
     notify("Get ready to " + segment.turn());

@@ -7,7 +7,7 @@ final class OnTheMove extends MovingState
 {
   OnTheMove(final LiveRideState previous) 
   {
-    super(previous, CycleStreetsPreferences.nearDistance());
+    super(previous, CycleStreetsPreferences.nearingTurnDistance());
   } // OnTheMove
   
   @Override
