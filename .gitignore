@@ -3,3 +3,5 @@ bin
 gen
 local.properties
 lint.xml
+.gradle
+*~

@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="4865c504-b581-430d-88de-cb23969a69af" name="Default" comment="">
-      <change type="DELETED" beforePath="C:\work\CycleStreets\master\.project" afterPath="" />
-    </list>
+    <list default="true" id="4865c504-b581-430d-88de-cb23969a69af" name="Default" comment="" />
     <ignored path="master.iws" />
     <ignored path=".idea/workspace.xml" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -510,6 +508,7 @@
     <property name="options.splitter.details.proportions" value="0.2" />
     <property name="MemberChooser.copyJavadoc" value="false" />
     <property name="recentsLimit" value="5" />
+    <property name="FullScreen" value="false" />
   </component>
   <component name="RunManager" selected="Android Application.master">
     <configuration default="true" type="AndroidTestRunConfigurationType" factoryName="Android Tests">
