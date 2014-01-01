@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+	    android:orientation="vertical"
+	    android:layout_width="fill_parent"
+	    android:layout_height="wrap_content"
+	    android:clipChildren="false"
+	    android:paddingLeft="9dip"
+	    android:paddingRight="9dip"
+	    android:paddingTop="12dip"
+	    android:paddingBottom="6dip"
+	    android:background="@drawable/route_bg">
+	<LinearLayout
+	    android:orientation="vertical"
+      android:layout_width="fill_parent"
+      android:layout_height="wrap_content">
+	 <LinearLayout
+	    android:id="@+id/places"
+	    android:orientation="vertical"
+      android:layout_width="fill_parent"
+      android:layout_height="wrap_content"
+      android:layout_marginLeft="2.0dip" 
+      android:layout_marginTop="1.0dip" 
+      android:layout_marginRight="2.0dip" 
+      android:layout_marginBottom="2.0dip">
+  </LinearLayout>            
+  <!-- Route type / Go =============================== -->
+  <LinearLayout
+	android:orientation="horizontal"
+	android:layout_width="fill_parent"
+	android:layout_height="wrap_content"
+	android:layout_marginLeft="2.0dip" 
+	android:layout_marginTop="1.0dip" 
+	android:layout_marginRight="4.0dip" 
+	android:layout_marginBottom="5.0dip">
+	<LinearLayout
+	    android:orientation="vertical"
+	    android:layout_width="wrap_content"
+	    android:layout_height="fill_parent">
+
+      <Button
+          android:id="@+id/addVia"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:text="@string/addvia" />
+	   <RadioGroup
+	     android:id="@+id/routeTypeGroup"
+	     android:orientation="horizontal"
+	     android:layout_width="wrap_content"
+	     android:layout_height="wrap_content">
+      <RadioButton
+		android:id="@+id/routeQuietest"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_weight="1.0"
+		android:background="@drawable/route_quiet"
+		android:button="@drawable/empty"/>
+     <RadioButton
+    	android:id="@+id/routeBalanced"
+    	android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:background="@drawable/route_balanced"
+	    android:button="@drawable/empty"
+	    android:layout_weight="1.0"/>
+     <RadioButton
+    	android:id="@+id/routeFastest"
+    	android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:background="@drawable/route_fast"
+	    android:button="@drawable/empty"
+	    android:layout_weight="1.0"/>
+     <RadioButton
+    	android:id="@+id/routeShortest"
+    	android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:background="@drawable/route_short"
+	    android:button="@drawable/empty"
+	    android:layout_weight="1.0"/>
+   </RadioGroup>
+  </LinearLayout>				
+
+   <Button
+       android:id="@+id/routeGo"
+       android:layout_width="match_parent"
+       android:layout_height="fill_parent"
+       android:text="@string/go" />
+
+  </LinearLayout>
+  </LinearLayout>
+</ScrollView>
