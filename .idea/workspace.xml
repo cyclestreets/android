@@ -2,7 +2,454 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="4865c504-b581-430d-88de-cb23969a69af" name="Default" comment="">
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\build.gradle" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\libs\acra-4.2.3.jar" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\libs\android-support-v4.jar" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\libs\apache-mime4j-0.6.jar" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\libs\httpmime-4.0.1.jar" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\libs\mapsforge-map-0.3.0-jar-with-dependencies.jar" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\libs\osmdroid-android-3.0.8.jar" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\libs\slf4j-android-1.5.8.jar" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\AndroidManifest.xml" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\assets\balanced.svg" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\assets\balanced_icon.svg" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\assets\car.svg" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\assets\credits.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\assets\donate.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\assets\donate.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\assets\fast.svg" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\assets\fast_icon.svg" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\assets\ic_bicycle.svg" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\assets\logo.svg" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\assets\logo.xcf" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\assets\quiet.svg" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\assets\quiet2.svg" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\assets\quiet_icon.svg" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\assets\renderTheme.xsd" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\assets\rendertheme\osmarender.xml" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\assets\rendertheme\patterns\access-destination.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\assets\rendertheme\patterns\access-private.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\assets\rendertheme\patterns\cemetery.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\assets\rendertheme\patterns\marsh.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\assets\rendertheme\patterns\military.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\assets\rendertheme\patterns\nature-reserve.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\assets\rendertheme\patterns\wood-coniferous.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\assets\rendertheme\patterns\wood-deciduous.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\assets\rendertheme\patterns\wood-mixed.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\assets\rendertheme\symbols\airport.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\assets\rendertheme\symbols\alpine_hut.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\assets\rendertheme\symbols\atm.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\assets\rendertheme\symbols\bakery.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\assets\rendertheme\symbols\bank.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\assets\rendertheme\symbols\bench.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\assets\rendertheme\symbols\bicycle_rental.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\assets\rendertheme\symbols\bus.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\assets\rendertheme\symbols\bus_sta.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\assets\rendertheme\symbols\cable_car.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\assets\rendertheme\symbols\cafe.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\assets\rendertheme\symbols\campSite.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\assets\rendertheme\symbols\cave_entrance.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\assets\rendertheme\symbols\chair_lift_2.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\assets\rendertheme\symbols\church.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\assets\rendertheme\symbols\cinema.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\assets\rendertheme\symbols\drinking_water.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\assets\rendertheme\symbols\fastfood.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\assets\rendertheme\symbols\firebrigade.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\assets\rendertheme\symbols\florist.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\assets\rendertheme\symbols\fountain.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\assets\rendertheme\symbols\gondola.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\assets\rendertheme\symbols\helipad.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\assets\rendertheme\symbols\hospital.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\assets\rendertheme\symbols\hostel.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\assets\rendertheme\symbols\hotel.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\assets\rendertheme\symbols\information.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\assets\rendertheme\symbols\kindergarten.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\assets\rendertheme\symbols\library.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\assets\rendertheme\symbols\mosque.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\assets\rendertheme\symbols\oneway.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\assets\rendertheme\symbols\parking.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\assets\rendertheme\symbols\peak.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\assets\rendertheme\symbols\petrolStation.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\assets\rendertheme\symbols\pharmacy.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\assets\rendertheme\symbols\playground.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\assets\rendertheme\symbols\postbox.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\assets\rendertheme\symbols\postoffice.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\assets\rendertheme\symbols\pub.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\assets\rendertheme\symbols\railway-crossing-small.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\assets\rendertheme\symbols\railway-crossing.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\assets\rendertheme\symbols\recycling.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\assets\rendertheme\symbols\restaurant.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\assets\rendertheme\symbols\school.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\assets\rendertheme\symbols\shelter.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\assets\rendertheme\symbols\soccer-borderless.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\assets\rendertheme\symbols\supermarket.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\assets\rendertheme\symbols\synagogue.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\assets\rendertheme\symbols\telephone.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\assets\rendertheme\symbols\tennis.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\assets\rendertheme\symbols\theatre.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\assets\rendertheme\symbols\toilets.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\assets\rendertheme\symbols\traffic_signal.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\assets\rendertheme\symbols\tree.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\assets\rendertheme\symbols\university.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\assets\rendertheme\symbols\viewpoint.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\assets\rendertheme\symbols\vulcan.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\assets\rendertheme\symbols\windmill.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\assets\route_bg.svg" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\assets\routes.9.xcf" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\assets\whatsnew.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\java\net\cyclestreets\AboutActivity.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\java\net\cyclestreets\AccountDetailsActivity.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\java\net\cyclestreets\ActivityId.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\java\net\cyclestreets\BlogActivity.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\java\net\cyclestreets\CycleMapFragment.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\java\net\cyclestreets\CycleStreets.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\java\net\cyclestreets\CycleStreetsApp.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\java\net\cyclestreets\CycleStreetsConstants.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\java\net\cyclestreets\CycleStreetsPreferences.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\java\net\cyclestreets\DisplayPhotoActivity.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\java\net\cyclestreets\FeedbackActivity.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\java\net\cyclestreets\FindPlaceActivity.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\java\net\cyclestreets\FragmentHelper.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\java\net\cyclestreets\ItineraryFragment.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\java\net\cyclestreets\LiveRideActivity.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\java\net\cyclestreets\MoreFragment.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\java\net\cyclestreets\PhotoMapFragment.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\java\net\cyclestreets\PhotoUploadFragment.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\java\net\cyclestreets\RegularUpdates.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\java\net\cyclestreets\RouteByAddressActivity.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\java\net\cyclestreets\RouteMapFragment.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\java\net\cyclestreets\RouteNumberActivity.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\java\net\cyclestreets\SettingsActivity.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\java\net\cyclestreets\StoredRoutesActivity.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\java\net\cyclestreets\Undoable.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\java\net\cyclestreets\api\ApiCallCache.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\java\net\cyclestreets\api\ApiClient.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\java\net\cyclestreets\api\Blog.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\java\net\cyclestreets\api\BlogEntry.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\java\net\cyclestreets\api\DistanceFormatter.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\java\net\cyclestreets\api\Factory.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\java\net\cyclestreets\api\Feedback.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\java\net\cyclestreets\api\GeoAdapter.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\java\net\cyclestreets\api\GeoLiveAdapter.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\java\net\cyclestreets\api\GeoPlace.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\java\net\cyclestreets\api\GeoPlaces.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\java\net\cyclestreets\api\GeoStaticAdapter.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\java\net\cyclestreets\api\Journey.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\java\net\cyclestreets\api\JourneyPlanner.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\java\net\cyclestreets\api\POI.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\java\net\cyclestreets\api\POICategories.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\java\net\cyclestreets\api\POICategory.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\java\net\cyclestreets\api\Photo.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\java\net\cyclestreets\api\PhotoMarkers.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\java\net\cyclestreets\api\PhotomapCategories.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\java\net\cyclestreets\api\PhotomapCategory.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\java\net\cyclestreets\api\Photos.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\java\net\cyclestreets\api\Registration.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\java\net\cyclestreets\api\Segment.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\java\net\cyclestreets\api\Signin.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\java\net\cyclestreets\api\Upload.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\java\net\cyclestreets\contacts\Contact.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\java\net\cyclestreets\contacts\Contacts.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\java\net\cyclestreets\content\DatabaseHelper.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\java\net\cyclestreets\content\RouteData.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\java\net\cyclestreets\content\RouteDatabase.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\java\net\cyclestreets\content\RouteSummary.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\java\net\cyclestreets\liveride\AdvanceToSegment.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\java\net\cyclestreets\liveride\Arrivee.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\java\net\cyclestreets\liveride\GoingOffCourse.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\java\net\cyclestreets\liveride\HuntForSegment.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\java\net\cyclestreets\liveride\LiveRideService.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\java\net\cyclestreets\liveride\LiveRideStart.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\java\net\cyclestreets\liveride\LiveRideState.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\java\net\cyclestreets\liveride\MovingState.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\java\net\cyclestreets\liveride\NearingTurn.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\java\net\cyclestreets\liveride\OnTheMove.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\java\net\cyclestreets\liveride\PassingWaypoint.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\java\net\cyclestreets\liveride\ReplanFromHere.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\java\net\cyclestreets\liveride\Stopped.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\java\net\cyclestreets\routing\CycleStreetsRoutingTask.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\java\net\cyclestreets\routing\DistanceFormatter.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\java\net\cyclestreets\routing\FetchCycleStreetsRouteTask.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\java\net\cyclestreets\routing\Journey.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\java\net\cyclestreets\routing\ReplanRoutingTask.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\java\net\cyclestreets\routing\Route.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\java\net\cyclestreets\routing\RoutingTask.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\java\net\cyclestreets\routing\Segment.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\java\net\cyclestreets\routing\Segments.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\java\net\cyclestreets\routing\StoredRoutingTask.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\java\net\cyclestreets\routing\Waypoints.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\java\net\cyclestreets\util\Base64.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\java\net\cyclestreets\util\Bitmaps.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\java\net\cyclestreets\util\Brush.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\java\net\cyclestreets\util\Collections.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\java\net\cyclestreets\util\Dialog.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\java\net\cyclestreets\util\Draw.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\java\net\cyclestreets\util\EditTextHistory.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\java\net\cyclestreets\util\GPS.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\java\net\cyclestreets\util\GeoHelper.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\java\net\cyclestreets\util\GeoIntent.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\java\net\cyclestreets\util\ImageDownloader.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\java\net\cyclestreets\util\IterableIterator.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\java\net\cyclestreets\util\ListDialog.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\java\net\cyclestreets\util\ListFactory.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\java\net\cyclestreets\util\MapFactory.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\java\net\cyclestreets\util\MapPack.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\java\net\cyclestreets\util\MessageBox.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\java\net\cyclestreets\util\RouteTypeMapper.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\java\net\cyclestreets\util\Share.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\java\net\cyclestreets\util\TurnIcons.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\java\net\cyclestreets\views\CycleMapView.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\java\net\cyclestreets\views\PlaceAutoCompleteTextView.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\java\net\cyclestreets\views\PlaceView.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\java\net\cyclestreets\views\PlaceViewBase.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\java\net\cyclestreets\views\PlaceViewWithCancel.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\java\net\cyclestreets\views\overlay\ButtonTapListener.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\java\net\cyclestreets\views\overlay\ContextMenuListener.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\java\net\cyclestreets\views\overlay\ControllerOverlay.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\java\net\cyclestreets\views\overlay\DrawingHelper.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\java\net\cyclestreets\views\overlay\ItemizedOverlay.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\java\net\cyclestreets\views\overlay\LiveItemOverlay.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\java\net\cyclestreets\views\overlay\LiveRideOverlay.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\java\net\cyclestreets\views\overlay\LocationOverlay.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\java\net\cyclestreets\views\overlay\LockScreenOnOverlay.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\java\net\cyclestreets\views\overlay\MenuListener.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\java\net\cyclestreets\views\overlay\OverlayButton.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\java\net\cyclestreets\views\overlay\OverlayHelper.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\java\net\cyclestreets\views\overlay\OverlayIterator.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\java\net\cyclestreets\views\overlay\POIOverlay.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\java\net\cyclestreets\views\overlay\PauseResumeListener.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\java\net\cyclestreets\views\overlay\PhotosOverlay.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\java\net\cyclestreets\views\overlay\RouteHighlightOverlay.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\java\net\cyclestreets\views\overlay\RouteOverlay.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\java\net\cyclestreets\views\overlay\StopActivityOverlay.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\java\net\cyclestreets\views\overlay\TapListener.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\java\net\cyclestreets\views\overlay\TapToRouteOverlay.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\java\net\cyclestreets\views\overlay\ThereOverlay.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\java\net\cyclestreets\views\overlay\ZoomButtonsOverlay.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\java\org\mapsforge\android\maps\MapsforgeOSMDroidTileProvider.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\java\org\mapsforge\android\maps\MapsforgeOSMTileSource.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\res\anim\spinner.xml" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\res\drawable-hdpi\btn_minus.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\res\drawable-hdpi\btn_next.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\res\drawable-hdpi\btn_plus.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\res\drawable-hdpi\btn_previous.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\res\drawable-hdpi\btn_stop.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\res\drawable-hdpi\footprints.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\res\drawable-hdpi\ic_action_lock.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\res\drawable-hdpi\ic_menu_agenda.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\res\drawable-hdpi\ic_menu_agenda_white.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\res\drawable-hdpi\ic_menu_camera.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\res\drawable-hdpi\ic_menu_camera_white.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\res\drawable-hdpi\ic_menu_directions.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\res\drawable-hdpi\ic_menu_gallery.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\res\drawable-hdpi\ic_menu_gallery_white.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\res\drawable-hdpi\ic_menu_info_details.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\res\drawable-hdpi\ic_menu_info_details_white.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\res\drawable-hdpi\ic_menu_live_ride.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\res\drawable-hdpi\ic_menu_mapmode.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\res\drawable-hdpi\ic_menu_mapmode_white.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\res\drawable-hdpi\ic_menu_more.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\res\drawable-hdpi\ic_menu_places.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\res\drawable-hdpi\ic_menu_poi.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\res\drawable-hdpi\ic_menu_revert.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\res\drawable-hdpi\ic_menu_rotate.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\res\drawable-hdpi\ic_menu_route_number.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\res\drawable-hdpi\ic_menu_search.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\res\drawable-hdpi\ic_menu_settings.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\res\drawable-hdpi\ic_route_now.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\res\drawable-hdpi\icon.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\res\drawable-hdpi\mm_20_bike.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\res\drawable-hdpi\mm_20_black.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\res\drawable-hdpi\mm_20_car_parking.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\res\drawable-hdpi\mm_20_cone.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\res\drawable-hdpi\mm_20_congestion.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\res\drawable-hdpi\mm_20_cycleway.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\res\drawable-hdpi\mm_20_destination.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\res\drawable-hdpi\mm_20_directional_signage.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\res\drawable-hdpi\mm_20_enforcement.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\res\drawable-hdpi\mm_20_general_sign.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\res\drawable-hdpi\mm_20_obstruction.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\res\drawable-hdpi\mm_20_road.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\res\drawable-hdpi\mm_20_roadworks.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\res\drawable-hdpi\mm_20_sheffield_stands.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\res\drawable-hdpi\mm_20_spanner.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\res\drawable-hdpi\mm_20_white_wisp.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\res\drawable-hdpi\route_balanced.xml" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\res\drawable-hdpi\route_balanced_off.9.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\res\drawable-hdpi\route_balanced_on.9.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\res\drawable-hdpi\route_fast.xml" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\res\drawable-hdpi\route_fast_off.9.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\res\drawable-hdpi\route_fast_on.9.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\res\drawable-hdpi\route_quiet.xml" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\res\drawable-hdpi\route_quiet_off.9.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\res\drawable-hdpi\route_quiet_on.9.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\res\drawable-hdpi\route_short.xml" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\res\drawable-hdpi\route_short_off.9.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\res\drawable-hdpi\route_short_on.9.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\res\drawable-ldpi\btn_minus.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\res\drawable-ldpi\btn_plus.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\res\drawable-ldpi\btn_previous.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\res\drawable-ldpi\btn_stop.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\res\drawable-ldpi\ic_action_lock.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\res\drawable-ldpi\ic_menu_agenda.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\res\drawable-ldpi\ic_menu_agenda_white.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\res\drawable-ldpi\ic_menu_camera.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\res\drawable-ldpi\ic_menu_camera_white.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\res\drawable-ldpi\ic_menu_directions.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\res\drawable-ldpi\ic_menu_followlocation.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\res\drawable-ldpi\ic_menu_gallery.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\res\drawable-ldpi\ic_menu_gallery_white.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\res\drawable-ldpi\ic_menu_info_details.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\res\drawable-ldpi\ic_menu_info_details_white.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\res\drawable-ldpi\ic_menu_live_ride.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\res\drawable-ldpi\ic_menu_mapmode.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\res\drawable-ldpi\ic_menu_mapmode_white.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\res\drawable-ldpi\ic_menu_more.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\res\drawable-ldpi\ic_menu_mylocation.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\res\drawable-ldpi\ic_menu_places.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\res\drawable-ldpi\ic_menu_poi.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\res\drawable-ldpi\ic_menu_revert.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\res\drawable-ldpi\ic_menu_rotate.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\res\drawable-ldpi\ic_menu_route_number.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\res\drawable-ldpi\ic_menu_search.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\res\drawable-ldpi\ic_menu_settings.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\res\drawable-ldpi\ic_route_now.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\res\drawable-ldpi\icon.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\res\drawable-ldpi\mm_20_bike.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\res\drawable-ldpi\mm_20_black.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\res\drawable-ldpi\mm_20_car_parking.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\res\drawable-ldpi\mm_20_cone.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\res\drawable-ldpi\mm_20_congestion.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\res\drawable-ldpi\mm_20_cycleway.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\res\drawable-ldpi\mm_20_destination.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\res\drawable-ldpi\mm_20_directional_signage.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\res\drawable-ldpi\mm_20_enforcement.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\res\drawable-ldpi\mm_20_general_sign.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\res\drawable-ldpi\mm_20_obstruction.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\res\drawable-ldpi\mm_20_road.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\res\drawable-ldpi\mm_20_roadworks.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\res\drawable-ldpi\mm_20_sheffield_stands.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\res\drawable-ldpi\mm_20_spanner.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\res\drawable-ldpi\mm_20_white_wisp.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\res\drawable-mdpi\btn_minus.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\res\drawable-mdpi\btn_next.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\res\drawable-mdpi\btn_plus.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\res\drawable-mdpi\btn_previous.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\res\drawable-mdpi\btn_stop.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\res\drawable-mdpi\ic_action_lock.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\res\drawable-mdpi\ic_menu_agenda.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\res\drawable-mdpi\ic_menu_agenda_white.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\res\drawable-mdpi\ic_menu_camera.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\res\drawable-mdpi\ic_menu_camera_white.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\res\drawable-mdpi\ic_menu_directions.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\res\drawable-mdpi\ic_menu_followlocation.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\res\drawable-mdpi\ic_menu_gallery.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\res\drawable-mdpi\ic_menu_gallery_white.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\res\drawable-mdpi\ic_menu_info_details.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\res\drawable-mdpi\ic_menu_info_details_white.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\res\drawable-mdpi\ic_menu_live_ride.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\res\drawable-mdpi\ic_menu_mapmode.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\res\drawable-mdpi\ic_menu_mapmode_white.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\res\drawable-mdpi\ic_menu_more.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\res\drawable-mdpi\ic_menu_mylocation.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\res\drawable-mdpi\ic_menu_places.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\res\drawable-mdpi\ic_menu_poi.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\res\drawable-mdpi\ic_menu_revert.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\res\drawable-mdpi\ic_menu_rotate.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\res\drawable-mdpi\ic_menu_route_number.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\res\drawable-mdpi\ic_menu_search.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\res\drawable-mdpi\ic_menu_settings.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\res\drawable-mdpi\ic_route_now.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\res\drawable-mdpi\icon.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\res\drawable-mdpi\mm_20_bike.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\res\drawable-mdpi\mm_20_black.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\res\drawable-mdpi\mm_20_car_parking.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\res\drawable-mdpi\mm_20_cone.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\res\drawable-mdpi\mm_20_congestion.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\res\drawable-mdpi\mm_20_cycleway.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\res\drawable-mdpi\mm_20_destination.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\res\drawable-mdpi\mm_20_directional_signage.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\res\drawable-mdpi\mm_20_enforcement.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\res\drawable-mdpi\mm_20_general_sign.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\res\drawable-mdpi\mm_20_obstruction.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\res\drawable-mdpi\mm_20_road.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\res\drawable-mdpi\mm_20_roadworks.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\res\drawable-mdpi\mm_20_sheffield_stands.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\res\drawable-mdpi\mm_20_spanner.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\res\drawable-mdpi\mm_20_white_wisp.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\res\drawable-xhdpi\btn_stop.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\res\drawable-xhdpi\ic_action_lock.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\res\drawable\bear_left.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\res\drawable\bear_right.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\res\drawable\cancel.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\res\drawable\cyclestreets.jpg" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\res\drawable\double_back.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\res\drawable\empty.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\res\drawable\first_exit.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\res\drawable\footprints.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\res\drawable\greep_wisp.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\res\drawable\ic_tab_addphoto.xml" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\res\drawable\ic_tab_itinerary.xml" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\res\drawable\ic_tab_more.xml" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\res\drawable\ic_tab_photomap.xml" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\res\drawable\ic_tab_planroute.xml" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\res\drawable\icon.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\res\drawable\loading.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\res\drawable\orange_wisp.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\res\drawable\red_wisp.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\res\drawable\roundabout.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\res\drawable\roundrect.xml" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\res\drawable\route_bg.9.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\res\drawable\second_exit.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\res\drawable\sharp_left.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\res\drawable\sharp_right.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\res\drawable\straight_on.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\res\drawable\third_exit.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\res\drawable\turn_left.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\res\drawable\turn_right.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\res\drawable\waymark.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\res\drawable\x_marks_spot.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\res\layout\about.xml" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\res\layout\accountdetails.xml" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\res\layout\accountregister.xml" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\res\layout\accountsignin.xml" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\res\layout\addphoto.xml" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\res\layout\addphotocaption.xml" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\res\layout\addphotocategory.xml" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\res\layout\addphotolocation.xml" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\res\layout\addphotonext.xml" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\res\layout\addphotostart.xml" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\res\layout\addphotoview.xml" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\res\layout\blog.xml" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\res\layout\edittextdialog.xml" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\res\layout\findplace.xml" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\res\layout\geo_item_2line.xml" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\res\layout\itinerary_header_item.xml" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\res\layout\itinerary_item.xml" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\res\layout\itinerary_not_available.xml" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\res\layout\listdialog.xml" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\res\layout\main.xml" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\res\layout\more.xml" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\res\layout\placetextview.xml" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\res\layout\placetextviewcancel.xml" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\res\layout\poicategories_item.xml" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\res\layout\routebyaddress.xml" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\res\layout\routefeedback.xml" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\res\layout\routenumber.xml" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\res\layout\showphoto.xml" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\res\layout\storedroutes.xml" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\res\layout\storedroutes_item.xml" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\res\layout\texthistory.xml" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\res\layout\whatsnew.xml" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\res\values\arrays.xml" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\res\values\dimens.xml" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\res\values\strings.xml" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\res\values\styles.xml" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\src\main\res\xml\preferences.xml" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gitignore" afterPath="$PROJECT_DIR$/.gitignore" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/master.iml" afterPath="$PROJECT_DIR$/master.iml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/modules.xml" afterPath="$PROJECT_DIR$/.idea/modules.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="master.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -90,6 +537,10 @@
           </key>
           <value>
             <list>
+              <ExternalProjectPojo>
+                <option name="name" value="cyclestreets" />
+                <option name="path" value="$PROJECT_DIR$/cyclestreets" />
+              </ExternalProjectPojo>
               <ExternalProjectPojo>
                 <option name="name" value="master" />
                 <option name="path" value="$PROJECT_DIR$" />
@@ -439,19 +890,357 @@
             </list>
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/cyclestreets">
+          <value>
+            <list>
+              <ExternalTaskPojo>
+                <option name="description" value="Displays the Android dependencies of the project" />
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/cyclestreets" />
+                <option name="name" value="androidDependencies" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="description" value="Assembles all variants of all applications and secondary packages." />
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/cyclestreets" />
+                <option name="name" value="assemble" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="description" value="Assembles all Debug builds" />
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/cyclestreets" />
+                <option name="name" value="assembleDebug" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="description" value="Assembles the Test build for the Debug build" />
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/cyclestreets" />
+                <option name="name" value="assembleDebugTest" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="description" value="Assembles all Release builds" />
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/cyclestreets" />
+                <option name="name" value="assembleRelease" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="description" value="Assembles and tests this project." />
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/cyclestreets" />
+                <option name="name" value="build" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="description" value="Assembles and tests this project and all projects that depend on it." />
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/cyclestreets" />
+                <option name="name" value="buildDependents" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="description" value="Assembles and tests this project and all projects it depends on." />
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/cyclestreets" />
+                <option name="name" value="buildNeeded" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="description" value="Runs all checks." />
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/cyclestreets" />
+                <option name="name" value="check" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="description" value="Deletes the build directory." />
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/cyclestreets" />
+                <option name="name" value="clean" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/cyclestreets" />
+                <option name="name" value="compileDebugAidl" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/cyclestreets" />
+                <option name="name" value="compileDebugJava" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/cyclestreets" />
+                <option name="name" value="compileDebugNdk" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/cyclestreets" />
+                <option name="name" value="compileDebugRenderscript" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/cyclestreets" />
+                <option name="name" value="compileDebugTestAidl" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/cyclestreets" />
+                <option name="name" value="compileDebugTestJava" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/cyclestreets" />
+                <option name="name" value="compileDebugTestNdk" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/cyclestreets" />
+                <option name="name" value="compileDebugTestRenderscript" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/cyclestreets" />
+                <option name="name" value="compileLint" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/cyclestreets" />
+                <option name="name" value="compileReleaseAidl" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/cyclestreets" />
+                <option name="name" value="compileReleaseJava" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/cyclestreets" />
+                <option name="name" value="compileReleaseNdk" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/cyclestreets" />
+                <option name="name" value="compileReleaseRenderscript" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="description" value="Runs all device checks on currently connected devices." />
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/cyclestreets" />
+                <option name="name" value="connectedCheck" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="description" value="Installs and runs the tests for Build 'debug' on connected devices." />
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/cyclestreets" />
+                <option name="name" value="connectedInstrumentTest" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="description" value="Runs all device checks using Device Providers and Test Servers." />
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/cyclestreets" />
+                <option name="name" value="deviceCheck" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/cyclestreets" />
+                <option name="name" value="dexDebug" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/cyclestreets" />
+                <option name="name" value="dexDebugTest" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/cyclestreets" />
+                <option name="name" value="dexRelease" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/cyclestreets" />
+                <option name="name" value="generateDebugBuildConfig" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/cyclestreets" />
+                <option name="name" value="generateDebugSources" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/cyclestreets" />
+                <option name="name" value="generateDebugTestBuildConfig" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/cyclestreets" />
+                <option name="name" value="generateDebugTestSources" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/cyclestreets" />
+                <option name="name" value="generateReleaseBuildConfig" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/cyclestreets" />
+                <option name="name" value="generateReleaseSources" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="description" value="Installs the Debug build" />
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/cyclestreets" />
+                <option name="name" value="installDebug" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="description" value="Installs the Test build for the Debug build" />
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/cyclestreets" />
+                <option name="name" value="installDebugTest" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="description" value="Installs the Release build" />
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/cyclestreets" />
+                <option name="name" value="installRelease" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="description" value="Runs lint on all variants." />
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/cyclestreets" />
+                <option name="name" value="lint" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="description" value="Runs lint on the Debug build" />
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/cyclestreets" />
+                <option name="name" value="lintDebug" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="description" value="Runs lint on the Release build" />
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/cyclestreets" />
+                <option name="name" value="lintRelease" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/cyclestreets" />
+                <option name="name" value="mergeDebugAssets" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/cyclestreets" />
+                <option name="name" value="mergeDebugResources" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/cyclestreets" />
+                <option name="name" value="mergeDebugTestAssets" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/cyclestreets" />
+                <option name="name" value="mergeDebugTestResources" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/cyclestreets" />
+                <option name="name" value="mergeReleaseAssets" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/cyclestreets" />
+                <option name="name" value="mergeReleaseResources" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/cyclestreets" />
+                <option name="name" value="packageDebug" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/cyclestreets" />
+                <option name="name" value="packageDebugTest" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/cyclestreets" />
+                <option name="name" value="packageRelease" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/cyclestreets" />
+                <option name="name" value="preBuild" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/cyclestreets" />
+                <option name="name" value="preDebugBuild" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/cyclestreets" />
+                <option name="name" value="preDebugTestBuild" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/cyclestreets" />
+                <option name="name" value="preDexDebug" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/cyclestreets" />
+                <option name="name" value="preDexDebugTest" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/cyclestreets" />
+                <option name="name" value="preDexRelease" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/cyclestreets" />
+                <option name="name" value="preReleaseBuild" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/cyclestreets" />
+                <option name="name" value="prepareDebugDependencies" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/cyclestreets" />
+                <option name="name" value="prepareDebugTestDependencies" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/cyclestreets" />
+                <option name="name" value="prepareReleaseDependencies" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/cyclestreets" />
+                <option name="name" value="processDebugJavaRes" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/cyclestreets" />
+                <option name="name" value="processDebugManifest" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/cyclestreets" />
+                <option name="name" value="processDebugResources" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/cyclestreets" />
+                <option name="name" value="processDebugTestJavaRes" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/cyclestreets" />
+                <option name="name" value="processDebugTestManifest" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/cyclestreets" />
+                <option name="name" value="processDebugTestResources" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/cyclestreets" />
+                <option name="name" value="processReleaseJavaRes" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/cyclestreets" />
+                <option name="name" value="processReleaseManifest" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/cyclestreets" />
+                <option name="name" value="processReleaseResources" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="description" value="Displays the signing info for each variant" />
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/cyclestreets" />
+                <option name="name" value="signingReport" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="description" value="Uninstall all applications." />
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/cyclestreets" />
+                <option name="name" value="uninstallAll" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="description" value="Uninstalls the Debug build" />
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/cyclestreets" />
+                <option name="name" value="uninstallDebug" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="description" value="Uninstalls the Test build for the Debug build" />
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/cyclestreets" />
+                <option name="name" value="uninstallDebugTest" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="description" value="Uninstalls the Release build" />
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/cyclestreets" />
+                <option name="name" value="uninstallRelease" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/cyclestreets" />
+                <option name="name" value="validateDebugSigning" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/cyclestreets" />
+                <option name="name" value="validateReleaseSigning" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/cyclestreets" />
+                <option name="name" value="zipalignRelease" />
+              </ExternalTaskPojo>
+            </list>
+          </value>
+        </entry>
       </map>
     </option>
     <option name="modificationStamps">
       <map>
         <entry key="$PROJECT_DIR$" value="1388251307697" />
-        <entry key="C:\work\CycleStreets\master" value="1388254730795" />
+        <entry key="C:\work\CycleStreets\master" value="1388241401053" />
         <entry key="C:\work\PracticalLaw\practicallawPropertyApp" value="1375263409133" />
       </map>
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="273" />
-    <option name="y" value="48" />
+    <option name="x" value="24" />
+    <option name="y" value="29" />
     <option name="width" value="768" />
     <option name="height" value="680" />
   </component>
@@ -481,7 +1270,6 @@
       <sortByType />
     </navigator>
     <panes>
-      <pane id="PackagesPane" />
       <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
@@ -507,6 +1295,7 @@
           </PATH>
         </subPane>
       </pane>
+      <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -523,7 +1312,7 @@
     <property name="recentsLimit" value="5" />
     <property name="FullScreen" value="false" />
   </component>
-  <component name="RunManager" selected="Android Application.master">
+  <component name="RunManager" selected="Android Application.cyclestreets">
     <configuration default="true" type="AndroidTestRunConfigurationType" factoryName="Android Tests">
       <module name="" />
       <option name="TESTING_TYPE" value="0" />
@@ -664,8 +1453,28 @@
       <option name="SHOW_LOGCAT_AUTOMATICALLY" value="true" />
       <method />
     </configuration>
-    <list size="1">
+    <configuration default="false" name="cyclestreets" type="AndroidRunConfigurationType" factoryName="Android Application">
+      <module name="cyclestreets" />
+      <option name="ACTIVITY_CLASS" value="" />
+      <option name="MODE" value="default_activity" />
+      <option name="DEPLOY" value="true" />
+      <option name="ARTIFACT_NAME" value="" />
+      <option name="TARGET_SELECTION_MODE" value="SHOW_DIALOG" />
+      <option name="USE_LAST_SELECTED_DEVICE" value="false" />
+      <option name="PREFERRED_AVD" value="" />
+      <option name="USE_COMMAND_LINE" value="true" />
+      <option name="COMMAND_LINE" value="" />
+      <option name="WIPE_USER_DATA" value="false" />
+      <option name="DISABLE_BOOT_ANIMATION" value="false" />
+      <option name="NETWORK_SPEED" value="full" />
+      <option name="NETWORK_LATENCY" value="none" />
+      <option name="CLEAR_LOGCAT" value="false" />
+      <option name="SHOW_LOGCAT_AUTOMATICALLY" value="true" />
+      <method />
+    </configuration>
+    <list size="2">
       <item index="0" class="java.lang.String" itemvalue="Android Application.master" />
+      <item index="1" class="java.lang.String" itemvalue="Android Application.cyclestreets" />
     </list>
     <configuration name="&lt;template&gt;" type="#org.jetbrains.idea.devkit.run.PluginConfigurationType" default="true" selected="false">
       <option name="VM_PARAMETERS" value="-Xmx512m -Xms256m -XX:MaxPermSize=250m -ea" />
@@ -702,7 +1511,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="273" y="48" width="768" height="680" extended-state="0" />
+    <frame x="24" y="29" width="768" height="680" extended-state="0" />
     <editor active="false" />
     <layout>
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
@@ -713,9 +1522,9 @@
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Build Variants" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Gradle Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32885906" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Build Variants" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Gradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32932332" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />

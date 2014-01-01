@@ -1,0 +1,38 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:orientation="vertical"
+	android:layout_width="fill_parent"
+	android:layout_height="fill_parent">
+	<ScrollView 
+		android:layout_width="fill_parent"
+		android:layout_height="0dp"
+		android:orientation="vertical"
+		android:layout_weight="5.0"
+		android:padding="4.0dip">
+	    <LinearLayout
+	    	android:orientation="vertical"
+	       	android:layout_width="fill_parent"
+	    	android:layout_height="wrap_content">
+		<ImageView android:id="@+id/photo" 
+			android:layout_weight="1.0"
+			android:layout_width="fill_parent" 
+			android:layout_height="0dp"
+			android:cropToPadding="true"/>
+	  	<TextView
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content"
+			android:text="Describe this photo"/>
+		<EditText
+			android:id="@+id/caption"
+    		android:singleLine="false" 
+    		android:lines="4" 
+    		android:minLines="4" 
+    		android:gravity="top|left" 
+    		android:maxLines="4" 
+    		android:layout_height="wrap_content" 
+    		android:layout_width="fill_parent"
+    		android:inputType="textCapSentences|textMultiLine"
+    		android:scrollbars="none"/>
+    	</LinearLayout>
+   	</ScrollView>	
+	<include layout="@layout/addphotonext"/>
+</LinearLayout>

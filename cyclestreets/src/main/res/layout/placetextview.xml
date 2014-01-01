@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:orientation="horizontal"
+	android:layout_width="fill_parent"
+	android:layout_height="wrap_content"
+	android:layout_marginBottom="2dip">
+	<net.cyclestreets.views.PlaceAutoCompleteTextView
+	  android:id="@+id/placeBox"
+	  android:layout_height="wrap_content" 
+	  android:layout_weight="1.0"
+	  android:layout_width="0.0dip"
+	  android:freezesText="true"
+	  android:imeOptions="actionNext"/>
+	<ImageButton
+    android:id="@+id/optionsBtn"
+    android:layout_width="40.0dip"
+    android:layout_height="fill_parent"
+    android:src="@android:drawable/ic_input_get" 
+    android:contentDescription="@string/placeview_menu"/>
+</LinearLayout>
