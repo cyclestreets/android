@@ -1,18 +1,18 @@
 package net.cyclestreets.api;
 
-import net.cyclestreets.R;
+import net.cyclestreets.core.R;
 
 import android.content.res.Resources;
 import android.graphics.Point;
 import android.graphics.drawable.Drawable;
 
-public class PhotoMarkers 
+public class PhotoMarkers
 {
   final private Drawable[] markers_;
   final private Drawable defaultMarker_;
   final private Point defaultMarkerHotspot_;
 
-  public PhotoMarkers(final Resources res) 
+  public PhotoMarkers(final Resources res)
   {
     defaultMarker_ = res.getDrawable(R.drawable.icon);
     defaultMarkerHotspot_ = new Point(13,47);
@@ -38,8 +38,8 @@ public class PhotoMarkers
       res.getDrawable(R.drawable.mm_20_road),          // 17
     };
   } // PhotoMarkers
-  
-  public Drawable getMarker(int feature) 
+
+  public Drawable getMarker(int feature)
   {
     if((feature < 0) || (feature >= markers_.length))
       return defaultMarker_;
@@ -47,7 +47,7 @@ public class PhotoMarkers
     return markers_[feature];
   } // getMarker
 
-  public Point getMarkerHotspot(int feature) 
+  public Point getMarkerHotspot(int feature)
   {
     return defaultMarkerHotspot_;
   } // getMarkerHotspot
