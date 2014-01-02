@@ -10,6 +10,7 @@ buildscript {
 apply plugin: 'android'
 
 dependencies {
+    compile project(':libraries:cyclestreets-core')
     compile fileTree(dir: 'libs', include: '*.jar')
 }
 

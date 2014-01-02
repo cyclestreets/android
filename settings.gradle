@@ -1,1 +1,2 @@
-include ':cyclestreets'
+include ':libraries:cyclestreets-core',
+        ':cyclestreets'
