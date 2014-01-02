@@ -14,9 +14,21 @@ dependencies {
     compile fileTree(dir: 'libs', include: '*.jar')
 }
 
+
+
 android {
-    compileSdkVersion 8
+    Properties appConfig = new Properties()
+    appConfig.load(new FileInputStream(file("../config.properties")))
+
+    compileSdkVersion appConfig['sdkVersion'].toInteger()
     buildToolsVersion "19.0.1"
+
+    defaultConfig {
+        minSdkVersion appConfig['sdkVersion'].toInteger()
+        targetSdkVersion appConfig['sdkVersion'].toInteger()
+        versionCode appConfig['versionCode'].toInteger()
+        versionName appConfig['versionName']
+    }
 
     signingConfigs {
         release {

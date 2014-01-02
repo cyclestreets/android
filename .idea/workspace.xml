@@ -1,109 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AndroidLayouts">
+    <shared>
+      <config />
+    </shared>
+  </component>
   <component name="ChangeListManager">
     <list default="true" id="4865c504-b581-430d-88de-cb23969a69af" name="Default" comment="">
-      <change type="DELETED" beforePath="C:\work\CycleStreets\master\cyclestreets\libs\apache-mime4j-0.6.jar" afterPath="" />
-      <change type="DELETED" beforePath="C:\work\CycleStreets\master\cyclestreets\libs\httpmime-4.0.1.jar" afterPath="" />
-      <change type="DELETED" beforePath="C:\work\CycleStreets\master\cyclestreets\libs\osmdroid-android-3.0.8.jar" afterPath="" />
-      <change type="DELETED" beforePath="C:\work\CycleStreets\master\cyclestreets\src\main\java\net\cyclestreets\CycleStreetsConstants.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\work\CycleStreets\master\cyclestreets\src\main\java\net\cyclestreets\CycleStreetsPreferences.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\work\CycleStreets\master\cyclestreets\src\main\java\net\cyclestreets\api\ApiCallCache.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\work\CycleStreets\master\cyclestreets\src\main\java\net\cyclestreets\api\ApiClient.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\work\CycleStreets\master\cyclestreets\src\main\java\net\cyclestreets\api\Blog.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\work\CycleStreets\master\cyclestreets\src\main\java\net\cyclestreets\api\BlogEntry.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\work\CycleStreets\master\cyclestreets\src\main\java\net\cyclestreets\api\DistanceFormatter.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\work\CycleStreets\master\cyclestreets\src\main\java\net\cyclestreets\api\Factory.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\work\CycleStreets\master\cyclestreets\src\main\java\net\cyclestreets\api\Feedback.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\work\CycleStreets\master\cyclestreets\src\main\java\net\cyclestreets\api\GeoAdapter.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\work\CycleStreets\master\cyclestreets\src\main\java\net\cyclestreets\api\GeoLiveAdapter.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\work\CycleStreets\master\cyclestreets\src\main\java\net\cyclestreets\api\GeoPlace.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\work\CycleStreets\master\cyclestreets\src\main\java\net\cyclestreets\api\GeoPlaces.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\work\CycleStreets\master\cyclestreets\src\main\java\net\cyclestreets\api\GeoStaticAdapter.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\work\CycleStreets\master\cyclestreets\src\main\java\net\cyclestreets\api\Journey.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\work\CycleStreets\master\cyclestreets\src\main\java\net\cyclestreets\api\JourneyPlanner.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\work\CycleStreets\master\cyclestreets\src\main\java\net\cyclestreets\api\POI.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\work\CycleStreets\master\cyclestreets\src\main\java\net\cyclestreets\api\POICategories.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\work\CycleStreets\master\cyclestreets\src\main\java\net\cyclestreets\api\POICategory.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\work\CycleStreets\master\cyclestreets\src\main\java\net\cyclestreets\api\Photo.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\work\CycleStreets\master\cyclestreets\src\main\java\net\cyclestreets\api\PhotoMarkers.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\work\CycleStreets\master\cyclestreets\src\main\java\net\cyclestreets\api\PhotomapCategories.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\work\CycleStreets\master\cyclestreets\src\main\java\net\cyclestreets\api\PhotomapCategory.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\work\CycleStreets\master\cyclestreets\src\main\java\net\cyclestreets\api\Photos.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\work\CycleStreets\master\cyclestreets\src\main\java\net\cyclestreets\api\Registration.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\work\CycleStreets\master\cyclestreets\src\main\java\net\cyclestreets\api\Segment.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\work\CycleStreets\master\cyclestreets\src\main\java\net\cyclestreets\api\Signin.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\work\CycleStreets\master\cyclestreets\src\main\java\net\cyclestreets\api\Upload.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\work\CycleStreets\master\cyclestreets\src\main\java\net\cyclestreets\routing\Waypoints.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\work\CycleStreets\master\cyclestreets\src\main\java\net\cyclestreets\util\Base64.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\work\CycleStreets\master\cyclestreets\src\main\java\net\cyclestreets\util\Bitmaps.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\work\CycleStreets\master\cyclestreets\src\main\java\net\cyclestreets\util\Collections.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\work\CycleStreets\master\cyclestreets\src\main\java\net\cyclestreets\util\ListFactory.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\work\CycleStreets\master\cyclestreets\src\main\java\net\cyclestreets\util\MapFactory.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\work\CycleStreets\master\cyclestreets\src\main\res\drawable-hdpi\mm_20_bike.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\work\CycleStreets\master\cyclestreets\src\main\res\drawable-hdpi\mm_20_black.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\work\CycleStreets\master\cyclestreets\src\main\res\drawable-hdpi\mm_20_car_parking.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\work\CycleStreets\master\cyclestreets\src\main\res\drawable-hdpi\mm_20_cone.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\work\CycleStreets\master\cyclestreets\src\main\res\drawable-hdpi\mm_20_congestion.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\work\CycleStreets\master\cyclestreets\src\main\res\drawable-hdpi\mm_20_cycleway.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\work\CycleStreets\master\cyclestreets\src\main\res\drawable-hdpi\mm_20_destination.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\work\CycleStreets\master\cyclestreets\src\main\res\drawable-hdpi\mm_20_directional_signage.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\work\CycleStreets\master\cyclestreets\src\main\res\drawable-hdpi\mm_20_enforcement.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\work\CycleStreets\master\cyclestreets\src\main\res\drawable-hdpi\mm_20_general_sign.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\work\CycleStreets\master\cyclestreets\src\main\res\drawable-hdpi\mm_20_obstruction.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\work\CycleStreets\master\cyclestreets\src\main\res\drawable-hdpi\mm_20_road.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\work\CycleStreets\master\cyclestreets\src\main\res\drawable-hdpi\mm_20_roadworks.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\work\CycleStreets\master\cyclestreets\src\main\res\drawable-hdpi\mm_20_sheffield_stands.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\work\CycleStreets\master\cyclestreets\src\main\res\drawable-hdpi\mm_20_spanner.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\work\CycleStreets\master\cyclestreets\src\main\res\drawable-hdpi\mm_20_white_wisp.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\work\CycleStreets\master\cyclestreets\src\main\res\drawable-ldpi\mm_20_bike.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\work\CycleStreets\master\cyclestreets\src\main\res\drawable-ldpi\mm_20_black.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\work\CycleStreets\master\cyclestreets\src\main\res\drawable-ldpi\mm_20_car_parking.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\work\CycleStreets\master\cyclestreets\src\main\res\drawable-ldpi\mm_20_cone.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\work\CycleStreets\master\cyclestreets\src\main\res\drawable-ldpi\mm_20_congestion.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\work\CycleStreets\master\cyclestreets\src\main\res\drawable-ldpi\mm_20_cycleway.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\work\CycleStreets\master\cyclestreets\src\main\res\drawable-ldpi\mm_20_destination.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\work\CycleStreets\master\cyclestreets\src\main\res\drawable-ldpi\mm_20_directional_signage.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\work\CycleStreets\master\cyclestreets\src\main\res\drawable-ldpi\mm_20_enforcement.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\work\CycleStreets\master\cyclestreets\src\main\res\drawable-ldpi\mm_20_general_sign.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\work\CycleStreets\master\cyclestreets\src\main\res\drawable-ldpi\mm_20_obstruction.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\work\CycleStreets\master\cyclestreets\src\main\res\drawable-ldpi\mm_20_road.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\work\CycleStreets\master\cyclestreets\src\main\res\drawable-ldpi\mm_20_roadworks.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\work\CycleStreets\master\cyclestreets\src\main\res\drawable-ldpi\mm_20_sheffield_stands.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\work\CycleStreets\master\cyclestreets\src\main\res\drawable-ldpi\mm_20_spanner.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\work\CycleStreets\master\cyclestreets\src\main\res\drawable-ldpi\mm_20_white_wisp.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\work\CycleStreets\master\cyclestreets\src\main\res\drawable-mdpi\mm_20_bike.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\work\CycleStreets\master\cyclestreets\src\main\res\drawable-mdpi\mm_20_black.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\work\CycleStreets\master\cyclestreets\src\main\res\drawable-mdpi\mm_20_car_parking.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\work\CycleStreets\master\cyclestreets\src\main\res\drawable-mdpi\mm_20_cone.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\work\CycleStreets\master\cyclestreets\src\main\res\drawable-mdpi\mm_20_congestion.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\work\CycleStreets\master\cyclestreets\src\main\res\drawable-mdpi\mm_20_cycleway.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\work\CycleStreets\master\cyclestreets\src\main\res\drawable-mdpi\mm_20_destination.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\work\CycleStreets\master\cyclestreets\src\main\res\drawable-mdpi\mm_20_directional_signage.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\work\CycleStreets\master\cyclestreets\src\main\res\drawable-mdpi\mm_20_enforcement.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\work\CycleStreets\master\cyclestreets\src\main\res\drawable-mdpi\mm_20_general_sign.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\work\CycleStreets\master\cyclestreets\src\main\res\drawable-mdpi\mm_20_obstruction.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\work\CycleStreets\master\cyclestreets\src\main\res\drawable-mdpi\mm_20_road.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\work\CycleStreets\master\cyclestreets\src\main\res\drawable-mdpi\mm_20_roadworks.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\work\CycleStreets\master\cyclestreets\src\main\res\drawable-mdpi\mm_20_sheffield_stands.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\work\CycleStreets\master\cyclestreets\src\main\res\drawable-mdpi\mm_20_spanner.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\work\CycleStreets\master\cyclestreets\src\main\res\drawable-mdpi\mm_20_white_wisp.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\work\CycleStreets\master\cyclestreets\src\main\res\layout\geo_item_2line.xml" afterPath="" />
-      <change type="DELETED" beforePath="C:\work\CycleStreets\master\cyclestreets\src\main\res\values\arrays.xml" afterPath="" />
-      <change type="DELETED" beforePath="C:\work\CycleStreets\master\cyclestreets\src\main\res\xml\preferences.xml" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/libraries/cyclestreets-core/src/main/AndroidManifest.xml" afterPath="$PROJECT_DIR$/libraries/cyclestreets-core/src/main/AndroidManifest.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/libraries/acra_4_2_3.xml" afterPath="$PROJECT_DIR$/.idea/libraries/acra_4_2_3.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/libraries/android_support_v4.xml" afterPath="$PROJECT_DIR$/.idea/libraries/android_support_v4.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/libraries/apache_mime4j_0_6.xml" afterPath="$PROJECT_DIR$/.idea/libraries/apache_mime4j_0_6.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/cyclestreets/src/main/AndroidManifest.xml" afterPath="$PROJECT_DIR$/cyclestreets/src/main/AndroidManifest.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/cyclestreets/build.gradle" afterPath="$PROJECT_DIR$/cyclestreets/build.gradle" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/libraries/cyclestreets-core/build.gradle" afterPath="$PROJECT_DIR$/libraries/cyclestreets-core/build.gradle" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/cyclestreets/cyclestreets.iml" afterPath="$PROJECT_DIR$/cyclestreets/cyclestreets.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.properties" afterPath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.properties" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/libraries/httpmime_4_0_1.xml" afterPath="$PROJECT_DIR$/.idea/libraries/httpmime_4_0_1.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/libraries/mapsforge_map_0_3_0_jar_with_dependencies.xml" afterPath="$PROJECT_DIR$/.idea/libraries/mapsforge_map_0_3_0_jar_with_dependencies.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/modules.xml" afterPath="$PROJECT_DIR$/.idea/modules.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/libraries/osmdroid_android_3_0_8.xml" afterPath="$PROJECT_DIR$/.idea/libraries/osmdroid_android_3_0_8.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/settings.gradle" afterPath="$PROJECT_DIR$/settings.gradle" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/libraries/slf4j_android_1_5_8.xml" afterPath="$PROJECT_DIR$/.idea/libraries/slf4j_android_1_5_8.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/cyclestreets/src/main/res/values/strings.xml" afterPath="$PROJECT_DIR$/cyclestreets/src/main/res/values/strings.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/cyclestreets/src/main/assets/whatsnew.html" afterPath="$PROJECT_DIR$/cyclestreets/src/main/assets/whatsnew.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="master.iws" />
@@ -168,10 +77,28 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="settings.gradle" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="settings.gradle" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/settings.gradle">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="3" column="0" selection-start="65" selection-end="65" vertical-scroll-proportion="0.08287293" vertical-offset="0" max-vertical-offset="543">
+            <state line="3" column="0" selection-start="65" selection-end="65" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="135">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="build.gradle" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/cyclestreets/build.gradle">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="31" column="0" selection-start="306" selection-end="758" vertical-scroll-proportion="0.4609929" vertical-offset="205" max-vertical-offset="840">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="build.gradle" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/libraries/cyclestreets-core/build.gradle">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="17" column="51" selection-start="355" selection-end="355" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="525">
               <folding />
             </state>
           </provider>
@@ -1348,6 +1275,10 @@
         <option value="$PROJECT_DIR$/libraries/cyclestreets-views/build.gradle" />
         <option value="$PROJECT_DIR$/libraries/cyclestreets-core/build/source/r/release/net/cyclestreets/core/R.java" />
         <option value="$PROJECT_DIR$/settings.gradle" />
+        <option value="$PROJECT_DIR$/cyclestreets/src/main/AndroidManifest.xml" />
+        <option value="$PROJECT_DIR$/cyclestreets/src/main/assets/whatsnew.html" />
+        <option value="$PROJECT_DIR$/cyclestreets/build.gradle" />
+        <option value="$PROJECT_DIR$/libraries/cyclestreets-core/build.gradle" />
       </list>
     </option>
   </component>
@@ -1406,6 +1337,64 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="master" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="master" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="libraries" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="master" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="master" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="libraries" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="cyclestreets-core" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="master" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="master" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="libraries" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="cyclestreets-core" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
         </subPane>
       </pane>
       <pane id="Scope" />
@@ -1435,6 +1424,15 @@
     </key>
   </component>
   <component name="RunManager" selected="Android Application.cyclestreets">
+    <configuration default="true" type="GroovyScriptRunConfiguration" factoryName="Groovy">
+      <module name="" />
+      <setting name="path" value="" />
+      <setting name="vmparams" value="" />
+      <setting name="params" value="" />
+      <setting name="workDir" value="file://$PROJECT_DIR$" />
+      <setting name="debug" value="false" />
+      <method />
+    </configuration>
     <configuration default="true" type="AndroidTestRunConfigurationType" factoryName="Android Tests">
       <module name="" />
       <option name="TESTING_TYPE" value="0" />
@@ -1616,7 +1614,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1296" height="1000" extended-state="6" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -1628,17 +1626,17 @@
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Build Variants" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25696102" sideWeight="0.50088185" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Gradle Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32821724" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32821724" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Gradle Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3202765" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32949308" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3202765" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Gradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32932332" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.25769854" sideWeight="0.49911818" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.2484375" sideWeight="0.49911818" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32949308" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -1666,7 +1664,63 @@
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/settings.gradle">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="3" column="0" selection-start="65" selection-end="65" vertical-scroll-proportion="0.08287293" vertical-offset="0" max-vertical-offset="543">
+        <state line="3" column="0" selection-start="65" selection-end="65" vertical-scroll-proportion="0.0" vertical-offset="45" max-vertical-offset="135">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/settings.gradle">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="3" column="0" selection-start="65" selection-end="65" vertical-scroll-proportion="0.0" vertical-offset="45" max-vertical-offset="135">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/libraries/cyclestreets-core/src/main/AndroidManifest.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="842">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cyclestreets/src/main/assets/whatsnew.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="10" column="12" selection-start="235" selection-end="235" vertical-scroll-proportion="-6.25" vertical-offset="0" max-vertical-offset="1470">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cyclestreets/src/main/AndroidManifest.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="3" column="1" selection-start="142" selection-end="142" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1140">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cyclestreets/build/source/buildConfig/debug/net/cyclestreets/BuildConfig.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="13" column="0" selection-start="442" selection-end="442" vertical-scroll-proportion="0.31073445" vertical-offset="0" max-vertical-offset="531">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/libraries/cyclestreets-core/build.gradle">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="17" column="51" selection-start="355" selection-end="355" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="525">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/settings.gradle">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="3" column="0" selection-start="65" selection-end="65" vertical-scroll-proportion="0.0" vertical-offset="45" max-vertical-offset="135">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cyclestreets/build.gradle">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="31" column="0" selection-start="306" selection-end="758" vertical-scroll-proportion="0.4609929" vertical-offset="205" max-vertical-offset="840">
           <folding />
         </state>
       </provider>
