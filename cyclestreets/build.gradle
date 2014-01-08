@@ -1,20 +1,15 @@
-buildscript {
-    repositories {
-        mavenCentral()
-    }
-    dependencies {
-        classpath 'com.android.tools.build:gradle:0.7.+'
-    }
-}
-
 apply plugin: 'android'
 
-dependencies {
-    compile project(':libraries:cyclestreets-core')
-    compile fileTree(dir: 'libs', include: '*.jar')
+repositories {
+    mavenCentral()
 }
 
-
+dependencies {
+    compile project(':libraries:cyclestreets-core'),
+            'ch.acra:acra:4.2.3',
+            'com.google.android:support-v4:r7',
+            files('libs/mapsforge-map-0.3.0-jar-with-dependencies.jar')
+}
 
 android {
     Properties appConfig = new Properties()
@@ -46,5 +41,11 @@ android {
         release {
             signingConfig signingConfigs.release
         }
+    }
+
+    packagingOptions {
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/DEPENDENCIES'
+        exclude 'META-INF/NOTICE'
     }
 }

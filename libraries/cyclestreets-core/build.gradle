@@ -1,16 +1,13 @@
-buildscript {
-    repositories {
-        mavenCentral()
-    }
-    dependencies {
-        classpath 'com.android.tools.build:gradle:0.7.+'
-    }
-}
-
 apply plugin: 'android-library'
 
+repositories {
+  mavenCentral()
+}
+
 dependencies {
-    compile fileTree(dir: 'libs', include: '*.jar')
+    compile 'org.osmdroid:osmdroid-android:3.0.8',
+            'org.apache.james:apache-mime4j:0.6',
+            'org.apache.httpcomponents:httpmime:4.0.1'
 }
 
 android {
