@@ -1,0 +1,25 @@
+apply plugin: 'android-library'
+
+repositories {
+  mavenCentral()
+}
+
+dependencies {
+    compile project(':libraries:cyclestreets-core'),
+            files('libs/mapsforge-map-0.3.0-jar-with-dependencies.jar')
+}
+
+android {
+    Properties appConfig = new Properties()
+    appConfig.load(new FileInputStream(file("../../config.properties")))
+
+    compileSdkVersion appConfig['sdkVersion'].toInteger()
+    buildToolsVersion "19.0.1"
+
+    defaultConfig {
+        minSdkVersion appConfig['sdkVersion'].toInteger()
+        targetSdkVersion appConfig['sdkVersion'].toInteger()
+        versionCode appConfig['versionCode'].toInteger()
+        versionName appConfig['versionName']
+    }
+}

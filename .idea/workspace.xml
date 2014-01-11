@@ -10,7 +10,50 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="4865c504-b581-430d-88de-cb23969a69af" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/cyclestreets/src/main/java/net/cyclestreets/views/overlay/POIOverlay.java" afterPath="$PROJECT_DIR$/cyclestreets/src/main/java/net/cyclestreets/views/overlay/POIOverlay.java" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\cyclestreets\libs\mapsforge-map-0.3.0-jar-with-dependencies.jar" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\cyclestreets\src\main\res\drawable\bear_left.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\cyclestreets\src\main\res\drawable\bear_right.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\cyclestreets\src\main\res\drawable\double_back.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\cyclestreets\src\main\res\drawable\first_exit.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\cyclestreets\src\main\res\drawable\roundabout.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\cyclestreets\src\main\res\drawable\second_exit.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\cyclestreets\src\main\res\drawable\sharp_left.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\cyclestreets\src\main\res\drawable\sharp_right.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\cyclestreets\src\main\res\drawable\straight_on.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\cyclestreets\src\main\res\drawable\third_exit.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\cyclestreets\src\main\res\drawable\turn_left.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\cyclestreets\src\main\res\drawable\turn_right.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\cyclestreets\src\main\res\drawable\waymark.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\cyclestreets\src\main\res\layout\edittextdialog.xml" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\cyclestreets\src\main\res\layout\listdialog.xml" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\cyclestreets\src\main\res\layout\texthistory.xml" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\libraries\cyclestreets-view\src\main\java\maps\MapsforgeOSMDroidTileProvider.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\libraries\cyclestreets-view\src\main\java\maps\MapsforgeOSMTileSource.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\libraries\cyclestreets-view\src\main\java\util\Brush.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\libraries\cyclestreets-view\src\main\java\util\Dialog.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\libraries\cyclestreets-view\src\main\java\util\Draw.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\libraries\cyclestreets-view\src\main\java\util\EditTextHistory.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\libraries\cyclestreets-view\src\main\java\util\GPS.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\libraries\cyclestreets-view\src\main\java\util\GeoHelper.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\libraries\cyclestreets-view\src\main\java\util\GeoIntent.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\libraries\cyclestreets-view\src\main\java\util\ImageDownloader.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\libraries\cyclestreets-view\src\main\java\util\IterableIterator.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\libraries\cyclestreets-view\src\main\java\util\ListDialog.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\libraries\cyclestreets-view\src\main\java\util\MapPack.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\libraries\cyclestreets-view\src\main\java\util\MessageBox.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\libraries\cyclestreets-view\src\main\java\util\RouteTypeMapper.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\libraries\cyclestreets-view\src\main\java\util\Share.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\libraries\cyclestreets-view\src\main\java\util\TurnIcons.java" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/cyclestreets/src/main/java/net/cyclestreets/FindPlaceActivity.java" afterPath="$PROJECT_DIR$/cyclestreets/src/main/java/net/cyclestreets/FindPlaceActivity.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/cyclestreets/src/main/java/net/cyclestreets/RouteByAddressActivity.java" afterPath="$PROJECT_DIR$/cyclestreets/src/main/java/net/cyclestreets/RouteByAddressActivity.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/cyclestreets/src/main/java/net/cyclestreets/RouteMapFragment.java" afterPath="$PROJECT_DIR$/cyclestreets/src/main/java/net/cyclestreets/RouteMapFragment.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/cyclestreets/src/main/java/net/cyclestreets/RouteNumberActivity.java" afterPath="$PROJECT_DIR$/cyclestreets/src/main/java/net/cyclestreets/RouteNumberActivity.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/cyclestreets/build.gradle" afterPath="$PROJECT_DIR$/cyclestreets/build.gradle" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/libraries/cyclestreets-core/cyclestreets-core.iml" afterPath="$PROJECT_DIR$/libraries/cyclestreets-core/cyclestreets-core.iml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/cyclestreets/cyclestreets.iml" afterPath="$PROJECT_DIR$/cyclestreets/cyclestreets.iml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/gradle.xml" afterPath="$PROJECT_DIR$/.idea/gradle.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/modules.xml" afterPath="$PROJECT_DIR$/.idea/modules.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/settings.gradle" afterPath="$PROJECT_DIR$/settings.gradle" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="master.iws" />
@@ -75,67 +118,142 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="settings.gradle" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/settings.gradle">
+      <file leaf-file-name="LiveItemOverlay.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/cyclestreets/src/main/java/net/cyclestreets/views/overlay/LiveItemOverlay.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="2" column="0" selection-start="64" selection-end="64" vertical-scroll-proportion="0.0" vertical-offset="30" max-vertical-offset="120">
+            <state line="19" column="24" selection-start="566" selection-end="566" vertical-scroll-proportion="0.0" vertical-offset="167" max-vertical-offset="2160">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="build.gradle" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/cyclestreets/build.gradle">
+      <file leaf-file-name="SettingsActivity.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/cyclestreets/src/main/java/net/cyclestreets/SettingsActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="26" column="0" selection-start="749" selection-end="749" vertical-scroll-proportion="0.0" vertical-offset="292" max-vertical-offset="855">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="POIOverlay.java" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/cyclestreets/src/main/java/net/cyclestreets/views/overlay/POIOverlay.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="491" column="33" selection-start="14541" selection-end="14541" vertical-scroll-proportion="0.6097561" vertical-offset="6420" max-vertical-offset="7575">
+            <state line="6" column="24" selection-start="146" selection-end="146" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="2145">
               <folding>
-                <element signature="e#11271#11679#0" expanded="true" />
-                <element signature="e#11650#11651#0" expanded="true" />
+                <element signature="e#2545#2572#0" expanded="true" />
+                <element signature="e#2654#2680#0" expanded="true" />
+                <element signature="e#4108#4129#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="POICategories.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/libraries/cyclestreets-core/src/main/java/net/cyclestreets/api/POICategories.java">
+      <file leaf-file-name="StoredRoutesActivity.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/cyclestreets/src/main/java/net/cyclestreets/StoredRoutesActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="177" column="41" selection-start="4893" selection-end="4893" vertical-scroll-proportion="-1.7307693" vertical-offset="1995" max-vertical-offset="2535">
+            <state line="7" column="24" selection-start="201" selection-end="201" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="2640">
+              <folding>
+                <element signature="e#1628#1649#0" expanded="true" />
+                <element signature="e#1677#1700#0" expanded="true" />
+                <element signature="e#1728#1751#0" expanded="true" />
+                <element signature="e#2112#2133#0" expanded="true" />
+                <element signature="e#2195#2218#0" expanded="true" />
+                <element signature="e#2282#2305#0" expanded="true" />
+                <element signature="e#3069#3333#0" expanded="true" />
+                <element signature="e#3307#3308#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="RouteByAddressActivity.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/cyclestreets/src/main/java/net/cyclestreets/RouteByAddressActivity.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="6" column="0" selection-start="122" selection-end="122" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="2910">
+              <folding>
+                <element signature="e#1220#1264#0" expanded="true" />
+                <element signature="e#1292#1337#0" expanded="true" />
+                <element signature="e#1360#1407#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="RouteMapFragment.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/cyclestreets/src/main/java/net/cyclestreets/RouteMapFragment.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="4" column="24" selection-start="126" selection-end="126" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="3525">
+              <folding>
+                <element signature="e#2624#2649#0" expanded="true" />
+                <element signature="e#2717#2744#0" expanded="true" />
+                <element signature="e#2813#2842#0" expanded="true" />
+                <element signature="e#2907#2936#0" expanded="true" />
+                <element signature="e#3149#3174#0" expanded="true" />
+                <element signature="e#3231#3258#0" expanded="true" />
+                <element signature="e#3289#3318#0" expanded="true" />
+                <element signature="e#3371#3400#0" expanded="true" />
+                <element signature="e#3649#3674#0" expanded="true" />
+                <element signature="e#3727#3754#0" expanded="true" />
+                <element signature="e#3811#3840#0" expanded="true" />
+                <element signature="e#3904#3933#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="TapToRouteOverlay.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/cyclestreets/src/main/java/net/cyclestreets/views/overlay/TapToRouteOverlay.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="18" column="24" selection-start="574" selection-end="574" vertical-scroll-proportion="0.0" vertical-offset="122" max-vertical-offset="9885">
+              <folding>
+                <element signature="e#2171#2203#0" expanded="true" />
+                <element signature="e#2249#2281#0" expanded="true" />
+                <element signature="e#2327#2358#0" expanded="true" />
+                <element signature="e#2403#2435#0" expanded="true" />
+                <element signature="e#2520#2552#0" expanded="true" />
+                <element signature="e#2613#2645#0" expanded="true" />
+                <element signature="e#2706#2737#0" expanded="true" />
+                <element signature="e#2797#2829#0" expanded="true" />
+                <element signature="e#8168#8191#0" expanded="true" />
+                <element signature="e#8356#8379#0" expanded="true" />
+                <element signature="e#8824#8858#0" expanded="true" />
+                <element signature="e#8886#8910#0" expanded="true" />
+                <element signature="e#8938#8960#0" expanded="true" />
+                <element signature="e#8988#9013#0" expanded="true" />
+                <element signature="e#9197#9220#0" expanded="true" />
+                <element signature="e#9500#9534#0" expanded="true" />
+                <element signature="e#9686#9706#0" expanded="true" />
+                <element signature="e#10032#10056#0" expanded="true" />
+                <element signature="e#10140#10162#0" expanded="true" />
+                <element signature="e#10334#10359#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="RouteNumberActivity.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/cyclestreets/src/main/java/net/cyclestreets/RouteNumberActivity.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="3" column="0" selection-start="73" selection-end="73" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1125">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="TurnIcons.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/cyclestreets/src/main/java/net/cyclestreets/util/TurnIcons.java">
+      <file leaf-file-name="RoutingTask.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/cyclestreets/src/main/java/net/cyclestreets/routing/RoutingTask.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="29" column="19" selection-start="718" selection-end="718" vertical-scroll-proportion="0.0" vertical-offset="135" max-vertical-offset="795">
+            <state line="4" column="24" selection-start="146" selection-end="146" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1830">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ThreadGroup.class" pinned="false" current="false" current-in-tab="false">
-        <entry file="jar://$PROJECT_DIR$/../../android-sdk/platforms/android-8/android.jar!/java/lang/ThreadGroup.class">
+      <file leaf-file-name="LiveRideOverlay.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/cyclestreets/src/main/java/net/cyclestreets/views/overlay/LiveRideOverlay.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="52" column="0" selection-start="1842" selection-end="1842" vertical-scroll-proportion="0.0" vertical-offset="780" max-vertical-offset="960">
+            <state line="9" column="24" selection-start="366" selection-end="366" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="3495">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="build.gradle" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/libraries/cyclestreets-core/build.gradle">
+      <file leaf-file-name="RouteHighlightOverlay.java" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/cyclestreets/src/main/java/net/cyclestreets/views/overlay/RouteHighlightOverlay.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="10" column="47" selection-start="287" selection-end="287" vertical-scroll-proportion="0.0" vertical-offset="150" max-vertical-offset="495">
+            <state line="8" column="24" selection-start="285" selection-end="285" vertical-scroll-proportion="0.33707866" vertical-offset="0" max-vertical-offset="2895">
               <folding />
             </state>
           </provider>
@@ -155,8 +273,41 @@
     <option name="tasksExpandState">
       <map>
         <entry key="" value="true" />
+        <entry key=":cyclestreets/master/" value="true" />
         <entry key="master/" value="true" />
       </map>
+    </option>
+    <option name="recentTasks">
+      <list>
+        <ExternalTaskExecutionInfo>
+          <option name="executorId" value="Run" />
+          <option name="settings">
+            <ExternalSystemSettings>
+              <option name="externalProjectPath" value="$PROJECT_DIR$" />
+              <option name="externalSystemIdString" value="GRADLE" />
+              <option name="taskNames">
+                <list>
+                  <option value="build" />
+                </list>
+              </option>
+            </ExternalSystemSettings>
+          </option>
+        </ExternalTaskExecutionInfo>
+        <ExternalTaskExecutionInfo>
+          <option name="executorId" value="Run" />
+          <option name="settings">
+            <ExternalSystemSettings>
+              <option name="externalProjectPath" value="$PROJECT_DIR$/cyclestreets" />
+              <option name="externalSystemIdString" value="GRADLE" />
+              <option name="taskNames">
+                <list>
+                  <option value="build" />
+                </list>
+              </option>
+            </ExternalSystemSettings>
+          </option>
+        </ExternalTaskExecutionInfo>
+      </list>
     </option>
     <option name="availableProjects">
       <map>
@@ -172,6 +323,10 @@
               <ExternalProjectPojo>
                 <option name="name" value=":libraries" />
                 <option name="path" value="$PROJECT_DIR$/libraries" />
+              </ExternalProjectPojo>
+              <ExternalProjectPojo>
+                <option name="name" value=":libraries:cyclestreets-view" />
+                <option name="path" value="$PROJECT_DIR$/libraries/cyclestreets-view" />
               </ExternalProjectPojo>
               <ExternalProjectPojo>
                 <option name="name" value=":libraries:cyclestreets-core" />
@@ -192,6 +347,420 @@
     </option>
     <option name="availableTasks">
       <map>
+        <entry key="$PROJECT_DIR$">
+          <value>
+            <list>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
+                <option name="name" value="compileDebugJava" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="description" value="Assembles all Release builds" />
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
+                <option name="name" value="assembleRelease" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="description" value="Prepare master.libraries:cyclestreets-core:unspecified" />
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
+                <option name="name" value="prepareMasterLibrariesCyclestreetsCoreUnspecifiedLibrary" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
+                <option name="name" value="packageReleaseAidl" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
+                <option name="name" value="validateDebugSigning" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
+                <option name="name" value="generateDebugTestSources" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
+                <option name="name" value="generateReleaseSources" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
+                <option name="name" value="processReleaseResources" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
+                <option name="name" value="processDebugResources" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
+                <option name="name" value="preReleaseBuild" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="description" value="Runs lint on the Release build" />
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
+                <option name="name" value="lintRelease" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
+                <option name="name" value="copyDebugLint" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
+                <option name="name" value="packageDebugAidl" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
+                <option name="name" value="zipalignRelease" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="description" value="Installs the Release build" />
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
+                <option name="name" value="installRelease" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
+                <option name="name" value="preDexRelease" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
+                <option name="name" value="mergeReleaseResources" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
+                <option name="name" value="generateDebugSources" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
+                <option name="name" value="packageRelease" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
+                <option name="name" value="processDebugManifest" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
+                <option name="name" value="generateReleaseBuildConfig" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
+                <option name="name" value="packageReleaseJar" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="description" value="Assembles a bundle containing the library in Release." />
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
+                <option name="name" value="bundleRelease" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="description" value="Uninstall all applications." />
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
+                <option name="name" value="uninstallAll" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
+                <option name="name" value="compileDebugTestAidl" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
+                <option name="name" value="validateReleaseSigning" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="description" value="Assembles the Test build for the Debug build" />
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
+                <option name="name" value="assembleDebugTest" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
+                <option name="name" value="compileDebugTestJava" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
+                <option name="name" value="mergeReleaseAssets" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
+                <option name="name" value="mergeReleaseProguardFiles" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
+                <option name="name" value="processDebugTestJavaRes" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
+                <option name="name" value="packageDebugRenderscript" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="description" value="Assembles all variants of all applications and secondary packages." />
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
+                <option name="name" value="assemble" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="description" value="Runs all checks." />
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
+                <option name="name" value="check" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
+                <option name="name" value="preDexDebug" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
+                <option name="name" value="prepareReleaseDependencies" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
+                <option name="name" value="packageDebugJar" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="description" value="Runs all device checks on currently connected devices." />
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
+                <option name="name" value="connectedCheck" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
+                <option name="name" value="packageDebugTest" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="description" value="Deletes the build directory." />
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
+                <option name="name" value="clean" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
+                <option name="name" value="dexDebugTest" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
+                <option name="name" value="packageDebugLocalJar" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
+                <option name="name" value="dexRelease" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="description" value="Assembles and tests this project." />
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
+                <option name="name" value="build" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="description" value="Assembles and tests this project and all projects that depend on it." />
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
+                <option name="name" value="buildDependents" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
+                <option name="name" value="copyReleaseLint" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="description" value="Runs all device checks using Device Providers and Test Servers." />
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
+                <option name="name" value="deviceCheck" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
+                <option name="name" value="compileReleaseRenderscript" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
+                <option name="name" value="generateDebugTestBuildConfig" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
+                <option name="name" value="compileLint" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="description" value="Uninstalls the Debug build" />
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
+                <option name="name" value="uninstallDebug" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="description" value="Assembles and tests this project and all projects it depends on." />
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
+                <option name="name" value="buildNeeded" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="description" value="Installs the Test build for the Debug build" />
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
+                <option name="name" value="installDebugTest" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
+                <option name="name" value="compileReleaseNdk" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
+                <option name="name" value="compileDebugAidl" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
+                <option name="name" value="mergeDebugProguardFiles" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
+                <option name="name" value="mergeDebugTestResources" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
+                <option name="name" value="processDebugTestResources" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
+                <option name="name" value="compileDebugNdk" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
+                <option name="name" value="prepareDebugDependencies" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
+                <option name="name" value="processReleaseManifest" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
+                <option name="name" value="processDebugTestManifest" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
+                <option name="name" value="compileReleaseAidl" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
+                <option name="name" value="compileDebugRenderscript" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="description" value="Uninstalls the Test build for the Debug build" />
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
+                <option name="name" value="uninstallDebugTest" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
+                <option name="name" value="preBuild" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
+                <option name="name" value="packageReleaseLocalJar" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
+                <option name="name" value="compileReleaseJava" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
+                <option name="name" value="mergeDebugResources" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
+                <option name="name" value="preDebugBuild" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="description" value="Displays the Android dependencies of the project" />
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
+                <option name="name" value="androidDependencies" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="description" value="Installs the Debug build" />
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
+                <option name="name" value="installDebug" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
+                <option name="name" value="generateDebugBuildConfig" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="description" value="Prepare master.libraries:cyclestreets-view:unspecified" />
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
+                <option name="name" value="prepareMasterLibrariesCyclestreetsViewUnspecifiedLibrary" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="description" value="Runs lint on the Debug build" />
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
+                <option name="name" value="lintDebug" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
+                <option name="name" value="mergeDebugTestAssets" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
+                <option name="name" value="preDexDebugTest" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
+                <option name="name" value="compileDebugTestNdk" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="description" value="Uninstalls the Release build" />
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
+                <option name="name" value="uninstallRelease" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
+                <option name="name" value="processReleaseJavaRes" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="description" value="Displays the signing info for each variant" />
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
+                <option name="name" value="signingReport" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="description" value="Installs and runs the tests for Build 'debug' on connected devices." />
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
+                <option name="name" value="connectedInstrumentTest" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
+                <option name="name" value="packageDebug" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="description" value="Runs lint on all variants." />
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
+                <option name="name" value="lint" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
+                <option name="name" value="processDebugJavaRes" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="description" value="Assembles a bundle containing the library in Debug." />
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
+                <option name="name" value="bundleDebug" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
+                <option name="name" value="dexDebug" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
+                <option name="name" value="packageReleaseRenderscript" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
+                <option name="name" value="compileDebugTestRenderscript" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
+                <option name="name" value="packageDebugResources" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
+                <option name="name" value="preDebugTestBuild" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
+                <option name="name" value="mergeDebugAssets" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
+                <option name="name" value="prepareDebugTestDependencies" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
+                <option name="name" value="packageReleaseResources" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="description" value="Assembles all Debug builds" />
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
+                <option name="name" value="assembleDebug" />
+              </ExternalTaskPojo>
+            </list>
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/cyclestreets">
           <value>
             <list>
@@ -454,6 +1023,11 @@
                 <option name="description" value="Prepare master.libraries:cyclestreets-core:unspecified" />
                 <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/cyclestreets" />
                 <option name="name" value="prepareMasterLibrariesCyclestreetsCoreUnspecifiedLibrary" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="description" value="Prepare master.libraries:cyclestreets-view:unspecified" />
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/cyclestreets" />
+                <option name="name" value="prepareMasterLibrariesCyclestreetsViewUnspecifiedLibrary" />
               </ExternalTaskPojo>
               <ExternalTaskPojo>
                 <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/cyclestreets" />
@@ -887,6 +1461,363 @@
             </list>
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/libraries/cyclestreets-view">
+          <value>
+            <list>
+              <ExternalTaskPojo>
+                <option name="description" value="Displays the Android dependencies of the project" />
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/libraries/cyclestreets-view" />
+                <option name="name" value="androidDependencies" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="description" value="Assembles all variants of all applications and secondary packages." />
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/libraries/cyclestreets-view" />
+                <option name="name" value="assemble" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="description" value="Assembles all Debug builds" />
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/libraries/cyclestreets-view" />
+                <option name="name" value="assembleDebug" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="description" value="Assembles the Test build for the Debug build" />
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/libraries/cyclestreets-view" />
+                <option name="name" value="assembleDebugTest" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="description" value="Assembles all Release builds" />
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/libraries/cyclestreets-view" />
+                <option name="name" value="assembleRelease" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="description" value="Assembles and tests this project." />
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/libraries/cyclestreets-view" />
+                <option name="name" value="build" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="description" value="Assembles and tests this project and all projects that depend on it." />
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/libraries/cyclestreets-view" />
+                <option name="name" value="buildDependents" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="description" value="Assembles and tests this project and all projects it depends on." />
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/libraries/cyclestreets-view" />
+                <option name="name" value="buildNeeded" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="description" value="Assembles a bundle containing the library in Debug." />
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/libraries/cyclestreets-view" />
+                <option name="name" value="bundleDebug" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="description" value="Assembles a bundle containing the library in Release." />
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/libraries/cyclestreets-view" />
+                <option name="name" value="bundleRelease" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="description" value="Runs all checks." />
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/libraries/cyclestreets-view" />
+                <option name="name" value="check" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="description" value="Deletes the build directory." />
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/libraries/cyclestreets-view" />
+                <option name="name" value="clean" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/libraries/cyclestreets-view" />
+                <option name="name" value="compileDebugAidl" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/libraries/cyclestreets-view" />
+                <option name="name" value="compileDebugJava" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/libraries/cyclestreets-view" />
+                <option name="name" value="compileDebugNdk" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/libraries/cyclestreets-view" />
+                <option name="name" value="compileDebugRenderscript" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/libraries/cyclestreets-view" />
+                <option name="name" value="compileDebugTestAidl" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/libraries/cyclestreets-view" />
+                <option name="name" value="compileDebugTestJava" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/libraries/cyclestreets-view" />
+                <option name="name" value="compileDebugTestNdk" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/libraries/cyclestreets-view" />
+                <option name="name" value="compileDebugTestRenderscript" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/libraries/cyclestreets-view" />
+                <option name="name" value="compileLint" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/libraries/cyclestreets-view" />
+                <option name="name" value="compileReleaseAidl" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/libraries/cyclestreets-view" />
+                <option name="name" value="compileReleaseJava" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/libraries/cyclestreets-view" />
+                <option name="name" value="compileReleaseNdk" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/libraries/cyclestreets-view" />
+                <option name="name" value="compileReleaseRenderscript" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="description" value="Runs all device checks on currently connected devices." />
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/libraries/cyclestreets-view" />
+                <option name="name" value="connectedCheck" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="description" value="Installs and runs the tests for Build 'debug' on connected devices." />
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/libraries/cyclestreets-view" />
+                <option name="name" value="connectedInstrumentTest" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/libraries/cyclestreets-view" />
+                <option name="name" value="copyDebugLint" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/libraries/cyclestreets-view" />
+                <option name="name" value="copyReleaseLint" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="description" value="Runs all device checks using Device Providers and Test Servers." />
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/libraries/cyclestreets-view" />
+                <option name="name" value="deviceCheck" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/libraries/cyclestreets-view" />
+                <option name="name" value="dexDebugTest" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/libraries/cyclestreets-view" />
+                <option name="name" value="generateDebugBuildConfig" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/libraries/cyclestreets-view" />
+                <option name="name" value="generateDebugSources" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/libraries/cyclestreets-view" />
+                <option name="name" value="generateDebugTestBuildConfig" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/libraries/cyclestreets-view" />
+                <option name="name" value="generateDebugTestSources" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/libraries/cyclestreets-view" />
+                <option name="name" value="generateReleaseBuildConfig" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/libraries/cyclestreets-view" />
+                <option name="name" value="generateReleaseSources" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="description" value="Installs the Test build for the Debug build" />
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/libraries/cyclestreets-view" />
+                <option name="name" value="installDebugTest" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="description" value="Runs lint on all variants." />
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/libraries/cyclestreets-view" />
+                <option name="name" value="lint" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="description" value="Runs lint on the Debug build" />
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/libraries/cyclestreets-view" />
+                <option name="name" value="lintDebug" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="description" value="Runs lint on the Release build" />
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/libraries/cyclestreets-view" />
+                <option name="name" value="lintRelease" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/libraries/cyclestreets-view" />
+                <option name="name" value="mergeDebugAssets" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/libraries/cyclestreets-view" />
+                <option name="name" value="mergeDebugProguardFiles" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/libraries/cyclestreets-view" />
+                <option name="name" value="mergeDebugResources" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/libraries/cyclestreets-view" />
+                <option name="name" value="mergeDebugTestAssets" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/libraries/cyclestreets-view" />
+                <option name="name" value="mergeDebugTestResources" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/libraries/cyclestreets-view" />
+                <option name="name" value="mergeReleaseAssets" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/libraries/cyclestreets-view" />
+                <option name="name" value="mergeReleaseProguardFiles" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/libraries/cyclestreets-view" />
+                <option name="name" value="mergeReleaseResources" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/libraries/cyclestreets-view" />
+                <option name="name" value="packageDebugAidl" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/libraries/cyclestreets-view" />
+                <option name="name" value="packageDebugJar" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/libraries/cyclestreets-view" />
+                <option name="name" value="packageDebugLocalJar" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/libraries/cyclestreets-view" />
+                <option name="name" value="packageDebugRenderscript" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/libraries/cyclestreets-view" />
+                <option name="name" value="packageDebugResources" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/libraries/cyclestreets-view" />
+                <option name="name" value="packageDebugTest" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/libraries/cyclestreets-view" />
+                <option name="name" value="packageReleaseAidl" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/libraries/cyclestreets-view" />
+                <option name="name" value="packageReleaseJar" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/libraries/cyclestreets-view" />
+                <option name="name" value="packageReleaseLocalJar" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/libraries/cyclestreets-view" />
+                <option name="name" value="packageReleaseRenderscript" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/libraries/cyclestreets-view" />
+                <option name="name" value="packageReleaseResources" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/libraries/cyclestreets-view" />
+                <option name="name" value="preBuild" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/libraries/cyclestreets-view" />
+                <option name="name" value="preDebugBuild" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/libraries/cyclestreets-view" />
+                <option name="name" value="preDebugTestBuild" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/libraries/cyclestreets-view" />
+                <option name="name" value="preDexDebugTest" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/libraries/cyclestreets-view" />
+                <option name="name" value="preReleaseBuild" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/libraries/cyclestreets-view" />
+                <option name="name" value="prepareDebugDependencies" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/libraries/cyclestreets-view" />
+                <option name="name" value="prepareDebugTestDependencies" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="description" value="Prepare master.libraries:cyclestreets-core:unspecified" />
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/libraries/cyclestreets-view" />
+                <option name="name" value="prepareMasterLibrariesCyclestreetsCoreUnspecifiedLibrary" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/libraries/cyclestreets-view" />
+                <option name="name" value="prepareReleaseDependencies" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/libraries/cyclestreets-view" />
+                <option name="name" value="processDebugJavaRes" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/libraries/cyclestreets-view" />
+                <option name="name" value="processDebugManifest" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/libraries/cyclestreets-view" />
+                <option name="name" value="processDebugResources" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/libraries/cyclestreets-view" />
+                <option name="name" value="processDebugTestJavaRes" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/libraries/cyclestreets-view" />
+                <option name="name" value="processDebugTestManifest" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/libraries/cyclestreets-view" />
+                <option name="name" value="processDebugTestResources" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/libraries/cyclestreets-view" />
+                <option name="name" value="processReleaseJavaRes" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/libraries/cyclestreets-view" />
+                <option name="name" value="processReleaseManifest" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/libraries/cyclestreets-view" />
+                <option name="name" value="processReleaseResources" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="description" value="Displays the signing info for each variant" />
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/libraries/cyclestreets-view" />
+                <option name="name" value="signingReport" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="description" value="Uninstall all applications." />
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/libraries/cyclestreets-view" />
+                <option name="name" value="uninstallAll" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="description" value="Uninstalls the Test build for the Debug build" />
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/libraries/cyclestreets-view" />
+                <option name="name" value="uninstallDebugTest" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/libraries/cyclestreets-view" />
+                <option name="name" value="validateDebugSigning" />
+              </ExternalTaskPojo>
+            </list>
+          </value>
+        </entry>
       </map>
     </option>
     <option name="modificationStamps">
@@ -906,9 +1837,36 @@
         <option value="$PROJECT_DIR$/cyclestreets/src/main/assets/whatsnew.html" />
         <option value="$PROJECT_DIR$/cyclestreets/build.gradle" />
         <option value="$PROJECT_DIR$/libraries/cyclestreets-core/build.gradle" />
-        <option value="$PROJECT_DIR$/cyclestreets/src/main/java/net/cyclestreets/views/overlay/LiveRideOverlay.java" />
         <option value="$PROJECT_DIR$/libraries/cyclestreets-core/src/main/java/net/cyclestreets/api/POICategories.java" />
+        <option value="$PROJECT_DIR$/libraries/cyclestreets-view/src/main/java/net/cyclestreets/util/Dialog.java" />
+        <option value="$PROJECT_DIR$/libraries/cyclestreets-view/src/main/java/net/cyclestreets/util/EditTextHistory.java" />
+        <option value="$PROJECT_DIR$/libraries/cyclestreets-view/src/main/java/net/cyclestreets/util/TurnIcons.java" />
+        <option value="$PROJECT_DIR$/libraries/cyclestreets-view/src/main/java/net/cyclestreets/util/RouteTypeMapper.java" />
+        <option value="$PROJECT_DIR$/cyclestreets/src/main/java/net/cyclestreets/AccountDetailsActivity.java" />
+        <option value="$PROJECT_DIR$/cyclestreets/src/main/java/net/cyclestreets/CycleMapFragment.java" />
+        <option value="$PROJECT_DIR$/cyclestreets/src/main/java/net/cyclestreets/views/CycleMapView.java" />
+        <option value="$PROJECT_DIR$/cyclestreets/src/main/java/net/cyclestreets/views/overlay/ControllerOverlay.java" />
+        <option value="$PROJECT_DIR$/cyclestreets/src/main/java/net/cyclestreets/views/overlay/OverlayButton.java" />
+        <option value="$PROJECT_DIR$/cyclestreets/src/main/java/net/cyclestreets/CycleStreets.java" />
+        <option value="$PROJECT_DIR$/cyclestreets/src/main/java/net/cyclestreets/DisplayPhotoActivity.java" />
+        <option value="$PROJECT_DIR$/cyclestreets/src/main/java/net/cyclestreets/FeedbackActivity.java" />
+        <option value="$PROJECT_DIR$/cyclestreets/src/main/java/net/cyclestreets/FindPlaceActivity.java" />
+        <option value="$PROJECT_DIR$/cyclestreets/src/main/java/net/cyclestreets/views/PlaceViewBase.java" />
+        <option value="$PROJECT_DIR$/cyclestreets/src/main/java/net/cyclestreets/ItineraryFragment.java" />
+        <option value="$PROJECT_DIR$/cyclestreets/src/main/java/net/cyclestreets/routing/Segment.java" />
+        <option value="$PROJECT_DIR$/cyclestreets/src/main/java/net/cyclestreets/LiveRideActivity.java" />
+        <option value="$PROJECT_DIR$/cyclestreets/src/main/java/net/cyclestreets/PhotoUploadFragment.java" />
         <option value="$PROJECT_DIR$/cyclestreets/src/main/java/net/cyclestreets/views/overlay/POIOverlay.java" />
+        <option value="$PROJECT_DIR$/cyclestreets/src/main/java/net/cyclestreets/views/overlay/LiveItemOverlay.java" />
+        <option value="$PROJECT_DIR$/cyclestreets/src/main/java/net/cyclestreets/SettingsActivity.java" />
+        <option value="$PROJECT_DIR$/cyclestreets/src/main/java/net/cyclestreets/StoredRoutesActivity.java" />
+        <option value="$PROJECT_DIR$/cyclestreets/src/main/java/net/cyclestreets/RouteByAddressActivity.java" />
+        <option value="$PROJECT_DIR$/cyclestreets/src/main/java/net/cyclestreets/RouteMapFragment.java" />
+        <option value="$PROJECT_DIR$/cyclestreets/src/main/java/net/cyclestreets/views/overlay/TapToRouteOverlay.java" />
+        <option value="$PROJECT_DIR$/cyclestreets/src/main/java/net/cyclestreets/RouteNumberActivity.java" />
+        <option value="$PROJECT_DIR$/cyclestreets/src/main/java/net/cyclestreets/routing/RoutingTask.java" />
+        <option value="$PROJECT_DIR$/cyclestreets/src/main/java/net/cyclestreets/views/overlay/LiveRideOverlay.java" />
+        <option value="$PROJECT_DIR$/cyclestreets/src/main/java/net/cyclestreets/views/overlay/RouteHighlightOverlay.java" />
       </list>
     </option>
   </component>
@@ -944,7 +1902,6 @@
       <sortByType />
     </navigator>
     <panes>
-      <pane id="PackagesPane" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -995,7 +1952,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="cyclestreets-core" />
+              <option name="myItemId" value="cyclestreets-view" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -1013,7 +1970,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="cyclestreets-core" />
+              <option name="myItemId" value="cyclestreets-view" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
@@ -1039,7 +1996,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="cyclestreets-core" />
+              <option name="myItemId" value="cyclestreets-view" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
@@ -1054,10 +2011,6 @@
               <option name="myItemId" value="java" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="cyclestreets" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
           </PATH>
           <PATH>
             <PATH_ELEMENT>
@@ -1117,41 +2070,11 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="java" />
+              <option name="myItemId" value="res" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="maps" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="master" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="master" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="cyclestreets" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="main" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="java" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="cyclestreets" />
+              <option name="myItemId" value="values" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -1177,15 +2100,11 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="java" />
+              <option name="myItemId" value="res" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="cyclestreets" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="views" />
+              <option name="myItemId" value="layout" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -1211,7 +2130,17 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="java" />
+              <option name="myItemId" value="res" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="master" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="master" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
@@ -1219,16 +2148,25 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="views" />
+              <option name="myItemId" value="src" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="overlay" />
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="res" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="drawable" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
         </subPane>
       </pane>
+      <pane id="PackagesPane" />
       <pane id="Scope" />
     </panes>
   </component>
@@ -1252,11 +2190,50 @@
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\work\CycleStreets\master\libraries\cyclestreets-view\src\main\java" />
       <recent name="C:\work\CycleStreets\master\libraries\cyclestreets-core\src\main\res\drawable-hdpi" />
       <recent name="C:\work\CycleStreets\master\libraries" />
     </key>
   </component>
-  <component name="RunManager" selected="Android Application.cyclestreets">
+  <component name="RunManager" selected="Gradle.master [build]">
+    <configuration default="false" name="master:cyclestreets [build]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="externalProjectPath" value="$PROJECT_DIR$/cyclestreets" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value="build" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <RunnerSettings RunnerId="ExternalSystemTaskRunner" />
+      <ConfigurationWrapper RunnerId="ExternalSystemTaskRunner" />
+      <method />
+    </configuration>
+    <configuration default="false" name="master [build]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value="build" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <RunnerSettings RunnerId="ExternalSystemTaskRunner" />
+      <ConfigurationWrapper RunnerId="ExternalSystemTaskRunner" />
+      <method />
+    </configuration>
     <configuration default="true" type="GroovyScriptRunConfiguration" factoryName="Groovy">
       <module name="" />
       <setting name="path" value="" />
@@ -1294,6 +2271,34 @@
       <option name="PORT" value="5005" />
       <method />
     </configuration>
+    <configuration default="true" type="GradleRunConfiguration" factoryName="Gradle">
+      <ExternalSystemSettings>
+        <option name="externalProjectPath" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list />
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <method />
+    </configuration>
+    <configuration default="true" type="Applet" factoryName="Applet">
+      <module name="" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="HTML_FILE_NAME" />
+      <option name="HTML_USED" value="false" />
+      <option name="WIDTH" value="400" />
+      <option name="HEIGHT" value="300" />
+      <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
+      <option name="VM_PARAMETERS" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <method />
+    </configuration>
     <configuration default="true" type="TestNG" factoryName="TestNG">
       <module name="" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
@@ -1319,19 +2324,6 @@
       <envs />
       <properties />
       <listeners />
-      <method />
-    </configuration>
-    <configuration default="true" type="Applet" factoryName="Applet">
-      <module name="" />
-      <option name="MAIN_CLASS_NAME" />
-      <option name="HTML_FILE_NAME" />
-      <option name="HTML_USED" value="false" />
-      <option name="WIDTH" value="400" />
-      <option name="HEIGHT" value="300" />
-      <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
-      <option name="VM_PARAMETERS" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
       <method />
     </configuration>
     <configuration default="true" type="Application" factoryName="Application">
@@ -1408,9 +2400,17 @@
       <ConfigurationWrapper RunnerId="AndroidDebugRunner" />
       <method />
     </configuration>
-    <list size="1">
+    <list size="3">
       <item index="0" class="java.lang.String" itemvalue="Android Application.cyclestreets" />
+      <item index="1" class="java.lang.String" itemvalue="Gradle.master:cyclestreets [build]" />
+      <item index="2" class="java.lang.String" itemvalue="Gradle.master [build]" />
     </list>
+    <recent_temporary>
+      <list size="2">
+        <item index="0" class="java.lang.String" itemvalue="Gradle.master [build]" />
+        <item index="1" class="java.lang.String" itemvalue="Gradle.master:cyclestreets [build]" />
+      </list>
+    </recent_temporary>
     <configuration name="&lt;template&gt;" type="#org.jetbrains.idea.devkit.run.PluginConfigurationType" default="true" selected="false">
       <option name="VM_PARAMETERS" value="-Xmx512m -Xms256m -XX:MaxPermSize=250m -ea" />
     </configuration>
@@ -1447,34 +2447,34 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
-    <editor active="true" />
+    <editor active="false" />
     <layout>
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32821724" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3293718" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.41065088" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Build Variants" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25696102" sideWeight="0.50088185" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Gradle Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.40968123" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32949308" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3293718" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3202765" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Gradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32932332" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Gradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.2326284" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.25755286" sideWeight="0.49911818" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32949308" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3293718" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3293718" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
@@ -1495,20 +2495,6 @@
     <breakpoint-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/settings.gradle">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="2" column="0" selection-start="64" selection-end="64" vertical-scroll-proportion="0.0" vertical-offset="30" max-vertical-offset="120">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/cyclestreets/build.gradle">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="26" column="0" selection-start="749" selection-end="749" vertical-scroll-proportion="0.0" vertical-offset="390" max-vertical-offset="855">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/cyclestreets/src/main/java/net/cyclestreets/CycleMapFragment.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="5" column="0" selection-start="112" selection-end="112" vertical-scroll-proportion="0.0" vertical-offset="75" max-vertical-offset="2085">
@@ -1619,14 +2605,9 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/cyclestreets/build/source/buildConfig/debug/net/cyclestreets/BuildConfig.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="13" column="0" selection-start="442" selection-end="442" vertical-scroll-proportion="0.31073445" vertical-offset="0" max-vertical-offset="531" />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/settings.gradle">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="2" column="0" selection-start="64" selection-end="64" vertical-scroll-proportion="0.0" vertical-offset="30" max-vertical-offset="120">
+        <state line="3" column="0" selection-start="104" selection-end="104" vertical-scroll-proportion="0.0" vertical-offset="45" max-vertical-offset="135">
           <folding />
         </state>
       </provider>
@@ -1640,7 +2621,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/libraries/cyclestreets-core/build.gradle">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="10" column="47" selection-start="287" selection-end="287" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="495">
+        <state line="9" column="47" selection-start="231" selection-end="231" vertical-scroll-proportion="0.0" vertical-offset="135" max-vertical-offset="495">
           <folding />
         </state>
       </provider>
@@ -1652,48 +2633,302 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/cyclestreets/src/main/java/net/cyclestreets/util/TurnIcons.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="29" column="19" selection-start="718" selection-end="718" vertical-scroll-proportion="0.0" vertical-offset="135" max-vertical-offset="795">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/cyclestreets/src/main/java/net/cyclestreets/views/overlay/LiveRideOverlay.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="98" column="33" selection-start="3142" selection-end="3142" vertical-scroll-proportion="0.74860334" vertical-offset="693" max-vertical-offset="3120">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/cyclestreets/src/main/java/net/cyclestreets/CycleMapFragment.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="5" column="0" selection-start="112" selection-end="112" vertical-scroll-proportion="0.0" vertical-offset="75" max-vertical-offset="2085">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/cyclestreets/build.gradle">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="26" column="0" selection-start="749" selection-end="749" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="855">
+        <state line="27" column="0" selection-start="698" selection-end="698" vertical-scroll-proportion="0.0" vertical-offset="405" max-vertical-offset="870">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/libraries/cyclestreets-core/src/main/java/net/cyclestreets/api/POICategories.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="177" column="41" selection-start="4893" selection-end="4893" vertical-scroll-proportion="-1.7307693" vertical-offset="1995" max-vertical-offset="2535">
+        <state line="177" column="41" selection-start="4893" selection-end="4893" vertical-scroll-proportion="0.0" vertical-offset="2655" max-vertical-offset="3150">
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/libraries/cyclestreets-view/src/main/java/net/cyclestreets/util/EditTextHistory.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="3" column="29" selection-start="93" selection-end="93" vertical-scroll-proportion="0.0" vertical-offset="15" max-vertical-offset="1140">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/libraries/cyclestreets-view/src/main/java/net/cyclestreets/util/Dialog.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="104" column="18" selection-start="3584" selection-end="3584" vertical-scroll-proportion="0.0" vertical-offset="1172" max-vertical-offset="1845">
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/libraries/cyclestreets-view/src/main/java/net/cyclestreets/util/TurnIcons.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="34" column="61" selection-start="880" selection-end="880" vertical-scroll-proportion="0.0" vertical-offset="337" max-vertical-offset="900">
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cyclestreets/src/main/res/values/strings.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="91" column="0" selection-start="4659" selection-end="4659" vertical-scroll-proportion="0.0" vertical-offset="1099" max-vertical-offset="1455">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cyclestreets/src/main/java/net/cyclestreets/AccountDetailsActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="3" column="24" selection-start="88" selection-end="88" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="5700">
+          <folding>
+            <element signature="e#8127#8146#0" expanded="true" />
+            <element signature="e#11038#11058#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cyclestreets/src/main/java/net/cyclestreets/CycleMapFragment.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="2" column="24" selection-start="51" selection-end="51" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="2085">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cyclestreets/src/main/java/net/cyclestreets/views/CycleMapView.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="8" column="24" selection-start="235" selection-end="235" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="5025">
+          <folding>
+            <element signature="e#8217#8246#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cyclestreets/src/main/java/net/cyclestreets/views/overlay/ControllerOverlay.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="7" column="24" selection-start="178" selection-end="178" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="3330">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cyclestreets/src/main/java/net/cyclestreets/views/overlay/OverlayButton.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="3" column="24" selection-start="101" selection-end="101" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="2865">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cyclestreets/src/main/java/net/cyclestreets/CycleStreets.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="5" column="24" selection-start="100" selection-end="100" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="4845">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cyclestreets/src/main/java/net/cyclestreets/DisplayPhotoActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="3" column="24" selection-start="97" selection-end="97" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1230">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cyclestreets/src/main/java/net/cyclestreets/FeedbackActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="4" column="24" selection-start="128" selection-end="128" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1245">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cyclestreets/src/main/java/net/cyclestreets/FindPlaceActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="4" column="24" selection-start="90" selection-end="90" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1140">
+          <folding>
+            <element signature="e#1626#1651#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cyclestreets/src/main/java/net/cyclestreets/views/PlaceViewBase.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="15" column="24" selection-start="452" selection-end="452" vertical-scroll-proportion="0.0" vertical-offset="77" max-vertical-offset="5850">
+          <folding>
+            <element signature="e#2419#2469#0" expanded="true" />
+            <element signature="e#2493#2542#0" expanded="true" />
+            <element signature="e#2569#2621#0" expanded="true" />
+            <element signature="e#2645#2694#0" expanded="true" />
+            <element signature="e#2711#2753#0" expanded="true" />
+            <element signature="e#2788#2848#0" expanded="true" />
+            <element signature="e#2873#2923#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cyclestreets/src/main/java/net/cyclestreets/ItineraryFragment.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="20" column="24" selection-start="618" selection-end="618" vertical-scroll-proportion="0.0" vertical-offset="182" max-vertical-offset="2895">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cyclestreets/src/main/java/net/cyclestreets/routing/Segment.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="7" column="24" selection-start="214" selection-end="214" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="5400">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cyclestreets/src/main/java/net/cyclestreets/LiveRideActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="3" column="24" selection-start="85" selection-end="85" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1185">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cyclestreets/src/main/java/net/cyclestreets/PhotoUploadFragment.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="8" column="24" selection-start="297" selection-end="297" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="11790">
+          <folding>
+            <element signature="e#7965#7989#0" expanded="true" />
+            <element signature="e#8055#8076#0" expanded="true" />
+            <element signature="e#8240#8264#0" expanded="true" />
+            <element signature="e#8316#8337#0" expanded="true" />
+            <element signature="e#8542#8566#0" expanded="true" />
+            <element signature="e#8638#8659#0" expanded="true" />
+            <element signature="e#21365#21389#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/cyclestreets/src/main/java/net/cyclestreets/views/overlay/POIOverlay.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="491" column="33" selection-start="14541" selection-end="14541" vertical-scroll-proportion="0.6097561" vertical-offset="6420" max-vertical-offset="7575">
+        <state line="42" column="24" selection-start="1379" selection-end="1379" vertical-scroll-proportion="0.3735955" vertical-offset="497" max-vertical-offset="8175">
           <folding>
-            <element signature="e#11271#11679#0" expanded="true" />
-            <element signature="e#11650#11651#0" expanded="true" />
+            <element signature="e#10457#10477#0" expanded="true" />
+            <element signature="e#10626#10646#0" expanded="true" />
+            <element signature="e#10795#10815#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cyclestreets/src/main/java/net/cyclestreets/views/overlay/LiveItemOverlay.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="19" column="24" selection-start="566" selection-end="566" vertical-scroll-proportion="0.0" vertical-offset="167" max-vertical-offset="2160">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cyclestreets/src/main/java/net/cyclestreets/SettingsActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="6" column="24" selection-start="146" selection-end="146" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="2145">
+          <folding>
+            <element signature="e#2545#2572#0" expanded="true" />
+            <element signature="e#2654#2680#0" expanded="true" />
+            <element signature="e#4108#4129#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cyclestreets/src/main/java/net/cyclestreets/StoredRoutesActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="7" column="24" selection-start="201" selection-end="201" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="2640">
+          <folding>
+            <element signature="e#1628#1649#0" expanded="true" />
+            <element signature="e#1677#1700#0" expanded="true" />
+            <element signature="e#1728#1751#0" expanded="true" />
+            <element signature="e#2112#2133#0" expanded="true" />
+            <element signature="e#2195#2218#0" expanded="true" />
+            <element signature="e#2282#2305#0" expanded="true" />
+            <element signature="e#3069#3333#0" expanded="true" />
+            <element signature="e#3307#3308#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cyclestreets/src/main/java/net/cyclestreets/RouteByAddressActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="6" column="0" selection-start="122" selection-end="122" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="2910">
+          <folding>
+            <element signature="e#1220#1264#0" expanded="true" />
+            <element signature="e#1292#1337#0" expanded="true" />
+            <element signature="e#1360#1407#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cyclestreets/src/main/java/net/cyclestreets/RouteMapFragment.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="4" column="24" selection-start="126" selection-end="126" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="3525">
+          <folding>
+            <element signature="e#2624#2649#0" expanded="true" />
+            <element signature="e#2717#2744#0" expanded="true" />
+            <element signature="e#2813#2842#0" expanded="true" />
+            <element signature="e#2907#2936#0" expanded="true" />
+            <element signature="e#3149#3174#0" expanded="true" />
+            <element signature="e#3231#3258#0" expanded="true" />
+            <element signature="e#3289#3318#0" expanded="true" />
+            <element signature="e#3371#3400#0" expanded="true" />
+            <element signature="e#3649#3674#0" expanded="true" />
+            <element signature="e#3727#3754#0" expanded="true" />
+            <element signature="e#3811#3840#0" expanded="true" />
+            <element signature="e#3904#3933#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cyclestreets/src/main/java/net/cyclestreets/views/overlay/TapToRouteOverlay.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="18" column="24" selection-start="574" selection-end="574" vertical-scroll-proportion="0.0" vertical-offset="122" max-vertical-offset="9885">
+          <folding>
+            <element signature="e#2171#2203#0" expanded="true" />
+            <element signature="e#2249#2281#0" expanded="true" />
+            <element signature="e#2327#2358#0" expanded="true" />
+            <element signature="e#2403#2435#0" expanded="true" />
+            <element signature="e#2520#2552#0" expanded="true" />
+            <element signature="e#2613#2645#0" expanded="true" />
+            <element signature="e#2706#2737#0" expanded="true" />
+            <element signature="e#2797#2829#0" expanded="true" />
+            <element signature="e#8168#8191#0" expanded="true" />
+            <element signature="e#8356#8379#0" expanded="true" />
+            <element signature="e#8824#8858#0" expanded="true" />
+            <element signature="e#8886#8910#0" expanded="true" />
+            <element signature="e#8938#8960#0" expanded="true" />
+            <element signature="e#8988#9013#0" expanded="true" />
+            <element signature="e#9197#9220#0" expanded="true" />
+            <element signature="e#9500#9534#0" expanded="true" />
+            <element signature="e#9686#9706#0" expanded="true" />
+            <element signature="e#10032#10056#0" expanded="true" />
+            <element signature="e#10140#10162#0" expanded="true" />
+            <element signature="e#10334#10359#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cyclestreets/src/main/java/net/cyclestreets/RouteNumberActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="3" column="0" selection-start="73" selection-end="73" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1125">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cyclestreets/src/main/java/net/cyclestreets/routing/RoutingTask.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="4" column="24" selection-start="146" selection-end="146" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1830">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cyclestreets/src/main/java/net/cyclestreets/views/overlay/LiveRideOverlay.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="9" column="24" selection-start="366" selection-end="366" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="3495">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cyclestreets/src/main/java/net/cyclestreets/views/overlay/RouteHighlightOverlay.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="8" column="24" selection-start="285" selection-end="285" vertical-scroll-proportion="0.33707866" vertical-offset="0" max-vertical-offset="2895">
+          <folding />
         </state>
       </provider>
     </entry>

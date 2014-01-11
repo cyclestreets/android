@@ -1,7 +1,5 @@
 package net.cyclestreets;
 
-import net.cyclestreets.CycleStreetsConstants;
-import net.cyclestreets.R;
 import net.cyclestreets.util.GPS;
 import net.cyclestreets.util.MessageBox;
 import net.cyclestreets.util.GeoIntent;

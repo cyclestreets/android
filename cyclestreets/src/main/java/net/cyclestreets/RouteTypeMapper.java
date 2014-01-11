@@ -1,4 +1,4 @@
-package net.cyclestreets.util;
+package net.cyclestreets;
 
 import java.util.Map;
 import java.util.HashMap;

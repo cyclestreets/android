@@ -1,7 +1,7 @@
 package net.cyclestreets;
 
 import net.cyclestreets.api.GeoPlace;
-import net.cyclestreets.R;
+
 import net.cyclestreets.util.GeoIntent;
 import net.cyclestreets.views.PlaceView;
 

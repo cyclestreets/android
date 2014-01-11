@@ -3,12 +3,7 @@ package net.cyclestreets;
 import java.util.ArrayList;
 import java.util.List;
 
-import net.cyclestreets.CycleStreetsConstants;
-import net.cyclestreets.CycleStreetsPreferences;
-import net.cyclestreets.R;
-import net.cyclestreets.RouteMapFragment;
 import net.cyclestreets.routing.Waypoints;
-import net.cyclestreets.util.RouteTypeMapper;
 import net.cyclestreets.util.GeoIntent;
 import net.cyclestreets.views.PlaceViewWithCancel;
 import net.cyclestreets.api.GeoPlace;

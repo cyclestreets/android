@@ -2,7 +2,9 @@ package net.cyclestreets.util;
 
 import java.util.Map;
 
-import net.cyclestreets.R;
+import net.cyclestreets.view.R;
+import net.cyclestreets.util.MapFactory;
+
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;

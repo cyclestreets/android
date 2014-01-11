@@ -4,6 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/cyclestreets/cyclestreets.iml" filepath="$PROJECT_DIR$/cyclestreets/cyclestreets.iml" />
       <module fileurl="file://$PROJECT_DIR$/libraries/cyclestreets-core/cyclestreets-core.iml" filepath="$PROJECT_DIR$/libraries/cyclestreets-core/cyclestreets-core.iml" />
+      <module fileurl="file://$PROJECT_DIR$/libraries/cyclestreets-view/cyclestreets-view.iml" filepath="$PROJECT_DIR$/libraries/cyclestreets-view/cyclestreets-view.iml" />
       <module fileurl="file://$PROJECT_DIR$/libraries/libraries.iml" filepath="$PROJECT_DIR$/libraries/libraries.iml" />
       <module fileurl="file://$PROJECT_DIR$/master.iml" filepath="$PROJECT_DIR$/master.iml" />
     </modules>

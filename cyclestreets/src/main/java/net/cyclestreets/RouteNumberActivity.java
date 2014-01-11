@@ -1,11 +1,6 @@
 package net.cyclestreets;
 
-import net.cyclestreets.CycleStreetsConstants;
-import net.cyclestreets.CycleStreetsPreferences;
-import net.cyclestreets.R;
-import net.cyclestreets.RouteMapFragment;
 import net.cyclestreets.util.EditTextHistory;
-import net.cyclestreets.util.RouteTypeMapper;
 
 import android.app.Activity;
 import android.content.Intent;

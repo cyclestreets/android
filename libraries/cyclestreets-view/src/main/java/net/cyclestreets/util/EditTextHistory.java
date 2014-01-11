@@ -1,6 +1,6 @@
 package net.cyclestreets.util;
 
-import net.cyclestreets.R;
+import net.cyclestreets.view.R;
 import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;

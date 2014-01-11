@@ -15,6 +15,8 @@ import android.graphics.Color;
 import android.os.AsyncTask;
 import android.widget.ImageView;
 
+import net.cyclestreets.util.Bitmaps;
+
 public class ImageDownloader 
 {
 	static public void get(final String url, 
