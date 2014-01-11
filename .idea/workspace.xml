@@ -10,12 +10,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="4865c504-b581-430d-88de-cb23969a69af" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/cyclestreets/src/main/java/net/cyclestreets/views/overlay/LiveRideOverlay.java" afterPath="$PROJECT_DIR$/cyclestreets/src/main/java/net/cyclestreets/views/overlay/LiveRideOverlay.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/libraries/cyclestreets-core/cyclestreets-core.iml" afterPath="$PROJECT_DIR$/libraries/cyclestreets-core/cyclestreets-core.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/cyclestreets/cyclestreets.iml" afterPath="$PROJECT_DIR$/cyclestreets/cyclestreets.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/gradle.xml" afterPath="$PROJECT_DIR$/.idea/gradle.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/libraries/libraries.iml" afterPath="$PROJECT_DIR$/libraries/libraries.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/master.iml" afterPath="$PROJECT_DIR$/master.iml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/cyclestreets/src/main/java/net/cyclestreets/views/overlay/POIOverlay.java" afterPath="$PROJECT_DIR$/cyclestreets/src/main/java/net/cyclestreets/views/overlay/POIOverlay.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="master.iws" />
@@ -92,25 +87,28 @@
       <file leaf-file-name="build.gradle" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/cyclestreets/build.gradle">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="26" column="0" selection-start="749" selection-end="749" vertical-scroll-proportion="0.0" vertical-offset="390" max-vertical-offset="855">
+            <state line="26" column="0" selection-start="749" selection-end="749" vertical-scroll-proportion="0.0" vertical-offset="292" max-vertical-offset="855">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="CycleMapFragment.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/cyclestreets/src/main/java/net/cyclestreets/CycleMapFragment.java">
+      <file leaf-file-name="POIOverlay.java" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/cyclestreets/src/main/java/net/cyclestreets/views/overlay/POIOverlay.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="5" column="0" selection-start="112" selection-end="112" vertical-scroll-proportion="0.0" vertical-offset="75" max-vertical-offset="2085">
-              <folding />
+            <state line="491" column="33" selection-start="14541" selection-end="14541" vertical-scroll-proportion="0.6097561" vertical-offset="6420" max-vertical-offset="7575">
+              <folding>
+                <element signature="e#11271#11679#0" expanded="true" />
+                <element signature="e#11650#11651#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="LiveRideOverlay.java" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/cyclestreets/src/main/java/net/cyclestreets/views/overlay/LiveRideOverlay.java">
+      <file leaf-file-name="POICategories.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/libraries/cyclestreets-core/src/main/java/net/cyclestreets/api/POICategories.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="98" column="33" selection-start="3142" selection-end="3142" vertical-scroll-proportion="0.74860334" vertical-offset="693" max-vertical-offset="3120">
+            <state line="177" column="41" selection-start="4893" selection-end="4893" vertical-scroll-proportion="-1.7307693" vertical-offset="1995" max-vertical-offset="2535">
               <folding />
             </state>
           </provider>
@@ -909,6 +907,8 @@
         <option value="$PROJECT_DIR$/cyclestreets/build.gradle" />
         <option value="$PROJECT_DIR$/libraries/cyclestreets-core/build.gradle" />
         <option value="$PROJECT_DIR$/cyclestreets/src/main/java/net/cyclestreets/views/overlay/LiveRideOverlay.java" />
+        <option value="$PROJECT_DIR$/libraries/cyclestreets-core/src/main/java/net/cyclestreets/api/POICategories.java" />
+        <option value="$PROJECT_DIR$/cyclestreets/src/main/java/net/cyclestreets/views/overlay/POIOverlay.java" />
       </list>
     </option>
   </component>
@@ -1248,6 +1248,7 @@
     <property name="restartRequiresConfirmation" value="true" />
     <property name="ANDROID_EXTENDED_DEVICE_CHOOSER_SERIALS" value="0009689d5c0e7f" />
     <property name="ANDROID_EXTENDED_DEVICE_CHOOSER_AVD" value="Android-2.3.3" />
+    <property name="SearchEverywhereHistory" value="" />
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
@@ -1453,6 +1454,7 @@
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32821724" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3293718" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.41065088" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
@@ -1473,7 +1475,6 @@
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32949308" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
@@ -1630,13 +1631,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/cyclestreets/build.gradle">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="26" column="0" selection-start="749" selection-end="749" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="855">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="jar://$PROJECT_DIR$/../../android-sdk/platforms/android-8/android.jar!/java/lang/ThreadGroup.class">
       <provider selected="true" editor-type-id="text-editor">
         <state line="52" column="0" selection-start="1842" selection-end="1842" vertical-scroll-proportion="0.0" vertical-offset="450" max-vertical-offset="945">
@@ -1647,13 +1641,6 @@
     <entry file="file://$PROJECT_DIR$/libraries/cyclestreets-core/build.gradle">
       <provider selected="true" editor-type-id="text-editor">
         <state line="10" column="47" selection-start="287" selection-end="287" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="495">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/cyclestreets/src/main/java/net/cyclestreets/CycleMapFragment.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="5" column="0" selection-start="112" selection-end="112" vertical-scroll-proportion="0.0" vertical-offset="75" max-vertical-offset="2085">
           <folding />
         </state>
       </provider>
@@ -1676,6 +1663,37 @@
       <provider selected="true" editor-type-id="text-editor">
         <state line="98" column="33" selection-start="3142" selection-end="3142" vertical-scroll-proportion="0.74860334" vertical-offset="693" max-vertical-offset="3120">
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cyclestreets/src/main/java/net/cyclestreets/CycleMapFragment.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="5" column="0" selection-start="112" selection-end="112" vertical-scroll-proportion="0.0" vertical-offset="75" max-vertical-offset="2085">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cyclestreets/build.gradle">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="26" column="0" selection-start="749" selection-end="749" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="855">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/libraries/cyclestreets-core/src/main/java/net/cyclestreets/api/POICategories.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="177" column="41" selection-start="4893" selection-end="4893" vertical-scroll-proportion="-1.7307693" vertical-offset="1995" max-vertical-offset="2535">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cyclestreets/src/main/java/net/cyclestreets/views/overlay/POIOverlay.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="491" column="33" selection-start="14541" selection-end="14541" vertical-scroll-proportion="0.6097561" vertical-offset="6420" max-vertical-offset="7575">
+          <folding>
+            <element signature="e#11271#11679#0" expanded="true" />
+            <element signature="e#11650#11651#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

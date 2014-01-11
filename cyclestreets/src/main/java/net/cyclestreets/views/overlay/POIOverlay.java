@@ -390,9 +390,8 @@ public class POIOverlay extends LiveItemOverlay<POIOverlay.POIItem>
                                                                  allCategories(), 
                                                                  activeCategories_);
 
-    // it can take a while to show the dialog
-    Dialog.listViewDialog(context_, 
-                          poiAdapter, 
+    Dialog.listViewDialog(context_,
+                          poiAdapter,
                           new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(final DialogInterface dialog,
@@ -408,6 +407,7 @@ public class POIOverlay extends LiveItemOverlay<POIOverlay.POIItem>
                               chooserShowing_ = false;
                             }
                           });
+
     return true;
   } // onMenuItemSelected
   
@@ -488,6 +488,8 @@ public class POIOverlay extends LiveItemOverlay<POIOverlay.POIItem>
       inflater_ = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
       cats_ = allCategories;
       massiveIconCats_ = POICategories.load(64);
+      if (massiveIconCats_ == null)
+        massiveIconCats_ = cats_;
       selected_ = new ArrayList<POICategory>();
       selected_.addAll(initialCategories);
     } // POICategoryAdaptor
