@@ -83,8 +83,11 @@ public class LiveRideOverlay extends Overlay implements ServiceConnection
   @Override
   protected void draw(final Canvas canvas, final MapView mapView, final boolean shadow)
   {
-    drawNextTurn(canvas);
-    drawSpeed(canvas);
+    try {
+      drawNextTurn(canvas);
+      drawSpeed(canvas);
+    } catch(Exception e) {
+    } // catch
   } // draw
   
   private void drawNextTurn(final Canvas canvas) 
