@@ -1,24 +1,24 @@
 package net.cyclestreets.routing;
 
-import net.cyclestreets.R;
+import net.cyclestreets.view.R;
 import net.cyclestreets.content.RouteData;
 import net.cyclestreets.content.RouteDatabase;
 
 import android.content.Context;
 
-public class StoredRoutingTask extends RoutingTask<Integer> 
+public class StoredRoutingTask extends RoutingTask<Integer>
 {
 	private final RouteDatabase db_;
 
 	StoredRoutingTask(final RouteDatabase db,
-	                  final Context context) 
+	                  final Context context)
 	{
 		super(R.string.loading_route, context);
 		db_ = db;
 	} // StoredRoutingTask
 
 	@Override
-	protected RouteData doInBackground(Integer... params) 
+	protected RouteData doInBackground(Integer... params)
 	{
 		return db_.route(params[0]);
 	} // doInBackground

@@ -1,6 +1,6 @@
 package net.cyclestreets.routing;
 
-import net.cyclestreets.R;
+import net.cyclestreets.view.R;
 import net.cyclestreets.content.RouteData;
 
 import android.content.Context;
@@ -10,16 +10,16 @@ class CycleStreetsRoutingTask extends RoutingTask<Waypoints>
 	/////////////////////////////////////////////////////
 	private final String routeType_;
 	private final int speed_;
-			
+
 	CycleStreetsRoutingTask(final String routeType,
 				                  final int speed,
-				                  final Context context) 
+				                  final Context context)
 	{
 	  super(R.string.finding_route, context);
 		routeType_ = routeType;
 		speed_ = speed;
 	} // NewRouteTask
-	
+
 	@Override
 	protected RouteData doInBackground(final Waypoints... waypoints)
 	{

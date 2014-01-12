@@ -1,6 +1,6 @@
 package net.cyclestreets.routing;
 
-import net.cyclestreets.R;
+import net.cyclestreets.view.R;
 import net.cyclestreets.content.RouteData;
 import android.content.Context;
 
@@ -8,16 +8,16 @@ public class FetchCycleStreetsRouteTask extends RoutingTask<Long>
 {
   private final String routeType_;
   private final int speed_;
-        
+
   FetchCycleStreetsRouteTask(final String routeType,
-                             final int speed,  
-                             final Context context) 
+                             final int speed,
+                             final Context context)
   {
     super(R.string.fetching_route, context);
     routeType_ = routeType;
     speed_ = speed;
   } // FetchCycleStreetsRouteTask
-      
+
   @Override
   protected RouteData doInBackground(Long... params)
   {

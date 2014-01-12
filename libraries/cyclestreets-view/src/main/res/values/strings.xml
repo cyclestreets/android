@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <string name="finding_route">Obtaining route from CycleStreets.net, please wait</string>
+  <string name="fetching_route">Fetching route from CycleStreets.net, please wait</string>
+  <string name="route_failed">Route finding failed</string>
+  <string name="loading_route">Loading route, please wait</string>
+</resources>

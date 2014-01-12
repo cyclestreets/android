@@ -6,11 +6,7 @@
 	<string name="blog">Blog</string>
 	<string name="go">Find Route</string>
 	<string name="addvia">Add waypoint</string>
-	<string name="finding_route">Obtaining route from CycleStreets.net, please wait</string>
-  <string name="fetching_route">Fetching route from CycleStreets.net, please wait</string>
-	<string name="loading_route">Loading route, please wait</string>
 	<string name="uploading_photo">Uploading photo to CycleStreets.net, please wait</string>
-	<string name="route_failed">Route finding failed</string>
 	<string name="signing_in">Signing into CycleStreets.net</string>
 	<string name="registering">Registering with CycleStreets.net</string>
 

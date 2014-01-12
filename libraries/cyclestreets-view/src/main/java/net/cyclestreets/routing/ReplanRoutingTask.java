@@ -1,11 +1,11 @@
 package net.cyclestreets.routing;
 
 import android.content.Context;
-import net.cyclestreets.R;
+import net.cyclestreets.view.R;
 import net.cyclestreets.content.RouteData;
 import net.cyclestreets.content.RouteDatabase;
 
-public class ReplanRoutingTask 
+public class ReplanRoutingTask
   extends RoutingTask<Journey>
 {
 	private final RouteDatabase db_;
@@ -13,7 +13,7 @@ public class ReplanRoutingTask
 
 	ReplanRoutingTask(final String newPlan,
 	                  final RouteDatabase db,
-	                  final Context context) 
+	                  final Context context)
 	{
 		super(R.string.loading_route, context);
 		db_ = db;
@@ -21,7 +21,7 @@ public class ReplanRoutingTask
 	} // ReplanRouteTask
 
 	@Override
-	protected RouteData doInBackground(Journey... params) 
+	protected RouteData doInBackground(Journey... params)
 	{
 	  final Journey pr = params[0];
 	  final RouteData rd = db_.route(pr.itinerary(), newPlan_);
