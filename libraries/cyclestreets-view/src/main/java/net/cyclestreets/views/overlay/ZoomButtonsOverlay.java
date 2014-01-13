@@ -1,6 +1,6 @@
 package net.cyclestreets.views.overlay;
 
-import net.cyclestreets.R;
+import net.cyclestreets.view.R;
 
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.Overlay;
@@ -10,23 +10,23 @@ import android.content.res.Resources;
 import android.graphics.Canvas;
 import android.view.MotionEvent;
 
-public class ZoomButtonsOverlay extends Overlay 
+public class ZoomButtonsOverlay extends Overlay
                                 implements ButtonTapListener
 {
   private final MapView mapView_;
   private final OverlayButton zoomIn_;
   private final OverlayButton zoomOut_;
-  
-  public ZoomButtonsOverlay(final Context context, 
+
+  public ZoomButtonsOverlay(final Context context,
                 final MapView mapView)
   {
     super(context);
-    
+
     mapView_ = mapView;
 
-    final int offset = DrawingHelper.offset(context);  
+    final int offset = DrawingHelper.offset(context);
     final float radius = DrawingHelper.cornerRadius(context);
-    
+
     final Resources res = context.getResources();
     zoomIn_ = new OverlayButton(res.getDrawable(R.drawable.btn_plus),
                                 offset,
@@ -40,12 +40,12 @@ public class ZoomButtonsOverlay extends Overlay
                                  radius);
     zoomOut_.rightAlign().bottomAlign();
   } // ZoomButtonsOverlay
-  
+
   @Override
-  public void draw(final Canvas canvas, final MapView mapView, final boolean shadow) 
+  public void draw(final Canvas canvas, final MapView mapView, final boolean shadow)
   {
   } // draw
-  
+
   @Override
   public void drawButtons(final Canvas canvas, final MapView mapView)
   {
@@ -54,14 +54,14 @@ public class ZoomButtonsOverlay extends Overlay
     zoomOut_.enable(mapView.canZoomOut());
     zoomOut_.draw(canvas);
   } // drawButtons
-  
+
   //////////////////////////////////////////////
   @Override
-  public boolean onButtonTap(final MotionEvent event) 
+  public boolean onButtonTap(final MotionEvent event)
   {
     return tapZoom(event);
   } // onSingleTapUp
-  
+
   @Override
   public boolean onButtonDoubleTap(final MotionEvent event)
   {
@@ -82,7 +82,7 @@ public class ZoomButtonsOverlay extends Overlay
         mapView_.getController().zoomOut();
       return true;
     } // if ...
-    
+
     return false;
   } // tapPrevNext
 } // class ZoomButtonsOverlay

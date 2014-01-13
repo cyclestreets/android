@@ -33,7 +33,7 @@ import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import net.cyclestreets.R;
+import net.cyclestreets.view.R;
 import net.cyclestreets.Undoable;
 import net.cyclestreets.api.POI;
 import net.cyclestreets.api.POICategories;

@@ -6,8 +6,7 @@ repositories {
 
 dependencies {
     compile project(':libraries:cyclestreets-view'),
-            'ch.acra:acra:4.2.3',
-            'com.google.android:support-v4:r7'
+            'ch.acra:acra:4.2.3'
 }
 
 android {

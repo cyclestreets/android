@@ -1,6 +1,6 @@
 package net.cyclestreets.views.overlay;
 
-import net.cyclestreets.R;
+import net.cyclestreets.view.R;
 
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.Overlay;
@@ -16,14 +16,14 @@ public class StopActivityOverlay extends Overlay implements ButtonTapListener
 	private final float radius_;
 
 	private final Activity activity_;
-	private final OverlayButton stopButton_;	
-	
-	public StopActivityOverlay(final Activity context) 
+	private final OverlayButton stopButton_;
+
+	public StopActivityOverlay(final Activity context)
 	{
 		super(context);
-		
+
 		activity_ = context;
-		
+
 		offset_ = DrawingHelper.offset(context);
 		radius_ = DrawingHelper.cornerRadius(context);
 
@@ -31,15 +31,15 @@ public class StopActivityOverlay extends Overlay implements ButtonTapListener
 		stopButton_ = new OverlayButton(res.getDrawable(R.drawable.btn_stop),
 		                                offset_,
 		                                offset_,
-		                                radius_);		
+		                                radius_);
 	} // LocationOverlay
-	
+
 	////////////////////////////////////////////
   @Override
   protected void draw(Canvas arg0, MapView arg1, boolean arg2)
   {
   } // draw
-  
+
 	@Override
 	public void drawButtons(final Canvas canvas, final MapView mapView)
 	{
@@ -48,15 +48,15 @@ public class StopActivityOverlay extends Overlay implements ButtonTapListener
 
   //////////////////////////////////////////////
 	@Override
-	public boolean onButtonTap(final MotionEvent event) 
+	public boolean onButtonTap(final MotionEvent event)
 	{
 	  if(!stopButton_.hit(event))
 	    return false;
-	  
+
 	  activity_.finish();
 	  return true;
 	} // onSingleTapUp
-	
+
 	@Override
 	public boolean onButtonDoubleTap(final MotionEvent event)
 	{

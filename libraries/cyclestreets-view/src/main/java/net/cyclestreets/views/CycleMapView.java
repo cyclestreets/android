@@ -3,7 +3,7 @@ package net.cyclestreets.views;
 import java.util.Map;
 
 import net.cyclestreets.CycleStreetsPreferences;
-import net.cyclestreets.R;
+import net.cyclestreets.view.R;
 import net.cyclestreets.util.MapFactory;
 import net.cyclestreets.util.MapPack;
 import net.cyclestreets.util.MessageBox;
@@ -55,38 +55,38 @@ public class CycleMapView extends MapView
   private final ControllerOverlay controllerOverlay_;
   private final LocationOverlay location_;
   private final int overlayBottomIndex_;
-  
+
   private GeoPoint centreOn_ = null;
 
   public CycleMapView(final Context context, final String name)
   {
-    super(context, 
-          256, 
+    super(context,
+          256,
           new DefaultResourceProxyImpl(context),
           mapTileProvider(context));
 
     prefs_ = context.getSharedPreferences("net.cyclestreets.mapview."+name, Context.MODE_PRIVATE);
-    
+
     setBuiltInZoomControls(false);
     setMultiTouchControls(true);
-    
+
     overlayBottomIndex_ = getOverlays().size();
-        
+
     getOverlays().add(new ZoomButtonsOverlay(context, this));
-    
+
     location_ = new LocationOverlay(context, this);
     getOverlays().add(location_);
-    
+
     controllerOverlay_ = new ControllerOverlay(context, this);
     getOverlays().add(controllerOverlay_);
   } // CycleMapView
-  
+
   public Overlay overlayPushBottom(final Overlay overlay)
   {
     getOverlays().add(overlayBottomIndex_, overlay);
     return overlay;
   } // overlayPushBottom
-  
+
   public Overlay overlayPushTop(final Overlay overlay)
   {
     // keep TapOverlay on top
@@ -94,7 +94,7 @@ public class CycleMapView extends MapView
     getOverlays().add(front, overlay);
     return overlay;
   } // overlayPushFront
-  
+
   /////////////////////////////////////////
   // save/restore
   public void onPause()
@@ -110,7 +110,7 @@ public class CycleMapView extends MapView
     edit.putBoolean(PREFS_APP_FOLLOW_LOCATION, location_.isFollowLocationEnabled());
 
     disableMyLocation();
-    
+
     controllerOverlay_.onPause(edit);
     edit.commit();
   } // onPause
@@ -131,7 +131,7 @@ public class CycleMapView extends MapView
       location_.disableFollowLocation();
 
     if(centreOn_ == null) {
-      // mild data race if we're setting centre in onActivityResult 
+      // mild data race if we're setting centre in onActivityResult
       // because that's followed by an onResume
       int lon = pref(PREFS_APP_CENTRE_LON, 0);
       int lat = pref(PREFS_APP_CENTRE_LAT, 51477841); /* Greenwich */
@@ -142,17 +142,17 @@ public class CycleMapView extends MapView
     } // if ...
 
     getController().setZoom(pref(PREFS_APP_ZOOM_LEVEL, 14));
-             
+
     controllerOverlay_.onResume(prefs_);
-  } // onResume 
-  
+  } // onResume
+
   ////////////////////////////////////////////////////////////
   ////////////////////////////////////////////////////////////
   public void onCreateOptionsMenu(final Menu menu)
   {
-    controllerOverlay_.onCreateOptionsMenu(menu);    
+    controllerOverlay_.onCreateOptionsMenu(menu);
   } // onCreateOptionsMenu
-  
+
   public void onPrepareOptionsMenu(final Menu menu)
   {
     controllerOverlay_.onPrepareOptionsMenu(menu);
@@ -162,18 +162,18 @@ public class CycleMapView extends MapView
   {
     return controllerOverlay_.onMenuItemSelected(featureId, item);
   } // onMenuItemSelected
-  
+
   @Override
-  public void onCreateContextMenu(final ContextMenu menu) 
+  public void onCreateContextMenu(final ContextMenu menu)
   {
     controllerOverlay_.onCreateContextMenu(menu);
   } //  onCreateContextMenu
-  
+
   public boolean onBackPressed()
   {
     return controllerOverlay_.onBackPressed();
   } // onBackPressed
-  
+
   /////////////////////////////////////////
   // location
   public Location getLastFix() { return location_.getLastFix(); }
@@ -185,14 +185,14 @@ public class CycleMapView extends MapView
   public void enableAndFollowLocation() { location_.enableAndFollowLocation(true); }
   public void lockOnLocation() { location_.lockOnLocation(); }
   public void hideLocationButton() { location_.hideButton(); }
-  
+
   ///////////////////////////////////////////////////////
   public void centreOn(final GeoPoint place)
   {
     centreOn_ = place;
     invalidate();
   } // centreOn
-    
+
   @Override
   protected void dispatchDraw(final Canvas canvas)
   {
@@ -202,10 +202,10 @@ public class CycleMapView extends MapView
       centreOn_ = null;
       return;
     } // if ..
-    
+
     super.dispatchDraw(canvas);
   } // dispatchDraw
-  
+
   ///////////////////////////////////////////////////////
   private int pref(final String key, int defValue)
   {
@@ -215,23 +215,23 @@ public class CycleMapView extends MapView
   {
     return prefs_.getBoolean(key, defValue);
   } // pref
-  
+
   public String mapAttribution()
   {
     try {
       return attribution_.get(CycleStreetsPreferences.mapstyle());
     }
-    catch(Exception e) { 
+    catch(Exception e) {
       // sigh
     } // catch
     return attribution_.get(DEFAULT_RENDERER);
   } // mapAttribution
-  
+
   private ITileSource mapRenderer()
-  {    
-    try { 
+  {
+    try {
       final ITileSource renderer = TileSourceFactory.getTileSource(CycleStreetsPreferences.mapstyle());
-      
+
       if(renderer instanceof MapsforgeOSMTileSource)
       {
     	final String mapFile = CycleStreetsPreferences.mapfile();
@@ -240,10 +240,10 @@ public class CycleMapView extends MapView
           ((MapsforgeOSMTileSource)renderer).setMapFile(mapFile);
         else
         {
-          MessageBox.YesNo(this, 
+          MessageBox.YesNo(this,
                            R.string.out_of_date_map_pack,
                            new DialogInterface.OnClickListener() {
-                             public void onClick(DialogInterface arg0, int arg1) {  
+                             public void onClick(DialogInterface arg0, int arg1) {
                                MapPack.searchGooglePlay(getContext());
                              } // onClick
                            });
@@ -251,24 +251,24 @@ public class CycleMapView extends MapView
           return TileSourceFactory.getTileSource(DEFAULT_RENDERER);
         }
       }
-      
+
       return renderer;
     } // try
     catch(Exception e) {
-      // oh dear 
+      // oh dear
     } // catch
     return TileSourceFactory.getTileSource(DEFAULT_RENDERER);
   } // mapRenderer
-  
+
   static private String DEFAULT_RENDERER = CycleStreetsPreferences.MAPSTYLE_OCM;
-  static private Map<String, String> attribution_ = 
+  static private Map<String, String> attribution_ =
       MapFactory.map(CycleStreetsPreferences.MAPSTYLE_OCM, "\u00a9 OpenStreetMap and contributors, CC-BY-SA. Map images \u00a9 OpenCycleMap")
                 .map(CycleStreetsPreferences.MAPSTYLE_OSM, "\u00a9 OpenStreetMap and contributors, CC-BY-SA")
                 .map(CycleStreetsPreferences.MAPSTYLE_OS, "Contains Ordnance Survey Data \u00a9 Crown copyright and database right 2010")
                 .map(CycleStreetsPreferences.MAPSTYLE_MAPSFORGE, "\u00a9 OpenStreetMap and contributors, CC-BY-SA");
-  
-  static 
-  { 
+
+  static
+  {
     final OnlineTileSourceBase OPENCYCLEMAP = new XYTileSource(CycleStreetsPreferences.MAPSTYLE_OCM,
                     ResourceProxy.string.cyclemap, 0, 17, 256, ".png",
                     "http://a.tile.opencyclemap.org/cycle/",
@@ -290,13 +290,13 @@ public class CycleMapView extends MapView
     TileSourceFactory.addTileSource(OSMAP);
     TileSourceFactory.addTileSource(MAPSFORGE);
   } // static
-  
+
   static private MapTileProviderBase mapTileProvider(final Context context)
   {
     return new CycleMapTileProvider(context);
   } // MapTileProviderBase
-  
-  static private class CycleMapTileProvider extends MapTileProviderArray 
+
+  static private class CycleMapTileProvider extends MapTileProviderArray
                                             implements IMapTileProviderCallback
   {
     public CycleMapTileProvider(final Context context)
@@ -305,28 +305,28 @@ public class CycleMapView extends MapView
            TileSourceFactory.getTileSource(DEFAULT_RENDERER),
            new SimpleRegisterReceiver(context));
     } // CycleMapTileProvider
-    
+
     private CycleMapTileProvider(final Context context,
                                  final ITileSource tileSource,
                                  final IRegisterReceiver registerReceiver)
     {
       super(tileSource, registerReceiver);
-      
-      final MapTileFilesystemProvider fileSystemProvider = 
+
+      final MapTileFilesystemProvider fileSystemProvider =
             new MapTileFilesystemProvider(registerReceiver, tileSource);
       mTileProviderList.add(fileSystemProvider);
-      
+
       final NetworkAvailabliltyCheck networkCheck = new NetworkAvailabliltyCheck(context);
-      
-      final MapTileDownloader downloaderProvider = 
-            new MapTileDownloader(tileSource, 
-            					  new TileWriter(), 
+
+      final MapTileDownloader downloaderProvider =
+            new MapTileDownloader(tileSource,
+            					  new TileWriter(),
                                   networkCheck);
       mTileProviderList.add(downloaderProvider);
-      
-      final MapsforgeOSMDroidTileProvider mapsforgeProvider = 
+
+      final MapsforgeOSMDroidTileProvider mapsforgeProvider =
             new MapsforgeOSMDroidTileProvider(tileSource, networkCheck);
       mTileProviderList.add(mapsforgeProvider);
     } // CycleMapTileProvider
-  } // CycleMapTileProvider  
+  } // CycleMapTileProvider
 } // CycleMapView

@@ -1,5 +1,6 @@
 package net.cyclestreets;
 
+import net.cyclestreets.view.R;
 import net.cyclestreets.util.ImageDownloader;
 import net.cyclestreets.util.Share;
 
@@ -63,14 +64,11 @@ public class DisplayPhotoActivity extends Activity implements View.OnClickListen
 	@Override
 	public void onClick(View v)
 	{
-		switch(v.getId())
-		{
-			case R.id.photo_share:
-				String photoUrl_ = i.getStringExtra("url");
-				String caption_ = i.getStringExtra("caption");
-			    Share.Url(this, photoUrl_, caption_, "Photo on CycleStreets.net");
-
-				break;
-		} // switch
+        final int id = v.getId();
+		if(R.id.photo_share == id) {
+		  String photoUrl_ = i.getStringExtra("url");
+		  String caption_ = i.getStringExtra("caption");
+		  Share.Url(this, photoUrl_, caption_, "Photo on CycleStreets.net");
+		} // if ...
 	} // onClick
 } // DisplayPhotoActivity

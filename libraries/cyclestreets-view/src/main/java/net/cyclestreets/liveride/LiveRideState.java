@@ -1,7 +1,7 @@
 package net.cyclestreets.liveride;
 
 import net.cyclestreets.LiveRideActivity;
-import net.cyclestreets.R;
+import net.cyclestreets.view.R;
 import net.cyclestreets.routing.Journey;
 import net.cyclestreets.routing.Segment;
 

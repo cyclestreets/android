@@ -6,7 +6,8 @@ repositories {
 
 dependencies {
     compile project(':libraries:cyclestreets-core'),
-            files('libs/mapsforge-map-0.3.0-jar-with-dependencies.jar')
+            files('libs/mapsforge-map-0.3.0-jar-with-dependencies.jar'),
+            'com.google.android:support-v4:r7'
 }
 
 android {

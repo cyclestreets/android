@@ -1,5 +1,6 @@
 package net.cyclestreets;
 
+import net.cyclestreets.view.R;
 import net.cyclestreets.api.Feedback;
 import net.cyclestreets.routing.Route;
 import net.cyclestreets.util.MessageBox;
