@@ -19,8 +19,8 @@ import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.RelativeLayout.LayoutParams;
 
-import static net.cyclestreets.FragmentHelper.createMenuItem;
-import static net.cyclestreets.FragmentHelper.enableMenuItem;
+import static net.cyclestreets.util.MenuHelper.createMenuItem;
+import static net.cyclestreets.util.MenuHelper.enableMenuItem;
 
 public class CycleMapFragment extends Fragment implements Undoable
 {

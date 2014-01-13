@@ -7,21 +7,21 @@ import android.widget.TextView;
 
 public class AboutActivity extends Activity 
 {
-	@Override
-	protected void onCreate(Bundle savedInstanceState) 
-	{
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.about);
+  @Override
+  protected void onCreate(Bundle savedInstanceState)
+  {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.about);
 		
     final WebView htmlView = (WebView)findViewById(R.id.html_view);
     htmlView.loadUrl("file:///android_asset/credits.html");
     
     final TextView versionView = (TextView)findViewById(R.id.version_view);
     versionView.setText(versionName());
-	} // onCreate
+  } // onCreate
 	
-	private String versionName() 
-	{
-	  return ((CycleStreetsApp)getApplication()).version();
-	} // versionName
+  private String versionName()
+  {
+    return ((CycleStreetsApp)getApplication()).version();
+  } // versionName
 } // HtmlActivity

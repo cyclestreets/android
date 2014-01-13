@@ -23,9 +23,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
-import static net.cyclestreets.FragmentHelper.createMenuItem;
-import static net.cyclestreets.FragmentHelper.enableMenuItem;
-import static net.cyclestreets.FragmentHelper.showMenuItem;
+import static net.cyclestreets.util.MenuHelper.createMenuItem;
+import static net.cyclestreets.util.MenuHelper.enableMenuItem;
+import static net.cyclestreets.util.MenuHelper.showMenuItem;
 
 public class RouteMapFragment extends CycleMapFragment
                               implements Route.Listener
@@ -187,7 +187,7 @@ public class RouteMapFragment extends CycleMapFragment
 	  GeoIntent.setBoundingBox(intent, mapView().getBoundingBox());
 	  final Location lastFix = mapView().getLastFix();
 	  GeoIntent.setLocation(intent, lastFix);	
-    GeoIntent.setWaypoints(intent, routeSetter_.waypoints());
+      GeoIntent.setWaypoints(intent, routeSetter_.waypoints());
 	  startActivityForResult(intent, ActivityId.Directions);
 	} // doLaunchRouteDialog
 	

@@ -54,8 +54,8 @@ import java.util.Map;
 import org.osmdroid.api.IGeoPoint;
 import org.osmdroid.util.GeoPoint;
 
-import static net.cyclestreets.FragmentHelper.createMenuItem;
-import static net.cyclestreets.FragmentHelper.enableMenuItem;
+import static net.cyclestreets.util.MenuHelper.createMenuItem;
+import static net.cyclestreets.util.MenuHelper.enableMenuItem;
 
 public class PhotoUploadFragment extends Fragment 
                 implements View.OnClickListener, LocationListener, Undoable

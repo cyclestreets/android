@@ -43,8 +43,8 @@ import net.cyclestreets.util.Draw;
 import net.cyclestreets.util.GeoHelper;
 import net.cyclestreets.views.CycleMapView;
 
-import static net.cyclestreets.FragmentHelper.createMenuItem;
-import static net.cyclestreets.FragmentHelper.enableMenuItem;
+import static net.cyclestreets.util.MenuHelper.createMenuItem;
+import static net.cyclestreets.util.MenuHelper.enableMenuItem;
 
 public class POIOverlay extends LiveItemOverlay<POIOverlay.POIItem>
                         implements MapListener, 

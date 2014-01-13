@@ -13,8 +13,8 @@ import android.location.Location;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
-import static net.cyclestreets.FragmentHelper.createMenuItem;
-import static net.cyclestreets.FragmentHelper.enableMenuItem;
+import static net.cyclestreets.util.MenuHelper.createMenuItem;
+import static net.cyclestreets.util.MenuHelper.enableMenuItem;
 
 public class LocationOverlay extends MyLocationOverlay
 							               implements ButtonTapListener, MenuListener

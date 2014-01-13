@@ -22,7 +22,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.RelativeLayout.LayoutParams;
 
-import static net.cyclestreets.FragmentHelper.createMenuItem;
+import static net.cyclestreets.util.MenuHelper.createMenuItem;
 
 public class StoredRoutesActivity extends ListActivity 
 {

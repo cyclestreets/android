@@ -1,9 +1,9 @@
-package net.cyclestreets;
+package net.cyclestreets.util;
 
 import android.view.Menu;
 import android.view.MenuItem;
 
-public class FragmentHelper
+public class MenuHelper
 {
   static public MenuItem createMenuItem(final Menu menu, 
                                         final int itemId,
@@ -41,4 +41,4 @@ public class FragmentHelper
     mi.setVisible(show);
     return mi;
   } // showMenuItem
-} // FragmentHelper
+} // MenuHelper
