@@ -16,22 +16,7 @@
     <option name="TOOL_WINDOW_LOG_LEVEL" value="ERROR" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="4865c504-b581-430d-88de-cb23969a69af" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/libraries/cyclestreets-view/src/main/java/net/cyclestreets/util/MenuHelper.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/cyclestreets/src/main/java/net/cyclestreets/AboutActivity.java" afterPath="$PROJECT_DIR$/cyclestreets/src/main/java/net/cyclestreets/AboutActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/cyclestreets/src/main/java/net/cyclestreets/BlogActivity.java" afterPath="$PROJECT_DIR$/cyclestreets/src/main/java/net/cyclestreets/BlogActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/cyclestreets/src/main/java/net/cyclestreets/CycleMapFragment.java" afterPath="$PROJECT_DIR$/cyclestreets/src/main/java/net/cyclestreets/CycleMapFragment.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/libraries/cyclestreets-view/src/main/java/net/cyclestreets/views/overlay/LocationOverlay.java" afterPath="$PROJECT_DIR$/libraries/cyclestreets-view/src/main/java/net/cyclestreets/views/overlay/LocationOverlay.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/cyclestreets/src/main/java/net/cyclestreets/MoreFragment.java" afterPath="$PROJECT_DIR$/cyclestreets/src/main/java/net/cyclestreets/MoreFragment.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/libraries/cyclestreets-view/src/main/java/net/cyclestreets/views/overlay/POIOverlay.java" afterPath="$PROJECT_DIR$/libraries/cyclestreets-view/src/main/java/net/cyclestreets/views/overlay/POIOverlay.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/cyclestreets/src/main/java/net/cyclestreets/PhotoUploadFragment.java" afterPath="$PROJECT_DIR$/cyclestreets/src/main/java/net/cyclestreets/PhotoUploadFragment.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/cyclestreets/src/main/java/net/cyclestreets/RouteMapFragment.java" afterPath="$PROJECT_DIR$/cyclestreets/src/main/java/net/cyclestreets/RouteMapFragment.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/cyclestreets/src/main/java/net/cyclestreets/StoredRoutesActivity.java" afterPath="$PROJECT_DIR$/cyclestreets/src/main/java/net/cyclestreets/StoredRoutesActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/libraries/cyclestreets-view/src/main/java/net/cyclestreets/views/overlay/TapToRouteOverlay.java" afterPath="$PROJECT_DIR$/libraries/cyclestreets-view/src/main/java/net/cyclestreets/views/overlay/TapToRouteOverlay.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/libraries/cyclestreets-view/cyclestreets-view.iml" afterPath="$PROJECT_DIR$/libraries/cyclestreets-view/cyclestreets-view.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/cyclestreets/cyclestreets.iml" afterPath="$PROJECT_DIR$/cyclestreets/cyclestreets.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-    </list>
+    <list default="true" id="4865c504-b581-430d-88de-cb23969a69af" name="Default" comment="" />
     <ignored path="master.iws" />
     <ignored path=".idea/workspace.xml" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -1399,7 +1384,6 @@
   </component>
   <component name="ProjectFrameBounds">
     <option name="x" value="-8" />
-    <option name="y" value="-8" />
     <option name="width" value="1296" />
     <option name="height" value="780" />
   </component>
@@ -1896,7 +1880,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1296" height="780" extended-state="0" />
+    <frame x="-8" y="0" width="1296" height="780" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />

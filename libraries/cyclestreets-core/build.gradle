@@ -4,24 +4,28 @@ repositories {
   mavenCentral()
 }
 
+configurations {
+  compile.exclude module: 'commons-logging'
+}
+
 dependencies {
-    compile 'org.osmdroid:osmdroid-android:3.0.8',
-            'org.apache.james:apache-mime4j:0.6',
-            'org.apache.httpcomponents:httpmime:4.1',
-            'org.slf4j:slf4j-android:1.6.1-RC1'
+  compile 'org.osmdroid:osmdroid-android:3.0.8',
+          'org.apache.james:apache-mime4j:0.6',
+          'org.apache.httpcomponents:httpmime:4.1'
+          'org.slf4j:slf4j-android:1.6.1-RC1'
 }
 
 android {
-    Properties appConfig = new Properties()
-    appConfig.load(new FileInputStream(file("../../config.properties")))
+  Properties appConfig = new Properties()
+  appConfig.load(new FileInputStream(file("../../config.properties")))
 
-    compileSdkVersion appConfig['sdkVersion'].toInteger()
-    buildToolsVersion "19.0.1"
+  compileSdkVersion appConfig['sdkVersion'].toInteger()
+  buildToolsVersion "19.0.1"
 
-    defaultConfig {
-        minSdkVersion appConfig['sdkVersion'].toInteger()
-        targetSdkVersion appConfig['sdkVersion'].toInteger()
-        versionCode appConfig['versionCode'].toInteger()
-        versionName appConfig['versionName']
-    }
+  defaultConfig {
+    minSdkVersion appConfig['sdkVersion'].toInteger()
+    targetSdkVersion appConfig['sdkVersion'].toInteger()
+    versionCode appConfig['versionCode'].toInteger()
+    versionName appConfig['versionName']
+  }
 }
