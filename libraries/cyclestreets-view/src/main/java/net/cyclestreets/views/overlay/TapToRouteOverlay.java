@@ -4,10 +4,11 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.Map;
 
-import net.cyclestreets.CycleStreetsConstants;
+import net.cyclestreets.RoutePlans;
 
 import net.cyclestreets.CycleStreetsPreferences;
 import net.cyclestreets.FeedbackActivity;
+import net.cyclestreets.RoutePlans;
 import net.cyclestreets.view.R;
 import net.cyclestreets.Undoable;
 import net.cyclestreets.routing.Journey;
@@ -63,10 +64,10 @@ public class TapToRouteOverlay extends Overlay
                                            R.string.ic_menu_replan_fastest,
                                            R.string.ic_menu_replan_shortest };
   private static Map<Integer, String> Replan_Menu_Plans =
-      Collections.map(R.string.ic_menu_replan_quietest, CycleStreetsConstants.PLAN_QUIETEST)
-                 .map(R.string.ic_menu_replan_balanced, CycleStreetsConstants.PLAN_BALANCED)
-                 .map(R.string.ic_menu_replan_fastest, CycleStreetsConstants.PLAN_FASTEST)
-                 .map(R.string.ic_menu_replan_shortest, CycleStreetsConstants.PLAN_SHORTEST);
+      Collections.map(R.string.ic_menu_replan_quietest, RoutePlans.PLAN_QUIETEST)
+                 .map(R.string.ic_menu_replan_balanced, RoutePlans.PLAN_BALANCED)
+                 .map(R.string.ic_menu_replan_fastest, RoutePlans.PLAN_FASTEST)
+                 .map(R.string.ic_menu_replan_shortest, RoutePlans.PLAN_SHORTEST);
 
   private final Drawable greenWisp_;
   private final Drawable orangeWisp_;

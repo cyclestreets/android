@@ -76,7 +76,6 @@
     <orderEntry type="library" exported="" name="httpcore-4.1" level="project" />
     <orderEntry type="library" exported="" name="osmdroid-android-3.0.8" level="project" />
     <orderEntry type="library" exported="" name="mapsforge-map-0.3.0-jar-with-dependencies" level="project" />
-    <orderEntry type="library" exported="" name="slf4j-android-1.6.1-RC1" level="project" />
     <orderEntry type="library" exported="" name="httpmime-4.1" level="project" />
     <orderEntry type="library" exported="" name="support-v4-r7" level="project" />
   </component>

@@ -11,10 +11,10 @@ public final class RouteTypeMapper {
 	
 	static private Map<Integer, String> initialiseMappings() {
 		final Map<Integer, String> map = new HashMap<Integer, String>();
-		map.put(R.id.routeQuietest, CycleStreetsConstants.PLAN_QUIETEST);
-		map.put(R.id.routeBalanced, CycleStreetsConstants.PLAN_BALANCED);
-		map.put(R.id.routeFastest, CycleStreetsConstants.PLAN_FASTEST);
-		map.put(R.id.routeShortest, CycleStreetsConstants.PLAN_SHORTEST);
+		map.put(R.id.routeQuietest, RoutePlans.PLAN_QUIETEST);
+		map.put(R.id.routeBalanced, RoutePlans.PLAN_BALANCED);
+		map.put(R.id.routeFastest, RoutePlans.PLAN_FASTEST);
+		map.put(R.id.routeShortest, RoutePlans.PLAN_SHORTEST);
 		return map;
 	} // initialiseMappings
 

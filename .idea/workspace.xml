@@ -16,7 +16,17 @@
     <option name="TOOL_WINDOW_LOG_LEVEL" value="ERROR" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="4865c504-b581-430d-88de-cb23969a69af" name="Default" comment="" />
+    <list default="true" id="4865c504-b581-430d-88de-cb23969a69af" name="Default" comment="">
+      <change type="DELETED" beforePath="C:\work\CycleStreets\master\libraries\cyclestreets-core\src\main\java\net\cyclestreets\CycleStreetsConstants.java" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/libraries/cyclestreets-core/src/main/java/net/cyclestreets/CycleStreetsPreferences.java" afterPath="$PROJECT_DIR$/libraries/cyclestreets-core/src/main/java/net/cyclestreets/CycleStreetsPreferences.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/cyclestreets/src/main/java/net/cyclestreets/RouteTypeMapper.java" afterPath="$PROJECT_DIR$/cyclestreets/src/main/java/net/cyclestreets/RouteTypeMapper.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/libraries/cyclestreets-view/src/main/java/net/cyclestreets/views/overlay/TapToRouteOverlay.java" afterPath="$PROJECT_DIR$/libraries/cyclestreets-view/src/main/java/net/cyclestreets/views/overlay/TapToRouteOverlay.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/codeStyleSettings.xml" afterPath="$PROJECT_DIR$/.idea/codeStyleSettings.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/libraries/cyclestreets-core/cyclestreets-core.iml" afterPath="$PROJECT_DIR$/libraries/cyclestreets-core/cyclestreets-core.iml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/libraries/cyclestreets-view/cyclestreets-view.iml" afterPath="$PROJECT_DIR$/libraries/cyclestreets-view/cyclestreets-view.iml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/cyclestreets/cyclestreets.iml" afterPath="$PROJECT_DIR$/cyclestreets/cyclestreets.iml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+    </list>
     <ignored path="master.iws" />
     <ignored path=".idea/workspace.xml" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -79,28 +89,40 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="LockScreenOnOverlay.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/libraries/cyclestreets-view/src/main/java/net/cyclestreets/views/overlay/LockScreenOnOverlay.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="36" column="60" selection-start="992" selection-end="992" vertical-scroll-proportion="0.0" vertical-offset="540" max-vertical-offset="1380">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="POIOverlay.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/libraries/cyclestreets-view/src/main/java/net/cyclestreets/views/overlay/POIOverlay.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="371" column="68" selection-start="10507" selection-end="10507" vertical-scroll-proportion="0.0" vertical-offset="5565" max-vertical-offset="8520">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="TapToRouteOverlay.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/libraries/cyclestreets-view/src/main/java/net/cyclestreets/views/overlay/TapToRouteOverlay.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="315" column="40" selection-start="10130" selection-end="10130" vertical-scroll-proportion="0.0" vertical-offset="4725" max-vertical-offset="9075">
+            <state line="6" column="34" selection-start="149" selection-end="149" vertical-scroll-proportion="0.0" vertical-offset="18" max-vertical-offset="9810">
+              <folding>
+                <element signature="e#2201#2233#0" expanded="true" />
+                <element signature="e#2278#2310#0" expanded="true" />
+                <element signature="e#2355#2386#0" expanded="true" />
+                <element signature="e#2431#2463#0" expanded="true" />
+                <element signature="e#2547#2579#0" expanded="true" />
+                <element signature="e#2629#2661#0" expanded="true" />
+                <element signature="e#2711#2742#0" expanded="true" />
+                <element signature="e#2791#2823#0" expanded="true" />
+                <element signature="e#8072#8095#0" expanded="true" />
+                <element signature="e#8254#8277#0" expanded="true" />
+                <element signature="e#8719#8753#0" expanded="true" />
+                <element signature="e#8781#8805#0" expanded="true" />
+                <element signature="e#8833#8855#0" expanded="true" />
+                <element signature="e#8883#8908#0" expanded="true" />
+                <element signature="e#9086#9109#0" expanded="true" />
+                <element signature="e#9350#9384#0" expanded="true" />
+                <element signature="e#9536#9556#0" expanded="true" />
+                <element signature="e#9847#9871#0" expanded="true" />
+                <element signature="e#9932#9954#0" expanded="true" />
+                <element signature="e#10119#10144#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="RouteTypeMapper.java" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/cyclestreets/src/main/java/net/cyclestreets/RouteTypeMapper.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="16" column="46" selection-start="602" selection-end="602" vertical-scroll-proportion="0.7" vertical-offset="5" max-vertical-offset="555">
               <folding />
             </state>
           </provider>
@@ -109,7 +131,7 @@
       <file leaf-file-name="MenuHelper.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/libraries/cyclestreets-view/src/main/java/net/cyclestreets/util/MenuHelper.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="5" column="23" selection-start="112" selection-end="112" vertical-scroll-proportion="0.0" vertical-offset="136" max-vertical-offset="735">
+            <state line="5" column="23" selection-start="112" selection-end="112" vertical-scroll-proportion="0.0" vertical-offset="75" max-vertical-offset="750">
               <folding />
             </state>
           </provider>
@@ -118,10 +140,8 @@
       <file leaf-file-name="RouteMapFragment.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/cyclestreets/src/main/java/net/cyclestreets/RouteMapFragment.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="180" column="21" selection-start="5812" selection-end="5812" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="3525">
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
+            <state line="180" column="21" selection-start="5812" selection-end="5812" vertical-scroll-proportion="0.0" vertical-offset="2700" max-vertical-offset="3645">
+              <folding />
             </state>
           </provider>
         </entry>
@@ -129,16 +149,25 @@
       <file leaf-file-name="AboutActivity.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/cyclestreets/src/main/java/net/cyclestreets/AboutActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="25" column="2" selection-start="703" selection-end="703" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="450">
+            <state line="25" column="2" selection-start="703" selection-end="703" vertical-scroll-proportion="0.0" vertical-offset="375" max-vertical-offset="495">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="BlogActivity.java" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="BlogActivity.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/cyclestreets/src/main/java/net/cyclestreets/BlogActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="30" column="2" selection-start="1023" selection-end="1023" vertical-scroll-proportion="0.7614213" vertical-offset="0" max-vertical-offset="420">
+            <state line="30" column="2" selection-start="1023" selection-end="1023" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="420">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="CycleStreetsPreferences.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/libraries/cyclestreets-core/src/main/java/net/cyclestreets/CycleStreetsPreferences.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="51" column="52" selection-start="2321" selection-end="2321" vertical-scroll-proportion="0.0" vertical-offset="526" max-vertical-offset="3525">
               <folding />
             </state>
           </provider>
@@ -147,10 +176,8 @@
       <file leaf-file-name="AccountDetailsActivity.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/cyclestreets/src/main/java/net/cyclestreets/AccountDetailsActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="21" column="13" selection-start="641" selection-end="641" vertical-scroll-proportion="0.0" vertical-offset="188" max-vertical-offset="5700">
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
+            <state line="21" column="13" selection-start="641" selection-end="641" vertical-scroll-proportion="0.0" vertical-offset="315" max-vertical-offset="5730">
+              <folding />
             </state>
           </provider>
         </entry>
@@ -158,7 +185,7 @@
       <file leaf-file-name="ActivityId.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/cyclestreets/src/main/java/net/cyclestreets/ActivityId.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="2" column="14" selection-start="41" selection-end="41" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="300">
+            <state line="2" column="14" selection-start="41" selection-end="41" vertical-scroll-proportion="0.0" vertical-offset="30" max-vertical-offset="300">
               <folding />
             </state>
           </provider>
@@ -167,7 +194,7 @@
       <file leaf-file-name="MoreFragment.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/cyclestreets/src/main/java/net/cyclestreets/MoreFragment.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="12" column="0" selection-start="308" selection-end="308" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="855">
+            <state line="12" column="0" selection-start="308" selection-end="308" vertical-scroll-proportion="0.0" vertical-offset="180" max-vertical-offset="975">
               <folding />
             </state>
           </provider>
@@ -198,7 +225,7 @@
           <option name="executorId" value="Run" />
           <option name="settings">
             <ExternalSystemSettings>
-              <option name="externalProjectPath" value="$PROJECT_DIR$/libraries/cyclestreets-view" />
+              <option name="externalProjectPath" value="$PROJECT_DIR$/cyclestreets" />
               <option name="externalSystemIdString" value="GRADLE" />
               <option name="taskNames">
                 <list>
@@ -212,7 +239,7 @@
           <option name="executorId" value="Run" />
           <option name="settings">
             <ExternalSystemSettings>
-              <option name="externalProjectPath" value="$PROJECT_DIR$/cyclestreets" />
+              <option name="externalProjectPath" value="$PROJECT_DIR$/libraries/cyclestreets-view" />
               <option name="externalSystemIdString" value="GRADLE" />
               <option name="taskNames">
                 <list>
@@ -1371,7 +1398,6 @@
         <option value="$PROJECT_DIR$/libraries/cyclestreets-view/src/main/java/net/cyclestreets/views/overlay/POIOverlay.java" />
         <option value="$PROJECT_DIR$/libraries/cyclestreets-view/src/main/java/net/cyclestreets/FeedbackActivity.java" />
         <option value="$PROJECT_DIR$/libraries/cyclestreets-view/src/main/java/net/cyclestreets/DisplayPhotoActivity.java" />
-        <option value="$PROJECT_DIR$/libraries/cyclestreets-view/src/main/java/net/cyclestreets/views/overlay/TapToRouteOverlay.java" />
         <option value="$PROJECT_DIR$/libraries/cyclestreets-view/src/main/java/net/cyclestreets/FragmentHelper.java" />
         <option value="$PROJECT_DIR$/libraries/cyclestreets-view/src/main/java/net/cyclestreets/MenuHelper.java" />
         <option value="$PROJECT_DIR$/libraries/cyclestreets-view/src/main/java/net/cyclestreets/util/MenuHelper.java" />
@@ -1379,13 +1405,18 @@
         <option value="$PROJECT_DIR$/cyclestreets/src/main/java/net/cyclestreets/MoreFragment.java" />
         <option value="$PROJECT_DIR$/cyclestreets/src/main/java/net/cyclestreets/AboutActivity.java" />
         <option value="$PROJECT_DIR$/cyclestreets/src/main/java/net/cyclestreets/BlogActivity.java" />
+        <option value="$PROJECT_DIR$/libraries/cyclestreets-core/src/main/java/net/cyclestreets/CycleStreetsConstants.java" />
+        <option value="$PROJECT_DIR$/libraries/cyclestreets-core/src/main/java/net/cyclestreets/CycleStreetsPreferences.java" />
+        <option value="$PROJECT_DIR$/libraries/cyclestreets-view/src/main/java/net/cyclestreets/views/overlay/TapToRouteOverlay.java" />
+        <option value="$PROJECT_DIR$/cyclestreets/src/main/java/net/cyclestreets/RouteTypeMapper.java" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds">
     <option name="x" value="-8" />
-    <option name="width" value="1296" />
-    <option name="height" value="780" />
+    <option name="y" value="-8" />
+    <option name="width" value="1382" />
+    <option name="height" value="744" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <OptionsSetting value="true" id="Add" />
@@ -1413,7 +1444,6 @@
       <sortByType />
     </navigator>
     <panes>
-      <pane id="PackagesPane" />
       <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
@@ -1483,35 +1513,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="cyclestreets-core" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="master" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="master" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="cyclestreets" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="master" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="master" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="cyclestreets" />
+              <option name="myItemId" value="cyclestreets-view" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
@@ -1533,7 +1535,11 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="cyclestreets" />
+              <option name="myItemId" value="libraries" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="cyclestreets-view" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
@@ -1545,7 +1551,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="res" />
+              <option name="myItemId" value="java" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -1559,7 +1565,11 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="cyclestreets" />
+              <option name="myItemId" value="libraries" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="cyclestreets-view" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
@@ -1579,8 +1589,45 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="master" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="master" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="cyclestreets" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="master" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="master" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="cyclestreets" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
         </subPane>
       </pane>
+      <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -1880,36 +1927,36 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="0" width="1296" height="780" extended-state="0" />
-    <editor active="true" />
+    <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
+    <editor active="false" />
     <layout>
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32821724" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.328" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.41065088" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Build Variants" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25696102" sideWeight="0.50088185" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Gradle Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.40968123" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.328" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32767403" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3202765" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Gradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24878837" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Gradle" active="true" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24848942" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.27544427" sideWeight="0.49911818" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.5104" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.33610272" sideWeight="0.49911818" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.50933784" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32956383" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.328" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
@@ -1930,18 +1977,6 @@
     <breakpoint-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/settings.gradle">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="2" column="0" selection-start="64" selection-end="64" vertical-scroll-proportion="0.0" vertical-offset="30" max-vertical-offset="120" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/cyclestreets/build.gradle">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="26" column="0" selection-start="749" selection-end="749" vertical-scroll-proportion="0.0" vertical-offset="390" max-vertical-offset="855">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/cyclestreets/src/main/java/net/cyclestreets/CycleMapFragment.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="31" column="0" selection-start="938" selection-end="938" vertical-scroll-proportion="0.0" vertical-offset="465" max-vertical-offset="1785">
@@ -2108,53 +2143,37 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/libraries/cyclestreets-view/src/main/java/net/cyclestreets/liveride/LiveRideState.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="3" column="29" selection-start="107" selection-end="107" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1680">
-          <folding />
-        </state>
+        <state line="3" column="29" selection-start="107" selection-end="107" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1680" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/libraries/cyclestreets-view/src/main/java/net/cyclestreets/DisplayPhotoActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="71" column="19" selection-start="2130" selection-end="2130" vertical-scroll-proportion="0.0" vertical-offset="806" max-vertical-offset="1200">
-          <folding />
-        </state>
+        <state line="71" column="19" selection-start="2130" selection-end="2130" vertical-scroll-proportion="0.0" vertical-offset="806" max-vertical-offset="1200" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/libraries/cyclestreets-view/src/main/java/net/cyclestreets/FeedbackActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="32" column="8" selection-start="927" selection-end="927" vertical-scroll-proportion="0.0" vertical-offset="214" max-vertical-offset="1260">
-          <folding />
-        </state>
+        <state line="32" column="8" selection-start="927" selection-end="927" vertical-scroll-proportion="0.0" vertical-offset="214" max-vertical-offset="1260" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/libraries/cyclestreets-view/src/main/java/net/cyclestreets/views/CycleMapView.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="243" column="35" selection-start="8133" selection-end="8133" vertical-scroll-proportion="0.0" vertical-offset="2918" max-vertical-offset="4440">
-          <folding />
-        </state>
+        <state line="243" column="35" selection-start="8133" selection-end="8133" vertical-scroll-proportion="0.0" vertical-offset="2918" max-vertical-offset="4440" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/libraries/cyclestreets-view/src/main/java/net/cyclestreets/views/overlay/LocationOverlay.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="135" column="33" selection-start="3624" selection-end="3624" vertical-scroll-proportion="0.0" vertical-offset="1894" max-vertical-offset="2850">
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
+        <state line="135" column="33" selection-start="3624" selection-end="3624" vertical-scroll-proportion="0.0" vertical-offset="1894" max-vertical-offset="2850" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/libraries/cyclestreets-view/src/main/java/net/cyclestreets/views/PlaceViewBase.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="75" column="13" selection-start="2323" selection-end="2323" vertical-scroll-proportion="0.0" vertical-offset="439" max-vertical-offset="5475">
-          <folding />
-        </state>
+        <state line="75" column="13" selection-start="2323" selection-end="2323" vertical-scroll-proportion="0.0" vertical-offset="439" max-vertical-offset="5475" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/libraries/cyclestreets-view/src/main/res/layout/placetextview.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="18" column="32" selection-start="714" selection-end="714" vertical-scroll-proportion="0.67479676" vertical-offset="21" max-vertical-offset="390">
-          <folding />
-        </state>
+        <state line="18" column="32" selection-start="714" selection-end="714" vertical-scroll-proportion="0.67479676" vertical-offset="21" max-vertical-offset="390" />
       </provider>
       <provider editor-type-id="android-designer">
         <state />
@@ -2162,23 +2181,17 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/libraries/cyclestreets-view/src/main/java/net/cyclestreets/views/PlaceView.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="18" column="0" selection-start="429" selection-end="429" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="330">
-          <folding />
-        </state>
+        <state line="18" column="0" selection-start="429" selection-end="429" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="330" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/libraries/cyclestreets-view/src/main/java/net/cyclestreets/views/PlaceViewWithCancel.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="20" column="44" selection-start="545" selection-end="545" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="435">
-          <folding />
-        </state>
+        <state line="20" column="44" selection-start="545" selection-end="545" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="435" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/libraries/cyclestreets-view/src/main/res/layout/placetextviewcancel.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="26" column="0" selection-start="986" selection-end="986" vertical-scroll-proportion="0.0" vertical-offset="390" max-vertical-offset="480">
-          <folding />
-        </state>
+        <state line="26" column="0" selection-start="986" selection-end="986" vertical-scroll-proportion="0.0" vertical-offset="390" max-vertical-offset="480" />
       </provider>
       <provider editor-type-id="android-designer">
         <state />
@@ -2198,13 +2211,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/libraries/cyclestreets-view/src/main/java/net/cyclestreets/views/overlay/TapToRouteOverlay.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="315" column="40" selection-start="10130" selection-end="10130" vertical-scroll-proportion="0.0" vertical-offset="4725" max-vertical-offset="9075">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/libraries/cyclestreets-view/src/main/java/net/cyclestreets/util/MenuHelper.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="5" column="23" selection-start="112" selection-end="112" vertical-scroll-proportion="0.0" vertical-offset="136" max-vertical-offset="735">
@@ -2215,18 +2221,14 @@
     <entry file="file://$PROJECT_DIR$/cyclestreets/src/main/java/net/cyclestreets/RouteMapFragment.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="180" column="21" selection-start="5812" selection-end="5812" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="3525">
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/cyclestreets/src/main/java/net/cyclestreets/AccountDetailsActivity.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="21" column="13" selection-start="641" selection-end="641" vertical-scroll-proportion="0.0" vertical-offset="188" max-vertical-offset="5700">
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -2260,7 +2262,49 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/cyclestreets/src/main/java/net/cyclestreets/BlogActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="30" column="2" selection-start="1023" selection-end="1023" vertical-scroll-proportion="0.7614213" vertical-offset="0" max-vertical-offset="420">
+        <state line="30" column="2" selection-start="1023" selection-end="1023" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="420">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/libraries/cyclestreets-core/src/main/java/net/cyclestreets/CycleStreetsPreferences.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="51" column="52" selection-start="2321" selection-end="2321" vertical-scroll-proportion="0.0" vertical-offset="526" max-vertical-offset="3525">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/libraries/cyclestreets-view/src/main/java/net/cyclestreets/views/overlay/TapToRouteOverlay.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="6" column="34" selection-start="149" selection-end="149" vertical-scroll-proportion="0.0" vertical-offset="18" max-vertical-offset="9810">
+          <folding>
+            <element signature="e#2201#2233#0" expanded="true" />
+            <element signature="e#2278#2310#0" expanded="true" />
+            <element signature="e#2355#2386#0" expanded="true" />
+            <element signature="e#2431#2463#0" expanded="true" />
+            <element signature="e#2547#2579#0" expanded="true" />
+            <element signature="e#2629#2661#0" expanded="true" />
+            <element signature="e#2711#2742#0" expanded="true" />
+            <element signature="e#2791#2823#0" expanded="true" />
+            <element signature="e#8072#8095#0" expanded="true" />
+            <element signature="e#8254#8277#0" expanded="true" />
+            <element signature="e#8719#8753#0" expanded="true" />
+            <element signature="e#8781#8805#0" expanded="true" />
+            <element signature="e#8833#8855#0" expanded="true" />
+            <element signature="e#8883#8908#0" expanded="true" />
+            <element signature="e#9086#9109#0" expanded="true" />
+            <element signature="e#9350#9384#0" expanded="true" />
+            <element signature="e#9536#9556#0" expanded="true" />
+            <element signature="e#9847#9871#0" expanded="true" />
+            <element signature="e#9932#9954#0" expanded="true" />
+            <element signature="e#10119#10144#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cyclestreets/src/main/java/net/cyclestreets/RouteTypeMapper.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="16" column="46" selection-start="602" selection-end="602" vertical-scroll-proportion="0.7" vertical-offset="5" max-vertical-offset="555">
           <folding />
         </state>
       </provider>

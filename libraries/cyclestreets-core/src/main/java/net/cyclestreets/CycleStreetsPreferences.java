@@ -49,7 +49,7 @@ public class CycleStreetsPreferences
   } // initialise
 
   static public String routeType() {
-    return getString(PREF_ROUTE_TYPE_KEY, CycleStreetsConstants.PLAN_BALANCED);
+    return getString(PREF_ROUTE_TYPE_KEY, RoutePlans.PLAN_BALANCED);
   }
 
   static public String units() {
