@@ -10,17 +10,24 @@ import org.osmdroid.views.overlay.OverlayItem;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
+import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.view.MotionEvent;
 
 import net.cyclestreets.DisplayPhotoActivity;
+import net.cyclestreets.PhotoUploadActivity;
 import net.cyclestreets.api.Photo;
 import net.cyclestreets.api.PhotoMarkers;
 import net.cyclestreets.api.Photos;
+import net.cyclestreets.routing.Route;
+import net.cyclestreets.view.R;
 import net.cyclestreets.views.CycleMapView;
 
 public class PhotosOverlay extends LiveItemOverlay<PhotosOverlay.PhotoItem>
+                           implements ButtonTapListener
 {
 	static public class PhotoItem extends OverlayItem 
 	{
@@ -76,6 +83,10 @@ public class PhotosOverlay extends LiveItemOverlay<PhotosOverlay.PhotoItem>
 	/////////////////////////////////////////////////////
 	private final Context context_;
 	private final PhotoMarkers photoMarkers_;
+
+  private final int offset_;
+  private final float radius_;
+  private final OverlayButton addPhotoBtn_;
 	
 	public PhotosOverlay(final Context context,
 	                     final CycleMapView mapView)
@@ -87,9 +98,40 @@ public class PhotosOverlay extends LiveItemOverlay<PhotosOverlay.PhotoItem>
 	
 		context_ = context;
 		photoMarkers_ = new PhotoMarkers(context.getResources());
-	} // PhotoItemOverlay
+
+    offset_ = DrawingHelper.offset(context);
+    radius_ = DrawingHelper.cornerRadius(context);
+
+    final Resources res = context.getResources();
+    addPhotoBtn_ = new OverlayButton(res.getDrawable(R.drawable.btn_previous),
+                                     offset_,
+                                     offset_*2,
+                                     radius_);
+    addPhotoBtn_.bottomAlign();
+
+  } // PhotoItemOverlay
 
 	///////////////////////////////////////////////////
+  @Override
+  public boolean onButtonTap(final MotionEvent event) {
+    if(addPhotoBtn_.hit(event)) {
+      context_.startActivity(new Intent(context_, PhotoUploadActivity.class));
+      return true;
+    } // if ...
+    return false;
+  } // onButtonTap
+
+  @Override
+  public boolean onButtonDoubleTap(final MotionEvent event) {
+    return onButtonTap(event);
+  } // onButtonDoubleTap
+
+  @Override
+  public void drawButtons(final Canvas canvas, final MapView mapView) {
+    addPhotoBtn_.draw(canvas);
+  } // drawButtons
+
+  ///////////////////////////////////////////////////
 	@Override
   protected boolean onItemSingleTap(final int index, final PhotoItem item, final MapView mapView) 
   {

@@ -1,5 +1,6 @@
 package net.cyclestreets;
 
+import net.cyclestreets.view.R;
 import net.cyclestreets.util.Dialog;
 import net.cyclestreets.util.MessageBox;
 import net.cyclestreets.api.Registration;
@@ -167,24 +168,22 @@ public class AccountDetailsActivity extends Activity
   @Override
   public void onClick(final View v) 
   {
-    switch(v.getId())
-    {
-      case R.id.newaccount_button:
+    final int clicked  = v.getId();
+
+    if(R.id.newaccount_button == clicked)
         step_ = RegisterStep.REGISTER_DETAILS;
-        break;
-      case R.id.existingaccount_button:
+    if(R.id.existingaccount_button == clicked)
         step_ = RegisterStep.SIGNIN_DETAILS;
-        break;
-      case R.id.cleardetails_button:
+    if(R.id.cleardetails_button == clicked)
         confirmClear();
-        break;
-      case R.id.signin_button:
+    if(R.id.signin_button == clicked) {
         signin();
         return;
-      case R.id.register_button:
+    }
+    if(R.id.register_button == clicked) {
         register();
         return;
-    } // switch
+    }
     
     setupView();
   } // onClick

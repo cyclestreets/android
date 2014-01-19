@@ -20,6 +20,7 @@ import android.widget.TextView;
 public class DisplayPhotoActivity extends Activity implements View.OnClickListener
 {
 	Intent i;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) 
 	{

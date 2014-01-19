@@ -4,6 +4,7 @@
   <string name="fetching_route">Fetching route from CycleStreets.net, please wait</string>
   <string name="route_failed">Route finding failed</string>
   <string name="loading_route">Loading route, please wait</string>
+  <string name="uploading_photo">Uploading photo to CycleStreets.net, please wait</string>
 
   <string name="ic_menu_replan">Change route type</string>
   <string name="ic_menu_reverse">Reverse route</string>
@@ -14,6 +15,10 @@
   <string name="ic_menu_replan_quietest">Replan as quietest</string>
   <string name="ic_menu_replan_shortest">Replan as shortest</string>
   <string name="ic_menu_reroute_from_here">Reroute from current location</string>
+
+  <string name="ic_menu_restart">Start again</string>
+  <string name="ic_menu_back">Back</string>
+
 
   <string name="no_location">Location not currently available.</string>
 
@@ -35,5 +40,8 @@
 
   <string name="ic_menu_poi">Points of Interest</string>
   <string name="ic_menu_poi_clear_all">Clear all</string>
+
+  <string name="signing_in">Signing into CycleStreets.net</string>
+  <string name="registering">Registering with CycleStreets.net</string>
 
 </resources>

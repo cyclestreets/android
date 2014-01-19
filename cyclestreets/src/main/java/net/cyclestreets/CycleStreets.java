@@ -41,7 +41,6 @@ public class CycleStreets extends FragmentActivity implements OnTabChangeListene
       addTab("Route Map", R.drawable.ic_tab_planroute, RouteMapFragment.class);
       addTab("Itinerary", R.drawable.ic_tab_itinerary, ItineraryFragment.class);
       addTab("Photomap", R.drawable.ic_tab_photomap, PhotoMapFragment.class);
-      addTab("Photo upload", R.drawable.ic_tab_addphoto, PhotoUploadFragment.class);
       addTab("More ...", R.drawable.ic_tab_more, MoreFragment.class);
 
 	    for(int i = 0; i != tabs_.size(); ++i)

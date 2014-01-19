@@ -1,5 +1,6 @@
 package net.cyclestreets;
 
+import net.cyclestreets.view.R;
 import net.cyclestreets.api.PhotomapCategory;
 import net.cyclestreets.api.PhotomapCategories;
 import net.cyclestreets.api.Upload;
@@ -24,7 +25,6 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -57,8 +57,8 @@ import org.osmdroid.util.GeoPoint;
 import static net.cyclestreets.util.MenuHelper.createMenuItem;
 import static net.cyclestreets.util.MenuHelper.enableMenuItem;
 
-public class PhotoUploadFragment extends Fragment 
-                implements View.OnClickListener, LocationListener, Undoable
+public class PhotoUploadActivity extends Activity
+                implements View.OnClickListener, LocationListener
 {
   public enum AddStep
   {
@@ -103,6 +103,10 @@ public class PhotoUploadFragment extends Fragment
     private static Map<AddStep, Integer> Value_;
   } // AddStep
 
+  private static final int TakePhoto = 2;
+  private static final int ChoosePhoto = 3;
+  private static final int AccountDetails = 4;
+
   private LinearLayout photoRoot_;
   private View photoView_;
   private View photoCaption_;
@@ -128,14 +132,15 @@ public class PhotoUploadFragment extends Fragment
   private InputMethodManager imm_;
   
   @Override
-  public View onCreateView(final LayoutInflater inflater, 
-                           final ViewGroup container,
-                           final Bundle savedInstanceState) 
+  protected void onCreate(Bundle savedInstanceState)
   {
-    inflater_ = (LayoutInflater)getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-    imm_ = (InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+    super.onCreate(savedInstanceState);
+
+    inflater_ = LayoutInflater.from(this);
+    imm_ = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
     
     photoRoot_ = (LinearLayout)inflater_.inflate(R.layout.addphoto, null);
+    setContentView(photoRoot_);
     
     step_ = AddStep.PHOTO;
     caption_ = "";
@@ -146,7 +151,7 @@ public class PhotoUploadFragment extends Fragment
     photoView_ = inflater_.inflate(R.layout.addphotostart, null);
     {
       final Button takePhoto = (Button)photoView_.findViewById(R.id.takephoto_button);
-      if(getActivity().getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA))
+      if(getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA))
         takePhoto.setOnClickListener(this);
       else
         takePhoto.setEnabled(false);
@@ -167,19 +172,17 @@ public class PhotoUploadFragment extends Fragment
     else
       setupSpinners();
     
-    there_ = new ThereOverlay(getActivity());
+    there_ = new ThereOverlay(this);
     there_.setLocationListener(this);
   
     setupView();
-    
-    return photoRoot_;
-  } // PhotoUploadFragment
-  
-  private void setContentView(final View child)
+  } // PhotoUploadActivity
+
+  private void setUploadView(final View child)
   {
     photoRoot_.removeAllViewsInLayout();
     photoRoot_.addView(child);
-  } // setContentView
+  } // setUploadView
 
   private void store()
   {
@@ -261,67 +264,71 @@ public class PhotoUploadFragment extends Fragment
   
   private SharedPreferences prefs()
   {
-    return getActivity().getSharedPreferences("net.cyclestreets.AddPhotoActivity", Context.MODE_PRIVATE);
+    return getSharedPreferences("net.cyclestreets.AddPhotoActivity", Context.MODE_PRIVATE);
   } // prefs()
    
   ///////////////////////////////////////////////////////////////////
   @Override
-  public void onCreateOptionsMenu(final Menu menu, final MenuInflater inflater) 
+  public boolean onCreateOptionsMenu(final Menu menu)
   {
     createMenuItem(menu, R.string.ic_menu_restart, Menu.NONE, R.drawable.ic_menu_rotate);
     createMenuItem(menu, R.string.ic_menu_back, Menu.NONE, R.drawable.ic_menu_revert);
+    return true;
   } // onCreateOptionsMenu
   
   @Override
-  public void onPrepareOptionsMenu(final Menu menu)
+  public boolean onPrepareOptionsMenu(final Menu menu)
   {
     enableMenuItem(menu, R.string.ic_menu_restart, step_ != AddStep.PHOTO);
     enableMenuItem(menu, R.string.ic_menu_back, step_ != AddStep.PHOTO && step_ != AddStep.VIEW);
+    return true;
   } // onPrepareOptionsMenu
     
   @Override
   public boolean onOptionsItemSelected(final MenuItem item)
   {
-    switch(item.getItemId())
-    {
-    case R.string.ic_menu_restart:
+    final int menuItem = item.getItemId();
+
+    if(R.string.ic_menu_restart == menuItem) {
       step_ = AddStep.PHOTO;
       setupView();
-      break;
-    case R.string.ic_menu_back:
+      return true;
+    }
+
+    if(R.string.ic_menu_back == menuItem) {
       onBackPressed();
-      break;
-    default:
-      return false;
-    } // switch
-    
-    return true;
+      return true;
+    }
+
+    return false;
   } // onMenuItemSelected
   
   ///////////////////////////////////////////////////////////////////
   @Override
-  public boolean onBackPressed()
+  public void onBackPressed()
   { 
-    if(step_ == AddStep.PHOTO || step_ == AddStep.VIEW)
+    if(step_ == AddStep.PHOTO) {
+      super.onBackPressed();
+      return;
+    }
+
+    if(step_ == AddStep.VIEW)
     {
       step_ = AddStep.PHOTO;
       store();
-      
-      return false;
-    } // if ...
+      return;
+    }
     
     step_ = step_.prev();
     store();
     setupView();
-    
-    return true;
   } // onBackPressed
   
   private void nextStep()
   {
     if((step_ == AddStep.LOCATION) && (there_.there() == null))
     {
-      Toast.makeText(getActivity(), "Please set photo location", Toast.LENGTH_LONG).show();
+      Toast.makeText(this, "Please set photo location", Toast.LENGTH_LONG).show();
       return;
     } // if ...
       
@@ -340,30 +347,30 @@ public class PhotoUploadFragment extends Fragment
       categorySpinner().setSelection(0);
       caption_ = "";
       there_.noOverThere(null);
-      setContentView(photoView_);      
+      setUploadView(photoView_);
       break;
     case CAPTION:
       // why recreate this view each time - well *sigh* because we have to force the 
       // keyboard to hide, if we don't recreate the view afresh, Android won't redisplay 
       // the keyboard if we come back to this view
       photoCaption_ = inflater_.inflate(R.layout.addphotocaption, null);
-      setContentView(photoCaption_);
+      setUploadView(photoCaption_);
       captionEditor().setText(caption_);
       break;
     case CATEGORY:
       caption_ = captionText();
       store();
-      setContentView(photoCategory_);
+      setUploadView(photoCategory_);
       break;
     case LOCATION:
       metaCatId_ = metaCategoryId();
       catId_ = categoryId();
       setupMap();
-      setContentView(photoLocation_);
+      setUploadView(photoLocation_);
       there_.recentre();
       break;
     case VIEW:
-      setContentView(photoWebView_);
+      setUploadView(photoWebView_);
       {
         final TextView text = (TextView)photoWebView_.findViewById(R.id.photo_text);
         text.setText(caption_);
@@ -389,8 +396,8 @@ public class PhotoUploadFragment extends Fragment
     if(iv == null)
       return;
     iv.setImageBitmap(photo_);
-    int newHeight = getActivity().getWindowManager().getDefaultDisplay().getHeight() / 10 * 4;
-    int newWidth = getActivity().getWindowManager().getDefaultDisplay().getWidth();
+    int newHeight = getWindowManager().getDefaultDisplay().getHeight() / 10 * 4;
+    int newWidth = getWindowManager().getDefaultDisplay().getWidth();
 
     iv.setLayoutParams(new LinearLayout.LayoutParams(newWidth, newHeight));
     iv.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
@@ -422,8 +429,8 @@ public class PhotoUploadFragment extends Fragment
 
   private void setupSpinners()
   {
-    metaCategorySpinner().setAdapter(new CategoryAdapter(getActivity(), photomapCategories.metaCategories()));
-    categorySpinner().setAdapter(new CategoryAdapter(getActivity(), photomapCategories.categories()));
+    metaCategorySpinner().setAdapter(new CategoryAdapter(this, photomapCategories.metaCategories()));
+    categorySpinner().setAdapter(new CategoryAdapter(this, photomapCategories.categories()));
     
     setSpinnerSelections();
   } // setupSpinners
@@ -447,7 +454,7 @@ public class PhotoUploadFragment extends Fragment
     }
     else
     {
-      map_ = new CycleMapView(getActivity(), this.getClass().getName());
+      map_ = new CycleMapView(this, this.getClass().getName());
       map_.overlayPushTop(there_);
     } 
       
@@ -462,40 +469,32 @@ public class PhotoUploadFragment extends Fragment
   {
     Intent i = null;
     int activityId = 0;
-    
-    switch(v.getId())
-    {
-    case R.id.takephoto_button:
-      i = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);  
-      activityId = ActivityId.TakePhoto;
-      break;
-    case R.id.chooseexisting_button:
-      i = new Intent(Intent.ACTION_PICK,
-                     android.provider.MediaStore.Images.Media.INTERNAL_CONTENT_URI);
-      activityId = ActivityId.ChoosePhoto;
-      break;
-    case R.id.photo_share:
-      Share.Url(getActivity(), uploadedUrl_, caption_, "Photo on CycleStreets.net");
-      break;
-    case R.id.next:
+
+    int clicked = v.getId();
+
+    if(R.id.takephoto_button == clicked)
+      startActivityForResult(new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE),
+                             TakePhoto);
+
+    if(R.id.chooseexisting_button == clicked)
+      startActivityForResult(new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.INTERNAL_CONTENT_URI),
+                             ChoosePhoto);
+
+    if(R.id.photo_share == clicked)
+      Share.Url(this, uploadedUrl_, caption_, "Photo on CycleStreets.net");
+
+    if(R.id.next == clicked) {
       if(step_ == AddStep.LOCATION)
       {
         if(!CycleStreetsPreferences.accountOK()) {
-          i = new Intent(getActivity(), AccountDetailsActivity.class);
-          activityId = ActivityId.AccountDetails;
+          startActivityForResult(new Intent(this, AccountDetailsActivity.class), AccountDetails);
         }
         else
           upload();
       }
       else
         nextStep();
-      break;
     } // switch
-    
-    if(i == null)
-      return;
-    
-    startActivityForResult(i, activityId);
   } // onClick
   
   @Override
@@ -515,6 +514,15 @@ public class PhotoUploadFragment extends Fragment
 
     try
     {
+      /*
+      String url = intent.getData().toString();
+Bitmap bitmap = null;
+InputStream is = null;
+if (url.startsWith("content://com.google.android.apps.photos.content")){
+       is = getContentResolver().openInputStream(Uri.parse(url));
+       bitmap = getBitmapFromInputStream(is);
+}
+       */
       photoFile_ = getImageFilePath(data);
       if(photo_ != null)
         photo_.recycle();
@@ -529,11 +537,11 @@ public class PhotoUploadFragment extends Fragment
     }
     catch(Exception e)
     {
-      Toast.makeText(getActivity(), "There was a problem grabbing the photo : " + e.getMessage(), Toast.LENGTH_LONG).show();
-      if(requestCode == ActivityId.TakePhoto)
+      Toast.makeText(this, "There was a problem grabbing the photo : " + e.getMessage(), Toast.LENGTH_LONG).show();
+      if(requestCode == TakePhoto)
         startActivityForResult(new Intent(Intent.ACTION_PICK,
                                           android.provider.MediaStore.Images.Media.INTERNAL_CONTENT_URI),
-                               ActivityId.ChoosePhoto);        
+                                          ChoosePhoto);
     }
   } // onActivityResult
   
@@ -542,7 +550,7 @@ public class PhotoUploadFragment extends Fragment
     final Uri selectedImage = data.getData();
     final String[] filePathColumn = { MediaStore.Images.Media.DATA };
 
-    final Cursor cursor = getActivity().getContentResolver().query(selectedImage, filePathColumn, null, null, null);
+    final Cursor cursor = getContentResolver().query(selectedImage, filePathColumn, null, null, null);
     try
     {
       cursor.moveToFirst();
@@ -562,7 +570,7 @@ public class PhotoUploadFragment extends Fragment
     }
     catch(Exception e)  
     { 
-      Toast.makeText(getActivity(), "Could not upload photo.  Please check your network connection.", Toast.LENGTH_LONG).show();
+      Toast.makeText(this, "Could not upload photo.  Please check your network connection.", Toast.LENGTH_LONG).show();
       step_ = AddStep.LOCATION;
     }
   } // upload
@@ -578,7 +586,7 @@ public class PhotoUploadFragment extends Fragment
     final String dateTime = dateTime_;
     final String caption = caption_;
 
-    final UploadPhotoTask uploader = new UploadPhotoTask(getActivity(),
+    final UploadPhotoTask uploader = new UploadPhotoTask(this,
                                filename,
                                username,
                                password,
@@ -598,15 +606,15 @@ public class PhotoUploadFragment extends Fragment
   
   private void uploadFailed(final String msg)
   {
-    MessageBox.OK(photoLocation_, 
-                  msg,
-                  new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                      step_ = AddStep.LOCATION;
-                      setupView();
-                    }
-                  });
+    MessageBox.OK(photoLocation_,
+        msg,
+        new DialogInterface.OnClickListener() {
+          @Override
+          public void onClick(DialogInterface dialog, int which) {
+            step_ = AddStep.LOCATION;
+            setupView();
+          }
+        });
   } // uploadFailed
   
   private GeoPoint photoLocation(final ExifInterface photoExif)
@@ -657,10 +665,10 @@ public class PhotoUploadFragment extends Fragment
     {
       if(photomapCategories == null) 
       {
-        Toast.makeText(getActivity(), "Could not load photomap categories.  Please check network connection.", Toast.LENGTH_LONG).show();
+        Toast.makeText(PhotoUploadActivity.this, "Could not load photomap categories.  Please check network connection.", Toast.LENGTH_LONG).show();
         return;
       } // if ...
-      PhotoUploadFragment.photomapCategories = photomapCategories;
+      PhotoUploadActivity.photomapCategories = photomapCategories;
       setupSpinners();
     } // onPostExecute
   } // class GetPhotomapCategoriesTask
