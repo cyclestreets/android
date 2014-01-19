@@ -37,6 +37,10 @@ import org.apache.http.params.HttpParams;
 import org.apache.http.util.EntityUtils;
 
 import android.content.Context;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageManager;
+import android.os.Bundle;
+import android.util.Log;
 import android.util.Xml;
 
 public class ApiClient 
@@ -56,14 +60,14 @@ public class ApiClient
   
   private final static int cacheExpiryDays_ = 7;
   private static ApiCallCache cache_;
-  
+  private static String apiKey_;
+
   private final static String API_SCHEME = "http";
   private final static String API_POST_SCHEME = "https";
   private final static String API_HOST = "www.cyclestreets.net";
   private final static int API_PORT = -1;
   private final static String API_PATH = "/api/";
-  private final static String API_KEY = "b26a0d6b45e00612";
-  
+
   private final static String API_PATH_JOURNEY = API_PATH + "journey.xml";
   private final static String API_PATH_PHOTOS = API_PATH + "photos.xml";
   private final static String API_PATH_PHOTOMAP_CATEGORIES = API_PATH + "photomapcategories.xml";
@@ -90,10 +94,21 @@ public class ApiClient
   static public void initialise(final Context context)
   {
     context_ = context;
+    apiKey_ = findApiKey(context_);
     cache_ = new ApiCallCache(context_);
     POICategories.backgroundLoad();
     PhotomapCategories.backgroundLoad();
   } // initialise
+
+  static private String findApiKey(final Context context) {
+    try {
+      final ApplicationInfo ai = context.getPackageManager().getApplicationInfo(context.getPackageName(), PackageManager.GET_META_DATA);
+      final Bundle bundle = ai.metaData;
+      return bundle.getString("CycleStreetsAPIKey");
+    } catch(final Exception e) {
+      throw new RuntimeException(e);
+    } // catch
+  } // apiKey
   
   /////////////////////////////////////////////////////////////////////////
   private ApiClient() {}
@@ -412,7 +427,7 @@ public class ApiClient
   static private List<NameValuePair> createParamsList()
   {
     final List<NameValuePair> params = new ArrayList<NameValuePair>();
-    params.add(new BasicNameValuePair("key", API_KEY));
+    params.add(new BasicNameValuePair("key", apiKey_));
     return params;
   } // createParamsList
   
