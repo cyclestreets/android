@@ -75,10 +75,10 @@
     <orderEntry type="library" exported="" name="apache-mime4j-0.6" level="project" />
     <orderEntry type="library" exported="" name="httpcore-4.1" level="project" />
     <orderEntry type="library" exported="" name="osmdroid-android-3.0.8" level="project" />
+    <orderEntry type="library" exported="" name="support-v4-19.0.1" level="project" />
     <orderEntry type="library" exported="" name="mapsforge-map-0.3.0-jar-with-dependencies" level="project" />
     <orderEntry type="library" exported="" name="httpmime-4.1" level="project" />
     <orderEntry type="library" exported="" name="acra-4.2.3" level="project" />
-    <orderEntry type="library" exported="" name="support-v4-r7" level="project" />
   </component>
 </module>
 
