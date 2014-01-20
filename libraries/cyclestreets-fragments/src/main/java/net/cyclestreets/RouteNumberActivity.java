@@ -1,5 +1,7 @@
 package net.cyclestreets;
 
+import net.cyclestreets.fragments.R;
+
 import net.cyclestreets.util.EditTextHistory;
 
 import android.app.Activity;
@@ -12,33 +14,33 @@ import android.widget.Button;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout.LayoutParams;
 
-public class RouteNumberActivity extends Activity 
+public class RouteNumberActivity extends Activity
 						   implements View.OnClickListener
 {
 	private AutoCompleteTextView numberText_;
 	private RadioGroup routeTypeGroup;
 	private Button routeGo;
 	private EditTextHistory history_;
-	
+
 	@Override
 	public void onCreate(Bundle saved)
 	{
 	  super.onCreate(saved);
 
 	  setContentView(R.layout.routenumber);
-	  getWindow().setGravity(Gravity.TOP|Gravity.FILL_HORIZONTAL);       
+	  getWindow().setGravity(Gravity.TOP|Gravity.FILL_HORIZONTAL);
 	  getWindow().setLayout(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT);
 	  getWindow().setBackgroundDrawableResource(R.drawable.empty);
-	       
+
 	  numberText_ = (AutoCompleteTextView)findViewById(R.id.routeNumber);
 	  history_ = new EditTextHistory(this, "RouteNumber");
 	  numberText_.setAdapter(history_);
-	  
+
 	  routeGo = (Button) findViewById(R.id.routeGo);
 	  routeGo.setOnClickListener(this);
-	  
+
 	  routeTypeGroup = (RadioGroup) findViewById(R.id.routeTypeGroup);
-	  routeTypeGroup.check(RouteTypeMapper.idFromName(CycleStreetsPreferences.routeType()));  	
+	  routeTypeGroup.check(RouteTypeMapper.idFromName(CycleStreetsPreferences.routeType()));
   } // RouteActivity
 
 	private void findRoute(long routeNumber)

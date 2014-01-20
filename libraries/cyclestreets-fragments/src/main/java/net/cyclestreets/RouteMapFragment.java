@@ -1,5 +1,6 @@
 package net.cyclestreets;
 
+import net.cyclestreets.fragments.R;
 import net.cyclestreets.util.GPS;
 import net.cyclestreets.util.MessageBox;
 import net.cyclestreets.util.GeoIntent;
@@ -33,24 +34,24 @@ public class RouteMapFragment extends CycleMapFragment
 	private TapToRouteOverlay routeSetter_;
 	private POIOverlay poiOverlay_;
 	private boolean hasGps_;
-	
+
 	@Override
   public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle saved)
   {
     final View v = super.onCreateView(inflater, container, saved);
 
 	  overlayPushBottom(new RouteHighlightOverlay(getActivity(), mapView()));
-        
+
     poiOverlay_ = new POIOverlay(getActivity(), mapView());
     overlayPushBottom(poiOverlay_);
 
 	  overlayPushBottom(new RouteOverlay(getActivity()));
-	  
+
 	  routeSetter_ = new TapToRouteOverlay(getActivity(), mapView());
 	  overlayPushTop(routeSetter_);
-	  
+
 	  hasGps_ = GPS.deviceHasGPS(getActivity());
-	  
+
 	  return v;
   } // onCreate
 
@@ -73,16 +74,16 @@ public class RouteMapFragment extends CycleMapFragment
 	public void onRouteNow(int itinerary)
 	{
 	  Route.FetchRoute(CycleStreetsPreferences.routeType(),
-	                   itinerary, 
-	                   CycleStreetsPreferences.speed(), 
+	                   itinerary,
+	                   CycleStreetsPreferences.speed(),
 	                   getActivity());
 	} // onRouteNow
-	
+
 	public void onStoredRouteNow(final int localId)
 	{
 	  Route.PlotStoredRoute(localId, getActivity());
   } // onStoredRouteNow
-    
+
 	@Override
 	public void onCreateOptionsMenu(final Menu menu, final MenuInflater inflater)
 	{
@@ -92,7 +93,7 @@ public class RouteMapFragment extends CycleMapFragment
 	  createMenuItem(menu, R.string.ic_menu_route_number, Menu.NONE, R.drawable.ic_menu_route_number);
     super.onCreateOptionsMenu(menu, inflater);
 	} // onCreateOptionsMenu
-    
+
 	@Override
 	public void onPrepareOptionsMenu(final Menu menu)
 	{
@@ -102,40 +103,42 @@ public class RouteMapFragment extends CycleMapFragment
 	  enableMenuItem(menu, R.string.ic_menu_route_number, true);
 		super.onPrepareOptionsMenu(menu);
 	} // onPrepareOptionsMenu
-    
+
 	@Override
 	public boolean onOptionsItemSelected(final MenuItem item)
 	{
 		if(super.onOptionsItemSelected(item))
 			return true;
-		
-		switch(item.getItemId())
-		{
-		  case R.string.ic_menu_liveride:
-		    startLiveRide();
-		    return true;
-		  case R.string.ic_menu_directions:
-		    launchRouteDialog();
-		    return true;
-		  case R.string.ic_menu_saved_routes:
-		    launchStoredRoutesDialog();
-		    return true;
-		  case R.string.ic_menu_route_number:
-		    launchFetchRouteDialog();
-		    return true;
-		} // switch
-		
+
+    final int menuId = item.getItemId();
+    if(R.string.ic_menu_liveride == menuId) {
+      startLiveRide();
+      return true;
+    }
+    if(R.string.ic_menu_directions == menuId) {
+      launchRouteDialog();
+      return true;
+    }
+    if(R.string.ic_menu_saved_routes == menuId) {
+      launchStoredRoutesDialog();
+      return true;
+    }
+    if(R.string.ic_menu_route_number == menuId) {
+      launchFetchRouteDialog();
+      return true;
+		}
+
 		return false;
 	} // onMenuItemSelected
-		
+
 	@Override
-  public void onActivityResult(int requestCode, int resultCode, Intent data) 
+  public void onActivityResult(int requestCode, int resultCode, Intent data)
   {
 	  super.onActivityResult(requestCode, resultCode, data);
-		
+
 		if(resultCode != Activity.RESULT_OK)
 			return;
-		
+
 		if(requestCode == ActivityId.StoredRoutes)
 		{
 			final int localId = data.getIntExtra(CycleStreetsConstants.ROUTE_ID, 0);
@@ -143,35 +146,35 @@ public class RouteMapFragment extends CycleMapFragment
 				onStoredRouteNow(localId);
 			return;
 		} // if ...
-		
+
 		if(requestCode == ActivityId.Directions)
 		{
 		  final Waypoints points = GeoIntent.getWaypoints(data);
 			final String routeType = data.getStringExtra(CycleStreetsConstants.EXTRA_ROUTE_TYPE);
-			final int speed = data.getIntExtra(CycleStreetsConstants.EXTRA_ROUTE_SPEED, 
+			final int speed = data.getIntExtra(CycleStreetsConstants.EXTRA_ROUTE_SPEED,
 					                               CycleStreetsPreferences.speed());
-			Route.PlotRoute(routeType, 
+			Route.PlotRoute(routeType,
 			                speed,
 			                getActivity(),
                       points);
 		} // if ...
-		
+
 		if(requestCode == ActivityId.RouteNumber)
 		{
 		  final long routeNumber = data.getLongExtra(CycleStreetsConstants.EXTRA_ROUTE_NUMBER, -1);
 		  final String routeType = data.getStringExtra(CycleStreetsConstants.EXTRA_ROUTE_TYPE);
-      final int speed = data.getIntExtra(CycleStreetsConstants.EXTRA_ROUTE_SPEED, 
+      final int speed = data.getIntExtra(CycleStreetsConstants.EXTRA_ROUTE_SPEED,
                                          CycleStreetsPreferences.speed());
-      
+
       Route.FetchRoute(routeType, routeNumber, speed, getActivity());
 		} // if ...
 	} // onActivityResult
-    
-	private void startLiveRide() 
+
+	private void startLiveRide()
 	{
 	  LiveRideActivity.launch(getActivity());
 	} // startLiveRide
-	
+
   private void launchRouteDialog()
   {
     startNewRoute(new DialogInterface.OnClickListener() {
@@ -180,17 +183,17 @@ public class RouteMapFragment extends CycleMapFragment
                     }
                   });
   } // launchRouteDialog
-    
+
 	private void doLaunchRouteDialog()
 	{
 	  final Intent intent = new Intent(getActivity(), RouteByAddressActivity.class);
 	  GeoIntent.setBoundingBox(intent, mapView().getBoundingBox());
 	  final Location lastFix = mapView().getLastFix();
-	  GeoIntent.setLocation(intent, lastFix);	
+	  GeoIntent.setLocation(intent, lastFix);
       GeoIntent.setWaypoints(intent, routeSetter_.waypoints());
 	  startActivityForResult(intent, ActivityId.Directions);
 	} // doLaunchRouteDialog
-	
+
 	private void launchFetchRouteDialog()
 	{
 	  startNewRoute(new DialogInterface.OnClickListener() {
@@ -205,13 +208,13 @@ public class RouteMapFragment extends CycleMapFragment
 	  final Intent intent = new Intent(getActivity(), RouteNumberActivity.class);
 	  startActivityForResult(intent, ActivityId.RouteNumber);
 	} // doLaunchFetchRouteDialog
-	
+
 	private void launchStoredRoutesDialog()
 	{
 	  final Intent intent = new Intent(getActivity(), StoredRoutesActivity.class);
     startActivityForResult(intent, ActivityId.StoredRoutes);
 	} // launchStoredRoutesDialog
-	
+
 	private void startNewRoute(final DialogInterface.OnClickListener listener)
 	{
     if(Route.available() && CycleStreetsPreferences.confirmNewRoute())
@@ -221,15 +224,15 @@ public class RouteMapFragment extends CycleMapFragment
     else
       listener.onClick(null, 0);
 	} // startNewRoute
-	
+
 	@Override
-	public void onNewJourney(final Journey journey, final Waypoints waypoints) 
+	public void onNewJourney(final Journey journey, final Waypoints waypoints)
 	{
 	  if(!waypoints.isEmpty())
 	    mapView().getController().setCenter(waypoints.first());
 	  mapView().postInvalidate();
-	} // onNewJourney   
-	
+	} // onNewJourney
+
 	@Override
 	public void onResetJourney()
 	{

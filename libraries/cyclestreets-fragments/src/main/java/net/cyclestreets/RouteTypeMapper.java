@@ -4,11 +4,11 @@ import java.util.Map;
 import java.util.HashMap;
 
 import net.cyclestreets.CycleStreetsConstants;
-import net.cyclestreets.R;
+import net.cyclestreets.fragments.R;
 
 public final class RouteTypeMapper {
 	static private final Map<Integer, String> mappings = initialiseMappings();
-	
+
 	static private Map<Integer, String> initialiseMappings() {
 		final Map<Integer, String> map = new HashMap<Integer, String>();
 		map.put(R.id.routeQuietest, RoutePlans.PLAN_QUIETEST);
@@ -21,7 +21,7 @@ public final class RouteTypeMapper {
 	static public String nameFromId(int id) {
 		return mappings.get(id);
 	} // nameFromId
-	
+
 	static public int idFromName(final String name) {
 		for(final Map.Entry<Integer,String> entry : mappings.entrySet())
 			if(entry.getValue().equals(name))
@@ -31,5 +31,5 @@ public final class RouteTypeMapper {
 
 	private RouteTypeMapper() {
 		// prevent instantiation
-	} // RouteTypeMapper	
+	} // RouteTypeMapper
 } // class RouteTypeMapper

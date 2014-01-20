@@ -43,12 +43,12 @@ import android.os.Bundle;
 import android.util.Log;
 import android.util.Xml;
 
-public class ApiClient 
+public class ApiClient
 {
   static private SchemeRegistry schemeRegistry_;
   static private ClientConnectionManager connectionManager_;
   static private HttpParams params_;
-  static 
+  static
   {
     schemeRegistry_ = new SchemeRegistry();
     schemeRegistry_.register(new Scheme("http", PlainSocketFactory.getSocketFactory(), 80));
@@ -57,7 +57,7 @@ public class ApiClient
     params_ = new BasicHttpParams();
     connectionManager_ = new ThreadSafeClientConnManager(params_, schemeRegistry_);
   } // static
-  
+
   private final static int cacheExpiryDays_ = 7;
   private static ApiCallCache cache_;
   private static String apiKey_;
@@ -78,19 +78,19 @@ public class ApiClient
   private final static String API_PATH_GEOCODER = API_PATH + "geocoder.xml";
   private final static String API_PATH_POI_CATEGORIES = API_PATH + "poitypes.xml";
   private final static String API_PATH_POIS = API_PATH + "pois.xml";
-  
+
   private final static String BLOG_PATH = "/blog/";
   private final static String BLOG_PATH_FEED = BLOG_PATH + "feed/";
-  
+
   private static Context context_;
-  
-  static Context context() 
-  { 
+
+  static Context context()
+  {
     if(context_ == null)
       throw new RuntimeException("ApiClient.initialise(context) has not been called");
-    return context_; 
+    return context_;
   } // context
-  
+
   static public void initialise(final Context context)
   {
     context_ = context;
@@ -109,13 +109,13 @@ public class ApiClient
       throw new RuntimeException(e);
     } // catch
   } // apiKey
-  
+
   /////////////////////////////////////////////////////////////////////////
   private ApiClient() {}
-  
-  static String getJourneyXml(final String plan, 
-                              final String leaving, 
-                              final String arriving, 
+
+  static String getJourneyXml(final String plan,
+                              final String leaving,
+                              final String arriving,
                               final int speed,
                               final double[] lonLat)
     throws Exception
@@ -129,9 +129,9 @@ public class ApiClient
               "speed", Integer.toString(speed));
     return new String(xml, "UTF-8");
   } // getJourneyXml
-  
-  static String getJourneyXml(final String plan, 
-                              final long itinerary) 
+
+  static String getJourneyXml(final String plan,
+                              final long itinerary)
     throws Exception
   {
     final byte[] xml = callApiRaw(API_PATH_JOURNEY,
@@ -139,23 +139,23 @@ public class ApiClient
                                   "itinerary", Long.toString(itinerary));
     return new String(xml, "UTF-8");
   } // getJourneyXml
-    
-  static PhotomapCategories getPhotomapCategories() 
-    throws Exception 
+
+  static PhotomapCategories getPhotomapCategories()
+    throws Exception
   {
     return callApiWithCache(PhotomapCategories.factory(), API_PATH_PHOTOMAP_CATEGORIES);
   } // getPhotomapCategories
-  
+
   static Photos getPhotos(final double longitude,
-                          final double latitude, 
+                          final double latitude,
                           int zoom,
                           double e,
                           double w,
-                          double n, 
-                          double s) 
-    throws Exception 
+                          double n,
+                          double s)
+    throws Exception
   {
-    return callApi(Photos.factory(), 
+    return callApi(Photos.factory(),
                     API_PATH_PHOTOS,
                     "longitude", Double.toString(longitude),
                     "latitude", Double.toString(latitude),
@@ -185,14 +185,14 @@ public class ApiClient
                    "e", Double.toString(e),
                    "w", Double.toString(w));
   } // geoCoder
-  
-  static Feedback.Result sendFeedback(final int itinerary, 
+
+  static Feedback.Result sendFeedback(final int itinerary,
                                              final String comments,
                                              final String name,
                                              final String email)
     throws Exception
   {
-    return postApi(Feedback.factory(), 
+    return postApi(Feedback.factory(),
              API_PATH_FEEDBACK,
              "type", "routing",
              "itinerary", Integer.toString(itinerary),
@@ -200,7 +200,7 @@ public class ApiClient
              "name", name,
              "email", email);
   } // sendFeedback
-  
+
   static Upload.Result uploadPhoto(final String filename,
                                    final String username,
                                    final String password,
@@ -213,7 +213,7 @@ public class ApiClient
     throws Exception
   {
 
-    return postApi(Upload.factory(), 
+    return postApi(Upload.factory(),
              API_PATH_ADDPHOTO,
              "username", username,
              "password", password,
@@ -225,39 +225,39 @@ public class ApiClient
              "caption", caption,
              "mediaupload", new FileBody(new File(filename)));
   } // uploadPhoto
-  
-  static Signin.Result signin(final String username, 
-                              final String password) 
-    throws Exception 
+
+  static Signin.Result signin(final String username,
+                              final String password)
+    throws Exception
   {
     return postApi(Signin.factory(),
-                   API_PATH_SIGNIN, 
+                   API_PATH_SIGNIN,
                    "username", username,
                    "password", password);
     } // signin
 
-  static Registration.Result register(final String username, 
+  static Registration.Result register(final String username,
                                       final String password,
                                       final String name,
-                                      final String email) 
-    throws Exception 
+                                      final String email)
+    throws Exception
   {
     return postApi(Registration.factory(),
-                   API_PATH_REGISTER, 
+                   API_PATH_REGISTER,
                    "username", username,
                    "password", password,
                    "name", name,
                    "email", email);
   } // register
-  
+
   static POICategories getPOICategories(int iconSize)
     throws Exception
   {
-    return callApiWithCache(POICategories.factory(context()), 
+    return callApiWithCache(POICategories.factory(context()),
                             API_PATH_POI_CATEGORIES,
                             "icons", Integer.toString(iconSize));
   } // getPOICategories
-  
+
   static List<POI> getPOIs(final String key,
                            final double lonE,
                            final double lonW,
@@ -267,13 +267,13 @@ public class ApiClient
   {
     return callApi(POICategory.factory(),
                    API_PATH_POIS,
-                   "type", key, 
+                   "type", key,
                    "e", Double.toString(lonE),
                    "w", Double.toString(lonW),
                    "n", Double.toString(latN),
                    "s", Double.toString(latS));
   } // getPOIs
-  
+
   static List<POI> getPOIs(final String key,
                            final double lon,
                            final double lat,
@@ -282,7 +282,7 @@ public class ApiClient
   {
     return callApi(POICategory.factory(),
         API_PATH_POIS,
-        "type", key, 
+        "type", key,
         "longitude", Double.toString(lon),
         "latitude", Double.toString(lat),
         "radius", Integer.toString(radius),
@@ -296,7 +296,7 @@ public class ApiClient
                             Blog.factory(),
                             BLOG_PATH_FEED);
   } // getBlogEntries
-  
+
   /////////////////////////////////////////////////////
   /////////////////////////////////////////////////////
   static private String itineraryPoints(final double... lonLat)
@@ -314,11 +314,11 @@ public class ApiClient
   static private byte[] callApiRaw(final String path, String... args) throws Exception
   {
     final List<NameValuePair> params = createParamsList(args);
-    final URI uri = createURI(API_SCHEME, path, params);   
+    final URI uri = createURI(API_SCHEME, path, params);
     final HttpGet httpget = new HttpGet(uri);
     return executeRaw(httpget);
   } // callApiRaw
-  
+
   static private <T> T callApi(final Factory<T> factory, final String path, String... args) throws Exception
   {
     final byte[] xml = callApiRaw(path, args);
@@ -329,35 +329,35 @@ public class ApiClient
   {
     return callApiWithCache(cacheExpiryDays_, factory, path, args);
   } // callApiWithCache
-  
+
   static private <T> T callApiWithCache(final int expiryInDays, final Factory<T> factory, final String path, String... args) throws Exception
   {
     final String name = cacheName(path, args);
     byte[] xml = cache_.fetch(name, expiryInDays);
-    
+
     if(xml == null)
     {
       xml = callApiRaw(path, args);
       cache_.store(name, xml);
     } // if ...
-    
+
     return loadRaw(factory, xml);
   } // callApiWithCache
-  
+
   static private <T> T postApi(final Factory<T> factory, final String path, Object...args)
     throws Exception
   {
     final byte[] xml = postApiRaw(path, args);
     return loadRaw(factory, xml);
   } // postApi
-  
+
   static private byte[] postApiRaw(final String path, Object... args) throws Exception
   {
     final List<NameValuePair> params = createParamsList();
     final URI uri = createURI(API_POST_SCHEME, path, params);
-    
+
     final MultipartEntity entity = new MultipartEntity();
-    for (int i = 0; i < args.length; i += 2) 
+    for (int i = 0; i < args.length; i += 2)
     {
       final String name = (String)args[i];
       final Object value = args[i+1];
@@ -366,12 +366,12 @@ public class ApiClient
       else
         entity.addPart(name, (ContentBody)value);
     } // for ...
-      
+
     final HttpPost httppost = new HttpPost(uri);
-    httppost.setEntity(entity);      
+    httppost.setEntity(entity);
     return executeRaw(httppost);
   } // postApiRaw
-  
+
   static private String cacheName(final String path, final String... args)
   {
     final StringBuilder sb = new StringBuilder();
@@ -385,8 +385,8 @@ public class ApiClient
     } // for ...
     return sb.toString().replace('/', '-');
   } // cacheName
-  
-  static private byte[] executeRaw(final HttpRequestBase method) 
+
+  static private byte[] executeRaw(final HttpRequestBase method)
       throws ClientProtocolException, IOException
   {
     method.setHeader("User-Agent", "CycleStreets Android/1.0");
@@ -394,15 +394,15 @@ public class ApiClient
     final HttpClient httpclient = new DefaultHttpClient(connectionManager_, params_);
 
     final HttpResponse response = httpclient.execute(method);
-    
+
     final HttpEntity entity = response.getEntity();
-    if (entity == null) 
+    if (entity == null)
       return null;
-     
+
     final StatusLine statusLine = response.getStatusLine();
-    if (statusLine.getStatusCode() < 300) 
+    if (statusLine.getStatusCode() < 300)
       return EntityUtils.toByteArray(entity);
-    
+
     entity.consumeContent();
     throw new HttpResponseException(statusLine.getStatusCode(), statusLine.getReasonPhrase());
   } // executeRaw
@@ -414,7 +414,7 @@ public class ApiClient
   {
     return URIUtils.createURI(scheme, API_HOST, API_PORT, path, URLEncodedUtils.format(params, "UTF-8"), null);
   } // createCycleStreetsURI
-  
+
   static private List<NameValuePair> createParamsList(final String... args)
   {
     final List<NameValuePair> params = createParamsList();
@@ -423,26 +423,26 @@ public class ApiClient
       }
     return params;
   } // createParamsList
-  
+
   static private List<NameValuePair> createParamsList()
   {
     final List<NameValuePair> params = new ArrayList<NameValuePair>();
     params.add(new BasicNameValuePair("key", apiKey_));
     return params;
   } // createParamsList
-  
+
   static private <T> T loadRaw(final Factory<T> factory, final byte[] xml) throws Exception
   {
     try {
       final InputStream bais = new ByteArrayInputStream(xml);
-      Xml.parse(bais, 
-                Xml.Encoding.UTF_8, 
+      Xml.parse(bais,
+                Xml.Encoding.UTF_8,
                 factory.contentHandler());
     } // try
     catch(final Exception e) {
       factory.parseException(e);
     } // catch
-      
+
     return factory.get();
   } // loadRaw
 } // ApiClient

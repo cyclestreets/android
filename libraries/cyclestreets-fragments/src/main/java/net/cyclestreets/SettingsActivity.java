@@ -1,5 +1,7 @@
 package net.cyclestreets;
 
+import net.cyclestreets.fragments.R;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,14 +17,14 @@ import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceScreen;
 
-public class SettingsActivity extends PreferenceActivity 
+public class SettingsActivity extends PreferenceActivity
                 implements SharedPreferences.OnSharedPreferenceChangeListener
-                
+
 {
-  @Override 
-  public void onCreate(final Bundle savedInstanceState) 
-  { 
-    super.onCreate(savedInstanceState); 
+  @Override
+  public void onCreate(final Bundle savedInstanceState)
+  {
+    super.onCreate(savedInstanceState);
 
     addPreferencesFromResource(R.xml.preferences);
 
@@ -39,13 +41,13 @@ public class SettingsActivity extends PreferenceActivity
     setSummary(CycleStreetsPreferences.PREF_OFFTRACK_DISTANCE);
     setSummary(CycleStreetsPreferences.PREF_REPLAN_DISTANCE);
   } // onCreate
-  
+
   private void setupMapFileList()
   {
     final ListPreference mapfilePref= (ListPreference)findPreference(CycleStreetsPreferences.PREF_MAPFILE_KEY);
     populateMapFileList(mapfilePref);
   } // setupMapFileList
-  
+
   private void populateMapFileList(final ListPreference mapfilePref)
   {
     final List<String> names = new ArrayList<String>();
@@ -54,21 +56,21 @@ public class SettingsActivity extends PreferenceActivity
     for(final MapPack pack : MapPack.availableMapPacks())
     {
       names.add(pack.name());
-      files.add(pack.path());      
+      files.add(pack.path());
     } // for
-    
+
     mapfilePref.setEntries(names.toArray(new String[] { }));
     mapfilePref.setEntryValues(files.toArray(new String[] { }));
   } // populateMapFileList
-  
+
 
   @Override
-  protected void onResume() 
+  protected void onResume()
   {
     super.onResume();
 
     getPreferenceScreen().getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
-        
+
     final PreferenceScreen account = (PreferenceScreen)findPreference(CycleStreetsPreferences.PREF_ACCOUNT_KEY);
     if(CycleStreetsPreferences.accountOK())
       account.setSummary(R.string.settings_signed_in);
@@ -79,55 +81,55 @@ public class SettingsActivity extends PreferenceActivity
   } // onResume
 
   @Override
-  protected void onPause() 
+  protected void onPause()
   {
     super.onPause();
 
     POICategories.reload();
-    
+
     // stop listening while paused
-    getPreferenceScreen().getSharedPreferences().unregisterOnSharedPreferenceChangeListener(this);    
+    getPreferenceScreen().getSharedPreferences().unregisterOnSharedPreferenceChangeListener(this);
   } // onPause
-    
-  public void onSharedPreferenceChanged(final SharedPreferences prefs, final String key) 
+
+  public void onSharedPreferenceChanged(final SharedPreferences prefs, final String key)
   {
     setSummary(key);
   } // onSharedPreferencesChanged
-    
-  private void setSummary(final String key) 
+
+  private void setSummary(final String key)
   {
     final Preference prefUI = findPreference(key);
-    if (prefUI instanceof ListPreference) 
+    if (prefUI instanceof ListPreference)
       prefUI.setSummary(((ListPreference)prefUI).getEntry());
     if (prefUI instanceof EditTextPreference)
       prefUI.setSummary(((EditTextPreference)prefUI).getText());
-    
+
     if(CycleStreetsPreferences.PREF_MAPSTYLE_KEY.equals(key))
       setMapFileSummary(((ListPreference)prefUI).getValue());
   } // setSummary
-  
+
   private void setMapFileSummary(final String style)
   {
     final ListPreference mapfilePref= (ListPreference)findPreference(CycleStreetsPreferences.PREF_MAPFILE_KEY);
     final boolean enabled = style.equals(CycleStreetsPreferences.MAPSTYLE_MAPSFORGE);
     mapfilePref.setEnabled(enabled);
-    
+
     if(!enabled)
-      return;  
-    
-    if(mapfilePref.getEntryValues().length == 0) 
-    {  
+      return;
+
+    if(mapfilePref.getEntryValues().length == 0)
+    {
       mapfilePref.setEnabled(false);
-      MessageBox.YesNo(getListView(), 
+      MessageBox.YesNo(getListView(),
                        R.string.no_map_packs,
                        new DialogInterface.OnClickListener() {
-                         public void onClick(DialogInterface arg0, int arg1) {  
+                         public void onClick(DialogInterface arg0, int arg1) {
                            MapPack.searchGooglePlay(SettingsActivity.this);
                          } // onClick
                        });
       return;
     } // if ...
-  
+
     final String mapfile = CycleStreetsPreferences.mapfile();
     int index = mapfilePref.findIndexOfValue(mapfile);
     if(index == -1)

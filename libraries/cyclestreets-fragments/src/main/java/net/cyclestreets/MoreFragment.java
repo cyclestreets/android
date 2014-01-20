@@ -1,5 +1,6 @@
 package net.cyclestreets;
 
+import net.cyclestreets.fragments.R;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -38,18 +39,14 @@ public class MoreFragment extends Fragment implements View.OnClickListener
   @Override
   public void onClick(View v)
   {
-    switch(v.getId())
-    {
-      case R.id.settings_button:
-        start(SettingsActivity.class);
-        break;
-      case R.id.blog_button:
-        start(BlogActivity.class);
-        break;
-      case R.id.about_button:
-        start(AboutActivity.class);
-        break;
-    } // switch
+    final int viewId = v.getId();
+
+    if(R.id.settings_button == viewId)
+      start(SettingsActivity.class);
+    if(R.id.blog_button == viewId)
+      start(BlogActivity.class);
+    if(R.id.about_button == viewId)
+      start(AboutActivity.class);
   } // onClick
 
   private void start(final Class<? extends Activity> classToStart)

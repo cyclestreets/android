@@ -1,0 +1,24 @@
+apply plugin: 'android-library'
+
+repositories {
+  mavenCentral()
+}
+
+dependencies {
+    compile project(':libraries:cyclestreets-view')
+}
+
+android {
+    Properties appConfig = new Properties()
+    appConfig.load(new FileInputStream(file("../../config.properties")))
+
+    compileSdkVersion appConfig['sdkVersion'].toInteger()
+    buildToolsVersion "19.0.1"
+
+    defaultConfig {
+        minSdkVersion appConfig['sdkVersion'].toInteger()
+        targetSdkVersion appConfig['sdkVersion'].toInteger()
+        versionCode appConfig['versionCode'].toInteger()
+        versionName appConfig['versionName']
+    }
+}

@@ -1,5 +1,7 @@
 package net.cyclestreets;
 
+import net.cyclestreets.fragments.R;
+
 import net.cyclestreets.routing.Journey;
 import net.cyclestreets.routing.Route;
 import net.cyclestreets.routing.Segment;
@@ -20,43 +22,46 @@ import android.widget.TextView;
 
 import net.cyclestreets.util.TurnIcons;
 
-public class ItineraryFragment extends ListFragment 
+public class ItineraryFragment extends ListFragment
                                implements Route.Listener
 {
   private Journey journey_ = Journey.NULL_JOURNEY;
-  
+
 	@Override
-	public void onCreate(final Bundle savedInstanceState) 
+	public void onCreate(final Bundle savedInstanceState)
 	{
 	  super.onCreate(savedInstanceState);
 	  setListAdapter(new SegmentAdapter(getActivity(), this));
 	} // onCreate
 
 	@Override
-  public void onResume() 
+  public void onResume()
 	{
 		super.onResume();
 		Route.onResume();
     Route.registerListener(this);
-	} // onResume	
-  
+	} // onResume
+
   @Override
   public void onPause()
   {
     Route.unregisterListener(this);
     super.onPause();
   } // onPause
-	
+
 	@Override
   public void onListItemClick(ListView l, View v, int position, long id)
 	{
 	  if(journey_.isEmpty())
 	    return;
-    	  
+
 	  journey_.setActiveSegmentIndex(position);
-	  ((CycleStreets)getActivity()).showMap();
+    try {
+  	  ((MainTabbedActivity)getActivity()).showMap();
+    } catch(Exception e) {
+    }
 	} // onListItemClick
-    
+
   @Override
   public void onNewJourney(final Journey journey, final Waypoints waypoints)
   {
@@ -77,7 +82,7 @@ public class ItineraryFragment extends ListFragment
 	  private final TurnIcons.Mapping iconMappings_;
 	  private final Drawable footprints_;
 	  private final LayoutInflater inflater_;
-	  
+
 	  SegmentAdapter(final Context context, final ItineraryFragment itinerary)
 	  {
 	    itinerary_ = itinerary;
@@ -85,46 +90,46 @@ public class ItineraryFragment extends ListFragment
 	    footprints_ = context.getResources().getDrawable(R.drawable.footprints);
 	    inflater_ = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 	  } // SegmentAdaptor
-	  
+
 	  private Journey journey() { return itinerary_.journey_; }
 
-	  private boolean hasSegments() 
+	  private boolean hasSegments()
 	  {
 	    return !journey().isEmpty();
     } // hasSegments
-    	
+
 		@Override
-		public int getCount() 
-		{ 
-			return hasSegments() ? journey().segments().count() : 1; 
+		public int getCount()
+		{
+			return hasSegments() ? journey().segments().count() : 1;
 		} // getCount
 
 		@Override
-		public Object getItem(int position) 
-		{ 
+		public Object getItem(int position)
+		{
 			if(!hasSegments())
 				return null;
-			return journey().segments().get(position); 
+			return journey().segments().get(position);
 		} // getItem
 
 		@Override
-		public long getItemId(int position) 
-		{ 
-			return position; 
+		public long getItemId(int position)
+		{
+			return position;
 		} // getItemId
 
 		@Override
-		public View getView(final int position, final View convertView, final ViewGroup parent) 
+		public View getView(final int position, final View convertView, final ViewGroup parent)
 		{
 			if(!hasSegments())
 				return inflater_.inflate(R.layout.itinerary_not_available, parent, false);
-			
+
 			final Segment seg = Route.journey().segments().get(position);
 			final int layout_id = position != 0 ? R.layout.itinerary_item : R.layout.itinerary_header_item;
 			final View v = inflater_.inflate(layout_id, parent, false);
 
 			final boolean highlight = (position == Route.journey().activeSegmentIndex());
-		
+
 			if(position == 0)
 				setText(v, R.id.segment_bonus, seg.extraInfo(), highlight);
 			setText(v, R.id.segment_distance, seg.distance(), highlight);
@@ -133,15 +138,15 @@ public class ItineraryFragment extends ListFragment
 
 			setMainText(v, R.id.segment_street, seg.turn(), seg.street(), highlight);
 			setTurnIcon(v, R.id.segment_type, seg.turn(), seg.walk());
-			
+
 			if(highlight && (position != 0) && (position != getCount()-1))
 				v.setBackgroundColor(Color.GREEN);
 			else
 				v.setBackgroundColor(getColour(seg));
-			
+
 			return v;
 		} // getView
-		
+
 		private void setText(final View v, final int id, final String t, final boolean highlight)
 		{
 			final TextView n = (TextView)v.findViewById(id);
@@ -151,7 +156,7 @@ public class ItineraryFragment extends ListFragment
 			if(highlight)
 				n.setTextColor(Color.BLACK);
 		} // setText
-		
+
 		private void setMainText(final View v, final int id, final String turn, final String street, final boolean highlight)
 		{
 			String t = street;
@@ -159,22 +164,22 @@ public class ItineraryFragment extends ListFragment
 				t = turn + " into " + street;
 			setText(v, id, t, highlight);
 		} // setMainText
-		
-		private void setTurnIcon(final View v, final int id, final String turn, final boolean walk)		
+
+		private void setTurnIcon(final View v, final int id, final String turn, final boolean walk)
 		{
 			final ImageView iv = (ImageView)v.findViewById(id);
 
-			final Drawable icon = turnIcon(turn); 
+			final Drawable icon = turnIcon(turn);
   		iv.setImageDrawable(icon);
 			if(walk)
 				iv.setBackgroundDrawable(footprints_);
 		} // setTurnIcon
-		
+
 		private Drawable turnIcon(final String turn)
 		{
 			return iconMappings_.icon(turn);
 		} // turnIcon
-		
+
 		private int getColour(final Segment s)
 		{
 			if(s instanceof Segment.Start)

@@ -1,5 +1,7 @@
 package net.cyclestreets;
 
+import net.cyclestreets.fragments.R;
+
 import net.cyclestreets.api.GeoPlace;
 
 import net.cyclestreets.util.GeoIntent;
@@ -14,7 +16,7 @@ import android.widget.Button;
 import android.widget.Toast;
 import android.widget.RelativeLayout.LayoutParams;
 
-public class FindPlaceActivity extends Activity 
+public class FindPlaceActivity extends Activity
 implements View.OnClickListener, PlaceView.OnResolveListener
 {
   private PlaceView place_;
@@ -25,13 +27,13 @@ implements View.OnClickListener, PlaceView.OnResolveListener
     super.onCreate(saved);
 
     setContentView(R.layout.findplace);
-    getWindow().setGravity(Gravity.TOP|Gravity.FILL_HORIZONTAL);       
+    getWindow().setGravity(Gravity.TOP|Gravity.FILL_HORIZONTAL);
     getWindow().setLayout(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT);
     getWindow().setBackgroundDrawableResource(R.drawable.empty);
-    
+
     place_ = (PlaceView)findViewById(R.id.place);
     place_.setBounds(GeoIntent.getBoundingBox(getIntent()));
-    
+
     final Button findButton = (Button)findViewById(R.id.find_place);
     findButton.setOnClickListener(this);
   } // onCreate
@@ -63,7 +65,7 @@ implements View.OnClickListener, PlaceView.OnResolveListener
   } // onClick
 
   @Override
-  public void onResolve(final GeoPlace place)   
+  public void onResolve(final GeoPlace place)
   {
     placeSelected(place);
   } // onResolve

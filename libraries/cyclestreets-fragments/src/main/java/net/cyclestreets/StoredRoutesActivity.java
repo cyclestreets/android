@@ -2,6 +2,7 @@ package net.cyclestreets;
 
 import java.util.List;
 
+import net.cyclestreets.fragments.R;
 import net.cyclestreets.content.RouteSummary;
 import net.cyclestreets.routing.Route;
 import net.cyclestreets.routing.Segment;
@@ -24,29 +25,29 @@ import android.widget.RelativeLayout.LayoutParams;
 
 import static net.cyclestreets.util.MenuHelper.createMenuItem;
 
-public class StoredRoutesActivity extends ListActivity 
+public class StoredRoutesActivity extends ListActivity
 {
   private RouteSummaryAdaptor listAdaptor_;
-  
+
   @Override
-  public void onCreate(final Bundle savedInstanceState) 
+  public void onCreate(final Bundle savedInstanceState)
   {
     super.onCreate(savedInstanceState);
 
     setContentView(R.layout.storedroutes);
-    getWindow().setGravity(Gravity.CENTER);       
+    getWindow().setGravity(Gravity.CENTER);
     getWindow().setLayout(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT);
     getWindow().setBackgroundDrawableResource(R.drawable.empty);
-    
+
     listAdaptor_ = new RouteSummaryAdaptor(this, Route.storedRoutes());
     setListAdapter(listAdaptor_);
     registerForContextMenu(getListView());
   } // onCreate
-  
+
   @Override
-  public void onCreateContextMenu(final ContextMenu menu, 
-                                  final View v, 
-                                  final ContextMenu.ContextMenuInfo menuInfo) 
+  public void onCreateContextMenu(final ContextMenu menu,
+                                  final View v,
+                                  final ContextMenu.ContextMenuInfo menuInfo)
   {
     createMenuItem(menu, R.string.ic_menu_open);
     createMenuItem(menu, R.string.ic_menu_rename);
@@ -54,39 +55,34 @@ public class StoredRoutesActivity extends ListActivity
   }  // onCreateContextMenu
 
   @Override
-  public boolean onContextItemSelected(final MenuItem item) 
+  public boolean onContextItemSelected(final MenuItem item)
   {
     try {
-      final AdapterView.AdapterContextMenuInfo info 
+      final AdapterView.AdapterContextMenuInfo info
           = (AdapterView.AdapterContextMenuInfo)item.getMenuInfo();
-      int localId = (int)getListAdapter().getItemId(info.position);
+      final int localId = (int)getListAdapter().getItemId(info.position);
+      final int menuId = item.getItemId();
 
-      switch(item.getItemId())
-      {
-        case R.string.ic_menu_open:
-          openRoute(localId);
-          break;
-        case R.string.ic_menu_rename:
-          renameRoute(localId);
-          break;
-        case R.string.ic_menu_delete:
-          deleteRoute(localId);
-          break;
-      } // switch
-        
+      if(R.string.ic_menu_open == menuId)
+        openRoute(localId);
+      if(R.string.ic_menu_rename == menuId)
+        renameRoute(localId);
+      if(R.string.ic_menu_delete == menuId)
+        deleteRoute(localId);
+
       return true;
     } // try
     catch (final ClassCastException e) {
-      return false;  
+      return false;
     } // catch
   } // onContextItemSelected
-   
+
   @Override
   protected void onListItemClick(ListView l, View v, int position, long id)
   {
     openRoute((int)id);
   } // onListItemClick
-  
+
   private void openRoute(final int localId)
   {
     Intent intent = new Intent();
@@ -94,12 +90,12 @@ public class StoredRoutesActivity extends ListActivity
     setResult(RESULT_OK, intent);
     finish();
   } // routeSelected
-  
+
   private void renameRoute(final int localId)
   {
     final RouteSummary route = listAdaptor_.getRouteSummary(localId);
     Dialog.editTextDialog(this, route.title(), "Rename",
-        new Dialog.UpdatedTextListener() {          
+        new Dialog.UpdatedTextListener() {
           @Override
           public void updatedText(final String updated) {
             Route.RenameRoute(localId, updated);
@@ -107,63 +103,63 @@ public class StoredRoutesActivity extends ListActivity
           } // updatedText
         });
   } // renameRoute
-  
+
   private void deleteRoute(final int localId)
   {
     Route.DeleteRoute(localId);
     listAdaptor_.refresh(Route.storedRoutes());
   } // deleteRoute
-   
+
   //////////////////////////////////
   static class RouteSummaryAdaptor extends BaseAdapter
   {
     private final LayoutInflater inflater_;
     private List<RouteSummary> routes_;
-        
+
     RouteSummaryAdaptor(final Context context, final List<RouteSummary> routes)
     {
       inflater_ = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
       routes_ = routes;
-    } // SegmentAdaptor   
-    
+    } // SegmentAdaptor
+
     public void refresh(final List<RouteSummary> routes)
     {
       routes_ = routes;
       notifyDataSetChanged();
     } // refresh
 
-    public RouteSummary getRouteSummary(int localId) 
+    public RouteSummary getRouteSummary(int localId)
     {
       for(final RouteSummary r : routes_)
         if(r.localId() == localId)
           return r;
       return null;
     } // getRouteSummary
-    
+
     @Override
     public int getCount() { return routes_.size(); }
-    
+
     @Override
     public Object getItem(int position) { return routes_.get(position); }
 
     @Override
-    public long getItemId(int position) { return routes_.get(position).localId(); } 
-    
+    public long getItemId(int position) { return routes_.get(position).localId(); }
+
     @Override
-    public View getView(final int position, final View convertView, final ViewGroup parent) 
+    public View getView(final int position, final View convertView, final ViewGroup parent)
     {
       final RouteSummary summary = routes_.get(position);
       final View v = inflater_.inflate(R.layout.storedroutes_item, parent, false);
 
       final TextView n = (TextView)v.findViewById(R.id.route_title);
-      
+
       final String p = summary.plan();
       final String plan = p.substring(0,1).toUpperCase() + p.substring(1);
-      
-      n.setText(summary.title() + "\n" + 
-                plan + " route, " + 
+
+      n.setText(summary.title() + "\n" +
+                plan + " route, " +
                 Segment.formatter.total_distance(summary.distance()));
-      
+
       return v;
     } // getView
   } // class RouteSummaryAdaptor

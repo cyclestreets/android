@@ -27,7 +27,6 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -523,6 +522,7 @@ if (url.startsWith("content://com.google.android.apps.photos.content")){
        bitmap = getBitmapFromInputStream(is);
 }
        */
+
       photoFile_ = getImageFilePath(data);
       if(photo_ != null)
         photo_.recycle();

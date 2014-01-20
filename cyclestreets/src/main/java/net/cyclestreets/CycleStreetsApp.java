@@ -1,16 +1,11 @@
 package net.cyclestreets;
 
-
-import net.cyclestreets.api.ApiClient;
-import net.cyclestreets.routing.Route;
 import android.app.Application;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
 import org.acra.ACRA;
 import org.acra.ReportingInteractionMode;
 import org.acra.annotation.ReportsCrashes;
 
-@ReportsCrashes(formKey="dHBMQkk3aldWaW8tYlA0eVMzQ0ltQ2c6MQ",             
+@ReportsCrashes(formKey="dHBMQkk3aldWaW8tYlA0eVMzQ0ltQ2c6MQ",
                 mode = ReportingInteractionMode.NOTIFICATION,
                 resNotifTickerText = R.string.crash_notif_ticker_text,
                 resNotifTitle = R.string.crash_notif_title,
@@ -22,39 +17,12 @@ import org.acra.annotation.ReportsCrashes;
                 resDialogCommentPrompt = R.string.crash_dialog_comment_prompt, // optional. when defined, adds a user text field input with this text resource as a label
                 resDialogOkToast = R.string.crash_dialog_ok_toast // optional. displays a Toast message when the user accepts to send a report.
                 )
-public class CycleStreetsApp extends Application
-{
-  private final static int oneMinute = 1000*60;
-  private final static int halfADay = 1000*60*60*12; // in milliseconds
-
+public class CycleStreetsApp extends Application {
   @Override
-  public void onCreate()
-  {
+  public void onCreate() {
     ACRA.init(this);
     super.onCreate();
 
-    CycleStreetsPreferences.initialise(this);
-
-    Route.initialise(this);
-    ApiClient.initialise(this);
-
-    RegularUpdates.schedule(this, oneMinute, halfADay);
+    CycleStreetsAppSupport.initialise(this);
   } // onCreate
-
-  public String version()
-  {
-    return String.format("Version : %s/%s", getPackageName(), versionName());
-  } // version
-
-  private String versionName()
-  {
-    try {
-      final PackageInfo info = getPackageManager().getPackageInfo(getPackageName(), 0);
-      return info.versionName;
-    } // try
-    catch(PackageManager.NameNotFoundException nnfe) {
-      // like this is going to happen
-      return "Unknown";
-    } // catch
-  } // versionName
 } // CycleStreetsApp

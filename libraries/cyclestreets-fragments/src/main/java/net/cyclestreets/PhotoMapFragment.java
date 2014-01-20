@@ -1,5 +1,7 @@
 package net.cyclestreets;
 
+import net.cyclestreets.fragments.R;
+
 import net.cyclestreets.views.overlay.PhotosOverlay;
 
 import android.os.Bundle;
@@ -12,9 +14,9 @@ public class PhotoMapFragment extends CycleMapFragment
   public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle saved)
   {
     final View v = super.onCreateView(inflater, container, saved);
-    
+
     overlayPushBottom(new PhotosOverlay(getActivity(), mapView()));
-    
+
     return v;
   } // onCreate
 } // PhotomapActivity
