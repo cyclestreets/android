@@ -233,8 +233,13 @@ public abstract class MainTabbedActivity extends FragmentActivity implements OnT
     ft.commit();
     getSupportFragmentManager().executePendingTransactions();
 
-    setTitle("CycleStreets : " + tabId);
+    setTitle(applicationName() + " : " + tabId);
   } // onTabChanged
+
+  public String applicationName() {
+    int stringId = getApplicationInfo().labelRes;
+    return getString(stringId);
+  } // applicationName
 
   // pause/resume
   @Override
