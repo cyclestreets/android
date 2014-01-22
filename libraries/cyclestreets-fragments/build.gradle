@@ -5,6 +5,7 @@ repositories {
 }
 
 dependencies {
+    compile 'com.android.support:support-v4:+'
     compile project(':libraries:cyclestreets-view')
 }
 
