@@ -12,6 +12,7 @@
             <option value="$PROJECT_DIR$/cyclestreets" />
             <option value="$PROJECT_DIR$/libraries" />
             <option value="$PROJECT_DIR$/libraries/cyclestreets-core" />
+            <option value="$PROJECT_DIR$/libraries/cyclestreets-fragments" />
             <option value="$PROJECT_DIR$/libraries/cyclestreets-view" />
           </set>
         </option>
