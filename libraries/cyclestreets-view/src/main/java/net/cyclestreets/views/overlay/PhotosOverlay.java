@@ -103,7 +103,7 @@ public class PhotosOverlay extends LiveItemOverlay<PhotosOverlay.PhotoItem>
     radius_ = DrawingHelper.cornerRadius(context);
 
     final Resources res = context.getResources();
-    addPhotoBtn_ = new OverlayButton(res.getDrawable(R.drawable.btn_previous),
+    addPhotoBtn_ = new OverlayButton(res.getDrawable(R.drawable.ic_menu_takephoto),
                                      offset_,
                                      offset_*2,
                                      radius_);
