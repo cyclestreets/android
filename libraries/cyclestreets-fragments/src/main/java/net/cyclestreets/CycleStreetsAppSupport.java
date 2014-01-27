@@ -17,8 +17,6 @@ public final class CycleStreetsAppSupport
 
     Route.initialise(context);
     ApiClient.initialise(context);
-
-    RegularUpdates.schedule(context, oneMinute, halfADay);
   } // onCreate
 
   static public String version(final Context context)

@@ -1,8 +1,7 @@
 <component name="libraryTable">
   <library name="mapsforge-map-0.3.0-jar-with-dependencies">
     <CLASSES>
-      <root url="jar://$PROJECT_DIR$/libs/mapsforge-map-0.3.0-jar-with-dependencies.jar!/" />
-      <root url="jar://$PROJECT_DIR$/cyclestreets/libs/mapsforge-map-0.3.0-jar-with-dependencies.jar!/" />
+      <root url="jar://$PROJECT_DIR$/cyclestreets/build/exploded-bundles/MasterLibrariesCyclestreetsViewUnspecified.aar/libs/mapsforge-map-0.3.0-jar-with-dependencies.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />

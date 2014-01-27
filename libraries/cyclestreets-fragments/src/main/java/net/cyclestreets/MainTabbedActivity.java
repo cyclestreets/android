@@ -48,7 +48,7 @@ public abstract class MainTabbedActivity extends FragmentActivity implements OnT
       tabHost_.getTabWidget().getChildAt(i).setLayoutParams(layout);
     } // for ...
 
-	    // start with route tab
+	  // start with route tab
     showMap();
 
     showWhatsNew();
