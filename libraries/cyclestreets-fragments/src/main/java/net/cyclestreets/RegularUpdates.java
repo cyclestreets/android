@@ -13,14 +13,21 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 
-class RegularUpdates
+public class RegularUpdates
 {
+  public final static int oneMinute = 1000*60;
+  public final static int halfADay = 1000*60*60*12; // in milliseconds
+
   private static Timer updater_;
 
-  static public void schedule(final Context context, final long delay, final long period)
+  static public void schedule(final Context context) {
+    schedule(context, oneMinute, halfADay);
+  } // schedule
+
+  static public void schedule(final Context context, final long initialDelay, final long period)
   {
     updater_ = new Timer();
-    updater_.schedule(new RegularUpdatesTask(context), delay, period);
+    updater_.schedule(new RegularUpdatesTask(context), initialDelay, period);
   } // schedule
 
   ////////////////////////////////////////////////

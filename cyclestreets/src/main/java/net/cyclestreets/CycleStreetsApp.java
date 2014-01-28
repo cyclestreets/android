@@ -25,6 +25,6 @@ public class CycleStreetsApp extends Application {
 
     CycleStreetsAppSupport.initialise(this);
 
-    RegularUpdates.schedule(context, oneMinute, halfADay);
+    RegularUpdates.schedule(this);
   } // onCreate
 } // CycleStreetsApp

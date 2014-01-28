@@ -8,9 +8,6 @@ import android.content.pm.PackageManager;
 
 public final class CycleStreetsAppSupport
 {
-  private final static int oneMinute = 1000*60;
-  private final static int halfADay = 1000*60*60*12; // in milliseconds
-
   static public void initialise(final Context context)
   {
     CycleStreetsPreferences.initialise(context);
