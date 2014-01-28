@@ -57,7 +57,7 @@ along with this program.  If not, see http://www.gnu.org/licenses
 Contacts
 --------
 
-Written by Jez Higgins, with contributions from Theodore Hong, Christopher Fraser, Jonathan Gray, Shaun McDonald, Simon Nuttall.
+Written by Jez Higgins, with contributions from Theodore Hong, Christopher Fraser, Jonathan Gray, Shaun McDonald, Simon Nuttall, Colin Watson.
 
 Part of the development of this App has been funded by Cycling Scotland.
 
