@@ -5,21 +5,21 @@ import org.osmdroid.util.GeoPoint;
 public class Photo 
 {
   private final int id_;
-  private final int feature_;
+  private final String featureName_;
   private final String caption_;
   private final String url_;
   private final String thumbnailUrl_;
   private final GeoPoint position_;
   
   Photo(int id, 
-        int feature,
+        String feature,
         String caption,
         String url,
         String thumbnailUrl,
         GeoPoint position)
   {
     id_ = id;
-    feature_ = feature;
+    featureName_ = feature;
     caption_ = caption;
     url_ = url;
     thumbnailUrl_ = thumbnailUrl;
@@ -27,7 +27,7 @@ public class Photo
   } // Photo
   
   public int id() { return id_; }
-  public int feature() { return feature_; }
+  public String feature() { return featureName_; }
   public String caption() { return caption_; }
   public String url() { return url_; }
   public String thumbnailUrl() { return thumbnailUrl_; }

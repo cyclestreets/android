@@ -17,38 +17,38 @@ import android.sax.StartElementListener;
 public class Photos implements Iterable<Photo>
 {
   private List<Photo> photos_;
-  
+
   protected Photos()
   {
     photos_ = new ArrayList<Photo>();
   } // Photos
-  
+
   private void add(final Photo photo)
   {
     photos_.add(photo);
   } // add
-  
+
   @Override
   public Iterator<Photo> iterator()
   {
     return photos_.iterator();
   } // iterator
-  
+
   /////////////////////////////////////////////////////////////
   static public Photos load(final IGeoPoint centre,
-                            final int zoom, 
-                            final BoundingBoxE6 boundingBox) 
-     throws Exception 
+                            final int zoom,
+                            final BoundingBoxE6 boundingBox)
+     throws Exception
   {
-    return load(centre.getLongitudeE6() / 1E6, 
-                centre.getLatitudeE6() / 1E6, 
+    return load(centre.getLongitudeE6() / 1E6,
+                centre.getLatitudeE6() / 1E6,
                 zoom,
                 boundingBox.getLonEastE6() / 1E6,
                 boundingBox.getLonWestE6() / 1E6,
                 boundingBox.getLatNorthE6() / 1E6,
                 boundingBox.getLatSouthE6() / 1E6);
   } // load
-  
+
   static private Photos load(final double clong,
                              final double clat,
                              final int zoom,
@@ -62,23 +62,23 @@ public class Photos implements Iterable<Photo>
   } // load
 
   ////////////////////////////////////////////////////
-  static public Factory<Photos> factory() { 
+  static public Factory<Photos> factory() {
     return new PhotosFactory();
   } // factory
-  
+
   static private class PhotosFactory extends Factory<Photos>
-  {    
+  {
     private Photos photos_;
 
-    public PhotosFactory() 
+    public PhotosFactory()
     {
     } // PhotosFactory
-    
+
     @Override
     protected ContentHandler contentHandler()
     {
       photos_ = new Photos();
-      
+
       final RootElement root = new RootElement("markers");
       final Element item = root.getChild("marker");
       item.setStartElementListener(new StartElementListener() {
@@ -92,10 +92,10 @@ public class Photos implements Iterable<Photo>
           final String thumbnailUrl = attributes.getValue("thumbnailUrl");
           final String lat = attributes.getValue("latitude");
           final String lon = attributes.getValue("longitude");
-          
-          try { 
+
+          try {
             final Photo newPhoto = new Photo(Integer.parseInt(id),
-                                             Integer.parseInt(feature),
+                                             feature,
                                              caption,
                                              url,
                                              thumbnailUrl,
