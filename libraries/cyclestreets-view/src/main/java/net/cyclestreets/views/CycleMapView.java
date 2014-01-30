@@ -59,10 +59,6 @@ public class CycleMapView extends MapView
   private GeoPoint centreOn_ = null;
 
   public CycleMapView(final Context context, final String name) {
-    this(context, name, true);
-  } // CycleMapView
-
-  public CycleMapView(final Context context, final String name, final boolean location) {
     super(context,
           256,
           new DefaultResourceProxyImpl(context),
@@ -77,12 +73,8 @@ public class CycleMapView extends MapView
 
     getOverlays().add(new ZoomButtonsOverlay(context, this));
 
-    if (location) {
-      location_ = new LocationOverlay(context, this);
-      getOverlays().add(location_);
-    } else {
-      location_ = null;
-    } // if ...
+    location_ = new LocationOverlay(context, this);
+    getOverlays().add(location_);
 
     controllerOverlay_ = new ControllerOverlay(context, this);
     getOverlays().add(controllerOverlay_);
@@ -113,12 +105,11 @@ public class CycleMapView extends MapView
     edit.putInt(PREFS_APP_CENTRE_LON, lon);
     edit.putInt(PREFS_APP_CENTRE_LAT, lat);
     edit.putInt(PREFS_APP_ZOOM_LEVEL, getZoomLevel());
-    if (location_ != null) {
-      edit.putBoolean(PREFS_APP_MY_LOCATION, location_.isMyLocationEnabled());
-      edit.putBoolean(PREFS_APP_FOLLOW_LOCATION, location_.isFollowLocationEnabled());
+    edit.putBoolean(PREFS_APP_MY_LOCATION, location_.isMyLocationEnabled());
+    edit.putBoolean(PREFS_APP_FOLLOW_LOCATION, location_.isFollowLocationEnabled());
 
-      disableMyLocation();
-    } // if (location_ != null)
+    disableMyLocation();
+
     controllerOverlay_.onPause(edit);
     edit.commit();
   } // onPause
@@ -132,13 +123,11 @@ public class CycleMapView extends MapView
       setTileSource(renderer_);
     } // if ...
 
-    if (location_ != null) {
-      location_.enableLocation(pref(PREFS_APP_MY_LOCATION, true));
-      if(pref(PREFS_APP_FOLLOW_LOCATION, true))
-        location_.enableFollowLocation();
-      else
-        location_.disableFollowLocation();
-    } // if ...
+    location_.enableLocation(pref(PREFS_APP_MY_LOCATION, true));
+    if(pref(PREFS_APP_FOLLOW_LOCATION, true))
+      location_.enableFollowLocation();
+    else
+      location_.disableFollowLocation();
 
     if(centreOn_ == null) {
       // mild data race if we're setting centre in onActivityResult
