@@ -16,7 +16,7 @@ public class PhotoMarkers
 
   public PhotoMarkers(final Resources res)
   {
-    defaultMarker_ = res.getDrawable(R.drawable.icon);
+    defaultMarker_ = res.getDrawable(R.drawable.mm_20_white_wisp);
 
     markers_ = MapFactory.map("1", res.getDrawable(R.drawable.mm_20_white_wisp)).
                           map("2", res.getDrawable(R.drawable.mm_20_bike)).
@@ -24,7 +24,7 @@ public class PhotoMarkers
                           map("4", res.getDrawable(R.drawable.mm_20_cycleway)).
                           map("5", res.getDrawable(R.drawable.mm_20_directional_signage)).
                           map("6", res.getDrawable(R.drawable.mm_20_general_sign)).
-                          map("7", res.getDrawable(R.drawable.icon)).
+                          map("7", defaultMarker_).
                           map("8", res.getDrawable(R.drawable.mm_20_obstruction)).
                           map("9", res.getDrawable(R.drawable.mm_20_destination)).
                           map("10", res.getDrawable(R.drawable.mm_20_black)).
@@ -51,7 +51,7 @@ public class PhotoMarkers
                           //map("closure", ).
                           map("bicycles", res.getDrawable(R.drawable.mm_20_bike)).
                           map("congestion", res.getDrawable(R.drawable.mm_20_congestion)).
-                          map("general", res.getDrawable(R.drawable.icon));
+                          map("general", defaultMarker_);
   } // PhotoMarkers
 
   public Drawable getMarker(final String featureName)
