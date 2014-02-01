@@ -65,6 +65,7 @@ public class ApiClient
   private final static String API_SCHEME = "http";
   private final static String API_POST_SCHEME = "https";
   private final static String API_HOST = "www.cyclestreets.net";
+  private final static String API_HOST_V2 = "api.cyclestreets.net";
   private final static int API_PORT = -1;
   private final static String API_PATH = "/api/";
 
@@ -351,7 +352,7 @@ public class ApiClient
     return loadRaw(factory, xml);
   } // postApi
 
-  static private byte[] postApiRaw(final String path, Object... args) throws Exception
+  public static byte[] postApiRaw(final String path, Object... args) throws Exception
   {
     final List<NameValuePair> params = createParamsList();
     final URI uri = createURI(API_POST_SCHEME, path, params);
@@ -408,11 +409,12 @@ public class ApiClient
   } // executeRaw
 
   static private URI createURI(final String scheme,
-                 final String path,
-                 final List<NameValuePair> params)
+                               final String path,
+                               final List<NameValuePair> params)
     throws Exception
   {
-    return URIUtils.createURI(scheme, API_HOST, API_PORT, path, URLEncodedUtils.format(params, "UTF-8"), null);
+    final String host = path.startsWith("/v2/") ? API_HOST_V2 : API_HOST;
+    return URIUtils.createURI(scheme, host, API_PORT, path, URLEncodedUtils.format(params, "UTF-8"), null);
   } // createCycleStreetsURI
 
   static private List<NameValuePair> createParamsList(final String... args)
