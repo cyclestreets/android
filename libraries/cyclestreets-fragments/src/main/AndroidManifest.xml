@@ -2,8 +2,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
       package="net.cyclestreets.fragments">
 
-  <uses-permission android:name="android.permission.READ_CONTACTS"/>
-
   <application>
     <activity android:name="net.cyclestreets.AboutActivity"
               android:label="CycleStreets : About"/>

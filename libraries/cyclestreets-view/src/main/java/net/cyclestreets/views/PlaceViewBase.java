@@ -14,9 +14,12 @@ import net.cyclestreets.contacts.Contacts;
 import net.cyclestreets.util.Dialog;
 import net.cyclestreets.util.ListDialog;
 import net.cyclestreets.util.MessageBox;
+
+import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.os.AsyncTask;
 import android.util.AttributeSet;
@@ -176,13 +179,22 @@ public class PlaceViewBase extends LinearLayout
     options_ = new ArrayList<String>();
     for(final GeoPlace gp : allowedPlaces_)
       options_.add(gp.name());
-    options_.add(CONTACTS);
+    if (contactsAvailable())
+      options_.add(CONTACTS);
 
     ListDialog.showListDialog(context_,
                               CHOOSE_LOCATION,
                               options_,
                               this);
   } // onClick
+
+  private boolean contactsAvailable() {
+    final PackageManager pm = context_.getPackageManager();
+    final String pn = context_.getPackageName();
+    int hasPerm = pm.checkPermission(Manifest.permission.READ_CONTACTS,
+                                     context_.getPackageName());
+    return (hasPerm == PackageManager.PERMISSION_GRANTED);
+  } /// contactsAvailable
 
   @Override
   public void onClick(final DialogInterface dialog, final int whichButton)
