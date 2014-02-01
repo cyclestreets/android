@@ -113,11 +113,16 @@ public class Dialog
 	static AlertDialog.Builder newBuilder(final Context context)
 	{
 		final AlertDialog.Builder builder = new AlertDialog.Builder(context);
-		builder.setTitle("CycleStreets");
+		builder.setTitle(applicationName(context));
 		return builder;
 	} // newBuilder
-	
-	static void show(final AlertDialog.Builder builder)
+
+  private static String applicationName(final Context context) {
+    int stringId = context.getApplicationInfo().labelRes;
+    return context.getString(stringId);
+  } // applicationName
+
+  static void show(final AlertDialog.Builder builder)
 	{
 		final AlertDialog ad = builder.create();
 		ad.show();
