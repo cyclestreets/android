@@ -362,10 +362,10 @@ public class ApiClient
     {
       final String name = (String)args[i];
       final Object value = args[i+1];
-      if(value instanceof String)
-        entity.addPart(name, new StringBody((String)value));
-      else
+      if(value instanceof ContentBody)
         entity.addPart(name, (ContentBody)value);
+      else
+        entity.addPart(name, new StringBody(value.toString()));
     } // for ...
 
     final HttpPost httppost = new HttpPost(uri);
