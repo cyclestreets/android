@@ -270,14 +270,10 @@ public class CycleMapView extends MapView
   {
     final OnlineTileSourceBase OPENCYCLEMAP = new XYTileSource(CycleStreetsPreferences.MAPSTYLE_OCM,
                     ResourceProxy.string.cyclemap, 0, 17, 256, ".png",
-                    "http://a.tile.opencyclemap.org/cycle/",
-                    "http://b.tile.opencyclemap.org/cycle/",
-                    "http://c.tile.opencyclemap.org/cycle/");
+                    "http://tile.cyclestreets.net/opencyclemap/");
     final OnlineTileSourceBase OPENSTREETMAP = new XYTileSource(CycleStreetsPreferences.MAPSTYLE_OSM,
                     ResourceProxy.string.base, 0, 17, 256, ".png",
-                    "http://a.tile.openstreetmap.org/",
-                    "http://b.tile.openstreetmap.org/",
-                    "http://c.tile.openstreetmap.org/");
+                    "http://tile.cyclestreets.net/mapnik/");
     final OnlineTileSourceBase OSMAP = new XYTileSource(CycleStreetsPreferences.MAPSTYLE_OS,
                     ResourceProxy.string.unknown, 0, 17, 256, ".png",
                     "http://a.os.openstreetmap.org/sv/",
