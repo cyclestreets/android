@@ -17,6 +17,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -485,9 +486,9 @@ public class PhotoUploadActivity extends Activity
     if(R.id.next == clicked) {
       if(step_ == AddStep.LOCATION)
       {
-        if(!CycleStreetsPreferences.accountOK()) {
+        final boolean needAccountDetails = !allowUploadByKey() && !CycleStreetsPreferences.accountOK();
+        if(needAccountDetails)
           startActivityForResult(new Intent(this, AccountDetailsActivity.class), AccountDetails);
-        }
         else
           upload();
       }
@@ -495,6 +496,17 @@ public class PhotoUploadActivity extends Activity
         nextStep();
     } // switch
   } // onClick
+
+  private boolean allowUploadByKey() {
+    try {
+      final ApplicationInfo ai = getPackageManager().getApplicationInfo(getPackageName(), PackageManager.GET_META_DATA);
+      final Bundle bundle = ai.metaData;
+      final String upload = bundle.getString("CycleStreetsPhotoUpload");
+      return "ByKey".equals(upload);
+    } catch(final Exception e) {
+      return false;
+    } // catch
+  } // apiKey  }
   
   @Override
   public void onSetLocation(IGeoPoint point)
