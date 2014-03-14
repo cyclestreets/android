@@ -20,15 +20,16 @@
 	  	<TextView
 			android:layout_width="fill_parent"
 			android:layout_height="wrap_content"
-			android:text="Describe this photo"/>
+			android:text="Describe this photo"
+      android:id="@+id/label"/>
 		<EditText
 			android:id="@+id/caption"
     		android:singleLine="false" 
     		android:lines="4" 
     		android:minLines="4" 
     		android:gravity="top|left" 
-    		android:maxLines="4" 
-    		android:layout_height="wrap_content" 
+    		android:maxLines="8"
+    		android:layout_height="fill_parent"
     		android:layout_width="fill_parent"
     		android:inputType="textCapSentences|textMultiLine"
     		android:scrollbars="none"/>

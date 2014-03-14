@@ -11,7 +11,7 @@
 		android:layout_width="fill_parent"
 		android:layout_height="wrap_content"
 		android:gravity="center"
-		android:text="Add photos of cycling-related problems and good practice."
+		android:text="Upload reports of cycling-related problems or of good practice."
 		/>
 	<TextView
 		android:layout_width="fill_parent"
@@ -22,7 +22,7 @@
 		android:layout_width="fill_parent"
 		android:layout_height="wrap_content"
 		android:gravity="center"
-		android:text="These will then appear on the CycleStreets website and be used so that we can report problems to decision makers."
+		android:text="These will be used so that we can report problems to decision makers."
 		/>		
 	<TextView
 		android:layout_width="fill_parent"
@@ -37,4 +37,18 @@
 		android:layout_width="fill_parent"
 		android:layout_height="wrap_content"
 		android:text="Select existing photo"/>
+
+  <TextView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="  "
+    android:id="@+id/textView"
+    android:layout_gravity="center_horizontal"/>
+
+  <Button
+    android:id="@+id/textonly_button"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center_horizontal"
+    android:text="Continue without photo"/>
 </LinearLayout>
