@@ -48,6 +48,9 @@ public class Bitmaps
 	
 	static public String resizePhoto(final String fileName)
 	{
+    if (fileName == null)
+      return null;
+    
 		final BitmapFactory.Options options = bitmapBounds(fileName);
 
 		int srcWidth = options.outWidth;

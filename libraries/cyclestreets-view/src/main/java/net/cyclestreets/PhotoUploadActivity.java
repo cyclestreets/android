@@ -127,6 +127,9 @@ public class PhotoUploadActivity extends Activity
   private int metaCatId_;
   private int catId_;
   private String uploadedUrl_;
+
+  private boolean allowUploadByKey_;
+  private boolean allowTextOnly_;
   
   private LayoutInflater inflater_;
   private InputMethodManager imm_;
@@ -135,6 +138,10 @@ public class PhotoUploadActivity extends Activity
   protected void onCreate(Bundle savedInstanceState)
   {
     super.onCreate(savedInstanceState);
+
+    final String metaData = photoUploadMetaData();
+    allowUploadByKey_ = metaData.contains("ByKey");
+    allowTextOnly_ = metaData.contains("AllowTextOnly");
 
     inflater_ = LayoutInflater.from(this);
     imm_ = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -156,7 +163,14 @@ public class PhotoUploadActivity extends Activity
       else
         takePhoto.setEnabled(false);
     }
-    ((Button)photoView_.findViewById(R.id.chooseexisting_button)).setOnClickListener(this);    
+    ((Button)photoView_.findViewById(R.id.chooseexisting_button)).setOnClickListener(this);
+    {
+      final Button textOnly = (Button)photoView_.findViewById(R.id.textonly_button);
+      if (allowTextOnly_)
+        textOnly.setOnClickListener(this);
+      else
+        textOnly.setVisibility(View.GONE);
+    }
     
     photoCategory_ = inflater_.inflate(R.layout.addphotocategory, null);
     photoLocation_ = inflater_.inflate(R.layout.addphotolocation, null);
@@ -177,6 +191,17 @@ public class PhotoUploadActivity extends Activity
   
     setupView();
   } // PhotoUploadActivity
+
+  private String photoUploadMetaData() {
+    try {
+      final ApplicationInfo ai = getPackageManager().getApplicationInfo(getPackageName(), PackageManager.GET_META_DATA);
+      final Bundle bundle = ai.metaData;
+      final String upload = bundle.getString("CycleStreetsPhotoUpload");
+      return upload != null ? upload : "";
+    } catch(final Exception e) {
+      return "";
+    } // catch
+  } // photoUploadMetaData
 
   private void setUploadView(final View child)
   {
@@ -356,6 +381,10 @@ public class PhotoUploadActivity extends Activity
       photoCaption_ = inflater_.inflate(R.layout.addphotocaption, null);
       setUploadView(photoCaption_);
       captionEditor().setText(caption_);
+      if (photo_ == null && allowTextOnly_) {
+        ((TextView)photoRoot_.findViewById(R.id.label)).setText("Your Report");
+        ((EditText)photoRoot_.findViewById(R.id.caption)).setLines(10);
+      } // if ...
       break;
     case CATEGORY:
       caption_ = captionText();
@@ -395,6 +424,12 @@ public class PhotoUploadActivity extends Activity
     final ImageView iv = (ImageView)photoRoot_.findViewById(R.id.photo);
     if(iv == null)
       return;
+
+    if (photo_ == null && allowTextOnly_) {
+      iv.setVisibility(View.GONE);
+      return;
+    }
+
     iv.setImageBitmap(photo_);
     int newHeight = getWindowManager().getDefaultDisplay().getHeight() / 10 * 4;
     int newWidth = getWindowManager().getDefaultDisplay().getWidth();
@@ -467,26 +502,29 @@ public class PhotoUploadActivity extends Activity
   @Override
   public void onClick(final View v) 
   {
-    Intent i = null;
-    int activityId = 0;
-
     int clicked = v.getId();
 
-    if(R.id.takephoto_button == clicked)
+    if (R.id.takephoto_button == clicked)
       startActivityForResult(new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE),
                              TakePhoto);
 
-    if(R.id.chooseexisting_button == clicked)
+    if (R.id.chooseexisting_button == clicked)
       startActivityForResult(new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.INTERNAL_CONTENT_URI),
                              ChoosePhoto);
 
-    if(R.id.photo_share == clicked)
+    if (R.id.textonly_button == clicked) {
+      photo_ = null;
+      photoFile_ = null;
+      dateTime_ = null;
+      nextStep();
+    }
+
+    if (R.id.photo_share == clicked)
       Share.Url(this, uploadedUrl_, caption_, "Photo on CycleStreets.net");
 
-    if(R.id.next == clicked) {
-      if(step_ == AddStep.LOCATION)
-      {
-        final boolean needAccountDetails = !allowUploadByKey() && !CycleStreetsPreferences.accountOK();
+    if (R.id.next == clicked) {
+      if(step_ == AddStep.LOCATION) {
+        final boolean needAccountDetails = !allowUploadByKey_ && !CycleStreetsPreferences.accountOK();
         if(needAccountDetails)
           startActivityForResult(new Intent(this, AccountDetailsActivity.class), AccountDetails);
         else
@@ -497,17 +535,6 @@ public class PhotoUploadActivity extends Activity
     } // switch
   } // onClick
 
-  private boolean allowUploadByKey() {
-    try {
-      final ApplicationInfo ai = getPackageManager().getApplicationInfo(getPackageName(), PackageManager.GET_META_DATA);
-      final Bundle bundle = ai.metaData;
-      final String upload = bundle.getString("CycleStreetsPhotoUpload");
-      return "ByKey".equals(upload);
-    } catch(final Exception e) {
-      return false;
-    } // catch
-  } // apiKey  }
-  
   @Override
   public void onSetLocation(IGeoPoint point)
   {
@@ -595,7 +622,7 @@ if (url.startsWith("content://com.google.android.apps.photos.content")){
     final IGeoPoint location = there_.there();
     final String metaCat = photomapCategories.metaCategories().get(metaCatId_).getTag();
     final String category = photomapCategories.categories().get(catId_).getTag();
-    final String dateTime = dateTime_;
+    final String dateTime = dateTime_ != null ? dateTime_ : Long.toString(new Date().getTime() / 1000);
     final String caption = caption_;
 
     final UploadPhotoTask uploader = new UploadPhotoTask(this,

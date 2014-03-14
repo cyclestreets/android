@@ -213,18 +213,29 @@ public class ApiClient
                                    final String caption)
     throws Exception
   {
-
-    return postApi(Upload.factory(),
-             API_PATH_ADDPHOTO,
-             "username", username,
-             "password", password,
-             "longitude", Double.toString(lon),
-             "latitude", Double.toString(lat),
-             "datetime", dateTime,
-             "category", category,
-             "metacategory", metaCat,
-             "caption", caption,
-             "mediaupload", new FileBody(new File(filename)));
+    if (filename != null)
+      return postApi(Upload.factory(),
+                     API_PATH_ADDPHOTO,
+                     "username", username,
+                     "password", password,
+                     "longitude", Double.toString(lon),
+                     "latitude", Double.toString(lat),
+                     "datetime", dateTime,
+                     "category", category,
+                     "metacategory", metaCat,
+                     "caption", caption,
+                     "mediaupload", new FileBody(new File(filename)));
+    else
+      return postApi(Upload.factory(),
+                     API_PATH_ADDPHOTO,
+                     "username", username,
+                     "password", password,
+                     "longitude", Double.toString(lon),
+                     "latitude", Double.toString(lat),
+                     "datetime", dateTime,
+                     "category", category,
+                     "metacategory", metaCat,
+                     "caption", caption);
   } // uploadPhoto
 
   static Signin.Result signin(final String username,
