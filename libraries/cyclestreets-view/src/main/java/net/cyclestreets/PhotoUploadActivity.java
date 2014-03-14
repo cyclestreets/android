@@ -130,6 +130,7 @@ public class PhotoUploadActivity extends Activity
 
   private boolean allowUploadByKey_;
   private boolean allowTextOnly_;
+  private boolean noShare_;
   
   private LayoutInflater inflater_;
   private InputMethodManager imm_;
@@ -142,6 +143,7 @@ public class PhotoUploadActivity extends Activity
     final String metaData = photoUploadMetaData();
     allowUploadByKey_ = metaData.contains("ByKey");
     allowTextOnly_ = metaData.contains("AllowTextOnly");
+    noShare_ = metaData.contains("NoShare");
 
     inflater_ = LayoutInflater.from(this);
     imm_ = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -397,16 +399,26 @@ public class PhotoUploadActivity extends Activity
       setupMap();
       setUploadView(photoLocation_);
       there_.recentre();
+      if (photo_ == null && allowTextOnly_)
+        ((TextView)photoRoot_.findViewById(R.id.label)).setText("Where is the location your report describes?");
+      else
+        ((TextView)photoRoot_.findViewById(R.id.label)).setText("Where was this photo taken?");
       break;
     case VIEW:
       setUploadView(photoWebView_);
       {
         final TextView text = (TextView)photoWebView_.findViewById(R.id.photo_text);
         text.setText(caption_);
+
         final TextView url = (TextView)photoWebView_.findViewById(R.id.photo_url);
-        url.setText(uploadedUrl_);
         final Button share = (Button)photoWebView_.findViewById(R.id.photo_share);
-        share.setOnClickListener(this);
+        if (noShare_) {
+          url.setVisibility(View.GONE);
+          share.setVisibility(View.GONE);
+        } else {
+          url.setText(uploadedUrl_);
+          share.setOnClickListener(this);
+        }
       }
       break;
     case DONE:

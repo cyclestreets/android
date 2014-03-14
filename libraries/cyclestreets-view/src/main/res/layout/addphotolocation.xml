@@ -9,10 +9,12 @@
 		android:orientation="vertical"
 		android:layout_weight="5.0"
 		android:padding="4.0dip">
-	  	<TextView
-			android:layout_width="fill_parent"
-			android:layout_height="wrap_content"
-			android:text="Where was this photo taken?"/>
-	</RelativeLayout>		
+	</RelativeLayout>
+  <TextView
+    android:id="@+id/label"
+    android:gravity="center"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:text="Where was this photo taken?"/>
 	<include layout="@layout/addphotonext"/>
 </LinearLayout>

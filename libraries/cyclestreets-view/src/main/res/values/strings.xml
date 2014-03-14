@@ -6,7 +6,7 @@
   <string name="fetching_route">Fetching route from CycleStreets.net, please wait</string>
   <string name="route_failed">Route finding failed</string>
   <string name="loading_route">Loading route, please wait</string>
-  <string name="uploading_photo">Uploading photo, please wait</string>
+  <string name="uploading_photo">Uploading report, please wait</string>
 
   <string name="ic_menu_replan">Change route type</string>
   <string name="ic_menu_reverse">Reverse route</string>
