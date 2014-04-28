@@ -103,7 +103,7 @@ public abstract class MainTabbedActivity extends FragmentActivity implements OnT
     return prefs().getString(VERSION_KEY, "unknown");
 	} // previousVersion
 
-  private SharedPreferences prefs()
+  protected SharedPreferences prefs()
   {
     return getSharedPreferences("net.cyclestreets.CycleStreets", Context.MODE_PRIVATE);
   } // prefs()

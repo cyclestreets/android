@@ -6,4 +6,6 @@ local.properties
 lint.xml
 .gradle
 .idea/libraries
+*.iml
+.idea
 *~
