@@ -23,7 +23,13 @@
         <data android:scheme="http"
               android:host="cycle.st"
               android:pathPrefix="/j" />
-      </intent-filter>
+        <data android:scheme="http"
+              android:host="cyclestreets.net"
+              android:pathPrefix="/journey/" />
+        <data android:scheme="http"
+              android:host="www.cyclestreets.net"
+              android:pathPrefix="/journey/" />
+     </intent-filter>
     </activity>
 
     <!-- ACRA support -->

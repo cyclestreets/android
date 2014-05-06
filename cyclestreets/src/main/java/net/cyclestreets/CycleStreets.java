@@ -33,8 +33,10 @@ public class CycleStreets extends MainTabbedActivity
 
   private int extractItinerary(final Uri launchUri) {
     try {
-      final String path = launchUri.getPath();
-      return Integer.parseInt(path.substring(2));
+      String path = launchUri.getPath();
+      path = path.substring(path.startsWith("/journey") ? 8 : 2);
+      path = path.replace("/", "");
+      return Integer.parseInt(path);
     } catch(Exception whatever) {
       return -1;
     } // catch
