@@ -18,7 +18,7 @@ public class CycleStreets extends MainTabbedActivity
     if (launchUri == null)
       return;
 
-    final int itinerary = extractItinerary(launchUri);
+    final int itinerary = findItinerary(launchUri);
     if (itinerary == -1)
       return;
 
@@ -31,15 +31,28 @@ public class CycleStreets extends MainTabbedActivity
     edit.commit();
   } // onCreate
 
-  private int extractItinerary(final Uri launchUri) {
+  private int findItinerary(final Uri launchUri) {
     try {
-      String path = launchUri.getPath();
-      path = path.substring(path.startsWith("/journey") ? 8 : 2);
-      path = path.replace("/", "");
-      return Integer.parseInt(path);
+      final String itinerary = extractItinerary(launchUri);
+      return Integer.parseInt(itinerary);
     } catch(Exception whatever) {
       return -1;
     } // catch
+  } // finddItinerary
+
+  private String extractItinerary(final Uri launchUri) {
+    final String host = launchUri.getHost();
+
+    if ("cycle.st".equals(host))
+      return launchUri.getPath().substring(2);
+
+    if ("m.cyclestreets.net".equals(host)) {
+      final String frag = launchUri.getFragment();
+      return frag.substring(0, frag.indexOf('/'));
+    }
+
+    final String path = launchUri.getPath().substring(8);
+    return path.replace("/", "");
   } // extractItinerary
 
   protected void addTabs(final TabHost tabHost) {

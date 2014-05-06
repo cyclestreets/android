@@ -29,6 +29,9 @@
         <data android:scheme="http"
               android:host="www.cyclestreets.net"
               android:pathPrefix="/journey/" />
+        <data android:scheme="http"
+              android:host="m.cyclestreets.net"
+              android:pathPrefix="/journey/" />
      </intent-filter>
     </activity>
 
