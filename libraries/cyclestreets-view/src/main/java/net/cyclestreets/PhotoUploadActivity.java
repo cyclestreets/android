@@ -175,12 +175,13 @@ public class PhotoUploadActivity extends Activity
     }
     
     photoCategory_ = inflater_.inflate(R.layout.addphotocategory, null);
+    backNextButtons(photoCategory_, "Back", android.R.drawable.ic_media_rew, "Next", android.R.drawable.ic_media_ff);
+
     photoLocation_ = inflater_.inflate(R.layout.addphotolocation, null);
-    final Button u = (Button)photoLocation_.findViewById(R.id.next);
-    u.setText("Upload!");
+    backNextButtons(photoLocation_, "Back", android.R.drawable.ic_media_rew, "Upload!", android.R.drawable.ic_menu_upload);
+
     photoWebView_ = inflater_.inflate(R.layout.addphotoview, null);
-    final Button b = (Button)photoWebView_.findViewById(R.id.next);
-    b.setText("Upload another");
+    backNextButtons(photoWebView_, "Upload another", android.R.drawable.ic_menu_revert, "Close", android.R.drawable.ic_menu_close_clear_cancel);
 
     // start reading categories
     if(photomapCategories == null)
@@ -193,6 +194,17 @@ public class PhotoUploadActivity extends Activity
   
     setupView();
   } // PhotoUploadActivity
+
+  private void backNextButtons(final View parentView,
+                               final String backText, final int backDrawable,
+                               final String nextText, final int nextDrawable) {
+    final Button back = (Button)parentView.findViewById(R.id.back);
+    back.setText(backText);
+    back.setCompoundDrawablesWithIntrinsicBounds(backDrawable, 0, 0, 0);
+    final Button next = (Button)parentView.findViewById(R.id.next);
+    next.setText(nextText);
+    next.setCompoundDrawablesWithIntrinsicBounds(0, 0, nextDrawable, 0);
+  } // backNextButtons
 
   private String photoUploadMetaData() {
     try {
@@ -339,13 +351,11 @@ public class PhotoUploadActivity extends Activity
       return;
     }
 
-    if(step_ == AddStep.VIEW)
-    {
-      step_ = AddStep.PHOTO;
-      store();
+    if(step_ == AddStep.VIEW) {
+      finish();
       return;
     }
-    
+
     step_ = step_.prev();
     store();
     setupView();
@@ -381,6 +391,7 @@ public class PhotoUploadActivity extends Activity
       // keyboard to hide, if we don't recreate the view afresh, Android won't redisplay 
       // the keyboard if we come back to this view
       photoCaption_ = inflater_.inflate(R.layout.addphotocaption, null);
+      backNextButtons(photoCaption_, "Back", android.R.drawable.ic_media_rew, "Next", android.R.drawable.ic_media_ff);
       setUploadView(photoCaption_);
       captionEditor().setText(caption_);
       if (photo_ == null && allowTextOnly_) {
@@ -452,13 +463,16 @@ public class PhotoUploadActivity extends Activity
   
   private void hookUpNext()
   {
-    final Button b = (Button)photoRoot_.findViewById(R.id.next);
-    if(b == null)
-      return;
-    b.setOnClickListener(this);
+    final Button b = (Button)photoRoot_.findViewById(R.id.back);
+    if(b != null)
+      b.setOnClickListener(this);
+
+    final Button n = (Button)photoRoot_.findViewById(R.id.next);
+    if(n != null)
+      n.setOnClickListener(this);
     
     if(step_ == AddStep.LOCATION)
-      b.setEnabled(there_.there() != null);
+      n.setEnabled(there_.there() != null);
   } // hookUpNext
   
   private EditText captionEditor() { return (EditText)photoCaption_.findViewById(R.id.caption); }
@@ -534,6 +548,15 @@ public class PhotoUploadActivity extends Activity
     if (R.id.photo_share == clicked)
       Share.Url(this, uploadedUrl_, caption_, "Photo on CycleStreets.net");
 
+    if (R.id.back == clicked) {
+      if (step_ == AddStep.VIEW) {
+        step_ = AddStep.PHOTO;
+        store();
+        setupView();
+      } else
+        onBackPressed();
+    }
+
     if (R.id.next == clicked) {
       if(step_ == AddStep.LOCATION) {
         final boolean needAccountDetails = !allowUploadByKey_ && !CycleStreetsPreferences.accountOK();
@@ -541,6 +564,8 @@ public class PhotoUploadActivity extends Activity
           startActivityForResult(new Intent(this, AccountDetailsActivity.class), AccountDetails);
         else
           upload();
+      } else if (step_ == AddStep.VIEW) {
+        finish();
       }
       else
         nextStep();
