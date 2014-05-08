@@ -27,7 +27,6 @@ import net.cyclestreets.view.R;
 import net.cyclestreets.views.CycleMapView;
 
 public class PhotosOverlay extends LiveItemOverlay<PhotosOverlay.PhotoItem>
-                           implements ButtonTapListener
 {
 	static public class PhotoItem extends OverlayItem 
 	{
@@ -84,10 +83,6 @@ public class PhotosOverlay extends LiveItemOverlay<PhotosOverlay.PhotoItem>
 	private final Context context_;
 	private final PhotoMarkers photoMarkers_;
 
-  private final int offset_;
-  private final float radius_;
-  private final OverlayButton addPhotoBtn_;
-	
 	public PhotosOverlay(final Context context,
 	                     final CycleMapView mapView)
 	{
@@ -98,38 +93,7 @@ public class PhotosOverlay extends LiveItemOverlay<PhotosOverlay.PhotoItem>
 	
 		context_ = context;
 		photoMarkers_ = new PhotoMarkers(context.getResources());
-
-    offset_ = DrawingHelper.offset(context);
-    radius_ = DrawingHelper.cornerRadius(context);
-
-    final Resources res = context.getResources();
-    addPhotoBtn_ = new OverlayButton(res.getDrawable(R.drawable.ic_menu_takephoto),
-                                     offset_,
-                                     offset_*2,
-                                     radius_);
-    addPhotoBtn_.bottomAlign();
-
   } // PhotoItemOverlay
-
-	///////////////////////////////////////////////////
-  @Override
-  public boolean onButtonTap(final MotionEvent event) {
-    if(addPhotoBtn_.hit(event)) {
-      context_.startActivity(new Intent(context_, PhotoUploadActivity.class));
-      return true;
-    } // if ...
-    return false;
-  } // onButtonTap
-
-  @Override
-  public boolean onButtonDoubleTap(final MotionEvent event) {
-    return onButtonTap(event);
-  } // onButtonDoubleTap
-
-  @Override
-  public void drawButtons(final Canvas canvas, final MapView mapView) {
-    addPhotoBtn_.draw(canvas);
-  } // drawButtons
 
   ///////////////////////////////////////////////////
 	@Override
