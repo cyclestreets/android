@@ -9,7 +9,7 @@ configurations {
 }
 
 dependencies {
-  compile 'org.osmdroid:osmdroid-android:3.0.8',
+  compile 'org.osmdroid:osmdroid-android:3.0.10',
           'org.apache.james:apache-mime4j:0.6',
           'org.apache.httpcomponents:httpmime:4.1',
           'org.slf4j:slf4j-android:1.6.1-RC1'
