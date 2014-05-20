@@ -1,6 +1,5 @@
 package net.cyclestreets;
 
-import net.cyclestreets.fragments.R;
 
 import net.cyclestreets.views.overlay.PhotoUploadButtonOverlay;
 import net.cyclestreets.views.overlay.PhotosOverlay;
