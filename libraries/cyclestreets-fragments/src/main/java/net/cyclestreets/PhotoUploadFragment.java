@@ -169,7 +169,7 @@ public class PhotoUploadFragment extends Fragment
       else
         takePhoto.setEnabled(false);
     }
-    ((Button)photoView_.findViewById(R.id.chooseexisting_button)).setOnClickListener(this);
+    photoView_.findViewById(R.id.chooseexisting_button).setOnClickListener(this);
     {
       final Button textOnly = (Button)photoView_.findViewById(R.id.textonly_button);
       if (allowTextOnly_)
@@ -186,6 +186,10 @@ public class PhotoUploadFragment extends Fragment
 
     photoWebView_ = inflater_.inflate(R.layout.addphotoview, null);
     backNextButtons(photoWebView_, "Upload another", android.R.drawable.ic_menu_revert, "Close", android.R.drawable.ic_menu_close_clear_cancel);
+    final Button closeButton = (Button)photoWebView_.findViewById(R.id.next);
+    closeButton.setEnabled(false);
+    closeButton.setVisibility(View.GONE);
+
 
     // start reading categories
     if(photomapCategories == null)
