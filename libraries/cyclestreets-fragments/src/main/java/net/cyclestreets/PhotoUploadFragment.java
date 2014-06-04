@@ -118,6 +118,7 @@ public class PhotoUploadFragment extends Fragment
   
   private CycleMapView map_;
   private ThereOverlay there_;
+  private boolean geolocated_;
   private static PhotomapCategories photomapCategories;
   
   private AddStep step_;
@@ -240,6 +241,7 @@ public class PhotoUploadFragment extends Fragment
     edit.putString("PHOTOFILE", photoFile_);
     edit.putString("DATETIME", dateTime_);
     edit.putString("CAPTION", caption_);
+    edit.putBoolean("GEOLOC", geolocated_);
     edit.commit();
   } // store
   
@@ -259,6 +261,7 @@ public class PhotoUploadFragment extends Fragment
     else
       edit.putInt("THERE-LAT", -1);
     edit.putLong("WHEN", new Date().getTime());
+    edit.putBoolean("GEOLOC", geolocated_);
     edit.commit();
 
     if(map_ != null)
@@ -292,7 +295,7 @@ public class PhotoUploadFragment extends Fragment
       photo_ = Bitmaps.loadFile(photoFile_);
     dateTime_ = prefs.getString("DATETIME", "");
     caption_ = prefs.getString("CAPTION", "");
-    
+
     metaCatId_ = prefs.getInt("METACAT", -1);
     catId_ = prefs.getInt("CATEGORY", -1);
     setSpinnerSelections();
@@ -301,6 +304,7 @@ public class PhotoUploadFragment extends Fragment
     final int tlon = prefs.getInt("THERE-LON", -1);
     if((tlat != -1) && (tlon != -1))
       there_.noOverThere(new GeoPoint(tlat, tlon));
+    geolocated_ = prefs.getBoolean("GEOLOC", false);
 
     if(map_ != null)
       map_.onResume();
@@ -391,8 +395,9 @@ public class PhotoUploadFragment extends Fragment
       metaCategorySpinner().setSelection(0);
       categorySpinner().setSelection(0);
       caption_ = "";
+      geolocated_ = false;
       there_.noOverThere(null);
-      setContentView(photoView_);      
+      setContentView(photoView_);
       break;
     case CAPTION:
       // why recreate this view each time - well *sigh* because we have to force the 
@@ -418,10 +423,14 @@ public class PhotoUploadFragment extends Fragment
       setupMap();
       setContentView(photoLocation_);
       there_.recentre();
-      if (photo_ == null && allowTextOnly_)
-        ((TextView)photoRoot_.findViewById(R.id.label)).setText("Where is the location your report describes?");
-      else
-        ((TextView)photoRoot_.findViewById(R.id.label)).setText("Where was this photo taken?");
+      if (photo_ == null && allowTextOnly_) {
+        ((TextView) photoRoot_.findViewById(R.id.label)).setText("Where is the location your report describes?");
+        photoRoot_.findViewById(R.id.nogeo).setVisibility(View.GONE);
+      }
+      else {
+        ((TextView) photoRoot_.findViewById(R.id.label)).setText("Where was this photo taken?");
+        photoRoot_.findViewById(R.id.nogeo).setVisibility(geolocated_ ? View.GONE : View.VISIBLE);
+      }
       break;
     case VIEW:
       setContentView(photoWebView_);
@@ -614,6 +623,8 @@ if (url.startsWith("content://com.google.android.apps.photos.content")){
       final ExifInterface exif = new ExifInterface(photoFile_);
 
       dateTime_ = photoTimestamp(exif);
+      final GeoPoint photoLoc = photoLocation(exif);
+      geolocated_ = (photoLoc != null);
       there_.noOverThere(photoLocation(exif));
           
       nextStep();
