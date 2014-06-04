@@ -28,13 +28,10 @@ public class Feedback
   } // send
   
   /* <feedback>
-   *    <request>713240</request>
    *   <result>
-   *      <code>1</code>
+   *     <code>1</code>
    *     <message>Thank you for submitting this feedback. We will 
    *      get back to you when we have checked this out.</message>
-   *     <url>http://www.cyclestreets.net/journey/713240/</url>
-   *     <feedbackid>4267</feedbackid>
    *   </result>
    *   </feedback>
    */
