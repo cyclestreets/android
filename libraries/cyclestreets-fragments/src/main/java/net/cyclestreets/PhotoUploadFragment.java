@@ -154,8 +154,7 @@ public class PhotoUploadFragment extends Fragment
     imm_ = (InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
     
     photoRoot_ = (LinearLayout)inflater_.inflate(R.layout.addphoto, null);
-    setContentView(photoRoot_);
-    
+
     step_ = AddStep.PHOTO;
     caption_ = "";
     dateTime_ = "";
