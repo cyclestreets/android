@@ -286,13 +286,13 @@ public class TapToRouteOverlay extends Overlay
     if(menuId == R.string.ic_menu_replan)
     {
       mapView_.showContextMenu();
-      return false;
+      return true;
     } // if ...
 
     if(Replan_Menu_Plans.containsKey(menuId))
     {
       Route.RePlotRoute(Replan_Menu_Plans.get(menuId), context_);
-      return false;
+      return true;
     } // if ...
 
     if(R.string.ic_menu_reroute_from_here == menuId)
@@ -301,24 +301,28 @@ public class TapToRouteOverlay extends Overlay
       if(lastFix == null)
       {
         Toast.makeText(mapView_.getContext(), R.string.no_location, Toast.LENGTH_LONG).show();
-        return false;
+        return true;
       } // if ...
 
       final GeoPoint from = new GeoPoint((int)(lastFix.getLatitude() * 1E6),
                                          (int)(lastFix.getLongitude() * 1E6));
       onRouteNow(Waypoints.fromTo(from, finish()));
     }
-    if(R.string.ic_menu_reverse == menuId)
+    if(R.string.ic_menu_reverse == menuId) {
       onRouteNow(waypoints().reversed());
-    if(R.string.ic_menu_share == menuId)
+      return true;
+    }
+    if(R.string.ic_menu_share == menuId) {
       Share.Url(mapView_,
-                Route.journey().url(),
-                Route.journey().name(),
-                "CycleStreets journey");
-    if(R.string.ic_menu_feedback == menuId)
-    {
+          Route.journey().url(),
+          Route.journey().name(),
+          "CycleStreets journey");
+      return true;
+    }
+    if(R.string.ic_menu_feedback == menuId) {
       final Context context = mapView_.getContext();
       context.startActivity(new Intent(context, FeedbackActivity.class));
+      return true;
     }
 
     return false;
