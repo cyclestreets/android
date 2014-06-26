@@ -87,20 +87,17 @@ public class RouteMapFragment extends CycleMapFragment
 	@Override
 	public void onCreateOptionsMenu(final Menu menu, final MenuInflater inflater)
 	{
-    createMenuItem(menu, R.string.ic_menu_liveride, Menu.NONE, R.drawable.ic_menu_live_ride);
-	  createMenuItem(menu, R.string.ic_menu_directions, Menu.NONE, R.drawable.ic_menu_directions);
-	  createMenuItem(menu, R.string.ic_menu_saved_routes, Menu.NONE, R.drawable.ic_menu_places);
-	  createMenuItem(menu, R.string.ic_menu_route_number, Menu.NONE, R.drawable.ic_menu_route_number);
+    inflater.inflate(R.menu.route_map, menu);
     super.onCreateOptionsMenu(menu, inflater);
 	} // onCreateOptionsMenu
 
 	@Override
 	public void onPrepareOptionsMenu(final Menu menu)
 	{
-    showMenuItem(menu, R.string.ic_menu_liveride, Route.available() && hasGps_);
-	  enableMenuItem(menu, R.string.ic_menu_directions, true);
-	  showMenuItem(menu, R.string.ic_menu_saved_routes, Route.storedCount() != 0);
-	  enableMenuItem(menu, R.string.ic_menu_route_number, true);
+    showMenuItem(menu, R.id.ic_menu_liveride, Route.available() && hasGps_);
+	  enableMenuItem(menu, R.id.ic_menu_directions, true);
+	  showMenuItem(menu, R.id.ic_menu_saved_routes, Route.storedCount() != 0);
+	  enableMenuItem(menu, R.id.ic_menu_route_number, true);
 		super.onPrepareOptionsMenu(menu);
 	} // onPrepareOptionsMenu
 
@@ -111,19 +108,19 @@ public class RouteMapFragment extends CycleMapFragment
 			return true;
 
     final int menuId = item.getItemId();
-    if(R.string.ic_menu_liveride == menuId) {
+    if(R.id.ic_menu_liveride == menuId) {
       startLiveRide();
       return true;
     }
-    if(R.string.ic_menu_directions == menuId) {
+    if(R.id.ic_menu_directions == menuId) {
       launchRouteDialog();
       return true;
     }
-    if(R.string.ic_menu_saved_routes == menuId) {
+    if(R.id.ic_menu_saved_routes == menuId) {
       launchStoredRoutesDialog();
       return true;
     }
-    if(R.string.ic_menu_route_number == menuId) {
+    if(R.id.ic_menu_route_number == menuId) {
       launchFetchRouteDialog();
       return true;
 		}
@@ -219,7 +216,7 @@ public class RouteMapFragment extends CycleMapFragment
 	{
     if(Route.available() && CycleStreetsPreferences.confirmNewRoute())
       MessageBox.YesNo(mapView(),
-                       "Start a new route?",
+                       R.string.confirm_new_route,
                        listener);
     else
       listener.onClick(null, 0);

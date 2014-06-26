@@ -63,7 +63,8 @@ public class CycleMapFragment extends Fragment implements Undoable
   @Override
   public void onCreateOptionsMenu(final Menu menu, final MenuInflater inflater)
   {
-    map_.onCreateOptionsMenu(menu);
+    if (map_ != null)
+      map_.onCreateOptionsMenu(menu);
     createMenuItem(menu, R.string.ic_menu_findplace, Menu.NONE, R.drawable.ic_menu_search);
     createMenuItem(menu, R.string.ic_menu_settings, 99, R.drawable.ic_menu_settings);
   } // onCreateOptionsMenu
@@ -71,7 +72,8 @@ public class CycleMapFragment extends Fragment implements Undoable
   @Override
   public void onPrepareOptionsMenu(final Menu menu)
   {
-    map_.onPrepareOptionsMenu(menu);
+    if (map_ != null)
+      map_.onPrepareOptionsMenu(menu);
     enableMenuItem(menu, R.string.ic_menu_findplace, true);
     enableMenuItem(menu, R.string.ic_menu_settings, true);
   } // onPrepareOptionsMenu

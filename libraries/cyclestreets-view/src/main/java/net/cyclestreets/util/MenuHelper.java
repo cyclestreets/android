@@ -30,15 +30,18 @@ public class MenuHelper
   static public MenuItem enableMenuItem(final Menu menu, final int itemId, final boolean enabled)
   {
     final MenuItem mi = menu.findItem(itemId);
-    mi.setVisible(true);
-    mi.setEnabled(enabled);
+    if (mi != null) {
+      mi.setVisible(true);
+      mi.setEnabled(enabled);
+    } // if ...
     return mi;
   } // enableMenuItem
   
   static public MenuItem showMenuItem(final Menu menu, final int itemId, final boolean show)
   {
     final MenuItem mi = menu.findItem(itemId);
-    mi.setVisible(show);
+    if (mi != null)
+      mi.setVisible(show);
     return mi;
   } // showMenuItem
 } // MenuHelper

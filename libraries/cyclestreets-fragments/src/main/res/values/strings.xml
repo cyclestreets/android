@@ -18,6 +18,8 @@
 	<string name="rba_finish">Finish marker</string>
 	<string name="rba_waypoint">Waypoint %d</string>
 
+  <string name="confirm_new_route">Start a new route?</string>
+
 
 	<string name="settings_signed_in">Signed in to CycleStreets</string>
 	<string name="settings_awaiting">Account registration awaiting verification</string>

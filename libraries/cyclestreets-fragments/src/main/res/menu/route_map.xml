@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:action="http://schemas.android.com/apk/res-auto">
+  <item android:id="@+id/ic_menu_liveride"
+        android:icon="@drawable/ic_menu_live_ride"
+        android:title="@string/ic_menu_liveride"
+        action:showAsAction="ifRoom|withText"/>
+  <item android:id="@+id/ic_menu_directions"
+        android:icon="@drawable/ic_menu_directions"
+        android:title="@string/ic_menu_directions"
+        action:showAsAction="ifRoom|withText"/>
+  <item android:id="@+id/ic_menu_saved_routes"
+        android:icon="@drawable/ic_menu_places"
+        android:title="@string/ic_menu_saved_routes"
+        action:showAsAction="never"/>
+  <item android:id="@+id/ic_menu_route_number"
+        android:icon="@drawable/ic_menu_route_number"
+        android:title="@string/ic_menu_route_number"
+        action:showAsAction="never"/>
+</menu>
