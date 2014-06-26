@@ -1,0 +1,61 @@
+apply plugin: 'android'
+
+repositories {
+  mavenCentral()
+}
+
+dependencies {
+  compile fileTree(include: ['*.jar'], dir: 'libs')
+  compile project(':libraries:cyclestreets-view'),
+          project(':libraries:cyclestreets-fragments'),
+          'com.android.support:appcompat-v7:19.+'
+}
+
+android {
+  Properties appConfig = new Properties()
+  appConfig.load(new FileInputStream(file("../config.properties")))
+
+  compileSdkVersion appConfig['sdkVersion'].toInteger()
+  buildToolsVersion appConfig['toolsVersion']
+  defaultConfig {
+    applicationId 'net.cyclestreets.v2'
+    minSdkVersion appConfig['minSdkVersion'].toInteger()
+    targetSdkVersion appConfig['targetSdkVersion'].toInteger()
+    versionCode appConfig['versionCode'].toInteger()
+    versionName appConfig['versionName']
+  }
+
+  compileOptions {
+    sourceCompatibility JavaVersion.VERSION_1_7
+    targetCompatibility JavaVersion.VERSION_1_7
+  }
+
+  signingConfigs {
+    release {
+      Properties props = new Properties()
+      props.load(new FileInputStream(file("../local.properties")))
+
+      storeFile file(props['key.store'])
+      storePassword props['key.password']
+      keyAlias props['key.alias']
+      keyPassword props['key.password']
+    }
+  }
+
+  buildTypes {
+    release {
+      signingConfig signingConfigs.release
+    }
+  }
+
+  productFlavors {
+  }
+
+  packagingOptions {
+    exclude 'META-INF/LICENSE'
+    exclude 'META-INF/LICENSE.txt'
+    exclude 'META-INF/DEPENDENCIES'
+    exclude 'META-INF/NOTICE'
+    exclude 'META-INF/NOTICE.txt'
+  }
+}

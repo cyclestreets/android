@@ -1,4 +1,6 @@
 include ':libraries:cyclestreets-core',
         ':libraries:cyclestreets-view',
-        ':libraries:cyclestreets-fragments',
-        ':cyclestreets'
+        ':libraries:cyclestreets-fragments'
+
+include ':cyclestreets',
+        ':cyclestreets.v2'
