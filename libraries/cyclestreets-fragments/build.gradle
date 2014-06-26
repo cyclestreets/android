@@ -5,7 +5,7 @@ repositories {
 }
 
 dependencies {
-    compile 'com.android.support:support-v4:+'
+    compile 'com.android.support:appcompat-v7:19.+'
     compile project(':libraries:cyclestreets-view')
 }
 
@@ -14,12 +14,12 @@ android {
     appConfig.load(new FileInputStream(file("../../config.properties")))
 
     compileSdkVersion appConfig['sdkVersion'].toInteger()
-    buildToolsVersion "19.0.3"
+    buildToolsVersion appConfig['toolsVersion']
 
     defaultConfig {
-        minSdkVersion appConfig['sdkVersion'].toInteger()
-        targetSdkVersion appConfig['sdkVersion'].toInteger()
-        versionCode appConfig['versionCode'].toInteger()
-        versionName appConfig['versionName']
+      minSdkVersion appConfig['minSdkVersion'].toInteger()
+      targetSdkVersion appConfig['targetSdkVersion'].toInteger()
+      versionCode appConfig['versionCode'].toInteger()
+      versionName appConfig['versionName']
     }
 }

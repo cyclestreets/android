@@ -7,7 +7,7 @@ repositories {
 dependencies {
     compile project(':libraries:cyclestreets-core'),
             files('libs/mapsforge-map-0.3.0-jar-with-dependencies.jar'),
-            'com.android.support:support-v4:19.0.1'
+            'com.android.support:appcompat-v7:19.+'
 }
 
 android {
@@ -15,12 +15,12 @@ android {
     appConfig.load(new FileInputStream(file("../../config.properties")))
 
     compileSdkVersion appConfig['sdkVersion'].toInteger()
-    buildToolsVersion "19.0.3"
+    buildToolsVersion appConfig['toolsVersion']
 
     defaultConfig {
-        minSdkVersion appConfig['sdkVersion'].toInteger()
-        targetSdkVersion appConfig['sdkVersion'].toInteger()
-        versionCode appConfig['versionCode'].toInteger()
-        versionName appConfig['versionName']
+      minSdkVersion appConfig['minSdkVersion'].toInteger()
+      targetSdkVersion appConfig['targetSdkVersion'].toInteger()
+      versionCode appConfig['versionCode'].toInteger()
+      versionName appConfig['versionName']
     }
 }

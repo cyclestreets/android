@@ -15,11 +15,11 @@ android {
   appConfig.load(new FileInputStream(file("../config.properties")))
 
   compileSdkVersion appConfig['sdkVersion'].toInteger()
-  buildToolsVersion "19.0.3"
+  buildToolsVersion appConfig['toolsVersion']
 
   defaultConfig {
-    minSdkVersion appConfig['sdkVersion'].toInteger()
-    targetSdkVersion appConfig['sdkVersion'].toInteger()
+    minSdkVersion appConfig['minSdkVersion'].toInteger()
+    targetSdkVersion appConfig['targetSdkVersion'].toInteger()
     versionCode appConfig['versionCode'].toInteger()
     versionName appConfig['versionName']
   }
