@@ -24,6 +24,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import net.cyclestreets.ItineraryFragment;
+import net.cyclestreets.MoreFragment;
 import net.cyclestreets.PhotoMapFragment;
 import net.cyclestreets.RouteMapFragment;
 
@@ -97,6 +98,7 @@ public class NavigationDrawerFragment extends Fragment {
     fragments_.add(new PageInfo("Route Map", RouteMapFragment.class));
     fragments_.add(new PageInfo("Itinerary", ItineraryFragment.class));
     fragments_.add(new PageInfo("Photo Map", PhotoMapFragment.class));
+    fragments_.add(new PageInfo("More ...", MoreFragment.class));
 
     // Read in the flag indicating whether or not the user has demonstrated awareness of the
     // drawer. See PREF_USER_LEARNED_DRAWER for details.

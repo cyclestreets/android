@@ -2,19 +2,13 @@ package net.cyclestreets.v2;
 
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.os.Bundle;
 import android.view.Menu;
-import android.view.MenuItem;
 import android.support.v4.widget.DrawerLayout;
 
 import net.cyclestreets.ItineraryFragment;
 import net.cyclestreets.PhotoMapFragment;
 import net.cyclestreets.RouteMapFragment;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class Main extends ActionBarActivity {
   private NavigationDrawerFragment navDrawer_;
