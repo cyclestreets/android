@@ -61,31 +61,6 @@ public class NavigationDrawerFragment extends Fragment {
   private boolean mFromSavedInstanceState;
   private boolean mUserLearnedDrawer;
 
-  public class PageInfo {
-    private String title_;
-    private Class<? extends Fragment> fragClass_;
-    private Fragment fragment_;
-
-    public PageInfo(final String title, final Class<? extends Fragment> fragClass) {
-      title_ = title;
-      fragClass_ = fragClass;
-    } // PageInfo
-
-    public String title() { return title_; }
-    public Fragment fragment() {
-      try {
-        if (fragment_ == null)
-          fragment_ = fragClass_.newInstance();
-      } catch (Exception e) {
-        throw new RuntimeException(e);
-      } // try
-      return fragment_;
-    } // fragment
-
-    @Override
-    public String toString() { return title_; }
-  } // PageInfo
-
   private List<PageInfo> fragments_;
 
   public NavigationDrawerFragment() { }
@@ -95,10 +70,6 @@ public class NavigationDrawerFragment extends Fragment {
     super.onCreate(savedInstanceState);
 
     fragments_ = new ArrayList<>();
-    fragments_.add(new PageInfo("Route Map", RouteMapFragment.class));
-    fragments_.add(new PageInfo("Itinerary", ItineraryFragment.class));
-    fragments_.add(new PageInfo("Photo Map", PhotoMapFragment.class));
-    fragments_.add(new PageInfo("More ...", MoreFragment.class));
 
     // Read in the flag indicating whether or not the user has demonstrated awareness of the
     // drawer. See PREF_USER_LEARNED_DRAWER for details.
@@ -110,9 +81,20 @@ public class NavigationDrawerFragment extends Fragment {
       mFromSavedInstanceState = true;
     }
 
-    // Select either the default item (0) or the last selected item.
-    selectItem(mCurrentSelectedPosition);
   }
+
+  public void addPages(final List<PageInfo> pages) {
+    fragments_.addAll(pages);
+
+    mDrawerListView.setAdapter(new ArrayAdapter<>(
+        getActionBar().getThemedContext(),
+        android.R.layout.simple_list_item_1,
+        android.R.id.text1,
+        fragments_));
+
+    selectItem(mCurrentSelectedPosition);
+    mDrawerListView.setItemChecked(mCurrentSelectedPosition, true);
+  } // addPages
 
   public String title() { return fragments_.get(mCurrentSelectedPosition).title(); }
   public Fragment fragment() { return fragments_.get(mCurrentSelectedPosition).fragment(); }
@@ -135,12 +117,7 @@ public class NavigationDrawerFragment extends Fragment {
         selectItem(position);
       }
     });
-    mDrawerListView.setAdapter(new ArrayAdapter<>(
-        getActionBar().getThemedContext(),
-        android.R.layout.simple_list_item_1,
-        android.R.id.text1,
-        fragments_));
-    mDrawerListView.setItemChecked(mCurrentSelectedPosition, true);
+
     return mDrawerListView;
   }
 
