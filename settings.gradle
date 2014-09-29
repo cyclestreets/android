@@ -3,4 +3,4 @@ include ':libraries:cyclestreets-core',
         ':libraries:cyclestreets-fragments'
 
 include ':cyclestreets',
-        ':cyclestreets.v2'
+        ':cyclestreets.vNext'
