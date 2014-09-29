@@ -24,6 +24,8 @@ import android.widget.ListView;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.cyclestreets.fragments.R;
+
 public abstract class MainNavDrawerActivity extends ActionBarActivity {
   private NavigationDrawerFragment navDrawer_;
   private List<PageInfo> pages_;
@@ -68,7 +70,7 @@ public abstract class MainNavDrawerActivity extends ActionBarActivity {
 
   //////////////////////////////////////////
   //////////////////////////////////////////
-  private static class NavigationDrawerFragment extends Fragment {
+  public static class NavigationDrawerFragment extends Fragment {
     /**
      * Remember the position of the selected item.
      */

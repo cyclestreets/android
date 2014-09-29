@@ -34,7 +34,7 @@ public abstract class MainTabbedActivity extends FragmentActivity implements OnT
 	public void onCreate(final Bundle savedInstanceState)
 	{
     super.onCreate(savedInstanceState);
-    setContentView(R.layout.main);
+    setContentView(R.layout.maintabbedactivity);
     tabHost_ = (TabHost)findViewById(android.R.id.tabhost);
     tabHost_.setup();
     tabHost_.setOnTabChangedListener(this);
