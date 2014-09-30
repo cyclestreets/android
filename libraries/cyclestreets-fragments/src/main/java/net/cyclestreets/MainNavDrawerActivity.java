@@ -1,7 +1,10 @@
 package net.cyclestreets;
 
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.preference.PreferenceManager;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.Fragment;
@@ -19,12 +22,19 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import net.cyclestreets.fragments.R;
+import net.cyclestreets.routing.Journey;
+import net.cyclestreets.routing.Route;
+import net.cyclestreets.routing.Segment;
+import net.cyclestreets.util.TurnIcons;
 
 public abstract class MainNavDrawerActivity extends ActionBarActivity {
   private NavigationDrawerFragment navDrawer_;
@@ -48,8 +58,11 @@ public abstract class MainNavDrawerActivity extends ActionBarActivity {
 
   protected abstract void addPages();
 
-  protected void addPage(final String title, Class<? extends Fragment> fragClass) {
-    pages_.add(new PageInfo(title, fragClass));
+  protected void addPage(final String title,
+                         final int iconId,
+                         final Class<? extends Fragment> fragClass) {
+    final Drawable icon = getResources().getDrawable(iconId);
+    pages_.add(new PageInfo(title, icon, fragClass));
   } // addPage
 
   public void restoreActionBar() {
@@ -114,17 +127,12 @@ public abstract class MainNavDrawerActivity extends ActionBarActivity {
         mCurrentSelectedPosition = savedInstanceState.getInt(STATE_SELECTED_POSITION);
         mFromSavedInstanceState = true;
       }
-
-    }
+    } // onCreate
 
     public void addPages(final List<PageInfo> pages) {
       fragments_.addAll(pages);
 
-      mDrawerListView.setAdapter(new ArrayAdapter<>(
-          getActionBar().getThemedContext(),
-          android.R.layout.simple_list_item_1,
-          android.R.id.text1,
-          fragments_));
+      mDrawerListView.setAdapter(new PageInfoAdapter(this, fragments_, getActionBar().getThemedContext()));
 
       selectItem(mCurrentSelectedPosition);
       mDrawerListView.setItemChecked(mCurrentSelectedPosition, true);
@@ -144,7 +152,7 @@ public abstract class MainNavDrawerActivity extends ActionBarActivity {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
       mDrawerListView = (ListView) inflater.inflate(
-          R.layout.fragment_navigation_drawer, container, false);
+          R.layout.navigation_drawer, container, false);
       mDrawerListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -308,15 +316,72 @@ public abstract class MainNavDrawerActivity extends ActionBarActivity {
     }
   } // NavigationDrawerFragment
 
+
+  //////////////////////////////////////////
+  //////////////////////////////////////////
+  static class PageInfoAdapter extends BaseAdapter {
+    private final List<PageInfo> pageInfo_;
+    private final LayoutInflater inflater_;
+    private final NavigationDrawerFragment parentFrag_;
+
+    PageInfoAdapter(final NavigationDrawerFragment parentFrag,
+                    final List<PageInfo> pageInfo,
+                    final Context context) {
+      parentFrag_ = parentFrag;
+      pageInfo_ = pageInfo;
+      inflater_ = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+    } // PageInfoAdaptor
+
+    @Override
+    public int getCount() { return pageInfo_.size(); }
+
+    @Override
+    public PageInfo getItem(int position) { return pageInfo_.get(position); }
+
+    @Override
+    public long getItemId(int position) { return position; }
+
+    @Override
+    public View getView(final int position, final View convertView, final ViewGroup parent) {
+      final View v = inflater_.inflate(R.layout.navigation_item, parent, false);
+
+      final boolean highlight = (position == parentFrag_.mCurrentSelectedPosition);
+
+      setText(v, getItem(position).title(), highlight);
+      setIcon(v, getItem(position).icon());
+
+      if (highlight)
+        v.setBackgroundColor(Color.GREEN);
+
+      return v;
+    } // getView
+
+    private void setText(final View v, final String t, final boolean highlight) {
+      final TextView n = (TextView)v.findViewById(R.id.menu_name);
+      n.setText(t);
+      if (highlight)
+        n.setTextColor(Color.BLACK);
+    } // setText
+
+    private void setIcon(final View v, final Drawable icon) {
+      final ImageView iv = (ImageView)v.findViewById(R.id.menu_icon);
+      iv.setImageDrawable(icon);
+    } // setTurnIcon
+  } // class PageInfoAdaptor
+
   //////////////////////////////////////////
   //////////////////////////////////////////
   private static class PageInfo {
     private String title_;
+    private Drawable icon_;
     private Class<? extends Fragment> fragClass_;
     private Fragment fragment_;
 
-    public PageInfo(final String title, final Class<? extends Fragment> fragClass) {
+    public PageInfo(final String title,
+                    final Drawable icon,
+                    final Class<? extends Fragment> fragClass) {
       title_ = title;
+      icon_ = icon;
       fragClass_ = fragClass;
     } // PageInfo
 
@@ -330,7 +395,7 @@ public abstract class MainNavDrawerActivity extends ActionBarActivity {
       } // try
       return fragment_;
     } // fragment
-
+    public Drawable icon() { return icon_; }
     @Override
     public String toString() { return title_; }
   } // PageInfo
