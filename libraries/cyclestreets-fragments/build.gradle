@@ -1,29 +1,5 @@
-apply plugin: 'android-library'
-
-repositories {
-  mavenCentral()
-}
 
 dependencies {
   compile 'com.android.support:appcompat-v7:19.+'
   compile project(':libraries:cyclestreets-view')
-}
-
-android {
-    Properties appConfig = new Properties()
-    appConfig.load(new FileInputStream(file("../../config.properties")))
-
-    compileSdkVersion appConfig['sdkVersion'].toInteger()
-    buildToolsVersion appConfig['toolsVersion']
-
-    defaultConfig {
-      minSdkVersion appConfig['minSdkVersion'].toInteger()
-      targetSdkVersion appConfig['targetSdkVersion'].toInteger()
-      versionCode appConfig['versionCode'].toInteger()
-      versionName appConfig['versionName']
-    }
-  compileOptions {
-    sourceCompatibility JavaVersion.VERSION_1_7
-    targetCompatibility JavaVersion.VERSION_1_7
-  }
 }

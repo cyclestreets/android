@@ -8,13 +8,14 @@ buildscript {
 }
 
 //subprojects.each { println it.path }
-
-configure(subprojects.findAll { it.path.startsWith(':cyclestreets') }) {
-  apply plugin: 'android'
-
+subprojects {
   repositories {
     mavenCentral()
   }
+}
+
+configure(subprojects.findAll { it.path.startsWith(':cyclestreets') }) {
+  apply plugin: 'android'
 
   android {
     Properties appConfig = new Properties()
@@ -62,3 +63,27 @@ configure(subprojects.findAll { it.path.startsWith(':cyclestreets') }) {
     } // packagingOptions
   } // android
 } // cyclestreets apps
+
+configure(subprojects.findAll { it.path.startsWith(':libraries:') }) {
+  apply plugin: 'android-library'
+
+  android {
+    Properties appConfig = new Properties()
+    appConfig.load(new FileInputStream(file("${rootDir}/config.properties")))
+
+    compileSdkVersion appConfig['sdkVersion'].toInteger()
+    buildToolsVersion appConfig['toolsVersion']
+
+    compileOptions {
+      sourceCompatibility JavaVersion.VERSION_1_7
+      targetCompatibility JavaVersion.VERSION_1_7
+    }
+
+    defaultConfig {
+      minSdkVersion appConfig['minSdkVersion'].toInteger()
+      targetSdkVersion appConfig['targetSdkVersion'].toInteger()
+      versionCode appConfig['versionCode'].toInteger()
+      versionName appConfig['versionName']
+    }
+  }
+}
