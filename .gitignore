@@ -3,6 +3,7 @@ build
 bin
 gen
 local.properties
+license.properties
 lint.xml
 .gradle
 .idea/libraries
