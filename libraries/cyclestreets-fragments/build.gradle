@@ -1,5 +1,4 @@
 
 dependencies {
-  compile 'com.android.support:appcompat-v7:19.+'
   compile project(':libraries:cyclestreets-view')
 }
