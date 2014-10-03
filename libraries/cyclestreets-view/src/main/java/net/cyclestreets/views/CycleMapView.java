@@ -9,7 +9,6 @@ import net.cyclestreets.util.MapPack;
 import net.cyclestreets.util.MessageBox;
 import net.cyclestreets.views.overlay.LocationOverlay;
 import net.cyclestreets.views.overlay.ControllerOverlay;
-import net.cyclestreets.views.overlay.ZoomButtonsOverlay;
 
 import org.mapsforge.android.maps.MapsforgeOSMDroidTileProvider;
 import org.mapsforge.android.maps.MapsforgeOSMTileSource;
@@ -70,8 +69,6 @@ public class CycleMapView extends MapView
     setMultiTouchControls(true);
 
     overlayBottomIndex_ = getOverlays().size();
-
-    getOverlays().add(new ZoomButtonsOverlay(context, this));
 
     location_ = new LocationOverlay(context, this);
     getOverlays().add(location_);
