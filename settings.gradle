@@ -4,3 +4,7 @@ include ':libraries:cyclestreets-core',
 
 include ':cyclestreets',
         ':cyclestreets.vNext'
+
+if (new File('urban-location').exists()) {
+  include ':urban-location'
+}

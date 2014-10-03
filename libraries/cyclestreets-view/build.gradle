@@ -1,3 +1,4 @@
+evaluationDependsOn(':libraries:cyclestreets-core')
 
 dependencies {
   compile project(':libraries:cyclestreets-core'),
