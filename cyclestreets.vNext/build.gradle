@@ -10,10 +10,4 @@ android {
   defaultConfig {
     applicationId 'net.cyclestreets.v2'
   } // defaultConfig
-
-  buildTypes {
-    release {
-      signingConfig signingConfigs.release
-    }
-  } // buildTypes
-}
+} // android

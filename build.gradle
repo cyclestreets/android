@@ -47,6 +47,12 @@ configure(subprojects.findAll { it.path.startsWith(':cyclestreets') }) {
       }
     } // signingConfigs
 
+    buildTypes {
+      release {
+        signingConfig signingConfigs.release
+      }
+    } // buildTypes
+
     packagingOptions {
       exclude 'META-INF/LICENSE'
       exclude 'META-INF/LICENSE.txt'
