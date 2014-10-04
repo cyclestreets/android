@@ -49,7 +49,7 @@ public abstract class MainNavDrawerActivity extends ActionBarActivity {
     navDrawer_ = (NavigationDrawerFragment)getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
     navDrawer_.setUp(R.id.navigation_drawer, (DrawerLayout)findViewById(R.id.drawer_layout));
 
-    pages_ = new ArrayList<PageInfo>();
+    pages_ = new ArrayList<>();
 
     addPages();
 
@@ -61,8 +61,15 @@ public abstract class MainNavDrawerActivity extends ActionBarActivity {
   protected void addPage(final String title,
                          final int iconId,
                          final Class<? extends Fragment> fragClass) {
-    final Drawable icon = getResources().getDrawable(iconId);
-    pages_.add(new PageInfo(title, icon, fragClass));
+    addPage(title, iconId, fragClass, null);
+  } // addPage
+
+  protected void addPage(final String title,
+                         final int iconId,
+                         final Class<? extends Fragment> fragClass,
+                         final PageInitialiser initialiser) {
+    final Drawable icon = iconId != -1 ? getResources().getDrawable(iconId) : null;
+    pages_.add(new PageInfo(title, icon, fragClass, initialiser));
   } // addPage
 
   public void restoreActionBar() {
@@ -364,6 +371,8 @@ public abstract class MainNavDrawerActivity extends ActionBarActivity {
     } // setText
 
     private void setIcon(final View v, final Drawable icon) {
+      if (icon == null)
+        return;
       final ImageView iv = (ImageView)v.findViewById(R.id.menu_icon);
       iv.setImageDrawable(icon);
     } // setTurnIcon
@@ -376,20 +385,27 @@ public abstract class MainNavDrawerActivity extends ActionBarActivity {
     private Drawable icon_;
     private Class<? extends Fragment> fragClass_;
     private Fragment fragment_;
+    private PageInitialiser initialiser_;
+
 
     public PageInfo(final String title,
                     final Drawable icon,
-                    final Class<? extends Fragment> fragClass) {
+                    final Class<? extends Fragment> fragClass,
+                    final PageInitialiser initialiser) {
       title_ = title;
       icon_ = icon;
       fragClass_ = fragClass;
+      initialiser_ = initialiser;
     } // PageInfo
 
     public String title() { return title_; }
     public Fragment fragment() {
       try {
-        if (fragment_ == null)
+        if (fragment_ == null) {
           fragment_ = fragClass_.newInstance();
+          if (initialiser_ != null)
+            initialiser_.initialise(fragment_);
+        } // if ...
       } catch (Exception e) {
         throw new RuntimeException(e);
       } // try
@@ -399,4 +415,8 @@ public abstract class MainNavDrawerActivity extends ActionBarActivity {
     @Override
     public String toString() { return title_; }
   } // PageInfo
+
+  public static interface PageInitialiser {
+    void initialise(final Fragment page);
+  } // PageInitialiser
 } // class Main
