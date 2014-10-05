@@ -36,23 +36,27 @@ configure(subprojects.findAll { it.path.startsWith(':cyclestreets') }) {
       versionName appConfig['versionName']
     } // defaultConfig
 
-    signingConfigs {
-      release {
-        Properties props = new Properties()
-        props.load(new FileInputStream(file("${rootDir}/license.properties")))
+    def licenseDetails = file("${rootDir}/license.properties");
 
-        storeFile file(props['key.store'])
-        storePassword props['key.password']
-        keyAlias props['key.alias']
-        keyPassword props['key.password']
-      }
-    } // signingConfigs
+    if (licenseDetails.exists()) {
+      signingConfigs {
+        release {
+          Properties props = new Properties()
+          props.load(new FileInputStream(licenseDetails))
 
-    buildTypes {
-      release {
-        signingConfig signingConfigs.release
-      }
-    } // buildTypes
+          storeFile file(props['key.store'])
+          storePassword props['key.password']
+          keyAlias props['key.alias']
+          keyPassword props['key.password']
+        }
+      } // signingConfigs
+
+      buildTypes {
+        release {
+          signingConfig signingConfigs.release
+        }
+      } // buildTypes
+    } // lincenseDetails.exists
 
     packagingOptions {
       exclude 'META-INF/LICENSE'

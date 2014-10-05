@@ -1,10 +1,10 @@
 include ':libraries:cyclestreets-core',
-        ':libraries:cyclestreets-view',
-        ':libraries:cyclestreets-fragments'
+    ':libraries:cyclestreets-view',
+    ':libraries:cyclestreets-fragments'
 
 include ':cyclestreets',
         ':cyclestreets.vNext'
 
-if (new File('urban-location').exists()) {
+if (file('urban-location').exists()) {
   include ':urban-location'
 }
