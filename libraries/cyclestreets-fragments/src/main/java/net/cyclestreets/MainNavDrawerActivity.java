@@ -34,9 +34,12 @@ import net.cyclestreets.fragments.R;
 import net.cyclestreets.routing.Journey;
 import net.cyclestreets.routing.Route;
 import net.cyclestreets.routing.Segment;
+import net.cyclestreets.routing.Waypoints;
 import net.cyclestreets.util.TurnIcons;
 
-public abstract class MainNavDrawerActivity extends ActionBarActivity {
+public abstract class MainNavDrawerActivity
+    extends ActionBarActivity
+    implements Route.Listener {
   private NavigationDrawerFragment navDrawer_;
   private List<PageInfo> pages_;
 
@@ -72,13 +75,6 @@ public abstract class MainNavDrawerActivity extends ActionBarActivity {
     pages_.add(new PageInfo(title, icon, fragClass, initialiser));
   } // addPage
 
-  public void restoreActionBar() {
-    ActionBar actionBar = getSupportActionBar();
-    actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
-    actionBar.setDisplayShowTitleEnabled(true);
-    actionBar.setTitle(navDrawer_.title());
-  } // restoreActionBar
-
   @Override
   public boolean onCreateOptionsMenu(final Menu menu) {
     if (!navDrawer_.isDrawerOpen()) {
@@ -87,6 +83,33 @@ public abstract class MainNavDrawerActivity extends ActionBarActivity {
     }
     return super.onCreateOptionsMenu(menu);
   } // onCreateOptionsMenu
+
+  private void restoreActionBar() {
+    ActionBar actionBar = getSupportActionBar();
+    actionBar.setDisplayShowTitleEnabled(true);
+    actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
+    actionBar.setTitle(navDrawer_.title());
+  } // restoreActionBar
+
+  @Override
+  public void onResume() {
+    super.onResume();
+    Route.registerListener(this);
+  } // onResume
+
+  @Override
+  public void onPause() {
+    Route.unregisterListener(this);
+    super.onPause();
+  } // onPause
+
+  @Override
+  public void onNewJourney(final Journey journey, final Waypoints waypoints) {
+    supportInvalidateOptionsMenu();
+  } // onNewJourney
+  public void onResetJourney() {
+    supportInvalidateOptionsMenu();
+  } // onResetJourney
 
   //////////////////////////////////////////
   //////////////////////////////////////////
@@ -153,13 +176,12 @@ public abstract class MainNavDrawerActivity extends ActionBarActivity {
       super.onActivityCreated(savedInstanceState);
       // Indicate that this fragment would like to influence the set of actions in the action bar.
       setHasOptionsMenu(true);
-    }
+    } // onActivityCreated
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-      mDrawerListView = (ListView) inflater.inflate(
-          R.layout.navigation_drawer, container, false);
+      mDrawerListView = (ListView)inflater.inflate(R.layout.navigation_drawer, container, false);
       mDrawerListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -168,18 +190,12 @@ public abstract class MainNavDrawerActivity extends ActionBarActivity {
       });
 
       return mDrawerListView;
-    }
+    } // onCreateView
 
     public boolean isDrawerOpen() {
       return mDrawerLayout != null && mDrawerLayout.isDrawerOpen(mFragmentContainerView);
-    }
+    } // isDrawerOpen
 
-    /**
-     * Users of this fragment must call this method to set up the navigation drawer interactions.
-     *
-     * @param fragmentId   The android:id of this fragment in its activity's layout.
-     * @param drawerLayout The DrawerLayout containing this fragment's UI.
-     */
     public void setUp(int fragmentId, DrawerLayout drawerLayout) {
       mFragmentContainerView = getActivity().findViewById(fragmentId);
       mDrawerLayout = drawerLayout;
@@ -204,9 +220,7 @@ public abstract class MainNavDrawerActivity extends ActionBarActivity {
         @Override
         public void onDrawerClosed(View drawerView) {
           super.onDrawerClosed(drawerView);
-          if (!isAdded()) {
-            return;
-          }
+          if (!isAdded()) { return; }
 
           getActivity().supportInvalidateOptionsMenu(); // calls onPrepareOptionsMenu()
         }
@@ -214,16 +228,13 @@ public abstract class MainNavDrawerActivity extends ActionBarActivity {
         @Override
         public void onDrawerOpened(View drawerView) {
           super.onDrawerOpened(drawerView);
-          if (!isAdded()) {
-            return;
-          }
+          if (!isAdded()) { return; }
 
           if (!mUserLearnedDrawer) {
             // The user manually opened the drawer; store this flag to prevent auto-showing
             // the navigation drawer automatically in the future.
             mUserLearnedDrawer = true;
-            SharedPreferences sp = PreferenceManager
-                .getDefaultSharedPreferences(getActivity());
+            SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getActivity());
             sp.edit().putBoolean(PREF_USER_LEARNED_DRAWER, true).commit();
           }
 
@@ -246,7 +257,7 @@ public abstract class MainNavDrawerActivity extends ActionBarActivity {
       });
 
       mDrawerLayout.setDrawerListener(mDrawerToggle);
-    }
+    } // setUp
 
     private void selectItem(int position) {
       mCurrentSelectedPosition = position;
@@ -284,7 +295,7 @@ public abstract class MainNavDrawerActivity extends ActionBarActivity {
         fragment().onCreateOptionsMenu(menu, inflater);
 
       super.onCreateOptionsMenu(menu, inflater);
-    }
+    } // onCreateOptionsMenu
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -307,20 +318,16 @@ public abstract class MainNavDrawerActivity extends ActionBarActivity {
       super.onPrepareOptionsMenu(menu);
     } // onPrepareOptionsMenu
 
-    /**
-     * Per the navigation drawer design guidelines, updates the action bar to show the global app
-     * 'context', rather than just what's in the current screen.
-     */
     private void showGlobalContextActionBar() {
       ActionBar actionBar = getActionBar();
       actionBar.setDisplayShowTitleEnabled(true);
       actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
       actionBar.setTitle(R.string.app_name);
-    }
+    } // showGlobalContextActionBar
 
     private ActionBar getActionBar() {
       return ((ActionBarActivity) getActivity()).getSupportActionBar();
-    }
+    } // getActionBar
   } // NavigationDrawerFragment
 
 
