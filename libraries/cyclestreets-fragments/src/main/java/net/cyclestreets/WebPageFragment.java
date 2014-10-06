@@ -10,6 +10,20 @@ import android.webkit.WebView;
 import net.cyclestreets.fragments.R;
 
 public class WebPageFragment extends Fragment {
+  public static MainNavDrawerActivity.PageInitialiser initialiser(final String url) {
+    return new WebPageInitialiser(url);
+  } // initialiser
+
+  private static class WebPageInitialiser implements MainNavDrawerActivity.PageInitialiser {
+    private final String url_;
+    public WebPageInitialiser(final String url) { url_ = url; }
+
+    public void initialise(Fragment page) {
+      ((WebPageFragment)page).loadUrl(url_);
+    } // initialise
+  } // WebPageInitialiser
+
+  //////////////////////////////////////////////////
   private String homePage_;
 
   public View onCreateView(final LayoutInflater inflater,
