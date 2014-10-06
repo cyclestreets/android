@@ -15,7 +15,7 @@ subprojects {
 }
 
 configure(subprojects.findAll { it.path.startsWith(':cyclestreets') }) {
-  apply plugin: 'android'
+  apply plugin: 'com.android.application'
 
   android {
     Properties appConfig = new Properties()
@@ -69,7 +69,7 @@ configure(subprojects.findAll { it.path.startsWith(':cyclestreets') }) {
 } // cyclestreets apps
 
 configure(subprojects.findAll { it.path.startsWith(':libraries:') }) {
-  apply plugin: 'android-library'
+  apply plugin: 'com.android.library'
 
   android {
     Properties appConfig = new Properties()
