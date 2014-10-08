@@ -8,6 +8,7 @@ import net.cyclestreets.MainSupport;
 import net.cyclestreets.MoreFragment;
 import net.cyclestreets.PhotoMapFragment;
 import net.cyclestreets.PhotoUploadFragment;
+import net.cyclestreets.RouteAvailablePageStatus;
 import net.cyclestreets.RouteMapFragment;
 import net.cyclestreets.WebPageFragment;
 
@@ -23,7 +24,10 @@ public class CycleStreets extends MainNavDrawerActivity {
   @Override
   protected void addPages() {
     addPage("Route Map", R.drawable.ic_menu_mapmode_white, RouteMapFragment.class);
-    addPage("Itinerary", R.drawable.ic_menu_agenda_white, ItineraryFragment.class);
+    addPage("Itinerary",
+        R.drawable.ic_menu_agenda_white,
+        ItineraryFragment.class,
+        new RouteAvailablePageStatus());
     addPage("Photomap", R.drawable.ic_menu_gallery_white, PhotoMapFragment.class);
     addPage("Photo Upload", R.drawable.ic_menu_camera_white, PhotoUploadFragment.class);
     addPage("Blog",

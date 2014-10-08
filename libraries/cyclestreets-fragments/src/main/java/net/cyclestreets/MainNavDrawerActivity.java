@@ -20,8 +20,8 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Adapter;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -33,9 +33,7 @@ import java.util.List;
 import net.cyclestreets.fragments.R;
 import net.cyclestreets.routing.Journey;
 import net.cyclestreets.routing.Route;
-import net.cyclestreets.routing.Segment;
 import net.cyclestreets.routing.Waypoints;
-import net.cyclestreets.util.TurnIcons;
 
 public abstract class MainNavDrawerActivity
     extends ActionBarActivity
@@ -64,15 +62,30 @@ public abstract class MainNavDrawerActivity
   protected void addPage(final String title,
                          final int iconId,
                          final Class<? extends Fragment> fragClass) {
-    addPage(title, iconId, fragClass, null);
+    addPage(title, iconId, fragClass, null, null);
+  } // addPage
+
+  protected void addPage(final String title,
+                         final int iconId,
+                         final Class<? extends Fragment> fragClass,
+                         final PageStatus pageStatus) {
+    addPage(title, iconId, fragClass, null, pageStatus);
   } // addPage
 
   protected void addPage(final String title,
                          final int iconId,
                          final Class<? extends Fragment> fragClass,
                          final PageInitialiser initialiser) {
+    addPage(title, iconId, fragClass, initialiser, null);
+  } // addPage
+
+  protected void addPage(final String title,
+                         final int iconId,
+                         final Class<? extends Fragment> fragClass,
+                         final PageInitialiser initialiser,
+                         final PageStatus pageStatus) {
     final Drawable icon = iconId != -1 ? getResources().getDrawable(iconId) : null;
-    pages_.add(new PageInfo(title, icon, fragClass, initialiser));
+    pages_.add(new PageInfo(title, icon, fragClass, initialiser, pageStatus));
   } // addPage
 
   @Override
@@ -128,15 +141,16 @@ public abstract class MainNavDrawerActivity
     /**
      * Helper component that ties the action bar to the navigation drawer.
      */
-    private ActionBarDrawerToggle mDrawerToggle;
+    private ActionBarDrawerToggle drawerToggle_;
 
-    private DrawerLayout mDrawerLayout;
-    private ListView mDrawerListView;
-    private View mFragmentContainerView;
+    private DrawerLayout drawerLayout_;
+    private ListView drawerListView_;
+    private PageInfoAdapter drawerContents_;
+    private View fragmentContainerView_;
 
-    private int mCurrentSelectedPosition = 0;
-    private boolean mFromSavedInstanceState;
-    private boolean mUserLearnedDrawer;
+    private int currentSelectedPosition_ = 0;
+    private boolean fromSavedInstanceState_;
+    private boolean userLearnedDrawer_;
 
     private List<PageInfo> fragments_;
 
@@ -151,25 +165,26 @@ public abstract class MainNavDrawerActivity
       // Read in the flag indicating whether or not the user has demonstrated awareness of the
       // drawer. See PREF_USER_LEARNED_DRAWER for details.
       SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getActivity());
-      mUserLearnedDrawer = sp.getBoolean(PREF_USER_LEARNED_DRAWER, false);
+      userLearnedDrawer_ = sp.getBoolean(PREF_USER_LEARNED_DRAWER, false);
 
       if (savedInstanceState != null) {
-        mCurrentSelectedPosition = savedInstanceState.getInt(STATE_SELECTED_POSITION);
-        mFromSavedInstanceState = true;
+        currentSelectedPosition_ = savedInstanceState.getInt(STATE_SELECTED_POSITION);
+        fromSavedInstanceState_ = true;
       }
     } // onCreate
 
     public void addPages(final List<PageInfo> pages) {
       fragments_.addAll(pages);
 
-      mDrawerListView.setAdapter(new PageInfoAdapter(this, fragments_, getActionBar().getThemedContext()));
+      drawerContents_ = new PageInfoAdapter(this, fragments_, getActionBar().getThemedContext());
+      drawerListView_.setAdapter(drawerContents_);
 
-      selectItem(mCurrentSelectedPosition);
-      mDrawerListView.setItemChecked(mCurrentSelectedPosition, true);
+      selectItem(currentSelectedPosition_);
+      drawerListView_.setItemChecked(currentSelectedPosition_, true);
     } // addPages
 
-    public String title() { return fragments_.get(mCurrentSelectedPosition).title(); }
-    public Fragment fragment() { return fragments_.get(mCurrentSelectedPosition).fragment(); }
+    public String title() { return fragments_.get(currentSelectedPosition_).title(); }
+    public Fragment fragment() { return fragments_.get(currentSelectedPosition_).fragment(); }
 
     @Override
     public void onActivityCreated (Bundle savedInstanceState) {
@@ -181,27 +196,27 @@ public abstract class MainNavDrawerActivity
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-      mDrawerListView = (ListView)inflater.inflate(R.layout.navigation_drawer, container, false);
-      mDrawerListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+      drawerListView_ = (ListView)inflater.inflate(R.layout.navigation_drawer, container, false);
+      drawerListView_.setOnItemClickListener(new AdapterView.OnItemClickListener() {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
           selectItem(position);
         }
       });
 
-      return mDrawerListView;
+      return drawerListView_;
     } // onCreateView
 
     public boolean isDrawerOpen() {
-      return mDrawerLayout != null && mDrawerLayout.isDrawerOpen(mFragmentContainerView);
+      return drawerLayout_ != null && drawerLayout_.isDrawerOpen(fragmentContainerView_);
     } // isDrawerOpen
 
     public void setUp(int fragmentId, DrawerLayout drawerLayout) {
-      mFragmentContainerView = getActivity().findViewById(fragmentId);
-      mDrawerLayout = drawerLayout;
+      fragmentContainerView_ = getActivity().findViewById(fragmentId);
+      drawerLayout_ = drawerLayout;
 
       // set a custom shadow that overlays the maintabbedactivity content when the drawer opens
-      mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
+      drawerLayout_.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
       // set up the drawer's list view with items and click listener
 
       ActionBar actionBar = getActionBar();
@@ -210,9 +225,9 @@ public abstract class MainNavDrawerActivity
 
       // ActionBarDrawerToggle ties together the the proper interactions
       // between the navigation drawer and the action bar app icon.
-      mDrawerToggle = new ActionBarDrawerToggle(
+      drawerToggle_ = new ActionBarDrawerToggle(
           getActivity(),                    /* host Activity */
-          mDrawerLayout,                    /* DrawerLayout object */
+          drawerLayout_,                    /* DrawerLayout object */
           R.drawable.ic_drawer,             /* nav drawer image to replace 'Up' caret */
           R.string.navigation_drawer_open,  /* "open drawer" description for accessibility */
           R.string.navigation_drawer_close  /* "close drawer" description for accessibility */
@@ -230,10 +245,10 @@ public abstract class MainNavDrawerActivity
           super.onDrawerOpened(drawerView);
           if (!isAdded()) { return; }
 
-          if (!mUserLearnedDrawer) {
+          if (!userLearnedDrawer_) {
             // The user manually opened the drawer; store this flag to prevent auto-showing
             // the navigation drawer automatically in the future.
-            mUserLearnedDrawer = true;
+            userLearnedDrawer_ = true;
             SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getActivity());
             sp.edit().putBoolean(PREF_USER_LEARNED_DRAWER, true).commit();
           }
@@ -244,27 +259,26 @@ public abstract class MainNavDrawerActivity
 
       // If the user hasn't 'learned' about the drawer, open it to introduce them to the drawer,
       // per the navigation drawer design guidelines.
-      if (!mUserLearnedDrawer && !mFromSavedInstanceState) {
-        mDrawerLayout.openDrawer(mFragmentContainerView);
-      }
+      if (!userLearnedDrawer_ && !fromSavedInstanceState_)
+        drawerLayout_.openDrawer(fragmentContainerView_);
 
       // Defer code dependent on restoration of previous instance state.
-      mDrawerLayout.post(new Runnable() {
+      drawerLayout_.post(new Runnable() {
         @Override
         public void run() {
-          mDrawerToggle.syncState();
+          drawerToggle_.syncState();
         }
       });
 
-      mDrawerLayout.setDrawerListener(mDrawerToggle);
+      drawerLayout_.setDrawerListener(drawerToggle_);
     } // setUp
 
     private void selectItem(int position) {
-      mCurrentSelectedPosition = position;
-      if (mDrawerListView != null)
-        mDrawerListView.setItemChecked(position, true);
-      if (mDrawerLayout != null)
-        mDrawerLayout.closeDrawer(mFragmentContainerView);
+      currentSelectedPosition_ = position;
+      if (drawerListView_ != null)
+        drawerListView_.setItemChecked(position, true);
+      if (drawerLayout_ != null)
+        drawerLayout_.closeDrawer(fragmentContainerView_);
 
       FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
       fragmentManager.beginTransaction()
@@ -275,21 +289,21 @@ public abstract class MainNavDrawerActivity
     @Override
     public void onSaveInstanceState(Bundle outState) {
       super.onSaveInstanceState(outState);
-      outState.putInt(STATE_SELECTED_POSITION, mCurrentSelectedPosition);
+      outState.putInt(STATE_SELECTED_POSITION, currentSelectedPosition_);
     }
 
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
       super.onConfigurationChanged(newConfig);
       // Forward the new configuration the drawer toggle component.
-      mDrawerToggle.onConfigurationChanged(newConfig);
+      drawerToggle_.onConfigurationChanged(newConfig);
     }
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
       // If the drawer is open, show the global app actions in the action bar. See also
       // showGlobalContextActionBar, which controls the top-left area of the action bar.
-      if (mDrawerLayout != null && isDrawerOpen())
+      if (drawerLayout_ != null && isDrawerOpen())
         showGlobalContextActionBar();
       else
         fragment().onCreateOptionsMenu(menu, inflater);
@@ -299,7 +313,7 @@ public abstract class MainNavDrawerActivity
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-      if (mDrawerToggle.onOptionsItemSelected(item))
+      if (drawerToggle_.onOptionsItemSelected(item))
         return true;
 
       if (fragment().onOptionsItemSelected(item))
@@ -310,7 +324,7 @@ public abstract class MainNavDrawerActivity
 
     @Override
     public void onPrepareOptionsMenu(Menu menu) {
-      if (mDrawerLayout != null && isDrawerOpen())
+      if (drawerLayout_ != null && isDrawerOpen())
         ;
       else
         fragment().onPrepareOptionsMenu(menu);
@@ -335,6 +349,7 @@ public abstract class MainNavDrawerActivity
   //////////////////////////////////////////
   static class PageInfoAdapter extends BaseAdapter {
     private final List<PageInfo> pageInfo_;
+    private final List<PageInfo> activePages_;
     private final LayoutInflater inflater_;
     private final NavigationDrawerFragment parentFrag_;
 
@@ -343,14 +358,32 @@ public abstract class MainNavDrawerActivity
                     final Context context) {
       parentFrag_ = parentFrag;
       pageInfo_ = pageInfo;
+      for (PageInfo pi : pageInfo_)
+        pi.setAdapter(this);
+      activePages_ = new ArrayList<>();
       inflater_ = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+
+      buildActiveList();
     } // PageInfoAdaptor
 
-    @Override
-    public int getCount() { return pageInfo_.size(); }
+    private void buildActiveList() {
+      activePages_.clear();
+      for (PageInfo pi : pageInfo_)
+        if (pi.enabled())
+          activePages_.add(pi);
+    } // buildActiveList
 
     @Override
-    public PageInfo getItem(int position) { return pageInfo_.get(position); }
+    public void notifyDataSetChanged() {
+      buildActiveList();
+      super.notifyDataSetChanged();
+    } // notifyDataSetChanged
+
+    @Override
+    public int getCount() { return activePages_.size(); }
+
+    @Override
+    public PageInfo getItem(int position) { return activePages_.get(position); }
 
     @Override
     public long getItemId(int position) { return position; }
@@ -359,7 +392,7 @@ public abstract class MainNavDrawerActivity
     public View getView(final int position, final View convertView, final ViewGroup parent) {
       final View v = inflater_.inflate(R.layout.navigation_item, parent, false);
 
-      final boolean highlight = (position == parentFrag_.mCurrentSelectedPosition);
+      final boolean highlight = (position == parentFrag_.currentSelectedPosition_);
 
       setText(v, getItem(position).title(), highlight);
       setIcon(v, getItem(position).icon());
@@ -393,16 +426,18 @@ public abstract class MainNavDrawerActivity
     private Class<? extends Fragment> fragClass_;
     private Fragment fragment_;
     private PageInitialiser initialiser_;
-
+    private PageStatus pageStatus_;
 
     public PageInfo(final String title,
                     final Drawable icon,
                     final Class<? extends Fragment> fragClass,
-                    final PageInitialiser initialiser) {
+                    final PageInitialiser initialiser,
+                    final PageStatus pageStatus) {
       title_ = title;
       icon_ = icon;
       fragClass_ = fragClass;
       initialiser_ = initialiser;
+      pageStatus_ = pageStatus;
     } // PageInfo
 
     public String title() { return title_; }
@@ -419,11 +454,22 @@ public abstract class MainNavDrawerActivity
       return fragment_;
     } // fragment
     public Drawable icon() { return icon_; }
+    public boolean enabled() { return (pageStatus_ != null) ? pageStatus_.enabled() : true; }
     @Override
     public String toString() { return title_; }
+
+    public void setAdapter(final BaseAdapter adapter) {
+      if (pageStatus_ != null)
+        pageStatus_.setAdapter(adapter);
+    } // setAdapter
   } // PageInfo
 
   public static interface PageInitialiser {
     void initialise(final Fragment page);
   } // PageInitialiser
+
+  public static interface PageStatus {
+    void setAdapter(BaseAdapter adapter);
+    boolean enabled();
+  } // PageStatus
 } // class Main
