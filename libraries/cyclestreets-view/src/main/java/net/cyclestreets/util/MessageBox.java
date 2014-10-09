@@ -17,7 +17,7 @@ public class MessageBox
                            final int msg,
                            final DialogInterface.OnClickListener yesAction)
   {
-    YesNo(parent, parent.getContext().getString(msg), yesAction, NoAction);
+    YesNo(parent.getContext(), msg, yesAction);
   } // YesNo
   
   static public void YesNo(final View parent,
@@ -26,7 +26,14 @@ public class MessageBox
   {
     YesNo(parent.getContext(), msg, yesAction);
   }
-  
+
+  static public void YesNo(final Context context,
+                           final int msg,
+                           final DialogInterface.OnClickListener yesAction)
+  {
+    YesNo(context, context.getString(msg), yesAction, NoAction);
+  } // YesNo
+
   static public void YesNo(final Context context,
                            final String msg,
                            final DialogInterface.OnClickListener yesAction)

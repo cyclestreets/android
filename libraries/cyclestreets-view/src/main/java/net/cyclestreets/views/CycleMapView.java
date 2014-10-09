@@ -3,6 +3,7 @@ package net.cyclestreets.views;
 import java.util.Map;
 
 import net.cyclestreets.CycleStreetsPreferences;
+import net.cyclestreets.tiles.TileSource;
 import net.cyclestreets.view.R;
 import net.cyclestreets.util.MapFactory;
 import net.cyclestreets.util.MapPack;
@@ -61,7 +62,7 @@ public class CycleMapView extends MapView
     super(context,
           256,
           new DefaultResourceProxyImpl(context),
-          mapTileProvider(context));
+          TileSource.mapTileProvider(context));
 
     prefs_ = context.getSharedPreferences("net.cyclestreets.mapview."+name, Context.MODE_PRIVATE);
 
@@ -212,113 +213,11 @@ public class CycleMapView extends MapView
     return prefs_.getBoolean(key, defValue);
   } // pref
 
-  public String mapAttribution()
-  {
-    try {
-      return attribution_.get(CycleStreetsPreferences.mapstyle());
-    }
-    catch(Exception e) {
-      // sigh
-    } // catch
-    return attribution_.get(DEFAULT_RENDERER);
+  public String mapAttribution() {
+    return TileSource.mapAttribution();
   } // mapAttribution
 
-  private ITileSource mapRenderer()
-  {
-    try {
-      final ITileSource renderer = TileSourceFactory.getTileSource(CycleStreetsPreferences.mapstyle());
-
-      if(renderer instanceof MapsforgeOSMTileSource)
-      {
-    	final String mapFile = CycleStreetsPreferences.mapfile();
-        final MapPack pack = MapPack.findByPackage(mapFile);
-        if(pack.current())
-          ((MapsforgeOSMTileSource)renderer).setMapFile(mapFile);
-        else
-        {
-          MessageBox.YesNo(this,
-                           R.string.out_of_date_map_pack,
-                           new DialogInterface.OnClickListener() {
-                             public void onClick(DialogInterface arg0, int arg1) {
-                               MapPack.searchGooglePlay(getContext());
-                             } // onClick
-                           });
-          CycleStreetsPreferences.resetMapstyle();
-          return TileSourceFactory.getTileSource(DEFAULT_RENDERER);
-        }
-      }
-
-      return renderer;
-    } // try
-    catch(Exception e) {
-      // oh dear
-    } // catch
-    return TileSourceFactory.getTileSource(DEFAULT_RENDERER);
+  private ITileSource mapRenderer() {
+    return TileSource.mapRenderer(getContext());
   } // mapRenderer
-
-  static private String DEFAULT_RENDERER = CycleStreetsPreferences.MAPSTYLE_OCM;
-  static private Map<String, String> attribution_ =
-      MapFactory.map(CycleStreetsPreferences.MAPSTYLE_OCM, "\u00a9 OpenStreetMap and contributors, CC-BY-SA. Map images \u00a9 OpenCycleMap")
-                .map(CycleStreetsPreferences.MAPSTYLE_OSM, "\u00a9 OpenStreetMap and contributors, CC-BY-SA")
-                .map(CycleStreetsPreferences.MAPSTYLE_OS, "Contains Ordnance Survey Data \u00a9 Crown copyright and database right 2010")
-                .map(CycleStreetsPreferences.MAPSTYLE_MAPSFORGE, "\u00a9 OpenStreetMap and contributors, CC-BY-SA");
-
-  static
-  {
-    final OnlineTileSourceBase OPENCYCLEMAP = new XYTileSource(CycleStreetsPreferences.MAPSTYLE_OCM,
-                    ResourceProxy.string.cyclemap, 0, 17, 256, ".png",
-                    "http://tile.cyclestreets.net/opencyclemap/");
-    final OnlineTileSourceBase OPENSTREETMAP = new XYTileSource(CycleStreetsPreferences.MAPSTYLE_OSM,
-                    ResourceProxy.string.base, 0, 17, 256, ".png",
-                    "http://tile.cyclestreets.net/mapnik/");
-    final OnlineTileSourceBase OSMAP = new XYTileSource(CycleStreetsPreferences.MAPSTYLE_OS,
-                    ResourceProxy.string.unknown, 0, 17, 256, ".png",
-                    "http://a.os.openstreetmap.org/sv/",
-                    "http://b.os.openstreetmap.org/sv/",
-                    "http://c.os.openstreetmap.org/sv/");
-    final MapsforgeOSMTileSource MAPSFORGE = new MapsforgeOSMTileSource(CycleStreetsPreferences.MAPSTYLE_MAPSFORGE);
-    TileSourceFactory.addTileSource(OPENCYCLEMAP);
-    TileSourceFactory.addTileSource(OPENSTREETMAP);
-    TileSourceFactory.addTileSource(OSMAP);
-    TileSourceFactory.addTileSource(MAPSFORGE);
-  } // static
-
-  static private MapTileProviderBase mapTileProvider(final Context context)
-  {
-    return new CycleMapTileProvider(context);
-  } // MapTileProviderBase
-
-  static private class CycleMapTileProvider extends MapTileProviderArray
-                                            implements IMapTileProviderCallback
-  {
-    public CycleMapTileProvider(final Context context)
-    {
-      this(context,
-           TileSourceFactory.getTileSource(DEFAULT_RENDERER),
-           new SimpleRegisterReceiver(context));
-    } // CycleMapTileProvider
-
-    private CycleMapTileProvider(final Context context,
-                                 final ITileSource tileSource,
-                                 final IRegisterReceiver registerReceiver)
-    {
-      super(tileSource, registerReceiver);
-
-      final MapTileFilesystemProvider fileSystemProvider =
-            new MapTileFilesystemProvider(registerReceiver, tileSource);
-      mTileProviderList.add(fileSystemProvider);
-
-      final NetworkAvailabliltyCheck networkCheck = new NetworkAvailabliltyCheck(context);
-
-      final MapTileDownloader downloaderProvider =
-            new MapTileDownloader(tileSource,
-            					  new TileWriter(),
-                                  networkCheck);
-      mTileProviderList.add(downloaderProvider);
-
-      final MapsforgeOSMDroidTileProvider mapsforgeProvider =
-            new MapsforgeOSMDroidTileProvider(tileSource, networkCheck);
-      mTileProviderList.add(mapsforgeProvider);
-    } // CycleMapTileProvider
-  } // CycleMapTileProvider
 } // CycleMapView
