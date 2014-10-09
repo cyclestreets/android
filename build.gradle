@@ -18,8 +18,7 @@ configure(subprojects.findAll { it.path.startsWith(':cyclestreets') }) {
   apply plugin: 'com.android.application'
 
   android {
-    Properties appConfig = new Properties()
-    appConfig.load(new FileInputStream(file("${rootDir}/config.properties")))
+    Properties appConfig = loadProperties("${rootDir}/config.properties")
 
     compileSdkVersion appConfig['sdkVersion'].toInteger()
     buildToolsVersion appConfig['toolsVersion']
@@ -41,8 +40,7 @@ configure(subprojects.findAll { it.path.startsWith(':cyclestreets') }) {
     if (licenseDetails.exists()) {
       signingConfigs {
         release {
-          Properties props = new Properties()
-          props.load(new FileInputStream(licenseDetails))
+          Properties props = loadProperties(licenseDetails)
 
           storeFile file(props['key.store'])
           storePassword props['key.password']
@@ -72,8 +70,7 @@ configure(subprojects.findAll { it.path.startsWith(':libraries:') }) {
   apply plugin: 'com.android.library'
 
   android {
-    Properties appConfig = new Properties()
-    appConfig.load(new FileInputStream(file("${rootDir}/config.properties")))
+    Properties appConfig = loadProperties("${rootDir}/config.properties")
 
     compileSdkVersion appConfig['sdkVersion'].toInteger()
     buildToolsVersion appConfig['toolsVersion']
@@ -90,4 +87,10 @@ configure(subprojects.findAll { it.path.startsWith(':libraries:') }) {
       versionName appConfig['versionName']
     }
   }
+}
+
+def loadProperties(fileName) {
+  Properties props = new Properties()
+  props.load(new FileInputStream(file(fileName)))
+  return props;
 }
