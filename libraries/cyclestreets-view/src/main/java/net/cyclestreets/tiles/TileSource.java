@@ -31,12 +31,12 @@ import java.util.Map;
 public class TileSource {
   public static String mapAttribution() {
     try {
-      return attribution_.get(CycleStreetsPreferences.mapstyle());
+      return attributions_.get(CycleStreetsPreferences.mapstyle());
     }
     catch(Exception e) {
       // sigh
     } // catch
-    return attribution_.get(DEFAULT_RENDERER);
+    return attributions_.get(DEFAULT_RENDERER);
   } // mapAttribution
 
   public static ITileSource mapRenderer(final Context context) {
@@ -69,12 +69,18 @@ public class TileSource {
     return TileSourceFactory.getTileSource(DEFAULT_RENDERER);
   } // mapRenderer
 
+  public static void addTileSource(final ITileSource source, final String attribution) {
+    attributions_.put(source.name(), attribution != null ? attribution : DEFAULT_ATTRIBUTION);
+    TileSourceFactory.addTileSource(source);
+  } // addTileSource
+
   static private String DEFAULT_RENDERER = CycleStreetsPreferences.MAPSTYLE_OCM;
-  static private Map<String, String> attribution_ =
+  static private String DEFAULT_ATTRIBUTION = "\u00a9 OpenStreetMap and contributors, CC-BY-SA";
+  static private Map<String, String> attributions_ =
       MapFactory.map(CycleStreetsPreferences.MAPSTYLE_OCM, "\u00a9 OpenStreetMap and contributors, CC-BY-SA. Map images \u00a9 OpenCycleMap")
-          .map(CycleStreetsPreferences.MAPSTYLE_OSM, "\u00a9 OpenStreetMap and contributors, CC-BY-SA")
+          .map(CycleStreetsPreferences.MAPSTYLE_OSM, DEFAULT_ATTRIBUTION)
           .map(CycleStreetsPreferences.MAPSTYLE_OS, "Contains Ordnance Survey Data \u00a9 Crown copyright and database right 2010")
-          .map(CycleStreetsPreferences.MAPSTYLE_MAPSFORGE, "\u00a9 OpenStreetMap and contributors, CC-BY-SA");
+          .map(CycleStreetsPreferences.MAPSTYLE_MAPSFORGE, DEFAULT_ATTRIBUTION);
 
   static {
     final OnlineTileSourceBase OPENCYCLEMAP = new XYTileSource(CycleStreetsPreferences.MAPSTYLE_OCM,

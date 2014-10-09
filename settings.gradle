@@ -5,6 +5,6 @@ include ':libraries:cyclestreets-core',
 include ':cyclestreets',
         ':cyclestreets.vNext'
 
-if (file('urban-location').exists()) {
+//if (file('urban-location').exists()) {
   include ':urban-location'
-}
+//}
