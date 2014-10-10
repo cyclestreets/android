@@ -33,7 +33,7 @@ public class CycleStreets extends MainNavDrawerActivity {
     addPage("Blog",
         -1,
         WebPageFragment.class,
-        WebPageFragment.initialiser("http://cyclestreets.net/blog/"));
+        WebPageFragment.initialiser("http://www.cyclestreets.net/blog/"));
 
     addPage("More ...", R.drawable.ic_menu_info_details_white, MoreFragment.class);
   } // addPages
