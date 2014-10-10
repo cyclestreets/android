@@ -26,6 +26,7 @@ import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
 import org.osmdroid.tileprovider.tilesource.XYTileSource;
 import org.osmdroid.tileprovider.util.SimpleRegisterReceiver;
 
+import java.util.HashMap;
 import java.util.Map;
 
 public class TileSource {
@@ -70,35 +71,47 @@ public class TileSource {
   } // mapRenderer
 
   public static void addTileSource(final ITileSource source, final String attribution) {
+    addTileSource(source, attribution, false);
+  } // addTileSource
+  public static void addTileSource(final ITileSource source, final String attribution, final boolean setAsDefault) {
     attributions_.put(source.name(), attribution != null ? attribution : DEFAULT_ATTRIBUTION);
     TileSourceFactory.addTileSource(source);
+    DEFAULT_RENDERER = source.name();
+    CycleStreetsPreferences.setMapstyle(source.name());
   } // addTileSource
+
+  static public ITileSource createStandardTileSource(final String name, final String... baseUrls) {
+    return createStandardTileSource(name, ResourceProxy.string.unknown, baseUrls);
+  } // createStandardTileSource
+
+  static public ITileSource createStandardTileSource(final String name, final ResourceProxy.string aResourceId, final String... baseUrls) {
+    return new XYTileSource(name,
+        aResourceId, 0, 17, 256, ".png",
+        baseUrls);
+  } // createStandardTileSource
 
   static private String DEFAULT_RENDERER = CycleStreetsPreferences.MAPSTYLE_OCM;
   static private String DEFAULT_ATTRIBUTION = "\u00a9 OpenStreetMap and contributors, CC-BY-SA";
-  static private Map<String, String> attributions_ =
-      MapFactory.map(CycleStreetsPreferences.MAPSTYLE_OCM, "\u00a9 OpenStreetMap and contributors, CC-BY-SA. Map images \u00a9 OpenCycleMap")
-          .map(CycleStreetsPreferences.MAPSTYLE_OSM, DEFAULT_ATTRIBUTION)
-          .map(CycleStreetsPreferences.MAPSTYLE_OS, "Contains Ordnance Survey Data \u00a9 Crown copyright and database right 2010")
-          .map(CycleStreetsPreferences.MAPSTYLE_MAPSFORGE, DEFAULT_ATTRIBUTION);
+  static private Map<String, String> attributions_ = new HashMap<>();
 
   static {
-    final OnlineTileSourceBase OPENCYCLEMAP = new XYTileSource(CycleStreetsPreferences.MAPSTYLE_OCM,
-        ResourceProxy.string.cyclemap, 0, 17, 256, ".png",
-        "http://tile.cyclestreets.net/opencyclemap/");
-    final OnlineTileSourceBase OPENSTREETMAP = new XYTileSource(CycleStreetsPreferences.MAPSTYLE_OSM,
-        ResourceProxy.string.base, 0, 17, 256, ".png",
+    final ITileSource OPENCYCLEMAP = createStandardTileSource(CycleStreetsPreferences.MAPSTYLE_OCM,
+                                                              ResourceProxy.string.cyclemap,
+                                                              "http://tile.cyclestreets.net/opencyclemap/");
+    final ITileSource OPENSTREETMAP = createStandardTileSource(CycleStreetsPreferences.MAPSTYLE_OSM,
+        ResourceProxy.string.base,
         "http://tile.cyclestreets.net/mapnik/");
-    final OnlineTileSourceBase OSMAP = new XYTileSource(CycleStreetsPreferences.MAPSTYLE_OS,
-        ResourceProxy.string.unknown, 0, 17, 256, ".png",
-        "http://a.os.openstreetmap.org/sv/",
-        "http://b.os.openstreetmap.org/sv/",
-        "http://c.os.openstreetmap.org/sv/");
+    final ITileSource OSMAP = createStandardTileSource(CycleStreetsPreferences.MAPSTYLE_OS,
+                                                       ResourceProxy.string.unknown,
+                                                        "http://a.os.openstreetmap.org/sv/",
+                                                        "http://b.os.openstreetmap.org/sv/",
+                                                        "http://c.os.openstreetmap.org/sv/");
     final MapsforgeOSMTileSource MAPSFORGE = new MapsforgeOSMTileSource(CycleStreetsPreferences.MAPSTYLE_MAPSFORGE);
-    TileSourceFactory.addTileSource(OPENCYCLEMAP);
-    TileSourceFactory.addTileSource(OPENSTREETMAP);
-    TileSourceFactory.addTileSource(OSMAP);
-    TileSourceFactory.addTileSource(MAPSFORGE);
+
+    addTileSource(OPENCYCLEMAP, "\u00a9 OpenStreetMap and contributors, CC-BY-SA. Map images \u00a9 OpenCycleMap", true);
+    addTileSource(OPENSTREETMAP, DEFAULT_ATTRIBUTION);
+    addTileSource(OSMAP, "Contains Ordnance Survey Data \u00a9 Crown copyright and database right 2010");
+    addTileSource(MAPSFORGE, DEFAULT_ATTRIBUTION);
   } // static
 
   static public MapTileProviderBase mapTileProvider(final Context context) {

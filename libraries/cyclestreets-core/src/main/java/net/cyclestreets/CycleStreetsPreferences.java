@@ -64,8 +64,12 @@ public class CycleStreetsPreferences
     return getString(PREF_MAPSTYLE_KEY, MAPSTYLE_OCM);
   }
 
+  static public void setMapstyle(final String name) {
+    putString(PREF_MAPSTYLE_KEY, name);
+  }
+
   static public void resetMapstyle() {
-    putString(PREF_MAPSTYLE_KEY, MAPSTYLE_OCM);
+    setMapstyle(MAPSTYLE_OCM);
   }
 
   static public String mapfile() {
