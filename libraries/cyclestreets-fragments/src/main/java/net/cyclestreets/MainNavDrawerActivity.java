@@ -152,15 +152,11 @@ public abstract class MainNavDrawerActivity
     private boolean fromSavedInstanceState_;
     private boolean userLearnedDrawer_;
 
-    private List<PageInfo> fragments_;
-
     public NavigationDrawerFragment() { }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
       super.onCreate(savedInstanceState);
-
-      fragments_ = new ArrayList<>();
 
       // Read in the flag indicating whether or not the user has demonstrated awareness of the
       // drawer. See PREF_USER_LEARNED_DRAWER for details.
@@ -174,17 +170,15 @@ public abstract class MainNavDrawerActivity
     } // onCreate
 
     public void addPages(final List<PageInfo> pages) {
-      fragments_.addAll(pages);
-
-      drawerContents_ = new PageInfoAdapter(this, fragments_, getActionBar().getThemedContext());
+      drawerContents_ = new PageInfoAdapter(this, pages, getActionBar().getThemedContext());
       drawerListView_.setAdapter(drawerContents_);
 
       selectItem(currentSelectedPosition_);
       drawerListView_.setItemChecked(currentSelectedPosition_, true);
     } // addPages
 
-    public String title() { return fragments_.get(currentSelectedPosition_).title(); }
-    public Fragment fragment() { return fragments_.get(currentSelectedPosition_).fragment(); }
+    public String title() { return drawerContents_.getItem(currentSelectedPosition_).title(); }
+    public Fragment fragment() { return drawerContents_.getItem(currentSelectedPosition_).fragment(); }
 
     @Override
     public void onActivityCreated (Bundle savedInstanceState) {
@@ -282,7 +276,7 @@ public abstract class MainNavDrawerActivity
 
       FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
       fragmentManager.beginTransaction()
-          .replace(R.id.container, fragments_.get(position).fragment())
+          .replace(R.id.container, drawerContents_.getItem(position).fragment())
           .commit();
     } // selectItem
 
@@ -381,6 +375,8 @@ public abstract class MainNavDrawerActivity
 
     @Override
     public int getCount() { return activePages_.size(); }
+
+    public Fragment fragment(int position) { return getItem(position).fragment(); }
 
     @Override
     public PageInfo getItem(int position) { return activePages_.get(position); }
