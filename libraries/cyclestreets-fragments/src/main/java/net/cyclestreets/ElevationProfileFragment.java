@@ -7,8 +7,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
+import com.jjoe64.graphview.CustomLabelFormatter;
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.GraphViewSeries;
+import com.jjoe64.graphview.GraphViewStyle;
 import com.jjoe64.graphview.LineGraphView;
 
 import net.cyclestreets.fragments.R;
@@ -59,7 +61,6 @@ public class ElevationProfileFragment extends Fragment
   private void drawGraph(final Journey journey) {
     final LineGraphView graph = new LineGraphView(getActivity(), "");
 
-    DistanceFormatter formatter = DistanceFormatter.formatter(CycleStreetsPreferences.units());
     List<GraphView.GraphViewData> data = new ArrayList<>();
     for (Elevation elevation : journey.elevations())
       data.add(new GraphView.GraphViewData(elevation.distance(), elevation.elevation()));
@@ -68,6 +69,17 @@ public class ElevationProfileFragment extends Fragment
 
     graph.addSeries(graphSeries);
     graph.setDrawBackground(true);
+    graph.getGraphViewStyle().setGridStyle(GraphViewStyle.GridStyle.HORIZONTAL);
+
+    final DistanceFormatter formatter = DistanceFormatter.formatter(CycleStreetsPreferences.units());
+    graph.setCustomLabelFormatter(new CustomLabelFormatter() {
+      @Override
+      public String formatLabel(double value, boolean isValueX) {
+        if (isValueX)
+          return (value != 0) ? formatter.distance((int)value) : "";
+        return null; // let graphview generate Y-axis label for us
+      }
+    });
 
     graphHolder_.removeAllViews();
     graphHolder_.addView(graph);
