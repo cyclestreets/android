@@ -21,6 +21,7 @@ public class Journey
 {
   private Waypoints waypoints_;
   private Segments segments_;
+  private List<Elevation> elevations_;
   private int activeSegment_;
     
   static public final Journey NULL_JOURNEY;
@@ -33,7 +34,8 @@ public class Journey
   {
     waypoints_ = new Waypoints();
     segments_ = new Segments();
-    activeSegment_ = 0;   
+    activeSegment_ = 0;
+    elevations_ = new ArrayList<>();
   } // PlannedRoute
   
   private Journey(final Waypoints waypoints)
@@ -45,7 +47,8 @@ public class Journey
 
   public boolean isEmpty() { return segments_.isEmpty(); }
   public Segments segments() { return segments_; }
-  
+  public Iterable<Elevation> elevations() { return elevations_; }
+
   private Segment.Start s() { return segments_.first(); }
   private Segment.End e() { return segments_.last(); }
 
@@ -218,6 +221,11 @@ As at 16 October 2012
                                                  total_distance,
                                                  points);
             journey_.segments_.add(seg);
+
+            final String distances = s(attr, "distances");
+            final String elevations = s(attr, "elevations");
+
+            elevationsList(journey_.elevations_, distances, elevations);
           } // if ...
           if(type.equals("route"))
           {
@@ -305,6 +313,23 @@ As at 16 October 2012
       return pl;
     } // points
 
+    private void elevationsList(final List<Elevation> list,
+                                final String distances,
+                                final String elevations) {
+      final String[] dists = distances.split(",");
+      final String[] els = elevations.split(",");
+      int cumulativeDistance = list.size() != 0 ? list.get(list.size()-1).distance() : 0;
+      for (int i = 0; i != dists.length; ++i) {
+        int distance = Integer.parseInt(dists[i]);
+        int elevation = Integer.parseInt(els[i]);
+
+        if ((distance == 0) && (list.size() != 0))
+          continue;
+
+        cumulativeDistance += distance;
+        list.add(new Elevation(cumulativeDistance, elevation));
+      } // for ...
+    } // elevationsList
   } // class JourneyFactory
   
 } // class Journey

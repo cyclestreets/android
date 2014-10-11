@@ -2,6 +2,7 @@ package net.cyclestreets.v2;
 
 import android.os.Bundle;
 
+import net.cyclestreets.ElevationProfileFragment;
 import net.cyclestreets.ItineraryFragment;
 import net.cyclestreets.MainNavDrawerActivity;
 import net.cyclestreets.MainSupport;
@@ -27,6 +28,10 @@ public class CycleStreets extends MainNavDrawerActivity {
     addPage("Itinerary",
         R.drawable.ic_menu_agenda_white,
         ItineraryFragment.class,
+        new RouteAvailablePageStatus());
+    addPage("Elevation",
+        R.drawable.ic_menu_agenda_white,
+        ElevationProfileFragment.class,
         new RouteAvailablePageStatus());
     addPage("Photomap", R.drawable.ic_menu_gallery_white, PhotoMapFragment.class);
     addPage("Photo Upload", R.drawable.ic_menu_camera_white, PhotoUploadFragment.class);

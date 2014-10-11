@@ -9,8 +9,7 @@ import net.cyclestreets.util.IterableIterator;
 
 import org.osmdroid.util.GeoPoint;
 
-public abstract class Segment 
-{
+public abstract class Segment {
   protected final String name_;
   protected final String turn_;
   protected final boolean walk_;
