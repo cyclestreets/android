@@ -1,6 +1,8 @@
 package net.cyclestreets.views.overlay;
 
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 import net.cyclestreets.routing.Journey;
 import net.cyclestreets.routing.Route;
@@ -35,9 +37,9 @@ public class RouteOverlay extends Overlay implements PauseResumeListener, Listen
   private final Paint hiRideBrush_;
   private final Paint hiWalkBrush_;
    
-  private Path ridePath_;
-  private Path walkPath_;
-  private Path highlightPath_;
+  private List<Path> ridePath_;
+  private List<Path> walkPath_;
+  private List<Path> highlightPath_;
   
   private int zoomLevel_ = -1;
   private Segment highlight_;
@@ -103,9 +105,12 @@ public class RouteOverlay extends Overlay implements PauseResumeListener, Listen
     if(ridePath_ == null)
       drawSegments(mapView.getProjection());
 
-    canvas.drawPath(ridePath_, rideBrush_);
-    canvas.drawPath(walkPath_, walkBrush_);
-    canvas.drawPath(highlightPath_, Route.journey().activeSegment().walk() ? hiWalkBrush_ : hiRideBrush_);
+    for(Path path : ridePath_)
+      canvas.drawPath(path, rideBrush_);
+    for(Path path : walkPath_)
+      canvas.drawPath(path, walkBrush_);
+    for(Path path : highlightPath_)
+      canvas.drawPath(path, Route.journey().activeSegment().walk() ? hiWalkBrush_ : hiRideBrush_);
   } // draw
 
   private Path newPath()
@@ -117,16 +122,14 @@ public class RouteOverlay extends Overlay implements PauseResumeListener, Listen
   
   private void drawSegments(final IProjection projection)
   {
-    ridePath_ = newPath();
-    walkPath_ = newPath();
-    highlightPath_ = newPath();
+    ridePath_ = new ArrayList<>();
+    walkPath_ = new ArrayList<>();
+    highlightPath_ = new ArrayList<>();
 
     Point screenPoint = new Point();
-    for(Segment s : route_)
-    {
-      Path path = s.walk() ? walkPath_ : ridePath_;
-      path = (Route.journey().activeSegment() != s) ? path : highlightPath_; 
-      
+    for(Segment s : route_) {
+      final Path path = newPath();
+
       boolean first = true;
       for(Iterator<GeoPoint> i = s.points(); i.hasNext(); )
       {
@@ -141,6 +144,13 @@ public class RouteOverlay extends Overlay implements PauseResumeListener, Listen
         else
           path.lineTo(screenPoint.x, screenPoint.y);
       } // for ...
+
+      if (Route.journey().activeSegment() == s)
+        highlightPath_.add(path);
+      else if (s.walk())
+        walkPath_.add(path);
+      else
+        ridePath_.add(path);
     } // for ...
   } // drawSegments
 
