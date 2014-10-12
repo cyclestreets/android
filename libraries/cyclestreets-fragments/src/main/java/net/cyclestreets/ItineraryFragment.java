@@ -57,7 +57,7 @@ public class ItineraryFragment extends ListFragment
 
 	  journey_.setActiveSegmentIndex(position);
     try {
-  	  ((MainTabbedActivity)getActivity()).showMap();
+  	  ((RouteMapActivity)getActivity()).showMap();
     } catch(Exception e) {
     }
 	} // onListItemClick

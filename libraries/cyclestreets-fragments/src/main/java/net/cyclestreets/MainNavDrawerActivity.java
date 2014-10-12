@@ -59,31 +59,32 @@ public abstract class MainNavDrawerActivity
 
   protected abstract void addPages();
 
-  protected void addPage(final String title,
+  protected void addPage(final int titleId,
                          final int iconId,
                          final Class<? extends Fragment> fragClass) {
-    addPage(title, iconId, fragClass, null, null);
+    addPage(titleId, iconId, fragClass, null, null);
   } // addPage
 
-  protected void addPage(final String title,
+  protected void addPage(final int titleId,
                          final int iconId,
                          final Class<? extends Fragment> fragClass,
                          final PageStatus pageStatus) {
-    addPage(title, iconId, fragClass, null, pageStatus);
+    addPage(titleId, iconId, fragClass, null, pageStatus);
   } // addPage
 
-  protected void addPage(final String title,
+  protected void addPage(final int titleId,
                          final int iconId,
                          final Class<? extends Fragment> fragClass,
                          final PageInitialiser initialiser) {
-    addPage(title, iconId, fragClass, initialiser, null);
+    addPage(titleId, iconId, fragClass, initialiser, null);
   } // addPage
 
-  protected void addPage(final String title,
+  protected void addPage(final int titleId,
                          final int iconId,
                          final Class<? extends Fragment> fragClass,
                          final PageInitialiser initialiser,
                          final PageStatus pageStatus) {
+    final String title = getResources().getString(titleId);
     final Drawable icon = iconId != -1 ? getResources().getDrawable(iconId) : null;
     pages_.add(new PageInfo(title, icon, fragClass, initialiser, pageStatus));
   } // addPage
@@ -103,6 +104,10 @@ public abstract class MainNavDrawerActivity
     actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
     actionBar.setTitle(navDrawer_.title());
   } // restoreActionBar
+
+  public void showPage(int page) {
+    navDrawer_.selectItem(page);
+  } // showPage
 
   @Override
   public void onResume() {
@@ -267,7 +272,7 @@ public abstract class MainNavDrawerActivity
       drawerLayout_.setDrawerListener(drawerToggle_);
     } // setUp
 
-    private void selectItem(int position) {
+    public void selectItem(int position) {
       currentSelectedPosition_ = position;
       if (drawerListView_ != null)
         drawerListView_.setItemChecked(position, true);
