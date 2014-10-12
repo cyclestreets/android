@@ -62,7 +62,7 @@ public class ElevationProfileFragment extends Fragment
     final LineGraphView graph = new LineGraphView(getActivity(), "");
 
     List<GraphView.GraphViewData> data = new ArrayList<>();
-    for (Elevation elevation : journey.elevations())
+    for (Elevation elevation : journey.elevation().profile())
       data.add(new GraphView.GraphViewData(elevation.distance(), elevation.elevation()));
 
     GraphViewSeries graphSeries = new GraphViewSeries(data.toArray(new GraphView.GraphViewData[]{}));
