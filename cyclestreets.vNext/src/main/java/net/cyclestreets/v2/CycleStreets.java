@@ -6,7 +6,6 @@ import net.cyclestreets.ElevationProfileFragment;
 import net.cyclestreets.ItineraryFragment;
 import net.cyclestreets.MainNavDrawerActivity;
 import net.cyclestreets.MainSupport;
-import net.cyclestreets.MoreFragment;
 import net.cyclestreets.PhotoMapFragment;
 import net.cyclestreets.PhotoUploadFragment;
 import net.cyclestreets.RouteAvailablePageStatus;
@@ -40,6 +39,6 @@ public class CycleStreets extends MainNavDrawerActivity {
         WebPageFragment.class,
         WebPageFragment.initialiser("http://www.cyclestreets.net/blog/"));
 
-    addPage("More ...", R.drawable.ic_menu_info_details_white, MoreFragment.class);
+    //addPage("More ...", R.drawable.ic_menu_info_details_white, MoreFragment.class);
   } // addPages
 } // CycleStreets

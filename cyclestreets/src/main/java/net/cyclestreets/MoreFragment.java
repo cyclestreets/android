@@ -1,6 +1,5 @@
 package net.cyclestreets;
 
-import net.cyclestreets.fragments.R;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -18,7 +17,7 @@ public class MoreFragment extends Fragment implements View.OnClickListener
                            final ViewGroup container,
                            final Bundle savedInstanceState)
   {
-    final View view = inflater.inflate(R.layout.more, null);
+    final View view = inflater.inflate(R.layout.more, container, false);
 
     setButtonListener(view, R.id.settings_button);
     setButtonListener(view, R.id.blog_button);
