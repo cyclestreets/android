@@ -5,7 +5,7 @@ import android.os.Bundle;
 import android.widget.TabHost;
 
 public class CycleStreets extends MainTabbedActivity
-{
+                          implements RouteMapActivity {
 	public void onCreate(final Bundle savedInstanceState)	{
     MainSupport.switchMapFile(getIntent());
     super.onCreate(savedInstanceState);
