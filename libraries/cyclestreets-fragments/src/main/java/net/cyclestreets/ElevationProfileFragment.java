@@ -31,7 +31,7 @@ public class ElevationProfileFragment extends Fragment
   public View onCreateView(final LayoutInflater inflater,
                            final ViewGroup container,
                            final Bundle savedInstanceState) {
-    final View elevation = inflater.inflate(R.layout.elevation, null);
+    final View elevation = inflater.inflate(R.layout.elevation, container, false);
     graphHolder_ = (LinearLayout)elevation.findViewById(R.id.graphview);
     return elevation;
   } // onCreateView
