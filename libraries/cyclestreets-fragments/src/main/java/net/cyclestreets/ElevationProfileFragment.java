@@ -14,6 +14,7 @@ import com.jjoe64.graphview.GraphViewSeries;
 import com.jjoe64.graphview.GraphViewStyle;
 import com.jjoe64.graphview.LineGraphView;
 
+import net.cyclestreets.api.DistanceFormatter;
 import net.cyclestreets.fragments.R;
 import net.cyclestreets.routing.Elevation;
 import net.cyclestreets.routing.ElevationFormatter;
@@ -28,7 +29,6 @@ import java.util.List;
 public class ElevationProfileFragment extends Fragment
                                       implements Route.Listener {
   private LinearLayout graphHolder_;
-  private TextView details_;
 
   @Override
   public View onCreateView(final LayoutInflater inflater,
@@ -36,7 +36,6 @@ public class ElevationProfileFragment extends Fragment
                            final Bundle savedInstanceState) {
     final View elevation = inflater.inflate(R.layout.elevation, container, false);
     graphHolder_ = (LinearLayout)elevation.findViewById(R.id.graphview);
-    details_ = (TextView)elevation.findViewById(R.id.elevationdetails);
     return elevation;
   } // onCreateView
 
@@ -84,7 +83,7 @@ public class ElevationProfileFragment extends Fragment
       public String formatLabel(double value, boolean isValueX) {
         if (isValueX)
           return (value != 0) ? formatter.distance((int)value) : "";
-        return formatter.height((int)value);
+        return formatter.height((int) value);
       }
     });
 
@@ -93,7 +92,20 @@ public class ElevationProfileFragment extends Fragment
   } // drawGraph
 
   private void drawText(final Journey journey) {
-    Segment start = journey.segments().first();
-    details_.setText(start.street() + "\n" + start.extraInfo());
+    Segment.Start start = journey.segments().first();
+
+    view(R.id.title).setText(journey.name());
+    view(R.id.journeyid).setText(String.format("#%d", journey.itinerary()));
+    view(R.id.routetype).setText(initCap(journey.plan()) + " route :");
+    view(R.id.distance).setText(distance(journey.total_distance()));
+    view(R.id.journeytime).setText(start.totalTime());
+    view(R.id.calories).setText(start.calories());
+    view(R.id.carbondioxide).setText(start.co2());
   } // drawText
+
+  private String distance(final int metres) {
+    return DistanceFormatter.formatter(CycleStreetsPreferences.units()).total_distance(metres);
+  }
+  private TextView view(int id) { return (TextView)getView().findViewById(id); }
+  private String initCap(String s) { return s.substring(0, 1).toUpperCase() + s.substring(1); }
 } // ElevationProfileFragment

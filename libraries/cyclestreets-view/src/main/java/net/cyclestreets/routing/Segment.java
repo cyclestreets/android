@@ -260,13 +260,20 @@ public abstract class Segment {
       return street();
     } // toString
     
-    public String street() 
-    {
+    public String street() {
       return String.format("%s\n%s route : %s\nJourney time : %s", super.street(), initCap(plan_), super.runningDistance(), super.runningTime());
     } // street
     public String distance() { return ""; }
     public String runningDistance() { return ""; }
     public String runningTime() { return ""; }
+    public String totalTime() { return super.runningTime(); }
+    public String calories() { return String.format("%dkcal", calories_); }
+    public String co2() {
+      int kg = co2_ / 1000;
+      int g = (int)((co2_ % 1000) / 10.0);
+      return String.format("%d.%02dkg", kg, g);
+    } // co2
+
     public String extraInfo() 
     { 
       if(co2_ == 0 && calories_ == 0)
