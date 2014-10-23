@@ -13,10 +13,10 @@ public abstract class DistanceFormatter
       return milesFormatter;      
     return kmFormatter;
   } // formatter
-  
+
   static private DistanceFormatter kmFormatter = new KmFormatter();
   static private DistanceFormatter milesFormatter = new MilesFormatter();
-  
+
   static private class KmFormatter extends DistanceFormatter
   {
     public String distance(int metres)

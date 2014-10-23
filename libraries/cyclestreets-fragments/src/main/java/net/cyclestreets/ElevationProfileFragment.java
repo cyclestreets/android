@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.jjoe64.graphview.CustomLabelFormatter;
 import com.jjoe64.graphview.GraphView;
@@ -18,6 +19,7 @@ import net.cyclestreets.routing.DistanceFormatter;
 import net.cyclestreets.routing.Elevation;
 import net.cyclestreets.routing.Journey;
 import net.cyclestreets.routing.Route;
+import net.cyclestreets.routing.Segment;
 import net.cyclestreets.routing.Waypoints;
 
 import java.util.ArrayList;
@@ -26,6 +28,7 @@ import java.util.List;
 public class ElevationProfileFragment extends Fragment
                                       implements Route.Listener {
   private LinearLayout graphHolder_;
+  private TextView details_;
 
   @Override
   public View onCreateView(final LayoutInflater inflater,
@@ -33,6 +36,7 @@ public class ElevationProfileFragment extends Fragment
                            final Bundle savedInstanceState) {
     final View elevation = inflater.inflate(R.layout.elevation, container, false);
     graphHolder_ = (LinearLayout)elevation.findViewById(R.id.graphview);
+    details_ = (TextView)elevation.findViewById(R.id.elevationdetails);
     return elevation;
   } // onCreateView
 
@@ -52,6 +56,7 @@ public class ElevationProfileFragment extends Fragment
   @Override
   public void onNewJourney(final Journey journey, final Waypoints waypoints) {
     drawGraph(journey);
+    drawText(journey);
   } // onNewJourney
 
   @Override
@@ -70,6 +75,8 @@ public class ElevationProfileFragment extends Fragment
     graph.addSeries(graphSeries);
     graph.setDrawBackground(true);
     graph.getGraphViewStyle().setGridStyle(GraphViewStyle.GridStyle.HORIZONTAL);
+    graph.getGraphViewStyle().setNumHorizontalLabels(5);
+    graph.getGraphViewStyle().setNumVerticalLabels(4);
 
     final DistanceFormatter formatter = DistanceFormatter.formatter(CycleStreetsPreferences.units());
     graph.setCustomLabelFormatter(new CustomLabelFormatter() {
@@ -77,11 +84,16 @@ public class ElevationProfileFragment extends Fragment
       public String formatLabel(double value, boolean isValueX) {
         if (isValueX)
           return (value != 0) ? formatter.distance((int)value) : "";
-        return null; // let graphview generate Y-axis label for us
+        return formatter.distance((int)value);
       }
     });
 
     graphHolder_.removeAllViews();
     graphHolder_.addView(graph);
   } // drawGraph
+
+  private void drawText(final Journey journey) {
+    Segment start = journey.segments().first();
+    details_.setText(start.street() + "\n" + start.extraInfo());
+  }
 } // ElevationProfileFragment
