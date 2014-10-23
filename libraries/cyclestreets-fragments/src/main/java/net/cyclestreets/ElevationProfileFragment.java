@@ -15,8 +15,8 @@ import com.jjoe64.graphview.GraphViewStyle;
 import com.jjoe64.graphview.LineGraphView;
 
 import net.cyclestreets.fragments.R;
-import net.cyclestreets.routing.DistanceFormatter;
 import net.cyclestreets.routing.Elevation;
+import net.cyclestreets.routing.ElevationFormatter;
 import net.cyclestreets.routing.Journey;
 import net.cyclestreets.routing.Route;
 import net.cyclestreets.routing.Segment;
@@ -78,13 +78,13 @@ public class ElevationProfileFragment extends Fragment
     graph.getGraphViewStyle().setNumHorizontalLabels(5);
     graph.getGraphViewStyle().setNumVerticalLabels(4);
 
-    final DistanceFormatter formatter = DistanceFormatter.formatter(CycleStreetsPreferences.units());
+    final ElevationFormatter formatter = ElevationFormatter.formatter(CycleStreetsPreferences.units());
     graph.setCustomLabelFormatter(new CustomLabelFormatter() {
       @Override
       public String formatLabel(double value, boolean isValueX) {
         if (isValueX)
           return (value != 0) ? formatter.distance((int)value) : "";
-        return formatter.distance((int)value);
+        return formatter.height((int)value);
       }
     });
 
@@ -95,5 +95,5 @@ public class ElevationProfileFragment extends Fragment
   private void drawText(final Journey journey) {
     Segment start = journey.segments().first();
     details_.setText(start.street() + "\n" + start.extraInfo());
-  }
+  } // drawText
 } // ElevationProfileFragment
