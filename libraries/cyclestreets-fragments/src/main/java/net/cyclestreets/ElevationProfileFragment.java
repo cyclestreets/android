@@ -94,18 +94,18 @@ public class ElevationProfileFragment extends Fragment
   private void drawText(final Journey journey) {
     Segment.Start start = journey.segments().first();
 
-    view(R.id.title).setText(journey.name());
-    view(R.id.journeyid).setText(String.format("#%d", journey.itinerary()));
-    view(R.id.routetype).setText(initCap(journey.plan()) + " route :");
-    view(R.id.distance).setText(distance(journey.total_distance()));
-    view(R.id.journeytime).setText(start.totalTime());
-    view(R.id.calories).setText(start.calories());
-    view(R.id.carbondioxide).setText(start.co2());
+    setText(R.id.title, journey.name());
+    setText(R.id.journeyid, String.format("#%d", journey.itinerary()));
+    setText(R.id.routetype, initCap(journey.plan()) + " route :");
+    setText(R.id.distance, distance(journey.total_distance()));
+    setText(R.id.journeytime, start.totalTime());
+    setText(R.id.calories, start.calories());
+    setText(R.id.carbondioxide, start.co2());
   } // drawText
 
+  private void setText(int id, String text) { ((TextView)getView().findViewById(id)).setText(text); }
   private String distance(final int metres) {
     return DistanceFormatter.formatter(CycleStreetsPreferences.units()).total_distance(metres);
   }
-  private TextView view(int id) { return (TextView)getView().findViewById(id); }
   private String initCap(String s) { return s.substring(0, 1).toUpperCase() + s.substring(1); }
 } // ElevationProfileFragment
