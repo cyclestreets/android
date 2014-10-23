@@ -1,5 +1,6 @@
 package net.cyclestreets;
 
+import net.cyclestreets.api.DistanceFormatter;
 import net.cyclestreets.fragments.R;
 
 import net.cyclestreets.routing.Journey;
@@ -130,8 +131,18 @@ public class ItineraryFragment extends ListFragment
 
 			final boolean highlight = (position == Route.journey().activeSegmentIndex());
 
-			if(position == 0)
-				setText(v, R.id.segment_bonus, seg.extraInfo(), highlight);
+			if(position == 0) {
+        Journey journey = Route.journey();
+        Segment.Start start = journey.segments().first();
+
+        setText(v, R.id.title, journey.name(), false);
+        setText(v, R.id.journeyid, String.format("#%d", journey.itinerary()), false);
+        setText(v, R.id.routetype, initCap(journey.plan()) + " route :", false);
+        setText(v, R.id.distance, distance(journey.total_distance()), false);
+        setText(v, R.id.journeytime, start.totalTime(), false);
+        setText(v, R.id.calories, start.calories(), false);
+        setText(v, R.id.carbondioxide, start.co2(), false);
+      } // if ...
 			setText(v, R.id.segment_distance, seg.distance(), highlight);
 			setText(v, R.id.segment_cumulative_distance, seg.runningDistance(), highlight);
 			setText(v, R.id.segment_time, seg.runningTime(), highlight);
@@ -188,5 +199,7 @@ public class ItineraryFragment extends ListFragment
 				return Color.rgb(128, 0, 0);
 			return Color.BLACK;
 		} // getColour
+    private String distance(final int metres) { return DistanceFormatter.formatter(CycleStreetsPreferences.units()).total_distance(metres); }
+    private String initCap(String s) { return s.substring(0, 1).toUpperCase() + s.substring(1); }
   } // class SegmentAdaptor
 } // ItineraryActivity
