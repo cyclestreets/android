@@ -36,7 +36,7 @@ public class CycleStreets extends MainNavDrawerActivity
         ItineraryFragment.class,
         new RouteAvailablePageStatus());
     addPage(R.string.elevation,
-        R.drawable.ic_menu_agenda_white,
+        R.drawable.ic_menu_elevation_white,
         ElevationProfileFragment.class,
         new RouteAvailablePageStatus());
     addPage(R.string.photomap, R.drawable.ic_menu_gallery_white, PhotoMapFragment.class);
