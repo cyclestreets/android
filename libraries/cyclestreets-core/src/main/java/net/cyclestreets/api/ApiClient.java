@@ -6,13 +6,14 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.StatusLine;
-import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.HttpResponseException;
 import org.apache.http.client.methods.HttpRequestBase;
@@ -45,9 +46,9 @@ import android.util.Xml;
 
 public class ApiClient
 {
-  static private SchemeRegistry schemeRegistry_;
-  static private ClientConnectionManager connectionManager_;
-  static private HttpParams params_;
+  private static SchemeRegistry schemeRegistry_;
+  private static ClientConnectionManager connectionManager_;
+  private static HttpParams params_;
   static
   {
     schemeRegistry_ = new SchemeRegistry();
@@ -69,20 +70,22 @@ public class ApiClient
   private final static int API_PORT = -1;
   private final static String API_PATH = "/api/";
 
-  private final static String API_PATH_JOURNEY = API_PATH + "journey.xml";
-  private final static String API_PATH_PHOTOS = API_PATH + "photos.xml";
-  private final static String API_PATH_PHOTOMAP_CATEGORIES = API_PATH + "photomapcategories.xml";
-  private final static String API_PATH_ADDPHOTO = API_PATH + "addphoto.xml";
-  private final static String API_PATH_SIGNIN = API_PATH + "uservalidate.xml";
-  private final static String API_PATH_REGISTER = API_PATH + "usercreate.xml";
-  private final static String API_PATH_FEEDBACK = API_PATH + "feedback.xml";
-  private final static String API_PATH_GEOCODER = API_PATH + "geocoder.xml";
-  private final static String API_PATH_POI_CATEGORIES = API_PATH + "poitypes.xml";
-  private final static String API_PATH_POIS = API_PATH + "pois.xml";
+  public final static String API_PATH_JOURNEY = API_PATH + "journey.xml";
+  public final static String API_PATH_PHOTOS = API_PATH + "photos.xml";
+  public final static String API_PATH_PHOTOMAP_CATEGORIES = API_PATH + "photomapcategories.xml";
+  public final static String API_PATH_ADDPHOTO = API_PATH + "addphoto.xml";
+  public final static String API_PATH_SIGNIN = API_PATH + "uservalidate.xml";
+  public final static String API_PATH_REGISTER = API_PATH + "usercreate.xml";
+  public final static String API_PATH_FEEDBACK = API_PATH + "feedback.xml";
+  public final static String API_PATH_GEOCODER = API_PATH + "geocoder.xml";
+  public final static String API_PATH_POI_CATEGORIES = API_PATH + "poitypes.xml";
+  public final static String API_PATH_POIS = API_PATH + "pois.xml";
 
   private final static String BLOG_PATH = "/blog/";
-  private final static String BLOG_PATH_FEED = BLOG_PATH + "feed/";
+  public final static String BLOG_PATH_FEED = BLOG_PATH + "feed/";
 
+
+  private static ApiCustomiser customiser_;
   private static Context context_;
 
   static Context context()
@@ -92,7 +95,7 @@ public class ApiClient
     return context_;
   } // context
 
-  static public void initialise(final Context context)
+  public static void initialise(final Context context)
   {
     context_ = context;
     apiKey_ = findApiKey(context_);
@@ -100,8 +103,12 @@ public class ApiClient
     POICategories.backgroundLoad();
     PhotomapCategories.backgroundLoad();
   } // initialise
+  
+  public static void setCustomiser(ApiCustomiser customiser) {
+    customiser_ = customiser;
+  } // setCustomiser
 
-  static private String findApiKey(final Context context) {
+  private static String findApiKey(final Context context) {
     try {
       final ApplicationInfo ai = context.getPackageManager().getApplicationInfo(context.getPackageName(), PackageManager.GET_META_DATA);
       final Bundle bundle = ai.metaData;
@@ -311,7 +318,7 @@ public class ApiClient
 
   /////////////////////////////////////////////////////
   /////////////////////////////////////////////////////
-  static private String itineraryPoints(final double... lonLat)
+  private static String itineraryPoints(final double... lonLat)
   {
     final StringBuilder sb = new StringBuilder();
     for(int i = 0; i != lonLat.length; i += 2)
@@ -323,26 +330,27 @@ public class ApiClient
     return sb.toString();
   } // itineraryPoints
 
-  static private byte[] callApiRaw(final String path, String... args) throws Exception
-  {
+  private static byte[] callApiRaw(final String path, String... arguments) throws Exception {
+    Map<String, String> args = argMap(path, arguments);
+    
     final List<NameValuePair> params = createParamsList(args);
     final URI uri = createURI(API_SCHEME, path, params);
     final HttpGet httpget = new HttpGet(uri);
     return executeRaw(httpget);
   } // callApiRaw
 
-  static private <T> T callApi(final Factory<T> factory, final String path, String... args) throws Exception
+  private static <T> T callApi(final Factory<T> factory, final String path, String... args) throws Exception
   {
     final byte[] xml = callApiRaw(path, args);
     return loadRaw(factory, xml);
   } // callApi
 
-  static private <T> T callApiWithCache(final Factory<T> factory, final String path, String... args) throws Exception
+  private static <T> T callApiWithCache(final Factory<T> factory, final String path, String... args) throws Exception
   {
     return callApiWithCache(cacheExpiryDays_, factory, path, args);
   } // callApiWithCache
 
-  static private <T> T callApiWithCache(final int expiryInDays, final Factory<T> factory, final String path, String... args) throws Exception
+  private static <T> T callApiWithCache(final int expiryInDays, final Factory<T> factory, final String path, String... args) throws Exception
   {
     final String name = cacheName(path, args);
     byte[] xml = cache_.fetch(name, expiryInDays);
@@ -356,23 +364,22 @@ public class ApiClient
     return loadRaw(factory, xml);
   } // callApiWithCache
 
-  static private <T> T postApi(final Factory<T> factory, final String path, Object...args)
+  private static <T> T postApi(final Factory<T> factory, final String path, Object... args)
     throws Exception
   {
     final byte[] xml = postApiRaw(path, args);
     return loadRaw(factory, xml);
   } // postApi
 
-  public static byte[] postApiRaw(final String path, Object... args) throws Exception
-  {
+  public static byte[] postApiRaw(final String path, Object... arguments) throws Exception {
+    Map<String, Object> args = argMap(path, arguments);
+    
     final List<NameValuePair> params = createParamsList();
     final URI uri = createURI(API_POST_SCHEME, path, params);
 
     final MultipartEntity entity = new MultipartEntity();
-    for (int i = 0; i < args.length; i += 2)
-    {
-      final String name = (String)args[i];
-      final Object value = args[i+1];
+    for (String name : args.keySet()) {
+      final Object value = args.get(name);
       if(value instanceof ContentBody)
         entity.addPart(name, (ContentBody)value);
       else
@@ -384,7 +391,7 @@ public class ApiClient
     return executeRaw(httppost);
   } // postApiRaw
 
-  static private String cacheName(final String path, final String... args)
+  private static String cacheName(final String path, final String... args)
   {
     final StringBuilder sb = new StringBuilder();
     sb.append(path);
@@ -398,8 +405,8 @@ public class ApiClient
     return sb.toString().replace('/', '-');
   } // cacheName
 
-  static private byte[] executeRaw(final HttpRequestBase method)
-      throws ClientProtocolException, IOException
+  private static byte[] executeRaw(final HttpRequestBase method)
+      throws IOException
   {
     method.setHeader("User-Agent", "CycleStreets Android/1.0");
 
@@ -419,7 +426,7 @@ public class ApiClient
     throw new HttpResponseException(statusLine.getStatusCode(), statusLine.getReasonPhrase());
   } // executeRaw
 
-  static private URI createURI(final String scheme,
+  private static URI createURI(final String scheme,
                                final String path,
                                final List<NameValuePair> params)
     throws Exception
@@ -428,23 +435,22 @@ public class ApiClient
     return URIUtils.createURI(scheme, host, API_PORT, path, URLEncodedUtils.format(params, "UTF-8"), null);
   } // createCycleStreetsURI
 
-  static private List<NameValuePair> createParamsList(final String... args)
+  private static List<NameValuePair> createParamsList(final Map<String, String> args)
   {
     final List<NameValuePair> params = createParamsList();
-      for (int i = 0; i < args.length; i += 2) {
-        params.add(new BasicNameValuePair(args[i], args[i+1]));
-      }
+      for (String name : args.keySet())
+        params.add(new BasicNameValuePair(name, args.get(name)));
     return params;
   } // createParamsList
 
-  static private List<NameValuePair> createParamsList()
+  private static List<NameValuePair> createParamsList()
   {
-    final List<NameValuePair> params = new ArrayList<NameValuePair>();
+    final List<NameValuePair> params = new ArrayList<>();
     params.add(new BasicNameValuePair("key", apiKey_));
     return params;
   } // createParamsList
 
-  static private <T> T loadRaw(final Factory<T> factory, final byte[] xml) throws Exception
+  private static <T> T loadRaw(final Factory<T> factory, final byte[] xml) throws Exception
   {
     try {
       final InputStream bais = new ByteArrayInputStream(xml);
@@ -458,4 +464,15 @@ public class ApiClient
 
     return factory.get();
   } // loadRaw
+
+   private static <T> Map<String, T> argMap(String path, T... args) {
+     Map<String, T> params = new HashMap<>();
+     for (int i = 0; i != args.length; i+=2)
+       params.put((String)args[i], args[i+1]);
+     
+     if (customiser_ != null)
+       customiser_.customise(path, params);
+     
+     return params;
+   } // argMap
 } // ApiClient
