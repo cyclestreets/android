@@ -23,6 +23,8 @@ import android.widget.TextView;
 
 import net.cyclestreets.util.TurnIcons;
 
+import static net.cyclestreets.util.StringUtils.initCap;
+
 public class ItineraryFragment extends ListFragment
                                implements Route.Listener
 {
@@ -200,6 +202,5 @@ public class ItineraryFragment extends ListFragment
 			return Color.BLACK;
 		} // getColour
     private String distance(final int metres) { return DistanceFormatter.formatter(CycleStreetsPreferences.units()).total_distance(metres); }
-    private String initCap(String s) { return s.substring(0, 1).toUpperCase() + s.substring(1); }
   } // class SegmentAdaptor
 } // ItineraryActivity

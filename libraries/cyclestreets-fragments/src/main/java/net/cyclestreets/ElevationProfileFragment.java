@@ -26,6 +26,8 @@ import net.cyclestreets.routing.Waypoints;
 import java.util.ArrayList;
 import java.util.List;
 
+import static net.cyclestreets.util.StringUtils.initCap;
+
 public class ElevationProfileFragment extends Fragment
                                       implements Route.Listener {
   private LinearLayout graphHolder_;
@@ -107,5 +109,4 @@ public class ElevationProfileFragment extends Fragment
   private String distance(final int metres) {
     return DistanceFormatter.formatter(CycleStreetsPreferences.units()).total_distance(metres);
   }
-  private String initCap(String s) { return s.substring(0, 1).toUpperCase() + s.substring(1); }
 } // ElevationProfileFragment
