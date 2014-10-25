@@ -1,40 +1,17 @@
 package net.cyclestreets.views;
 
-import java.util.Map;
-
-import net.cyclestreets.CycleStreetsPreferences;
 import net.cyclestreets.tiles.TileSource;
-import net.cyclestreets.view.R;
-import net.cyclestreets.util.MapFactory;
-import net.cyclestreets.util.MapPack;
-import net.cyclestreets.util.MessageBox;
 import net.cyclestreets.views.overlay.LocationOverlay;
 import net.cyclestreets.views.overlay.ControllerOverlay;
 
-import org.mapsforge.android.maps.MapsforgeOSMDroidTileProvider;
-import org.mapsforge.android.maps.MapsforgeOSMTileSource;
 import org.osmdroid.api.IGeoPoint;
-import org.osmdroid.tileprovider.IMapTileProviderCallback;
-import org.osmdroid.tileprovider.IRegisterReceiver;
-import org.osmdroid.tileprovider.MapTileProviderArray;
-import org.osmdroid.tileprovider.MapTileProviderBase;
-import org.osmdroid.tileprovider.modules.MapTileDownloader;
-import org.osmdroid.tileprovider.modules.MapTileFilesystemProvider;
-import org.osmdroid.tileprovider.modules.NetworkAvailabliltyCheck;
-import org.osmdroid.tileprovider.modules.TileWriter;
 import org.osmdroid.tileprovider.tilesource.ITileSource;
-import org.osmdroid.tileprovider.tilesource.OnlineTileSourceBase;
-import org.osmdroid.tileprovider.tilesource.XYTileSource;
-import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
-import org.osmdroid.tileprovider.util.SimpleRegisterReceiver;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.DefaultResourceProxyImpl;
-import org.osmdroid.ResourceProxy;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.Overlay;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.graphics.Canvas;
 import android.location.Location;
@@ -115,14 +92,13 @@ public class CycleMapView extends MapView
   public void onResume()
   {
     final ITileSource tileSource = mapRenderer();
-    if(!tileSource.equals(renderer_))
-    {
+    if(!tileSource.equals(renderer_)) {
       renderer_ = tileSource;
       setTileSource(renderer_);
     } // if ...
 
-    location_.enableLocation(pref(PREFS_APP_MY_LOCATION, true));
-    if(pref(PREFS_APP_FOLLOW_LOCATION, true))
+    location_.enableLocation(pref(PREFS_APP_MY_LOCATION, CycleMapDefaults.gps()));
+    if(pref(PREFS_APP_FOLLOW_LOCATION, CycleMapDefaults.gps()))
       location_.enableFollowLocation();
     else
       location_.disableFollowLocation();
@@ -130,8 +106,9 @@ public class CycleMapView extends MapView
     if(centreOn_ == null) {
       // mild data race if we're setting centre in onActivityResult
       // because that's followed by an onResume
-      int lon = pref(PREFS_APP_CENTRE_LON, 0);
-      int lat = pref(PREFS_APP_CENTRE_LAT, 51477841); /* Greenwich */
+      GeoPoint defCentre = CycleMapDefaults.centre();
+      int lat = pref(PREFS_APP_CENTRE_LAT, defCentre.getLatitudeE6()); /* Greenwich */
+      int lon = pref(PREFS_APP_CENTRE_LON, defCentre.getLongitudeE6());
       final GeoPoint centre = new GeoPoint(lat, lon);
       getScroller().abortAnimation();
       getController().setCenter(centre);
