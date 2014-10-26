@@ -71,14 +71,12 @@
         android:entries="@array/distance"
         android:entryValues="@array/distance_values" />
   </PreferenceScreen>
-  <PreferenceCategory
+  <PreferenceScreen
       android:title="CycleStreets Account">
     <PreferenceScreen
         android:title="Account Details"
         android:key="cyclestreets-account">
-      <intent android:action="android.intent.action.MAIN"
-              android:targetPackage="net.cyclestreets"
-              android:targetClass="net.cyclestreets.AccountDetailsActivity"/>
+      <intent android:action="net.cyclestreets.AccountDetailsActivity"/>
       <EditTextPreference
           android:key="username"
           android:title="Username"/>
@@ -94,5 +92,9 @@
         android:defaultValue="big"
         android:entries="@array/uploadsize"
         android:entryValues="@array/uploadsize_values"/>
-  </PreferenceCategory>
+  </PreferenceScreen>
+  <PreferenceScreen
+      android:title="About">
+    <intent android:action="net.cyclestreets.AboutActivity"/>
+  </PreferenceScreen>
 </PreferenceScreen>
