@@ -1,10 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-  <string name="app_name">CycleStreets.2</string>
-  <string name="route_map">Route Map</string>
-  <string name="itinerary">Itinerary</string>
-  <string name="elevation">Elevation</string>
-  <string name="photomap">Photo Map</string>
-  <string name="photo_upload">Photo Upload</string>
-  <string name="cyclestreets_blog">Blog</string>
+
+    <string name="app_name">CycleStreets.2</string>
+    <string name="route_map">Route Map</string>
+    <string name="itinerary">Itinerary</string>
+    <string name="elevation">Elevation</string>
+    <string name="photomap">Photo Map</string>
+    <string name="photo_upload">Photo Upload</string>
+    <string name="cyclestreets_blog">Blog</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
 </resources>

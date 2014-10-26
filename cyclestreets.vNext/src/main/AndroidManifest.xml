@@ -35,6 +35,7 @@
                       android:pathPrefix="/journey/" />
             </intent-filter>
         </activity>
+        <activity android:name=".SettingsActivity" android:label="Settings"/>
 
         <meta-data android:name="CycleStreetsAPIKey" android:value="b26a0d6b45e00612" />
     </application>
