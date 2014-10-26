@@ -1,6 +1,8 @@
 package net.cyclestreets;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.graphics.Color;
@@ -20,7 +22,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
@@ -39,7 +40,7 @@ public abstract class MainNavDrawerActivity
     extends ActionBarActivity
     implements Route.Listener {
   private NavigationDrawerFragment navDrawer_;
-  private List<PageInfo> pages_;
+  private List<DrawerItem> pages_;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -52,42 +53,59 @@ public abstract class MainNavDrawerActivity
 
     pages_ = new ArrayList<>();
 
-    addPages();
+    addDrawerItems();
 
     navDrawer_.addPages(pages_);
   } // onCreate
 
-  protected abstract void addPages();
+  protected abstract void addDrawerItems();
 
-  protected void addPage(final int titleId,
+  protected void addDrawerFragment(int titleId,
                          final int iconId,
                          final Class<? extends Fragment> fragClass) {
-    addPage(titleId, iconId, fragClass, null, null);
-  } // addPage
+    addDrawerFragment(titleId, iconId, fragClass, null, null);
+  } // addDrawerFragment
 
-  protected void addPage(final int titleId,
+  protected void addDrawerFragment(final int titleId,
                          final int iconId,
                          final Class<? extends Fragment> fragClass,
                          final PageStatus pageStatus) {
-    addPage(titleId, iconId, fragClass, null, pageStatus);
-  } // addPage
+    addDrawerFragment(titleId, iconId, fragClass, null, pageStatus);
+  } // addDrawerFragment
 
-  protected void addPage(final int titleId,
+  protected void addDrawerFragment(final int titleId,
                          final int iconId,
                          final Class<? extends Fragment> fragClass,
                          final PageInitialiser initialiser) {
-    addPage(titleId, iconId, fragClass, initialiser, null);
-  } // addPage
+    addDrawerFragment(titleId, iconId, fragClass, initialiser, null);
+  } // addDrawerFragment
 
-  protected void addPage(final int titleId,
+  protected void addDrawerFragment(final int titleId,
                          final int iconId,
                          final Class<? extends Fragment> fragClass,
                          final PageInitialiser initialiser,
                          final PageStatus pageStatus) {
     final String title = getResources().getString(titleId);
     final Drawable icon = iconId != -1 ? getResources().getDrawable(iconId) : null;
-    pages_.add(new PageInfo(title, icon, fragClass, initialiser, pageStatus));
-  } // addPage
+
+    pages_.add(new FragmentItem(title, icon, fragClass, initialiser, pageStatus));
+  } // addDrawerFragment
+
+  protected void addDrawerActivity(int titleId,
+                                   final int iconId,
+                                   final Class<? extends Activity> fragClass) {
+    addDrawerActivity(titleId, iconId, fragClass, null);
+  } // addDrawerActivity
+
+  protected void addDrawerActivity(final int titleId,
+                                   final int iconId,
+                                   final Class<? extends Activity> fragClass,
+                                   final PageStatus pageStatus) {
+    final String title = getResources().getString(titleId);
+    final Drawable icon = iconId != -1 ? getResources().getDrawable(iconId) : null;
+
+    pages_.add(new ActivityItem(title, icon, fragClass, pageStatus));
+  } // addDrawerActivity
 
   @Override
   public boolean onCreateOptionsMenu(final Menu menu) {
@@ -174,16 +192,16 @@ public abstract class MainNavDrawerActivity
       }
     } // onCreate
 
-    public void addPages(final List<PageInfo> pages) {
+    void addPages(final List<DrawerItem> pages) {
       drawerContents_ = new PageInfoAdapter(this, pages, getActionBar().getThemedContext());
       drawerListView_.setAdapter(drawerContents_);
 
       selectItem(currentSelectedPosition_);
       drawerListView_.setItemChecked(currentSelectedPosition_, true);
-    } // addPages
+    } // addDrawerItems
 
     public String title() { return drawerContents_.getItem(currentSelectedPosition_).title(); }
-    public Fragment fragment() { return drawerContents_.getItem(currentSelectedPosition_).fragment(); }
+    public Fragment fragment() { return ((FragmentItem)drawerContents_.getItem(currentSelectedPosition_)).fragment(); }
 
     @Override
     public void onActivityCreated (Bundle savedInstanceState) {
@@ -273,16 +291,24 @@ public abstract class MainNavDrawerActivity
     } // setUp
 
     public void selectItem(int position) {
-      currentSelectedPosition_ = position;
-      if (drawerListView_ != null)
-        drawerListView_.setItemChecked(position, true);
+      final DrawerItem di = drawerContents_.getItem(position);
       if (drawerLayout_ != null)
         drawerLayout_.closeDrawer(fragmentContainerView_);
 
-      FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-      fragmentManager.beginTransaction()
-          .replace(R.id.container, drawerContents_.getItem(position).fragment())
-          .commit();
+      if (di instanceof FragmentItem) {
+        currentSelectedPosition_ = position;
+        if (drawerListView_ != null)
+          drawerListView_.setItemChecked(position, true);
+
+        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+        fragmentManager.beginTransaction()
+                       .replace(R.id.container, ((FragmentItem) di).fragment())
+                       .commit();
+      } //
+      if (di instanceof ActivityItem) {
+        final Intent intent = new Intent(getActivity(), ((ActivityItem)di).activityClass());
+        startActivity(intent);
+      } //
     } // selectItem
 
     @Override
@@ -347,18 +373,18 @@ public abstract class MainNavDrawerActivity
   //////////////////////////////////////////
   //////////////////////////////////////////
   static class PageInfoAdapter extends BaseAdapter {
-    private final List<PageInfo> pageInfo_;
-    private final List<PageInfo> activePages_;
+    private final List<DrawerItem> pageInfo_;
+    private final List<DrawerItem> activePages_;
     private final LayoutInflater inflater_;
     private final NavigationDrawerFragment parentFrag_;
 
     PageInfoAdapter(final NavigationDrawerFragment parentFrag,
-                    final List<PageInfo> pageInfo,
+                    final List<DrawerItem> pageInfo,
                     final Context context) {
       parentFrag_ = parentFrag;
       pageInfo_ = pageInfo;
-      for (PageInfo pi : pageInfo_)
-        pi.setAdapter(this);
+      for (DrawerItem di : pageInfo_)
+        di.setAdapter(this);
       activePages_ = new ArrayList<>();
       inflater_ = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
@@ -367,9 +393,9 @@ public abstract class MainNavDrawerActivity
 
     private void buildActiveList() {
       activePages_.clear();
-      for (PageInfo pi : pageInfo_)
-        if (pi.enabled())
-          activePages_.add(pi);
+      for (DrawerItem di : pageInfo_)
+        if (di.enabled())
+          activePages_.add(di);
     } // buildActiveList
 
     @Override
@@ -381,10 +407,8 @@ public abstract class MainNavDrawerActivity
     @Override
     public int getCount() { return activePages_.size(); }
 
-    public Fragment fragment(int position) { return getItem(position).fragment(); }
-
     @Override
-    public PageInfo getItem(int position) { return activePages_.get(position); }
+    public DrawerItem getItem(int position) { return activePages_.get(position); }
 
     @Override
     public long getItemId(int position) { return position; }
@@ -416,32 +440,52 @@ public abstract class MainNavDrawerActivity
         return;
       final ImageView iv = (ImageView)v.findViewById(R.id.menu_icon);
       iv.setImageDrawable(icon);
-    } // setTurnIcon
+    } // setIcon
   } // class PageInfoAdaptor
 
   //////////////////////////////////////////
   //////////////////////////////////////////
-  private static class PageInfo {
+  private static abstract class DrawerItem {
     private String title_;
     private Drawable icon_;
+    private PageStatus pageStatus_;
+
+    public DrawerItem(final String title,
+                      final Drawable icon,
+                      final PageStatus pageStatus) {
+      title_ = title;
+      icon_ = icon;
+      pageStatus_ = pageStatus;
+    } // DrawerItem
+
+    public String title() { return title_; }
+    public Drawable icon() { return icon_; }
+    public boolean enabled() { return (pageStatus_ != null) ? pageStatus_.enabled() : true; }
+
+    @Override
+    public String toString() { return title_; }
+
+    public void setAdapter(final BaseAdapter adapter) {
+      if (pageStatus_ != null)
+        pageStatus_.setAdapter(adapter);
+    } // setAdapter
+  } // DrawerItem
+
+  private static class FragmentItem extends DrawerItem {
     private Class<? extends Fragment> fragClass_;
     private Fragment fragment_;
     private PageInitialiser initialiser_;
-    private PageStatus pageStatus_;
 
-    public PageInfo(final String title,
-                    final Drawable icon,
-                    final Class<? extends Fragment> fragClass,
-                    final PageInitialiser initialiser,
-                    final PageStatus pageStatus) {
-      title_ = title;
-      icon_ = icon;
+    public FragmentItem(final String title,
+                        final Drawable icon,
+                        final Class<? extends Fragment> fragClass,
+                        final PageInitialiser initialiser,
+                        final PageStatus pageStatus) {
+      super(title, icon, pageStatus);
       fragClass_ = fragClass;
       initialiser_ = initialiser;
-      pageStatus_ = pageStatus;
-    } // PageInfo
+    } // FragmentItem
 
-    public String title() { return title_; }
     public Fragment fragment() {
       try {
         if (fragment_ == null) {
@@ -454,16 +498,24 @@ public abstract class MainNavDrawerActivity
       } // try
       return fragment_;
     } // fragment
-    public Drawable icon() { return icon_; }
-    public boolean enabled() { return (pageStatus_ != null) ? pageStatus_.enabled() : true; }
-    @Override
-    public String toString() { return title_; }
+  } // FragmentInfo
 
-    public void setAdapter(final BaseAdapter adapter) {
-      if (pageStatus_ != null)
-        pageStatus_.setAdapter(adapter);
-    } // setAdapter
-  } // PageInfo
+  private static class ActivityItem extends DrawerItem {
+    private Class<? extends Activity> activityClass_;
+
+    public ActivityItem(final String title,
+                        final Drawable icon,
+                        final Class<? extends Activity> activityClass,
+                        final PageStatus pageStatus) {
+
+      super(title, icon, pageStatus);
+      activityClass_ = activityClass;
+    } // ActivityItem
+
+    public Class<? extends Activity> activityClass() {
+      return activityClass_;
+    } // activityClass
+  } // ActivityItem
 
   public static interface PageInitialiser {
     void initialise(final Fragment page);
