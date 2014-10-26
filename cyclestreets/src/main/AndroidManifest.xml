@@ -43,6 +43,11 @@
               android:excludeFromRecents="true"
               android:finishOnTaskLaunch="true" />
 
+    <activity android:name="net.cyclestreets.SettingsActivity"
+              android:label="CycleStreets : Settings"/>
+    <activity android:name="net.cyclestreets.AboutActivity"
+              android:label="CycleStreets : About"/>
+
     <meta-data android:name="CycleStreetsAPIKey" android:value="b26a0d6b45e00612" />
 
     <uses-library android:required="false" android:name="com.sec.android.app.multiwindow"/>

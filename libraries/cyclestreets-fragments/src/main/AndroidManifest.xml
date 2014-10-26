@@ -3,8 +3,6 @@
       package="net.cyclestreets.fragments">
 
   <application>
-    <activity android:name="net.cyclestreets.AboutActivity"
-              android:label="CycleStreets : About"/>
     <activity android:name="net.cyclestreets.BlogActivity"
               android:label="CycleStreets : Blog"/>
     <activity android:name="net.cyclestreets.FindPlaceActivity"
@@ -14,8 +12,6 @@
               android:theme="@style/Theme.RouteInputDialog"/>
     <activity android:name="net.cyclestreets.RouteNumberActivity"
               android:theme="@style/Theme.RouteInputDialog"/>
-    <activity android:name="net.cyclestreets.SettingsActivity"
-              android:label="CycleStreets : Settings"/>
     <activity android:name="net.cyclestreets.StoredRoutesActivity"
               android:label="@string/app_name"
               android:theme="@style/Theme.Menu"/>
