@@ -8,9 +8,9 @@ import android.content.pm.PackageManager;
 
 public final class CycleStreetsAppSupport
 {
-  static public void initialise(final Context context)
+  static public void initialise(final Context context, final int prefsDefault)
   {
-    CycleStreetsPreferences.initialise(context);
+    CycleStreetsPreferences.initialise(context, prefsDefault);
 
     Route.initialise(context);
     ApiClient.initialise(context);

@@ -23,7 +23,7 @@ public class CycleStreetsApp extends Application {
     ACRA.init(this);
     super.onCreate();
 
-    CycleStreetsAppSupport.initialise(this);
+    CycleStreetsAppSupport.initialise(this, R.xml.preferences);
 
     RegularUpdates.schedule(this);
   } // onCreate

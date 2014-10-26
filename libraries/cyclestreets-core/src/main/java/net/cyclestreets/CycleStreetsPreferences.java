@@ -8,8 +8,6 @@ import android.net.NetworkInfo;
 import android.preference.PreferenceManager;
 import android.telephony.TelephonyManager;
 
-import net.cyclestreets.core.R;
-
 public class CycleStreetsPreferences
 {
   private static Context context_;
@@ -39,9 +37,11 @@ public class CycleStreetsPreferences
   public final static String MAPSTYLE_OS = "CycleStreets-OS";
   public final static String MAPSTYLE_MAPSFORGE = "CycleStreets-Mapsforge";
 
-  static public void initialise(final Context context) {
+  static public void initialise(final Context context, final int defaults) {
     context_ = context;
-    PreferenceManager.setDefaultValues(context_, R.xml.preferences, false);
+
+    if (defaults != -1)
+      PreferenceManager.setDefaultValues(context_, defaults, false);
 
     // upgrades
     if(uploadSize().equals("320px"))

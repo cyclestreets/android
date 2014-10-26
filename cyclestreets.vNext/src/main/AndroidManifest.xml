@@ -1,42 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="net.cyclestreets.v2"
-    android:installLocation="preferExternal">
+  package="net.cyclestreets"
+  android:installLocation="preferExternal">
 
-    <application
-        android:allowBackup="true"
-        android:icon="@drawable/ic_launcher"
-        android:label="@string/app_name"
-        android:theme="@style/AppTheme"
-        android:name=".CycleStreetsApp">
-        <activity
-            android:name=".CycleStreets"
-            android:label="@string/app_name" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+  <application
+    android:allowBackup="true"
+    android:icon="@drawable/ic_launcher"
+    android:label="@string/app_name"
+    android:theme="@style/AppTheme"
+    android:name=".CycleStreetsApp">
+    <activity
+      android:name=".CycleStreets"
+      android:label="@string/app_name" >
+      <intent-filter>
+        <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-                <data android:scheme="http"
-                      android:host="cycle.st"
-                      android:pathPrefix="/j" />
-                <data android:scheme="http"
-                      android:host="cyclestreets.net"
-                      android:pathPrefix="/journey/" />
-                <data android:scheme="http"
-                      android:host="www.cyclestreets.net"
-                      android:pathPrefix="/journey/" />
-                <data android:scheme="http"
-                      android:host="m.cyclestreets.net"
-                      android:pathPrefix="/journey/" />
-            </intent-filter>
-        </activity>
-        <activity android:name=".SettingsActivity" android:label="Settings"/>
+        <category android:name="android.intent.category.LAUNCHER" />
+      </intent-filter>
+      <intent-filter>
+        <action android:name="android.intent.action.VIEW" />
+        <category android:name="android.intent.category.DEFAULT" />
+        <category android:name="android.intent.category.BROWSABLE" />
+        <data android:scheme="http"
+              android:host="cycle.st"
+              android:pathPrefix="/j" />
+        <data android:scheme="http"
+              android:host="cyclestreets.net"
+              android:pathPrefix="/journey/" />
+        <data android:scheme="http"
+              android:host="www.cyclestreets.net"
+              android:pathPrefix="/journey/" />
+        <data android:scheme="http"
+              android:host="m.cyclestreets.net"
+              android:pathPrefix="/journey/" />
+      </intent-filter>
+    </activity>
+    <activity android:name=".SettingsActivity" android:label="Settings"/>
 
-        <meta-data android:name="CycleStreetsAPIKey" android:value="b26a0d6b45e00612" />
-    </application>
+    <meta-data android:name="CycleStreetsAPIKey" android:value="b26a0d6b45e00612" />
+  </application>
 </manifest>
