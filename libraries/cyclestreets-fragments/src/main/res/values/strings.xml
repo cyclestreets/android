@@ -56,4 +56,6 @@
 	<!-- live ride -->
 	<string name="ic_menu_liveride">Start LiveRide</string>
 	<string name="ic_menu_stopride">End LiveRide</string>
+
+  <string name="ic_menu_addlocation">New Location</string>
 </resources>

@@ -27,7 +27,7 @@ import static net.cyclestreets.util.MenuHelper.createMenuItem;
 
 public class StoredRoutesActivity extends ListActivity
 {
-  private RouteSummaryAdaptor listAdaptor_;
+  private RouteSummaryAdapter listAdaptor_;
 
   @Override
   public void onCreate(final Bundle savedInstanceState)
@@ -39,7 +39,7 @@ public class StoredRoutesActivity extends ListActivity
     getWindow().setLayout(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT);
     getWindow().setBackgroundDrawableResource(R.drawable.empty);
 
-    listAdaptor_ = new RouteSummaryAdaptor(this, Route.storedRoutes());
+    listAdaptor_ = new RouteSummaryAdapter(this, Route.storedRoutes());
     setListAdapter(listAdaptor_);
     registerForContextMenu(getListView());
   } // onCreate
@@ -111,12 +111,12 @@ public class StoredRoutesActivity extends ListActivity
   } // deleteRoute
 
   //////////////////////////////////
-  static class RouteSummaryAdaptor extends BaseAdapter
+  static class RouteSummaryAdapter extends BaseAdapter
   {
     private final LayoutInflater inflater_;
     private List<RouteSummary> routes_;
 
-    RouteSummaryAdaptor(final Context context, final List<RouteSummary> routes)
+    RouteSummaryAdapter(final Context context, final List<RouteSummary> routes)
     {
       inflater_ = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
       routes_ = routes;

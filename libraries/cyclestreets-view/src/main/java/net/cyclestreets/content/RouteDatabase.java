@@ -26,7 +26,7 @@ public class RouteDatabase
   
   public int routeCount()
   {
-    final Cursor cursor = db_.query(DatabaseHelper.ROUTE_TABLE_NAME, 
+    final Cursor cursor = db_.query(DatabaseHelper.ROUTE_TABLE,
         new String[] { "count(" + BaseColumns._ID +")" },
                        null, 
                        null,
@@ -107,7 +107,7 @@ public class RouteDatabase
   public List<RouteSummary> savedRoutes()
   {
     final List<RouteSummary> routes = new ArrayList<RouteSummary>();
-    final Cursor cursor = db_.query(DatabaseHelper.ROUTE_TABLE_NAME, 
+    final Cursor cursor = db_.query(DatabaseHelper.ROUTE_TABLE,
         new String[] { BaseColumns._ID, "journey", "name", "plan", "distance" },
                         null, 
                         null, 
@@ -146,7 +146,7 @@ public class RouteDatabase
   private RouteData fetchRoute(final String filter, final String[] bindParams)
   {
     RouteData r = null;
-    final Cursor cursor = db_.query(DatabaseHelper.ROUTE_TABLE_NAME, 
+    final Cursor cursor = db_.query(DatabaseHelper.ROUTE_TABLE,
                   new String[] { "xml", 
                         "waypoints",
                         "name"},

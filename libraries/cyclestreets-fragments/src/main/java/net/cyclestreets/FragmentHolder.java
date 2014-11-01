@@ -1,10 +1,10 @@
 package net.cyclestreets;
 
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 
-public abstract class FragmentHolder extends FragmentActivity {
+public abstract class FragmentHolder extends ActionBarActivity {
   @Override
   protected void onCreate(final Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);

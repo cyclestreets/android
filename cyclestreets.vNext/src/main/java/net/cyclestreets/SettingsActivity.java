@@ -22,8 +22,7 @@ public class SettingsActivity extends PreferenceActivity
 
 {
   @Override
-  public void onCreate(final Bundle savedInstanceState)
-  {
+  public void onCreate(final Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
 
     addPreferencesFromResource(R.xml.prefs);
@@ -42,19 +41,16 @@ public class SettingsActivity extends PreferenceActivity
     setSummary(CycleStreetsPreferences.PREF_REPLAN_DISTANCE);
   } // onCreate
 
-  private void setupMapFileList()
-  {
+  private void setupMapFileList() {
     final ListPreference mapfilePref= (ListPreference)findPreference(CycleStreetsPreferences.PREF_MAPFILE_KEY);
     populateMapFileList(mapfilePref);
   } // setupMapFileList
 
-  private void populateMapFileList(final ListPreference mapfilePref)
-  {
+  private void populateMapFileList(final ListPreference mapfilePref) {
     final List<String> names = new ArrayList<String>();
     final List<String> files = new ArrayList<String>();
 
-    for(final MapPack pack : MapPack.availableMapPacks())
-    {
+    for(final MapPack pack : MapPack.availableMapPacks()) {
       names.add(pack.name());
       files.add(pack.path());
     } // for
@@ -63,10 +59,8 @@ public class SettingsActivity extends PreferenceActivity
     mapfilePref.setEntryValues(files.toArray(new String[] { }));
   } // populateMapFileList
 
-
   @Override
-  protected void onResume()
-  {
+  protected void onResume() {
     super.onResume();
 
     getPreferenceScreen().getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
@@ -81,8 +75,7 @@ public class SettingsActivity extends PreferenceActivity
   } // onResume
 
   @Override
-  protected void onPause()
-  {
+  protected void onPause() {
     super.onPause();
 
     POICategories.reload();
@@ -91,13 +84,11 @@ public class SettingsActivity extends PreferenceActivity
     getPreferenceScreen().getSharedPreferences().unregisterOnSharedPreferenceChangeListener(this);
   } // onPause
 
-  public void onSharedPreferenceChanged(final SharedPreferences prefs, final String key)
-  {
+  public void onSharedPreferenceChanged(final SharedPreferences prefs, final String key) {
     setSummary(key);
   } // onSharedPreferencesChanged
 
-  private void setSummary(final String key)
-  {
+  private void setSummary(final String key) {
     final Preference prefUI = findPreference(key);
     if (prefUI instanceof ListPreference)
       prefUI.setSummary(((ListPreference)prefUI).getEntry());
@@ -108,8 +99,7 @@ public class SettingsActivity extends PreferenceActivity
       setMapFileSummary(((ListPreference)prefUI).getValue());
   } // setSummary
 
-  private void setMapFileSummary(final String style)
-  {
+  private void setMapFileSummary(final String style) {
     final ListPreference mapfilePref= (ListPreference)findPreference(CycleStreetsPreferences.PREF_MAPFILE_KEY);
     final boolean enabled = style.equals(CycleStreetsPreferences.MAPSTYLE_MAPSFORGE);
     mapfilePref.setEnabled(enabled);
@@ -117,8 +107,7 @@ public class SettingsActivity extends PreferenceActivity
     if(!enabled)
       return;
 
-    if(mapfilePref.getEntryValues().length == 0)
-    {
+    if(mapfilePref.getEntryValues().length == 0) {
       mapfilePref.setEnabled(false);
       MessageBox.YesNo(getListView(),
                        R.string.no_map_packs,
