@@ -3,12 +3,12 @@ evaluationDependsOn(':libraries:cyclestreets-fragments')
 dependencies {
   compile fileTree(include: ['*.jar'], dir: 'libs')
   compile project(':libraries:cyclestreets-view'),
-      project(':libraries:cyclestreets-fragments')
+          project(':libraries:cyclestreets-fragments')
   compile 'com.android.support:support-v4:20.0.0'
 }
 
 android {
   defaultConfig {
-    applicationId 'net.cyclestreets.v2'
+    applicationId 'net.cyclestreets.v3'
   } // defaultConfig
 } // android
