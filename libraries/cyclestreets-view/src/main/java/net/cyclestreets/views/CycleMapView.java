@@ -33,7 +33,7 @@ public class CycleMapView extends MapView
   private final LocationOverlay location_;
   private final int overlayBottomIndex_;
 
-  private GeoPoint centreOn_ = null;
+  private IGeoPoint centreOn_ = null;
 
   public CycleMapView(final Context context, final String name) {
     super(context,
@@ -161,7 +161,7 @@ public class CycleMapView extends MapView
   public void hideLocationButton() { location_.hideButton(); }
 
   ///////////////////////////////////////////////////////
-  public void centreOn(final GeoPoint place)
+  public void centreOn(final IGeoPoint place)
   {
     centreOn_ = place;
     invalidate();
@@ -172,7 +172,7 @@ public class CycleMapView extends MapView
   {
     if(centreOn_  != null)
     {
-      getController().animateTo(new GeoPoint(centreOn_));
+      getController().animateTo(new GeoPoint(centreOn_.getLatitudeE6(), centreOn_.getLongitudeE6()));
       centreOn_ = null;
       return;
     } // if ..

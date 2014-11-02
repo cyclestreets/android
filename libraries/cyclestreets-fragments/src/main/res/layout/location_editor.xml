@@ -2,22 +2,41 @@
              xmlns:tools="http://schemas.android.com/tools"
              android:layout_width="match_parent"
              android:layout_height="match_parent"
+             android:orientation="vertical"
              tools:context="net.cyclestreets.LocationEditorActivity">
   <RelativeLayout
     android:id="@+id/mapholder"
-    android:layout_width="fill_parent"
-    android:layout_height="0dp"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:orientation="vertical"
     android:layout_weight="5.0"
     android:padding="4.0dip">
   </RelativeLayout>
-  <EditText
-    android:id="@+id/name"
-    android:gravity="center"
-    android:layout_width="fill_parent"
-    android:layout_height="wrap_content"/>
   <LinearLayout android:orientation="horizontal"
-                android:layout_width="fill_parent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="bottom">
+    <TextView
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:gravity="center"
+      android:text="Place the mark on the map and then name the location."/>
+  </LinearLayout>
+  <LinearLayout android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="bottom">
+    <TextView
+      android:layout_width="wrap_content"
+      android:layout_height="match_parent"
+      android:text="Location name :"/>
+    <EditText
+      android:id="@+id/name"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"/>
+  </LinearLayout>
+  <LinearLayout android:orientation="horizontal"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="bottom">
     <Button android:text="Cancel"

@@ -1,16 +1,20 @@
 package net.cyclestreets;
 
 import android.content.Context;
+import android.content.Intent;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import net.cyclestreets.content.LocationDatabase;
@@ -19,6 +23,8 @@ import net.cyclestreets.fragments.R;
 import net.cyclestreets.routing.Segment;
 
 import java.util.List;
+
+import static net.cyclestreets.util.MenuHelper.createMenuItem;
 
 public class LocationsFragment extends ListFragment {
   private LocationDatabase locDb_;
@@ -34,6 +40,7 @@ public class LocationsFragment extends ListFragment {
   public void onActivityCreated(Bundle savedInstanceState) {
     super.onActivityCreated(savedInstanceState);
     setHasOptionsMenu(true);
+    registerForContextMenu(getListView());
   } // onActivityCreated
 
   @Override
@@ -45,15 +52,70 @@ public class LocationsFragment extends ListFragment {
   @Override
   public boolean onOptionsItemSelected(MenuItem item) {
     if (item.getItemId() == R.id.ic_menu_addlocation) {
-      addNewLocation();
+      editLocation(-1);
       return true;
     } // if ...
     return super.onOptionsItemSelected(item);
   } // onOptionsItemSelected
 
-  private void addNewLocation() {
+  @Override
+  public void onCreateContextMenu(final ContextMenu menu,
+                                  final View v,
+                                  final ContextMenu.ContextMenuInfo menuInfo) {
+    createMenuItem(menu, R.string.ic_menu_delete);
+  }  // onCreateContextMenu
 
+  @Override
+  public boolean onContextItemSelected(final MenuItem item)
+  {
+    try {
+      final AdapterView.AdapterContextMenuInfo info
+          = (AdapterView.AdapterContextMenuInfo)item.getMenuInfo();
+      final int localId = (int)getListAdapter().getItemId(info.position);
+      final int menuId = item.getItemId();
+
+      if(R.string.ic_menu_delete == menuId)
+        deleteLocation(localId);
+
+      return true;
+    } // try
+    catch (final ClassCastException e) {
+      return false;
+    } // catch
+  } // onContextItemSelected
+
+  @Override
+  public void onListItemClick(ListView l, View v, int position, long id) {
+    editLocation((int) id);
+  } // onListItemClick
+
+  private void editLocation(int localId) {
+    Intent edit = new Intent(getActivity(), LocationEditorActivity.class);
+    edit.putExtra("localId", localId);
+    startActivityForResult(edit, 0);
   } // addNewLocation
+
+  @Override
+  public void onActivityResult(int requestCode, int resultCode, Intent data) {
+    super.onActivityResult(requestCode, resultCode, data);
+
+    refresh();
+  } // onActivity
+
+  private void deleteLocation(int localId) {
+    locDb_.deleteLocation(localId);
+    refresh();
+  } // deleteLocation
+
+  private void refresh() {
+    getListAdapter().refresh();
+  } // refresh
+
+  @Override
+  public LocationsAdapter getListAdapter() {
+    return (LocationsAdapter)super.getListAdapter();
+  } // getListAdapter
+
   //////////////////////////////////
   static class LocationsAdapter extends BaseAdapter {
     private final LayoutInflater inflater_;
@@ -65,6 +127,11 @@ public class LocationsFragment extends ListFragment {
       locDb_ = locDb;
       locs_ = locDb_.savedLocations();
     } // SegmentAdaptor
+
+    public void refresh() {
+      locs_ = locDb_.savedLocations();
+      notifyDataSetChanged();
+    } // refresh
 
     @Override
     public int getCount() { return locs_.size(); }

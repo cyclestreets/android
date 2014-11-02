@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">CycleStreets.2</string>
+    <string name="app_name">CycleStreets</string>
     <string name="route_map">Route Map</string>
     <string name="itinerary">Itinerary</string>
     <string name="elevation">Elevation</string>

@@ -3,7 +3,7 @@ package net.cyclestreets.content;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.osmdroid.util.GeoPoint;
+import org.osmdroid.api.IGeoPoint;
 
 import android.content.Context;
 import android.database.Cursor;
@@ -18,6 +18,10 @@ public class LocationDatabase {
     DatabaseHelper dh = new DatabaseHelper(context);
     db_ = dh.getWritableDatabase();
   } // LocationDatabase
+
+  public void close() {
+    db_.close();
+  } // close
 
   public int locationCount() {
     final Cursor cursor = db_.query(DatabaseHelper.LOCATION_TABLE,
@@ -39,7 +43,7 @@ public class LocationDatabase {
     return c;
   } // count
 
-  public void addLocation(final String name, final GeoPoint where) {
+  public void addLocation(final String name, final IGeoPoint where) {
     final String LOCATION_TABLE_INSERT =
         "INSERT INTO location (name, lat, lon) " +
             "  VALUES(?, ?, ?)";
@@ -51,7 +55,7 @@ public class LocationDatabase {
     insert.executeInsert();
   } // addLocation
 
-  public void updateLocation(final int localId, final String name, final GeoPoint where) {
+  public void updateLocation(final int localId, final String name, final IGeoPoint where) {
     final String LOCATION_TABLE_UPDATE =
         "UPDATE location SET name = ?, lat = ?, lon = ? WHERE " + BaseColumns._ID + " = ?";
 
@@ -72,15 +76,24 @@ public class LocationDatabase {
     delete.execute();
   } // deleteRoute
 
+  public SavedLocation savedLocation(int localId) {
+    List<SavedLocation> locs = locations(BaseColumns._ID + " = ?", new String[] { Integer.toString(localId)});
+    return locs.size() != 0 ? locs.get(0) : null;
+  } // savedLocation
+
   public List<SavedLocation> savedLocations() {
+    return locations(null, null);
+  } // savedLocations
+
+  private List<SavedLocation> locations(String where, String[] whereArgs) {
     final List<SavedLocation> locations = new ArrayList<SavedLocation>();
     final Cursor cursor = db_.query(DatabaseHelper.LOCATION_TABLE,
         new String[] { BaseColumns._ID, "name", "lat", "lon" },
+        where,
+        whereArgs,
         null,
         null,
-        null,
-        null,
-        BaseColumns._ID + " desc");
+        "name");
     if(cursor.moveToFirst())
       do {
         locations.add(new SavedLocation(
@@ -94,5 +107,5 @@ public class LocationDatabase {
       cursor.close();
 
     return locations;
-  } // savedRoutes
+  } // locations
 } // class LocationDatabase
