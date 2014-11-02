@@ -17,14 +17,6 @@
               android:theme="@style/Theme.Menu"/>
     <activity android:name="net.cyclestreets.LocationEditorActivity"
               android:label="CycleStreets"/>
-    <activity android:name="net.cyclestreets.LocationsActivity"
-              android:label="Locations"
-              android:exported="true">
-      <intent-filter>
-        <action android:name="net.cyclestreets.LocationsActivity" />
-        <category android:name="android.intent.category.DEFAULT"/>
-      </intent-filter>
-    </activity>
 
   </application>
 </manifest>
