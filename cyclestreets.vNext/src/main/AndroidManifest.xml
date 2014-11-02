@@ -51,15 +51,6 @@
         <category android:name="android.intent.category.DEFAULT"/>
       </intent-filter>
     </activity>
-    <activity android:name="net.cyclestreets.LocationsActivity"
-              android:label="Locations"
-              android:exported="true">
-      <intent-filter>
-        <action android:name="net.cyclestreets.LocationsActivity" />
-        <category android:name="android.intent.category.DEFAULT"/>
-      </intent-filter>
-    </activity>
-
 
     <meta-data android:name="CycleStreetsAPIKey" android:value="b26a0d6b45e00612" />
   </application>
