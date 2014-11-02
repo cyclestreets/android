@@ -39,6 +39,7 @@
   <string name="placeview_no_contacts_with_addresses">None of your contacts have addresses.</string>
   <string name="placeview_contacts_loading">Loading contacts</string>
   <string name="placeview_remove">Remove</string>
+  <string name="placeview_saved_locations">Saved Locations</string>
 
   <string name="ic_menu_poi">Points of Interest</string>
   <string name="ic_menu_poi_clear_all">Clear all</string>

@@ -5,6 +5,7 @@ import java.util.List;
 import net.cyclestreets.api.GeoPlace;
 import net.cyclestreets.routing.Waypoints;
 
+import org.osmdroid.api.IGeoPoint;
 import org.osmdroid.util.BoundingBoxE6;
 import org.osmdroid.util.GeoPoint;
 
@@ -72,13 +73,13 @@ public class GeoIntent
 	  return null;
   } // getLocation
     
-  static public void setGeoPoint(final Intent intent, final GeoPoint point)
+  static public void setGeoPoint(final Intent intent, final IGeoPoint point)
   {
     setGeoPoint(intent, "", point);
   } // setGeoPoint
   static public void setGeoPoint(final Intent intent,
                                  final String prefix,
-                                 final GeoPoint point)
+                                 final IGeoPoint point)
   {
     if(point == null)
     	return;
@@ -127,7 +128,7 @@ public class GeoIntent
   
   static private void setWaypoint(final Intent intent,
                                  final int index,
-                                 final GeoPoint point)
+                                 final IGeoPoint point)
   {
     setGeoPoint(intent, WAYPOINT + index, point);
   } // setWaypoint

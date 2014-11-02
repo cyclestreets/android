@@ -20,4 +20,6 @@ public class SavedLocation {
   public int localId() { return id_; }
   public String name() { return name_; }
   public IGeoPoint where() { return where_; }
+
+  public String toString() { return name_; }
 } // SavedLocation

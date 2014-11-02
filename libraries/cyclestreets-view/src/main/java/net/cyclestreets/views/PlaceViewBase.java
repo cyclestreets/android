@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import org.osmdroid.util.BoundingBoxE6;
 import org.osmdroid.util.GeoPoint;
 
+import net.cyclestreets.content.LocationDatabase;
+import net.cyclestreets.content.SavedLocation;
 import net.cyclestreets.view.R;
 import net.cyclestreets.api.GeoPlace;
 import net.cyclestreets.api.GeoPlaces;
@@ -38,13 +40,14 @@ public class PlaceViewBase extends LinearLayout
   } // interface ResolveListener
 
   ////////////////////////////////
-  static private String CURRENT_LOCATION;
-  static private String CHOOSE_LOCATION;
-  static private String LOCATION_NOT_FOUND;
-  static private String LOCATION_SEARCH;
-  static private String CONTACTS;
-  static private String NO_CONTACTS_WITH_ADDRESSES;
-  static private String CONTACTS_LOADING;
+  private static String CURRENT_LOCATION;
+  private static String CHOOSE_LOCATION;
+  private static String LOCATION_NOT_FOUND;
+  private static String LOCATION_SEARCH;
+  private static String CONTACTS;
+  private static String NO_CONTACTS_WITH_ADDRESSES;
+  private static String CONTACTS_LOADING;
+  private static String SAVED_LOCATIONS;
 
   private final Context context_;
   private final PlaceAutoCompleteTextView textView_;
@@ -52,11 +55,15 @@ public class PlaceViewBase extends LinearLayout
   private List<GeoPlace> allowedPlaces_;
   private List<String> options_;
   private List<Contact> contacts_;
+  private final List<SavedLocation> savedLocations_;
 
   protected PlaceViewBase(final Context context, final int layout, final AttributeSet attrs)
   {
     super(context, attrs);
     context_ = context;
+
+    LocationDatabase locDb = new LocationDatabase(context);
+    savedLocations_ = locDb.savedLocations();
 
     setOrientation(HORIZONTAL);
 
@@ -68,7 +75,7 @@ public class PlaceViewBase extends LinearLayout
 
     button_.setOnClickListener(this);
 
-    allowedPlaces_ = new ArrayList<GeoPlace>();
+    allowedPlaces_ = new ArrayList<>();
 
     loadStrings(context);
   } // PlaceViewBase
@@ -85,6 +92,7 @@ public class PlaceViewBase extends LinearLayout
     CONTACTS = res.getString(R.string.placeview_contacts);
     NO_CONTACTS_WITH_ADDRESSES = res.getString(R.string.placeview_no_contacts_with_addresses);
     CONTACTS_LOADING = res.getString(R.string.placeview_contacts_loading);
+    SAVED_LOCATIONS = res.getString(R.string.placeview_saved_locations);
   } // loadStrings
 
   ////////////////////////////////////
@@ -170,6 +178,10 @@ public class PlaceViewBase extends LinearLayout
   private void setPlace(final GeoPlace geoPlace) { textView_.setGeoPlace(geoPlace); }
   private void setPlaceHint(final GeoPlace geoPlace) { textView_.setGeoPlaceHint(geoPlace); }
   private void setContact(final Contact contact) { textView_.setContact(contact); }
+  private void setSavedLocation(final SavedLocation location) {
+    GeoPlace gp = new GeoPlace(location.where(), location.name(), null);
+    setPlace(gp);
+  } // setSavedLocations
 
   private boolean notEmpty(final String s) { return s != null && s.length() != 0; }
 
@@ -181,6 +193,8 @@ public class PlaceViewBase extends LinearLayout
       options_.add(gp.name());
     if (contactsAvailable())
       options_.add(CONTACTS);
+    if (savedLocationsAvailable())
+      options_.add(SAVED_LOCATIONS);
 
     ListDialog.showListDialog(context_,
                               CHOOSE_LOCATION,
@@ -194,7 +208,11 @@ public class PlaceViewBase extends LinearLayout
     int hasPerm = pm.checkPermission(Manifest.permission.READ_CONTACTS,
                                      context_.getPackageName());
     return (hasPerm == PackageManager.PERMISSION_GRANTED);
-  } /// contactsAvailable
+  } // contactsAvailable
+
+  private boolean savedLocationsAvailable() {
+    return savedLocations_.size() != 0;
+  } // savedLocationsAvailable
 
   @Override
   public void onClick(final DialogInterface dialog, final int whichButton)
@@ -205,8 +223,11 @@ public class PlaceViewBase extends LinearLayout
       if(gp.name().equals(option))
         setPlaceHint(gp);
 
-    if(CONTACTS.equals(option))
+    if (CONTACTS.equals(option))
       pickContact();
+
+    if (SAVED_LOCATIONS.equals(option))
+      pickSavedLocation();
   } // onClick
 
   private void pickContact()
@@ -224,7 +245,7 @@ public class PlaceViewBase extends LinearLayout
     } // if ...
 
     ListDialog.showListDialog(context_,
-                              "Contacts",
+                              CONTACTS,
                               contacts_,
                               new ContactsListener());
   } // pickContact
@@ -238,6 +259,21 @@ public class PlaceViewBase extends LinearLayout
       setContact(c);
     } // onClick
   } // class ContactsListener
+
+  private void pickSavedLocation() {
+    ListDialog.showListDialog(context_,
+                              SAVED_LOCATIONS,
+                              savedLocations_,
+                              new SavedLocationListener());
+  } // pickSavedLocation
+
+  private class SavedLocationListener implements DialogInterface.OnClickListener {
+    @Override
+    public void onClick(final DialogInterface dialog, final int whichButton) {
+      final SavedLocation l = savedLocations_.get(whichButton);
+      setSavedLocation(l);
+    } // onClick
+  } // class SavedLocationListener
 
   ///////////////////////////////////////////////////////////
   private void loadContacts()
@@ -302,7 +338,7 @@ public class PlaceViewBase extends LinearLayout
   } // PlaceListener
 
   ///////////////////////////////////////////////////////////
-  static private class AsyncContactLoad extends AsyncTask<Void, Void, List<Contact>>
+  private static class AsyncContactLoad extends AsyncTask<Void, Void, List<Contact>>
   {
     final ProgressDialog progress_;
     final PlaceViewBase view_;
@@ -331,7 +367,7 @@ public class PlaceViewBase extends LinearLayout
   } // class AsyncContactLoad
 
   ////////////////////////////////
-  static private class AsyncContactLookup extends AsyncTask<Object, Void, GeoPlaces>
+  private static class AsyncContactLookup extends AsyncTask<Object, Void, GeoPlaces>
   {
     final ProgressDialog progress_;
     final OnResolveListener listener_;

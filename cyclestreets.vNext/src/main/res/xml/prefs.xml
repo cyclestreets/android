@@ -72,7 +72,7 @@
         android:entryValues="@array/distance_values" />
   </PreferenceScreen>
   <PreferenceScreen
-      android:title="Locations">
+      android:title="Saved Locations">
     <intent android:action="net.cyclestreets.LocationsActivity"/>
   </PreferenceScreen>
   <PreferenceScreen

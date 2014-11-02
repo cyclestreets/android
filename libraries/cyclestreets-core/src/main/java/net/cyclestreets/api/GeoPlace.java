@@ -1,19 +1,20 @@
 package net.cyclestreets.api;
 
+import org.osmdroid.api.IGeoPoint;
 import org.osmdroid.util.GeoPoint;
 
 public class GeoPlace
 {
   private String name_;
   private String near_;
-  private GeoPoint coord_;
+  private IGeoPoint coord_;
   
   public GeoPlace(final int latE6, final int longE6, final String name, final String near)
   {
     this(new GeoPoint(latE6/1E6, longE6/1E6), name, near);
   } // GeoPlace
   
-  public GeoPlace(final GeoPoint point, final String name, final String near)
+  public GeoPlace(final IGeoPoint point, final String name, final String near)
   {
     coord_ = point;
     name_ = name;
@@ -22,7 +23,7 @@ public class GeoPlace
 
   public String name() { return name_; }
   public String near() { return near_; }
-  public GeoPoint coord() { return coord_; }
+  public IGeoPoint coord() { return coord_; }
   
   @Override
   public String toString()
