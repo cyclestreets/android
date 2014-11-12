@@ -5,16 +5,17 @@
                 android:padding="6dip">
     <ImageView
         android:id="@+id/menu_icon"
-        android:layout_width="wrap_content"
-        android:layout_height="fill_parent"
+        android:layout_width="?android:attr/listPreferredItemHeight"
+        android:layout_height="match_parent"
         android:layout_alignParentTop="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginRight="6dip"
+        android:layout_marginLeft="6dip"
+        android:layout_marginRight="12dip"
         android:src="@drawable/icon" />
     <TextView
         android:id="@+id/menu_name"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_toRightOf="@id/menu_icon"
         android:textSize="@dimen/abc_action_bar_title_text_size"
         android:layout_centerVertical="true"
