@@ -2,11 +2,11 @@
 <resources>
 
     <string name="app_name">CycleStreets</string>
-    <string name="route_map">Route Map</string>
+    <string name="route_map">Journey planner</string>
     <string name="itinerary">Itinerary</string>
     <string name="elevation">Elevation</string>
-    <string name="photomap">Photo Map</string>
-    <string name="photo_upload">Photo Upload</string>
+    <string name="photomap">Photomap</string>
+    <string name="photo_upload">Add photo</string>
     <string name="cyclestreets_blog">Blog</string>
 
 </resources>
