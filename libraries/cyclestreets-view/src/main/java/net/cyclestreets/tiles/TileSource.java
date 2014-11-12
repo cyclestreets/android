@@ -91,7 +91,7 @@ public class TileSource {
   } // createStandardTileSource
 
   static private String DEFAULT_RENDERER = CycleStreetsPreferences.MAPSTYLE_OCM;
-  static private String DEFAULT_ATTRIBUTION = "\u00a9 OpenStreetMap and contributors, CC-BY-SA";
+  static private String DEFAULT_ATTRIBUTION = "\u00a9 OpenStreetMap contributors";
   static private Map<String, String> attributions_ = new HashMap<>();
 
   static {
@@ -108,7 +108,7 @@ public class TileSource {
                                                         "http://c.os.openstreetmap.org/sv/");
     final MapsforgeOSMTileSource MAPSFORGE = new MapsforgeOSMTileSource(CycleStreetsPreferences.MAPSTYLE_MAPSFORGE);
 
-    addTileSource(OPENCYCLEMAP, "\u00a9 OpenStreetMap and contributors, CC-BY-SA. Map images \u00a9 OpenCycleMap", true);
+    addTileSource(OPENCYCLEMAP, "\u00a9 OpenStreetMap contributors. Map images \u00a9 OpenCycleMap", true);
     addTileSource(OPENSTREETMAP, DEFAULT_ATTRIBUTION);
     addTileSource(OSMAP, "Contains Ordnance Survey Data \u00a9 Crown copyright and database right 2010");
     addTileSource(MAPSFORGE, DEFAULT_ATTRIBUTION);
