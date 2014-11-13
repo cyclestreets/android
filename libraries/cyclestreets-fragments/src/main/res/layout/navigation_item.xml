@@ -18,6 +18,7 @@
         android:layout_height="match_parent"
         android:layout_toRightOf="@id/menu_icon"
         android:textSize="@dimen/abc_action_bar_title_text_size"
+        android:textColor="?android:attr/textColorPrimaryInverse"
         android:layout_centerVertical="true"
         android:gravity="center_vertical"/>
 </RelativeLayout>

@@ -30,17 +30,13 @@ public class CycleStreets extends MainNavDrawerActivity
 
   @Override
   protected void addDrawerItems() {
-    addDrawerFragment(R.string.route_map, R.drawable.ic_menu_mapmode_white, RouteMapFragment.class);
+    addDrawerFragment(R.string.route_map, R.drawable.ic_menu_mapmode, RouteMapFragment.class);
     addDrawerFragment(R.string.itinerary,
-                      R.drawable.ic_menu_agenda_white,
+                      R.drawable.ic_menu_agenda,
                       ItineraryFragment.class,
                       new RouteAvailablePageStatus());
-    addDrawerFragment(R.string.elevation,
-                      R.drawable.ic_menu_elevation_white,
-                      ElevationProfileFragment.class,
-                      new RouteAvailablePageStatus());
-    addDrawerFragment(R.string.photomap, R.drawable.ic_menu_gallery_white, PhotoMapFragment.class);
-    addDrawerFragment(R.string.photo_upload, R.drawable.ic_menu_camera_white, PhotoUploadFragment.class);
+    addDrawerFragment(R.string.photomap, R.drawable.ic_menu_gallery, PhotoMapFragment.class);
+    addDrawerFragment(R.string.photo_upload, R.drawable.ic_menu_camera, PhotoUploadFragment.class);
     addDrawerFragment(R.string.cyclestreets_blog,
                       -1,
                       WebPageFragment.class,
