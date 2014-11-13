@@ -85,13 +85,22 @@ public class Dialog
 	static public void listViewDialog(final Context context,
 	                                  final ListAdapter adapter,
 	                                  final DialogInterface.OnClickListener yesAction,
-	                                  final DialogInterface.OnClickListener noAction)
-	{
+	                                  final DialogInterface.OnClickListener noAction) {
+    listViewDialog(context, -1, adapter, yesAction, noAction);
+  } // listViewDialog
+
+  static public void listViewDialog(final Context context,
+                                    final int titleResId,
+                                    final ListAdapter adapter,
+                                    final DialogInterface.OnClickListener yesAction,
+                                    final DialogInterface.OnClickListener noAction) {
     final View layout = View.inflate(context, R.layout.listdialog, null);
     final ListView listView = ((ListView)layout.findViewById(R.id.list_view));
     listView.setAdapter(adapter);
     
     final AlertDialog.Builder builder = newBuilder(context);
+    if (titleResId != -1)
+      builder.setTitle(titleResId);
     builder.setPositiveButton("OK", yesAction);
     builder.setNegativeButton("Cancel", noAction);
     builder.setOnCancelListener(new DialogInterface.OnCancelListener() {

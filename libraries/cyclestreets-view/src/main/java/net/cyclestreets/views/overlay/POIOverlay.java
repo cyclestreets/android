@@ -391,6 +391,7 @@ public class POIOverlay extends LiveItemOverlay<POIOverlay.POIItem>
                                                                  activeCategories_);
 
     Dialog.listViewDialog(context_,
+                          R.string.ic_menu_poi,
                           poiAdapter,
                           new DialogInterface.OnClickListener() {
                             @Override
