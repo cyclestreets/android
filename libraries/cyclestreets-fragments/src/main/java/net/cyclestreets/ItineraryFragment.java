@@ -154,8 +154,10 @@ public class ItineraryFragment extends ListFragment
 
 			if(highlight && (position != 0) && (position != getCount()-1))
 				v.setBackgroundColor(Color.GREEN);
-			else
-				v.setBackgroundColor(getColour(seg));
+			else if(seg instanceof Segment.Start)
+        v.setBackgroundColor(Color.rgb(0, 128, 0));
+      else if(seg instanceof Segment.End)
+        v.setBackgroundColor(Color.rgb(128, 0, 0));
 
 			return v;
 		} // getView
@@ -193,14 +195,6 @@ public class ItineraryFragment extends ListFragment
 			return iconMappings_.icon(turn);
 		} // turnIcon
 
-		private int getColour(final Segment s)
-		{
-			if(s instanceof Segment.Start)
-				return Color.rgb(0, 128, 0);
-			if(s instanceof Segment.End)
-				return Color.rgb(128, 0, 0);
-			return Color.BLACK;
-		} // getColour
     private String distance(final int metres) { return DistanceFormatter.formatter(CycleStreetsPreferences.units()).total_distance(metres); }
   } // class SegmentAdaptor
 } // ItineraryActivity
