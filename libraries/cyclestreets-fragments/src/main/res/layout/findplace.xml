@@ -8,7 +8,7 @@
 	    android:paddingRight="9dip"
 	    android:paddingTop="12dip"
 	    android:paddingBottom="6dip"
-	    android:background="@drawable/route_bg">            
+	    android:background="?android:attr/colorBackground">
   <net.cyclestreets.views.PlaceView
   		android:id="@+id/place"	     
 	    android:orientation="horizontal"
