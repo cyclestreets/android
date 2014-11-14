@@ -51,7 +51,7 @@ public class RouteByAddressActivity extends Activity
 
     setContentView(R.layout.routebyaddress);
     getWindow().setGravity(Gravity.TOP|Gravity.FILL_HORIZONTAL);
-    getWindow().setLayout(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT);
+    getWindow().setLayout(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
     getWindow().setBackgroundDrawableResource(R.drawable.empty);
 
     final Intent intent = getIntent();
