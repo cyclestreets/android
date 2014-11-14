@@ -37,7 +37,7 @@ public class ItineraryFragment extends ListFragment
 	  setListAdapter(new SegmentAdapter(getActivity(), this));
 	} // onCreate
 
-	@Override
+  @Override
   public void onResume()
 	{
 		super.onResume();
@@ -84,6 +84,7 @@ public class ItineraryFragment extends ListFragment
 	  private final ItineraryFragment itinerary_;
 	  private final TurnIcons.Mapping iconMappings_;
 	  private final Drawable footprints_;
+    private final Drawable selected_;
 	  private final LayoutInflater inflater_;
 
 	  SegmentAdapter(final Context context, final ItineraryFragment itinerary)
@@ -91,7 +92,10 @@ public class ItineraryFragment extends ListFragment
 	    itinerary_ = itinerary;
 	    iconMappings_ = TurnIcons.LoadMapping(context);
 	    footprints_ = context.getResources().getDrawable(R.drawable.footprints);
-	    inflater_ = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+      selected_ = context.getResources().getDrawable(android.R.drawable.list_selector_background);
+      selected_.setState(new int[] {android.R.attr.state_focused});
+
+      inflater_ = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 	  } // SegmentAdaptor
 
 	  private Journey journey() { return itinerary_.journey_; }
@@ -131,9 +135,9 @@ public class ItineraryFragment extends ListFragment
 			final int layout_id = position != 0 ? R.layout.itinerary_item : R.layout.itinerary_header_item;
 			final View v = inflater_.inflate(layout_id, parent, false);
 
-			final boolean highlight = (position == Route.journey().activeSegmentIndex());
+      final boolean highlight = (position == Route.journey().activeSegmentIndex());
 
-			if(position == 0) {
+      if(position == 0) {
         Journey journey = Route.journey();
         Segment.Start start = journey.segments().first();
 
@@ -152,12 +156,8 @@ public class ItineraryFragment extends ListFragment
 			setMainText(v, R.id.segment_street, seg.turn(), seg.street(), highlight);
 			setTurnIcon(v, R.id.segment_type, seg.turn(), seg.walk());
 
-			if(highlight && (position != 0) && (position != getCount()-1))
-				v.setBackgroundColor(Color.GREEN);
-			else if(seg instanceof Segment.Start)
-        v.setBackgroundColor(Color.rgb(0, 128, 0));
-      else if(seg instanceof Segment.End)
-        v.setBackgroundColor(Color.rgb(128, 0, 0));
+      if (highlight)
+        v.setBackgroundColor(Color.GREEN);
 
 			return v;
 		} // getView

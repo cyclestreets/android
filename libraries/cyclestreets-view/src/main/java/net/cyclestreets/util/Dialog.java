@@ -65,26 +65,12 @@ public class Dialog {
 
     show(builder);
   } // editTextDialog
-  
-  static public void listViewDialog(final Context context,
-                                    final ListAdapter adapter,
-                                    final DialogInterface.OnClickListener yesAction) {
-    listViewDialog(context, adapter, yesAction, MessageBox.NoAction);
-  } // listViewDialog
 
-  
-  static public void listViewDialog(final Context context,
-                                    final ListAdapter adapter,
-                                    final DialogInterface.OnClickListener yesAction,
-                                    final DialogInterface.OnClickListener noAction) {
-    listViewDialog(context, -1, adapter, yesAction, noAction);
-  } // listViewDialog
-
-  static public void listViewDialog(final Context context,
-                                    final int titleResId,
-                                    final ListAdapter adapter,
-                                    final DialogInterface.OnClickListener yesAction,
-                                    final DialogInterface.OnClickListener noAction) {
+  static public AlertDialog listViewDialog(final Context context,
+                                           final int titleResId,
+                                           final ListAdapter adapter,
+                                           final DialogInterface.OnClickListener yesAction,
+                                           final DialogInterface.OnClickListener noAction) {
     final View layout = View.inflate(context, R.layout.listdialog, null);
     final ListView listView = ((ListView)layout.findViewById(R.id.list_view));
     listView.setAdapter(adapter);
@@ -92,17 +78,21 @@ public class Dialog {
     final AlertDialog.Builder builder = newBuilder(context);
     if (titleResId != -1)
       builder.setTitle(titleResId);
-    builder.setPositiveButton("OK", yesAction);
-    builder.setNegativeButton("Cancel", noAction);
+    if (yesAction != null)
+      builder.setPositiveButton("OK", yesAction);
+
+    final DialogInterface.OnClickListener noActionListener = noAction != null ? noAction : MessageBox.NoAction;
+    builder.setNegativeButton("Cancel", noActionListener);
     builder.setOnCancelListener(new DialogInterface.OnCancelListener() {
       @Override
       public void onCancel(DialogInterface dialog) {
-        noAction.onClick(dialog, -1);
+        noActionListener.onClick(dialog, -1);
       } // onCancel
     });
+
     builder.setView(layout);
     
-    show(builder);
+    return show(builder);
   } // listViewDialog
   
   static AlertDialog.Builder newBuilder(final View parent) {
@@ -120,8 +110,9 @@ public class Dialog {
     return context.getString(stringId);
   } // applicationName
 
-  static void show(final AlertDialog.Builder builder) {
+  static AlertDialog show(final AlertDialog.Builder builder) {
     final AlertDialog ad = builder.create();
     ad.show();
+    return ad;
   } // show
 } // class Dialog

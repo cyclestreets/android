@@ -1,6 +1,9 @@
 package net.cyclestreets;
 
+import net.cyclestreets.content.RouteSummary;
 import net.cyclestreets.fragments.R;
+import net.cyclestreets.routing.Segment;
+import net.cyclestreets.util.Dialog;
 import net.cyclestreets.util.GPS;
 import net.cyclestreets.util.MessageBox;
 import net.cyclestreets.util.GeoIntent;
@@ -13,6 +16,8 @@ import net.cyclestreets.routing.Route;
 import net.cyclestreets.routing.Waypoints;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.location.Location;
@@ -23,8 +28,13 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.BaseAdapter;
+import android.widget.TextView;
 
-import static net.cyclestreets.util.MenuHelper.createMenuItem;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import static net.cyclestreets.util.MenuHelper.enableMenuItem;
 import static net.cyclestreets.util.MenuHelper.showMenuItem;
 
@@ -79,11 +89,6 @@ public class RouteMapFragment extends CycleMapFragment
 	                   getActivity());
 	} // onRouteNow
 
-	public void onStoredRouteNow(final int localId)
-	{
-	  Route.PlotStoredRoute(localId, getActivity());
-  } // onStoredRouteNow
-
 	@Override
 	public void onCreateOptionsMenu(final Menu menu, final MenuInflater inflater)
 	{
@@ -135,14 +140,6 @@ public class RouteMapFragment extends CycleMapFragment
 
 		if(resultCode != Activity.RESULT_OK)
 			return;
-
-		if(requestCode == ActivityId.StoredRoutes)
-		{
-			final int localId = data.getIntExtra(CycleStreetsConstants.ROUTE_ID, 0);
-			if(localId != 0)
-				onStoredRouteNow(localId);
-			return;
-		} // if ...
 
 		if(requestCode == ActivityId.Directions)
 		{
@@ -208,8 +205,16 @@ public class RouteMapFragment extends CycleMapFragment
 
 	private void launchStoredRoutesDialog()
 	{
-	  final Intent intent = new Intent(getActivity(), StoredRoutesActivity.class);
-    startActivityForResult(intent, ActivityId.StoredRoutes);
+    RouteSummaryAdapter rsa = new RouteSummaryAdapter(getActivity());
+    AlertDialog ad = Dialog.listViewDialog(getActivity(),
+                                           R.string.ic_menu_saved_routes,
+                                           rsa,
+                                           null,
+                                           null);
+    rsa.setDialog(ad);
+
+    //final Intent intent = new Intent(getActivity(), StoredRoutesActivity.class);
+    //startActivityForResult(intent, ActivityId.StoredRoutes);
 	} // launchStoredRoutesDialog
 
 	private void startNewRoute(final DialogInterface.OnClickListener listener)
@@ -235,4 +240,78 @@ public class RouteMapFragment extends CycleMapFragment
 	{
     mapView().invalidate();
 	} // onReset
+
+  //////////////////////////////////////////////
+  //////////////////////////////////////////////
+  //////////////////////////////////
+  static class RouteSummaryAdapter extends BaseAdapter
+                                   implements View.OnClickListener {
+    private final Context context_;
+    private final LayoutInflater inflater_;
+    private List<RouteSummary> routes_;
+    private final Map<View, Integer> viewRoute_;
+    private AlertDialog ad_;
+
+    RouteSummaryAdapter(final Context context) {
+      context_ = context;
+      inflater_ = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+      routes_ = Route.storedRoutes();
+      viewRoute_ = new HashMap<>();
+    } // SegmentAdaptor
+
+    public void setDialog(final AlertDialog ad) { ad_ = ad; }
+
+    public void refresh() {
+      routes_ = Route.storedRoutes();
+      notifyDataSetChanged();
+    } // refresh
+
+    public RouteSummary getRouteSummary(int localId) {
+      for(final RouteSummary r : routes_)
+        if(r.localId() == localId)
+          return r;
+      return null;
+    } // getRouteSummary
+
+    @Override
+    public int getCount() { return routes_.size(); }
+
+    @Override
+    public Object getItem(int position) { return routes_.get(position); }
+
+    @Override
+    public long getItemId(int position) { return routes_.get(position).localId(); }
+
+    @Override
+    public View getView(final int position, final View convertView, final ViewGroup parent) {
+      final RouteSummary summary = routes_.get(position);
+      final View v = inflater_.inflate(R.layout.storedroutes_item, parent, false);
+      viewRoute_.put(v, summary.localId());
+
+      final TextView n = (TextView)v.findViewById(R.id.route_title);
+
+      final String p = summary.plan();
+      final String plan = p.substring(0,1).toUpperCase() + p.substring(1);
+
+      n.setText(summary.title() + "\n" +
+          plan + " route, " +
+          Segment.formatter.total_distance(summary.distance()));
+
+      v.setOnClickListener(this);
+
+      return v;
+    } // getView
+
+    @Override
+    public void onClick(final View view) {
+      final int localId = viewRoute_.get(view);
+      openRoute(localId);
+    } // onClick
+
+    private void openRoute(final int localId) {
+      Route.PlotStoredRoute(localId, context_);
+      if (ad_ != null)
+        ad_.cancel();
+    } // routeSelected
+  } // class RouteSummaryAdaptor
 } // class MapActivity
