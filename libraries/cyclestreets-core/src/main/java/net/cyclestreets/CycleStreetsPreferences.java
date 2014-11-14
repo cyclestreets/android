@@ -77,7 +77,7 @@ public class CycleStreetsPreferences
   }
 
   static public int iconSize() {
-    return Integer.parseInt(getString(PREF_ICON_SIZE, "20"));
+    return Integer.parseInt(getString(PREF_ICON_SIZE, "32"));
   }
 
   static public String username() {

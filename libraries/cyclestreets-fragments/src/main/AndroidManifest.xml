@@ -12,9 +12,6 @@
               android:theme="@style/Theme.RouteInputDialog"/>
     <activity android:name="net.cyclestreets.RouteNumberActivity"
               android:theme="@style/Theme.RouteInputDialog"/>
-    <activity android:name="net.cyclestreets.StoredRoutesActivity"
-              android:label="@string/app_name"
-              android:theme="@style/Theme.Menu"/>
     <activity android:name="net.cyclestreets.LocationEditorActivity"
               android:label="CycleStreets"/>
 
