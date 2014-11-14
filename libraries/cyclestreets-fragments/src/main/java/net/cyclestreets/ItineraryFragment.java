@@ -142,7 +142,7 @@ public class ItineraryFragment extends ListFragment
       setMainText(v, R.id.segment_street, seg.turn(), seg.street(), highlight);
       setTurnIcon(v, R.id.segment_type, seg.turn(), seg.walk());
 
-      if (highlight)
+      if (highlight && position != 0)
         v.setBackgroundColor(Color.GREEN);
 
       return v;
