@@ -36,10 +36,20 @@ public class ItineraryAndElevationFragment extends Fragment {
     itinerary_ = new ItineraryFragment();
     elevation_ = new ElevationProfileFragment();
 
-    showFrag(itinerary_);
-
     return layout;
   } // onCreateView
+
+  @Override
+  public void onPause() {
+    super.onPause();
+    showFrag(null);
+  } // onPause
+
+  @Override
+  public void onResume() {
+    super.onResume();
+    showFrag(itinerary_);
+  } // onResume
 
   private void showFrag(Fragment frag) {
     FragmentManager fm = getChildFragmentManager();
@@ -48,11 +58,13 @@ public class ItineraryAndElevationFragment extends Fragment {
     if (lastFrag_ != null)
       ft.detach(lastFrag_);
 
-    String tag = frag.getTag();
-    if (fm.findFragmentByTag(tag) == null)
-      ft.add(R.id.container, frag, frag.getClass().getSimpleName());
-    else
-      ft.attach(frag);
+    if (frag != null) {
+      String tag = frag.getTag();
+      if (fm.findFragmentByTag(tag) == null)
+        ft.add(R.id.container, frag, frag.getClass().getSimpleName());
+      else
+        ft.attach(frag);
+    } // if ...
 
     ft.commit();
 
