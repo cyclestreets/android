@@ -40,6 +40,9 @@
     <string name="ic_menu_rename">Rename</string>
     <string name="ic_menu_delete">Delete</string>
 
+    <string name="ic_menu_itinerary">Itinerary</string>
+    <string name="ic_menu_elevation">Elevation</string>
+
     <!-- find place dialog -->
     <string name="btn_find_place">Find</string>
     <string name="lbl_choose_place">Choose Place</string>

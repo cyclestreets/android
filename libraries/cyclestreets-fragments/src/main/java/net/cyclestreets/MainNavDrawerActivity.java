@@ -11,6 +11,7 @@ import android.preference.PreferenceManager;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
@@ -175,6 +176,8 @@ public abstract class MainNavDrawerActivity
     private boolean fromSavedInstanceState_;
     private boolean userLearnedDrawer_;
 
+    private Fragment lastFrag_;
+
     public NavigationDrawerFragment() { }
 
     @Override
@@ -300,10 +303,12 @@ public abstract class MainNavDrawerActivity
         if (drawerListView_ != null)
           drawerListView_.setItemChecked(position, true);
 
-        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-        fragmentManager.beginTransaction()
-                       .replace(R.id.container, ((FragmentItem) di).fragment())
-                       .commit();
+        final FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+        final FragmentTransaction ft = fragmentManager.beginTransaction();
+        if (lastFrag_ != null)
+          ft.detach(lastFrag_);
+        lastFrag_ = ((FragmentItem)di).attach(ft);
+        ft.commit();
       } //
       if (di instanceof ActivityItem) {
         final Intent intent = new Intent(getActivity(), ((ActivityItem)di).activityClass());
@@ -486,18 +491,23 @@ public abstract class MainNavDrawerActivity
       initialiser_ = initialiser;
     } // FragmentItem
 
-    public Fragment fragment() {
+    public Fragment attach(final FragmentTransaction ft) {
       try {
         if (fragment_ == null) {
           fragment_ = fragClass_.newInstance();
           if (initialiser_ != null)
             initialiser_.initialise(fragment_);
-        } // if ...
+          ft.add(R.id.container, fragment_, title());
+        } else
+          ft.attach(fragment_);
       } catch (Exception e) {
         throw new RuntimeException(e);
       } // try
+
       return fragment_;
-    } // fragment
+    } // attach
+
+    public Fragment fragment() { return fragment_; }
   } // FragmentInfo
 
   private static class ActivityItem extends DrawerItem {

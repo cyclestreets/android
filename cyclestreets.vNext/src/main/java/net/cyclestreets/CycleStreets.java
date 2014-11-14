@@ -33,7 +33,7 @@ public class CycleStreets extends MainNavDrawerActivity
     addDrawerFragment(R.string.route_map, R.drawable.ic_menu_mapmode, RouteMapFragment.class);
     addDrawerFragment(R.string.itinerary,
                       R.drawable.ic_menu_agenda,
-                      ItineraryFragment.class,
+                      ItineraryAndElevationFragment.class,
                       new RouteAvailablePageStatus());
     addDrawerFragment(R.string.photomap, R.drawable.ic_menu_gallery, PhotoMapFragment.class);
     addDrawerFragment(R.string.photo_upload, R.drawable.ic_menu_camera, PhotoUploadFragment.class);

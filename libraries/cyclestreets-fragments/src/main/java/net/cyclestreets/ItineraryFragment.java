@@ -29,11 +29,11 @@ public class ItineraryFragment extends ListFragment
                                implements Route.Listener {
   private Journey journey_ = Journey.NULL_JOURNEY;
 
-   @Override
-   public void onCreate(final Bundle savedInstanceState) {
-     super.onCreate(savedInstanceState);
-     setListAdapter(new SegmentAdapter(getActivity(), this));
-   } // onCreate
+  @Override
+  public void onCreate(final Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setListAdapter(new SegmentAdapter(getActivity(), this));
+  } // onCreate
 
   @Override
   public void onResume() {
