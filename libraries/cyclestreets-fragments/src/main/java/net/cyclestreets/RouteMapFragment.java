@@ -154,16 +154,6 @@ public class RouteMapFragment extends CycleMapFragment
 			                getActivity(),
                       points);
 		} // if ...
-
-		if(requestCode == ActivityId.RouteNumber)
-		{
-		  final long routeNumber = data.getLongExtra(CycleStreetsConstants.EXTRA_ROUTE_NUMBER, -1);
-		  final String routeType = data.getStringExtra(CycleStreetsConstants.EXTRA_ROUTE_TYPE);
-      final int speed = data.getIntExtra(CycleStreetsConstants.EXTRA_ROUTE_SPEED,
-                                         CycleStreetsPreferences.speed());
-
-      Route.FetchRoute(routeType, routeNumber, speed, getActivity());
-		} // if ...
 	} // onActivityResult
 
 	private void startLiveRide()
@@ -201,8 +191,7 @@ public class RouteMapFragment extends CycleMapFragment
 
 	private void doLaunchFetchRouteDialog()
 	{
-	  final Intent intent = new Intent(getActivity(), RouteNumberActivity.class);
-	  startActivityForResult(intent, ActivityId.RouteNumber);
+    RouteNumberActivity.launch(getActivity());
 	} // doLaunchFetchRouteDialog
 
 	private void launchStoredRoutesDialog()

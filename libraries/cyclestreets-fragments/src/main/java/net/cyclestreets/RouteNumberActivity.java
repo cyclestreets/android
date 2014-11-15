@@ -2,9 +2,11 @@ package net.cyclestreets;
 
 import net.cyclestreets.fragments.R;
 
+import net.cyclestreets.routing.Route;
 import net.cyclestreets.util.EditTextHistory;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Gravity;
@@ -17,6 +19,11 @@ import android.widget.RelativeLayout.LayoutParams;
 public class RouteNumberActivity extends Activity
 						   implements View.OnClickListener
 {
+  public static void launch(final Context context) {
+    final Intent intent = new Intent(context, RouteNumberActivity.class);
+    context.startActivity(intent);
+  } // launch
+
 	private AutoCompleteTextView numberText_;
 	private RadioGroup routeTypeGroup;
 	private Button routeGo;
@@ -45,11 +52,10 @@ public class RouteNumberActivity extends Activity
 
 	private void findRoute(long routeNumber)
 	{
-		final Intent intent = new Intent(this, RouteMapFragment.class);
-		intent.putExtra(CycleStreetsConstants.EXTRA_ROUTE_NUMBER, routeNumber);
-		final String routeType = RouteTypeMapper.nameFromId(routeTypeGroup.getCheckedRadioButtonId());
-		intent.putExtra(CycleStreetsConstants.EXTRA_ROUTE_TYPE, routeType);
-		setResult(RESULT_OK, intent);
+    final String routeType = RouteTypeMapper.nameFromId(routeTypeGroup.getCheckedRadioButtonId());
+    final int speed = CycleStreetsPreferences.speed();
+    Route.FetchRoute(routeType, routeNumber, speed, this);
+
 		finish();
 	} // findRoute
 
