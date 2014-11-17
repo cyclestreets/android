@@ -24,18 +24,10 @@
       android:layout_marginBottom="2.0dip">
   </LinearLayout>            
   <!-- Route type / Go =============================== -->
-  <LinearLayout
-	android:orientation="horizontal"
-	android:layout_width="match_parent"
-	android:layout_height="wrap_content"
-	android:layout_marginLeft="2.0dip" 
-	android:layout_marginTop="1.0dip" 
-	android:layout_marginRight="4.0dip" 
-	android:layout_marginBottom="5.0dip">
 	<LinearLayout
 	    android:orientation="vertical"
-	    android:layout_width="wrap_content"
-	    android:layout_height="match_parent">
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content">
 
       <Button
           android:id="@+id/addVia"
@@ -45,7 +37,7 @@
 	   <RadioGroup
 	     android:id="@+id/routeTypeGroup"
 	     android:orientation="horizontal"
-	     android:layout_width="wrap_content"
+	     android:layout_width="match_parent"
 	     android:layout_height="wrap_content">
       <RadioButton
 		android:id="@+id/routeQuietest"
@@ -78,12 +70,5 @@
    </RadioGroup>
   </LinearLayout>				
 
-   <Button
-       android:id="@+id/routeGo"
-       android:layout_width="match_parent"
-       android:layout_height="match_parent"
-       android:text="@string/go" />
-
-  </LinearLayout>
   </LinearLayout>
 </ScrollView>

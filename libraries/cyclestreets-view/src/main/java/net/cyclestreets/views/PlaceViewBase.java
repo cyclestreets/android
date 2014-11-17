@@ -72,8 +72,9 @@ public class PlaceViewBase extends LinearLayout
     inflator.inflate(layout, this);
 
     textView_ = (PlaceAutoCompleteTextView)findViewById(R.id.placeBox);
-    final String hint = attrs.getAttributeValue("http://schemas.android.com/apk/res/android", "hint");
-    textView_.setHint(hint);
+    final String hint = attrs != null ? attrs.getAttributeValue("http://schemas.android.com/apk/res/android", "hint") : null;
+    if (hint != null)
+      textView_.setHint(hint);
 
     button_ = (ImageButton)findViewById(R.id.optionsBtn);
 
@@ -100,7 +101,7 @@ public class PlaceViewBase extends LinearLayout
   } // loadStrings
 
   ////////////////////////////////////
-  public void allowCurrentLocation(final GeoPoint loc, final boolean hint)
+  public void allowCurrentLocation(final IGeoPoint loc, final boolean hint)
   {
     if(loc == null)
       return;

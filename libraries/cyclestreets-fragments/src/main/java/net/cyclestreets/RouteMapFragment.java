@@ -3,7 +3,6 @@ package net.cyclestreets;
 import net.cyclestreets.fragments.R;
 import net.cyclestreets.util.GPS;
 import net.cyclestreets.util.MessageBox;
-import net.cyclestreets.util.GeoIntent;
 import net.cyclestreets.views.overlay.POIOverlay;
 import net.cyclestreets.views.overlay.RouteOverlay;
 import net.cyclestreets.views.overlay.RouteHighlightOverlay;
@@ -12,10 +11,7 @@ import net.cyclestreets.routing.Journey;
 import net.cyclestreets.routing.Route;
 import net.cyclestreets.routing.Waypoints;
 
-import android.app.Activity;
 import android.content.DialogInterface;
-import android.content.Intent;
-import android.location.Location;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -74,9 +70,9 @@ public class RouteMapFragment extends CycleMapFragment
 	public void onRouteNow(int itinerary)
 	{
 	  Route.FetchRoute(CycleStreetsPreferences.routeType(),
-	                   itinerary,
-	                   CycleStreetsPreferences.speed(),
-	                   getActivity());
+        itinerary,
+        CycleStreetsPreferences.speed(),
+        getActivity());
 	} // onRouteNow
 
 	@Override
@@ -123,27 +119,6 @@ public class RouteMapFragment extends CycleMapFragment
 		return false;
 	} // onMenuItemSelected
 
-	@Override
-  public void onActivityResult(int requestCode, int resultCode, Intent data)
-  {
-	  super.onActivityResult(requestCode, resultCode, data);
-
-		if(resultCode != Activity.RESULT_OK)
-			return;
-
-		if(requestCode == ActivityId.Directions)
-		{
-		  final Waypoints points = GeoIntent.getWaypoints(data);
-			final String routeType = data.getStringExtra(CycleStreetsConstants.EXTRA_ROUTE_TYPE);
-			final int speed = data.getIntExtra(CycleStreetsConstants.EXTRA_ROUTE_SPEED,
-					                               CycleStreetsPreferences.speed());
-			Route.PlotRoute(routeType,
-          speed,
-          getActivity(),
-          points);
-		} // if ...
-	} // onActivityResult
-
 	private void startLiveRide()
 	{
 	  LiveRideActivity.launch(getActivity());
@@ -158,14 +133,11 @@ public class RouteMapFragment extends CycleMapFragment
                   });
   } // launchRouteDialog
 
-	private void doLaunchRouteDialog()
-	{
-	  final Intent intent = new Intent(getActivity(), RouteByAddressActivity.class);
-	  GeoIntent.setBoundingBox(intent, mapView().getBoundingBox());
-	  final Location lastFix = mapView().getLastFix();
-	  GeoIntent.setLocation(intent, lastFix);
-      GeoIntent.setWaypoints(intent, routeSetter_.waypoints());
-	  startActivityForResult(intent, ActivityId.Directions);
+	private void doLaunchRouteDialog() {
+    RouteByAddress.launch(getActivity(),
+        mapView().getBoundingBox(),
+        mapView().getLastFix(),
+        routeSetter_.waypoints());
 	} // doLaunchRouteDialog
 
 	private void launchFetchRouteDialog()
