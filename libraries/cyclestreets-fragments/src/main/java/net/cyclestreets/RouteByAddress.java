@@ -80,7 +80,7 @@ public class RouteByAddress {
       builder.setPositiveButton(R.string.go, MessageBox.NoAction);
 
       bounds_ = boundingBox;
-      currentLoc_ = new GeoPoint(lastFix.getLatitude(), lastFix.getLongitude());
+      currentLoc_ = lastFix != null ? new GeoPoint(lastFix.getLatitude(), lastFix.getLongitude()) : null;
 
       placeHolder_ = (LinearLayout) layout.findViewById(R.id.places);
       waypoints_ = waypoints;
