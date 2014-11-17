@@ -5,6 +5,7 @@ import net.cyclestreets.fragments.R;
 import net.cyclestreets.util.GeoIntent;
 import net.cyclestreets.views.CycleMapView;
 
+import org.osmdroid.api.IGeoPoint;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.overlay.Overlay;
 
@@ -97,28 +98,13 @@ public class CycleMapFragment extends Fragment implements Undoable
     return map_.onMenuItemSelected(item.getItemId(), item);
   } // onContextItemSelected
 
-
-  @Override
-  public void onActivityResult(int requestCode, int resultCode, Intent data)
-  {
-    super.onActivityResult(requestCode, resultCode, data);
-
-    if(resultCode != Activity.RESULT_OK)
-      return;
-
-    if(requestCode != ActivityId.FindPlace)
-      return;
-
-    final GeoPoint place = GeoIntent.getGeoPoint(data);
-    // we're in the wrong thread, so pop this away for later and force a refresh
-    map_.centreOn(place);
-  } // onActivityResult
-
-  private void launchFindDialog()
-  {
-    final Intent intent = new Intent(getActivity(), FindPlaceActivity.class);
-    GeoIntent.setBoundingBox(intent, map_.getBoundingBox());
-    startActivityForResult(intent, ActivityId.FindPlace);
+  private void launchFindDialog() {
+    FindPlace.launch(getActivity(), map_.getBoundingBox(), new FindPlace.Listener() {
+      @Override
+      public void onPlaceFound(IGeoPoint place) {
+        map_.centreOn(place);
+      }
+    });
   } // launchFindDialog
 
   @Override

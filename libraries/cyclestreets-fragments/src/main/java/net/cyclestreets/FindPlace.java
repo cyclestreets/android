@@ -5,9 +5,12 @@ import net.cyclestreets.fragments.R;
 import net.cyclestreets.api.GeoPlace;
 
 import net.cyclestreets.util.GeoIntent;
+import net.cyclestreets.util.MessageBox;
 import net.cyclestreets.views.PlaceView;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Gravity;
@@ -16,56 +19,81 @@ import android.widget.Button;
 import android.widget.Toast;
 import android.widget.RelativeLayout.LayoutParams;
 
-public class FindPlace extends Activity
-implements View.OnClickListener, PlaceView.OnResolveListener {
-  private PlaceView place_;
+import org.osmdroid.api.IGeoPoint;
+import org.osmdroid.util.BoundingBoxE6;
+import org.osmdroid.util.GeoPoint;
 
-  @Override
-  public void onCreate(final Bundle saved)
-  {
-    super.onCreate(saved);
+public class FindPlace {
+  public interface Listener {
+    void onPlaceFound(final IGeoPoint place);
+  }
 
-    setContentView(R.layout.findplace);
-    getWindow().setGravity(Gravity.TOP|Gravity.FILL_HORIZONTAL);
-    getWindow().setLayout(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT);
-    getWindow().setBackgroundDrawableResource(R.drawable.empty);
+  public static void launch(final Context context,
+                            final BoundingBoxE6 boundingBox,
+                            final FindPlace.Listener listener) {
+    final AlertDialog.Builder builder = new AlertDialog.Builder(context);
+    builder.setTitle(R.string.ic_menu_findplace);
 
-    place_ = (PlaceView)findViewById(R.id.place);
-    place_.setBounds(GeoIntent.getBoundingBox(getIntent()));
+    final FindPlaceCallbacks fpcb = new FindPlaceCallbacks(context, builder, boundingBox, listener);
 
-    final Button findButton = (Button)findViewById(R.id.find_place);
-    findButton.setOnClickListener(this);
-  } // onCreate
+    final AlertDialog ad = builder.create();
+    ad.show();
 
-  private void placeSelected(final GeoPlace place)
-  {
-    if (place == null || place.coord() == null)
-      return;
+    fpcb.setDialog(ad);
+  } // launch
 
-    place_.addHistory(place);
+  private static class FindPlaceCallbacks implements View.OnClickListener, PlaceView.OnResolveListener {
+    private final Context context_;
+    private final PlaceView place_;
+    private final Listener listener_;
+    private AlertDialog ad_;
 
-    final Intent intent = new Intent(this, RouteMapFragment.class);
-    GeoIntent.setGeoPoint(intent, place.coord());
-    setResult(RESULT_OK, intent);
-    finish();
-  } // placeSelected
+    public FindPlaceCallbacks(final Context context,
+                              final AlertDialog.Builder builder,
+                              final BoundingBoxE6 boundingBox,
+                              final Listener listener) {
+      context_ = context;
 
-  @Override
-  public void onClick(final View view)
-  {
-    final String from = place_.getText();
-    if(from.length() == 0)
-    {
-      Toast.makeText(this, R.string.lbl_choose_place, Toast.LENGTH_LONG).show();
-      return;
-    } // if ...
+      final View layout = View.inflate(context, R.layout.findplace, null);
+      builder.setView(layout);
 
-    place_.geoPlace(this);
-  } // onClick
+      builder.setPositiveButton(R.string.btn_find_place, MessageBox.NoAction);
 
-  @Override
-  public void onResolve(final GeoPlace place)
-  {
-    placeSelected(place);
-  } // onResolve
-} // class FindPlaceActivity
+      place_ = (PlaceView) layout.findViewById(R.id.place);
+      place_.setBounds(boundingBox);
+
+      listener_ = listener;
+    } // onCreate
+
+    public void setDialog(final AlertDialog ad) {
+      ad_ = ad;
+      ad_.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(this);
+    } // setDialog
+
+    private void placeSelected(final GeoPlace place) {
+      if (place == null || place.coord() == null)
+        return;
+
+      place_.addHistory(place);
+
+      listener_.onPlaceFound(place.coord());
+      ad_.dismiss();
+    } // placeSelected
+
+    @Override
+    public void onClick(final View view) {
+      final String from = place_.getText();
+      if (from.length() == 0) {
+        Toast.makeText(context_, R.string.lbl_choose_place, Toast.LENGTH_LONG).show();
+        return;
+      } // if ...
+
+      place_.geoPlace(this);
+    } // onClick
+
+    @Override
+    public void onResolve(final GeoPlace place) {
+      placeSelected(place);
+    } // onResolve
+  } // class FindPlaceCallback
+} // class FindPlace
