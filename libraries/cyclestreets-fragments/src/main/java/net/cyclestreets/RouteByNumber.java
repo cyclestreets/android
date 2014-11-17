@@ -16,9 +16,6 @@ import android.widget.RadioGroup;
 
 public class RouteByNumber {
   public static void launch(final Context context) {
-    //final Intent intent = new Intent(context, RouteByNumber.class);
-    //context.startActivity(intent);
-
     final AlertDialog.Builder builder = new AlertDialog.Builder(context);
     builder.setTitle(R.string.ic_menu_route_number);
 

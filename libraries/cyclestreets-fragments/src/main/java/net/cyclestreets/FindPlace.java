@@ -16,9 +16,8 @@ import android.widget.Button;
 import android.widget.Toast;
 import android.widget.RelativeLayout.LayoutParams;
 
-public class FindPlaceActivity extends Activity
-implements View.OnClickListener, PlaceView.OnResolveListener
-{
+public class FindPlace extends Activity
+implements View.OnClickListener, PlaceView.OnResolveListener {
   private PlaceView place_;
 
   @Override
