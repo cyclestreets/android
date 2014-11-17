@@ -10,8 +10,6 @@
               android:theme="@style/Theme.RouteInputDialog"/>
     <activity android:name="net.cyclestreets.RouteByAddressActivity"
               android:theme="@style/Theme.RouteInputDialog"/>
-    <activity android:name="net.cyclestreets.RouteNumberActivity"
-              android:theme="@style/Theme.RouteInputDialog"/>
     <activity android:name="net.cyclestreets.LocationEditorActivity"
               android:label="CycleStreets"/>
 

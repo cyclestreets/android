@@ -179,7 +179,7 @@ public class RouteMapFragment extends CycleMapFragment
 
 	private void doLaunchFetchRouteDialog()
 	{
-    RouteNumberActivity.launch(getActivity());
+    RouteByNumber.launch(getActivity());
 	} // doLaunchFetchRouteDialog
 
 	private void launchStoredRoutes()	{

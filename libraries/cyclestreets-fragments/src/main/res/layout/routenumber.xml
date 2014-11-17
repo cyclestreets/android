@@ -59,15 +59,5 @@
 	    android:button="@drawable/empty"
 	    android:layout_weight="1.0"/>
    </RadioGroup>
-   <View
-     android:layout_width="0.0dip"
-     android:layout_height="fill_parent"
-     android:layout_weight="1.0"/>				
-   <Button
-	 android:id="@+id/routeGo"
-	 android:layout_width="wrap_content"
-	 android:layout_height="fill_parent"     	
-	 android:text="@string/go"
-	 android:layout_weight="2.0"/>
   </LinearLayout>
 </LinearLayout>
