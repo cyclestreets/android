@@ -78,6 +78,7 @@ public class ItineraryFragment extends ListFragment
     private final Drawable footprints_;
     private final Drawable selected_;
     private final LayoutInflater inflater_;
+    private final Drawable themeColor_;
 
     SegmentAdapter(final Context context, final ItineraryFragment itinerary) {
       itinerary_ = itinerary;
@@ -87,6 +88,7 @@ public class ItineraryFragment extends ListFragment
       selected_.setState(new int[] {android.R.attr.state_focused});
 
       inflater_ = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+      themeColor_ = context.getResources().getDrawable(R.color.apptheme_color);
     } // SegmentAdaptor
 
     private Journey journey() { return itinerary_.journey_; }
@@ -143,7 +145,7 @@ public class ItineraryFragment extends ListFragment
       setTurnIcon(v, R.id.segment_type, seg.turn(), seg.walk());
 
       if (highlight && position != 0)
-        v.setBackgroundColor(Color.GREEN);
+        v.setBackgroundDrawable(themeColor_);
 
       return v;
     } // getView

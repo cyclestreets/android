@@ -49,6 +49,6 @@ public final class TurnIcons
                      .map("second exit", res.getDrawable(R.drawable.second_exit))
                      .map("third exit", res.getDrawable(R.drawable.third_exit))
                      .map("waymark", res.getDrawable(R.drawable.waymark))
-                     .map("default", res.getDrawable(R.drawable.icon));
+                     .map("default", res.getDrawable(R.drawable.ic_launcher));
   } // loadIconMappings
 } // TurnIcons

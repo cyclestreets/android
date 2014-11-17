@@ -11,7 +11,7 @@
         android:layout_alignParentBottom="true"
         android:layout_marginLeft="6dip"
         android:layout_marginRight="12dip"
-        android:src="@drawable/icon" />
+        android:src="@drawable/ic_launcher" />
     <TextView
         android:id="@+id/menu_name"
         android:layout_width="match_parent"
