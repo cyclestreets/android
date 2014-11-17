@@ -5,7 +5,6 @@ import java.util.ArrayList;
 
 import org.osmdroid.api.IGeoPoint;
 import org.osmdroid.util.BoundingBoxE6;
-import org.osmdroid.util.GeoPoint;
 
 import net.cyclestreets.content.LocationDatabase;
 import net.cyclestreets.content.SavedLocation;
@@ -15,7 +14,6 @@ import net.cyclestreets.api.GeoPlaces;
 import net.cyclestreets.contacts.Contact;
 import net.cyclestreets.contacts.Contacts;
 import net.cyclestreets.util.Dialog;
-import net.cyclestreets.util.ListDialog;
 import net.cyclestreets.util.MessageBox;
 
 import android.Manifest;
@@ -42,7 +40,6 @@ public class PlaceViewBase extends LinearLayout
 
   ////////////////////////////////
   private static String CURRENT_LOCATION;
-  private static String CHOOSE_LOCATION;
   private static String LOCATION_NOT_FOUND;
   private static String LOCATION_SEARCH;
   private static String CONTACTS;
@@ -91,7 +88,6 @@ public class PlaceViewBase extends LinearLayout
       return;
     final Resources res = context.getResources();
     CURRENT_LOCATION = res.getString(R.string.placeview_current_location);
-    CHOOSE_LOCATION = res.getString(R.string.placeview_choose_location);
     LOCATION_NOT_FOUND = res.getString(R.string.placeview_location_not_found);
     LOCATION_SEARCH = res.getString(R.string.placeview_location_search);
     CONTACTS = res.getString(R.string.placeview_contacts);
@@ -201,10 +197,10 @@ public class PlaceViewBase extends LinearLayout
     if (savedLocationsAvailable())
       options_.add(SAVED_LOCATIONS);
 
-    ListDialog.showListDialog(context_,
-                              CHOOSE_LOCATION,
-                              options_,
-                              this);
+    Dialog.listViewDialog(context_,
+        R.string.placeview_choose_location,
+        options_,
+        this);
   } // onClick
 
   private boolean contactsAvailable() {
@@ -249,10 +245,10 @@ public class PlaceViewBase extends LinearLayout
       return;
     } // if ...
 
-    ListDialog.showListDialog(context_,
-                              CONTACTS,
-                              contacts_,
-                              new ContactsListener());
+    Dialog.listViewDialog(context_,
+                          R.string.placeview_contacts,
+                          contacts_,
+                          new ContactsListener());
   } // pickContact
 
   private class ContactsListener implements DialogInterface.OnClickListener
@@ -266,10 +262,10 @@ public class PlaceViewBase extends LinearLayout
   } // class ContactsListener
 
   private void pickSavedLocation() {
-    ListDialog.showListDialog(context_,
-                              SAVED_LOCATIONS,
-                              savedLocations_,
-                              new SavedLocationListener());
+    Dialog.listViewDialog(context_,
+                          R.string.placeview_saved_locations,
+                          savedLocations_,
+                          new SavedLocationListener());
   } // pickSavedLocation
 
   private class SavedLocationListener implements DialogInterface.OnClickListener {
@@ -316,10 +312,10 @@ public class PlaceViewBase extends LinearLayout
       return;
     } // if ...
 
-    ListDialog.showListDialog(context_,
-                              CHOOSE_LOCATION,
-                              results.asList(),
-                              new PlaceListener(results, listener));
+    Dialog.listViewDialog(context_,
+                          R.string.placeview_choose_location,
+                          results.asList(),
+                          new PlaceListener(results, listener));
   } // resolvedContacts
 
   private class PlaceListener implements DialogInterface.OnClickListener

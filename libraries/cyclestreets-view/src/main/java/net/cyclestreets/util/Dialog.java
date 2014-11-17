@@ -10,6 +10,8 @@ import android.widget.EditText;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 
+import java.util.List;
+
 public class Dialog {
   private static class CycleStreetsProgressDialog extends ProgressDialog {
     public CycleStreetsProgressDialog(final Context context, final String message) {
@@ -66,7 +68,23 @@ public class Dialog {
     show(builder);
   } // editTextDialog
 
-  static public AlertDialog listViewDialog(final Context context,
+  public static AlertDialog listViewDialog(final Context context,
+                                           final int titleResId,
+                                           final List<?> items,
+                                           final DialogInterface.OnClickListener itemListener) {
+    final AlertDialog.Builder builder = newBuilder(context);
+    if (titleResId != -1)
+      builder.setTitle(titleResId);
+
+    final CharSequence[] itemArray = new CharSequence[items.size()];
+    for(int i = 0; i != items.size(); ++i)
+      itemArray[i] = items.get(i).toString();
+    builder.setItems(itemArray, itemListener);
+
+    return show(builder);
+  } // listViewDialog
+
+  public static AlertDialog listViewDialog(final Context context,
                                            final int titleResId,
                                            final ListAdapter adapter,
                                            final DialogInterface.OnClickListener yesAction,
