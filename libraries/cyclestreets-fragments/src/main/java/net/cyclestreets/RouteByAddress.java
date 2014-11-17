@@ -61,6 +61,7 @@ public class RouteByAddress {
     private final String WAYPOINT_LABEL;
 
     private AlertDialog ad_;
+    private int findId_;
 
     public RouteByAddressCallbacks(final Context context,
                                    final AlertDialog.Builder builder,
@@ -96,7 +97,9 @@ public class RouteByAddress {
 
     public void setDialog(final AlertDialog ad) {
       ad_ = ad;
-      ad_.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(this);
+      View button = ad_.getButton(AlertDialog.BUTTON_POSITIVE);
+      button.setOnClickListener(this);
+      findId_ = button.getId();
     } // setDialog
 
     private void findRoute(final List<GeoPlace> places) {
@@ -166,7 +169,7 @@ public class RouteByAddress {
     public void onClick(final View view) {
       final int viewId = view.getId();
 
-      if (AlertDialog.BUTTON_POSITIVE == viewId)
+      if (findId_ == viewId)
         resolvePlaces();
       if (R.id.addVia == viewId)
         addWaypointBox();
