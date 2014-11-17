@@ -5,7 +5,7 @@ import java.util.Iterator;
 import java.util.List;
 
 
-import org.osmdroid.util.GeoPoint;
+import org.osmdroid.api.IGeoPoint;
 
 public class Segments implements Iterable<Segment>
 {
@@ -19,8 +19,8 @@ public class Segments implements Iterable<Segment>
   public int count() { return segments_.size(); }
   public boolean isEmpty() { return count() == 0; }
   
-  public GeoPoint startPoint() { return segments_.get(0).start(); }
-  public GeoPoint finishPoint() { return segments_.get(count()-1).finish(); }
+  public IGeoPoint startPoint() { return segments_.get(0).start(); }
+  public IGeoPoint finishPoint() { return segments_.get(count()-1).finish(); }
   public Segment.Start first() { return (Segment.Start)segments_.get(0); }
   public Segment.End last() { return (Segment.End)segments_.get(count()-1); }
   
@@ -51,12 +51,12 @@ public class Segments implements Iterable<Segment>
   @Override
   public Iterator<Segment> iterator() { return segments_.iterator(); }
   
-  public Iterator<GeoPoint> pointsIterator() { return new PointsIterator(this); }
+  public Iterator<IGeoPoint> pointsIterator() { return new PointsIterator(this); }
   
-  static private class PointsIterator implements Iterator<GeoPoint>
+  static private class PointsIterator implements Iterator<IGeoPoint>
   {
     private final Iterator<Segment> segments_;
-    private Iterator<GeoPoint> points_;
+    private Iterator<IGeoPoint> points_;
     
     PointsIterator(final Segments segments)
     {
@@ -74,12 +74,12 @@ public class Segments implements Iterable<Segment>
     } // hasNext
 
     @Override
-    public GeoPoint next() 
+    public IGeoPoint next()
     {
       if(!hasNext())
         throw new IllegalStateException();
       
-      final GeoPoint p = points_.next();
+      final IGeoPoint p = points_.next();
       
       if(!hasNext())
       {

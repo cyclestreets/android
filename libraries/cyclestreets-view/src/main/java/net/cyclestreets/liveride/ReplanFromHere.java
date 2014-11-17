@@ -5,6 +5,7 @@ import net.cyclestreets.routing.Journey;
 import net.cyclestreets.routing.Route;
 import net.cyclestreets.routing.Waypoints;
 
+import org.osmdroid.api.IGeoPoint;
 import org.osmdroid.util.GeoPoint;
 
 final class ReplanFromHere extends LiveRideState
@@ -19,7 +20,7 @@ final class ReplanFromHere extends LiveRideState
 
     next_ = this;
 
-    final GeoPoint finish = Route.waypoints().last();    
+    final IGeoPoint finish = Route.waypoints().last();
     Route.softRegisterListener(this);
     Route.PlotRoute(CycleStreetsPreferences.routeType(), 
                     CycleStreetsPreferences.speed(),

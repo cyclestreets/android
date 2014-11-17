@@ -3,6 +3,7 @@ package net.cyclestreets.views;
 import java.util.List;
 import java.util.ArrayList;
 
+import org.osmdroid.api.IGeoPoint;
 import org.osmdroid.util.BoundingBoxE6;
 import org.osmdroid.util.GeoPoint;
 
@@ -109,7 +110,7 @@ public class PlaceViewBase extends LinearLayout
       setPlaceHint(gp);
   } // allowCurrentLocation
 
-  public void allowLocation(final GeoPoint loc, final String label)
+  public void allowLocation(final IGeoPoint loc, final String label)
   {
     if(loc == null)
       return;

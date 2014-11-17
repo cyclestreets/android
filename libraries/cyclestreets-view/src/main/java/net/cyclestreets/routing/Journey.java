@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import net.cyclestreets.CycleStreetsPreferences;
 import net.cyclestreets.util.Collections;
 
+import org.osmdroid.api.IGeoPoint;
 import org.osmdroid.util.GeoPoint;
 import org.xml.sax.Attributes;
 import org.xml.sax.ContentHandler;
@@ -97,13 +98,13 @@ public class Journey
       ++activeSegment_; 
   } // advanceActiveSegment
   
-  public Iterator<GeoPoint> points()
+  public Iterator<IGeoPoint> points()
   {
     return segments_.pointsIterator();
   } // points
   
   ////////////////////////////////////////////////////////////////
-  static private GeoPoint pD(final GeoPoint a1, final GeoPoint a2)
+  static private IGeoPoint pD(final IGeoPoint a1, final IGeoPoint a2)
   {
     return a1 != null ? a1 : a2;
   } // pD
@@ -203,7 +204,7 @@ As at 16 October 2012
             final boolean shouldWalk = "1".equals(s(attr, "walk"));
             final int currentLeg = i(attr, "legNumber");
             
-            final List<GeoPoint> points = pointsList(packedPoints);
+            final List<IGeoPoint> points = pointsList(packedPoints);
             
             if(currentLeg != leg_) 
             {
@@ -270,11 +271,11 @@ As at 16 October 2012
         @Override
         public void end()
         {
-          final GeoPoint from = journey_.waypoints().first();
-          final GeoPoint to = journey_.waypoints().last();
+          final IGeoPoint from = journey_.waypoints().first();
+          final IGeoPoint to = journey_.waypoints().last();
 
-          final GeoPoint pstart = journey_.segments_.startPoint();
-          final GeoPoint pend = journey_.segments_.finishPoint();
+          final IGeoPoint pstart = journey_.segments_.startPoint();
+          final IGeoPoint pend = journey_.segments_.finishPoint();
           final Segment startSeg = new Segment.Start(itinerary_,
                                  name_ != null ? name_ : start_,
                                  plan_, 
@@ -301,9 +302,9 @@ As at 16 October 2012
       return journey_;
     } // get
     
-    private List<GeoPoint> pointsList(final String points)
+    private List<IGeoPoint> pointsList(final String points)
     {
-      final List<GeoPoint> pl = new ArrayList<GeoPoint>();
+      final List<IGeoPoint> pl = new ArrayList<>();
       final String[] coords = points.split(" ");
       for (final String coord : coords) 
       {

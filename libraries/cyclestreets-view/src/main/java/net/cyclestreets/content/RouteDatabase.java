@@ -6,7 +6,7 @@ import java.util.List;
 import net.cyclestreets.routing.Journey;
 import net.cyclestreets.routing.Waypoints;
 
-import org.osmdroid.util.GeoPoint;
+import org.osmdroid.api.IGeoPoint;
 
 import android.content.Context;
 import android.database.Cursor;
@@ -173,7 +173,7 @@ public class RouteDatabase
   private String flattenWaypoints(final Waypoints waypoints)
   {
     final StringBuilder sb = new StringBuilder();
-    for(final GeoPoint waypoint : waypoints)
+    for(final IGeoPoint waypoint : waypoints)
     {
       if(sb.length() != 0)
         sb.append('|');

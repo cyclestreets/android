@@ -150,7 +150,7 @@ public class TapToRouteOverlay extends Overlay
   {
     resetRoute();
 
-    for(final GeoPoint waypoint : waypoints)
+    for(final IGeoPoint waypoint : waypoints)
     {
       addWaypoint(waypoint);
       tapState_ = tapState_.next(waymarkersCount());

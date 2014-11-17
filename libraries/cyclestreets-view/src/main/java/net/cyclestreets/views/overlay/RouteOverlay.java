@@ -11,6 +11,7 @@ import net.cyclestreets.routing.Segments;
 import net.cyclestreets.routing.Waypoints;
 import net.cyclestreets.routing.Route.Listener;
 
+import org.osmdroid.api.IGeoPoint;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
 import org.osmdroid.api.IProjection;
@@ -131,9 +132,9 @@ public class RouteOverlay extends Overlay implements PauseResumeListener, Listen
       final Path path = newPath();
 
       boolean first = true;
-      for(Iterator<GeoPoint> i = s.points(); i.hasNext(); )
+      for(Iterator<IGeoPoint> i = s.points(); i.hasNext(); )
       {
-        final GeoPoint gp = i.next();
+        final IGeoPoint gp = i.next();
         screenPoint = projection.toPixels(gp, screenPoint);
         
         if(first)

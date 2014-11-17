@@ -7,6 +7,7 @@ import net.cyclestreets.util.Collections;
 import net.cyclestreets.util.GeoHelper;
 import net.cyclestreets.util.IterableIterator;
 
+import org.osmdroid.api.IGeoPoint;
 import org.osmdroid.util.GeoPoint;
 
 public abstract class Segment {
@@ -16,7 +17,7 @@ public abstract class Segment {
   protected final String running_time_;
   protected final int distance_;
   protected final int running_distance_;
-  protected final List<GeoPoint> points_;
+  protected final List<IGeoPoint> points_;
 
   static public DistanceFormatter formatter = DistanceFormatter.formatter(CycleStreetsPreferences.units());
   
@@ -26,7 +27,7 @@ public abstract class Segment {
           final int time,
           final int distance,
           final int running_distance,
-          final List<GeoPoint> points,
+          final List<IGeoPoint> points,
           final boolean terminal)
   {  
     this(name, 
@@ -45,7 +46,7 @@ public abstract class Segment {
           final String running_time,
           final int distance,
           final int running_distance,
-          final List<GeoPoint> points,
+          final List<IGeoPoint> points,
           final boolean terminal)
   {
     name_ = name;
@@ -107,8 +108,8 @@ public abstract class Segment {
     return s;
   } // toString
   
-  public GeoPoint start() { return points_.get(0); }
-  public GeoPoint finish() { return points_.get(points_.size()-1); }
+  public IGeoPoint start() { return points_.get(0); }
+  public IGeoPoint finish() { return points_.get(points_.size()-1); }
       
   public int distanceFrom(final GeoPoint location)
   {
@@ -130,8 +131,8 @@ public abstract class Segment {
   
   private int crossTrack(final int index, final GeoPoint location)
   {
-    final GeoPoint p1 = points_.get(index);
-    final GeoPoint p2 = points_.get(index+1);
+    final IGeoPoint p1 = points_.get(index);
+    final IGeoPoint p2 = points_.get(index+1);
     
     double crossTrack = GeoHelper.crossTrack(p1, p2, location);
 
@@ -172,9 +173,9 @@ public abstract class Segment {
     
     int cumulative = 0;
     for(int i = 1; i <= minIndex; ++i) {
-      final GeoPoint p1 = points_.get(i-1);
-      final GeoPoint p2 = points_.get(i);
-      cumulative += p1.distanceTo(p2);
+      final IGeoPoint p1 = points_.get(i-1);
+      final IGeoPoint p2 = points_.get(i);
+      cumulative += ((GeoPoint)p1).distanceTo(p2);
     }
     
     cumulative += at.offset();
@@ -184,8 +185,8 @@ public abstract class Segment {
   
   private GeoHelper.AlongTrack alongTrack(final int index, final GeoPoint location)
   {
-    final GeoPoint p1 = points_.get(index);
-    final GeoPoint p2 = points_.get(index+1);
+    final IGeoPoint p1 = points_.get(index);
+    final IGeoPoint p2 = points_.get(index+1);
   
     GeoHelper.AlongTrack alongTrack = GeoHelper.alongTrackOffset(p1, p2, location);
 
@@ -199,7 +200,7 @@ public abstract class Segment {
     
     for(int p = 0; p != points_.size(); ++p) 
     {
-      int distance = points_.get(p).distanceTo(location);
+      int distance = GeoHelper.distanceBetween(points_.get(p), (location));
       if(distance > minDistance)
         continue;
 
@@ -212,7 +213,7 @@ public abstract class Segment {
   
   public int distanceFromEnd(final GeoPoint location)
   {
-    return finish().distanceTo(location);
+    return GeoHelper.distanceBetween(finish(), location);
   } // distanceFromEnd
   
   public String street() { return name_; }
@@ -222,7 +223,7 @@ public abstract class Segment {
   public String distance() { return formatter.distance(distance_); }
   public String runningDistance() { return formatter.total_distance(running_distance_); }
   public String extraInfo() { return ""; }
-  public IterableIterator<GeoPoint> points() { return new IterableIterator<GeoPoint>(points_.iterator()); }
+  public IterableIterator<IGeoPoint> points() { return new IterableIterator<>(points_.iterator()); }
 
   static public class Start extends Segment 
   {
@@ -240,7 +241,7 @@ public abstract class Segment {
           final int total_distance, 
           final int calories,
           final int co2,
-          final List<GeoPoint> points)
+          final List<IGeoPoint> points)
     {
       super(journey, "", false, total_time, 0, total_distance, points, true);
       itinerary_ = itinerary;
@@ -294,7 +295,7 @@ public abstract class Segment {
     public End(final String destination, 
       final int total_time, 
       final int total_distance, 
-      final List<GeoPoint> points)  
+      final List<IGeoPoint> points)
     {
       super("Destination " + destination, "", false, total_time, 0, total_distance, points, true);
       total_distance_ = total_distance;
@@ -313,7 +314,7 @@ public abstract class Segment {
        final int time,
        final int distance,
        final int running_distance,
-       final List<GeoPoint> points)
+       final List<IGeoPoint> points)
     {
       super(name, 
           turn.length() != 0 ? turn.substring(0,1).toUpperCase() + turn.substring(1) : turn,
@@ -342,7 +343,7 @@ public abstract class Segment {
   {
     public Waymark(final int count,
                    final int running_distance,
-                   final GeoPoint gp)
+                   final IGeoPoint gp)
     {
       super("Waypoint " + count,
             "Waymark",
