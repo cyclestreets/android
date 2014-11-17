@@ -71,6 +71,9 @@ public class PlaceViewBase extends LinearLayout
     inflator.inflate(layout, this);
 
     textView_ = (PlaceAutoCompleteTextView)findViewById(R.id.placeBox);
+    final String hint = attrs.getAttributeValue("http://schemas.android.com/apk/res/android", "hint");
+    textView_.setHint(hint);
+
     button_ = (ImageButton)findViewById(R.id.optionsBtn);
 
     button_.setOnClickListener(this);
