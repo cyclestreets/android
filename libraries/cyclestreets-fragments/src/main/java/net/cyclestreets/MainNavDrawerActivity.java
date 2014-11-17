@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.preference.PreferenceManager;
 import android.support.v4.app.ActionBarDrawerToggle;
@@ -382,6 +383,7 @@ public abstract class MainNavDrawerActivity
     private final List<DrawerItem> activePages_;
     private final LayoutInflater inflater_;
     private final NavigationDrawerFragment parentFrag_;
+    private final Drawable themeColor_;
 
     PageInfoAdapter(final NavigationDrawerFragment parentFrag,
                     final List<DrawerItem> pageInfo,
@@ -392,6 +394,7 @@ public abstract class MainNavDrawerActivity
         di.setAdapter(this);
       activePages_ = new ArrayList<>();
       inflater_ = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+      themeColor_ = context.getResources().getDrawable(R.color.apptheme_color);
 
       buildActiveList();
     } // PageInfoAdaptor
@@ -428,7 +431,7 @@ public abstract class MainNavDrawerActivity
       setIcon(v, getItem(position).icon());
 
       if (highlight)
-        v.setBackgroundColor(Color.GREEN);
+        v.setBackgroundDrawable(themeColor_);
 
       return v;
     } // getView
