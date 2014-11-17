@@ -7,9 +7,7 @@ import net.cyclestreets.util.EditTextHistory;
 import net.cyclestreets.util.MessageBox;
 
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.view.View;
 import android.widget.AutoCompleteTextView;
 import android.widget.RadioGroup;
@@ -33,7 +31,7 @@ public class RouteByNumber {
     private final AutoCompleteTextView numberText_;
     private final RadioGroup routeTypeGroup;
     private final EditTextHistory history_;
-    public AlertDialog ad_;
+    private AlertDialog ad_;
 
     public RouteByNumberCallbacks(final Context context,
                                   final AlertDialog.Builder builder) {
