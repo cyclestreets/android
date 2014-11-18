@@ -173,6 +173,7 @@ public class ItineraryFragment extends ListFragment
 
       final Drawable icon = turnIcon(turn);
       iv.setImageDrawable(icon);
+      iv.setBackgroundDrawable(v.getBackground());
       if(walk)
         iv.setBackgroundDrawable(footprints_);
     } // setTurnIcon
