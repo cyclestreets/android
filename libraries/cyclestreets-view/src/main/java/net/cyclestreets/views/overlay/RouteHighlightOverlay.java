@@ -29,7 +29,6 @@ public class RouteHighlightOverlay extends Overlay
 
   private final OverlayButton prevButton_;
   private final OverlayButton nextButton_;
-  private final OverlayButton liveRideButton_;
   private final boolean hasGps_;
 
   private final int offset_;
@@ -63,15 +62,6 @@ public class RouteHighlightOverlay extends Overlay
                                     radius_);
     nextButton_.bottomAlign();
 
-    liveRideButton_ = new OverlayButton(res.getDrawable(R.drawable.ic_menu_live_ride),
-                                        "Start\nLiveRide",
-                                        offset_,
-                                        prevButton_.bottom() + offset_,
-                                        (prevButton_.width() * 2) + offset_,
-                                        radius_);
-    liveRideButton_.bottomAlign();
-
-
     textBrush_ = Brush.createTextBrush(offset_);
     textBrush_.setTextAlign(Align.LEFT);
 
@@ -103,9 +93,6 @@ public class RouteHighlightOverlay extends Overlay
     prevButton_.draw(canvas);
     nextButton_.enable(!Route.journey().atEnd());
     nextButton_.draw(canvas);
-
-    if(hasGps_)
-      liveRideButton_.draw(canvas);
   } // drawButtons
 
   private void drawSegmentInfo(final Canvas canvas)
@@ -141,12 +128,6 @@ public class RouteHighlightOverlay extends Overlay
     if(!Route.available())
       return false;
 
-    if(hasGps_ && liveRideButton_.hit(event))
-    {
-      startLiveRide();
-      return true;
-    } // if ...
-
     if(!prevButton_.hit(event) && !nextButton_.hit(event))
       return false;
 
@@ -179,9 +160,4 @@ public class RouteHighlightOverlay extends Overlay
     mapView_.invalidate();
     return true;
   } // onDoubleTap
-
-  private void startLiveRide()
-  {
-    LiveRideActivity.launch(context_);
-  } // startLiveRide
 } // RouteHighlightOverlay
