@@ -33,12 +33,14 @@ public abstract class LiveRideState
   //////////////////////////////////////////
   
   private Context context_;
+  private String title_;
   private TextToSpeech tts_;
   
   protected LiveRideState(final Context context, final TextToSpeech tts) 
   {
     context_ = context;
     tts_ = tts;
+    title_ = context.getString(context.getApplicationInfo().labelRes);
   } // LiveRideState
   
   protected LiveRideState(final LiveRideState state) 
@@ -89,7 +91,7 @@ public abstract class LiveRideState
                        getNotification();
     final Intent notificationIntent = new Intent(context(), LiveRideActivity.class);
     final PendingIntent contentIntent = PendingIntent.getActivity(context(), 0, notificationIntent, PendingIntent.FLAG_CANCEL_CURRENT);
-    notification.setLatestEventInfo(context(), "CycleStreets", text, contentIntent);
+    notification.setLatestEventInfo(context(), title_, text, contentIntent);
     nm.notify(NOTIFICATION_ID, notification);
   } // notify
 
