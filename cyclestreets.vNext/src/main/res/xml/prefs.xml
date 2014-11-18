@@ -18,17 +18,17 @@
     <ListPreference
         android:key="mapfile"
         android:title="Vector Mapfile"/>
+    <CheckBoxPreference
+      android:key="confirm-new-route"
+      android:title="Confirm Start New Route"
+      android:defaultValue="true"/>
     <ListPreference
         android:key="iconsize"
         android:title="Icon size"
         android:summary="Icon Size"
-        android:defaultValue="20"
+        android:defaultValue="32"
         android:entries="@array/iconsize"
         android:entryValues="@array/iconsize_values" />
-    <CheckBoxPreference
-        android:key="confirm-new-route"
-        android:title="Confirm Start New Route"
-        android:defaultValue="true"/>
   </PreferenceScreen>
   <PreferenceScreen
       android:title="Routing Preferences">
