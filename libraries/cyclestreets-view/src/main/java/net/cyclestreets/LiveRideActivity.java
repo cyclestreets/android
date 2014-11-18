@@ -52,7 +52,7 @@ public class LiveRideActivity extends Activity
     map_.hideLocationButton();
     
     final RelativeLayout rl = new RelativeLayout(this);
-    rl.addView(map_, new RelativeLayout.LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT));
+    rl.addView(map_, new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
     setContentView(rl);
   } // onCreate
      
