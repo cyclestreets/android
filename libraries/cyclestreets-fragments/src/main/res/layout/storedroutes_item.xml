@@ -12,5 +12,6 @@
         android:singleLine="false"
         android:ellipsize="marquee"
         android:text="Route"
+        android:textAppearance="?android:attr/textAppearanceSmall"
         />
 </RelativeLayout>

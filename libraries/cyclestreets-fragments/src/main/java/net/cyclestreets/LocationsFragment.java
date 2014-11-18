@@ -37,6 +37,14 @@ public class LocationsFragment extends ListFragment {
   } // onCreate
 
   @Override
+  public View onCreateView(final LayoutInflater inflater,
+                           final ViewGroup container,
+                           final Bundle savedInstanceState) {
+    super.onCreateView(inflater, container, savedInstanceState);
+    return inflater.inflate(R.layout.locations_list, container, false);
+  } // onCreateView
+
+  @Override
   public void onActivityCreated(Bundle savedInstanceState) {
     super.onActivityCreated(savedInstanceState);
     setHasOptionsMenu(true);
@@ -62,6 +70,7 @@ public class LocationsFragment extends ListFragment {
   public void onCreateContextMenu(final ContextMenu menu,
                                   final View v,
                                   final ContextMenu.ContextMenuInfo menuInfo) {
+    createMenuItem(menu, R.string.ic_menu_edit);
     createMenuItem(menu, R.string.ic_menu_delete);
   }  // onCreateContextMenu
 
@@ -74,6 +83,8 @@ public class LocationsFragment extends ListFragment {
       final int localId = (int)getListAdapter().getItemId(info.position);
       final int menuId = item.getItemId();
 
+      if(R.string.ic_menu_edit == menuId)
+        editLocation(localId);
       if(R.string.ic_menu_delete == menuId)
         deleteLocation(localId);
 
