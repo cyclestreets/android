@@ -80,8 +80,13 @@ public abstract class LiveRideState
   private void notification(final String text, final String ticker)
   {
     final NotificationManager nm = nm();
-    final Notification notification = new Notification(R.drawable.icon, ticker, System.currentTimeMillis());
-    notification.flags = Notification.FLAG_AUTO_CANCEL | Notification.FLAG_ONGOING_EVENT;
+    final Notification notification = new Notification.Builder(context()).
+                       setContentTitle(ticker).
+                       setSmallIcon(R.drawable.ic_launcher).
+                       setWhen(System.currentTimeMillis()).
+                       setAutoCancel(true).
+                       setOngoing(true).
+                       getNotification();
     final Intent notificationIntent = new Intent(context(), LiveRideActivity.class);
     final PendingIntent contentIntent = PendingIntent.getActivity(context(), 0, notificationIntent, PendingIntent.FLAG_CANCEL_CURRENT);
     notification.setLatestEventInfo(context(), "CycleStreets", text, contentIntent);
