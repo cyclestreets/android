@@ -168,6 +168,8 @@ public class ItineraryFragment extends ListFragment
 
     private void setTurnIcon(final View v, final int id, final String turn, final boolean walk) {
       final ImageView iv = (ImageView)v.findViewById(id);
+      if (iv == null)
+        return;
 
       final Drawable icon = turnIcon(turn);
       iv.setImageDrawable(icon);
