@@ -30,6 +30,7 @@ public class StoredRoutes {
         rsa,
         null,
         null);
+    ad.getButton(AlertDialog.BUTTON_POSITIVE).setTextAppearance(context, android.R.style.TextAppearance_Large);
     rsa.setDialog(ad);
   } // launch
 
