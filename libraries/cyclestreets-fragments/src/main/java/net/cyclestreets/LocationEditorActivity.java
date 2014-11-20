@@ -2,11 +2,12 @@ package net.cyclestreets;
 
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import net.cyclestreets.content.LocationDatabase;
 import net.cyclestreets.content.SavedLocation;
@@ -19,7 +20,7 @@ import org.osmdroid.api.IGeoPoint;
 public class LocationEditorActivity extends ActionBarActivity
     implements ThereOverlay.LocationListener,
                View.OnClickListener,
-               TextView.OnEditorActionListener {
+               TextWatcher {
   private CycleMapView map_;
   private ThereOverlay there_;
   private Button save_;
@@ -74,7 +75,7 @@ public class LocationEditorActivity extends ActionBarActivity
 
   private void setupEditBox() {
     nameBox_ = (EditText)findViewById(R.id.name);
-    nameBox_.setOnEditorActionListener(this);
+    nameBox_.addTextChangedListener(this);
   } // setupEditBox
 
   private void setupLocation() {
@@ -116,10 +117,14 @@ public class LocationEditorActivity extends ActionBarActivity
   } // onSetLocation
 
   @Override
-  public boolean onEditorAction(android.widget.TextView textView, int i, android.view.KeyEvent keyEvent) {
+  public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) { }
+  @Override
+  public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) { }
+
+  @Override
+  public void afterTextChanged(Editable editable) {
     checkAllowSave();
-    return false;
-  } // onEditorAction
+  } // afterTextChanged
 
   private void checkAllowSave() {
     boolean allow =  (there_.there() != null) && (nameBox_.getText().length() > 0);
