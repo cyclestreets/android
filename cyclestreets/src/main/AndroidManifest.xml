@@ -43,8 +43,6 @@
               android:excludeFromRecents="true"
               android:finishOnTaskLaunch="true" />
 
-    <activity android:name="net.cyclestreets.SettingsActivity"
-              android:label="CycleStreets : Settings"/>
     <activity android:name="net.cyclestreets.AboutActivity"
               android:label="CycleStreets : About"/>
 

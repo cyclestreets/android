@@ -76,7 +76,6 @@ public class ItineraryFragment extends ListFragment
     private final ItineraryFragment itinerary_;
     private final TurnIcons.Mapping iconMappings_;
     private final Drawable footprints_;
-    private final Drawable selected_;
     private final LayoutInflater inflater_;
     private final Drawable themeColor_;
 
@@ -84,8 +83,6 @@ public class ItineraryFragment extends ListFragment
       itinerary_ = itinerary;
       iconMappings_ = TurnIcons.LoadMapping(context);
       footprints_ = context.getResources().getDrawable(R.drawable.footprints);
-      selected_ = context.getResources().getDrawable(android.R.drawable.list_selector_background);
-      selected_.setState(new int[] {android.R.attr.state_focused});
 
       inflater_ = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
       themeColor_ = context.getResources().getDrawable(R.color.apptheme_color);

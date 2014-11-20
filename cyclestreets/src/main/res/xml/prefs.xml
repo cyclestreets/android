@@ -27,12 +27,8 @@
 			android:entryValues="@array/unit_values"/>
 		<ListPreference
 			android:key="mapstyle"
-			android:title="Map style"
-			android:summary="OpenStreetMap"
-			android:defaultValue="CycleStreets-OSM"
-			android:entries="@array/mapstyle"
-			android:entryValues="@array/mapstyle_values" />
-    <ListPreference 
+			android:title="Map style"/>
+    <ListPreference
       android:key="mapfile"
       android:title="Vector Mapfile"/>
 		<ListPreference 
