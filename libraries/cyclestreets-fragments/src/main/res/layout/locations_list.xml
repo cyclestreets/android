@@ -4,7 +4,8 @@
               android:orientation="vertical" >
 
   <RelativeLayout android:layout_width="match_parent"
-                  android:layout_height="?android:attr/listPreferredItemHeight"
+                  android:layout_height="wrap_content"
+                  android:minHeight="?android:attr/listPreferredItemHeight"
                   android:background="?android:attr/textColorHighlight">
     <TextView
         android:layout_width="wrap_content"
