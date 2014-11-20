@@ -11,6 +11,9 @@ import android.telephony.TelephonyManager;
 public class CycleStreetsPreferences
 {
   private static Context context_;
+
+  public final static String NOT_SET = "not-set";
+
   public final static String PREF_ROUTE_TYPE_KEY = "routetype";
   public final static String PREF_UNITS_KEY = "units";
   public final static String PREF_SPEED_KEY = "speed";
@@ -61,7 +64,7 @@ public class CycleStreetsPreferences
   }
 
   static public String mapstyle() {
-    return getString(PREF_MAPSTYLE_KEY, MAPSTYLE_OCM);
+    return getString(PREF_MAPSTYLE_KEY, NOT_SET);
   }
 
   static public void setMapstyle(final String name) {
@@ -69,11 +72,11 @@ public class CycleStreetsPreferences
   }
 
   static public void resetMapstyle() {
-    setMapstyle(MAPSTYLE_OCM);
+    setMapstyle(NOT_SET);
   }
 
   static public String mapfile() {
-    return getString(PREF_MAPFILE_KEY, "not-set");
+    return getString(PREF_MAPFILE_KEY, NOT_SET);
   }
 
   static public int iconSize() {

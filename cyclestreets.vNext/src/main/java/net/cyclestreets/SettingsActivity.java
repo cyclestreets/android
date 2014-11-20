@@ -11,6 +11,7 @@ import android.preference.PreferenceScreen;
 
 import net.cyclestreets.CycleStreetsPreferences;
 import net.cyclestreets.api.POICategories;
+import net.cyclestreets.tiles.TileSource;
 import net.cyclestreets.util.MapPack;
 import net.cyclestreets.util.MessageBox;
 
@@ -27,6 +28,7 @@ public class SettingsActivity extends PreferenceActivity
 
     addPreferencesFromResource(R.xml.prefs);
 
+    setupMapStyles();
     setupMapFileList();
 
     setSummary(CycleStreetsPreferences.PREF_ROUTE_TYPE_KEY);
@@ -41,8 +43,17 @@ public class SettingsActivity extends PreferenceActivity
     setSummary(CycleStreetsPreferences.PREF_REPLAN_DISTANCE);
   } // onCreate
 
+  private void setupMapStyles() {
+    final ListPreference mapstylePref= (ListPreference)findPreference(CycleStreetsPreferences.PREF_MAPSTYLE_KEY);
+    if (mapstylePref == null)
+      return;
+    TileSource.configurePreference(mapstylePref);
+  } // setupMapStyles
+
   private void setupMapFileList() {
     final ListPreference mapfilePref= (ListPreference)findPreference(CycleStreetsPreferences.PREF_MAPFILE_KEY);
+    if (mapfilePref == null)
+      return;
     populateMapFileList(mapfilePref);
   } // setupMapFileList
 
@@ -65,13 +76,7 @@ public class SettingsActivity extends PreferenceActivity
 
     getPreferenceScreen().getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
 
-    final PreferenceScreen account = (PreferenceScreen)findPreference(CycleStreetsPreferences.PREF_ACCOUNT_KEY);
-    if(CycleStreetsPreferences.accountOK())
-      account.setSummary(R.string.settings_signed_in);
-    else if(CycleStreetsPreferences.accountPending())
-      account.setSummary(R.string.settings_awaiting);
-    else
-      account.setSummary("");
+    setAccountSummary();
   } // onResume
 
   @Override
@@ -101,6 +106,9 @@ public class SettingsActivity extends PreferenceActivity
 
   private void setMapFileSummary(final String style) {
     final ListPreference mapfilePref= (ListPreference)findPreference(CycleStreetsPreferences.PREF_MAPFILE_KEY);
+    if (mapfilePref == null)
+      return;
+
     final boolean enabled = style.equals(CycleStreetsPreferences.MAPSTYLE_MAPSFORGE);
     mapfilePref.setEnabled(enabled);
 
@@ -127,4 +135,17 @@ public class SettingsActivity extends PreferenceActivity
     mapfilePref.setValueIndex(index);
     mapfilePref.setSummary(mapfilePref.getEntries()[index]);
   } // setMapFileSummary
+
+  private void setAccountSummary() {
+    final PreferenceScreen account = (PreferenceScreen)findPreference(CycleStreetsPreferences.PREF_ACCOUNT_KEY);
+    if (account == null)
+      return;
+
+    if(CycleStreetsPreferences.accountOK())
+      account.setSummary(R.string.settings_signed_in);
+    else if(CycleStreetsPreferences.accountPending())
+      account.setSummary(R.string.settings_awaiting);
+    else
+      account.setSummary("");
+  } // setAccountSummary
 } // class SettingsActivity

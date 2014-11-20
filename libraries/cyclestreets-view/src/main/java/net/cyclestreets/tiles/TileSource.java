@@ -2,6 +2,7 @@ package net.cyclestreets.tiles;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.preference.ListPreference;
 
 import net.cyclestreets.CycleStreetsPreferences;
 import net.cyclestreets.util.MapFactory;
@@ -26,7 +27,10 @@ import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
 import org.osmdroid.tileprovider.tilesource.XYTileSource;
 import org.osmdroid.tileprovider.util.SimpleRegisterReceiver;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 public class TileSource {
@@ -70,37 +74,74 @@ public class TileSource {
     return TileSourceFactory.getTileSource(DEFAULT_RENDERER);
   } // mapRenderer
 
-  public static void addTileSource(final ITileSource source, final String attribution) {
-    addTileSource(source, attribution, false);
+  public static void configurePreference(final ListPreference mapStyle) {
+    if (CycleStreetsPreferences.mapstyle().equals(CycleStreetsPreferences.NOT_SET))
+      CycleStreetsPreferences.setMapstyle(DEFAULT_RENDERER);
+
+    final int styleCount = availableSources.size();
+    final CharSequence[] entries = new CharSequence[styleCount];
+    final CharSequence[] entryValues = new CharSequence[styleCount];
+
+    for (int i = 0; i != styleCount; ++i) {
+      entries[i] = availableSources.get(i).friendlyName;
+      entryValues[i] = availableSources.get(i).tileSourceName;
+    } // for ...
+
+    mapStyle.setEntries(entries);
+    mapStyle.setEntryValues(entryValues);
+  } // configurePreferences
+
+  public static void addTileSource(final String friendlyName,
+                                   final ITileSource source,
+                                   final String attribution) {
+    addTileSource(friendlyName, source, attribution, false);
   } // addTileSource
-  public static void addTileSource(final ITileSource source, final String attribution, final boolean setAsDefault) {
+  public static void addTileSource(final String friendlyName,
+                                   final ITileSource source,
+                                   final String attribution,
+                                   final boolean setAsDefault) {
     attributions_.put(source.name(), attribution != null ? attribution : DEFAULT_ATTRIBUTION);
     TileSourceFactory.addTileSource(source);
-    DEFAULT_RENDERER = source.name();
-    CycleStreetsPreferences.setMapstyle(source.name());
+
+    if (setAsDefault) {
+      DEFAULT_RENDERER = source.name();
+
+      if (CycleStreetsPreferences.mapstyle().equals(CycleStreetsPreferences.NOT_SET))
+        CycleStreetsPreferences.setMapstyle(source.name());
+    } // if ...
+
+    Source s = new Source(friendlyName, source.name());
+    if (setAsDefault)
+      availableSources.add(0, s);
+    else
+      availableSources.add(s);
   } // addTileSource
 
-  static public ITileSource createStandardTileSource(final String name, final String... baseUrls) {
+  public static ITileSource createStandardTileSource(final String name, final String... baseUrls) {
     return createStandardTileSource(name, ResourceProxy.string.unknown, baseUrls);
   } // createStandardTileSource
 
-  static public ITileSource createStandardTileSource(final String name, final ResourceProxy.string aResourceId, final String... baseUrls) {
+  public static ITileSource createStandardTileSource(final String name, final ResourceProxy.string aResourceId, final String... baseUrls) {
     return new XYTileSource(name,
         aResourceId, 0, 17, 256, ".png",
         baseUrls);
   } // createStandardTileSource
 
-  static private String DEFAULT_RENDERER = CycleStreetsPreferences.MAPSTYLE_OCM;
-  static private String DEFAULT_ATTRIBUTION = "\u00a9 OpenStreetMap contributors";
-  static private Map<String, String> attributions_ = new HashMap<>();
+
+  private static String DEFAULT_RENDERER = CycleStreetsPreferences.MAPSTYLE_OCM;
+  private static String DEFAULT_ATTRIBUTION = "\u00a9 OpenStreetMap contributors";
+  private static final List<Source> availableSources = new ArrayList<>();
+  private static final Map<String, String> attributions_ = new HashMap<>();
 
   static {
+
+
     final ITileSource OPENCYCLEMAP = createStandardTileSource(CycleStreetsPreferences.MAPSTYLE_OCM,
                                                               ResourceProxy.string.cyclemap,
                                                               "http://tile.cyclestreets.net/opencyclemap/");
     final ITileSource OPENSTREETMAP = createStandardTileSource(CycleStreetsPreferences.MAPSTYLE_OSM,
-        ResourceProxy.string.base,
-        "http://tile.cyclestreets.net/mapnik/");
+                                                               ResourceProxy.string.base,
+                                                               "http://tile.cyclestreets.net/mapnik/");
     final ITileSource OSMAP = createStandardTileSource(CycleStreetsPreferences.MAPSTYLE_OS,
                                                        ResourceProxy.string.unknown,
                                                         "http://a.os.openstreetmap.org/sv/",
@@ -108,17 +149,17 @@ public class TileSource {
                                                         "http://c.os.openstreetmap.org/sv/");
     final MapsforgeOSMTileSource MAPSFORGE = new MapsforgeOSMTileSource(CycleStreetsPreferences.MAPSTYLE_MAPSFORGE);
 
-    addTileSource(OPENCYCLEMAP, "\u00a9 OpenStreetMap contributors. Map images \u00a9 OpenCycleMap", true);
-    addTileSource(OPENSTREETMAP, DEFAULT_ATTRIBUTION);
-    addTileSource(OSMAP, "Contains Ordnance Survey Data \u00a9 Crown copyright and database right 2010");
-    addTileSource(MAPSFORGE, DEFAULT_ATTRIBUTION);
+    addTileSource("OpenCycleMap (shows hills)", OPENCYCLEMAP, "\u00a9 OpenStreetMap contributors. Map images \u00a9 OpenCycleMap");
+    addTileSource("OpenStreetMap default style", OPENSTREETMAP, DEFAULT_ATTRIBUTION);
+    addTileSource("Ordnance Survey OpenData", OSMAP, "Contains Ordnance Survey Data \u00a9 Crown copyright and database right 2010");
+    addTileSource("Offline Vector Maps", MAPSFORGE, DEFAULT_ATTRIBUTION);
   } // static
 
-  static public MapTileProviderBase mapTileProvider(final Context context) {
+  public static MapTileProviderBase mapTileProvider(final Context context) {
     return new CycleMapTileProvider(context);
   } // MapTileProviderBase
 
-  static private class CycleMapTileProvider extends MapTileProviderArray
+  private static class CycleMapTileProvider extends MapTileProviderArray
       implements IMapTileProviderCallback {
     public CycleMapTileProvider(final Context context) {
       this(context,
@@ -148,4 +189,15 @@ public class TileSource {
       mTileProviderList.add(mapsforgeProvider);
     } // CycleMapTileProvider
   } // CycleMapTileProvider
+
+  private static class Source {
+    final String friendlyName;
+    final String tileSourceName;
+
+    public Source(final String friendlyName,
+                  final String tileSourceName) {
+      this.friendlyName = friendlyName;
+      this.tileSourceName = tileSourceName;
+    }
+  } // TS
 } // TileSource

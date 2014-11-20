@@ -26,7 +26,7 @@
 
   <string name="share_this_photo">Share this photo</string>
 
-  <string name="out_of_date_map_pack">This map pack is cannot be used with this version of the CycleStreets app. \n\nWould you like to search for an update?</string>
+  <string name="out_of_date_map_pack">This map pack is cannot be used with this version of the app. \n\nWould you like to search for an update?</string>
 
   <string name="ic_menu_mylocation">Show location</string>
 
@@ -46,5 +46,4 @@
 
   <string name="signing_in">Signing into CycleStreets.net</string>
   <string name="registering">Registering with CycleStreets.net</string>
-
 </resources>
