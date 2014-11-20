@@ -1,5 +1,6 @@
 package net.cyclestreets;
 
+import net.cyclestreets.view.R;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -9,7 +10,6 @@ import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceScreen;
 
-import net.cyclestreets.CycleStreetsPreferences;
 import net.cyclestreets.api.POICategories;
 import net.cyclestreets.tiles.TileSource;
 import net.cyclestreets.util.MapPack;

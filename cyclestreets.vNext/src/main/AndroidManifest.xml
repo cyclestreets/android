@@ -36,7 +36,6 @@
               android:pathPrefix="/journey/" />
       </intent-filter>
     </activity>
-    <activity android:name=".SettingsActivity" android:label="Settings"/>
     <activity android:name="net.cyclestreets.AccountDetailsActivity"
               android:label="Account Details"
               android:exported="true">
