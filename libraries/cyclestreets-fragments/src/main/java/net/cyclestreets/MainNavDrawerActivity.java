@@ -3,12 +3,8 @@ package net.cyclestreets;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.res.Configuration;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
-import android.preference.PreferenceManager;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -37,7 +33,6 @@ import net.cyclestreets.fragments.R;
 import net.cyclestreets.routing.Journey;
 import net.cyclestreets.routing.Route;
 import net.cyclestreets.routing.Waypoints;
-import net.cyclestreets.util.Draw;
 
 public abstract class MainNavDrawerActivity
     extends ActionBarActivity
@@ -59,7 +54,15 @@ public abstract class MainNavDrawerActivity
     addDrawerItems();
 
     navDrawer_.addPages(pages_);
+
+    if (CycleStreetsAppSupport.isFirstRun())
+      onFirstRun();
+    else if (CycleStreetsAppSupport.isNewVersion())
+      onNewVersion();
   } // onCreate
+
+  protected void onFirstRun() { }
+  protected void onNewVersion() { }
 
   protected abstract void addDrawerItems();
 
@@ -158,20 +161,7 @@ public abstract class MainNavDrawerActivity
   //////////////////////////////////////////
   //////////////////////////////////////////
   public static class NavigationDrawerFragment extends Fragment {
-    /**
-     * Remember the position of the selected item.
-     */
     private static final String STATE_SELECTED_POSITION = "selected_navigation_drawer_position";
-
-    /**
-     * Per the design guidelines, you should show the drawer on launch until the user manually
-     * expands it. This shared preference tracks this.
-     */
-    private static final String PREF_USER_LEARNED_DRAWER = "navigation_drawer_learned";
-
-    /**
-     * Helper component that ties the action bar to the navigation drawer.
-     */
     private ActionBarDrawerToggle drawerToggle_;
 
     private DrawerLayout drawerLayout_;
@@ -180,8 +170,7 @@ public abstract class MainNavDrawerActivity
     private View fragmentContainerView_;
 
     private int currentSelectedPosition_ = 0;
-    private boolean fromSavedInstanceState_;
-    private boolean userLearnedDrawer_;
+    private boolean firstRun_;
 
     private Fragment lastFrag_;
 
@@ -191,15 +180,10 @@ public abstract class MainNavDrawerActivity
     public void onCreate(Bundle savedInstanceState) {
       super.onCreate(savedInstanceState);
 
-      // Read in the flag indicating whether or not the user has demonstrated awareness of the
-      // drawer. See PREF_USER_LEARNED_DRAWER for details.
-      SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getActivity());
-      userLearnedDrawer_ = sp.getBoolean(PREF_USER_LEARNED_DRAWER, false);
+      firstRun_ = CycleStreetsAppSupport.isFirstRun();
 
-      if (savedInstanceState != null) {
+      if (savedInstanceState != null)
         currentSelectedPosition_ = savedInstanceState.getInt(STATE_SELECTED_POSITION);
-        fromSavedInstanceState_ = true;
-      }
     } // onCreate
 
     void addPages(final List<DrawerItem> pages) {
@@ -253,41 +237,32 @@ public abstract class MainNavDrawerActivity
       // ActionBarDrawerToggle ties together the the proper interactions
       // between the navigation drawer and the action bar app icon.
       drawerToggle_ = new ActionBarDrawerToggle(
-          getActivity(),                    /* host Activity */
-          drawerLayout_,                    /* DrawerLayout object */
-          R.drawable.apptheme_ic_navigation_drawer,             /* nav drawer image to replace 'Up' caret */
-          R.string.navigation_drawer_open,  /* "open drawer" description for accessibility */
-          R.string.navigation_drawer_close  /* "close drawer" description for accessibility */
-      ) {
-        @Override
-        public void onDrawerClosed(View drawerView) {
-          super.onDrawerClosed(drawerView);
-          if (!isAdded()) { return; }
+              getActivity(),                    /* host Activity */
+              drawerLayout_,                    /* DrawerLayout object */
+              R.drawable.apptheme_ic_navigation_drawer,             /* nav drawer image to replace 'Up' caret */
+              R.string.navigation_drawer_open,  /* "open drawer" description for accessibility */
+              R.string.navigation_drawer_close  /* "close drawer" description for accessibility */
+          ) {
+            @Override
+            public void onDrawerClosed(View drawerView) {
+              super.onDrawerClosed(drawerView);
+              if (!isAdded()) { return; }
 
-          getActivity().supportInvalidateOptionsMenu(); // calls onPrepareOptionsMenu()
-        }
+              getActivity().supportInvalidateOptionsMenu(); // calls onPrepareOptionsMenu()
+            }
 
-        @Override
-        public void onDrawerOpened(View drawerView) {
-          super.onDrawerOpened(drawerView);
-          if (!isAdded()) { return; }
+            @Override
+            public void onDrawerOpened(View drawerView) {
+              super.onDrawerOpened(drawerView);
+              if (!isAdded()) { return; }
+              getActivity().supportInvalidateOptionsMenu(); // calls onPrepareOptionsMenu()
+            }
+          };
 
-          if (!userLearnedDrawer_) {
-            // The user manually opened the drawer; store this flag to prevent auto-showing
-            // the navigation drawer automatically in the future.
-            userLearnedDrawer_ = true;
-            SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getActivity());
-            sp.edit().putBoolean(PREF_USER_LEARNED_DRAWER, true).commit();
-          }
-
-          getActivity().supportInvalidateOptionsMenu(); // calls onPrepareOptionsMenu()
-        }
-      };
-
-      // If the user hasn't 'learned' about the drawer, open it to introduce them to the drawer,
-      // per the navigation drawer design guidelines.
-      if (!userLearnedDrawer_ && !fromSavedInstanceState_)
+      if (firstRun_) {
         drawerLayout_.openDrawer(fragmentContainerView_);
+        firstRun_ = false;
+      } // if ...
 
       // Defer code dependent on restoration of previous instance state.
       drawerLayout_.post(new Runnable() {
@@ -296,7 +271,6 @@ public abstract class MainNavDrawerActivity
           drawerToggle_.syncState();
         }
       });
-
       drawerLayout_.setDrawerListener(drawerToggle_);
     } // setUp
 
@@ -327,14 +301,13 @@ public abstract class MainNavDrawerActivity
     public void onSaveInstanceState(Bundle outState) {
       super.onSaveInstanceState(outState);
       outState.putInt(STATE_SELECTED_POSITION, currentSelectedPosition_);
-    }
+    } // onSaveInstanceState
 
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
       super.onConfigurationChanged(newConfig);
-      // Forward the new configuration the drawer toggle component.
       drawerToggle_.onConfigurationChanged(newConfig);
-    }
+    } // onConfigurationChanged
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {

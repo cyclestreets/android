@@ -67,12 +67,8 @@ public abstract class MainTabbedActivity extends FragmentActivity implements OnT
 
 	public void showWhatsNew()
 	{
-    if(!isNew())
+    if(!CycleStreetsAppSupport.isNewVersion())
       return;
-
-    final SharedPreferences.Editor edit = prefs().edit();
-    edit.putString(VERSION_KEY, currentVersion());
-    edit.commit();
 
     final LayoutInflater layoutInflater = (LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     final View whatsnewView = layoutInflater.inflate(R.layout.whatsnew, null);
@@ -88,27 +84,9 @@ public abstract class MainTabbedActivity extends FragmentActivity implements OnT
            .show();
 	} // showWhatsNew
 
-	private boolean isNew()
-	{
-	  return !currentVersion().equals(previousVersion());
-	} // isNew
-
-	private String currentVersion()
-	{
-	  return CycleStreetsAppSupport.version(this);
-	} // currentVersion
-
-	private String previousVersion()
-	{
-    return prefs().getString(VERSION_KEY, "unknown");
-	} // previousVersion
-
-  protected SharedPreferences prefs()
-  {
+  protected SharedPreferences prefs() {
     return getSharedPreferences("net.cyclestreets.CycleStreets", Context.MODE_PRIVATE);
   } // prefs()
-
-  static private String VERSION_KEY = "previous-version";
 
   //////////////////////////////////////////////////////////////////////////////////////////////////
   // Tab handling

@@ -25,14 +25,30 @@ public class WebPageFragment extends Fragment {
 
   //////////////////////////////////////////////////
   private String homePage_;
+  private int layout_ = R.layout.webpage;
+
+  public WebPageFragment() {
+    homePage_ = null;
+  } // WebPageFragment
+
+  public WebPageFragment(final String url) {
+    homePage_ = url;
+  } // WebPageFragment
+
+  public WebPageFragment(final String url,
+                         final int layout) {
+    this(url);
+    layout_ = layout;
+  } // WebPageFragment
 
   public View onCreateView(final LayoutInflater inflater,
                            final ViewGroup container,
                            final Bundle saved) {
-    final View webPage = inflater.inflate(R.layout.webpage, null);
+    final View webPage = inflater.inflate(layout_, null);
 
     final WebView htmlView = (WebView)webPage.findViewById(R.id.html_view);
-    htmlView.loadUrl(homePage_);
+    if (homePage_ != null)
+      htmlView.loadUrl(homePage_);
 
     return webPage;
   } // onCreateView

@@ -8,27 +8,20 @@ import android.view.ViewGroup;
 import android.webkit.WebView;
 import android.widget.TextView;
 
-public class AboutFragment extends Fragment {
+public class AboutFragment extends WebPageFragment {
+  public AboutFragment() {
+    super("file:///android_asset/credits.html", R.layout.about);
+  } // AboutFragment
+
   @Override
   public View onCreateView(final LayoutInflater inflater,
                            final ViewGroup container,
                            final Bundle savedInstanceState) {
-    final View about = inflater.inflate(R.layout.about, container, false);
-
-    final WebView htmlView = (WebView)about.findViewById(R.id.html_view);
-    htmlView.loadUrl("file:///android_asset/credits.html");
+    final View about = super.onCreateView(inflater, container, savedInstanceState);
 
     final TextView versionView = (TextView)about.findViewById(R.id.version_view);
-    versionView.setText(versionName());
+    versionView.setText(CycleStreetsAppSupport.version());
 
     return about;
   } // onCreateView
-
-  private String versionName() {
-    try {
-      return CycleStreetsAppSupport.version(getActivity());
-    } catch(Exception e) {
-      return "Unknown";
-    }
-  } // versionName
 } // AboutFragment

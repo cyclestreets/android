@@ -25,10 +25,6 @@ public class AboutFragment extends Fragment {
   } // onCreateView
 
   private String versionName() {
-    try {
-      return CycleStreetsAppSupport.version(getActivity());
-    } catch(Exception e) {
-      return "Unknown";
-    }
+    return CycleStreetsAppSupport.version();
   } // versionName
 } // AboutFragment
