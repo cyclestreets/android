@@ -5,10 +5,9 @@
   <application>
     <activity android:name="net.cyclestreets.BlogActivity"
               android:label="CycleStreets : Blog"/>
-    <activity android:name="net.cyclestreets.RouteByAddress"
-              android:theme="@style/Theme.RouteInputDialog"/>
     <activity android:name="net.cyclestreets.LocationEditorActivity"
               android:label="CycleStreets"/>
-
+    <activity android:name="net.cyclestreets.SettingsActivity"
+              android:label="Settings"/>
   </application>
 </manifest>

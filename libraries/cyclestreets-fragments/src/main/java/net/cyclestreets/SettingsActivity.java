@@ -1,6 +1,6 @@
 package net.cyclestreets;
 
-import net.cyclestreets.view.R;
+import net.cyclestreets.fragments.R;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
