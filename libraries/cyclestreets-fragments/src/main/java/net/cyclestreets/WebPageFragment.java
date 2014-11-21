@@ -1,5 +1,6 @@
 package net.cyclestreets;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -9,6 +10,7 @@ import android.webkit.WebView;
 
 import net.cyclestreets.fragments.R;
 
+@SuppressLint("ValidFragment")
 public class WebPageFragment extends Fragment {
   public static MainNavDrawerActivity.PageInitialiser initialiser(final String url) {
     return new WebPageInitialiser(url);
@@ -31,12 +33,12 @@ public class WebPageFragment extends Fragment {
     homePage_ = null;
   } // WebPageFragment
 
-  public WebPageFragment(final String url) {
+  protected WebPageFragment(final String url) {
     homePage_ = url;
   } // WebPageFragment
 
-  public WebPageFragment(final String url,
-                         final int layout) {
+  protected WebPageFragment(final String url,
+                            final int layout) {
     this(url);
     layout_ = layout;
   } // WebPageFragment
