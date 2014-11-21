@@ -42,13 +42,12 @@ public class ItineraryAndElevationFragment extends Fragment {
   @Override
   public void onPause() {
     super.onPause();
-    showFrag(null);
   } // onPause
 
   @Override
   public void onResume() {
     super.onResume();
-    showFrag(itinerary_);
+    showFrag(lastFrag_ != null ? lastFrag_ : itinerary_);
   } // onResume
 
   private void showFrag(Fragment frag) {
