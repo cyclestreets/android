@@ -9,6 +9,7 @@ import net.cyclestreets.routing.Segment;
 import net.cyclestreets.routing.Waypoints;
 
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -78,6 +79,7 @@ public class ItineraryFragment extends ListFragment
     private final Drawable footprints_;
     private final LayoutInflater inflater_;
     private final Drawable themeColor_;
+    private final int backgroundColor_;
 
     SegmentAdapter(final Context context, final ItineraryFragment itinerary) {
       itinerary_ = itinerary;
@@ -86,6 +88,13 @@ public class ItineraryFragment extends ListFragment
 
       inflater_ = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
       themeColor_ = context.getResources().getDrawable(R.color.apptheme_color);
+
+
+
+      TypedArray array = context.getTheme().obtainStyledAttributes(new int[] {
+          android.R.attr.colorBackground,
+      });
+      backgroundColor_ = array.getColor(0, 0xFF00FF);
     } // SegmentAdaptor
 
     private Journey journey() { return itinerary_.journey_; }
@@ -170,7 +179,7 @@ public class ItineraryFragment extends ListFragment
 
       final Drawable icon = turnIcon(turn);
       iv.setImageDrawable(icon);
-      iv.setBackgroundDrawable(v.getBackground());
+      iv.setBackgroundColor(backgroundColor_);
       if(walk)
         iv.setBackgroundDrawable(footprints_);
     } // setTurnIcon
