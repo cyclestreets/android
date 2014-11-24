@@ -36,6 +36,7 @@ public class LiveRideOverlay extends Overlay implements ServiceConnection
   private final Paint largeTextBrush_;
   private final Paint midTextBrush_;
   private final Paint smallTextBrush_;
+  private final Paint fillBrush_;
   private final int speedWidth_;
   private final int kmWidth_;
   private final int lineHeight_;
@@ -59,6 +60,7 @@ public class LiveRideOverlay extends Overlay implements ServiceConnection
     midTextBrush_.setTextAlign(Align.LEFT);
     smallTextBrush_ = Brush.createTextBrush(offset_);
     smallTextBrush_.setTextAlign(Align.LEFT);
+    fillBrush_ = Brush.HighlightBrush(context);
     
     iconMappings_ = TurnIcons.LoadMapping(context);
     formatter_ = DistanceFormatter.formatter(CycleStreetsPreferences.units());
@@ -100,7 +102,7 @@ public class LiveRideOverlay extends Overlay implements ServiceConnection
     box.top += offset_;
     box.bottom = box.top + (eighth * 2);
     
-    drawThenShrink(canvas, box, Brush.Grey);
+    drawThenShrink(canvas, box, fillBrush_);
     drawThenShrink(canvas, box, Brush.White);
     
     final Segment nextSeg = Route.journey().nextSegment();
@@ -133,7 +135,7 @@ public class LiveRideOverlay extends Overlay implements ServiceConnection
     wrapperBox.right += offset_;
     wrapperBox.bottom = nextBox.bottom;
     
-    DrawingHelper.drawRoundRect(canvas, wrapperBox, radius_, Brush.Grey);
+    DrawingHelper.drawRoundRect(canvas, wrapperBox, radius_, fillBrush_);
     Draw.drawTextInRect(canvas, midTextBrush_, distanceToBox, distanceTo);
     Draw.drawTextInRect(canvas, smallTextBrush_, nextBox, nextStreet);
 
@@ -162,7 +164,7 @@ public class LiveRideOverlay extends Overlay implements ServiceConnection
     box.bottom -= (offset_*2);
     box.top = box.bottom - (lineHeight_ + offset_*2);
 
-    if(!DrawingHelper.drawRoundRect(canvas, box, radius_, Brush.Grey))
+    if(!DrawingHelper.drawRoundRect(canvas, box, radius_, fillBrush_))
       return;
     
     box.left += offset_;
