@@ -363,10 +363,12 @@ public abstract class MainNavDrawerActivity
     private final LayoutInflater inflater_;
     private final NavigationDrawerFragment parentFrag_;
     private final Drawable themeColor_;
+    private final Context context_;
 
     PageInfoAdapter(final NavigationDrawerFragment parentFrag,
                     final List<DrawerItem> pageInfo,
                     final Context context) {
+      context_ = context;
       parentFrag_ = parentFrag;
       pageInfo_ = pageInfo;
       for (DrawerItem di : pageInfo_)
@@ -406,18 +408,20 @@ public abstract class MainNavDrawerActivity
 
       final boolean highlight = (position == parentFrag_.currentSelectedPosition_);
 
-      setText(v, getItem(position).title());
+      setText(v, getItem(position).title(), highlight);
       setIcon(v, getItem(position).icon(highlight));
-
-      if (highlight)
-        v.setBackgroundDrawable(themeColor_);
 
       return v;
     } // getView
 
-    private void setText(final View v, final String t) {
+    private void setText(final View v, final String t, boolean highlight) {
       final TextView n = (TextView)v.findViewById(R.id.menu_name);
       n.setText(t);
+
+      if (highlight) {
+        v.setBackgroundDrawable(themeColor_);
+        n.setTextAppearance(context_, android.R.style.TextAppearance);
+      } // if ...
     } // setText
 
     private void setIcon(final View v, final Drawable icon) {
