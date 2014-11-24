@@ -22,6 +22,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import net.cyclestreets.util.Theme;
 import net.cyclestreets.util.TurnIcons;
 
 import static net.cyclestreets.util.StringUtils.initCap;
@@ -88,13 +89,7 @@ public class ItineraryFragment extends ListFragment
 
       inflater_ = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
       themeColor_ = context.getResources().getDrawable(R.color.apptheme_color);
-
-
-
-      TypedArray array = context.getTheme().obtainStyledAttributes(new int[] {
-          android.R.attr.colorBackground,
-      });
-      backgroundColor_ = array.getColor(0, 0xFF00FF);
+      backgroundColor_ = Theme.backgroundColor(context);
     } // SegmentAdaptor
 
     private Journey journey() { return itinerary_.journey_; }

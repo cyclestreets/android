@@ -92,6 +92,7 @@ public class TapToRouteOverlay extends Overlay
   private Rect tapStateRect_;
 
   private Paint textBrush_;
+  private Paint fillBrush_;
 
   private TapToRoute tapState_;
 
@@ -130,6 +131,7 @@ public class TapToRouteOverlay extends Overlay
     tapStateRect_.bottom = tapStateRect_.top + stepBackButton_.height();
 
     textBrush_ = Brush.createTextBrush(offset_);
+    fillBrush_ = Brush.HighlightBrush(context_);
 
     waymarkers_ = new ArrayList<OverlayItem>();
 
@@ -367,7 +369,7 @@ public class TapToRouteOverlay extends Overlay
 
     tapStateRect_.right = tapStateRect_.left + screen.width();
 
-    if(!DrawingHelper.drawRoundRect(canvas, screen, radius_, Brush.Grey))
+    if(!DrawingHelper.drawRoundRect(canvas, screen, radius_, fillBrush_))
       return;
 
     if(tapState_ == TapToRoute.WAITING_FOR_NEXT ||

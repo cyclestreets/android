@@ -33,6 +33,7 @@ public class RouteHighlightOverlay extends Overlay
   private final int offset_;
   private final float radius_;
 
+  private final Paint fillBrush_;
   private final Paint textBrush_;
 
   private final Context context_;
@@ -63,6 +64,7 @@ public class RouteHighlightOverlay extends Overlay
 
     textBrush_ = Brush.createTextBrush(offset_);
     textBrush_.setTextAlign(Align.LEFT);
+    fillBrush_ = Brush.HighlightBrush(context);
 
     hasGps_ = GPS.deviceHasGPS(context);
   } // MapActivityPathOverlay
@@ -111,7 +113,7 @@ public class RouteHighlightOverlay extends Overlay
     if(bottom >= box.bottom)
       box.bottom = bottom + offset_;
 
-    if(!DrawingHelper.drawRoundRect(canvas, box, radius_, Brush.Grey))
+    if(!DrawingHelper.drawRoundRect(canvas, box, radius_, fillBrush_))
       return;
 
     Draw.drawTextInRect(canvas, textBrush_, textBox, seg.toString());
