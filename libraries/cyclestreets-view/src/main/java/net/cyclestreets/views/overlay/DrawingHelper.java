@@ -17,7 +17,7 @@ public class DrawingHelper
 	
 	static float cornerRadius(final Context context)
 	{
-		return 4.0f * context.getResources().getDisplayMetrics().density;
+		return 0;
 	} // cornerRadius		
 	
 	static private final Matrix canvasTransform_ = new Matrix();
