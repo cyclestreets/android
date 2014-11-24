@@ -127,8 +127,6 @@ public class TapToRouteOverlay extends Overlay
     restartButton_.bottomAlign();
 
     tapStateRect_ = new Rect();
-    tapStateRect_.left = stepBackButton_.right() + offset_;
-    tapStateRect_.top = offset_;
     tapStateRect_.bottom = tapStateRect_.top + stepBackButton_.height();
 
     textBrush_ = Brush.createTextBrush(offset_);
@@ -364,7 +362,7 @@ public class TapToRouteOverlay extends Overlay
 
     final Rect screen = canvas.getClipBounds();
     screen.offset(tapStateRect_.left, tapStateRect_.top);
-    screen.right -= (tapStateRect_.left + offset_);
+    screen.right -= tapStateRect_.left;
     screen.bottom = screen.top + tapStateRect_.height();
 
     tapStateRect_.right = tapStateRect_.left + screen.width();

@@ -101,9 +101,6 @@ public class RouteHighlightOverlay extends Overlay
       return;
 
     final Rect box = canvas.getClipBounds();
-    box.left += prevButton_.right() + offset_;
-    box.top += offset_;
-    box.right -= offset_;
     box.bottom = box.top + prevButton_.height();
 
     final Rect textBox = new Rect(box);
