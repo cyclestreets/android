@@ -72,7 +72,7 @@ class OverlayButton
     rightAlign_ = false;
     
     label_ = label;
-    labelBrush_ = Brush.createTextBrush(pos_.height()/7, 255, 127, 127, 127);
+    labelBrush_ = Brush.createTextBrush(pos_.height()/7, 127, 127, 127);
     labelBrush_.setTextAlign(Align.CENTER);
   } // OverlayButton  
   
