@@ -50,6 +50,9 @@ public class LocationOverlay extends MyLocationOverlay
 		                                    offset_,
 		                                    offset_,
 		                                    radius_);
+    locationButton_.bottomAlign();
+    locationButton_.rightAlign();
+
 		lockedOn_ = false;
 		hidden_ = false;
 	} // LocationOverlay
