@@ -8,7 +8,6 @@ import net.cyclestreets.RoutePlans;
 
 import net.cyclestreets.CycleStreetsPreferences;
 import net.cyclestreets.FeedbackActivity;
-import net.cyclestreets.RoutePlans;
 import net.cyclestreets.view.R;
 import net.cyclestreets.Undoable;
 import net.cyclestreets.routing.Journey;

@@ -1,6 +1,5 @@
 package net.cyclestreets.views.overlay;
 
-import net.cyclestreets.LiveRideActivity;
 import net.cyclestreets.view.R;
 import net.cyclestreets.routing.Route;
 import net.cyclestreets.routing.Segment;

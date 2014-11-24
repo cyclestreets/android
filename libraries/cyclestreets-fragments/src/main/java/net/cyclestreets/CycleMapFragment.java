@@ -2,15 +2,11 @@ package net.cyclestreets;
 
 import net.cyclestreets.fragments.R;
 
-import net.cyclestreets.util.GeoIntent;
 import net.cyclestreets.views.CycleMapView;
 
 import org.osmdroid.api.IGeoPoint;
-import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.overlay.Overlay;
 
-import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
