@@ -96,10 +96,8 @@ public class LiveRideOverlay extends Overlay implements ServiceConnection
   {
     final Rect box = canvas.getClipBounds();
     int eighth = box.width() / 8;
-    
-    box.left += offset_; 
+
     box.right = box.left + (eighth * 2);
-    box.top += offset_;
     box.bottom = box.top + (eighth * 2);
     
     drawThenShrink(canvas, box, fillBrush_);
@@ -117,9 +115,7 @@ public class LiveRideOverlay extends Overlay implements ServiceConnection
     final String nextStreet = nextSeg.street();
     
     final Rect distanceToBox = canvas.getClipBounds();
-    distanceToBox.left = box.right + (offset_*3);
-    distanceToBox.right -= (offset_*2);
-    distanceToBox.top += offset_;
+    distanceToBox.left = box.right + (offset_*2);
     distanceToBox.bottom = distanceToBox.top + offset_;
     int bottom = Draw.measureTextInRect(canvas, midTextBrush_, distanceToBox, distanceTo);
     distanceToBox.bottom = bottom + offset_;
@@ -131,8 +127,6 @@ public class LiveRideOverlay extends Overlay implements ServiceConnection
     nextBox.bottom = bottom + offset_;
     
     final Rect wrapperBox = new Rect(distanceToBox);
-    wrapperBox.left -= offset_;
-    wrapperBox.right += offset_;
     wrapperBox.bottom = nextBox.bottom;
     
     DrawingHelper.drawRoundRect(canvas, wrapperBox, radius_, fillBrush_);
@@ -159,9 +153,7 @@ public class LiveRideOverlay extends Overlay implements ServiceConnection
     final int fullWidth_ = speedWidth_ + kmWidth_;
     
     final Rect box = canvas.getClipBounds();
-    box.left += offset_; 
     box.right = box.left + fullWidth_ + (offset_*2);
-    box.bottom -= (offset_*2);
     box.top = box.bottom - (lineHeight_ + offset_*2);
 
     if(!DrawingHelper.drawRoundRect(canvas, box, radius_, fillBrush_))
