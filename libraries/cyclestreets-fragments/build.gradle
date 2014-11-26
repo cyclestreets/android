@@ -2,6 +2,5 @@ evaluationDependsOn(':libraries:cyclestreets-view')
 
 dependencies {
   compile project(':libraries:cyclestreets-view'),
-      'com.jjoe64:graphview:3.1.3'
-  compile 'com.android.support:support-v4:20.0.0'
+          'com.jjoe64:graphview:3.1.3'
 }
