@@ -48,7 +48,7 @@ public class LocationOverlay extends MyLocationOverlay
 		locationButton_ = new OverlayButton(res.getDrawable(R.drawable.ic_menu_followlocation),
 		                                    res.getDrawable(R.drawable.ic_menu_mylocation),
 		                                    offset_,
-		                                    offset_,
+                                        offset_*2,
 		                                    radius_);
     locationButton_.bottomAlign();
     locationButton_.rightAlign();
