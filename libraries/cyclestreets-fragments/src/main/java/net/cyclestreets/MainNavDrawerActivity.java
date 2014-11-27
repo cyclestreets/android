@@ -66,40 +66,35 @@ public abstract class MainNavDrawerActivity
 
   protected abstract void addDrawerItems();
 
-  protected void addDrawerFragment(int titleId,
-                         final int iconId,
-                         final int highlightIconId,
-                         final Class<? extends Fragment> fragClass) {
-    addDrawerFragment(titleId, iconId, highlightIconId, fragClass, null, null);
+  protected void addDrawerFragment(final int titleId,
+                                   final int iconId,
+                                   final Class<? extends Fragment> fragClass) {
+    addDrawerFragment(titleId, iconId, fragClass, null, null);
   } // addDrawerFragment
 
   protected void addDrawerFragment(final int titleId,
-                         final int iconId,
-                         final int highlightIconId,
-                         final Class<? extends Fragment> fragClass,
-                         final PageStatus pageStatus) {
-    addDrawerFragment(titleId, iconId, highlightIconId, fragClass, null, pageStatus);
+                                   final int iconId,
+                                   final Class<? extends Fragment> fragClass,
+                                   final PageStatus pageStatus) {
+    addDrawerFragment(titleId, iconId, fragClass, null, pageStatus);
   } // addDrawerFragment
 
   protected void addDrawerFragment(final int titleId,
-                         final int iconId,
-                         final int highlightIconId,
-                         final Class<? extends Fragment> fragClass,
-                         final PageInitialiser initialiser) {
-    addDrawerFragment(titleId, iconId, highlightIconId, fragClass, initialiser, null);
+                                   final int iconId,
+                                   final Class<? extends Fragment> fragClass,
+                                   final PageInitialiser initialiser) {
+    addDrawerFragment(titleId, iconId, fragClass, initialiser, null);
   } // addDrawerFragment
 
   protected void addDrawerFragment(final int titleId,
-                         final int iconId,
-                         final int highlightIconId,
-                         final Class<? extends Fragment> fragClass,
-                         final PageInitialiser initialiser,
-                         final PageStatus pageStatus) {
+                                   final int iconId,
+                                   final Class<? extends Fragment> fragClass,
+                                   final PageInitialiser initialiser,
+                                   final PageStatus pageStatus) {
     final String title = getResources().getString(titleId);
     final Drawable icon = iconId != -1 ? getResources().getDrawable(iconId) : null;
-    final Drawable highlightIcon = highlightIconId != -1 ? getResources().getDrawable((highlightIconId)) : icon;
 
-    pages_.add(new FragmentItem(title, icon, highlightIcon, fragClass, initialiser, pageStatus));
+    pages_.add(new FragmentItem(title, icon, fragClass, initialiser, pageStatus));
   } // addDrawerFragment
 
   protected void addDrawerActivity(int titleId,
@@ -409,7 +404,7 @@ public abstract class MainNavDrawerActivity
       final boolean highlight = (position == parentFrag_.currentSelectedPosition_);
 
       setText(v, getItem(position).title(), highlight);
-      setIcon(v, getItem(position).icon(highlight));
+      setIcon(v, getItem(position).icon());
 
       return v;
     } // getView
@@ -437,21 +432,18 @@ public abstract class MainNavDrawerActivity
   private static abstract class DrawerItem {
     private String title_;
     private Drawable icon_;
-    private Drawable highlightIcon_;
     private PageStatus pageStatus_;
 
     public DrawerItem(final String title,
                       final Drawable icon,
-                      final Drawable highlightIcon,
                       final PageStatus pageStatus) {
       title_ = title;
       icon_ = icon;
-      highlightIcon_ = highlightIcon;
       pageStatus_ = pageStatus;
     } // DrawerItem
 
     public String title() { return title_; }
-    public Drawable icon(boolean highlight) { return highlight ? highlightIcon_ : icon_; }
+    public Drawable icon() { return icon_; }
     public boolean enabled() { return (pageStatus_ != null) ? pageStatus_.enabled() : true; }
 
     @Override
@@ -470,11 +462,10 @@ public abstract class MainNavDrawerActivity
 
     public FragmentItem(final String title,
                         final Drawable icon,
-                        final Drawable highlightIcon,
                         final Class<? extends Fragment> fragClass,
                         final PageInitialiser initialiser,
                         final PageStatus pageStatus) {
-      super(title, icon, highlightIcon, pageStatus);
+      super(title, icon, pageStatus);
       fragClass_ = fragClass;
       initialiser_ = initialiser;
     } // FragmentItem
@@ -506,7 +497,7 @@ public abstract class MainNavDrawerActivity
                         final Class<? extends Activity> activityClass,
                         final PageStatus pageStatus) {
 
-      super(title, icon, icon, pageStatus);
+      super(title, icon, pageStatus);
       activityClass_ = activityClass;
     } // ActivityItem
 
