@@ -2,7 +2,7 @@ include ':libraries:cyclestreets-core',
     ':libraries:cyclestreets-view',
     ':libraries:cyclestreets-fragments'
 
-include ':cyclestreets'
+include ':cyclestreets.vNext'
 
 //if (file('urban-location').exists()) {
   include ':urban-location'
