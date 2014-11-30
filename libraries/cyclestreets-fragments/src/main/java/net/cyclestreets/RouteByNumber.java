@@ -11,7 +11,6 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.view.View;
 import android.widget.AutoCompleteTextView;
-import android.widget.RadioGroup;
 
 public class RouteByNumber {
   public static void launch(final Context context) {

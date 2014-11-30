@@ -7,7 +7,6 @@ import java.util.List;
 
 import net.cyclestreets.routing.Route;
 import net.cyclestreets.routing.Waypoints;
-import net.cyclestreets.util.GeoIntent;
 import net.cyclestreets.util.MessageBox;
 import net.cyclestreets.views.PlaceViewWithCancel;
 import net.cyclestreets.api.GeoPlace;
@@ -16,19 +15,14 @@ import org.osmdroid.api.IGeoPoint;
 import org.osmdroid.util.BoundingBoxE6;
 import org.osmdroid.util.GeoPoint;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
-import android.content.Intent;
 import android.location.Location;
-import android.os.Bundle;
-import android.view.Gravity;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.RadioGroup;
-import android.widget.RelativeLayout.LayoutParams;
 
 public class RouteByAddress {
   public static void launch(final Context context,
