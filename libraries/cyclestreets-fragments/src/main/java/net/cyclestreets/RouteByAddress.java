@@ -10,6 +10,7 @@ import net.cyclestreets.routing.Waypoints;
 import net.cyclestreets.util.MessageBox;
 import net.cyclestreets.views.PlaceViewWithCancel;
 import net.cyclestreets.api.GeoPlace;
+import net.cyclestreets.views.RouteType;
 
 import org.osmdroid.api.IGeoPoint;
 import org.osmdroid.util.BoundingBoxE6;
@@ -22,7 +23,6 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.RadioGroup;
 
 public class RouteByAddress {
   public static void launch(final Context context,
@@ -44,7 +44,7 @@ public class RouteByAddress {
   private static class RouteByAddressCallbacks implements View.OnClickListener {
     private final Context context_;
     private final LinearLayout placeHolder_;
-    private final RadioGroup routeType_;
+    private final RouteType routeType_;
     private final Button addWaypoint_;
 
     private final BoundingBoxE6 bounds_;
@@ -83,8 +83,7 @@ public class RouteByAddress {
       addWaypoint_ = (Button) layout.findViewById(R.id.addVia);
       addWaypoint_.setOnClickListener(this);
 
-      routeType_ = (RadioGroup) layout.findViewById(R.id.routeTypeGroup);
-      routeType_.check(RouteTypeMapper.idFromName(CycleStreetsPreferences.routeType()));
+      routeType_ = (RouteType)layout.findViewById(R.id.routeType);
 
       addWaypointBox();
       addWaypointBox();
@@ -104,7 +103,7 @@ public class RouteByAddress {
           p.addHistory(wp);
         } // for ...
 
-      final String routeType = RouteTypeMapper.nameFromId(routeType_.getCheckedRadioButtonId());
+      final String routeType = routeType_.selectedType();
       final int speed = CycleStreetsPreferences.speed();
       Route.PlotRoute(routeType, speed, context_, asWaypoints(places));
 
