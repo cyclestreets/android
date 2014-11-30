@@ -3,14 +3,13 @@ package net.cyclestreets;
 import java.util.Map;
 import java.util.HashMap;
 
-import net.cyclestreets.CycleStreetsConstants;
-import net.cyclestreets.fragments.R;
+import net.cyclestreets.view.R;
 
 public final class RouteTypeMapper {
 	static private final Map<Integer, String> mappings = initialiseMappings();
 
 	static private Map<Integer, String> initialiseMappings() {
-		final Map<Integer, String> map = new HashMap<Integer, String>();
+		final Map<Integer, String> map = new HashMap<>();
 		map.put(R.id.routeQuietest, RoutePlans.PLAN_QUIETEST);
 		map.put(R.id.routeBalanced, RoutePlans.PLAN_BALANCED);
 		map.put(R.id.routeFastest, RoutePlans.PLAN_FASTEST);

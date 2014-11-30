@@ -5,6 +5,7 @@ import net.cyclestreets.fragments.R;
 import net.cyclestreets.routing.Route;
 import net.cyclestreets.util.EditTextHistory;
 import net.cyclestreets.util.MessageBox;
+import net.cyclestreets.views.RouteType;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -30,7 +31,7 @@ public class RouteByNumber {
       implements View.OnClickListener {
     private final Context context_;
     private final AutoCompleteTextView numberText_;
-    private final RadioGroup routeTypeGroup;
+    private final RouteType routeType_;
     private final EditTextHistory history_;
     private AlertDialog ad_;
 
@@ -47,12 +48,11 @@ public class RouteByNumber {
       history_ = new EditTextHistory(context, "RouteNumber");
       numberText_.setAdapter(history_);
 
-      routeTypeGroup = (RadioGroup) layout.findViewById(R.id.routeTypeGroup);
-      routeTypeGroup.check(RouteTypeMapper.idFromName(CycleStreetsPreferences.routeType()));
+      routeType_ = (RouteType)layout.findViewById(R.id.routeType);
     } // RouteByNumberCallbacks
 
     private void findRoute(long routeNumber) {
-      final String routeType = RouteTypeMapper.nameFromId(routeTypeGroup.getCheckedRadioButtonId());
+      final String routeType = routeType_.selectedType();
       final int speed = CycleStreetsPreferences.speed();
       Route.FetchRoute(routeType, routeNumber, speed, context_);
     } // findRoute
