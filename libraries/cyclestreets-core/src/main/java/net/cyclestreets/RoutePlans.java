@@ -6,4 +6,12 @@ public class RoutePlans {
   public final static String PLAN_FASTEST = "fastest";
   public final static String PLAN_QUIETEST = "quietest";
   public final static String PLAN_SHORTEST = "shortest";
-}
+
+  private final static String[] Plans = new String[] {
+      PLAN_QUIETEST, PLAN_BALANCED, PLAN_FASTEST, PLAN_SHORTEST
+  };
+
+  public final static String[] allPlans() {
+    return Plans;
+  } // plans
+} // RoutePlans
