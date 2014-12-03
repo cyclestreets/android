@@ -96,7 +96,10 @@ public class TileSource {
                                    final ITileSource tileSource,
                                    final String attribution,
                                    final boolean setAsDefault) {
-    Source source = new Source(friendlyName, attribution, tileSource);
+    final Source source =
+        new Source(friendlyName,
+                   attribution != null ? attribution : DEFAULT_ATTRIBUTION,
+                   tileSource);
 
     if (setAsDefault) {
       DEFAULT_RENDERER = tileSource.name();
@@ -120,6 +123,12 @@ public class TileSource {
                                                      final String... baseUrls) {
     return createXYTileSource(name, aResourceId, 256, ".png", baseUrls);
   } // createStandardTileSource
+
+  public static ITileSource createDensityAwareTileSource(final DisplayMetrics metrics,
+                                                         final String name,
+                                                         final String... baseUrls) {
+    return createDensityAwareTileSource(metrics, name, ResourceProxy.string.unknown, baseUrls);
+  } // createDensityAwareTileSource
 
   public static ITileSource createDensityAwareTileSource(final DisplayMetrics metrics,
                                                          final String name,
