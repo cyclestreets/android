@@ -4,8 +4,6 @@ import net.cyclestreets.view.R;
 
 import org.osmdroid.views.MapView;
 import org.osmdroid.util.GeoPoint;
-import org.osmdroid.views.overlay.MyLocationOverlay;
-
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Canvas;
@@ -16,7 +14,7 @@ import android.view.MotionEvent;
 import static net.cyclestreets.util.MenuHelper.createMenuItem;
 import static net.cyclestreets.util.MenuHelper.enableMenuItem;
 
-public class LocationOverlay extends MyLocationOverlay
+public class LocationOverlay extends MyLocationNewOverlay
 							               implements ButtonTapListener, MenuListener
 {
 	static private String LOCATION_ON = "Follow Location";
@@ -36,8 +34,8 @@ public class LocationOverlay extends MyLocationOverlay
 	{
 		super(context, mapView);
 
-		setLocationUpdateMinTime(500);
-		setLocationUpdateMinDistance(10);
+		//setLocationUpdateMinTime(500);
+		//setLocationUpdateMinDistance(10);
 
 		mapView_ = mapView;
 

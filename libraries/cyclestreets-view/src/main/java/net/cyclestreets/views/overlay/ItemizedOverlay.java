@@ -16,10 +16,6 @@ import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.view.MotionEvent;
 
-/**
- * Derived from osmdroid code by Marc Kurtz, Nicolas Gramlich, Theodore Hong, Fred Eisele
- * @param <Item>
- */
 public class ItemizedOverlay<Item extends OverlayItem> extends Overlay
                                                        implements TapListener
 {
@@ -77,12 +73,15 @@ public class ItemizedOverlay<Item extends OverlayItem> extends Overlay
 		for (int i = items_.size() -1; i >= 0; i--) 
 		{
 			final Item item = items_.get(i);
-			pj.toPixels(item.mGeoPoint, mCurScreenCoords);
-			onDrawItem(canvas, item, mCurScreenCoords);
+			pj.toPixels(item.getPoint(), mCurScreenCoords);
+			onDrawItem(canvas, item, mCurScreenCoords, mapView.getMapOrientation());
 		} // for ...
 	} // draw
 
-	protected void onDrawItem(final Canvas canvas, final Item item, final Point curScreenCoords) 
+	private void onDrawItem(final Canvas canvas,
+                          final Item item,
+                          final Point curScreenCoords,
+                          final float mapOrientation)
 	{
 		final HotspotPlace hotspot = item.getMarkerHotspot();
 		final Drawable marker = item.getMarker(0);
@@ -93,7 +92,8 @@ public class ItemizedOverlay<Item extends OverlayItem> extends Overlay
 					   marker, 
 					   curScreenCoords.x, 
 					   curScreenCoords.y, 
-					   false);
+					   false,
+             mapOrientation);
 	} // onDrawItem
 
 	/**

@@ -400,7 +400,7 @@ public class TapToRouteOverlay extends Overlay
     if(marker == null)
       return;
 
-    projection.toPixels(marker.mGeoPoint, screenPos_);
+    projection.toPixels(marker.getPoint(), screenPos_);
 
     canvas.getMatrix(canvasTransform_);
     canvasTransform_.getValues(transformValues_);
