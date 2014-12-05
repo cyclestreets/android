@@ -21,10 +21,10 @@ import android.graphics.drawable.Drawable;
 
 public class MapsforgeOSMTileSource implements ITileSource {
   @SuppressWarnings("serial")
-  static private class RenderTheme implements JobTheme {
-    //static private final String path = "/org/mapsforge/android/maps/rendertheme/osmarender/";
-    static private final String path="/assets/rendertheme/";
-    static private final String file = "osmarender.xml";
+  private static class RenderTheme implements JobTheme {
+    //private static final String path = "/org/mapsforge/android/maps/rendertheme/osmarender/";
+    private static final String path="/assets/rendertheme/";
+    private static final String file = "osmarender.xml";
 
     //@Override
     //public String getRelativePathPrefix() {
@@ -109,19 +109,17 @@ public class MapsforgeOSMTileSource implements ITileSource {
     return success ? new ExpirableBitmapDrawable(tileBitmap) : null;
   } // getDrawable
   
-  private boolean tileOutOfBounds(int tileX, int tileY, int zoom)
-  {
+  private boolean tileOutOfBounds(int tileX, int tileY, int zoom) {
     if(zoom != zoomBounds_)
       recalculateTileBounds(zoom);
 			
-    final boolean oob =  (tileX < westTileBounds_) || (tileX > eastTileBounds_) ||
-    	                 (tileY < northTileBounds_) || (tileY > southTileBounds_);
+    final boolean oob = (tileX < westTileBounds_) || (tileX > eastTileBounds_) ||
+    	                  (tileY < northTileBounds_) || (tileY > southTileBounds_);
     return oob;
   } // tileOutOfBounds
   
   /* convert lon/lat to tile x,y from http://wiki.openstreetmap.org/wiki/Slippy_map_tilenames */
-  private void recalculateTileBounds(final int zoom)
-  {
+  private void recalculateTileBounds(final int zoom) {
     zoomBounds_ = zoom;
     westTileBounds_ = lon2XTile(mapBounds_.getMinLongitude(), zoomBounds_);
     eastTileBounds_ = lon2XTile(mapBounds_.getMaxLongitude(), zoomBounds_);
@@ -130,30 +128,17 @@ public class MapsforgeOSMTileSource implements ITileSource {
   } // recalculateTileBounds
   
   @Override
-  public Drawable getDrawable(String arg0) throws LowMemoryException
-  {
-    return null;
-  } // getDrawable
-
+  public Drawable getDrawable(String arg0) throws LowMemoryException { return null; }
   @Override
-  public Drawable getDrawable(InputStream arg0) throws LowMemoryException
-  {
-    return null;
-  } // getDrawable
-
+  public Drawable getDrawable(InputStream arg0) throws LowMemoryException { return null; }
   @Override
-  public String getTileRelativeFilenameString(final MapTile tile)
-  {
-    return null;
-  } // getTileRelativeFilenameString
+  public String getTileRelativeFilenameString(final MapTile tile) { return null; }
   
-  static private int lon2XTile(final double lon, final int zoom)
-  {
-	return (int)Math.floor((lon + 180) / 360 * (1<<zoom)) ;
+  private static int lon2XTile(final double lon, final int zoom) {
+    return (int)Math.floor((lon + 180) / 360 * (1<<zoom)) ;
   } // lon2XTile
   
-  static private int lat2YTile(final double lat, final int zoom)
-  {
-	return (int)Math.floor((1 - Math.log(Math.tan(Math.toRadians(lat)) + 1 / Math.cos(Math.toRadians(lat))) / Math.PI) / 2 * (1<<zoom)) ;	  
+  private static int lat2YTile(final double lat, final int zoom) {
+    return (int)Math.floor((1 - Math.log(Math.tan(Math.toRadians(lat)) + 1 / Math.cos(Math.toRadians(lat))) / Math.PI) / 2 * (1<<zoom)) ;
   } // lat2YTile
 } // MapsforgeOSMTileSource
