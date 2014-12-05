@@ -134,8 +134,7 @@ public class TileSource {
                                                          final String name,
                                                          final ResourceProxy.string aResourceId,
                                                          final String... baseUrls) {
-    final int density = metrics.densityDpi;
-    final boolean highDensity = density >= DisplayMetrics.DENSITY_HIGH;
+    final boolean highDensity = isHighDensity(metrics);
     final int tileSize = highDensity ? 512 : 256;
     final String tileSuffix = highDensity ? "@2x.png" : ".png";
     return createXYTileSource(name, aResourceId, tileSize, tileSuffix, baseUrls);
@@ -155,6 +154,10 @@ public class TileSource {
                             baseUrls);
   } // createXYTileSource
 
+  private static boolean isHighDensity(final DisplayMetrics metrics) {
+    final int density = metrics.densityDpi;
+    return density >= DisplayMetrics.DENSITY_HIGH;
+  } // highDensity
 
   private static String DEFAULT_RENDERER = CycleStreetsPreferences.MAPSTYLE_OCM;
   private static String DEFAULT_ATTRIBUTION = "\u00a9 OpenStreetMap contributors";
@@ -187,12 +190,19 @@ public class TileSource {
                                      CycleStreetsPreferences.MAPSTYLE_OSM,
                                      ResourceProxy.string.base,
                                      "http://tile.cyclestreets.net/mapnik/");
-    final ITileSource OSMAP = createStandardTileSource(CycleStreetsPreferences.MAPSTYLE_OS,
-                                                       ResourceProxy.string.unknown,
-                                                        "http://a.os.openstreetmap.org/sv/",
-                                                        "http://b.os.openstreetmap.org/sv/",
-                                                        "http://c.os.openstreetmap.org/sv/");
-    final MapsforgeOSMTileSource MAPSFORGE = new MapsforgeOSMTileSource(CycleStreetsPreferences.MAPSTYLE_MAPSFORGE);
+
+    final boolean highDensity = isHighDensity(display);
+
+    ITileSource OSMAP = createStandardTileSource(CycleStreetsPreferences.MAPSTYLE_OS,
+                                                 ResourceProxy.string.unknown,
+                                                 "http://a.os.openstreetmap.org/sv/",
+                                                 "http://b.os.openstreetmap.org/sv/",
+                                                 "http://c.os.openstreetmap.org/sv/");
+    if (highDensity)
+      OSMAP = new UpsizingTileSource(OSMAP);
+
+    final MapsforgeOSMTileSource MAPSFORGE = new MapsforgeOSMTileSource(CycleStreetsPreferences.MAPSTYLE_MAPSFORGE, highDensity);
+
 
     addTileSource("OpenCycleMap (shows hills)", OPENCYCLEMAP, "\u00a9 OpenStreetMap contributors. Map images \u00a9 OpenCycleMap");
     addTileSource("OpenStreetMap default style", OPENSTREETMAP, DEFAULT_ATTRIBUTION);

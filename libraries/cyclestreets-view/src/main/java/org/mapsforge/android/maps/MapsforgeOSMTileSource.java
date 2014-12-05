@@ -19,11 +19,9 @@ import org.osmdroid.tileprovider.tilesource.ITileSource;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 
-public class MapsforgeOSMTileSource implements ITileSource
-{
+public class MapsforgeOSMTileSource implements ITileSource {
   @SuppressWarnings("serial")
-  static private class RenderTheme implements JobTheme 
-  {
+  static private class RenderTheme implements JobTheme {
     //static private final String path = "/org/mapsforge/android/maps/rendertheme/osmarender/";
     static private final String path="/assets/rendertheme/";
     static private final String file = "osmarender.xml";
@@ -41,7 +39,6 @@ public class MapsforgeOSMTileSource implements ITileSource
   }          
 
   private static final float DEFAULT_TEXT_SCALE = 1;
-
   private final String name_;
   private final DatabaseRenderer mapGenerator_;
   private final MapDatabase mapDatabase_;
@@ -54,9 +51,10 @@ public class MapsforgeOSMTileSource implements ITileSource
   private int eastTileBounds_;
   private int southTileBounds_;
   private int northTileBounds_;
+  private int tileSize_;
   
-  public MapsforgeOSMTileSource(final String name)
-  {
+  public MapsforgeOSMTileSource(final String name,
+                                final boolean upSize) {
     name_ = name;
     mapGenerator_ = new DatabaseRenderer();
     mapDatabase_ = new MapDatabase();
@@ -64,10 +62,11 @@ public class MapsforgeOSMTileSource implements ITileSource
         
     jobParameters_ = new JobParameters(new RenderTheme(), DEFAULT_TEXT_SCALE);
     debugSettings_ = new DebugSettings(false, false, false);
+
+    tileSize_ = upSize ? 512 : 256;
   } // MapsforgeOSMTileSource
   
-  public void setMapFile(final String mapFile)
-  {
+  public void setMapFile(final String mapFile) {
     if((mapFile == null) || (mapFile.equals(mapFile_)))
         return;
     
@@ -85,16 +84,15 @@ public class MapsforgeOSMTileSource implements ITileSource
   @Override
   public int ordinal() { return name_.hashCode(); }
   @Override
-  public int getTileSizePixels() { return Tile.TILE_SIZE; }
+  public int getTileSizePixels() { return tileSize_; }
   @Override
   public int getMaximumZoomLevel() { return mapGenerator_.getZoomLevelMax(); }
   @Override
   public int getMinimumZoomLevel() { return 6; }
 
-  public synchronized Drawable getDrawable(int tileX, int tileY, int zoom) throws LowMemoryException
-  {	
-	if(tileOutOfBounds(tileX, tileY, zoom))
-		return null;
+  public synchronized Drawable getDrawable(int tileX, int tileY, int zoom) throws LowMemoryException {
+	  if(tileOutOfBounds(tileX, tileY, zoom))
+		  return null;
 	  
     final Tile tile = new Tile(tileX, tileY, (byte)zoom);
     MapGeneratorJob mapGeneratorJob = new MapGeneratorJob(tile, 
@@ -102,9 +100,13 @@ public class MapsforgeOSMTileSource implements ITileSource
                                                           jobParameters_,
                                                           debugSettings_);
 
-    final Bitmap tileBitmap = Bitmap.createBitmap(Tile.TILE_SIZE, Tile.TILE_SIZE, Bitmap.Config.RGB_565);
+    Bitmap tileBitmap = Bitmap.createBitmap(Tile.TILE_SIZE, Tile.TILE_SIZE, Bitmap.Config.RGB_565);
     boolean success = mapGenerator_.executeJob(mapGeneratorJob, tileBitmap);
-    return success ?  new ExpirableBitmapDrawable(tileBitmap) : null;
+
+    if (tileSize_ != Tile.TILE_SIZE)
+      tileBitmap = Bitmap.createScaledBitmap(tileBitmap, tileSize_, tileSize_, false);
+
+    return success ? new ExpirableBitmapDrawable(tileBitmap) : null;
   } // getDrawable
   
   private boolean tileOutOfBounds(int tileX, int tileY, int zoom)
