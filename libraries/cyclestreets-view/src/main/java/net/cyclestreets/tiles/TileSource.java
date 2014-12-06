@@ -191,17 +191,13 @@ public class TileSource {
                                      ResourceProxy.string.base,
                                      "http://tile.cyclestreets.net/mapnik/");
 
-    final boolean highDensity = isHighDensity(display);
+    final ITileSource OSMAP =
+        createDensityAwareTileSource(display,
+                                     CycleStreetsPreferences.MAPSTYLE_OS,
+                                     ResourceProxy.string.unknown,
+                                     "http://tile.cyclestreets.net/osopendata/");
 
-    ITileSource OSMAP = createStandardTileSource(CycleStreetsPreferences.MAPSTYLE_OS,
-                                                 ResourceProxy.string.unknown,
-                                                 "http://a.os.openstreetmap.org/sv/",
-                                                 "http://b.os.openstreetmap.org/sv/",
-                                                 "http://c.os.openstreetmap.org/sv/");
-    if (highDensity)
-      OSMAP = new UpsizingTileSource(OSMAP);
-
-    final MapsforgeOSMTileSource MAPSFORGE = new MapsforgeOSMTileSource(CycleStreetsPreferences.MAPSTYLE_MAPSFORGE, highDensity);
+    final MapsforgeOSMTileSource MAPSFORGE = new MapsforgeOSMTileSource(CycleStreetsPreferences.MAPSTYLE_MAPSFORGE, isHighDensity(display));
 
 
     addTileSource("OpenCycleMap (shows hills)", OPENCYCLEMAP, "\u00a9 OpenStreetMap contributors. Map images \u00a9 OpenCycleMap");
