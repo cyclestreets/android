@@ -65,7 +65,7 @@ public class Registration
     return new RegistrationFactory();
   } // factory
 
-  static private class RegistrationFactory extends Factory<Registration.Result>
+  static private class RegistrationFactory extends Factory.XmlReader<Result>
   {    
     private Registration.Result result_;
     

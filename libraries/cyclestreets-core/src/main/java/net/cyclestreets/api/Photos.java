@@ -1,5 +1,11 @@
 package net.cyclestreets.api;
 
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -7,20 +13,15 @@ import java.util.List;
 import org.osmdroid.api.IGeoPoint;
 import org.osmdroid.util.BoundingBoxE6;
 import org.osmdroid.util.GeoPoint;
-import org.xml.sax.Attributes;
-import org.xml.sax.ContentHandler;
 
-import android.sax.Element;
-import android.sax.RootElement;
-import android.sax.StartElementListener;
+import net.cyclestreets.api.json.JsonReader;
 
-public class Photos implements Iterable<Photo>
-{
+public class Photos implements Iterable<Photo> {
   private List<Photo> photos_;
 
   protected Photos()
   {
-    photos_ = new ArrayList<Photo>();
+    photos_ = new ArrayList<>();
   } // Photos
 
   private void add(final Photo photo)
@@ -35,11 +36,10 @@ public class Photos implements Iterable<Photo>
   } // iterator
 
   /////////////////////////////////////////////////////////////
-  static public Photos load(final IGeoPoint centre,
+  public static Photos load(final IGeoPoint centre,
                             final int zoom,
                             final BoundingBoxE6 boundingBox)
-     throws Exception
-  {
+     throws Exception {
     return load(centre.getLongitudeE6() / 1E6,
                 centre.getLatitudeE6() / 1E6,
                 zoom,
@@ -49,73 +49,118 @@ public class Photos implements Iterable<Photo>
                 boundingBox.getLatSouthE6() / 1E6);
   } // load
 
-  static private Photos load(final double clong,
+  private static Photos load(final double clong,
                              final double clat,
                              final int zoom,
                              final double e,
                              final double w,
                              final double n,
                              final double s)
-      throws Exception
-  {
+      throws Exception {
     return ApiClient.getPhotos(clong, clat, zoom, e, w, n, s);
   } // load
 
   ////////////////////////////////////////////////////
-  static public Factory<Photos> factory() {
+  public static Factory<Photos> factory() {
     return new PhotosFactory();
   } // factory
 
-  static private class PhotosFactory extends Factory<Photos>
-  {
+  private static class PhotosFactory implements Factory<Photos> {
     private Photos photos_;
 
-    public PhotosFactory()
-    {
+    public PhotosFactory() {
     } // PhotosFactory
 
-    @Override
-    protected ContentHandler contentHandler()
-    {
-      photos_ = new Photos();
+    public Photos read(final byte[] json) {
+      try {
+        return doRead(json);
+      } catch(IOException e) {
+        throw new RuntimeException(e);
+      }
+    } // read
 
-      final RootElement root = new RootElement("markers");
-      final Element item = root.getChild("marker");
-      item.setStartElementListener(new StartElementListener() {
-        @Override
-        public void start(final Attributes attributes)
-        {
-          final String id = attributes.getValue("id");
-          final String feature = attributes.getValue("feature");
-          final String caption = attributes.getValue("caption");
-          final String url = attributes.getValue("shortlink");
-          final String thumbnailUrl = attributes.getValue("thumbnailUrl");
-          final String lat = attributes.getValue("latitude");
-          final String lon = attributes.getValue("longitude");
+    public Photos doRead(final byte[] json) throws IOException {
+      final JsonReader reader = new JsonReader(byteStreamReader(json));
+      try {
+        reader.beginObject();
+        while (reader.hasNext()) {
+          final String name = reader.nextName();
+          if ("features".equals(name))
+            readPhotos(reader);
+          else
+            reader.skipValue();
+        } // while
+        reader.endObject();
+      }
+      finally {
+        reader.close();
+      }
 
-          try {
-            final Photo newPhoto = new Photo(Integer.parseInt(id),
-                                             feature,
-                                             caption,
-                                             url,
-                                             thumbnailUrl,
-                                             new GeoPoint(Double.parseDouble(lat),
-                                                          Double.parseDouble(lon)));
-            photos_.add(newPhoto);
-          } // try
-          catch(Exception e) {
-            // never mind
-          } // catch
-        } // start
-      });
-
-      return root.getContentHandler();
-    } // contentHandler
-
-    @Override
-    protected Photos get()
-    {
       return photos_;
-    } // get
+    } // doRead
+
+    private Reader byteStreamReader(final byte[] bytes) throws UnsupportedEncodingException {
+      final InputStream in = new ByteArrayInputStream(bytes);
+      return new InputStreamReader(in, "UTF-8");
+    } // byteReader
+
+    private void readPhotos(final JsonReader reader) throws IOException {
+      reader.beginArray();
+      while (reader.hasNext())
+        readPhoto(reader);
+      reader.endArray();
+    } // readPhotos
+
+    private void readPhoto(final JsonReader reader) throws IOException {
+      reader.beginObject();
+      // type, properties, geometry
+      Photo newPhoto = null;
+      GeoPoint location = null;
+      while (reader.hasNext()) {
+        final String name = reader.nextName();
+        if ("properties".equals(name))
+          newPhoto = readProperties(reader);
+        else if ("geometry".equals(name))
+          location = readLocation(reader);
+        else
+          reader.skipValue();
+      } // while
+
+      newPhoto.setPosition(location);
+      photos_.add(newPhoto);
+
+      reader.endObject();
+    } // readPhoto
+
+    private Photo readProperties(final JsonReader reader) throws IOException {
+      // id, caption, hasPhoto, hasVideo, videoFormats, thumbnailUrl, shortlink
+      int id = -1;
+      String feature = "Not known";
+      String caption = null;
+      String thumbnailUrl = null;
+      String url = null;
+
+      reader.beginObject();
+      while (reader.hasNext()) {
+        String name = reader.nextName();
+        if("id".equals(name))
+          id = reader.nextInt();
+        else if ("caption".equals(name))
+          caption = reader.nextString();
+        else if ("thumbnailUrl".equals(name))
+          thumbnailUrl = reader.nextString();
+        else if ("shortlink".equals(name))
+          url = reader.nextString();
+        else
+          reader.skipValue();
+      } // while
+      reader.endObject();
+
+      return new Photo(id, feature, caption, thumbnailUrl, url, null);
+    } // readProperties
+
+    private GeoPoint readLocation(final JsonReader reader) throws IOException {
+      return null;
+    } // readLocation
   } // class PhotosFactory
 } // class Photos

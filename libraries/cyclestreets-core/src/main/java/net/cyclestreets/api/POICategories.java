@@ -50,7 +50,7 @@ public class POICategories implements Iterable<POICategory>
     return new POICategoriesFactory(context);
   } // factory
   
-  static private class POICategoriesFactory extends Factory<POICategories>
+  static private class POICategoriesFactory extends Factory.XmlReader<POICategories>
   {    
     private final Context context_;
     private POICategories cats_;

@@ -39,7 +39,7 @@ public class Feedback
     return new FeedbackFactory();
   } // factory
 
-  static private class FeedbackFactory extends Factory<Feedback.Result>
+  static private class FeedbackFactory extends Factory.XmlReader<Result>
   {    
     private Feedback.Result result_;
     

@@ -109,7 +109,7 @@ public class PhotomapCategories
     public long ordering() { return ordering_; }
   } // class Listener
 
-  static private class PhotomapCategoriesFactory extends Factory<PhotomapCategories>
+  static private class PhotomapCategoriesFactory extends Factory.XmlReader<PhotomapCategories>
   {    
     private PhotomapCategories cats_;
     

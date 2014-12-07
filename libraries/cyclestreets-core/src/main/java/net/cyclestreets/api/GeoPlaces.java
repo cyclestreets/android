@@ -66,7 +66,7 @@ public class GeoPlaces implements Iterable<GeoPlace>
     return new GeoPlacesFactory();
   } // factory
   
-  static private class GeoPlacesFactory extends Factory<GeoPlaces>
+  static private class GeoPlacesFactory extends Factory.XmlReader<GeoPlaces>
   {    
     private GeoPlaces places_;
     private String name_;

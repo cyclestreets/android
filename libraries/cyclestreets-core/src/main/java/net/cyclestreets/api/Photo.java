@@ -9,7 +9,7 @@ public class Photo
   private final String caption_;
   private final String url_;
   private final String thumbnailUrl_;
-  private final GeoPoint position_;
+  private GeoPoint position_;
   
   Photo(int id, 
         String feature,
@@ -32,6 +32,8 @@ public class Photo
   public String url() { return url_; }
   public String thumbnailUrl() { return thumbnailUrl_; }
   public GeoPoint position() { return position_; }
+
+  void setPosition(final GeoPoint position) { position_ = position; }
 
   @Override
   public int hashCode() { return id_; }

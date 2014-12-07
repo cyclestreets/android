@@ -71,7 +71,7 @@ public class Signin
     return new SigninFactory();
   } // factory
 
-  static private class SigninFactory extends Factory<Signin.Result>
+  static private class SigninFactory extends Factory.XmlReader<Result>
   {    
     private Signin.Result result_;
     

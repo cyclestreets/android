@@ -51,7 +51,7 @@ public class Upload
     return new UploadFactory();
   } // factory
 
-  static private class UploadFactory extends Factory<Upload.Result>
+  static private class UploadFactory extends Factory.XmlReader<Result>
   {    
     private Upload.Result result_;
     

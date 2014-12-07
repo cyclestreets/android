@@ -64,14 +64,16 @@ public class ApiClient
   private static String apiKey_;
 
   private final static String API_SCHEME = "http";
+  private final static String API_SCHEME_V2 = "https";
   private final static String API_POST_SCHEME = "https";
   private final static String API_HOST = "www.cyclestreets.net";
   private final static String API_HOST_V2 = "api.cyclestreets.net";
   private final static int API_PORT = -1;
   private final static String API_PATH = "/api/";
+  private final static String API_PATH_V2 = "/v2/";
 
   public final static String API_PATH_JOURNEY = API_PATH + "journey.xml";
-  public final static String API_PATH_PHOTOS = API_PATH + "photos.xml";
+  public final static String API_PATH_PHOTOS = API_PATH_V2 + "photomap.locations";
   public final static String API_PATH_PHOTOMAP_CATEGORIES = API_PATH + "photomapcategories.xml";
   public final static String API_PATH_ADDPHOTO = API_PATH + "addphoto.xml";
   public final static String API_PATH_SIGNIN = API_PATH + "uservalidate.xml";
@@ -165,17 +167,10 @@ public class ApiClient
   {
     return callApi(Photos.factory(),
                     API_PATH_PHOTOS,
-                    "longitude", Double.toString(longitude),
-                    "latitude", Double.toString(latitude),
-                    "zoom", Integer.toString(zoom),
-                    "e", Double.toString(e),
-                    "w", Double.toString(w),
-                    "n", Double.toString(n),
-                    "s", Double.toString(s),
+                    "bbox", String.format("%s,%s,%s,%s", w, s, e, n),
                     "suppressplaceholders", "1",
-                    "minimaldata", "1",
                     "limit", "30",
-                    "thumbnailsize", "250");
+                    "fields", "id,caption,category,hasPhoto,hasVideo,videoFormats,thumbnailUrl,shortlink");
   } // getPhotos
 
   static protected GeoPlaces geoCoder(final String search,
@@ -334,15 +329,15 @@ public class ApiClient
     Map<String, String> args = argMap(path, arguments);
     
     final List<NameValuePair> params = createParamsList(args);
-    final URI uri = createURI(API_SCHEME, path, params);
+    final URI uri = createURI(null, path, params);
     final HttpGet httpget = new HttpGet(uri);
     return executeRaw(httpget);
   } // callApiRaw
 
   private static <T> T callApi(final Factory<T> factory, final String path, String... args) throws Exception
   {
-    final byte[] xml = callApiRaw(path, args);
-    return loadRaw(factory, xml);
+    final byte[] results = callApiRaw(path, args);
+    return loadRaw(factory, results);
   } // callApi
 
   private static <T> T callApiWithCache(final Factory<T> factory, final String path, String... args) throws Exception
@@ -353,22 +348,22 @@ public class ApiClient
   private static <T> T callApiWithCache(final int expiryInDays, final Factory<T> factory, final String path, String... args) throws Exception
   {
     final String name = cacheName(path, args);
-    byte[] xml = cache_.fetch(name, expiryInDays);
+    byte[] results = cache_.fetch(name, expiryInDays);
 
-    if(xml == null)
+    if(results == null)
     {
-      xml = callApiRaw(path, args);
-      cache_.store(name, xml);
+      results = callApiRaw(path, args);
+      cache_.store(name, results);
     } // if ...
 
-    return loadRaw(factory, xml);
+    return loadRaw(factory, results);
   } // callApiWithCache
 
   private static <T> T postApi(final Factory<T> factory, final String path, Object... args)
     throws Exception
   {
-    final byte[] xml = postApiRaw(path, args);
-    return loadRaw(factory, xml);
+    final byte[] results = postApiRaw(path, args);
+    return loadRaw(factory, results);
   } // postApi
 
   public static byte[] postApiRaw(final String path, Object... arguments) throws Exception {
@@ -431,8 +426,9 @@ public class ApiClient
                                final List<NameValuePair> params)
     throws Exception
   {
-    final String host = path.startsWith("/v2/") ? API_HOST_V2 : API_HOST;
-    return URIUtils.createURI(scheme, host, API_PORT, path, URLEncodedUtils.format(params, "UTF-8"), null);
+    final String schemeInUse = scheme != null ? scheme : (path.startsWith("/v2/") ? API_SCHEME_V2 : API_SCHEME);
+    final String host = path.startsWith(API_PATH_V2) ? API_HOST_V2 : API_HOST;
+    return URIUtils.createURI(schemeInUse, host, API_PORT, path, URLEncodedUtils.format(params, "UTF-8"), null);
   } // createCycleStreetsURI
 
   private static List<NameValuePair> createParamsList(final Map<String, String> args)
@@ -450,19 +446,9 @@ public class ApiClient
     return params;
   } // createParamsList
 
-  private static <T> T loadRaw(final Factory<T> factory, final byte[] xml) throws Exception
+  private static <T> T loadRaw(final Factory<T> factory, final byte[] result) throws Exception
   {
-    try {
-      final InputStream bais = new ByteArrayInputStream(xml);
-      Xml.parse(bais,
-                Xml.Encoding.UTF_8,
-                factory.contentHandler());
-    } // try
-    catch(final Exception e) {
-      factory.parseException(e);
-    } // catch
-
-    return factory.get();
+    return factory.read(result);
   } // loadRaw
 
    private static <T> Map<String, T> argMap(String path, T... args) {

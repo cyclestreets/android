@@ -67,7 +67,7 @@ public class POICategory
     return new POIFactory();
   } // factory
   
-  static private class POIFactory extends Factory<List<POI>>
+  static private class POIFactory extends Factory.XmlReader<List<POI>>
   {
     private List<POI> pois_;
     private int id_;

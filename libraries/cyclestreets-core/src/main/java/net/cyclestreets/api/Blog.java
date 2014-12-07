@@ -103,7 +103,7 @@ public class Blog
 
    */
   
-  static private class BlogFactory extends Factory<Blog>
+  static private class BlogFactory extends Factory.XmlReader<Blog>
   {
     private Blog blog_;
     private String title_;
