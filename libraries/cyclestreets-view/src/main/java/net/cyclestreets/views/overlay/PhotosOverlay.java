@@ -10,20 +10,13 @@ import org.osmdroid.views.overlay.OverlayItem;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.Resources;
-import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
-import android.net.Uri;
 import android.os.AsyncTask;
-import android.view.MotionEvent;
 
 import net.cyclestreets.DisplayPhotoActivity;
-import net.cyclestreets.PhotoUploadActivity;
 import net.cyclestreets.api.Photo;
 import net.cyclestreets.api.PhotoMarkers;
 import net.cyclestreets.api.Photos;
-import net.cyclestreets.routing.Route;
-import net.cyclestreets.view.R;
 import net.cyclestreets.views.CycleMapView;
 
 public class PhotosOverlay extends LiveItemOverlay<PhotosOverlay.PhotoItem>
@@ -113,9 +106,8 @@ public class PhotosOverlay extends LiveItemOverlay<PhotosOverlay.PhotoItem>
   private void showPhoto(final PhotoItem item, final MapView mapView)
   {
     final Intent intent = new Intent(context_, DisplayPhotoActivity.class);
-    intent.setData(Uri.parse(item.photo().thumbnailUrl()));
     intent.putExtra("caption", item.photo().caption());
-    intent.putExtra("url", item.photo().url());
+    intent.putExtra("url", item.photo().thumbnailUrl());
     mapView.getContext().startActivity(intent);
   } // showPhoto
 
@@ -124,7 +116,7 @@ public class PhotosOverlay extends LiveItemOverlay<PhotosOverlay.PhotoItem>
                                            final int zoom,
                                            final BoundingBoxE6 boundingBox)
   {
-		GetPhotosTask.fetch(this, mapCentre, zoom, boundingBox);
+		GetPhotosTask.fetch(this, boundingBox);
 		return true;
 	} // refreshPhotos
 	
@@ -148,12 +140,10 @@ public class PhotosOverlay extends LiveItemOverlay<PhotosOverlay.PhotoItem>
 		
 		protected Photos doInBackground(Object... params) 
 		{
-			final IGeoPoint mapCentre = (IGeoPoint)params[0];
-			int zoom = (Integer) params[1];
-			final BoundingBoxE6 boundingBox = (BoundingBoxE6)params[2];
+			final BoundingBoxE6 boundingBox = (BoundingBoxE6)params[0];
 
 			try {
-				return Photos.load(mapCentre, zoom, boundingBox);
+				return Photos.load(boundingBox);
 			} 
 			catch (final Exception ex) {
 				// never mind, eh?

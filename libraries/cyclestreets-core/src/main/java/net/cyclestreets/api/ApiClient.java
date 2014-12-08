@@ -156,10 +156,7 @@ public class ApiClient
     return callApiWithCache(PhotomapCategories.factory(), API_PATH_PHOTOMAP_CATEGORIES);
   } // getPhotomapCategories
 
-  static Photos getPhotos(final double longitude,
-                          final double latitude,
-                          int zoom,
-                          double e,
+  static Photos getPhotos(double e,
                           double w,
                           double n,
                           double s)
@@ -170,6 +167,7 @@ public class ApiClient
                     "bbox", String.format("%s,%s,%s,%s", w, s, e, n),
                     "suppressplaceholders", "1",
                     "limit", "30",
+                    "thumbnailsize", "640",
                     "fields", "id,caption,categoryId,hasPhoto,hasVideo,videoFormats,thumbnailUrl,shortlink");
   } // getPhotos
 

@@ -36,28 +36,20 @@ public class Photos implements Iterable<Photo> {
   } // iterator
 
   /////////////////////////////////////////////////////////////
-  public static Photos load(final IGeoPoint centre,
-                            final int zoom,
-                            final BoundingBoxE6 boundingBox)
+  public static Photos load(final BoundingBoxE6 boundingBox)
      throws Exception {
-    return load(centre.getLongitudeE6() / 1E6,
-                centre.getLatitudeE6() / 1E6,
-                zoom,
-                boundingBox.getLonEastE6() / 1E6,
+    return load(boundingBox.getLonEastE6() / 1E6,
                 boundingBox.getLonWestE6() / 1E6,
                 boundingBox.getLatNorthE6() / 1E6,
                 boundingBox.getLatSouthE6() / 1E6);
   } // load
 
-  private static Photos load(final double clong,
-                             final double clat,
-                             final int zoom,
-                             final double e,
+  private static Photos load(final double e,
                              final double w,
                              final double n,
                              final double s)
       throws Exception {
-    return ApiClient.getPhotos(clong, clat, zoom, e, w, n, s);
+    return ApiClient.getPhotos(e, w, n, s);
   } // load
 
   ////////////////////////////////////////////////////
@@ -159,7 +151,7 @@ public class Photos implements Iterable<Photo> {
       } // while
       reader.endObject();
 
-      return new Photo(id, category, caption, thumbnailUrl, url, null);
+      return new Photo(id, category, caption, url, thumbnailUrl, null);
     } // readProperties
 
     private GeoPoint readGeometry(final JsonReader reader) throws IOException {

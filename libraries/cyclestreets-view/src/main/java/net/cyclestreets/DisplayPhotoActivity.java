@@ -50,8 +50,8 @@ public class DisplayPhotoActivity extends Activity implements View.OnClickListen
 		final Button b = (Button)findViewById(R.id.photo_share);
 		b.setOnClickListener(this);
 
-		final Uri uri = i.getData();
-		ImageDownloader.get(uri.toString(), iv);
+    final String thumbnailUrl = i.getStringExtra("url");
+		ImageDownloader.get(thumbnailUrl, iv);
 	} // onCreate
 	
 	@Override
