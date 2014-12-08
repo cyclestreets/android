@@ -132,6 +132,8 @@ public class Photos implements Iterable<Photo> {
       String caption = null;
       String thumbnailUrl = null;
       String url = null;
+      boolean hasVideo = false;
+      List<Photo.Video> videos = null;
 
       reader.beginObject();
       while (reader.hasNext()) {
@@ -146,12 +148,16 @@ public class Photos implements Iterable<Photo> {
           thumbnailUrl = reader.nextString();
         else if ("shortlink".equals(name))
           url = reader.nextString();
+        else if ("hasVideo".equals(name))
+          hasVideo = reader.nextBoolean();
+        else if ("videoFormats".equals(name) && hasVideo)
+          videos = readVideoDetails(reader);
         else
           reader.skipValue();
       } // while
       reader.endObject();
 
-      return new Photo(id, category, caption, url, thumbnailUrl, null);
+      return new Photo(id, category, caption, url, thumbnailUrl, null, videos);
     } // readProperties
 
     private GeoPoint readGeometry(final JsonReader reader) throws IOException {
@@ -193,5 +199,47 @@ public class Photos implements Iterable<Photo> {
 
       return gp;
     } // readPoint
+
+    private List<Photo.Video> readVideoDetails(final JsonReader reader) throws IOException {
+      /*
+      "videoFormats": {
+                    "mov": {
+                        "url": "http://www.cyclestreets.net/location/20588/cyclestreets20588.mov",
+                        "location": "/location/20588/cyclestreets20588.mov",
+                        "sizeBytes": 25152682,
+                        "sizeBytesFormatted": "24MB"
+                    },
+                    "flv": {
+                        "url": "http://www.cyclestreets.net/location/20588/cyclestreets20588.flv",
+                        "location": "/location/20588/cyclestreets20588.flv",
+                        "sizeBytes": 1382820,
+                        "sizeBytesFormatted": "1MB"
+                    }
+                }
+       */
+
+      final List<Photo.Video> videos = new ArrayList<Photo.Video>();
+
+      reader.beginObject();
+
+      while (reader.hasNext()) {
+        String format = reader.nextName();
+        String url = null;
+        reader.beginObject();
+        while (reader.hasNext()) {
+          if ("url".equals(reader.nextName()))
+            url = reader.nextString();
+          else
+            reader.skipValue();
+        } // while
+        videos.add(new Photo.Video(format, url));
+
+        reader.endObject();
+      } // while
+
+      reader.endObject();
+
+      return videos;
+    } // readerVideoDetails
   } // class PhotosFactory
 } // class Photos

@@ -168,7 +168,7 @@ public class ApiClient
                     "suppressplaceholders", "1",
                     "limit", "30",
                     "thumbnailsize", "640",
-                    "fields", "id,caption,categoryId,hasPhoto,hasVideo,videoFormats,thumbnailUrl,shortlink");
+                    "fields", "id,caption,categoryId,hasVideo,videoFormats,thumbnailUrl,shortlink");
   } // getPhotos
 
   static protected GeoPlaces geoCoder(final String search,
