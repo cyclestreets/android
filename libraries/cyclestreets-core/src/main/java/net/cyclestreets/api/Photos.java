@@ -69,6 +69,7 @@ public class Photos implements Iterable<Photo> {
     private Photos photos_;
 
     public PhotosFactory() {
+      photos_ = new Photos();
     } // PhotosFactory
 
     public Photos read(final byte[] json) {
@@ -121,7 +122,7 @@ public class Photos implements Iterable<Photo> {
         if ("properties".equals(name))
           newPhoto = readProperties(reader);
         else if ("geometry".equals(name))
-          location = readLocation(reader);
+          location = readGeometry(reader);
         else
           reader.skipValue();
       } // while
@@ -133,9 +134,9 @@ public class Photos implements Iterable<Photo> {
     } // readPhoto
 
     private Photo readProperties(final JsonReader reader) throws IOException {
-      // id, caption, hasPhoto, hasVideo, videoFormats, thumbnailUrl, shortlink
+      // id, caption, categoryId, hasVideo, videoFormats, thumbnailUrl, shortlink
       int id = -1;
-      String feature = "Not known";
+      String category = "Not known";
       String caption = null;
       String thumbnailUrl = null;
       String url = null;
@@ -147,6 +148,8 @@ public class Photos implements Iterable<Photo> {
           id = reader.nextInt();
         else if ("caption".equals(name))
           caption = reader.nextString();
+        else if ("categoryId".equals(name))
+          category = reader.nextString();
         else if ("thumbnailUrl".equals(name))
           thumbnailUrl = reader.nextString();
         else if ("shortlink".equals(name))
@@ -156,11 +159,47 @@ public class Photos implements Iterable<Photo> {
       } // while
       reader.endObject();
 
-      return new Photo(id, feature, caption, thumbnailUrl, url, null);
+      return new Photo(id, category, caption, thumbnailUrl, url, null);
     } // readProperties
 
-    private GeoPoint readLocation(final JsonReader reader) throws IOException {
-      return null;
-    } // readLocation
+    private GeoPoint readGeometry(final JsonReader reader) throws IOException {
+      /* "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    0.146939,
+                    52.200386
+                ]
+            } */
+
+      GeoPoint loc = null;
+
+      reader.beginObject();
+      while (reader.hasNext()) {
+        String name = reader.nextName();
+        if("coordinates".equals(name))
+          loc = readPoint(reader);
+        else
+          reader.skipValue();
+      } // while
+      reader.endObject();
+
+      return loc;
+    } // readGeometry
+
+    private GeoPoint readPoint(final JsonReader reader) throws IOException {
+      reader.beginArray();
+
+      final double longitude = reader.nextDouble();
+      final double latitude = reader.nextDouble();
+
+      GeoPoint gp = new GeoPoint(
+          latitude,
+          longitude
+      );
+
+      reader.endArray();
+
+      return gp;
+    } // readPoint
   } // class PhotosFactory
 } // class Photos

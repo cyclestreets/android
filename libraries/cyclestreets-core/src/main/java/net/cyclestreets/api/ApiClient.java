@@ -170,7 +170,7 @@ public class ApiClient
                     "bbox", String.format("%s,%s,%s,%s", w, s, e, n),
                     "suppressplaceholders", "1",
                     "limit", "30",
-                    "fields", "id,caption,category,hasPhoto,hasVideo,videoFormats,thumbnailUrl,shortlink");
+                    "fields", "id,caption,categoryId,hasPhoto,hasVideo,videoFormats,thumbnailUrl,shortlink");
   } // getPhotos
 
   static protected GeoPlaces geoCoder(final String search,
