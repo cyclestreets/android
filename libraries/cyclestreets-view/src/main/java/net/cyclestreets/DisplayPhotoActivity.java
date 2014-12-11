@@ -1,5 +1,6 @@
 package net.cyclestreets;
 
+import net.cyclestreets.api.Photo;
 import net.cyclestreets.view.R;
 import net.cyclestreets.util.ImageDownloader;
 import net.cyclestreets.util.Share;
@@ -17,17 +18,15 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-public class DisplayPhotoActivity extends Activity implements View.OnClickListener
-{
-	Intent i;
+public class DisplayPhotoActivity extends Activity implements View.OnClickListener {
+	private Photo photo_;
 
-	@Override
-	protected void onCreate(Bundle savedInstanceState) 
-	{
+  @Override
+	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.showphoto);
 		
-		i = getIntent();
+	  photo_ = getIntent().getParcelableExtra("photo");
 
 		final ImageView iv = (ImageView)findViewById(R.id.photo);
 		final WindowManager wm = getWindowManager();
@@ -45,30 +44,28 @@ public class DisplayPhotoActivity extends Activity implements View.OnClickListen
 		iv.startAnimation(AnimationUtils.loadAnimation(this, R.anim.spinner));
 
 		final TextView text = (TextView)findViewById(R.id.photo_text);
-		text.setText(i.getStringExtra("caption"));
+		text.setText(photo_.caption());
 
 		final Button b = (Button)findViewById(R.id.photo_share);
 		b.setOnClickListener(this);
 
-    final String thumbnailUrl = i.getStringExtra("url");
+    final String thumbnailUrl = photo_.thumbnailUrl();
 		ImageDownloader.get(thumbnailUrl, iv);
 	} // onCreate
 	
 	@Override
-	public boolean onTouchEvent(final MotionEvent event)
-	{
+	public boolean onTouchEvent(final MotionEvent event) {
 		if(event.getAction() == MotionEvent.ACTION_UP)
 			finish();
 		return false;
 	} // onTouchEvent
 
 	@Override
-	public void onClick(View v)
-	{
-        final int id = v.getId();
+	public void onClick(View v)	{
+    final int id = v.getId();
 		if(R.id.photo_share == id) {
-		  String photoUrl_ = i.getStringExtra("url");
-		  String caption_ = i.getStringExtra("caption");
+		  String photoUrl_ = photo_.url();
+		  String caption_ = photo_.caption();
 		  Share.Url(this, photoUrl_, caption_, "Photo on CycleStreets.net");
 		} // if ...
 	} // onClick

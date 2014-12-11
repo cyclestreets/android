@@ -106,8 +106,7 @@ public class PhotosOverlay extends LiveItemOverlay<PhotosOverlay.PhotoItem>
   private void showPhoto(final PhotoItem item, final MapView mapView)
   {
     final Intent intent = new Intent(context_, DisplayPhotoActivity.class);
-    intent.putExtra("caption", item.photo().caption());
-    intent.putExtra("url", item.photo().thumbnailUrl());
+    intent.putExtra("photo", item.photo());
     mapView.getContext().startActivity(intent);
   } // showPhoto
 
