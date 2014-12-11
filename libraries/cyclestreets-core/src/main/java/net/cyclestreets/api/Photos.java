@@ -11,11 +11,11 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
-import org.osmdroid.api.IGeoPoint;
 import org.osmdroid.util.BoundingBoxE6;
 import org.osmdroid.util.GeoPoint;
 
 import net.cyclestreets.api.json.JsonReader;
+import net.cyclestreets.api.json.JsonToken;
 
 public class Photos implements Iterable<Photo> {
   private List<Photo> photos_;
@@ -120,8 +120,10 @@ public class Photos implements Iterable<Photo> {
           reader.skipValue();
       } // while
 
-      newPhoto.setPosition(location);
-      photos_.add(newPhoto);
+      if (!newPhoto.isPlaceholder()) {
+        newPhoto.setPosition(location);
+        photos_.add(newPhoto);
+      } // if ...
 
       reader.endObject();
     } // readPhoto
@@ -145,9 +147,12 @@ public class Photos implements Iterable<Photo> {
           caption = reader.nextString();
         else if ("categoryId".equals(name))
           category = reader.nextString();
-        else if ("thumbnailUrl".equals(name))
-          thumbnailUrl = reader.nextString();
-        else if ("shortlink".equals(name))
+        else if ("thumbnailUrl".equals(name)) {
+          if (reader.peek() == JsonToken.STRING)
+            thumbnailUrl = reader.nextString();
+          else
+            reader.nextNull();
+        } else if ("shortlink".equals(name))
           url = reader.nextString();
         else if ("hasVideo".equals(name))
           hasVideo = reader.nextBoolean();
@@ -219,7 +224,7 @@ public class Photos implements Iterable<Photo> {
                 }
        */
 
-      final List<Photo.Video> videos = new ArrayList<Photo.Video>();
+      final List<Photo.Video> videos = new ArrayList<>();
 
       reader.beginObject();
 

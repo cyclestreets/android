@@ -3,7 +3,7 @@ package net.cyclestreets.api.json;
 /**
  * A structure, name or value type in a JSON-encoded string.
  */
-enum JsonToken {
+public enum JsonToken {
   BEGIN_ARRAY,
   END_ARRAY,
   BEGIN_OBJECT,

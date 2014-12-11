@@ -34,6 +34,7 @@ public class Photo implements Parcelable {
   } // Photo
   
   public int id() { return id_; }
+  public boolean isPlaceholder() { return thumbnailUrl_ == null && !hasVideos(); }
   public String feature() { return featureName_; }
   public String caption() { return caption_; }
   public String url() { return url_; }
@@ -41,6 +42,12 @@ public class Photo implements Parcelable {
   public GeoPoint position() { return position_; }
   public boolean hasVideos() { return videos_.size() != 0; }
   public Iterable<Video> videos() { return videos_; }
+  public Video video(final String format) {
+    for (Video v : videos_)
+      if (v.format().equals(format))
+        return v;
+    return null;
+  } // video
 
   void setPosition(final GeoPoint position) { position_ = position; }
 

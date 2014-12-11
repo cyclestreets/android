@@ -17,7 +17,9 @@ import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.MediaController;
 import android.widget.TextView;
+import android.widget.VideoView;
 
 public class DisplayPhotoActivity extends Activity implements View.OnClickListener {
 	private Photo photo_;
@@ -29,31 +31,70 @@ public class DisplayPhotoActivity extends Activity implements View.OnClickListen
 		
 	  photo_ = getIntent().getParcelableExtra("photo");
 
-		final ImageView iv = (ImageView)findViewById(R.id.photo);
-		final WindowManager wm = getWindowManager();
-    final int device_height = wm.getDefaultDisplay().getHeight();
-		final int device_width = wm.getDefaultDisplay().getWidth();
-		final int height = (device_height > device_width)
-                         ? device_height / 10 * 4
-                         : device_height / 10 * 8;
-		final int width = device_width;
-		iv.setLayoutParams(new LinearLayout.LayoutParams(width, height));
-		iv.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
-		iv.startAnimation(AnimationUtils.loadAnimation(this, R.anim.spinner));
+    final TextView text = (TextView)findViewById(R.id.photo_text);
+    text.setText(photo_.caption());
 
-		final TextView text = (TextView)findViewById(R.id.photo_text);
-		text.setText(photo_.caption());
+    final Button b = (Button)findViewById(R.id.photo_share);
+    b.setOnClickListener(this);
 
-		final Button b = (Button)findViewById(R.id.photo_share);
-		b.setOnClickListener(this);
+    if (photo_.hasVideos())
+      setupVideo();
+    else
+      setupPhoto();
+	} // onCreate
+
+  private void setupVideo() {
+    final String bestUrl = videoUrl();
+
+    final VideoView vv = (VideoView)findViewById(R.id.video);
+    sizeView(vv);
+
+    final MediaController mc = new MediaController(this);
+    mc.setAnchorView(vv);
+    mc.setMediaPlayer(vv);
+    vv.setMediaController(mc);
+
+    final Uri uri = Uri.parse(bestUrl);
+    vv.setVideoURI(uri);
+    vv.start();
+  } // setupVideo
+
+  private String videoUrl() {
+    for (String format : new String[]{ "mp4", "mov", "3gp" }) {
+      Photo.Video v = photo_.video(format);
+      if (v != null)
+        return v.url();
+    } // for ...
+    return null;
+  } // videoUrl
+
+  private void setupPhoto() {
+    final ImageView iv = (ImageView)findViewById(R.id.photo);
+    sizeView(iv);
+    iv.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
+    iv.startAnimation(AnimationUtils.loadAnimation(this, R.anim.spinner));
 
     final String thumbnailUrl = photo_.thumbnailUrl();
-		ImageDownloader.get(thumbnailUrl, iv);
-	} // onCreate
-	
+    ImageDownloader.get(thumbnailUrl, iv);
+  } // setupPhoto
+
+  private void sizeView(View v) {
+    final WindowManager wm = getWindowManager();
+    final int device_height = wm.getDefaultDisplay().getHeight();
+    final int device_width = wm.getDefaultDisplay().getWidth();
+    final int height = (device_height > device_width)
+        ? device_height / 10 * 4
+        : device_height / 10 * 8;
+    final int width = device_width;
+    v.setLayoutParams(new LinearLayout.LayoutParams(width, height));
+    v.setVisibility(View.VISIBLE);
+  } // sizeVide
+
 	@Override
 	public boolean onTouchEvent(final MotionEvent event) {
-		if(event.getAction() == MotionEvent.ACTION_UP)
+    if (photo_.hasVideos())
+      return false;
+		if (event.getAction() == MotionEvent.ACTION_UP)
 			finish();
 		return false;
 	} // onTouchEvent
