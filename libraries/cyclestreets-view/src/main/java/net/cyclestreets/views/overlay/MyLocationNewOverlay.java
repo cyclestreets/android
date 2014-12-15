@@ -129,33 +129,6 @@ class MyLocationNewOverlay extends SafeDrawOverlay implements IMyLocationConsume
     super.onDetach(mapView);
   }
 
-  // ===========================================================
-  // Getter & Setter
-  // ===========================================================
-
-  /**
-   * If enabled, an accuracy circle will be drawn around your current position.
-   *
-   * @param drawAccuracyEnabled
-   *            whether the accuracy circle will be enabled
-   */
-  public void setDrawAccuracyEnabled(final boolean drawAccuracyEnabled) {
-    mDrawAccuracyEnabled = drawAccuracyEnabled;
-  }
-
-  /**
-   * If enabled, an accuracy circle will be drawn around your current position.
-   *
-   * @return true if enabled, false otherwise
-   */
-  public boolean isDrawAccuracyEnabled() {
-    return mDrawAccuracyEnabled;
-  }
-
-  public IMyLocationProvider getMyLocationProvider() {
-    return mMyLocationProvider;
-  }
-
   protected void setMyLocationProvider(IMyLocationProvider myLocationProvider) {
     if (myLocationProvider == null)
       throw new RuntimeException(
@@ -165,10 +138,6 @@ class MyLocationNewOverlay extends SafeDrawOverlay implements IMyLocationConsume
       mMyLocationProvider.stopLocationProvider();
 
     mMyLocationProvider = myLocationProvider;
-  }
-
-  public void setPersonHotspot(float x, float y) {
-    mPersonHotspot.set(x, y);
   }
 
   protected void drawMyLocation(final ISafeCanvas canvas, final MapView mapView,
@@ -541,15 +510,5 @@ class MyLocationNewOverlay extends SafeDrawOverlay implements IMyLocationConsume
    */
   public boolean isMyLocationEnabled() {
     return mIsLocationEnabled;
-  }
-
-  public boolean runOnFirstFix(final Runnable runnable) {
-    if (mMyLocationProvider != null && mLocation != null) {
-      new Thread(runnable).start();
-      return true;
-    } else {
-      mRunOnFirstFix.addLast(runnable);
-      return false;
-    }
   }
 }
