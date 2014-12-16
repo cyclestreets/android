@@ -7,21 +7,10 @@
 	<ImageView android:id="@+id/photo" 
 		android:layout_width="match_parent" 
 		android:layout_height="wrap_content"
-    android:visibility="gone"
 		android:src="@drawable/loading"/>
-  <VideoView android:id="@+id/video"
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:visibility="gone"/>
  	<TextView
-		android:id="@+id/photo_text"
+		android:id="@+id/caption"
 		android:gravity="center"
 		android:layout_height="wrap_content" 
-		android:layout_width="match_parent"
-		android:background="#000000"
-		android:textColor="#ffffff"/>
-	<Button android:text="@string/share_this_photo" 
-    	android:id="@+id/photo_share" 
-    	android:layout_height="wrap_content" 
-	 	android:layout_width="match_parent"/>	
+		android:layout_width="match_parent"/>
 </LinearLayout>

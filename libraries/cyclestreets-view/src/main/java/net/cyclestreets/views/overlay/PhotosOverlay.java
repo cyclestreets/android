@@ -9,11 +9,10 @@ import org.osmdroid.util.BoundingBoxE6;
 import org.osmdroid.views.overlay.OverlayItem;
 
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 
-import net.cyclestreets.DisplayPhotoActivity;
+import net.cyclestreets.DisplayPhoto;
 import net.cyclestreets.api.Photo;
 import net.cyclestreets.api.PhotoMarkers;
 import net.cyclestreets.api.Photos;
@@ -105,9 +104,7 @@ public class PhotosOverlay extends LiveItemOverlay<PhotosOverlay.PhotoItem>
 
   private void showPhoto(final PhotoItem item, final MapView mapView)
   {
-    final Intent intent = new Intent(context_, DisplayPhotoActivity.class);
-    intent.putExtra("photo", item.photo());
-    mapView.getContext().startActivity(intent);
+    DisplayPhoto.launch(item.photo(), context_);
   } // showPhoto
 
   ///////////////////////////////////////////////////
