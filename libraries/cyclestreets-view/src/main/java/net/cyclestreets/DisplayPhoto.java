@@ -3,19 +3,13 @@ package net.cyclestreets;
 import net.cyclestreets.api.Photo;
 import net.cyclestreets.view.R;
 import net.cyclestreets.util.ImageDownloader;
-import net.cyclestreets.util.Share;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
-import android.content.Intent;
 import android.net.Uri;
-import android.os.Bundle;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.animation.AnimationUtils;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.MediaController;
@@ -33,7 +27,6 @@ public class DisplayPhoto {
 
     final AlertDialog ad = builder.create();
     ad.show();
-    ad.getButton(AlertDialog.BUTTON_POSITIVE).setTextAppearance(context, android.R.style.TextAppearance_Large);
   } // launch
 
   private static View loadView(final Photo photo, final Context context) {
@@ -78,8 +71,6 @@ public class DisplayPhoto {
     final ImageView iv = (ImageView)layout.findViewById(R.id.photo);
 
     sizeView(iv, context);
-
-    iv.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
     iv.startAnimation(AnimationUtils.loadAnimation(context, R.anim.spinner));
 
     final String thumbnailUrl = photo.thumbnailUrl();
@@ -94,8 +85,9 @@ public class DisplayPhoto {
     final int device_width = wm.getDefaultDisplay().getWidth();
     final int height = (device_height > device_width)
         ? device_height / 10 * 4
-        : device_height / 10 * 8;
+        : device_height / 10 * 6;
     final int width = device_width;
+    final LinearLayout.LayoutParams lp = (LinearLayout.LayoutParams)v.getLayoutParams();
     v.setLayoutParams(new LinearLayout.LayoutParams(width, height));
   } // sizeView
 } // DisplayPhoto

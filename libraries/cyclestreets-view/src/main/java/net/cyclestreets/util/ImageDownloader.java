@@ -33,7 +33,7 @@ public class ImageDownloader
 
 		public BitmapDownloaderTask(final ImageView imageView) 
 		{
-			imageViewReference = new WeakReference<ImageView>(imageView);
+			imageViewReference = new WeakReference<>(imageView);
 		} // BitmapDownloaderTask
 
 		@Override
@@ -56,9 +56,8 @@ public class ImageDownloader
 				return;
 
 			imageView.setAnimation(null);
+      imageView.setPadding(0, 0, 30, 0);
 			imageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
-			imageView.setBackgroundColor(Color.BLACK);
-			imageView.setPadding(0, 8, 0, 0);
 			imageView.setImageBitmap(bitmap);
 		} // onPostExecute
 
