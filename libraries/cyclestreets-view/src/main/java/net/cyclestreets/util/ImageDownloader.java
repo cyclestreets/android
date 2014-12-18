@@ -17,34 +17,28 @@ import android.widget.ImageView;
 
 import net.cyclestreets.util.Bitmaps;
 
-public class ImageDownloader 
-{
-	static public void get(final String url, 
-						   final ImageView imageView) 
-	{
+public class ImageDownloader {
+  static public void get(final String url,
+						             final ImageView imageView) {
 		final BitmapDownloaderTask task = new BitmapDownloaderTask(imageView);
 		task.execute(url);
 	} // get
 
 	//////////////////////////
-	static class BitmapDownloaderTask extends AsyncTask<String, Void, Bitmap> 
-	{
+	static class BitmapDownloaderTask extends AsyncTask<String, Void, Bitmap> {
 		private final WeakReference<ImageView> imageViewReference;
 
-		public BitmapDownloaderTask(final ImageView imageView) 
-		{
+		public BitmapDownloaderTask(final ImageView imageView) {
 			imageViewReference = new WeakReference<>(imageView);
 		} // BitmapDownloaderTask
 
 		@Override
-		protected Bitmap doInBackground(String... params) 
-		{
+		protected Bitmap doInBackground(String... params) {
 			return downloadBitmap(params[0]);
 		} // doInBackground
 
 		@Override
-		protected void onPostExecute(final Bitmap bitmap) 
-		{
+		protected void onPostExecute(final Bitmap bitmap) {
 			if(isCancelled()) 
 				return;
 		  
@@ -55,20 +49,29 @@ public class ImageDownloader
 			if (imageView == null) 
 				return;
 
+      final int imageWidth = bitmap.getWidth();
+      final int imageHeight = bitmap.getHeight();
+      final float aspect = (float)imageWidth/(float)imageHeight;
+
+      final int viewHeight = imageView.getHeight();
+
+      if (aspect > 1) {
+        // landscape, so adjust height
+        int newViewHeight = (int)(viewHeight/aspect);
+        imageView.setMaxHeight(newViewHeight);
+      } //
+
 			imageView.setAnimation(null);
-      imageView.setPadding(0, 0, 30, 0);
 			imageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
 			imageView.setImageBitmap(bitmap);
 		} // onPostExecute
 
-		private Bitmap downloadBitmap(final String url) 
-		{
+		private Bitmap downloadBitmap(final String url) {
 			final HttpClient client = new DefaultHttpClient();
 			final HttpGet getRequest = new HttpGet(url);
 			getRequest.setHeader("User-Agent", "CycleStreets Android/1.0");
 
-			try 
-			{
+			try {
 				HttpResponse response = client.execute(getRequest);
 				final int statusCode = response.getStatusLine().getStatusCode();
 				if (statusCode != HttpStatus.SC_OK) 
@@ -78,18 +81,13 @@ public class ImageDownloader
 				if (entity == null) 
 					return null;
 				
-				try 
-				{
+				try {
 					final InputStream inputStream = entity.getContent();
 					return Bitmaps.loadStream(inputStream);
-				} // try
-				finally 
-				{
+				} finally	{
 					entity.consumeContent();
 				} // finally
-			} // try 
-			catch (Exception e) 
-			{
+			} catch (Exception e)	{
 				getRequest.abort();
 			} // catch
 			return null;

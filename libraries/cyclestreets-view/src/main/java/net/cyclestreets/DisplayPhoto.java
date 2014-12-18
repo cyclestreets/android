@@ -5,7 +5,12 @@ import net.cyclestreets.view.R;
 import net.cyclestreets.util.ImageDownloader;
 
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.media.MediaPlayer;
 import android.net.Uri;
 import android.view.View;
 import android.view.WindowManager;
@@ -13,49 +18,87 @@ import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.MediaController;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.VideoView;
 
 public class DisplayPhoto {
   public static void launch(final Photo photo, final Context context) {
-    final AlertDialog.Builder builder = new AlertDialog.Builder(context);
-    final String title = String.format("%s #%d", photo.hasVideos() ? "Video" : "Photo", photo.id());
-    builder.setTitle(title);
-
-    final View layout = loadView(photo, context);
-    builder.setView(layout);
-
-    final AlertDialog ad = builder.create();
-    ad.show();
+    if (photo.hasVideos())
+      launchVideo(photo, context);
+    else
+      launchPhoto(photo, context);
   } // launch
 
-  private static View loadView(final Photo photo, final Context context) {
-    final View layout = (photo.hasVideos()) ? loadVideoView(photo, context) : loadPhotoView(photo, context);
+  private static void launchVideo(final Photo photo, final Context context) {
+    final AlertDialog.Builder builder = new AlertDialog.Builder(context);
+    final String title = String.format("Video #%d", photo.id());
+    builder.setTitle(title);
+
+    final View layout = View.inflate(context, R.layout.showvideo, null);
+    builder.setView(layout);
 
     final TextView text = (TextView)layout.findViewById(R.id.caption);
     text.setText(photo.caption());
 
-    return layout;
-  } // loadView
+    final AlertDialog ad = builder.create();
+    ad.show();
 
-  private static View loadVideoView(final Photo photo, final Context context) {
-    final View layout = View.inflate(context, R.layout.showvideo, null);
+    // start video
     final String bestUrl = videoUrl(photo);
 
     final VideoView vv = (VideoView)layout.findViewById(R.id.video);
-    sizeView(vv, context);
-
-    final MediaController mc = new MediaController(context);
-    mc.setAnchorView(vv);
-    mc.setMediaPlayer(vv);
-    vv.setMediaController(mc);
+    sizeView(vv, ad.getContext());
 
     final Uri uri = Uri.parse(bestUrl);
     vv.setVideoURI(uri);
+    vv.setZOrderOnTop(true);
+    vv.requestFocus();
     vv.start();
 
-    return layout;
-  } // loadVideoView
+    final ProgressDialog pd = new ProgressDialog(ad.getContext());
+    pd.setMessage("Loading video ...");
+    pd.show();
+
+    vv.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+      @Override
+      public void onPrepared(MediaPlayer mediaPlayer) {
+        pd.dismiss();
+
+       final MediaController mc = new MediaController(ad.getContext());
+       mc.setAnchorView(vv);
+       mc.setMediaPlayer(vv);
+       vv.setMediaController(mc);
+       mc.show();
+      }
+    });
+  } // launchVideo
+
+  private static void launchPhoto(final Photo photo, final Context context) {
+    final AlertDialog.Builder builder = new AlertDialog.Builder(context);
+    final String title = String.format("Photo #%d", photo.id());
+    builder.setTitle(title);
+
+    final View layout = loadPhotoView(photo, context);
+    builder.setView(layout);
+
+    final TextView text = (TextView)layout.findViewById(R.id.caption);
+    text.setText(photo.caption());
+
+    builder.setOnCancelListener(new DialogInterface.OnCancelListener() {
+      @Override
+      public void onCancel(DialogInterface dialogInterface) {
+        final ImageView iv = (ImageView)layout.findViewById(R.id.photo);
+        if (iv == null)
+          return;
+        final Bitmap photo = ((BitmapDrawable)iv.getDrawable()).getBitmap();
+        photo.recycle();
+      } // onCancel
+    });
+
+    final AlertDialog ad = builder.create();
+    ad.show();
+  } // launchPhoto
 
   private static String videoUrl(final Photo photo) {
     for (String format : new String[]{ "mp4", "mov", "3gp" }) {
@@ -85,7 +128,7 @@ public class DisplayPhoto {
     final int device_width = wm.getDefaultDisplay().getWidth();
     final int height = (device_height > device_width)
         ? device_height / 10 * 4
-        : device_height / 10 * 6;
+        : device_height / 10 * 7;
     final int width = device_width;
     final LinearLayout.LayoutParams lp = (LinearLayout.LayoutParams)v.getLayoutParams();
     v.setLayoutParams(new LinearLayout.LayoutParams(width, height));

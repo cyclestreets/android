@@ -27,7 +27,8 @@ public class DrawingHelper
 	{
 		canvas.getMatrix(canvasTransform_);
 		canvasTransform_.getValues(transformValues_);
-		return (transformValues_[Matrix.MSCALE_X] != 1.0);
+		//return (transformValues_[Matrix.MSCALE_X] != 1.0);
+    return false;
 	} // isDragging
 	
 	static boolean drawRoundRect(final Canvas canvas, 
@@ -45,8 +46,8 @@ public class DrawingHelper
 	static private Matrix bitmapTransform_ = new Matrix();
 	
 	static void drawBitmap(final Canvas canvas,
-						   final Bitmap bitmap,
-						   final Rect position)
+			                   final Bitmap bitmap,
+                         final Rect position)
 	{
 		if(isDragging(canvas))
 			return;
