@@ -17,118 +17,155 @@ import android.view.WindowManager;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.MediaController;
 import android.widget.TextView;
 import android.widget.VideoView;
 
-public class DisplayPhoto {
+public final class DisplayPhoto {
   public static void launch(final Photo photo, final Context context) {
-    if (photo.hasVideos())
-      launchVideo(photo, context);
-    else
-      launchPhoto(photo, context);
+    DisplayDialog dd = (photo.hasVideos()) ?
+      new VideoDisplay(photo, context) :
+      new PhotoDisplay(photo, context);
+
+    dd.show();
   } // launch
 
-  private static void launchVideo(final Photo photo, final Context context) {
-    final AlertDialog.Builder builder = new AlertDialog.Builder(context);
-    final String title = String.format("Video #%d", photo.id());
-    builder.setTitle(title);
+  private DisplayPhoto() { }
 
-    final View layout = View.inflate(context, R.layout.showvideo, null);
-    builder.setView(layout);
+  //////////////////////////////////////////
+  private static class VideoDisplay extends DisplayDialog implements MediaPlayer.OnPreparedListener {
+    private VideoView vv_;
+    private ProgressDialog pd_;
 
-    final TextView text = (TextView)layout.findViewById(R.id.caption);
-    text.setText(photo.caption());
+    VideoDisplay(final Photo photo, final Context context) {
+      super(photo, context);
+    } // VideoDisplay
 
-    final AlertDialog ad = builder.create();
-    ad.show();
+    @Override
+    protected String title() { return String.format("Video #%d", photo_.id()); }
+    @Override
+    protected View loadLayout() {
+      final View layout = View.inflate(context_, R.layout.showvideo, null);
+      vv_ = (VideoView)layout.findViewById(R.id.video);
+      return layout;
+    } // loadLayout
 
-    // start video
-    final String bestUrl = videoUrl(photo);
+    @Override
+    protected void postShowSetup(AlertDialog dialog) {
+      final String bestUrl = videoUrl(photo_);
 
-    final VideoView vv = (VideoView)layout.findViewById(R.id.video);
-    sizeView(vv, ad.getContext());
+      sizeView(vv_, dialog.getContext());
 
-    final Uri uri = Uri.parse(bestUrl);
-    vv.setVideoURI(uri);
-    vv.setZOrderOnTop(true);
-    vv.requestFocus();
-    vv.start();
+      final Uri uri = Uri.parse(bestUrl);
+      vv_.setVideoURI(uri);
+      vv_.setZOrderOnTop(true);
+      vv_.requestFocus();
+      vv_.start();
 
-    final ProgressDialog pd = new ProgressDialog(ad.getContext());
-    pd.setMessage("Loading video ...");
-    pd.show();
+      pd_ = new ProgressDialog(dialog.getContext());
+      pd_.setMessage("Loading video ...");
+      pd_.show();
 
-    vv.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
-      @Override
-      public void onPrepared(MediaPlayer mediaPlayer) {
-        pd.dismiss();
+      vv_.setOnPreparedListener(this);
+    } // postShowSetup
 
-       final MediaController mc = new MediaController(ad.getContext());
-       mc.setAnchorView(vv);
-       mc.setMediaPlayer(vv);
-       vv.setMediaController(mc);
-       mc.show();
-      }
-    });
-  } // launchVideo
+    @Override
+    public void onPrepared(final MediaPlayer mediaPlayer) {
+      pd_.dismiss();
 
-  private static void launchPhoto(final Photo photo, final Context context) {
-    final AlertDialog.Builder builder = new AlertDialog.Builder(context);
-    final String title = String.format("Photo #%d", photo.id());
-    builder.setTitle(title);
+      //final MediaController mc = new MediaController(ad.getContext());
+      //mc.setAnchorView(vv_);
+      //mc.setMediaPlayer(vv_);
+      //vv_.setMediaController(mc);
+      //mc.show();
+    } // onPrepared
 
-    final View layout = loadPhotoView(photo, context);
-    builder.setView(layout);
+    private static String videoUrl(final Photo photo) {
+      for (String format : new String[]{ "mp4", "mov", "3gp" }) {
+        Photo.Video v = photo.video(format);
+        if (v != null)
+          return v.url();
+      } // for ...
+      return null;
+    } // videoUrl
+  } // VideoDisplay
 
-    final TextView text = (TextView)layout.findViewById(R.id.caption);
-    text.setText(photo.caption());
+  private static class PhotoDisplay extends DisplayDialog {
+    private ImageView iv_;
 
-    builder.setOnCancelListener(new DialogInterface.OnCancelListener() {
-      @Override
-      public void onCancel(DialogInterface dialogInterface) {
-        final ImageView iv = (ImageView)layout.findViewById(R.id.photo);
-        if (iv == null)
-          return;
-        final Bitmap photo = ((BitmapDrawable)iv.getDrawable()).getBitmap();
-        photo.recycle();
-      } // onCancel
-    });
+    PhotoDisplay(final Photo photo, final Context context) {
+      super(photo, context);
+    } // PhotoDisplay
 
-    final AlertDialog ad = builder.create();
-    ad.show();
-  } // launchPhoto
+    @Override
+    protected String title() { return String.format("Photo #%d", photo_.id()); }
+    @Override
+    protected View loadLayout() {
+      final View layout = View.inflate(context_, R.layout.showphoto, null);
+      iv_ = (ImageView)layout.findViewById(R.id.photo);
 
-  private static String videoUrl(final Photo photo) {
-    for (String format : new String[]{ "mp4", "mov", "3gp" }) {
-      Photo.Video v = photo.video(format);
-      if (v != null)
-        return v.url();
-    } // for ...
-    return null;
-  } // videoUrl
+      sizeView(iv_, context_);
+      iv_.startAnimation(AnimationUtils.loadAnimation(context_, R.anim.spinner));
 
-  private static View loadPhotoView(final Photo photo, final Context context) {
-    final View layout = View.inflate(context, R.layout.showphoto, null);
-    final ImageView iv = (ImageView)layout.findViewById(R.id.photo);
+      final String thumbnailUrl = photo_.thumbnailUrl();
+      ImageDownloader.get(thumbnailUrl, iv_);
 
-    sizeView(iv, context);
-    iv.startAnimation(AnimationUtils.loadAnimation(context, R.anim.spinner));
+      return layout;
+    } // loadLayout
 
-    final String thumbnailUrl = photo.thumbnailUrl();
-    ImageDownloader.get(thumbnailUrl, iv);
+    @Override
+    protected void preShowSetup(AlertDialog.Builder builder) {
+      builder.setOnCancelListener(new DialogInterface.OnCancelListener() {
+        @Override
+        public void onCancel(DialogInterface dialogInterface) {
+          final Bitmap photo = ((BitmapDrawable)iv_.getDrawable()).getBitmap();
+          photo.recycle();
+        } // onCancel
+      });
+    } // preShowSetup
+  } // class PhotoDisplay
 
-    return layout;
-  } // loadPhotoView
+  private abstract static class DisplayDialog {
+    protected final Photo photo_;
+    protected final Context context_;
 
-  private static void sizeView(final View v, final Context context) {
-    final WindowManager wm = (WindowManager)context.getSystemService(Context.WINDOW_SERVICE);
-    final int device_height = wm.getDefaultDisplay().getHeight();
-    final int device_width = wm.getDefaultDisplay().getWidth();
-    final int height = (device_height > device_width)
-        ? device_height / 10 * 5
-        : device_height / 10 * 7;
-    final int width = device_width;
-    v.setLayoutParams(new LinearLayout.LayoutParams(width, height));
-  } // sizeView
+    protected DisplayDialog(final Photo photo, final Context context) {
+      photo_ = photo;
+      context_ = context;
+    } // Display
+
+    public void show() {
+      final AlertDialog.Builder builder = new AlertDialog.Builder(context_);
+      builder.setTitle(title());
+
+      final View layout = loadLayout();
+      builder.setView(layout);
+
+      final TextView text = (TextView)layout.findViewById(R.id.caption);
+      text.setText(photo_.caption());
+
+      preShowSetup(builder);
+
+      final AlertDialog ad = builder.create();
+      ad.show();
+
+      postShowSetup(ad);
+    } // show
+
+    protected abstract String title();
+    protected abstract View loadLayout();
+    
+    protected void preShowSetup(AlertDialog.Builder builder) { }
+    protected void postShowSetup(AlertDialog dialog) { }
+
+    protected static void sizeView(final View v, final Context context) {
+      final WindowManager wm = (WindowManager)context.getSystemService(Context.WINDOW_SERVICE);
+      final int device_height = wm.getDefaultDisplay().getHeight();
+      final int device_width = wm.getDefaultDisplay().getWidth();
+      final int height = (device_height > device_width)
+          ? device_height / 10 * 5
+          : device_height / 10 * 7;
+      final int width = device_width;
+      v.setLayoutParams(new LinearLayout.LayoutParams(width, height));
+    } // sizeView
+  } // DisplayDialog
 } // DisplayPhoto
