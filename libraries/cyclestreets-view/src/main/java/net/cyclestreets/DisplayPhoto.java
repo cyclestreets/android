@@ -18,7 +18,6 @@ import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.MediaController;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.VideoView;
 
@@ -127,10 +126,9 @@ public class DisplayPhoto {
     final int device_height = wm.getDefaultDisplay().getHeight();
     final int device_width = wm.getDefaultDisplay().getWidth();
     final int height = (device_height > device_width)
-        ? device_height / 10 * 4
+        ? device_height / 10 * 5
         : device_height / 10 * 7;
     final int width = device_width;
-    final LinearLayout.LayoutParams lp = (LinearLayout.LayoutParams)v.getLayoutParams();
     v.setLayoutParams(new LinearLayout.LayoutParams(width, height));
   } // sizeView
 } // DisplayPhoto
