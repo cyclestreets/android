@@ -82,6 +82,7 @@ public class ApiClient
   public final static String API_PATH_GEOCODER = API_PATH + "geocoder.xml";
   public final static String API_PATH_POI_CATEGORIES = API_PATH + "poitypes.xml";
   public final static String API_PATH_POIS = API_PATH + "pois.xml";
+  public final static String API_PATH_USERJOURNIES = API_PATH_V2 + "journeys.user";
 
   private final static String BLOG_PATH = "/blog/";
   public final static String BLOG_PATH_FEED = BLOG_PATH + "feed/";
@@ -169,6 +170,15 @@ public class ApiClient
                     "thumbnailsize", "640",
                     "fields", "id,caption,categoryId,hasVideo,videoFormats,thumbnailUrl,shortlink");
   } // getPhotos
+
+  static UserJournies getUserJournies(final String username)
+      throws Exception {
+    return callApi(UserJournies.factory(),
+                   API_PATH_USERJOURNIES,
+                   "username", username,
+                   "format", "flat",
+                   "datetime", "friendly");
+  } // getUserJournies
 
   static protected GeoPlaces geoCoder(final String search,
                                       double n,
