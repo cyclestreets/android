@@ -3,6 +3,7 @@ package net.cyclestreets;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.graphics.drawable.Drawable;
 import android.support.v4.app.ActionBarDrawerToggle;
@@ -133,8 +134,13 @@ public abstract class MainNavDrawerActivity
     navDrawer_.selectItem(page);
   } // showPage
 
+  private final String Drawer = "DRAWER";
   @Override
   public void onResume() {
+    final int selectedFrag = prefs().getInt(Drawer, -1);
+    if (selectedFrag != -1)
+      navDrawer_.selectItem(selectedFrag);
+
     super.onResume();
     Route.registerListener(this);
   } // onResume
@@ -142,6 +148,11 @@ public abstract class MainNavDrawerActivity
   @Override
   public void onPause() {
     Route.unregisterListener(this);
+
+    final SharedPreferences.Editor edit = prefs().edit();
+    edit.putInt(Drawer, navDrawer_.selectedItem());
+    edit.commit();
+
     super.onPause();
   } // onPause
 
@@ -152,6 +163,10 @@ public abstract class MainNavDrawerActivity
   public void onResetJourney() {
     supportInvalidateOptionsMenu();
   } // onResetJourney
+
+  private SharedPreferences prefs() {
+    return getSharedPreferences("net.cyclestreets.CycleStreets", Context.MODE_PRIVATE);
+  } // prefs()
 
   //////////////////////////////////////////
   //////////////////////////////////////////
@@ -168,6 +183,7 @@ public abstract class MainNavDrawerActivity
     private boolean firstRun_;
 
     private Fragment lastFrag_;
+    private int lastFragPosition_ = 0;
 
     public NavigationDrawerFragment() { }
 
@@ -285,12 +301,16 @@ public abstract class MainNavDrawerActivity
           ft.detach(lastFrag_);
         lastFrag_ = ((FragmentItem)di).attach(ft);
         ft.commit();
+
+        lastFragPosition_ = position;
       } //
       if (di instanceof ActivityItem) {
         final Intent intent = new Intent(getActivity(), ((ActivityItem)di).activityClass());
         startActivity(intent);
       } //
     } // selectItem
+
+    public int selectedItem() { return lastFragPosition_; }
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
