@@ -12,10 +12,10 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-public final class UserJournies implements Iterable<UserJourney> {
+public final class UserJourneys implements Iterable<UserJourney> {
   private final List<UserJourney> journies_;
 
-  UserJournies() {
+  UserJourneys() {
     journies_ = new ArrayList<>();
   } // UserJournies
 
@@ -30,29 +30,29 @@ public final class UserJournies implements Iterable<UserJourney> {
   } // add
 
   ///////////////////////////////////////////////////
-  public static UserJournies load(final String username) {
+  public static UserJourneys load(final String username) {
     try {
       return ApiClient.getUserJournies(username);
     } catch(Exception e) {
       // let's come back
     } // catch
 
-    return new UserJournies();
+    return new UserJourneys();
   } // load
 
   ////////////////////////////////////////////////////
-  public static Factory<UserJournies> factory() {
-    return new UserJourniesFactory();
+  public static Factory<UserJourneys> factory() {
+    return new UserJourneysFactory();
   } // factory
 
-  private static class UserJourniesFactory implements Factory<UserJournies> {
-    private UserJournies journies_;
+  private static class UserJourneysFactory implements Factory<UserJourneys> {
+    private UserJourneys journeys_;
 
-    UserJourniesFactory() {
-      journies_ = new UserJournies();
-    } // UserJourniesFactory
+    UserJourneysFactory() {
+      journeys_ = new UserJourneys();
+    } // UserJourneysFactory
 
-    public UserJournies read(final byte[] json) {
+    public UserJourneys read(final byte[] json) {
       try {
         return doRead(json);
       } catch(IOException e) {
@@ -140,12 +140,16 @@ public final class UserJournies implements Iterable<UserJourney> {
     }
 }
  */
-    public UserJournies doRead(final byte[] json) throws IOException {
+    private UserJourneys doRead(final byte[] json) throws IOException {
       final JsonReader reader = new JsonReader(byteStreamReader(json));
       try {
         reader.beginObject();
         while (reader.hasNext()) {
-          reader.skipValue();
+          final String name = reader.nextName();
+          if ("journeys".equals(name))
+            readJourneys(reader);
+          else
+            reader.skipValue();
         } // while
         reader.endObject();
       }
@@ -153,12 +157,21 @@ public final class UserJournies implements Iterable<UserJourney> {
         reader.close();
       }
 
-      return journies_;
+      return journeys_;
     } // doRead
 
     private Reader byteStreamReader(final byte[] bytes) throws UnsupportedEncodingException {
       final InputStream in = new ByteArrayInputStream(bytes);
       return new InputStreamReader(in, "UTF-8");
     } // byteReader
-  } // UserJourniesFactory
-} // class UserJournies
+
+    private void readJourneys(final JsonReader reader) throws IOException {
+      reader.beginObject();
+      while (reader.hasNext()) {
+        final int id = Integer.parseInt(reader.nextName());
+        reader.skipValue();
+      } // while ...
+      reader.endObject();
+    } // readJourneys
+  } // UserJourneysFactory
+} // class UserJourneys
