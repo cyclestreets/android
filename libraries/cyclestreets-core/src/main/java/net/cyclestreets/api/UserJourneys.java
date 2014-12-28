@@ -168,10 +168,31 @@ public final class UserJourneys implements Iterable<UserJourney> {
     private void readJourneys(final JsonReader reader) throws IOException {
       reader.beginObject();
       while (reader.hasNext()) {
-        final int id = Integer.parseInt(reader.nextName());
-        reader.skipValue();
+        reader.nextName();
+        readJourney(reader);
       } // while ...
       reader.endObject();
     } // readJourneys
+
+    private void readJourney(final JsonReader reader) throws IOException {
+      reader.beginObject();
+
+      int id = -1;
+      String title = null;
+      while (reader.hasNext()) {
+        final String name = reader.nextName();
+
+        if ("id".equals(name))
+          id = Integer.parseInt(reader.nextString());
+        else if ("name".equals(name))
+          title = reader.nextString();
+        else
+          reader.skipValue();
+      } // while ...
+
+      journeys_.add(new UserJourney(title, id));
+
+      reader.endObject();
+    } // readerJourney
   } // UserJourneysFactory
 } // class UserJourneys
