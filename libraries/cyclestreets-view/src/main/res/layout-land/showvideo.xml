@@ -9,10 +9,17 @@
     android:paddingTop="12dip"
     android:paddingBottom="6dip"
     android:background="?android:attr/colorBackground">
-  <VideoView
-      android:id="@+id/video"
+  <LinearLayout
       android:layout_width="wrap_content"
-      android:layout_height="wrap_content"/>
+      android:layout_height="wrap_content"
+      android:orientation="horizontal"
+      android:layout_gravity="center_horizontal">
+    <VideoView
+        android:id="@+id/video"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"/>
+  </LinearLayout>
   <include layout="@layout/videocontroller"/>
   <TextView
       android:id="@+id/caption"

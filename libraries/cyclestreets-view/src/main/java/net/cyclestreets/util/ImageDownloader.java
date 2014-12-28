@@ -39,9 +39,12 @@ public class ImageDownloader {
 
 		@Override
 		protected void onPostExecute(final Bitmap bitmap) {
-			if(isCancelled()) 
+			if (isCancelled())
 				return;
-		  
+
+      if (bitmap == null)
+        return;
+
 			if(imageViewReference == null)
 				return;
 			

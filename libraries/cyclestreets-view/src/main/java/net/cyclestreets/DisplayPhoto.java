@@ -53,6 +53,8 @@ public final class DisplayPhoto {
     @Override
     protected String title() { return String.format("Video #%d", photo_.id()); }
     @Override
+    protected String caption() { return photo_.caption().replace('\n', ' '); }
+    @Override
     protected View loadLayout() {
       final View layout = View.inflate(context_, R.layout.showvideo, null);
       controller_ = new VideoControllerView(layout.findViewById(R.id.videocontroller));
@@ -119,6 +121,8 @@ public final class DisplayPhoto {
     @Override
     protected String title() { return String.format("Photo #%d", photo_.id()); }
     @Override
+    protected String caption() { return photo_.caption(); }
+    @Override
     protected View loadLayout() {
       final View layout = View.inflate(context_, R.layout.showphoto, null);
       iv_ = (ImageView)layout.findViewById(R.id.photo);
@@ -161,7 +165,7 @@ public final class DisplayPhoto {
       builder.setView(layout);
 
       final TextView text = (TextView)layout.findViewById(R.id.caption);
-      text.setText(photo_.caption().replace('\n', ' '));
+      text.setText(caption());
 
       preShowSetup(builder);
 
@@ -172,6 +176,7 @@ public final class DisplayPhoto {
     } // show
 
     protected abstract String title();
+    protected abstract String caption();
     protected abstract View loadLayout();
     
     protected void preShowSetup(AlertDialog.Builder builder) { }
