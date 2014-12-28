@@ -1,9 +1,7 @@
 package net.cyclestreets.api;
 
-import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -41,8 +39,6 @@ import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.util.Log;
-import android.util.Xml;
 
 public class ApiClient
 {
@@ -171,9 +167,9 @@ public class ApiClient
                     "fields", "id,caption,categoryId,hasVideo,videoFormats,thumbnailUrl,shortlink");
   } // getPhotos
 
-  static UserJournies getUserJournies(final String username)
+  static UserJourneys getUserJournies(final String username)
       throws Exception {
-    return callApi(UserJournies.factory(),
+    return callApi(UserJourneys.factory(),
                    API_PATH_USERJOURNIES,
                    "username", username,
                    "format", "flat",
