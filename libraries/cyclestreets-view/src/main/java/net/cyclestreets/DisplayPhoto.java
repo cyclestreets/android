@@ -97,7 +97,6 @@ public final class DisplayPhoto {
 
         vv_.setLayoutParams(new LinearLayout.LayoutParams(newwidth, newheight));
       }
-
     } // onPrepared
 
     private static String videoUrl(final Photo photo) {
@@ -162,7 +161,7 @@ public final class DisplayPhoto {
       builder.setView(layout);
 
       final TextView text = (TextView)layout.findViewById(R.id.caption);
-      text.setText(photo_.caption());
+      text.setText(photo_.caption().replace('\n', ' '));
 
       preShowSetup(builder);
 
