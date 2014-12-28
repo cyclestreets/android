@@ -85,6 +85,19 @@ public final class DisplayPhoto {
 
       controller_.setMediaPlayer(vv_);
       controller_.show();
+
+      int vw = vv_.getWidth();
+      int cw = controller_.getWidth();
+
+      if (vw >= cw) {
+        // need to resize
+        float scale = cw/(float)vw;
+        int newwidth = (int)(vw * scale);
+        int newheight = (int)(vv_.getHeight() * scale);
+
+        vv_.setLayoutParams(new LinearLayout.LayoutParams(newwidth, newheight));
+      }
+
     } // onPrepared
 
     private static String videoUrl(final Photo photo) {
@@ -195,6 +208,8 @@ public final class DisplayPhoto {
       controllerView_ = controllerView;
       initControllerView(controllerView_);
     } // VideoControllerView
+
+    public int getWidth() { return  controllerView_.getWidth(); }
 
     public void setMediaPlayer(MediaController.MediaPlayerControl player) {
       videoPlayer_ = player;
