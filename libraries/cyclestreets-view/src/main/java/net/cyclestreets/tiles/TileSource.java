@@ -188,7 +188,7 @@ public class TileSource {
     final ITileSource OPENSTREETMAP =
         createDensityAwareTileSource(display,
                                      CycleStreetsPreferences.MAPSTYLE_OSM,
-                                     ResourceProxy.string.base,
+                                     ResourceProxy.string.unknown,
                                      "http://tile.cyclestreets.net/mapnik/");
 
     final ITileSource OSMAP =

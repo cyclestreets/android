@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.osmdroid.DefaultResourceProxyImpl;
 import org.osmdroid.views.MapView;
-import org.osmdroid.views.MapView.Projection;
+import org.osmdroid.views.Projection;
 import org.osmdroid.views.overlay.Overlay;
 import org.osmdroid.views.overlay.OverlayItem;
 import org.osmdroid.views.overlay.OverlayItem.HotspotPlace;
@@ -223,24 +223,20 @@ public class ItemizedOverlay<Item extends OverlayItem> extends Overlay
 	                                      final ActiveItem task) 
 	{
 		final Projection pj = mapView.getProjection();
-		final int eventX = (int) event.getX();
-		final int eventY = (int) event.getY();
+    final Rect screenRect = pj.getIntrinsicScreenRect();
+    final int eventX = screenRect.left + (int)event.getX();
+		final int eventY = screenRect.top + (int)event.getY();
 
-		/* These objects are created to avoid construct new ones every cycle. */
-		pj.fromMapPixels(eventX, eventY, mTouchScreenPoint);
-
-		for (int i = 0; i < items_.size(); ++i) 
-		{
+		for (int i = 0; i < items_.size(); ++i) {
 			final Item item = items_.get(i);
 			final Drawable marker = item.getMarker(0);
 
 			pj.toPixels(item.getPoint(), mItemPoint);
 
-			if (hitTest(item, 
+			if (hitTest(item,
 			            marker, 
-			            mTouchScreenPoint.x - mItemPoint.x, 
-			            mTouchScreenPoint.y - mItemPoint.y)) 
-			{
+			            eventX - mItemPoint.x,
+			            eventY - mItemPoint.y)) {
 				if (task.run(i)) 
 					return true;
 			}

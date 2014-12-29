@@ -5,7 +5,7 @@ import java.util.List;
 
 import org.osmdroid.api.IGeoPoint;
 import org.osmdroid.views.MapView;
-import org.osmdroid.views.MapView.Projection;
+import org.osmdroid.views.Projection;
 import org.osmdroid.api.IProjection;
 import org.osmdroid.events.MapListener;
 import org.osmdroid.events.ZoomEvent;
@@ -183,12 +183,11 @@ public class POIOverlay extends LiveItemOverlay<POIOverlay.POIItem>
 
   private boolean tappedInBubble(final MotionEvent event) {
     final Projection pj = mapView().getProjection();
-    final int eventX = (int) event.getX();
-    final int eventY = (int) event.getY();
+    final Rect screenRect = pj.getIntrinsicScreenRect();
+    final int eventX = screenRect.left + (int)event.getX();
+    final int eventY = screenRect.top + (int)event.getY();
 
-    pj.fromMapPixels(eventX, eventY, touchScreenPoint_);
-
-    if(!bubble_.contains(touchScreenPoint_.x, touchScreenPoint_.y))
+    if(!bubble_.contains(eventX, eventY))
       return false;
 
     return routeMarkerAtItem(active_);

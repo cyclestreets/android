@@ -9,22 +9,22 @@ import org.osmdroid.api.IMapView;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.util.TileSystem;
 import org.osmdroid.views.MapView;
-import org.osmdroid.views.MapView.Projection;
+import org.osmdroid.views.Projection;
 import org.osmdroid.views.overlay.IOverlayMenuProvider;
+import org.osmdroid.views.overlay.Overlay;
 import org.osmdroid.views.overlay.Overlay.Snappable;
-import org.osmdroid.views.overlay.SafeDrawOverlay;
 import org.osmdroid.views.overlay.mylocation.GpsMyLocationProvider;
 import org.osmdroid.views.overlay.mylocation.IMyLocationConsumer;
 import org.osmdroid.views.overlay.mylocation.IMyLocationProvider;
-import org.osmdroid.views.safecanvas.ISafeCanvas;
-import org.osmdroid.views.safecanvas.SafePaint;
 import org.osmdroid.views.util.constants.MapViewConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.Canvas;
 import android.graphics.Matrix;
+import android.graphics.Paint;
 import android.graphics.Paint.Style;
 import android.graphics.Point;
 import android.graphics.PointF;
@@ -41,7 +41,7 @@ import android.view.MotionEvent;
  * @author Manuel Stahl
  *
  */
-class MyLocationNewOverlay extends SafeDrawOverlay implements IMyLocationConsumer,
+class MyLocationNewOverlay extends Overlay implements IMyLocationConsumer,
     IOverlayMenuProvider, Snappable {
   private static final Logger logger = LoggerFactory.getLogger(MyLocationNewOverlay.class);
 
@@ -53,8 +53,8 @@ class MyLocationNewOverlay extends SafeDrawOverlay implements IMyLocationConsume
   // Fields
   // ===========================================================
 
-  protected final SafePaint mPaint = new SafePaint();
-  protected final SafePaint mCirclePaint = new SafePaint();
+  protected final Paint mPaint = new Paint();
+  protected final Paint mCirclePaint = new Paint();
 
   protected final Bitmap mPersonBitmap;
   protected final Bitmap mDirectionArrowBitmap;
@@ -76,8 +76,8 @@ class MyLocationNewOverlay extends SafeDrawOverlay implements IMyLocationConsume
   /** Coordinates the feet of the person are located scaled for display density. */
   protected final PointF mPersonHotspot;
 
-  protected final double mDirectionArrowCenterX;
-  protected final double mDirectionArrowCenterY;
+  protected final float mDirectionArrowCenterX;
+  protected final float mDirectionArrowCenterY;
 
   public static final int MENU_MY_LOCATION = getSafeMenuId();
 
@@ -114,8 +114,8 @@ class MyLocationNewOverlay extends SafeDrawOverlay implements IMyLocationConsume
     mPersonBitmap = mResourceProxy.getBitmap(ResourceProxy.bitmap.person);
     mDirectionArrowBitmap = mResourceProxy.getBitmap(ResourceProxy.bitmap.direction_arrow);
 
-    mDirectionArrowCenterX = mDirectionArrowBitmap.getWidth() / 2.0 - 0.5;
-    mDirectionArrowCenterY = mDirectionArrowBitmap.getHeight() / 2.0 - 0.5;
+    mDirectionArrowCenterX = mDirectionArrowBitmap.getWidth() / 2.0f - 0.5f;
+    mDirectionArrowCenterY = mDirectionArrowBitmap.getHeight() / 2.0f - 0.5f;
 
     // Calculate position of person icon's feet, scaled to screen density
     mPersonHotspot = new PointF(24.0f * mScale + 0.5f, 39.0f * mScale + 0.5f);
@@ -140,15 +140,16 @@ class MyLocationNewOverlay extends SafeDrawOverlay implements IMyLocationConsume
     mMyLocationProvider = myLocationProvider;
   }
 
-  protected void drawMyLocation(final ISafeCanvas canvas, final MapView mapView,
+  protected void drawMyLocation(final Canvas canvas,
+                                final MapView mapView,
                                 final Location lastFix) {
     final Projection pj = mapView.getProjection();
 
     // mMapCoords are wrong for tileSize != 256
     pj.toPixels(new GeoPoint(lastFix), mMapCoords);
     // final int zoomDiff = MapViewConstants.MAXIMUM_ZOOMLEVEL - pj.getZoomLevel();
-    final double x = mMapCoords.x;
-    final double y = mMapCoords.y;
+    final float x = mMapCoords.x;
+    final float y = mMapCoords.y;
 
     if (mDrawAccuracyEnabled) {
       final float radius = lastFix.getAccuracy()
@@ -157,13 +158,11 @@ class MyLocationNewOverlay extends SafeDrawOverlay implements IMyLocationConsume
 
       mCirclePaint.setAlpha(50);
       mCirclePaint.setStyle(Style.FILL);
-      canvas.drawCircle(x, y, radius,
-          mCirclePaint);
+      canvas.drawCircle(x, y, radius, mCirclePaint);
 
       mCirclePaint.setAlpha(150);
       mCirclePaint.setStyle(Style.STROKE);
-      canvas.drawCircle(x, y, radius,
-          mCirclePaint);
+      canvas.drawCircle(x, y, radius, mCirclePaint);
     }
 
     canvas.getMatrix(mMatrix);
@@ -248,7 +247,7 @@ class MyLocationNewOverlay extends SafeDrawOverlay implements IMyLocationConsume
   // ===========================================================
 
   @Override
-  protected void drawSafe(ISafeCanvas canvas, MapView mapView, boolean shadow) {
+  protected void draw(Canvas canvas, MapView mapView, boolean shadow) {
     if (shadow)
       return;
 
