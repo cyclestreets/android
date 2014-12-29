@@ -89,7 +89,7 @@
     </PreferenceScreen>
     <ListPreference
         android:key="uploadsize"
-        android:title="Photo ppload"
+        android:title="Photo upload"
         android:summary="medium"
         android:defaultValue="big"
         android:entries="@array/uploadsize"
