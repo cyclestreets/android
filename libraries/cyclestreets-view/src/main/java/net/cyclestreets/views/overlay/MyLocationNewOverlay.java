@@ -168,17 +168,6 @@ class MyLocationNewOverlay extends Overlay implements IMyLocationConsumer,
     canvas.getMatrix(mMatrix);
     mMatrix.getValues(mMatrixValues);
 
-    if (DEBUGMODE) {
-      final float tx = (-mMatrixValues[Matrix.MTRANS_X] + 20)
-          / mMatrixValues[Matrix.MSCALE_X];
-      final float ty = (-mMatrixValues[Matrix.MTRANS_Y] + 90)
-          / mMatrixValues[Matrix.MSCALE_Y];
-      canvas.drawText("Lat: " + lastFix.getLatitude(), tx, ty + 5, mPaint);
-      canvas.drawText("Lon: " + lastFix.getLongitude(), tx, ty + 20, mPaint);
-      canvas.drawText("Alt: " + lastFix.getAltitude(), tx, ty + 35, mPaint);
-      canvas.drawText("Acc: " + lastFix.getAccuracy(), tx, ty + 50, mPaint);
-    }
-
     // Calculate real scale including accounting for rotation
     float scaleX = (float) Math.sqrt(mMatrixValues[Matrix.MSCALE_X]
         * mMatrixValues[Matrix.MSCALE_X] + mMatrixValues[Matrix.MSKEW_Y]
@@ -265,9 +254,6 @@ class MyLocationNewOverlay extends Overlay implements IMyLocationConsumer,
       final double xDiff = x - mMapCoords.x;
       final double yDiff = y - mMapCoords.y;
       final boolean snap = xDiff * xDiff + yDiff * yDiff < 64;
-      if (DEBUGMODE) {
-        logger.debug("snap=" + snap);
-      }
       return snap;
     } else {
       return false;

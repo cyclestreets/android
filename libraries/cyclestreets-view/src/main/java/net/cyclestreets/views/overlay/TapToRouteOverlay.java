@@ -339,11 +339,11 @@ public class TapToRouteOverlay extends Overlay
   @Override
   public void drawButtons(final Canvas canvas, final MapView mapView)
   {
-    drawButtons(canvas);
+    drawTheButtons(canvas, mapView);
     drawTapState(canvas);
   } // drawButtons
 
-  private void drawButtons(final Canvas canvas)
+  private void drawTheButtons(final Canvas canvas, final MapView mapView)
   {
     stepBackButton_.enable(tapState_ == TapToRoute.WAITING_FOR_SECOND ||
                            tapState_ == TapToRoute.WAITING_FOR_NEXT ||
@@ -351,9 +351,9 @@ public class TapToRouteOverlay extends Overlay
     restartButton_.enable(tapState_ == TapToRoute.ALL_DONE);
 
     if(tapState_ != TapToRoute.ALL_DONE)
-      stepBackButton_.draw(canvas);
+      stepBackButton_.draw(canvas, mapView);
     else
-      restartButton_.draw(canvas);
+      restartButton_.draw(canvas, mapView);
   } // drawLocationButton
 
   private void drawTapState(final Canvas canvas)

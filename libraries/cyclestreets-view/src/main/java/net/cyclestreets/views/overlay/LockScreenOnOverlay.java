@@ -51,7 +51,7 @@ public class LockScreenOnOverlay extends Overlay implements ButtonTapListener, P
 	public void drawButtons(final Canvas canvas, final MapView mapView)
 	{
 	  lockButton_.pressed(view_.getKeepScreenOn());
-		lockButton_.draw(canvas);
+		lockButton_.draw(canvas, mapView);
 	} // drawLocationButton
 
   //////////////////////////////////////////////

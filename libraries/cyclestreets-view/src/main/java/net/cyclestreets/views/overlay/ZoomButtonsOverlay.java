@@ -50,9 +50,9 @@ public class ZoomButtonsOverlay extends Overlay
   public void drawButtons(final Canvas canvas, final MapView mapView)
   {
     zoomIn_.enable(mapView.canZoomIn());
-    zoomIn_.draw(canvas);
+    zoomIn_.draw(canvas, mapView);
     zoomOut_.enable(mapView.canZoomOut());
-    zoomOut_.draw(canvas);
+    zoomOut_.draw(canvas, mapView);
   } // drawButtons
 
   //////////////////////////////////////////////

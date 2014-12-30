@@ -43,7 +43,7 @@ public class StopActivityOverlay extends Overlay implements ButtonTapListener
 	@Override
 	public void drawButtons(final Canvas canvas, final MapView mapView)
 	{
-		stopButton_.draw(canvas);
+		stopButton_.draw(canvas, mapView);
 	} // drawLocationButton
 
   //////////////////////////////////////////////

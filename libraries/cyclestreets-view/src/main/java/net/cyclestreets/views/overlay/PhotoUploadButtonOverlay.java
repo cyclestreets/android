@@ -57,6 +57,6 @@ public class PhotoUploadButtonOverlay extends Overlay
 
   @Override
   public void drawButtons(final Canvas canvas, final MapView mapView) {
-    addPhotoBtn_.draw(canvas);
+    addPhotoBtn_.draw(canvas, mapView);
   } // drawButtons
 } // class PhotoItemOverlay
