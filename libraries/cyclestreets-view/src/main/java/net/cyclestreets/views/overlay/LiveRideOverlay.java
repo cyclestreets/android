@@ -164,8 +164,7 @@ public class LiveRideOverlay extends Overlay implements ServiceConnection
     box.right = box.left + fullWidth_ + (offset_*2);
     box.top = box.bottom - (lineHeight_ + offset_*2);
 
-    if(!DrawingHelper.drawRoundRect(canvas, box, radius_, fillBrush_))
-      return;
+    DrawingHelper.drawRoundRect(canvas, box, radius_, fillBrush_);
     
     box.left += offset_;
     box.bottom -= offset_;

@@ -81,8 +81,7 @@ public abstract class LiveItemOverlay<T extends OverlayItem>
 		screen.right = screen.left + width;
 		screen.bottom = screen.top + bounds.height() + (offset() * 2);
 		  
-		if(!DrawingHelper.drawRoundRect(canvas, screen, cornerRadius(), Brush.Grey))
-		  return;
+		DrawingHelper.drawRoundRect(canvas, screen, cornerRadius(), Brush.Grey);
 		canvas.drawText(LOADING, screen.centerX(), screen.centerY() + bounds.bottom, textBrush());
 	} // drawButtons
 	

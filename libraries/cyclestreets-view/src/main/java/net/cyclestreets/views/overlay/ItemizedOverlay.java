@@ -66,12 +66,8 @@ public class ItemizedOverlay<Item extends OverlayItem> extends Overlay
 		if(shadow)
 			return;
 		
-		if(DrawingHelper.isDragging(canvas))
-		  return;
-
 		final Projection pj = mapView.getProjection();
-		for (int i = items_.size() -1; i >= 0; i--) 
-		{
+		for (int i = items_.size() -1; i >= 0; i--) {
 			final Item item = items_.get(i);
 			pj.toPixels(item.getPoint(), mCurScreenCoords);
 			onDrawItem(canvas, item, mCurScreenCoords, mapView.getMapOrientation());

@@ -369,8 +369,7 @@ public class TapToRouteOverlay extends Overlay
 
     tapStateRect_.right = tapStateRect_.left + screen.width();
 
-    if(!DrawingHelper.drawRoundRect(canvas, screen, radius_, fillBrush_))
-      return;
+    DrawingHelper.drawRoundRect(canvas, screen, radius_, fillBrush_);
 
     if(tapState_ == TapToRoute.WAITING_FOR_NEXT ||
        tapState_ == TapToRoute.WAITING_TO_ROUTE)

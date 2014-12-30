@@ -113,9 +113,7 @@ public class RouteHighlightOverlay extends Overlay
     if(bottom >= box.bottom)
       box.bottom = bottom + offset_;
 
-    if(!DrawingHelper.drawRoundRect(canvas, box, radius_, fillBrush_))
-      return;
-
+    DrawingHelper.drawRoundRect(canvas, box, radius_, fillBrush_);
     Draw.drawTextInRect(canvas, textBrush_, textBox, seg.toString());
   } // drawSegmentInfo
 

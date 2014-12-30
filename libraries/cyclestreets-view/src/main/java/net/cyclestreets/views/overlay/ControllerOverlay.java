@@ -32,7 +32,6 @@ public class ControllerOverlay extends Overlay implements OnDoubleTapListener,
 	private final GestureDetector gestureDetector_;
 	private final CycleMapView mapView_;
 	private final Paint textBrush_;
-	private boolean isDragging_;
 	private List<Undoable> undoStack_;
 	
 	public ControllerOverlay(final Context context, final CycleMapView mapView)
@@ -40,14 +39,13 @@ public class ControllerOverlay extends Overlay implements OnDoubleTapListener,
 		super(context);
 		
 		mapView_ = mapView;
-		isDragging_ = false;
 		textBrush_ = Brush.createTextBrush(DrawingHelper.offset(context)/2);
 		textBrush_.setColor(Color.BLACK);
 		
 		gestureDetector_ = new GestureDetector(context, this);
 		gestureDetector_.setOnDoubleTapListener(this);
 		
-		undoStack_ = new ArrayList<Undoable>();
+		undoStack_ = new ArrayList<>();
 	} // SingleTapOverlay
 	
 	public void onPause(final SharedPreferences.Editor prefEditor)
@@ -157,10 +155,7 @@ public class ControllerOverlay extends Overlay implements OnDoubleTapListener,
 	} // onDoubleTap
 	
 	@Override
-	public void draw(final Canvas canvas, final MapView mapView, final boolean shadow) 
-	{	
-		isDragging_ = DrawingHelper.isDragging(canvas);
-
+	public void draw(final Canvas canvas, final MapView mapView, final boolean shadow) {
     final Matrix unscaled = mapView.getProjection().getInvertedScaleRotateCanvasMatrix();
 
     canvas.save();
@@ -192,10 +187,7 @@ public class ControllerOverlay extends Overlay implements OnDoubleTapListener,
 	@Override
 	public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) { return false; }
 	@Override
-	public void onLongPress(final MotionEvent e) 
-	{ 
-		if(isDragging_)
-			return;
+	public void onLongPress(final MotionEvent e) {
 		mapView_.showContextMenu();
 	} // onLongPress
 	@Override

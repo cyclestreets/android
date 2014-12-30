@@ -12,7 +12,6 @@ import net.cyclestreets.routing.Waypoints;
 import net.cyclestreets.routing.Route.Listener;
 
 import org.osmdroid.api.IGeoPoint;
-import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
 import org.osmdroid.api.IProjection;
 import org.osmdroid.views.overlay.Overlay;
@@ -96,17 +95,13 @@ public class RouteOverlay extends Overlay implements PauseResumeListener, Listen
     if (route_ == null || route_.count() < 2) 
       return;
 
-    final IGeoPoint centre = mapView.getMapCenter();
-
     if(zoomLevel_ != mapView.getZoomLevel() ||
-       highlight_ != Route.journey().activeSegment() ||
-       !centre.equals(mapCentre_))
+       highlight_ != Route.journey().activeSegment())
     {
       ridePath_ = null;
       zoomLevel_ = mapView.getProjection().getZoomLevel();
       highlight_ = Route.journey().activeSegment();
-      mapCentre_ = centre;
-    } // if ... 
+    } // if ...
   
     if(ridePath_ == null)
       drawSegments(mapView.getProjection());
