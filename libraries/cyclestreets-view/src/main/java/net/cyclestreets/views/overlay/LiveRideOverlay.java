@@ -19,6 +19,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.graphics.Canvas;
+import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.Paint.Align;
@@ -85,11 +86,18 @@ public class LiveRideOverlay extends Overlay implements ServiceConnection
   @Override
   protected void draw(final Canvas canvas, final MapView mapView, final boolean shadow)
   {
+    final Matrix unscaled = mapView.getProjection().getInvertedScaleRotateCanvasMatrix();
+
+    canvas.save();
+    canvas.concat(unscaled);
+
     try {
       drawNextTurn(canvas);
       drawSpeed(canvas);
     } catch(Exception e) {
     } // catch
+
+    canvas.restore();
   } // draw
   
   private void drawNextTurn(final Canvas canvas) 

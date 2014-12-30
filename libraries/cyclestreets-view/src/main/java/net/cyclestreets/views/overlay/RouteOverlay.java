@@ -44,7 +44,8 @@ public class RouteOverlay extends Overlay implements PauseResumeListener, Listen
   
   private int zoomLevel_ = -1;
   private Segment highlight_;
-  
+  private IGeoPoint mapCentre_;
+
   public RouteOverlay(final Context context) 
   {
     super(context);
@@ -94,13 +95,17 @@ public class RouteOverlay extends Overlay implements PauseResumeListener, Listen
  
     if (route_ == null || route_.count() < 2) 
       return;
-		
-    if((zoomLevel_ != mapView.getZoomLevel() && !mapView.isAnimating()) ||
-       (highlight_ != Route.journey().activeSegment()))
+
+    final IGeoPoint centre = mapView.getMapCenter();
+
+    if(zoomLevel_ != mapView.getZoomLevel() ||
+       highlight_ != Route.journey().activeSegment() ||
+       !centre.equals(mapCentre_))
     {
       ridePath_ = null;
       zoomLevel_ = mapView.getProjection().getZoomLevel();
       highlight_ = Route.journey().activeSegment();
+      mapCentre_ = centre;
     } // if ... 
   
     if(ridePath_ == null)
