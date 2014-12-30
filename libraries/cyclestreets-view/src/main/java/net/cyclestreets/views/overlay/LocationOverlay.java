@@ -116,7 +116,7 @@ public class LocationOverlay extends MyLocationNewOverlay
     locationButton_.pressed(isFollowLocationEnabled());
     locationButton_.alternate(isMyLocationEnabled());
 
-    locationButton_.draw(canvas, mapView);
+    locationButton_.draw(canvas);
   } // drawLocationButton
 
   ////////////////////////////////////////////////

@@ -15,6 +15,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.view.ContextMenu;
@@ -159,18 +160,30 @@ public class ControllerOverlay extends Overlay implements OnDoubleTapListener,
 	public void draw(final Canvas canvas, final MapView mapView, final boolean shadow) 
 	{	
 		isDragging_ = DrawingHelper.isDragging(canvas);
-		for(final Iterator<ButtonTapListener> overlays = buttonTapOverlays(); overlays.hasNext(); )
-			overlays.next().drawButtons(canvas, mapView);
-		
-		if(!(mapView instanceof CycleMapView))
-			return;
-		
-		final Rect screen = canvas.getClipBounds();
-    canvas.drawText(mapView_.mapAttribution(), 
-             				screen.centerX(), 
-        			    	screen.bottom-(textBrush_.descent()+2), 
-        				    textBrush_);
+
+    final Matrix unscaled = mapView.getProjection().getInvertedScaleRotateCanvasMatrix();
+
+    canvas.save();
+    canvas.concat(unscaled);
+
+    drawUnskewed(canvas, mapView);
+
+    canvas.restore();
 	} // draw
+
+  protected void drawUnskewed(final Canvas canvas, final MapView mapView) {
+    for(final Iterator<ButtonTapListener> overlays = buttonTapOverlays(); overlays.hasNext(); )
+      overlays.next().drawButtons(canvas, mapView);
+
+    if(!(mapView instanceof CycleMapView))
+      return;
+
+    final Rect screen = canvas.getClipBounds();
+    canvas.drawText(mapView_.mapAttribution(),
+        screen.centerX(),
+        screen.bottom-(textBrush_.descent()+2),
+        textBrush_);
+  } // drawReverted
 	
 	@Override
 	public boolean onDoubleTapEvent(MotionEvent e) { return false; }

@@ -91,9 +91,9 @@ public class RouteHighlightOverlay extends Overlay
     drawSegmentInfo(canvas);
 
     prevButton_.enable(!Route.journey().atStart());
-    prevButton_.draw(canvas, mapView);
+    prevButton_.draw(canvas);
     nextButton_.enable(!Route.journey().atEnd());
-    nextButton_.draw(canvas, mapView);
+    nextButton_.draw(canvas);
   } // drawButtons
 
   private void drawSegmentInfo(final Canvas canvas)

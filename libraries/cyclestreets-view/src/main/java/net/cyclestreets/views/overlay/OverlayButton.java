@@ -4,15 +4,12 @@ import net.cyclestreets.util.Brush;
 import net.cyclestreets.util.Draw;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
-import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.Paint.Align;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.view.MotionEvent;
-
-import org.osmdroid.views.MapView;
 
 class OverlayButton {
   private final Bitmap img_;
@@ -91,16 +88,8 @@ class OverlayButton {
   public int width() { return pos_.width(); }
   public int height() { return pos_.height(); }
 
-  public void draw(final Canvas canvas,
-                   final MapView mapView) {
-    final Matrix unscaled = mapView.getProjection().getInvertedScaleRotateCanvasMatrix();
-
-    canvas.save();
-    canvas.concat(unscaled);
-
+  public void draw(final Canvas canvas) {
     drawButton(canvas);
-
-    canvas.restore();
   } // draw
 
   public void drawButton(final Canvas canvas) {

@@ -351,9 +351,9 @@ public class TapToRouteOverlay extends Overlay
     restartButton_.enable(tapState_ == TapToRoute.ALL_DONE);
 
     if(tapState_ != TapToRoute.ALL_DONE)
-      stepBackButton_.draw(canvas, mapView);
+      stepBackButton_.draw(canvas);
     else
-      restartButton_.draw(canvas, mapView);
+      restartButton_.draw(canvas);
   } // drawLocationButton
 
   private void drawTapState(final Canvas canvas)

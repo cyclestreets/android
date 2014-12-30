@@ -13,8 +13,7 @@ import net.cyclestreets.PhotoUploadActivity;
 import net.cyclestreets.view.R;
 import net.cyclestreets.views.CycleMapView;
 
-public class PhotoUploadButtonOverlay extends Overlay
-                                      implements ButtonTapListener {
+public class PhotoUploadButtonOverlay extends ButtonOnlyOverlay {
   /////////////////////////////////////////////////////
   private final Context context_;
 
@@ -52,11 +51,7 @@ public class PhotoUploadButtonOverlay extends Overlay
   } // onButtonDoubleTap
 
   @Override
-  public void draw(final Canvas canvas, final MapView mapView, final boolean shadow) {
-  } // draw
-
-  @Override
   public void drawButtons(final Canvas canvas, final MapView mapView) {
-    addPhotoBtn_.draw(canvas, mapView);
+    addPhotoBtn_.draw(canvas);
   } // drawButtons
 } // class PhotoItemOverlay
