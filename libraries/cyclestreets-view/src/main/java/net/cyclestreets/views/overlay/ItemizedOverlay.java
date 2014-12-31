@@ -18,17 +18,9 @@ import android.graphics.drawable.Drawable;
 import android.view.MotionEvent;
 
 public class ItemizedOverlay<Item extends OverlayItem> extends Overlay
-                                                       implements TapListener
-{
-  public static interface OnItemTapListener<Item>
-  {
-    public boolean onItemSingleTap(final int index, final Item item);
-    public boolean onItemDoubleTap(final int index, final Item item);
-  } // interface OnItemGestureListener<Item>
-
+                                                       implements TapListener {
   private final MapView mapView_;
   private final List<Item> items_;
-  private OnItemTapListener<Item> itemListener_;
 
   // utility vars to avoid repeated allocations
   private final Rect rect_ = new Rect();
@@ -37,41 +29,25 @@ public class ItemizedOverlay<Item extends OverlayItem> extends Overlay
   private final Point itemPoint_ = new Point();
   private final Point screenCoords = new Point();
 
-  protected ItemizedOverlay(final Context context,
-                            final MapView mapView,
-                            final List<Item> items)
-  {
-    this(context, mapView, items, null); 
-  } // ItemizedOverlay
-  
-  protected MapView mapView() { return mapView_; } 
-  
-  protected void setListener(final OnItemTapListener<Item> listener)
-  {
-    itemListener_ = listener;
-  } // setListener
+  protected MapView mapView() { return mapView_; }
   
   public ItemizedOverlay(final Context context,
                          final MapView mapView, 
-                         final List<Item> items, 
-                         final OnItemTapListener<Item> listener) 
-  {
+                         final List<Item> items) {
     super(new DefaultResourceProxyImpl(context));
     mapView_ = mapView;
     items_ = items;
-    itemListener_ = listener;
   } // ItemizedOverlay
 
   protected List<Item> items() { return items_; }
   
   @Override
-  public void draw(final Canvas canvas, final MapView mapView, final boolean shadow) 
-  {
+  public void draw(final Canvas canvas, final MapView mapView, final boolean shadow) {
     if(shadow)
       return;
     
     final Projection pj = mapView.getProjection();
-    for (int i = items_.size() -1; i >= 0; i--) {
+    for (int i = items_.size() -1; i >= 0; --i) {
       final Item item = items_.get(i);
       pj.toPixels(item.getPoint(), screenCoords);
       onDrawItem(canvas, item, screenCoords, mapView.getMapOrientation());
@@ -81,8 +57,7 @@ public class ItemizedOverlay<Item extends OverlayItem> extends Overlay
   private void onDrawItem(final Canvas canvas,
                           final Item item,
                           final Point curScreenCoords,
-                          final float mapOrientation)
-  {
+                          final float mapOrientation) {
     final HotspotPlace hotspot = item.getMarkerHotspot();
     final Drawable marker = item.getMarker(0);
     boundToHotspot(marker, hotspot);
@@ -93,7 +68,6 @@ public class ItemizedOverlay<Item extends OverlayItem> extends Overlay
     canvas.getMatrix(matrix_);
     matrix_.getValues(matrixValues_);
 
-    // Calculate real scale including accounting for rotation
     float scaleX = (float) Math.sqrt(matrixValues_[Matrix.MSCALE_X]
         * matrixValues_[Matrix.MSCALE_X] + matrixValues_[Matrix.MSKEW_Y]
         * matrixValues_[Matrix.MSKEW_Y]);
@@ -113,14 +87,13 @@ public class ItemizedOverlay<Item extends OverlayItem> extends Overlay
     canvas.restore();
   } // onDrawItem
 
-  protected boolean hitTest(final Item item,
-                            final Drawable marker, 
-                            final int hitX,
-                            final int hitY) {
+  private boolean hitTest(final Drawable marker,
+                          final int hitX,
+                          final int hitY) {
     return marker.getBounds().contains(hitX, hitY);
   } // hitTest
 
-  protected synchronized Drawable boundToHotspot(Drawable marker, HotspotPlace hotspot) {
+  private Drawable boundToHotspot(Drawable marker, HotspotPlace hotspot) {
     int markerWidth = (int) (marker.getIntrinsicWidth() * mScale);
     int markerHeight = (int) (marker.getIntrinsicHeight() * mScale);
 
@@ -166,65 +139,58 @@ public class ItemizedOverlay<Item extends OverlayItem> extends Overlay
   } // boundToHotSpot
   
   /////////////////////////////////////////////////
+  @Override
   public boolean onSingleTap(final MotionEvent event) {
-    return (activateSelectedItems(event, mapView_, new ActiveItem() {
+    return (activateSelectedItems(event, mapView_, new ActiveItem<Item>() {
       @Override
-      public boolean run(final int index) {
-        final ItemizedOverlay<Item> that = ItemizedOverlay.this;
-        return onItemSingleTap(index, that.items_.get(index), mapView_);
+      public boolean run(final Item item) {
+        return onItemSingleTap(item);
       }
     }));
   } // onSingleTap
 
-  protected boolean onItemSingleTap(final int index, final Item item, final MapView mapView) {
-    if(itemListener_ == null)
-      return false;
-    return itemListener_.onItemSingleTap(index, item);
-  } // onItemSingleTap
-
+  @Override
   public boolean onDoubleTap(final MotionEvent event) {
-    return (activateSelectedItems(event, mapView_, new ActiveItem() {
+    return (activateSelectedItems(event, mapView_, new ActiveItem<Item>() {
       @Override
-      public boolean run(final int index) {
-        final ItemizedOverlay<Item> that = ItemizedOverlay.this;
-        return onItemDoubleTap(index, that.items_.get(index), mapView_);
+      public boolean run(final Item item) {
+        return onItemDoubleTap(item);
       }
     }));
   } // onDoubleTap
 
-  protected boolean onItemDoubleTap(final int index, final Item item, final MapView mapView) {
-    if(itemListener_ == null)
-      return false;
-    return itemListener_.onItemDoubleTap(index, item);
+  protected boolean onItemSingleTap(final Item item) {
+    return false;
+  } // onItemSingleTap
+
+  protected boolean onItemDoubleTap(final Item item) {
+    return false;
   } // onItemDoubleTap
 
   /////////////////////////////////////
   private boolean activateSelectedItems(final MotionEvent event,
                                         final MapView mapView,
-                                        final ActiveItem task) {
+                                        final ActiveItem<Item> task) {
     final Projection pj = mapView.getProjection();
     final Rect screenRect = pj.getIntrinsicScreenRect();
     final int eventX = screenRect.left + (int)event.getX();
     final int eventY = screenRect.top + (int)event.getY();
 
-    for (int i = 0; i < items_.size(); ++i) {
-      final Item item = items_.get(i);
-      final Drawable marker = item.getMarker(0);
-
+    for (final Item item : items_) {
       pj.toPixels(item.getPoint(), itemPoint_);
 
-      if (hitTest(item,
-                  marker, 
+      final Drawable marker = item.getMarker(0);
+      if (hitTest(marker,
                   eventX - itemPoint_.x,
                   eventY - itemPoint_.y)) {
-        if (task.run(i))
+        if (task.run(item))
           return true;
       }
     } // for ...
     return false;
   } // activateSelectedItems
 
-  public static interface ActiveItem {
-    public boolean run(final int aIndex);
+  private static interface ActiveItem<Item> {
+    public boolean run(final Item aIndex);
   } // interface ActiveItem
 } // class ItemizedOverlay

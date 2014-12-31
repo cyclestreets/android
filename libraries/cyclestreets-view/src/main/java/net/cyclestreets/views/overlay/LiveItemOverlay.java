@@ -38,14 +38,12 @@ public abstract class LiveItemOverlay<T extends OverlayItem>
 	static private final String LOADING = "Loading ...";
 	
 	public LiveItemOverlay(final Context context,
-							                   final CycleMapView mapView,
-							                   final OnItemTapListener<T> listener,
-							                   final boolean showLoading)
+							           final CycleMapView mapView,
+							           final boolean showLoading)
 	{
 		super(context, 
 		      mapView,
-		      new ArrayList<T>(), 
-		      listener);
+		      new ArrayList<T>());
 		
 		mapView_ = mapView;
 		zoomLevel_ = mapView_.getZoomLevel();

@@ -96,7 +96,6 @@ public class POIOverlay extends LiveItemOverlay<POIOverlay.POIItem>
   private final List<POICategory> activeCategories_;
   private POIItem active_;
   private final Point curScreenCoords_ = new Point();
-  private final Point touchScreenPoint_ = new Point();
   private IGeoPoint lastFix_;
   private Rect bubble_;
   private OverlayHelper overlays_;
@@ -104,10 +103,10 @@ public class POIOverlay extends LiveItemOverlay<POIOverlay.POIItem>
 
   public POIOverlay(final Context context,
                     final CycleMapView mapView) {
-    super(context, mapView, null, false);
+    super(context, mapView, false);
 
     context_ = context;
-    activeCategories_ = new ArrayList<POICategory>();
+    activeCategories_ = new ArrayList<>();
     overlays_ = new OverlayHelper(mapView);
     chooserShowing_ = false;
   } // POIOverlay
@@ -194,7 +193,7 @@ public class POIOverlay extends LiveItemOverlay<POIOverlay.POIItem>
   } // tappedInBubble
 
   @Override
-  protected boolean onItemSingleTap(final int index, final POIItem item, final MapView mapView) {
+  protected boolean onItemSingleTap(final POIItem item) {
     if(active_ == item)
       hideBubble();
     else
@@ -216,7 +215,7 @@ public class POIOverlay extends LiveItemOverlay<POIOverlay.POIItem>
   } // hideBubble
 
   @Override
-  protected boolean onItemDoubleTap(final int index, final POIItem item, final MapView mapView) {
+  protected boolean onItemDoubleTap(final POIItem item) {
     return routeMarkerAtItem(item);
   } // onItemDoubleTap
 
