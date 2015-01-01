@@ -1,13 +1,6 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
   <PreferenceScreen
-      android:title="User interface">
-    <ListPreference
-        android:key="units"
-        android:title="Units"
-        android:summary="Kilometres"
-        android:defaultValue="km"
-        android:entries="@array/units"
-        android:entryValues="@array/unit_values"/>
+      android:title="Maps display">
     <ListPreference
         android:key="mapstyle"
         android:title="Map style"
@@ -44,6 +37,13 @@
         android:defaultValue="20"
         android:entries="@array/speed"
         android:entryValues="@array/speed_values" />
+    <ListPreference
+        android:key="units"
+        android:title="Units"
+        android:summary="Kilometres"
+        android:defaultValue="km"
+        android:entries="@array/units"
+        android:entryValues="@array/unit_values"/>
   </PreferenceScreen>
   <PreferenceScreen
       android:title="LiveRide">
