@@ -156,7 +156,7 @@ public class TileSource {
 
   private static boolean isHighDensity(final DisplayMetrics metrics) {
     final int density = metrics.densityDpi;
-    return density >= DisplayMetrics.DENSITY_HIGH;
+    return density > DisplayMetrics.DENSITY_HIGH;
   } // highDensity
 
   private static String DEFAULT_RENDERER = CycleStreetsPreferences.MAPSTYLE_OCM;
