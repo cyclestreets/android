@@ -289,6 +289,7 @@ public abstract class MainNavDrawerActivity
       final DrawerItem di = drawerContents_.getItem(position);
       if (drawerLayout_ != null)
         drawerLayout_.closeDrawer(fragmentContainerView_);
+      getActivity().supportInvalidateOptionsMenu();
 
       if (di instanceof FragmentItem) {
         currentSelectedPosition_ = position;
