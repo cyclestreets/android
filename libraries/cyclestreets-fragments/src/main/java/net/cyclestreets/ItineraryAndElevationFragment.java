@@ -24,6 +24,9 @@ public class ItineraryAndElevationFragment extends Fragment {
   @Override
   public void onCreate(Bundle savedInstanceState) {
     setRetainInstance(true);
+    itinerary_ = new ItineraryFragment();
+    elevation_ = new ElevationProfileFragment();
+
     super.onCreate(savedInstanceState);
   } // onCreate
 
@@ -31,12 +34,7 @@ public class ItineraryAndElevationFragment extends Fragment {
   public View onCreateView(final LayoutInflater inflater,
                            final ViewGroup container,
                            final Bundle savedInstanceState) {
-    final View layout = inflater.inflate(R.layout.itinerary_and_elevation, container, false);
-
-    itinerary_ = new ItineraryFragment();
-    elevation_ = new ElevationProfileFragment();
-
-    return layout;
+    return inflater.inflate(R.layout.itinerary_and_elevation, container, false);
   } // onCreateView
 
   @Override
