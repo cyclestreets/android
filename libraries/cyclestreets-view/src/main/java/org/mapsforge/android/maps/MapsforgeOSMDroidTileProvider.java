@@ -36,7 +36,7 @@ public class MapsforgeOSMDroidTileProvider extends MapTileModuleProviderBase
   public MapsforgeOSMDroidTileProvider(final ITileSource fallbackSource,
                        final NetworkAvailabliltyCheck networkCheck)
   {
-    super(NUMBER_OF_TILE_DOWNLOAD_THREADS, TILE_DOWNLOAD_MAXIMUM_QUEUE_SIZE);
+    super(4, TILE_DOWNLOAD_MAXIMUM_QUEUE_SIZE);
     tileSource_ = null;
     fallbackTileSource_ = fallbackSource instanceof OnlineTileSourceBase ? (OnlineTileSourceBase)fallbackSource : null;
     networkCheck_ = networkCheck;
