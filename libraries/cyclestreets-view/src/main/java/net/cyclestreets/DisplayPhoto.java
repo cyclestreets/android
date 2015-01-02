@@ -127,7 +127,7 @@ public final class DisplayPhoto {
       final View layout = View.inflate(context_, R.layout.showphoto, null);
       iv_ = (ImageView)layout.findViewById(R.id.photo);
 
-      sizeView(iv_, context_);
+      //sizeView(iv_, context_);
       iv_.startAnimation(AnimationUtils.loadAnimation(context_, R.anim.spinner));
 
       final String thumbnailUrl = photo_.thumbnailUrl();

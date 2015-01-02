@@ -10,10 +10,15 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
 
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.AsyncTask;
+import android.view.View;
+import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import net.cyclestreets.util.Bitmaps;
 
@@ -27,9 +32,13 @@ public class ImageDownloader {
 	//////////////////////////
 	static class BitmapDownloaderTask extends AsyncTask<String, Void, Bitmap> {
 		private final WeakReference<ImageView> imageViewReference;
+    private final ProgressDialog pd_;
 
 		public BitmapDownloaderTask(final ImageView imageView) {
 			imageViewReference = new WeakReference<>(imageView);
+      pd_ = new ProgressDialog(imageView.getContext());
+      pd_.setMessage("Loading photo ...");
+      pd_.show();
 		} // BitmapDownloaderTask
 
 		@Override
@@ -39,6 +48,8 @@ public class ImageDownloader {
 
 		@Override
 		protected void onPostExecute(final Bitmap bitmap) {
+      pd_.dismiss();
+
 			if (isCancelled())
 				return;
 
@@ -52,20 +63,29 @@ public class ImageDownloader {
 			if (imageView == null) 
 				return;
 
+      imageView.setAnimation(null);
+
+      final WindowManager wm = (WindowManager)imageView.getContext().getSystemService(Context.WINDOW_SERVICE);
+      final int device_height = wm.getDefaultDisplay().getHeight();
+      final int device_width = wm.getDefaultDisplay().getWidth();
+      final int height = (device_height > device_width)
+          ? device_height / 10 * 5
+          : device_height / 10 * 6;
+      final int width = imageView.getWidth();
+      imageView.setLayoutParams(new LinearLayout.LayoutParams(width, height));
+
       final int imageWidth = bitmap.getWidth();
       final int imageHeight = bitmap.getHeight();
       final float aspect = (float)imageWidth/(float)imageHeight;
 
-      final int viewHeight = imageView.getHeight();
-
       if (aspect > 1) {
         // landscape, so adjust height
+        final int viewHeight = imageView.getHeight();
         int newViewHeight = (int)(viewHeight/aspect);
         imageView.setMaxHeight(newViewHeight);
       } //
 
-			imageView.setAnimation(null);
-			imageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
+			imageView.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
 			imageView.setImageBitmap(bitmap);
 		} // onPostExecute
 
