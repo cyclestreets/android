@@ -10,20 +10,16 @@ import net.cyclestreets.util.MapPack;
 import net.cyclestreets.util.MessageBox;
 import net.cyclestreets.view.R;
 
-import org.mapsforge.android.maps.MapsforgeOSMDroidTileProvider;
+import org.apache.http.client.HttpClient;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.params.CoreProtocolPNames;
 import org.mapsforge.android.maps.MapsforgeOSMTileSource;
 import org.osmdroid.ResourceProxy;
-import org.osmdroid.tileprovider.IMapTileProviderCallback;
-import org.osmdroid.tileprovider.IRegisterReceiver;
-import org.osmdroid.tileprovider.MapTileProviderArray;
+import org.osmdroid.http.HttpClientFactory;
+import org.osmdroid.http.IHttpClientFactory;
 import org.osmdroid.tileprovider.MapTileProviderBase;
-import org.osmdroid.tileprovider.modules.MapTileDownloader;
-import org.osmdroid.tileprovider.modules.MapTileFilesystemProvider;
-import org.osmdroid.tileprovider.modules.NetworkAvailabliltyCheck;
-import org.osmdroid.tileprovider.modules.TileWriter;
 import org.osmdroid.tileprovider.tilesource.ITileSource;
 import org.osmdroid.tileprovider.tilesource.XYTileSource;
-import org.osmdroid.tileprovider.util.SimpleRegisterReceiver;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -211,39 +207,18 @@ public class TileSource {
   public static MapTileProviderBase mapTileProvider(final Context context) {
     addBuiltInSources(context);
 
-    return new CycleMapTileProvider(context);
+    final IHttpClientFactory httpFactory = new IHttpClientFactory() {
+      @Override
+      public HttpClient createHttpClient() {
+        final DefaultHttpClient client = new DefaultHttpClient();
+        client.getParams().setParameter(CoreProtocolPNames.USER_AGENT, "Cyclestreets Android TileSource");
+        return client;
+      }
+    };
+    HttpClientFactory.setFactoryInstance(httpFactory);
+
+    return new CycleMapTileProvider(context, TileSource.source(TileSource.DEFAULT_RENDERER).renderer());
   } // MapTileProviderBase
-
-  private static class CycleMapTileProvider extends MapTileProviderArray
-      implements IMapTileProviderCallback {
-    public CycleMapTileProvider(final Context context) {
-      this(context,
-          TileSource.source(DEFAULT_RENDERER).renderer(),
-          new SimpleRegisterReceiver(context));
-    } // CycleMapTileProvider
-
-    private CycleMapTileProvider(final Context context,
-                                 final ITileSource tileSource,
-                                 final IRegisterReceiver registerReceiver) {
-      super(tileSource, registerReceiver);
-
-      final MapTileFilesystemProvider fileSystemProvider =
-          new MapTileFilesystemProvider(registerReceiver, tileSource);
-      mTileProviderList.add(fileSystemProvider);
-
-      final NetworkAvailabliltyCheck networkCheck = new NetworkAvailabliltyCheck(context);
-
-      final MapTileDownloader downloaderProvider =
-          new MapTileDownloader(tileSource,
-              new TileWriter(),
-              networkCheck);
-      mTileProviderList.add(downloaderProvider);
-
-      final MapsforgeOSMDroidTileProvider mapsforgeProvider =
-          new MapsforgeOSMDroidTileProvider(tileSource, networkCheck);
-      mTileProviderList.add(mapsforgeProvider);
-    } // CycleMapTileProvider
-  } // CycleMapTileProvider
 
   private static class Source {
     private final String friendlyName_;
