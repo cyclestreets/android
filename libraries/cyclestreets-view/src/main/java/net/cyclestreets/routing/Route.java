@@ -20,12 +20,10 @@ public class Route
     public void onResetJourney();
   } // Listener
 
-  static private class Listeners
-  {
-    private List<Listener> listeners_ = new ArrayList<Listener>();
+  private static class Listeners {
+    private List<Listener> listeners_ = new ArrayList<>();
 
-    public void register(final Listener listener)
-    {
+    public void register(final Listener listener) {
       if(!doRegister(listener))
         return;
 
@@ -40,15 +38,13 @@ public class Route
       doRegister(listener);
     } // softRegister
 
-    private boolean doRegister(final Listener listener)
-    {
+    private boolean doRegister(final Listener listener) {
       if(listeners_.contains(listener))
         return false;
       listeners_.add(listener);
       return true;
     } // doRegister
-    public void unregister(final Listener listener)
-    {
+    public void unregister(final Listener listener) {
       listeners_.remove(listener);
     } // unregisterListener
 
@@ -63,130 +59,112 @@ public class Route
     } // onReset
   } // Listeners
 
-  static private final Listeners listeners_ = new Listeners();
+  private static final Listeners listeners_ = new Listeners();
 
-  static public void registerListener(final Listener l) { listeners_.register(l); }
-  static public void softRegisterListener(final Listener l) { listeners_.softRegister(l); }
-  static public void unregisterListener(final Listener l) { listeners_.unregister(l); }
+  public static void registerListener(final Listener l) { listeners_.register(l); }
+  public static void softRegisterListener(final Listener l) { listeners_.softRegister(l); }
+  public static void unregisterListener(final Listener l) { listeners_.unregister(l); }
 
-	static public void PlotRoute(final String plan,
-              								 final int speed,
-              								 final Context context,
-                               final Waypoints waypoints)
-	{
-		final CycleStreetsRoutingTask query = new CycleStreetsRoutingTask(plan, speed, context);
-		query.execute(waypoints);
-	} // PlotRoute
+  public static void PlotRoute(final String plan,
+                               final int speed,
+                               final Context context,
+                               final Waypoints waypoints) {
+    final CycleStreetsRoutingTask query = new CycleStreetsRoutingTask(plan, speed, context);
+    query.execute(waypoints);
+  } // PlotRoute
 
-	static public void FetchRoute(final String plan,
-	                              final long itinerary,
-	                              final int speed,
-	                              final Context context)
-	{
-	  final FetchCycleStreetsRouteTask query = new FetchCycleStreetsRouteTask(plan, speed, context);
-	  query.execute(itinerary);
-	} // FetchRoute
+  public static void FetchRoute(final String plan,
+                                final long itinerary,
+                                final int speed,
+                                final Context context) {
+    final FetchCycleStreetsRouteTask query = new FetchCycleStreetsRouteTask(plan, speed, context);
+    query.execute(itinerary);
+  } // FetchRoute
 
-	static public void RePlotRoute(final String plan,
-              								   final Context context)
-	{
-		final ReplanRoutingTask query = new ReplanRoutingTask(plan, db_, context);
-		query.execute(plannedRoute_);
-	} // PlotRoute
+  public static void RePlotRoute(final String plan,
+                                 final Context context) {
+    final ReplanRoutingTask query = new ReplanRoutingTask(plan, db_, context);
+    query.execute(plannedRoute_);
+  } // PlotRoute
 
-	static public void PlotStoredRoute(final int localId,
-								 final Context context)
-	{
-		final StoredRoutingTask query = new StoredRoutingTask(db_, context);
-		query.execute(localId);
-	} // PlotRoute
+  public static void PlotStoredRoute(final int localId,
+                                     final Context context) {
+    final StoredRoutingTask query = new StoredRoutingTask(db_, context);
+    query.execute(localId);
+  } // PlotRoute
 
-	static public void RenameRoute(final int localId, final String newName)
-	{
-		db_.renameRoute(localId, newName);
-	} // RenameRoute
+  public static void RenameRoute(final int localId, final String newName) {
+    db_.renameRoute(localId, newName);
+  } // RenameRoute
 
-	static public void DeleteRoute(final int localId)
-	{
-		db_.deleteRoute(localId);
-	} // DeleteRoute
+  public static void DeleteRoute(final int localId) {
+    db_.deleteRoute(localId);
+  } // DeleteRoute
 
-	/////////////////////////////////////////
-	private static Journey plannedRoute_ = Journey.NULL_JOURNEY;
+  /////////////////////////////////////////
+  private static Journey plannedRoute_ = Journey.NULL_JOURNEY;
   private static Waypoints waypoints_ = plannedRoute_.waypoints();
-	private static RouteDatabase db_;
-	private static Context context_;
+  private static RouteDatabase db_;
+  private static Context context_;
 
-	static public void initialise(final Context context)
-	{
-		context_ = context;
-		db_ = new RouteDatabase(context);
-	} // initialise
+  public static void initialise(final Context context) {
+    context_ = context;
+    db_ = new RouteDatabase(context);
+  } // initialise
 
-	static public void setWaypoints(final Waypoints waypoints)
-	{
-	  waypoints_ = waypoints;
-	} // setTerminals
+  public static void setWaypoints(final Waypoints waypoints) {
+    waypoints_ = waypoints;
+  } // setTerminals
 
-	static public void resetJourney()
-	{
-		onNewJourney(null);
-	} // resetJourney
+  public static void resetJourney() {
+    onNewJourney(null);
+  } // resetJourney
 
-	static public void onResume()
-	{
-		Segment.formatter = DistanceFormatter.formatter(CycleStreetsPreferences.units());
-	} // onResult
+  public static void onResume() {
+    Segment.formatter = DistanceFormatter.formatter(CycleStreetsPreferences.units());
+  } // onResult
 
-	/////////////////////////////////////
-	static public int storedCount()
-	{
-		return db_.routeCount();
-	} // storedCount
+  /////////////////////////////////////
+  public static int storedCount() {
+    return db_.routeCount();
+  } // storedCount
 
-	static public List<RouteSummary> storedRoutes()
-	{
-		return db_.savedRoutes();
-	} // storedNames
+  public static List<RouteSummary> storedRoutes() {
+    return db_.savedRoutes();
+  } // storedNames
 
-	/////////////////////////////////////
-  static public boolean onNewJourney(final RouteData route)
-	{
-		try {
-			doOnNewJourney(route);
-			return true;
-		} // try
-		catch(Exception e) {
-		  Toast.makeText(context_, R.string.route_failed, Toast.LENGTH_LONG).show();
-		}
-		return false;
-	} // onNewJourney
+  /////////////////////////////////////
+  public static boolean onNewJourney(final RouteData route) {
+    try {
+      doOnNewJourney(route);
+      return true;
+    } // try
+    catch(Exception e) {
+      Toast.makeText(context_, R.string.route_failed, Toast.LENGTH_LONG).show();
+    }
+    return false;
+  } // onNewJourney
 
-  static private void doOnNewJourney(final RouteData route)
-		throws Exception
-	{
-		if(route == null)
-		{
-			plannedRoute_ = Journey.NULL_JOURNEY;
-			waypoints_ = Waypoints.NULL_WAYPOINTS;
-			listeners_.onReset();
-			return;
-		} // if ...
+  private static void doOnNewJourney(final RouteData route)
+      throws Exception {
+    if(route == null) {
+      plannedRoute_ = Journey.NULL_JOURNEY;
+      waypoints_ = Waypoints.NULL_WAYPOINTS;
+      listeners_.onReset();
+      return;
+    } // if ...
 
-		plannedRoute_ = Journey.loadFromXml(route.xml(), route.points(), route.name());
+    plannedRoute_ = Journey.loadFromXml(route.xml(), route.points(), route.name());
 
-		db_.saveRoute(plannedRoute_, route.xml());
-		waypoints_ = plannedRoute_.waypoints();
+    db_.saveRoute(plannedRoute_, route.xml());
+    waypoints_ = plannedRoute_.waypoints();
     listeners_.onNewJourney(plannedRoute_, waypoints_);
-	} // onNewJourney
+  } // onNewJourney
 
-	static public Waypoints waypoints() { return waypoints_; }
+  public static Waypoints waypoints() { return waypoints_; }
 
-	static public boolean available() { return plannedRoute_ != Journey.NULL_JOURNEY; }
-	static public Journey journey() { return plannedRoute_; }
+  public static boolean available() { return plannedRoute_ != Journey.NULL_JOURNEY; }
+  public static Journey journey() { return plannedRoute_; }
 
-	private Route()
-	{
-		// don't create one of these
-	} // Route
+  private Route() { }
 } // class Route
