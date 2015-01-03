@@ -32,14 +32,10 @@ public class ImageDownloader {
 	//////////////////////////
 	static class BitmapDownloaderTask extends AsyncTask<String, Void, Bitmap> {
 		private final WeakReference<ImageView> imageViewReference;
-    private final ProgressDialog pd_;
 
 		public BitmapDownloaderTask(final ImageView imageView) {
 			imageViewReference = new WeakReference<>(imageView);
-      pd_ = new ProgressDialog(imageView.getContext());
-      pd_.setMessage("Loading photo ...");
-      pd_.show();
-		} // BitmapDownloaderTask
+ 		} // BitmapDownloaderTask
 
 		@Override
 		protected Bitmap doInBackground(String... params) {
@@ -48,9 +44,7 @@ public class ImageDownloader {
 
 		@Override
 		protected void onPostExecute(final Bitmap bitmap) {
-      pd_.dismiss();
-
-			if (isCancelled())
+ 			if (isCancelled())
 				return;
 
       if (bitmap == null)
@@ -62,8 +56,6 @@ public class ImageDownloader {
 			final ImageView imageView = imageViewReference.get();
 			if (imageView == null) 
 				return;
-
-      imageView.setAnimation(null);
 
       final WindowManager wm = (WindowManager)imageView.getContext().getSystemService(Context.WINDOW_SERVICE);
       final int device_height = wm.getDefaultDisplay().getHeight();
@@ -85,7 +77,9 @@ public class ImageDownloader {
         imageView.setMaxHeight(newViewHeight);
       } //
 
-			imageView.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
+      imageView.setAnimation(null);
+
+      imageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
 			imageView.setImageBitmap(bitmap);
 		} // onPostExecute
 
