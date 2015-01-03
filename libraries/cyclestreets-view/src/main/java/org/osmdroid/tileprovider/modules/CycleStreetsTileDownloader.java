@@ -211,8 +211,6 @@ public class CycleStreetsTileDownloader extends MapTileModuleProviderBase {
         }
         final Drawable result = tileSource.getDrawable(byteStream);
 
-        logger.debug("Downloaded  Maptile from url: " + tileURLString);
-
         return result;
       } catch (final UnknownHostException e) {
         // no network connection so empty the queue
