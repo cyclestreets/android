@@ -15,6 +15,7 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.osmdroid.http.HttpClientFactory;
 import org.osmdroid.tileprovider.MapTile;
 import org.osmdroid.tileprovider.MapTileRequestState;
 import org.osmdroid.tileprovider.modules.MapTileModuleProviderBase;
@@ -83,6 +84,9 @@ public class MapsforgeOSMDroidTileProvider extends MapTileModuleProviderBase
     @Override
     public Drawable loadTile(final MapTileRequestState aState) throws CantContinueException 
     {
+      if(tileSource_ == null)
+        return null;
+
       Drawable tile = drawMapsforgeTile(aState);
       if(tile == null) 
         tile = downloadTile(aState);
@@ -91,9 +95,6 @@ public class MapsforgeOSMDroidTileProvider extends MapTileModuleProviderBase
     
     private Drawable drawMapsforgeTile(final MapTileRequestState aState)
     {
-      if(tileSource_ == null) 
-        return null;
-
       try {
         final MapTile tile = aState.getMapTile();
         return tileSource_.getDrawable(tile.getX(), tile.getY(), tile.getZoomLevel());
@@ -143,7 +144,7 @@ public class MapsforgeOSMDroidTileProvider extends MapTileModuleProviderBase
       if (TextUtils.isEmpty(tileURLString)) 
         return null;
 
-      final HttpClient client = new DefaultHttpClient();
+      final HttpClient client = HttpClientFactory.createHttpClient();
       final HttpUriRequest head = new HttpGet(tileURLString);
       final HttpResponse response = client.execute(head);
 
