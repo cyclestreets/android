@@ -196,7 +196,7 @@ public class TileSource {
     final MapsforgeOSMTileSource MAPSFORGE = new MapsforgeOSMTileSource(CycleStreetsPreferences.MAPSTYLE_MAPSFORGE, isHighDensity(display));
 
 
-    addTileSource("OpenCycleMap (shows hills)", OPENCYCLEMAP, "\u00a9 OpenStreetMap contributors. Map images \u00a9 OpenCycleMap");
+    addTileSource("OpenCycleMap (shows hills)", OPENCYCLEMAP, "\u00a9 OpenStreetMap contributors. Map images \u00a9 Thunderforest");
     addTileSource("OpenStreetMap default style", OPENSTREETMAP, DEFAULT_ATTRIBUTION);
     addTileSource("Ordnance Survey OpenData", OSMAP, "Contains Ordnance Survey Data \u00a9 Crown copyright and database right 2010");
     addTileSource("Offline Vector Maps", MAPSFORGE, DEFAULT_ATTRIBUTION);
