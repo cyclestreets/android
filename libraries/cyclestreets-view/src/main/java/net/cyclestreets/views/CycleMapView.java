@@ -87,6 +87,8 @@ public class CycleMapView extends MapView
 
     controllerOverlay_.onPause(edit);
     edit.commit();
+
+    getTileProvider().clearTileCache();
   } // onPause
 
   public void onResume()
