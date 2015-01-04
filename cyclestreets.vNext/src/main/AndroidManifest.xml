@@ -59,6 +59,13 @@
       </intent-filter>
     </activity>
 
+    <!-- ACRA support -->
+    <activity android:name="org.acra.CrashReportDialog"
+              android:theme="@android:style/Theme.Dialog"
+              android:launchMode="singleInstance"
+              android:excludeFromRecents="true"
+              android:finishOnTaskLaunch="true" />
+
     <meta-data android:name="CycleStreetsAPIKey" android:value="b26a0d6b45e00612" />
   </application>
 </manifest>
