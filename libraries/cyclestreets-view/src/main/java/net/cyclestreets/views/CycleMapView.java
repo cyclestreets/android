@@ -5,6 +5,7 @@ import net.cyclestreets.views.overlay.LocationOverlay;
 import net.cyclestreets.views.overlay.ControllerOverlay;
 
 import org.osmdroid.api.IGeoPoint;
+import org.osmdroid.tileprovider.BitmapPool;
 import org.osmdroid.tileprovider.tilesource.ITileSource;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.DefaultResourceProxyImpl;
@@ -89,6 +90,7 @@ public class CycleMapView extends MapView
     edit.commit();
 
     getTileProvider().clearTileCache();
+    BitmapPool.getInstance().clearBitmapPool();
   } // onPause
 
   public void onResume()
