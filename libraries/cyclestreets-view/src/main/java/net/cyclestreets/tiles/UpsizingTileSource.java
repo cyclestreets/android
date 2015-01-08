@@ -9,15 +9,18 @@ import org.osmdroid.tileprovider.ExpirableBitmapDrawable;
 import org.osmdroid.tileprovider.MapTile;
 import org.osmdroid.tileprovider.tilesource.BitmapTileSourceBase;
 import org.osmdroid.tileprovider.tilesource.ITileSource;
+import org.osmdroid.tileprovider.tilesource.OnlineTileSourceBase;
 
 import java.io.InputStream;
 
-class UpsizingTileSource implements ITileSource {
+public class UpsizingTileSource implements ITileSource {
   private ITileSource base_;
+  private OnlineTileSourceBase online_;
   private final int upsize_ = 512;
 
   public UpsizingTileSource(final ITileSource base) {
     base_ = base;
+    online_ = (base_ instanceof  OnlineTileSourceBase) ? (OnlineTileSourceBase)base_ : null;
   } // base
 
   @Override
@@ -32,6 +35,10 @@ class UpsizingTileSource implements ITileSource {
   public int getMinimumZoomLevel() { return base_.getMinimumZoomLevel(); }
   @Override
   public String getTileRelativeFilenameString(MapTile aTile) { return base_.getTileRelativeFilenameString(aTile); }
+
+  public String getTileURLString(MapTile aTile) {
+    return online_ != null ? online_.getTileURLString(aTile) : null;
+  }
 
   @Override
   public int getTileSizePixels() { return upsize_; }

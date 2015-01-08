@@ -150,7 +150,7 @@ public class TileSource {
                             baseUrls);
   } // createXYTileSource
 
-  private static boolean isHighDensity(final DisplayMetrics metrics) {
+  public static boolean isHighDensity(final DisplayMetrics metrics) {
     final int density = metrics.densityDpi;
     return density > DisplayMetrics.DENSITY_HIGH;
   } // highDensity

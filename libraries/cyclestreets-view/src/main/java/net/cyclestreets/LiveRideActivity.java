@@ -11,7 +11,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.view.ViewPager.LayoutParams;
 import android.widget.RelativeLayout;
 
 public class LiveRideActivity extends Activity
@@ -52,7 +51,7 @@ public class LiveRideActivity extends Activity
     map_.hideLocationButton();
     
     final RelativeLayout rl = new RelativeLayout(this);
-    rl.addView(map_, new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
+    rl.addView(map_, new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT));
     setContentView(rl);
   } // onCreate
      
