@@ -47,7 +47,7 @@ public class CycleStreetsTileDownloader extends MapTileModuleProviderBase {
     Drawable getDrawable(InputStream aTileInputStream) throws LowMemoryException;
     ITileSource unwrap();
   }
-  private class OnlineTileSourceWrapper implements IOnlineTileSource {
+  private static class OnlineTileSourceWrapper implements IOnlineTileSource {
     private OnlineTileSourceBase otsb_;
     OnlineTileSourceWrapper(OnlineTileSourceBase otsb) { otsb_ = otsb; }
     public String getTileURLString(MapTile aTile) { return otsb_.getTileURLString(aTile); }
@@ -56,7 +56,7 @@ public class CycleStreetsTileDownloader extends MapTileModuleProviderBase {
     }
     public ITileSource unwrap() { return otsb_; }
   }
-  private class UpsizingTileSourceWrapper implements IOnlineTileSource {
+  private static class UpsizingTileSourceWrapper implements IOnlineTileSource {
     private UpsizingTileSource uts_;
     UpsizingTileSourceWrapper(UpsizingTileSource uts) { uts_ = uts; }
     public String getTileURLString(MapTile aTile) { return uts_.getTileURLString(aTile); }
