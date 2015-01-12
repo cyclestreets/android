@@ -150,7 +150,7 @@ public class TileSource {
                             baseUrls);
   } // createXYTileSource
 
-  private static boolean isHighDensity(final DisplayMetrics metrics) {
+  public static boolean isHighDensity(final DisplayMetrics metrics) {
     final int density = metrics.densityDpi;
     return density > DisplayMetrics.DENSITY_HIGH;
   } // highDensity
@@ -169,6 +169,10 @@ public class TileSource {
         return s;
     return null;
   } // source
+
+  public static void preloadStandardTileSources(final Context context) {
+    addBuiltInSources(context);
+  } // preloadStandardTileSources
 
   private static void addBuiltInSources(final Context context) {
     if (builtInsAdded_)
@@ -194,7 +198,6 @@ public class TileSource {
                                      "http://tile.cyclestreets.net/osopendata/");
 
     final MapsforgeOSMTileSource MAPSFORGE = new MapsforgeOSMTileSource(CycleStreetsPreferences.MAPSTYLE_MAPSFORGE, isHighDensity(display));
-
 
     addTileSource("OpenCycleMap (shows hills)", OPENCYCLEMAP, "\u00a9 OpenStreetMap contributors. Map images \u00a9 Thunderforest");
     addTileSource("OpenStreetMap default style", OPENSTREETMAP, DEFAULT_ATTRIBUTION);

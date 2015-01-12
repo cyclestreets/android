@@ -30,6 +30,8 @@ import org.slf4j.LoggerFactory;
 import android.graphics.drawable.Drawable;
 import android.text.TextUtils;
 
+import net.cyclestreets.tiles.UpsizingTileSource;
+
 /**
  * The {@link CycleStreetsTileDownloader} loads tiles from an HTTP server. It saves downloaded tiles to an
  * IFilesystemCache if available.
@@ -40,6 +42,30 @@ import android.text.TextUtils;
  *
  */
 public class CycleStreetsTileDownloader extends MapTileModuleProviderBase {
+  private interface IOnlineTileSource {
+    String getTileURLString(MapTile aTile);
+    Drawable getDrawable(InputStream aTileInputStream) throws LowMemoryException;
+    ITileSource unwrap();
+  }
+  private static class OnlineTileSourceWrapper implements IOnlineTileSource {
+    private OnlineTileSourceBase otsb_;
+    OnlineTileSourceWrapper(OnlineTileSourceBase otsb) { otsb_ = otsb; }
+    public String getTileURLString(MapTile aTile) { return otsb_.getTileURLString(aTile); }
+    public Drawable getDrawable(InputStream aTileInputStream) throws LowMemoryException {
+      return otsb_.getDrawable(aTileInputStream);
+    }
+    public ITileSource unwrap() { return otsb_; }
+  }
+  private static class UpsizingTileSourceWrapper implements IOnlineTileSource {
+    private UpsizingTileSource uts_;
+    UpsizingTileSourceWrapper(UpsizingTileSource uts) { uts_ = uts; }
+    public String getTileURLString(MapTile aTile) { return uts_.getTileURLString(aTile); }
+    public Drawable getDrawable(InputStream aTileInputStream) throws LowMemoryException {
+      return uts_.getDrawable(aTileInputStream);
+    }
+    public ITileSource unwrap() { return uts_; }
+  }
+
   // ===========================================================
   // Constants
   // ===========================================================
@@ -52,7 +78,7 @@ public class CycleStreetsTileDownloader extends MapTileModuleProviderBase {
 
   private final IFilesystemCache mFilesystemCache;
 
-  private final AtomicReference<OnlineTileSourceBase> mTileSource = new AtomicReference<>();
+  private final AtomicReference<IOnlineTileSource> mTileSource = new AtomicReference<>();
 
   private final INetworkAvailablityCheck mNetworkAvailablityCheck;
 
@@ -77,7 +103,8 @@ public class CycleStreetsTileDownloader extends MapTileModuleProviderBase {
 
   public CycleStreetsTileDownloader(final ITileSource pTileSource,
                                     final IFilesystemCache pFilesystemCache,
-                                    final INetworkAvailablityCheck pNetworkAvailablityCheck, int pThreadPoolSize,
+                                    final INetworkAvailablityCheck pNetworkAvailablityCheck,
+                                    int pThreadPoolSize,
                                     int pPendingQueueSize) {
     super(pThreadPoolSize, pPendingQueueSize);
 
@@ -91,8 +118,9 @@ public class CycleStreetsTileDownloader extends MapTileModuleProviderBase {
   // ===========================================================
 
   public ITileSource getTileSource() {
-    return mTileSource.get();
-  }
+    IOnlineTileSource ots = mTileSource.get();
+    return ots != null ? ots.unwrap() : null;
+  } // getTileSource
 
   // ===========================================================
   // Methods from SuperClass/Interfaces
@@ -120,21 +148,23 @@ public class CycleStreetsTileDownloader extends MapTileModuleProviderBase {
 
   @Override
   public int getMinimumZoomLevel() {
-    OnlineTileSourceBase tileSource = mTileSource.get();
-    return (tileSource != null ? tileSource.getMinimumZoomLevel() : MINIMUM_ZOOMLEVEL);
+    IOnlineTileSource tileSource = mTileSource.get();
+    return (tileSource != null ? tileSource.unwrap().getMinimumZoomLevel() : MINIMUM_ZOOMLEVEL);
   }
 
   @Override
   public int getMaximumZoomLevel() {
-    OnlineTileSourceBase tileSource = mTileSource.get();
-    return (tileSource != null ? tileSource.getMaximumZoomLevel() : MAXIMUM_ZOOMLEVEL);
+    IOnlineTileSource tileSource = mTileSource.get();
+    return (tileSource != null ? tileSource.unwrap().getMaximumZoomLevel() : MAXIMUM_ZOOMLEVEL);
   }
 
   @Override
   public void setTileSource(final ITileSource tileSource) {
     // We are only interested in OnlineTileSourceBase tile sources
     if (tileSource instanceof OnlineTileSourceBase) {
-      mTileSource.set((OnlineTileSourceBase) tileSource);
+      mTileSource.set(new OnlineTileSourceWrapper((OnlineTileSourceBase)tileSource));
+    } else if (tileSource instanceof UpsizingTileSource) {
+      mTileSource.set(new UpsizingTileSourceWrapper((UpsizingTileSource)tileSource));
     } else {
       // Otherwise shut down the tile downloader
       mTileSource.set(null);
@@ -144,16 +174,12 @@ public class CycleStreetsTileDownloader extends MapTileModuleProviderBase {
   // ===========================================================
   // Inner and Anonymous Classes
   // ===========================================================
-
   protected class TileLoader extends MapTileModuleProviderBase.TileLoader {
-
     @Override
     public Drawable loadTile(final MapTileRequestState aState) throws CantContinueException {
-
-      OnlineTileSourceBase tileSource = mTileSource.get();
-      if (tileSource == null) {
+      IOnlineTileSource tileSource = mTileSource.get();
+      if (tileSource == null)
         return null;
-      }
 
       InputStream in = null;
       OutputStream out = null;
@@ -206,7 +232,7 @@ public class CycleStreetsTileDownloader extends MapTileModuleProviderBase {
 
         // Save the data to the filesystem cache
         if (mFilesystemCache != null) {
-          mFilesystemCache.saveFile(tileSource, tile, byteStream);
+          mFilesystemCache.saveFile(tileSource.unwrap(), tile, byteStream);
           byteStream.reset();
         }
         final Drawable result = tileSource.getDrawable(byteStream);
