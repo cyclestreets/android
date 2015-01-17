@@ -9,6 +9,8 @@
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
         android:gravity="center_vertical|center_horizontal"
+        android:paddingLeft="6dip"
+        android:paddingRight="6dip"
         android:singleLine="false"
         android:ellipsize="marquee"
         android:text="Route"
