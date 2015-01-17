@@ -5,10 +5,42 @@ import android.util.Xml;
 import org.xml.sax.ContentHandler;
 
 import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
+import java.io.UnsupportedEncodingException;
+
+import net.cyclestreets.api.json.JsonReader;
 
 interface Factory<T> {
   public T read(final byte[] xml);
+
+  abstract class JsonProcessor<T> implements Factory<T> {
+    public T read(final byte[] json) {
+      try {
+        return doRead(json);
+      } catch(IOException e) {
+        throw new RuntimeException(e);
+      }
+    } // read
+
+    private T doRead(final byte[] json) throws IOException {
+      final JsonReader reader = new JsonReader(byteStreamReader(json));
+      try {
+        return readJson(reader);
+      } finally {
+        reader.close();
+      }
+    } // doRead
+
+    protected  abstract T readJson(final JsonReader reader) throws IOException;
+
+    private static Reader byteStreamReader(final byte[] bytes) throws UnsupportedEncodingException {
+      final InputStream in = new ByteArrayInputStream(bytes);
+      return new InputStreamReader(in, "UTF-8");
+    } // byteReader
+  } // class JsonReaders
 
   abstract class XmlReader<T> implements Factory<T> {
     public T read(final byte[] xml) {

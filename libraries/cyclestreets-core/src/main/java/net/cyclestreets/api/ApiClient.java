@@ -76,7 +76,7 @@ public class ApiClient
   public final static String API_PATH_REGISTER = API_PATH + "usercreate.xml";
   public final static String API_PATH_FEEDBACK = API_PATH + "feedback.xml";
   public final static String API_PATH_GEOCODER = API_PATH + "geocoder.xml";
-  public final static String API_PATH_POI_CATEGORIES = API_PATH + "poitypes.xml";
+  public final static String API_PATH_POI_CATEGORIES = API_PATH_V2 + "pois.types";
   public final static String API_PATH_POIS = API_PATH + "pois.xml";
   public final static String API_PATH_USERJOURNIES = API_PATH_V2 + "journeys.user";
 

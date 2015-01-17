@@ -45,20 +45,13 @@ public final class UserJourneys implements Iterable<UserJourney> {
     return new UserJourneysFactory();
   } // factory
 
-  private static class UserJourneysFactory implements Factory<UserJourneys> {
+  private static class UserJourneysFactory extends Factory.JsonProcessor<UserJourneys> {
     private UserJourneys journeys_;
 
     UserJourneysFactory() {
       journeys_ = new UserJourneys();
     } // UserJourneysFactory
 
-    public UserJourneys read(final byte[] json) {
-      try {
-        return doRead(json);
-      } catch(IOException e) {
-        throw new RuntimeException(e);
-      }
-    } // read
 /*
 {
     "pagination": {
@@ -140,30 +133,19 @@ public final class UserJourneys implements Iterable<UserJourney> {
     }
 }
  */
-    private UserJourneys doRead(final byte[] json) throws IOException {
-      final JsonReader reader = new JsonReader(byteStreamReader(json));
-      try {
-        reader.beginObject();
-        while (reader.hasNext()) {
-          final String name = reader.nextName();
-          if ("journeys".equals(name))
-            readJourneys(reader);
-          else
-            reader.skipValue();
-        } // while
-        reader.endObject();
-      }
-      finally {
-        reader.close();
-      }
+    protected UserJourneys readJson(final JsonReader reader) throws IOException {
+      reader.beginObject();
+      while (reader.hasNext()) {
+        final String name = reader.nextName();
+        if ("journeys".equals(name))
+          readJourneys(reader);
+        else
+          reader.skipValue();
+      } // while
+      reader.endObject();
 
       return journeys_;
     } // doRead
-
-    private Reader byteStreamReader(final byte[] bytes) throws UnsupportedEncodingException {
-      final InputStream in = new ByteArrayInputStream(bytes);
-      return new InputStreamReader(in, "UTF-8");
-    } // byteReader
 
     private void readJourneys(final JsonReader reader) throws IOException {
       reader.beginObject();

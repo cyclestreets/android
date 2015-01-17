@@ -18,22 +18,18 @@ import android.sax.StartElementListener;
 public class POICategory
 {
   private final String key_;
-  private final String shortName_;
   private final String name_;
   private final Drawable icon_;
   
   public POICategory(final String key,
-                     final String shortName,
-                     final String name, 
+                     final String name,
                      final Drawable icon)
   {
     key_ = key;
-    shortName_ = shortName;
     name_ = name;
     icon_ = icon;
   } // POICategory
   
-  public String shortName() { return shortName_; }
   public String name() { return name_; }
   public Drawable icon() { return icon_; }
   
@@ -80,7 +76,7 @@ public class POICategory
     @Override
     protected ContentHandler contentHandler()
     {
-      pois_ = new ArrayList<POI>();
+      pois_ = new ArrayList<>();
       
       final RootElement root = new RootElement("pois");
       final Element item = root.getChild("pois").getChild("poi");
