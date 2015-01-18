@@ -15,6 +15,7 @@ import android.sax.EndTextElementListener;
 import android.sax.RootElement;
 import android.sax.StartElementListener;
 
+import net.cyclestreets.api.json.JsonArrayHandler;
 import net.cyclestreets.api.json.JsonObjectHandler;
 import net.cyclestreets.api.json.JsonRootHandler;
 import net.cyclestreets.api.json.JsonRootObjectHandler;
@@ -113,14 +114,14 @@ public class POICategory {
           name_ = null;
           notes_ = null;
           url_ = null;
-          lat_ = 0;
-          lon_ = 0;
+          lat_ = Double.MIN_VALUE;
+          lon_ = Double.MIN_VALUE;
         } // start
       });
-      feature.setEndObjectListener(new JsonObjectHandler.EndListener(){
-          public void end() {
-            //pois_.add(new POI(id_, name_, notes_, url_, lat_, lon_));
-          }
+      feature.setEndObjectListener(new JsonObjectHandler.EndListener() {
+        public void end() {
+          pois_.add(new POI(id_, name_, notes_, url_, lat_, lon_));
+        }
       });
 
       final JsonObjectHandler properties = feature.getObject("properties");
@@ -144,18 +145,18 @@ public class POICategory {
           url_ = value;
         }
       });
-/*
-      item.getChild("longitude").setEndTextElementListener(new EndTextElementListener(){
-          public void end(String body) {
-            lon_ = Double.parseDouble(body);
-          }
+
+      final JsonArrayHandler coords = feature.getObject("geometry").getArray("coordinates");
+      coords.getString().setListener(new JsonStringHandler.Listener() {
+        @Override
+        public void string(String name, String value) {
+          Double v = Double.parseDouble(value);
+          if (lon_ == Double.MIN_VALUE)
+            lon_ = v;
+          else
+            lat_ = v;
+        }
       });
-      item.getChild("latitude").setEndTextElementListener(new EndTextElementListener(){
-          public void end(String body) {
-            lat_ = Double.parseDouble(body);
-          }
-      });
-*/
       return root;
     } // contentHandler
 

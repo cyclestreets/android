@@ -31,10 +31,14 @@ public class POI
   void setCategory(final POICategory category) { category_ = category; }
   
   public int id() { return id_; }
-  public String name() { return name_; }
-  public String notes() { return notes_; }
-  public String url() { return url_; }
+  public String name() { return sOrNull(name_); }
+  public String notes() { return sOrNull(notes_); }
+  public String url() { return sOrNull(url_); }
   public GeoPoint position() { return pos_; }
+
+  private String sOrNull(final String s) {
+    return s != null ? s : "";
+  } // sOrNull
   
   public POICategory category() { return category_; }
   public Drawable icon() { return category_.icon(); }

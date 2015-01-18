@@ -311,7 +311,7 @@ public class POIOverlay extends LiveItemOverlay<POIOverlay.POIItem>
       return false;
 
     final int moved = lastFix_ != null ? GeoHelper.distanceBetween(mapCentre, lastFix_) : Integer.MAX_VALUE;
-    final int diagonalWidth = boundingBox.getDiagonalLengthInMeters();
+    final int diagonalWidth = boundingBox.getDiagonalLengthInMeters() / 1000;
 
     // first time through width can be zero
     if(diagonalWidth == 0)

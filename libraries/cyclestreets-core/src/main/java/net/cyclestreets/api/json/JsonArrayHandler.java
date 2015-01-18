@@ -12,12 +12,12 @@ public class JsonArrayHandler implements JsonItemHandler {
   public interface Listener extends BeginListener, EndListener {
   }
 
-  private JsonObjectHandler objectHandler_;
+  private JsonItemHandler itemHandler_;
   private BeginListener begin_;
   private EndListener end_;
 
   public JsonArrayHandler() {
-    objectHandler_ = new JsonObjectHandler();
+    itemHandler_ = null;
     begin_ = null;
     end_ = null;
   } // JsonRootObject
@@ -30,8 +30,15 @@ public class JsonArrayHandler implements JsonItemHandler {
   } // setObjectListener
 
   public final JsonObjectHandler getObject() {
-    return objectHandler_;
+    if (itemHandler_ == null)
+      itemHandler_ = new JsonObjectHandler();
+    return (JsonObjectHandler)itemHandler_;
   } // getObject
+  public final JsonStringHandler getString() {
+    if (itemHandler_ == null)
+      itemHandler_ = new JsonStringHandler();
+    return (JsonStringHandler)itemHandler_;
+  } // getString
 
   @Override
   public final void read(final String objectName, final JsonReader reader) throws IOException {
@@ -41,7 +48,10 @@ public class JsonArrayHandler implements JsonItemHandler {
     reader.beginArray();
 
     while(reader.hasNext())
-      objectHandler_.read(objectName, reader);
+      if (itemHandler_ != null)
+        itemHandler_.read(objectName, reader);
+      else
+        reader.skipValue();
 
     reader.endArray();
 
