@@ -1,7 +1,6 @@
 package net.cyclestreets.api;
 
 import java.io.ByteArrayInputStream;
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Iterator;
@@ -9,9 +8,7 @@ import java.util.ArrayList;
 import java.util.Map;
 
 import net.cyclestreets.CycleStreetsPreferences;
-import net.cyclestreets.api.json.JsonItemHandler;
 import net.cyclestreets.api.json.JsonObjectHandler;
-import net.cyclestreets.api.json.JsonReader;
 import net.cyclestreets.api.json.JsonRootHandler;
 import net.cyclestreets.api.json.JsonRootObjectHandler;
 import net.cyclestreets.api.json.JsonStringHandler;
@@ -49,7 +46,7 @@ public class POICategories implements Iterable<POICategory> {
     return new POICategoriesFactory(context);
   } // factory
 
-  private static class POICategoriesFactory extends Factory.JsonProcessor2<POICategories> {
+  private static class POICategoriesFactory extends Factory.JsonProcessor<POICategories> {
     private final Context context_;
     private POICategories cats_;
 

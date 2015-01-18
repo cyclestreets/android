@@ -1,13 +1,10 @@
 package net.cyclestreets.api;
 
-import net.cyclestreets.api.json.JsonReader;
+import net.cyclestreets.api.json.JsonObjectHandler;
+import net.cyclestreets.api.json.JsonRootHandler;
+import net.cyclestreets.api.json.JsonRootObjectHandler;
+import net.cyclestreets.api.json.JsonStringHandler;
 
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.Reader;
-import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -47,6 +44,8 @@ public final class UserJourneys implements Iterable<UserJourney> {
 
   private static class UserJourneysFactory extends Factory.JsonProcessor<UserJourneys> {
     private UserJourneys journeys_;
+    private String title_;
+    private int id_;
 
     UserJourneysFactory() {
       journeys_ = new UserJourneys();
@@ -133,48 +132,34 @@ public final class UserJourneys implements Iterable<UserJourney> {
     }
 }
  */
-    protected UserJourneys readJson(final JsonReader reader) throws IOException {
-      reader.beginObject();
-      while (reader.hasNext()) {
-        final String name = reader.nextName();
-        if ("journeys".equals(name))
-          readJourneys(reader);
-        else
-          reader.skipValue();
-      } // while
-      reader.endObject();
+    protected UserJourneys get() { return journeys_; }
 
-      return journeys_;
-    } // doRead
+    @Override
+    protected JsonRootHandler rootHandler() {
+      final JsonRootObjectHandler rootHandler = new JsonRootObjectHandler();
 
-    private void readJourneys(final JsonReader reader) throws IOException {
-      reader.beginObject();
-      while (reader.hasNext()) {
-        reader.nextName();
-        readJourney(reader);
-      } // while ...
-      reader.endObject();
-    } // readJourneys
+      final JsonObjectHandler journey = rootHandler.getObject("journeys").getObject(JsonObjectHandler.ANY_OBJECT);
+      journey.getString("name").setListener(new JsonStringHandler.Listener() {
+        @Override
+        public void string(String name, String value) {
+          title_ = value;
+        }
+      });
+      journey.getString("id").setListener(new JsonStringHandler.Listener() {
+        @Override
+        public void string(String name, String value) {
+          id_ = Integer.parseInt(value);
+        }
+      });
+      journey.setEndObjectListener(new JsonObjectHandler.EndListener() {
+        @Override
+        public void end() {
+          journeys_.add(new UserJourney(title_, id_));
+        }
+      });
 
-    private void readJourney(final JsonReader reader) throws IOException {
-      reader.beginObject();
+      return rootHandler;
+    } // rootHandler
 
-      int id = -1;
-      String title = null;
-      while (reader.hasNext()) {
-        final String name = reader.nextName();
-
-        if ("id".equals(name))
-          id = Integer.parseInt(reader.nextString());
-        else if ("name".equals(name))
-          title = reader.nextString();
-        else
-          reader.skipValue();
-      } // while ...
-
-      journeys_.add(new UserJourney(title, id));
-
-      reader.endObject();
-    } // readerJourney
   } // UserJourneysFactory
 } // class UserJourneys
