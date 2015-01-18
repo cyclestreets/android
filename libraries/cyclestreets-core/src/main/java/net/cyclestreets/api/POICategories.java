@@ -39,14 +39,14 @@ public class POICategories implements Iterable<POICategory> {
   
   ////////////////////////////////////////////////////
   public static Factory<POICategories> factory(final Context context) {
-    return new POICategoriesFactory2(context);
+    return new POICategoriesFactory(context);
   } // factory
 
-  private static class POICategoriesFactory2 extends Factory.JsonProcessor<POICategories> {
+  private static class POICategoriesFactory extends Factory.JsonProcessor<POICategories> {
     private final Context context_;
     private POICategories cats_;
 
-    public POICategoriesFactory2(final Context context) {
+    public POICategoriesFactory(final Context context) {
       context_ = context;
       cats_ = new POICategories();
     } // POICategoriesFactory2
