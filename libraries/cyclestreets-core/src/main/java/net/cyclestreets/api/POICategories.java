@@ -2,12 +2,19 @@ package net.cyclestreets.api;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Iterator;
 import java.util.ArrayList;
+import java.util.Map;
 
 import net.cyclestreets.CycleStreetsPreferences;
+import net.cyclestreets.api.json.JsonItemHandler;
+import net.cyclestreets.api.json.JsonObjectHandler;
 import net.cyclestreets.api.json.JsonReader;
+import net.cyclestreets.api.json.JsonRootHandler;
+import net.cyclestreets.api.json.JsonRootObjectHandler;
+import net.cyclestreets.api.json.JsonStringHandler;
 import net.cyclestreets.util.Base64;
 import net.cyclestreets.util.Bitmaps;
 
@@ -42,65 +49,47 @@ public class POICategories implements Iterable<POICategory> {
     return new POICategoriesFactory(context);
   } // factory
 
-  private static class POICategoriesFactory extends Factory.JsonProcessor<POICategories> {
+  private static class POICategoriesFactory extends Factory.JsonProcessor2<POICategories> {
     private final Context context_;
     private POICategories cats_;
 
     public POICategoriesFactory(final Context context) {
       context_ = context;
       cats_ = new POICategories();
-    } // POICategoriesFactory2
+    } // POICategoriesFactory
 
-    protected POICategories readJson(final JsonReader reader) throws IOException {
-      reader.beginObject();
+    @Override
+    protected POICategories get() { return cats_; }
 
-      while (reader.hasNext()) {
-        final String name = reader.nextName();
-        if ("types".equals(name))
-          readCategories(reader);
-        else
-          reader.skipValue();
-      } // while
+    @Override
+    protected JsonRootHandler rootHandler() {
+      final JsonRootHandler root = new JsonRootObjectHandler();
 
-      reader.endObject();
+      final JsonObjectHandler categoryHandler = root.getObject("types").getObject(JsonObjectHandler.ANY_OBJECT);
 
-      return cats_;
-    } // readJson
+      final Map<String, String> details = new HashMap<>();
+      final JsonStringHandler.Listener stringListener = new JsonStringHandler.Listener() {
+        @Override
+        public void string(String name, String value) {
+          details.put(name, value);
+        }
+      }; // JsonStringHandler.Listener
 
-    private void readCategories(final JsonReader reader) throws IOException {
-      reader.beginObject();
+      categoryHandler.getString("id").setListener(stringListener);
+      categoryHandler.getString("name").setListener(stringListener);
+      categoryHandler.getString("icon").setListener(stringListener);
 
-      while (reader.hasNext()) {
-        reader.nextName();
-        readCategory(reader);
-      } // while ...
+      categoryHandler.setEndObjectListener(new JsonObjectHandler.EndListener() {
+        @Override
+        public void end() {
+          cats_.add(new POICategory(details.get("id"),
+                                    details.get("name"),
+                                    poiIcon(details.get("icon"))));
+        }
+      });
 
-      reader.endObject();
-    } // readCategories
-
-    private void readCategory(final JsonReader reader) throws IOException {
-      reader.beginObject();
-
-      String id = null;
-      String desc = null;
-      String icon = null;
-
-      while (reader.hasNext()) {
-        final String name = reader.nextName();
-        if ("id".equals(name))
-          id = reader.nextString();
-        else if ("name".equals(name))
-          desc = reader.nextString();
-        else if ("icon".equals(name))
-          icon = reader.nextString();
-        else
-          reader.skipValue();
-      } // while ...
-
-      cats_.add(new POICategory(id, desc, poiIcon(icon)));
-
-      reader.endObject();
-    } // readCategory
+      return root;
+    } // rootHandler
 
     private Drawable poiIcon(final String iconAsBase64) {
       final Bitmap bmp = decodeIcon(iconAsBase64);

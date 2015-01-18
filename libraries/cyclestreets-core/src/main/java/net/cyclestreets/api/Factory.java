@@ -12,6 +12,7 @@ import java.io.Reader;
 import java.io.UnsupportedEncodingException;
 
 import net.cyclestreets.api.json.JsonReader;
+import net.cyclestreets.api.json.JsonRootHandler;
 
 interface Factory<T> {
   public T read(final byte[] xml);
@@ -34,13 +35,42 @@ interface Factory<T> {
       }
     } // doRead
 
-    protected  abstract T readJson(final JsonReader reader) throws IOException;
+    protected abstract T readJson(final JsonReader reader) throws IOException;
 
     private static Reader byteStreamReader(final byte[] bytes) throws UnsupportedEncodingException {
       final InputStream in = new ByteArrayInputStream(bytes);
       return new InputStreamReader(in, "UTF-8");
     } // byteReader
-  } // class JsonReaders
+  } // class JsonProcessor
+
+  abstract class JsonProcessor2<T> implements Factory<T> {
+    public T read(final byte[] json) {
+      try {
+        doRead(json);
+      } catch(IOException e) {
+        throw new RuntimeException(e);
+      }
+
+      return get();
+    } // read
+
+    private void doRead(final byte[] json) throws IOException {
+      final JsonReader reader = new JsonReader(byteStreamReader(json));
+      try {
+        rootHandler().read(reader);
+      } finally {
+        reader.close();
+      }
+    } // doRead
+
+    protected abstract T get();
+    protected abstract JsonRootHandler rootHandler();
+
+    private static Reader byteStreamReader(final byte[] bytes) throws UnsupportedEncodingException {
+      final InputStream in = new ByteArrayInputStream(bytes);
+      return new InputStreamReader(in, "UTF-8");
+    } // byteReader
+  } // class JsonProcessor
 
   abstract class XmlReader<T> implements Factory<T> {
     public T read(final byte[] xml) {
