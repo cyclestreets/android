@@ -15,16 +15,19 @@ import android.sax.EndTextElementListener;
 import android.sax.RootElement;
 import android.sax.StartElementListener;
 
-public class POICategory
-{
+import net.cyclestreets.api.json.JsonObjectHandler;
+import net.cyclestreets.api.json.JsonRootHandler;
+import net.cyclestreets.api.json.JsonRootObjectHandler;
+import net.cyclestreets.api.json.JsonStringHandler;
+
+public class POICategory {
   private final String key_;
   private final String name_;
   private final Drawable icon_;
   
   public POICategory(final String key,
                      final String name,
-                     final Drawable icon)
-  {
+                     final Drawable icon) {
     key_ = key;
     name_ = name;
     icon_ = icon;
@@ -33,8 +36,7 @@ public class POICategory
   public String name() { return name_; }
   public Drawable icon() { return icon_; }
   
-  public boolean equals(final Object rhs)
-  {
+  public boolean equals(final Object rhs) {
     if(!(rhs instanceof POICategory))
       return false;
     
@@ -43,8 +45,7 @@ public class POICategory
 
   public List<POI> pois(final IGeoPoint centre,
                         final int radius)
-    throws Exception
-  {
+    throws Exception {
     try {
       final List<POI> pois = ApiClient.getPOIs(key_, 
                                                centre.getLongitudeE6() / 1E6,
@@ -53,18 +54,16 @@ public class POICategory
       for(final POI poi : pois)
         poi.setCategory(this);
       return pois;
-    } // try
-    catch(Exception e) {
+    } catch(Exception e) {
       return Collections.emptyList();
     } // catch
   } // pois
   
-  static public Factory<List<POI>> factory() { 
+  public static Factory<List<POI>> factory() {
     return new POIFactory();
   } // factory
-  
-  static private class POIFactory extends Factory.XmlReader<List<POI>>
-  {
+
+  private static class POIFactory extends Factory.JsonProcessor<List<POI>> {
     private List<POI> pois_;
     private int id_;
     private String name_;
@@ -72,18 +71,44 @@ public class POICategory
     private String url_;
     private double lat_;
     private double lon_;
-    
+
+/*
+{
+    "type": "FeatureCollection",
+    "features": [
+        {
+            "type": "Feature",
+            "properties": {
+                "id": "943984",
+                "name": "(Name not known)",
+                "osmTags": {
+                    "amenity": "bicycle_parking",
+                    "capacity": "76",
+                    "covered": "no",
+                    "source": "survey"
+                }
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    0.118357,
+                    52.205166
+                ]
+            }
+        }
+    ]
+}
+ */
+
     @Override
-    protected ContentHandler contentHandler()
-    {
+    protected JsonRootHandler rootHandler() {
       pois_ = new ArrayList<>();
       
-      final RootElement root = new RootElement("pois");
-      final Element item = root.getChild("pois").getChild("poi");
-      item.setStartElementListener(new StartElementListener() {
+      final JsonRootHandler root = new JsonRootObjectHandler();
+      final JsonObjectHandler feature = root.getArray("features").getObject();
+      feature.setBeginObjectListener(new JsonObjectHandler.BeginListener() {
         @Override
-        public void start(Attributes attributes)
-        {
+        public void begin(String name) {
           id_ = 0;
           name_ = null;
           notes_ = null;
@@ -92,16 +117,34 @@ public class POICategory
           lon_ = 0;
         } // start
       });
-      item.setEndElementListener(new EndElementListener(){
+      feature.setEndObjectListener(new JsonObjectHandler.EndListener(){
           public void end() {
-            pois_.add(new POI(id_, name_, notes_, url_, lat_, lon_));
+            //pois_.add(new POI(id_, name_, notes_, url_, lat_, lon_));
           }
       });
-      item.getChild("id").setEndTextElementListener(new EndTextElementListener() {
-        public void end(String body) {
-          id_ = Integer.parseInt(body);
+
+      final JsonObjectHandler properties = feature.getObject("properties");
+      properties.getString("id").setListener(new JsonStringHandler.Listener() {
+        public void string(String name, String value) {
+          id_ = Integer.parseInt(value);
         }
       });
+      properties.getString("name").setListener(new JsonStringHandler.Listener(){
+        public void string(String name, String value) {
+          name_ = value;
+        }
+      });
+      properties.getString("notes").setListener(new JsonStringHandler.Listener() {
+        public void string(String name, String value) {
+          notes_ = value;
+        }
+      });
+      properties.getString("website").setListener(new JsonStringHandler.Listener() {
+        public void string(String name, String value) {
+          url_ = value;
+        }
+      });
+/*
       item.getChild("longitude").setEndTextElementListener(new EndTextElementListener(){
           public void end(String body) {
             lon_ = Double.parseDouble(body);
@@ -112,29 +155,11 @@ public class POICategory
             lat_ = Double.parseDouble(body);
           }
       });
-      item.getChild("name").setEndTextElementListener(new EndTextElementListener(){
-          public void end(String body) {
-            name_ = body;
-          }
-      });
-      item.getChild("notes").setEndTextElementListener(new EndTextElementListener(){
-        public void end(String body) {
-          notes_ = body;
-        }
-      });
-      item.getChild("website").setEndTextElementListener(new EndTextElementListener(){
-        public void end(String body) {
-          url_ = body;
-        }
-      });
-
-      return root.getContentHandler();
+*/
+      return root;
     } // contentHandler
 
     @Override
-    protected List<POI> get()
-    {
-      return pois_;
-    } // get    
+    protected List<POI> get() { return pois_; } // get
   } // class POIFactory
 } // class POICategory

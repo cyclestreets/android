@@ -76,6 +76,12 @@ public class POICategories implements Iterable<POICategory> {
       categoryHandler.getString("name").setListener(stringListener);
       categoryHandler.getString("icon").setListener(stringListener);
 
+      categoryHandler.setBeginObjectListener(new JsonObjectHandler.BeginListener() {
+        @Override
+        public void begin(String name) {
+          details.clear();
+        }
+      });
       categoryHandler.setEndObjectListener(new JsonObjectHandler.EndListener() {
         @Override
         public void end() {

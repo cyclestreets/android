@@ -35,6 +35,9 @@ public class JsonObjectHandler implements JsonItemHandler {
     end_ = obj;
   } // setObjectListener
 
+  public final JsonArrayHandler getArray(final String name) {
+    return (JsonArrayHandler)getChild(name, new JsonArrayHandler());
+  } // getObject
   public final JsonObjectHandler getObject(final String name) {
     return (JsonObjectHandler)getChild(name, new JsonObjectHandler());
   } // getObject

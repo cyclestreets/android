@@ -77,7 +77,7 @@ public class ApiClient
   public final static String API_PATH_FEEDBACK = API_PATH + "feedback.xml";
   public final static String API_PATH_GEOCODER = API_PATH + "geocoder.xml";
   public final static String API_PATH_POI_CATEGORIES = API_PATH_V2 + "pois.types";
-  public final static String API_PATH_POIS = API_PATH + "pois.xml";
+  public final static String API_PATH_POIS = API_PATH_V2 + "pois.locations";
   public final static String API_PATH_USERJOURNIES = API_PATH_V2 + "journeys.user";
 
   private final static String BLOG_PATH = "/blog/";
@@ -285,6 +285,7 @@ public class ApiClient
     return callApi(POICategory.factory(),
                    API_PATH_POIS,
                    "type", key,
+                   "fields", "id,name,notes,website,latitude,longitude",
                    "e", Double.toString(lonE),
                    "w", Double.toString(lonW),
                    "n", Double.toString(latN),
@@ -300,6 +301,7 @@ public class ApiClient
     return callApi(POICategory.factory(),
         API_PATH_POIS,
         "type", key,
+        "fields", "id,name,notes,website,latitude,longitude",
         "longitude", Double.toString(lon),
         "latitude", Double.toString(lat),
         "radius", Integer.toString(radius),

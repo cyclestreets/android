@@ -13,7 +13,12 @@ public class JsonStringHandler implements JsonItemHandler {
   public void setListener(final Listener listener) { listener_ = listener; }
 
   public final void read(final String name, final JsonReader reader) throws IOException {
-    final String value = reader.nextString();
+    String value = null;
+
+    if (reader.peek() != JsonToken.NULL)
+      value = reader.nextString();
+    else
+      reader.nextNull();
 
     if (listener_ != null)
       listener_.string(name, value);

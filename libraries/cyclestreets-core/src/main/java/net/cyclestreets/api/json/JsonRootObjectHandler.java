@@ -10,9 +10,13 @@ public class JsonRootObjectHandler implements JsonRootHandler {
   } // JsonRootObject
 
   @Override
+  public JsonArrayHandler getArray(final String name) {
+    return objectHandler_.getArray(name);
+  } // getArray
+  @Override
   public JsonObjectHandler getObject(final String name) {
     return objectHandler_.getObject(name);
-  } // getChild
+  } // getObject
 
   @Override
   public void read(final JsonReader reader) throws IOException {
