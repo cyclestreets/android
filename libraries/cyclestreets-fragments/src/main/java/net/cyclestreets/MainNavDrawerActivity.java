@@ -123,6 +123,14 @@ public abstract class MainNavDrawerActivity
     return super.onCreateOptionsMenu(menu);
   } // onCreateOptionsMenu
 
+  @Override
+  public void onBackPressed() {
+    if(navDrawer_.onBackPressed())
+      return;
+    super.onBackPressed();
+  } // onBackPressed
+
+
   private void restoreActionBar() {
     ActionBar actionBar = getSupportActionBar();
     actionBar.setDisplayShowTitleEnabled(true);
@@ -357,6 +365,16 @@ public abstract class MainNavDrawerActivity
 
       super.onPrepareOptionsMenu(menu);
     } // onPrepareOptionsMenu
+
+    public boolean onBackPressed() {
+      if (isDrawerOpen()) {
+        drawerLayout_.closeDrawers();
+        return true;
+      } // if ...
+      if(!(fragment() instanceof Undoable))
+        return false;
+      return ((Undoable)fragment()).onBackPressed();
+    } // onBackPressed
 
     private void showGlobalContextActionBar() {
       ActionBar actionBar = getActionBar();
