@@ -189,7 +189,8 @@ public class ApiClient
                    "n", Double.toString(n),
                    "s", Double.toString(s),
                    "e", Double.toString(e),
-                   "w", Double.toString(w));
+                   "w", Double.toString(w),
+                   "countrycodes", "gb,ie");
   } // geoCoder
 
   static Feedback.Result sendFeedback(final int itinerary,
