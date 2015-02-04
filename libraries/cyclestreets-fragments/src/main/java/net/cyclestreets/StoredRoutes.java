@@ -21,6 +21,7 @@ import java.util.List;
 import java.util.Map;
 
 import static net.cyclestreets.util.MenuHelper.createMenuItem;
+import static net.cyclestreets.util.StringUtils.initCap;
 
 public class StoredRoutes {
   public static void launch(final Context context) {
@@ -85,23 +86,25 @@ public class StoredRoutes {
     @Override
     public View getView(final int position, final View convertView, final ViewGroup parent) {
       final RouteSummary summary = routes_.get(position);
-      final View v = inflater_.inflate(R.layout.storedroutes_item, parent, false);
-      viewRoute_.put(v, summary.localId());
+      View view = (convertView == null) ?
+          inflater_.inflate(R.layout.storedroutes_item, parent, false) :
+          convertView;
+      viewRoute_.put(view, summary.localId());
 
-      final TextView n = (TextView)v.findViewById(R.id.route_title);
+      final TextView titleView = (TextView)view.findViewById(R.id.route_title);
+      final TextView detailView = (TextView)view.findViewById(R.id.route_details);
 
-      final String p = summary.plan();
-      final String plan = p.substring(0,1).toUpperCase() + p.substring(1);
+      final String plan = initCap(summary.plan());
 
-      n.setText(summary.title() + "\n" +
-          plan + " route, " +
-          Segment.formatter.total_distance(summary.distance()));
+      titleView.setText(summary.title());
+      detailView.setText(plan + " route, " +
+                         Segment.formatter.total_distance(summary.distance()));
 
-      v.setOnClickListener(this);
-      v.setOnLongClickListener(this);
-      v.setOnCreateContextMenuListener(this);
+      view.setOnClickListener(this);
+      view.setOnLongClickListener(this);
+      view.setOnCreateContextMenuListener(this);
 
-      return v;
+      return view;
     } // getView
 
     @Override

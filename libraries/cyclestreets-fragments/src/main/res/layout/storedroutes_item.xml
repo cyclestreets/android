@@ -1,19 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="?android:attr/listPreferredItemHeight">
+    android:layout_width="match_parent"
+    android:layout_height="?android:attr/listPreferredItemHeight"
+    android:paddingLeft="@dimen/abc_dropdownitem_text_padding_left"
+    android:paddingRight="@dimen/abc_dropdownitem_text_padding_right"
+    android:gravity="center_vertical">
+  <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:orientation="vertical">
     <TextView
     	android:id="@+id/route_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:gravity="center_vertical|center_horizontal"
-        android:paddingLeft="6dip"
-        android:paddingRight="6dip"
+        android:gravity="left"
         android:singleLine="false"
         android:ellipsize="marquee"
-        android:text="Route"
-        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="Route "
+        android:textAppearance="?android:attr/textAppearanceMedium"
         />
+    <TextView
+      android:id="@+id/route_details"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:gravity="left"
+      android:singleLine="false"
+      android:ellipsize="marquee"
+      android:text="Details"
+      android:textAppearance="?android:attr/textAppearanceSmall"
+      />
+  </LinearLayout>
 </RelativeLayout>
