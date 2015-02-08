@@ -85,8 +85,11 @@ public class RouteByAddress {
 
       routeType_ = (RouteType)layout.findViewById(R.id.routeType);
 
+      final View from = addWaypointBox();
       addWaypointBox();
-      addWaypointBox();
+
+      if (currentLoc_ == null)
+        from.requestFocus();
     } // RouteActivity
 
     public void setDialog(final AlertDialog ad) {
@@ -110,7 +113,7 @@ public class RouteByAddress {
       ad_.dismiss();
     } // findRoute
 
-    private void addWaypointBox() {
+    private View addWaypointBox() {
       final PlaceViewWithCancel pv = new PlaceViewWithCancel(context_);
       pv.setBounds(bounds_);
 
@@ -134,6 +137,8 @@ public class RouteByAddress {
       pv.requestFocus();
 
       enableRemoveButtons();
+
+      return pv;
     } // addWaypointBox
 
     private void removeWaypointBox(final PlaceViewWithCancel pv) {
