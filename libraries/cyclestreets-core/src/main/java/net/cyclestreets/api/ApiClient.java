@@ -342,6 +342,9 @@ public class ApiClient
 
   private static <T> T callApi(final Factory<T> factory, final String path, String... args) throws Exception
   {
+    if ((customiser_ != null) && (customiser_.shouldCache(path)))
+      return callApiWithCache(customiser_.cacheExpiry(path), factory, path, args);
+
     final byte[] results = callApiRaw(path, args);
     return loadRaw(factory, results);
   } // callApi
