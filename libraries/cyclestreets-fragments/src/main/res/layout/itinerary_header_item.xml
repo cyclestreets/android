@@ -3,7 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
-    android:padding="6dip">
+    android:paddingLeft="@dimen/abc_dropdownitem_text_padding_left"
+    android:paddingRight="@dimen/abc_dropdownitem_text_padding_right">
     <include layout="@layout/elevation_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
