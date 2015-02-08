@@ -5,6 +5,7 @@ import java.util.List;
 
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.widget.Toast;
 
 import net.cyclestreets.CycleStreetsPreferences;
@@ -110,6 +111,9 @@ public class Route
   public static void initialise(final Context context) {
     context_ = context;
     db_ = new RouteDatabase(context);
+
+    if (isLoaded())
+      loadLastJourney();
   } // initialise
 
   public static void setWaypoints(final Waypoints waypoints) {
@@ -151,6 +155,7 @@ public class Route
       plannedRoute_ = Journey.NULL_JOURNEY;
       waypoints_ = Waypoints.NULL_WAYPOINTS;
       listeners_.onReset();
+      clearRoutePref();
       return;
     } // if ...
 
@@ -159,12 +164,36 @@ public class Route
     db_.saveRoute(plannedRoute_, route.xml());
     waypoints_ = plannedRoute_.waypoints();
     listeners_.onNewJourney(plannedRoute_, waypoints_);
+    setRoutePref();
   } // onNewJourney
 
   public static Waypoints waypoints() { return waypoints_; }
 
   public static boolean available() { return plannedRoute_ != Journey.NULL_JOURNEY; }
   public static Journey journey() { return plannedRoute_; }
+
+  private static void loadLastJourney() {
+    RouteSummary lastRoute = storedRoutes().get(0);
+    RouteData route = db_.route(lastRoute.localId());
+    Route.onNewJourney(route);
+  } // loadLastJourney
+
+  private static void clearRoutePref() {
+    prefs().edit().remove(routePref).commit();
+  }
+  private static void setRoutePref() {
+    prefs().edit().putBoolean(routePref, true).commit();
+  } // setRoutePref
+
+  private static boolean isLoaded() {
+    return prefs().getBoolean(routePref, false);
+  } // isLoaded
+
+  private static final String routePref = "route";
+
+  private static SharedPreferences prefs() {
+    return context_.getSharedPreferences("net.cyclestreets.CycleStreets", Context.MODE_PRIVATE);
+  } // prefs()
 
   private Route() { }
 } // class Route
