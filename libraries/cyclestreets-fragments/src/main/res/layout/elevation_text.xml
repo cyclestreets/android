@@ -11,41 +11,23 @@
     android:text="Fruit"
     android:textStyle="bold"/>
   <LinearLayout
-    android:orientation="horizontal"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+      android:orientation="horizontal"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content">
     <TextView
-      android:layout_height="wrap_content"
-      android:layout_width="0dp"
-      android:layout_weight="1"
-      android:textSize="@dimen/abc_action_bar_title_text_size"
-      android:text="@string/journey_number"/>
+        android:id="@+id/routetype"
+        android:layout_height="wrap_content"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:textSize="@dimen/abc_action_bar_title_text_size"
+        android:text="route"/>
     <TextView
-      android:id="@+id/journeyid"
-      android:layout_height="wrap_content"
-      android:layout_width="0dp"
-      android:layout_weight="1.4"
-      android:textSize="@dimen/abc_action_bar_title_text_size"
-      android:text="Fruit"/>
-  </LinearLayout>
-  <LinearLayout
-    android:orientation="horizontal"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content">
-    <TextView
-      android:id="@+id/routetype"
-      android:layout_height="wrap_content"
-      android:layout_width="0dp"
-      android:layout_weight="1"
-      android:textSize="@dimen/abc_action_bar_title_text_size"
-      android:text="route"/>
-    <TextView
-      android:id="@+id/distance"
-      android:layout_height="wrap_content"
-      android:layout_width="0dp"
-      android:layout_weight="1.4"
-      android:textSize="@dimen/abc_action_bar_title_text_size"
-      android:text="Fruit"/>
+        android:id="@+id/distance"
+        android:layout_height="wrap_content"
+        android:layout_width="0dp"
+        android:layout_weight="1.4"
+        android:textSize="@dimen/abc_action_bar_title_text_size"
+        android:text="Fruit"/>
   </LinearLayout>
   <LinearLayout
     android:orientation="horizontal"
@@ -100,5 +82,23 @@
       android:layout_weight="1.4"
       android:textSize="@dimen/abc_action_bar_title_text_size"
       android:text="Fruit"/>
+  </LinearLayout>
+  <LinearLayout
+      android:orientation="horizontal"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content">
+    <TextView
+        android:layout_height="wrap_content"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:textSize="@dimen/abc_action_bar_title_text_size"
+        android:text="@string/journey_number"/>
+    <TextView
+        android:id="@+id/journeyid"
+        android:layout_height="wrap_content"
+        android:layout_width="0dp"
+        android:layout_weight="1.4"
+        android:textSize="@dimen/abc_action_bar_title_text_size"
+        android:text="Fruit"/>
   </LinearLayout>
 </LinearLayout>
