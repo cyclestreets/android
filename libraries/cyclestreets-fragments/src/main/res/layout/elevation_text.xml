@@ -9,7 +9,6 @@
     android:layout_height="wrap_content"
     android:textSize="24dip"
     android:text="Fruit"
-    android:gravity="center_horizontal"
     android:textStyle="bold"/>
   <LinearLayout
     android:orientation="horizontal"
@@ -20,12 +19,12 @@
       android:layout_width="0dp"
       android:layout_weight="1"
       android:textSize="@dimen/abc_action_bar_title_text_size"
-      android:text="Journey number:"/>
+      android:text="@string/journey_number"/>
     <TextView
       android:id="@+id/journeyid"
       android:layout_height="wrap_content"
       android:layout_width="0dp"
-      android:layout_weight="1"
+      android:layout_weight="1.4"
       android:textSize="@dimen/abc_action_bar_title_text_size"
       android:text="Fruit"/>
   </LinearLayout>
@@ -44,7 +43,7 @@
       android:id="@+id/distance"
       android:layout_height="wrap_content"
       android:layout_width="0dp"
-      android:layout_weight="1"
+      android:layout_weight="1.4"
       android:textSize="@dimen/abc_action_bar_title_text_size"
       android:text="Fruit"/>
   </LinearLayout>
@@ -57,12 +56,12 @@
       android:layout_width="0dp"
       android:layout_weight="1"
       android:textSize="@dimen/abc_action_bar_title_text_size"
-      android:text="Estimated time :"/>
+      android:text="@string/estimated_time"/>
     <TextView
       android:id="@+id/journeytime"
       android:layout_height="wrap_content"
       android:layout_width="0dp"
-      android:layout_weight="1"
+      android:layout_weight="1.4"
       android:textSize="@dimen/abc_action_bar_title_text_size"
       android:text="Fruit"/>
   </LinearLayout>
@@ -75,12 +74,12 @@
       android:layout_width="0dp"
       android:layout_weight="1"
       android:textSize="@dimen/abc_action_bar_title_text_size"
-      android:text="Calories :"/>
+      android:text="@string/calories_burned"/>
     <TextView
       android:id="@+id/calories"
       android:layout_height="wrap_content"
       android:layout_width="0dp"
-      android:layout_weight="1"
+      android:layout_weight="1.4"
       android:textSize="@dimen/abc_action_bar_title_text_size"
       android:text="Fruit"/>
   </LinearLayout>
@@ -93,12 +92,12 @@
       android:layout_width="0dp"
       android:layout_weight="1"
       android:textSize="@dimen/abc_action_bar_title_text_size"
-      android:text="CO₂ saved :"/>
+      android:text="@string/co2_saved"/>
     <TextView
       android:id="@+id/carbondioxide"
       android:layout_height="wrap_content"
       android:layout_width="0dp"
-      android:layout_weight="1"
+      android:layout_weight="1.4"
       android:textSize="@dimen/abc_action_bar_title_text_size"
       android:text="Fruit"/>
   </LinearLayout>

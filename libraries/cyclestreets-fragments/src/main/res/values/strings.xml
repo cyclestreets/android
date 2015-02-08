@@ -41,5 +41,9 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
     <string name="location_list_header">Add new locations using the button above.\nTouch and hold a location in the list to edit or delete.</string>
+  <string name="co2_saved">CO₂ saved:</string>
+  <string name="calories_burned">Calories:</string>
+  <string name="estimated_time">Estimated time:</string>
+  <string name="journey_number">Journey number:</string>
 
 </resources>
