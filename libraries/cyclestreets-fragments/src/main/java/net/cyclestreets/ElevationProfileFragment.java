@@ -97,8 +97,8 @@ public class ElevationProfileFragment extends Fragment
     Segment.Start start = journey.segments().first();
 
     setText(R.id.title, journey.name());
-    setText(R.id.journeyid, String.format("#%d", journey.itinerary()));
-    setText(R.id.routetype, initCap(journey.plan()) + " route :");
+    setText(R.id.journeyid, String.format("#%,d", journey.itinerary()));
+    setText(R.id.routetype, initCap(journey.plan()) + " route:");
     setText(R.id.distance, distance(journey.total_distance()));
     setText(R.id.journeytime, start.totalTime());
     setText(R.id.calories, start.calories());

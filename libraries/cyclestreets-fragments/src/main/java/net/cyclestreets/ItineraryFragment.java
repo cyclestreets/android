@@ -131,8 +131,8 @@ public class ItineraryFragment extends ListFragment
         Segment.Start start = journey.segments().first();
 
         setText(v, R.id.title, journey.name(), false);
-        setText(v, R.id.journeyid, String.format("#%d", journey.itinerary()), false);
-        setText(v, R.id.routetype, initCap(journey.plan()) + " route :", false);
+        setText(v, R.id.journeyid, String.format("#%,d", journey.itinerary()), false);
+        setText(v, R.id.routetype, initCap(journey.plan()) + " route:", false);
         setText(v, R.id.distance, distance(journey.total_distance()), false);
         setText(v, R.id.journeytime, start.totalTime(), false);
         setText(v, R.id.calories, start.calories(), false);
