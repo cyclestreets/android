@@ -115,7 +115,7 @@ public class PlaceAutoCompleteTextView extends AutoCompleteTextView
   @Override
   public void onFilterComplete(int count)
   {
-    if (hasFocus() && hasWindowFocus())
+    if (hasFocus() && hasWindowFocus() && (place_ == null))
       showDropDown();
     else
       dismissDropDown();
