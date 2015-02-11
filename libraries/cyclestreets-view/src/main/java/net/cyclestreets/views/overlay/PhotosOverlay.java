@@ -34,7 +34,7 @@ public class PhotosOverlay extends LiveItemOverlay<PhotosOverlay.PhotoItem> {
     // Markers
     @Override
     public Drawable getMarker(int stateBitset) {
-      return photoMarkers.getMarker(photo_.feature());  
+      return photoMarkers.getMarker(photo_);
     } // getMarker
 
     // Equality testing

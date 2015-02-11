@@ -132,6 +132,7 @@ public class Photos implements Iterable<Photo> {
       // id, caption, categoryId, hasVideo, videoFormats, thumbnailUrl, shortlink
       int id = -1;
       String category = "Not known";
+      String metaCategory = "Not known";
       String caption = null;
       String thumbnailUrl = null;
       String url = null;
@@ -147,6 +148,8 @@ public class Photos implements Iterable<Photo> {
           caption = reader.nextString();
         else if ("categoryId".equals(name))
           category = reader.nextString();
+        else if ("metacategoryId".equals(name))
+          metaCategory = reader.nextString();
         else if ("thumbnailUrl".equals(name)) {
           if (reader.peek() == JsonToken.STRING)
             thumbnailUrl = reader.nextString();
@@ -163,7 +166,7 @@ public class Photos implements Iterable<Photo> {
       } // while
       reader.endObject();
 
-      return new Photo(id, category, caption, url, thumbnailUrl, null, videos);
+      return new Photo(id, category, metaCategory, caption, url, thumbnailUrl, null, videos);
     } // readProperties
 
     private GeoPoint readGeometry(final JsonReader reader) throws IOException {

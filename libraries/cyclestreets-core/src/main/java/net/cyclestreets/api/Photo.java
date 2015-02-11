@@ -10,7 +10,8 @@ import java.util.List;
 
 public class Photo implements Parcelable {
   private final int id_;
-  private final String featureName_;
+  private final String category_;
+  private final String metaCategory_;
   private final String caption_;
   private final String url_;
   private final String thumbnailUrl_;
@@ -19,13 +20,15 @@ public class Photo implements Parcelable {
   
   Photo(int id, 
         String feature,
+        String metaCategory,
         String caption,
         String url,
         String thumbnailUrl,
         GeoPoint position,
         List<Video> videos) {
     id_ = id;
-    featureName_ = feature;
+    category_ = feature;
+    metaCategory_ = metaCategory;
     caption_ = caption;
     url_ = url;
     thumbnailUrl_ = thumbnailUrl;
@@ -35,7 +38,8 @@ public class Photo implements Parcelable {
   
   public int id() { return id_; }
   public boolean isPlaceholder() { return thumbnailUrl_ == null && !hasVideos(); }
-  public String feature() { return featureName_; }
+  public String category() { return category_; }
+  public String metacategory() { return metaCategory_; }
   public String caption() { return caption_; }
   public String url() { return url_; }
   public String thumbnailUrl() { return thumbnailUrl_; }
@@ -93,7 +97,8 @@ public class Photo implements Parcelable {
   @Override
   public void writeToParcel(final Parcel dest, final int flags) {
     dest.writeInt(id_);
-    dest.writeString(featureName_);
+    dest.writeString(category_);
+    dest.writeString(metaCategory_);
     dest.writeString(caption_);
     dest.writeString(url_);
     dest.writeString(thumbnailUrl_);
@@ -111,6 +116,7 @@ public class Photo implements Parcelable {
     public Photo createFromParcel(final Parcel source) {
       final int id = source.readInt();
       final String feature = source.readString();
+      final String metaCategory = source.readString();
       final String caption = source.readString();
       final String url = source.readString();
       final String thumbnailUrl = source.readString();
@@ -129,6 +135,7 @@ public class Photo implements Parcelable {
       return new Photo(
           id,
           feature,
+          metaCategory,
           caption,
           url,
           thumbnailUrl,

@@ -164,7 +164,7 @@ public class ApiClient
                     "bbox", String.format("%s,%s,%s,%s", w, s, e, n),
                     "limit", "45",
                     "thumbnailsize", "640",
-                    "fields", "id,caption,categoryId,hasVideo,videoFormats,thumbnailUrl,shortlink");
+                    "fields", "id,caption,categoryId,metacategoryId,hasVideo,videoFormats,thumbnailUrl,shortlink");
   } // getPhotos
 
   static UserJourneys getUserJournies(final String username)

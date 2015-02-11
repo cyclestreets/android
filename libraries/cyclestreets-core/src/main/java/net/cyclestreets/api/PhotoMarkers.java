@@ -4,61 +4,54 @@ import net.cyclestreets.core.R;
 import net.cyclestreets.util.MapFactory;
 
 import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Point;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.util.TypedValue;
 
+import java.io.InputStream;
+import java.util.HashMap;
 import java.util.Map;
 
-public class PhotoMarkers
-{
-  final private Map<String, Drawable> markers_;
-  final private Drawable defaultMarker_;
+public class PhotoMarkers {
+  private final Resources res_;
+  private final Drawable defaultMarker_;
+  private final Map<String, Drawable> markers_;
+  private final BitmapFactory.Options bfo_;
 
-  public PhotoMarkers(final Resources res)
-  {
-    defaultMarker_ = res.getDrawable(R.drawable.mm_20_white_wisp);
+  public PhotoMarkers(final Resources res) {
+    res_ = res;
+    defaultMarker_ = res.getDrawable(R.drawable.general_neutral);
+    markers_ = new HashMap<>();
 
-    markers_ = MapFactory.map("1", res.getDrawable(R.drawable.mm_20_white_wisp)).
-                          map("2", res.getDrawable(R.drawable.mm_20_bike)).
-                          map("3", res.getDrawable(R.drawable.mm_20_sheffield_stands)).
-                          map("4", res.getDrawable(R.drawable.mm_20_cycleway)).
-                          map("5", res.getDrawable(R.drawable.mm_20_directional_signage)).
-                          map("6", res.getDrawable(R.drawable.mm_20_general_sign)).
-                          map("7", defaultMarker_).
-                          map("8", res.getDrawable(R.drawable.mm_20_obstruction)).
-                          map("9", res.getDrawable(R.drawable.mm_20_destination)).
-                          map("10", res.getDrawable(R.drawable.mm_20_black)).
-                          map("11", res.getDrawable(R.drawable.mm_20_spanner)).
-                          map("12", res.getDrawable(R.drawable.mm_20_car_parking)).
-                          map("13", res.getDrawable(R.drawable.mm_20_enforcement)).
-                          map("14", res.getDrawable(R.drawable.mm_20_roadworks)).
-                          map("15", res.getDrawable(R.drawable.mm_20_cone)).
-                          map("16", res.getDrawable(R.drawable.mm_20_congestion)).
-                          map("17", res.getDrawable(R.drawable.mm_20_road)).
-                          map("cycleparking", res.getDrawable(R.drawable.mm_20_sheffield_stands)).
-                          map("obstructions", res.getDrawable(R.drawable.mm_20_obstruction)).
-                          map("cycleways", res.getDrawable(R.drawable.mm_20_cycleway)).
-                          map("road", res.getDrawable(R.drawable.mm_20_road)).
-                          map("dutchcycleways", res.getDrawable(R.drawable.mm_20_cycleway)).
-                          map("carparking", res.getDrawable(R.drawable.mm_20_car_parking)).
-                          map("enforcement", res.getDrawable(R.drawable.mm_20_enforcement)).
-                          map("routesigns", res.getDrawable(R.drawable.mm_20_directional_signage)).
-                          map("signs", res.getDrawable(R.drawable.mm_20_general_sign)).
-                          map("destinations", res.getDrawable(R.drawable.mm_20_destination)).
-                          //map("potholes", ).
-                          map("bikeshops", res.getDrawable(R.drawable.mm_20_spanner)).
-                          map("roadworks", res.getDrawable(R.drawable.mm_20_roadworks)).
-                          //map("closure", ).
-                          map("bicycles", res.getDrawable(R.drawable.mm_20_bike)).
-                          map("congestion", res.getDrawable(R.drawable.mm_20_congestion)).
-                          map("general", defaultMarker_);
+    bfo_ = new BitmapFactory.Options();
+    bfo_.inTargetDensity = 240;
   } // PhotoMarkers
 
-  public Drawable getMarker(final String featureName)
-  {
-    if(markers_.containsKey(featureName))
-      return markers_.get(featureName);
+  public Drawable getMarker(final Photo photo) {
+    final String key = String.format("photomarkers/%s_%s.png", photo.category(), mapMetaCat(photo.metacategory()));
 
-    return defaultMarker_;
+    if (!markers_.containsKey(key)) {
+      try {
+        final InputStream asset = res_.getAssets().open(key);
+        final Bitmap bmp = BitmapFactory.decodeStream(asset);
+        final Drawable marker = new BitmapDrawable(res_, bmp);
+        asset.close();
+        markers_.put(key, marker);
+        return marker;
+      } catch (Exception e) {
+        markers_.put(key, defaultMarker_);
+      }
+    }
+
+    return markers_.get(key);
   } // getMarker
+
+  private String mapMetaCat(final String mc) {
+    if ("good".equals(mc) || "bad".equals(mc))
+      return mc;
+    return "neutral";
+  } // mapMetaCat
 } // class PhotoMarkers
