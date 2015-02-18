@@ -11,4 +11,4 @@ lint.xml
 *.iml
 .idea
 *~
-urban-location
+custom-versions/*
