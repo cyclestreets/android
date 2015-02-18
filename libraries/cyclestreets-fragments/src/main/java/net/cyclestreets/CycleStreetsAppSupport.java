@@ -12,6 +12,10 @@ public final class CycleStreetsAppSupport {
   private static boolean isNew_;
   private static String version_;
 
+  static public void initialise(final Context context) {
+    initialise(context, -1);
+  } // initialise
+
   public static void initialise(final Context context, final int prefsDefault) {
     CycleStreetsPreferences.initialise(context, prefsDefault);
 
