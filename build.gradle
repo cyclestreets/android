@@ -7,14 +7,14 @@ buildscript {
   }
 }
 
-//subprojects.each { println it.path }
 subprojects {
   repositories {
     mavenCentral()
   }
 }
 
-configure(subprojects.findAll { it.path.startsWith(':cyclestreets') }) {
+configure(subprojects.findAll { it.path.startsWith(':custom-versions:') || 
+                                it.path.startsWith(':cyclestreets') }) {
   apply plugin: 'com.android.application'
 
   android {
@@ -35,8 +35,7 @@ configure(subprojects.findAll { it.path.startsWith(':cyclestreets') }) {
       versionName appConfig['versionName']
     } // defaultConfig
 
-    def licenseDetails = file("${rootDir}/license.properties");
-
+    def licenseDetails = file("${projectDir}/license.properties");
     if (licenseDetails.exists()) {
       signingConfigs {
         release {
@@ -54,7 +53,24 @@ configure(subprojects.findAll { it.path.startsWith(':cyclestreets') }) {
           signingConfig signingConfigs.release
         }
       } // buildTypes
-    } // lincenseDetails.exists
+    } else {
+      println "${projectDir} : No license.properties"
+    } // licenseDetails.exists
+
+    def cyclestreetsDetails = file("${projectDir}/cyclestreets.properties");
+    if (cyclestreetsDetails.exists()) {
+      buildTypes {
+        debug {
+          manifestPlaceholders = loadProperties("${projectDir}/cyclestreets.properties")
+        }  
+        release {
+          manifestPlaceholders = loadProperties("${projectDir}/cyclestreets.properties")
+        }
+      } // buildTypes
+
+    } else {
+      println "${projectDir} : No cyclestreets.properties"   
+    }
 
     packagingOptions {
       exclude 'META-INF/LICENSE'
@@ -63,8 +79,8 @@ configure(subprojects.findAll { it.path.startsWith(':cyclestreets') }) {
       exclude 'META-INF/NOTICE'
       exclude 'META-INF/NOTICE.txt'
     } // packagingOptions
-  } // android
-} // cyclestreets apps
+  }
+}
 
 configure(subprojects.findAll { it.path.startsWith(':libraries:') }) {
   apply plugin: 'com.android.library'
