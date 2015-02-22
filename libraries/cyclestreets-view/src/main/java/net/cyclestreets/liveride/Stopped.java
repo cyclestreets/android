@@ -1,5 +1,6 @@
 package net.cyclestreets.liveride;
 
+import net.cyclestreets.pebble.PebbleNotifier;
 import net.cyclestreets.routing.Journey;
 
 import org.osmdroid.util.GeoPoint;
@@ -8,9 +9,9 @@ import android.content.Context;
 
 final class Stopped extends LiveRideState
 {
-  Stopped(final Context context) 
+  Stopped(final Context context, final PebbleNotifier pebbleNotifier)
   {
-    super(context, null);
+    super(context, pebbleNotifier, null);
     cancelNotification();
   } // Stopped
   

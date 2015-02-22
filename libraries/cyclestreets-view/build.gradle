@@ -3,5 +3,7 @@ evaluationDependsOn(':libraries:cyclestreets-core')
 dependencies {
   compile project(':libraries:cyclestreets-core'),
       files('libs/mapsforge-map-0.3.0-jar-with-dependencies.jar'),
-      'com.android.support:appcompat-v7:20.+'
+      'com.android.support:appcompat-v7:20.+',
+  'com.getpebble:pebblekit:2.6.0'
+
 }

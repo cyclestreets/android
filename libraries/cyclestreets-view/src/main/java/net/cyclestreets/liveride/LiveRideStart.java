@@ -1,5 +1,6 @@
 package net.cyclestreets.liveride;
 
+import net.cyclestreets.pebble.PebbleNotifier;
 import net.cyclestreets.routing.Journey;
 
 import org.osmdroid.util.GeoPoint;
@@ -9,9 +10,9 @@ import android.speech.tts.TextToSpeech;
 
 final class LiveRideStart extends LiveRideState
 {
-  LiveRideStart(final Context context, final TextToSpeech tts)
+  LiveRideStart(final Context context, final PebbleNotifier pebbleNotifier, final TextToSpeech tts)
   {
-    super(context, tts);
+    super(context, pebbleNotifier, tts);
     notify("LiveRide", "Starting LiveRide");
   } // LiveRideStart
   
@@ -21,6 +22,7 @@ final class LiveRideStart extends LiveRideState
     notify("LiveRide", "LiveRide");
     journey.setActiveSegmentIndex(0);
     notify(journey.activeSegment());
+    getPebbleNotifier().notifyStart(journey.activeSegment());
     return new HuntForSegment(this);
   } // update
 

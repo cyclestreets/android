@@ -1,5 +1,6 @@
 package net.cyclestreets.views;
 
+import net.cyclestreets.pebble.PebbleNotifier;
 import net.cyclestreets.tiles.TileSource;
 import net.cyclestreets.views.overlay.LocationOverlay;
 import net.cyclestreets.views.overlay.ControllerOverlay;
@@ -35,6 +36,7 @@ public class CycleMapView extends MapView
   private final int overlayBottomIndex_;
 
   private IGeoPoint centreOn_ = null;
+  private PebbleNotifier notifier_;
 
   public CycleMapView(final Context context, final String name) {
     super(context,
