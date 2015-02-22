@@ -68,6 +68,7 @@ public class LiveRideService extends Service
   {
     stage_ = LiveRideState.StoppedState(this, pebbleNotifier_);
     locationManager_.removeUpdates(this);
+    pebbleNotifier_.notifyStopped();
   } // stopRiding
 
   public boolean areRiding()

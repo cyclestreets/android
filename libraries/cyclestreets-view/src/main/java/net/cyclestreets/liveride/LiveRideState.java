@@ -102,7 +102,6 @@ public abstract class LiveRideState
   protected void cancelNotification()
   {
     nm().cancel(NOTIFICATION_ID);
-    pebbleNotifier_.notifyStopped();
   } // cancelNotification
 
   private NotificationManager nm()

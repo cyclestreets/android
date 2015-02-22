@@ -15,6 +15,7 @@ final class Arrivee extends LiveRideState
   @Override
   public LiveRideState update(Journey journey, GeoPoint whereIam, int accuracy)
   {
+    getPebbleNotifier().notifyStopped();
     return new Stopped(context(), getPebbleNotifier());
   } // update
 
