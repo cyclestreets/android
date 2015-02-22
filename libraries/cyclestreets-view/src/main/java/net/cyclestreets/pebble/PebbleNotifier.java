@@ -39,7 +39,8 @@ public class PebbleNotifier {
     turn(0),
     street(1),
     distance(2),
-    running(3);
+    running(3),
+    instruction(4);
 
     private final int key;
 
@@ -159,6 +160,7 @@ public class PebbleNotifier {
       dictionary.addString(PebbleMessages.street.getKey(), seg.street());
       dictionary.addString(PebbleMessages.running.getKey(), seg.runningDistance());
       dictionary.addString(PebbleMessages.distance.getKey(), seg.distance());
+      dictionary.addString(PebbleMessages.instruction.getKey(), seg.toString());
 
       Log.i(TAG, "Notifying " + seg.turn() + " into " + seg.street());
       messageQueue.add(dictionary);
