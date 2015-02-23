@@ -1,4 +1,4 @@
-package net.cyclestreets.pebble;
+package net.cyclestreets.liveride;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -40,7 +40,8 @@ public class PebbleNotifier {
     street(1),
     distance(2),
     running(3),
-    instruction(4);
+    instruction(4),
+    stateType(5);
 
     private final int key;
 
@@ -133,11 +134,6 @@ public class PebbleNotifier {
     return isConnected;
   }
 
-
-  public void notifyNextSegment(Segment segment) {
-    notify(segment);
-  }
-
   public void notifyStopped() {
     Log.d(TAG, "Stopping App");
     if (isConnected()) {
@@ -145,24 +141,49 @@ public class PebbleNotifier {
     }
   }
 
-  public void notifyStart(Segment segment) {
+  public void notifyStart(LiveRideState state, Segment seg) {
     Log.d(TAG, "Starting App");
     messageQueue.clear();
     if (isConnected()) {
       PebbleKit.startAppOnPebble(this.context, APP_UID);
+      PebbleDictionary dictionary = new PebbleDictionary();
+      dictionary.addString(PebbleMessages.turn.getKey(), "");
+      dictionary.addString(PebbleMessages.street.getKey(), "Starting Ride");
+      dictionary.addString(PebbleMessages.stateType.getKey(), state.getClass().getSimpleName());
+
+      Log.i(TAG, "Notifying " + state.getClass().getSimpleName() + " :: "+ seg.turn() + " into " + seg.street());
+      messageQueue.add(dictionary);
+      context.sendBroadcast(new Intent(BROADCAST_PEBBLE_MESSAGE));
     }
   }
 
-  public void notify(Segment seg) {
+  public void notifyTooFar(LiveRideState state) {
+    if (isConnected()) {
+      PebbleDictionary dictionary = new PebbleDictionary();
+      dictionary.addString(PebbleMessages.turn.getKey(), "");
+      dictionary.addString(PebbleMessages.street.getKey(), "Off Course");
+      dictionary.addString(PebbleMessages.running.getKey(), "");
+      dictionary.addString(PebbleMessages.distance.getKey(), "Planning");
+//      dictionary.addString(PebbleMessages.instruction.getKey(), "");
+      dictionary.addString(PebbleMessages.stateType.getKey(), state.getClass().getSimpleName());
+
+      Log.i(TAG, "Notifying Re-plan");
+      messageQueue.add(dictionary);
+      context.sendBroadcast(new Intent(BROADCAST_PEBBLE_MESSAGE));
+    }
+  }
+
+  public void notify(LiveRideState state, Segment seg) {
     if (isConnected()) {
       PebbleDictionary dictionary = new PebbleDictionary();
       dictionary.addString(PebbleMessages.turn.getKey(), seg.turn());
       dictionary.addString(PebbleMessages.street.getKey(), seg.street());
       dictionary.addString(PebbleMessages.running.getKey(), seg.runningDistance());
       dictionary.addString(PebbleMessages.distance.getKey(), seg.distance());
-      dictionary.addString(PebbleMessages.instruction.getKey(), seg.toString());
+      // dictionary.addString(PebbleMessages.instruction.getKey(), seg.toString());
+      dictionary.addString(PebbleMessages.stateType.getKey(), state.getClass().getSimpleName());
 
-      Log.i(TAG, "Notifying " + seg.turn() + " into " + seg.street());
+      Log.i(TAG, "Notifying " + state.getClass().getSimpleName() + " :: "+ seg.turn() + " into " + seg.street());
       messageQueue.add(dictionary);
       context.sendBroadcast(new Intent(BROADCAST_PEBBLE_MESSAGE));
     }

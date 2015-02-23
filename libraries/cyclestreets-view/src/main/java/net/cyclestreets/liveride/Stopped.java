@@ -1,6 +1,5 @@
 package net.cyclestreets.liveride;
 
-import net.cyclestreets.pebble.PebbleNotifier;
 import net.cyclestreets.routing.Journey;
 
 import org.osmdroid.util.GeoPoint;

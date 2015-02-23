@@ -2,12 +2,15 @@ package net.cyclestreets.liveride;
 
 import net.cyclestreets.CycleStreetsPreferences;
 import net.cyclestreets.routing.Journey;
+import net.cyclestreets.routing.Segment;
 
 import org.osmdroid.util.GeoPoint;
 
 abstract class MovingState extends LiveRideState
 {
   private final int transition_;
+
+  private boolean notifiedPebble_ = false;
   
   MovingState(final LiveRideState previous, final int transitionThreshold) 
   {
@@ -38,7 +41,11 @@ abstract class MovingState extends LiveRideState
 
     if(distance > CycleStreetsPreferences.offtrackDistance())
       return new GoingOffCourse(this);
-      
+
+    if (! this.notifiedPebble_) {
+      this.notifiedPebble_ = true;
+      getPebbleNotifier().notify(this, journey.nextSegment());
+    }
     return this;
   } // update
 

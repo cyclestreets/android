@@ -1,6 +1,5 @@
 package net.cyclestreets.liveride;
 
-import net.cyclestreets.pebble.PebbleNotifier;
 import net.cyclestreets.routing.Segment;
 import net.cyclestreets.CycleStreetsPreferences;
 
@@ -14,7 +13,6 @@ final class NearingTurn extends MovingState
     
     final Segment segment = journey.segments().get(journey.activeSegmentIndex()+1);
     notify("Get ready to " + segment.turn());
-    getPebbleNotifier().notifyNextSegment(segment);
   } // NearingEnd
 
   @Override

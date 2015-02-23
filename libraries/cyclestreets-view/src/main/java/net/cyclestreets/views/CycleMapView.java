@@ -1,6 +1,6 @@
 package net.cyclestreets.views;
 
-import net.cyclestreets.pebble.PebbleNotifier;
+import net.cyclestreets.liveride.PebbleNotifier;
 import net.cyclestreets.tiles.TileSource;
 import net.cyclestreets.views.overlay.LocationOverlay;
 import net.cyclestreets.views.overlay.ControllerOverlay;

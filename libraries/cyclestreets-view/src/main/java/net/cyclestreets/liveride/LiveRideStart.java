@@ -1,6 +1,5 @@
 package net.cyclestreets.liveride;
 
-import net.cyclestreets.pebble.PebbleNotifier;
 import net.cyclestreets.routing.Journey;
 
 import org.osmdroid.util.GeoPoint;
@@ -22,7 +21,7 @@ final class LiveRideStart extends LiveRideState
     notify("LiveRide", "LiveRide");
     journey.setActiveSegmentIndex(0);
     notify(journey.activeSegment());
-    getPebbleNotifier().notifyStart(journey.activeSegment());
+    getPebbleNotifier().notifyStart(this, journey.activeSegment());
     return new HuntForSegment(this);
   } // update
 

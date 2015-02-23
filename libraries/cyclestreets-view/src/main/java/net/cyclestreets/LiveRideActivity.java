@@ -1,6 +1,6 @@
 package net.cyclestreets;
 
-import net.cyclestreets.pebble.PebbleNotifier;
+import net.cyclestreets.liveride.PebbleNotifier;
 import net.cyclestreets.util.GPS;
 import net.cyclestreets.util.MessageBox;
 import net.cyclestreets.views.CycleMapView;

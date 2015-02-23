@@ -2,7 +2,6 @@ package net.cyclestreets.liveride;
 
 import org.osmdroid.util.GeoPoint;
 
-import net.cyclestreets.pebble.PebbleNotifier;
 import net.cyclestreets.routing.Journey;
 import net.cyclestreets.routing.Route;
 import android.app.Service;
@@ -59,7 +58,6 @@ public class LiveRideService extends Service
   {
     if(!stage_.isStopped())
       return;
-    
     stage_ = LiveRideState.InitialState(this, pebbleNotifier_);
     locationManager_.requestLocationUpdates(LocationManager.GPS_PROVIDER, updateTime, updateDistance, this);
   } // startRiding

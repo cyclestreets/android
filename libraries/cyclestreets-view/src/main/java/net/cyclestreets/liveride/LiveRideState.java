@@ -1,7 +1,6 @@
 package net.cyclestreets.liveride;
 
 import net.cyclestreets.LiveRideActivity;
-import net.cyclestreets.pebble.PebbleNotifier;
 import net.cyclestreets.view.R;
 import net.cyclestreets.routing.Journey;
 import net.cyclestreets.routing.Segment;
@@ -14,6 +13,7 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.speech.tts.TextToSpeech;
+import android.util.Log;
 
 public abstract class LiveRideState
 {
@@ -51,6 +51,7 @@ public abstract class LiveRideState
     context_ = state.context();
     pebbleNotifier_ = state.getPebbleNotifier();
     tts_ = state.tts();
+    Log.d("CS_PEBBLE", "State: " + this.getClass().getSimpleName());
   } // LiveRideState
 
 
@@ -74,7 +75,7 @@ public abstract class LiveRideState
     instruction.append(seg.street().replace("un-", "un").replace("Un-", "un"));
     instruction.append(". Continue ").append(seg.distance());
     speak(instruction.toString());
-    getPebbleNotifier().notify(seg);
+    getPebbleNotifier().notify(this, seg);
   } // notify
   
   protected void notify(final String text)
