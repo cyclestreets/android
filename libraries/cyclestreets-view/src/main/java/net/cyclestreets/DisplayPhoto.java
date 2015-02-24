@@ -14,6 +14,8 @@ import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Handler;
 import android.os.Message;
+import android.view.GestureDetector;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.animation.AnimationUtils;
@@ -23,6 +25,7 @@ import android.widget.LinearLayout;
 import android.widget.MediaController;
 import android.widget.SeekBar;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.VideoView;
 
 import java.lang.ref.WeakReference;
@@ -148,13 +151,16 @@ public final class DisplayPhoto {
     } // preShowSetup
   } // class PhotoDisplay
 
-  private abstract static class DisplayDialog {
+  private abstract static class DisplayDialog implements View.OnTouchListener, GestureDetector.OnGestureListener {
     protected final Photo photo_;
     protected final Context context_;
+    private final GestureDetector gd_;
+    private AlertDialog ad_;
 
     protected DisplayDialog(final Photo photo, final Context context) {
       photo_ = photo;
       context_ = context;
+      gd_ = new GestureDetector(context_, this);
     } // Display
 
     public void show() {
@@ -169,11 +175,30 @@ public final class DisplayPhoto {
 
       preShowSetup(builder);
 
-      final AlertDialog ad = builder.create();
-      ad.show();
+      ad_ = builder.create();
+      ad_.show();
 
-      postShowSetup(ad);
+      postShowSetup(ad_);
+
+      layout.setOnTouchListener(this);
     } // show
+
+    @Override
+    public boolean onTouch(View view, MotionEvent event) {
+      return gd_.onTouchEvent(event);
+    } // onTouch
+
+    @Override public boolean onDown(MotionEvent motionEvent) { return false; }
+    @Override public void onShowPress(MotionEvent motionEvent) { }
+    @Override public boolean onSingleTapUp(MotionEvent motionEvent) { return false; }
+    @Override public boolean onScroll(MotionEvent motionEvent, MotionEvent motionEvent1, float v, float v1) { return false; }
+    @Override public void onLongPress(MotionEvent motionEvent) { }
+
+    @Override
+    public boolean onFling(MotionEvent motionEvent, MotionEvent motionEvent1, float v, float v1) {
+      ad_.cancel();
+      return true;
+    } // onFling
 
     protected abstract String title();
     protected abstract String caption();
