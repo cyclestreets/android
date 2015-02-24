@@ -7,36 +7,14 @@ buildscript {
   }
 }
 
-subprojects {
-  repositories {
-    mavenCentral()
-  }
-}
-
 configure(subprojects.findAll { it.path.startsWith(':custom-versions:') || 
                                 it.path.startsWith(':cyclestreets') }) {
   if (!file("${projectDir}/build.gradle").exists())
     return
+
   apply plugin: 'com.android.application'
 
   android {
-    Properties appConfig = loadProperties("${rootDir}/config.properties")
-
-    compileSdkVersion appConfig['sdkVersion'].toInteger()
-    buildToolsVersion appConfig['toolsVersion']
-
-    compileOptions {
-      sourceCompatibility JavaVersion.VERSION_1_7
-      targetCompatibility JavaVersion.VERSION_1_7
-    }
-
-    defaultConfig {
-      minSdkVersion appConfig['minSdkVersion'].toInteger()
-      targetSdkVersion appConfig['targetSdkVersion'].toInteger()
-      versionCode appConfig['versionCode'].toInteger()
-      versionName appConfig['versionName']
-    } // defaultConfig
-
     def licenseDetails = file("${projectDir}/license.properties");
     if (licenseDetails.exists()) {
       signingConfigs {
@@ -62,30 +40,30 @@ configure(subprojects.findAll { it.path.startsWith(':custom-versions:') ||
     def cyclestreetsDetails = file("${projectDir}/cyclestreets.properties");
     if (cyclestreetsDetails.exists()) {
       buildTypes {
-        debug {
+        all {
           manifestPlaceholders = loadProperties("${projectDir}/cyclestreets.properties")
         }  
-        release {
-          manifestPlaceholders = loadProperties("${projectDir}/cyclestreets.properties")
-        }
       } // buildTypes
-
     } else {
       println "${projectDir} : No cyclestreets.properties"   
-    }
-
-    packagingOptions {
-      exclude 'META-INF/LICENSE'
-      exclude 'META-INF/LICENSE.txt'
-      exclude 'META-INF/DEPENDENCIES'
-      exclude 'META-INF/NOTICE'
-      exclude 'META-INF/NOTICE.txt'
-    } // packagingOptions
-  }
-}
+    } // no cyclestreets props
+  } // android
+} // configure apks
 
 configure(subprojects.findAll { it.path.startsWith(':libraries:') }) {
+  if (!file("${projectDir}/build.gradle").exists())
+    return
+
   apply plugin: 'com.android.library'
+} // configure libraries
+
+subprojects {
+  if (!file("${projectDir}/build.gradle").exists())
+    return
+
+  repositories {
+    mavenCentral()
+  }
 
   android {
     Properties appConfig = loadProperties("${rootDir}/config.properties")
@@ -103,9 +81,17 @@ configure(subprojects.findAll { it.path.startsWith(':libraries:') }) {
       targetSdkVersion appConfig['targetSdkVersion'].toInteger()
       versionCode appConfig['versionCode'].toInteger()
       versionName appConfig['versionName']
-    }
-  }
-}
+    } 
+
+    packagingOptions {
+      exclude 'META-INF/LICENSE'
+      exclude 'META-INF/LICENSE.txt'
+      exclude 'META-INF/DEPENDENCIES'
+      exclude 'META-INF/NOTICE'
+      exclude 'META-INF/NOTICE.txt'
+    } // packagingOptions
+  } // android
+} // subprojects
 
 def loadProperties(fileName) {
   Properties props = new Properties()
