@@ -11,4 +11,5 @@ lint.xml
 *.iml
 .idea
 *~
+*/keystore
 custom-versions/*

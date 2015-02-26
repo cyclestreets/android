@@ -14,40 +14,8 @@ configure(subprojects.findAll { it.path.startsWith(':custom-versions:') ||
 
   apply plugin: 'com.android.application'
 
-  android {
-    def licenseDetails = file("${projectDir}/license.properties");
-    if (licenseDetails.exists()) {
-      signingConfigs {
-        release {
-          Properties props = loadProperties(licenseDetails)
-
-          storeFile file(props['key.store'])
-          storePassword props['key.password']
-          keyAlias props['key.alias']
-          keyPassword props['key.password']
-        }
-      } // signingConfigs
-
-      buildTypes {
-        release {
-          signingConfig signingConfigs.release
-        }
-      } // buildTypes
-    } else {
-      println "${projectDir} : No license.properties"
-    } // licenseDetails.exists
-
-    def cyclestreetsDetails = file("${projectDir}/cyclestreets.properties");
-    if (cyclestreetsDetails.exists()) {
-      buildTypes {
-        all {
-          manifestPlaceholders = loadProperties("${projectDir}/cyclestreets.properties")
-        }  
-      } // buildTypes
-    } else {
-      println "${projectDir} : No cyclestreets.properties"   
-    } // no cyclestreets props
-  } // android
+  signingKey(it)
+  manifestProperties(it)
 } // configure apks
 
 configure(subprojects.findAll { it.path.startsWith(':libraries:') }) {
@@ -98,3 +66,46 @@ def loadProperties(fileName) {
   props.load(new FileInputStream(file(fileName)))
   return props;
 }
+
+def manifestProperties(project) {
+  def cyclestreetsDetails = project.file("cyclestreets.properties");
+  if (!cyclestreetsDetails.exists()) {
+    println ":${project.name}:No cyclestreets.properties"
+    return;
+  } // no cyclestreets props
+
+  project.android {
+    buildTypes {
+      all {
+        manifestPlaceholders = loadProperties(cyclestreetsDetails)
+      }
+    } // buildType
+  } // android
+} // manifestProperties
+
+def signingKey(project) {
+  def licenseDetails = project.file("license.properties");
+  if (!licenseDetails.exists()) {
+    println ":${project.name}:No license.properties"
+    return;
+  } // licenseDetails.exists
+
+  Properties props = loadProperties(licenseDetails)
+
+  project.android {
+    signingConfigs {
+      release {
+        storeFile project.file(props['key.store'])
+        storePassword props['key.password']
+        keyAlias props['key.alias']
+        keyPassword props['key.password']
+      }
+    } // signingConfigs
+
+    buildTypes {
+      release {
+        signingConfig signingConfigs.release
+      }
+    } // buildTypes
+  } // android
+} // signingKey
