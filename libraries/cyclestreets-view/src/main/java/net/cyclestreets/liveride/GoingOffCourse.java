@@ -12,6 +12,7 @@ final class GoingOffCourse extends LiveRideState
   {
     super(previous);
     notify("Moving away from route");
+    getPebbleNotifier().notify(this, null);
   }
 
   @Override

@@ -21,6 +21,10 @@ abstract class MovingState extends LiveRideState
   @Override
   public final LiveRideState update(final Journey journey, final GeoPoint whereIam, final int accuracy)
   {
+    if (! this.notifiedPebble_) {
+      this.notifiedPebble_ = true;
+      getPebbleNotifier().notify(this, journey.nextSegment());
+    }
     int distanceFromEnd = journey.activeSegment().distanceFromEnd(whereIam);
     distanceFromEnd -= accuracy;
     if(distanceFromEnd < transition_)
@@ -42,10 +46,6 @@ abstract class MovingState extends LiveRideState
     if(distance > CycleStreetsPreferences.offtrackDistance())
       return new GoingOffCourse(this);
 
-    if (! this.notifiedPebble_) {
-      this.notifiedPebble_ = true;
-      getPebbleNotifier().notify(this, journey.nextSegment());
-    }
     return this;
   } // update
 
