@@ -16,7 +16,7 @@ import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.Overlay;
 
-class JourneyOverlay extends Overlay {
+public class JourneyOverlay extends Overlay {
   public static JourneyOverlay CompletedJourneyOverlay(final Context context,
                                                        final CycleMapView mapView,
                                                        final TripData tripData) {

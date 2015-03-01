@@ -37,6 +37,11 @@ public class SaveTrip extends Activity
     context.startActivity(fi);
   } // start
 
+  public static void startWithUnsaved(final Context context) {
+    final int unfinishedTrip = DbAdapter.unfinishedTrip(context);
+    start(context, unfinishedTrip);
+  } // startWithUnsaved
+
   private final Map<Integer, ToggleButton> purpButtons = new HashMap<Integer,ToggleButton>();
   private final Map <Integer, String> purpDescriptions = new HashMap<Integer, String>();
   private TripData trip_;
