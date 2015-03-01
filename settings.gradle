@@ -1,6 +1,7 @@
 include ':libraries:cyclestreets-core',
         ':libraries:cyclestreets-view',
-        ':libraries:cyclestreets-fragments'
+        ':libraries:cyclestreets-fragments',
+        ':libraries:cyclestreets-track'
 
 include ':cyclestreets.vNext'
 

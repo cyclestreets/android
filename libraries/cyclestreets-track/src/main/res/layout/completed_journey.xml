@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+  <RelativeLayout android:id="@+id/RelativeLayout01"
+                  android:layout_width="wrap_content" android:layout_height="wrap_content"
+                  android:paddingLeft="4sp" android:paddingTop="4sp"
+                  android:paddingRight="6sp">
+    <TextView android:id="@+id/journey_purpose"
+              android:layout_height="wrap_content" android:layout_width="wrap_content"
+              android:layout_alignParentLeft="true" android:layout_marginLeft="2sp"
+              android:textSize="20sp" android:textStyle="bold" android:text="purpose of trip"></TextView>
+    <TextView android:id="@+id/journey_start"
+              android:layout_width="wrap_content" android:layout_height="wrap_content"
+              android:layout_alignParentRight="true" android:textSize="20sp"
+              android:textStyle="bold" android:text="start time"></TextView>
+  </RelativeLayout>
+  <TextView android:layout_height="wrap_content" android:id="@+id/journey_info"
+            android:layout_width="match_parent" android:layout_marginLeft="7sp"
+            android:paddingBottom="8sp" android:text="journey info"
+            android:layout_marginRight="7sp"></TextView>
+  <RelativeLayout
+    android:id="@+id/mapholder"
+    android:layout_width="fill_parent"
+    android:layout_height="0dp"
+    android:orientation="vertical"
+    android:layout_weight="5.0"
+    android:padding="4.0dip">
+    <TextView
+      android:layout_width="fill_parent"
+      android:layout_height="wrap_content"
+      android:text=""/>
+  </RelativeLayout>
+
+</LinearLayout>
+
