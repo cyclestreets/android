@@ -90,15 +90,16 @@ public class RecordingService extends Service implements LocationListener {
     public TripData startRecording() {
       return RecordingService.this.startRecording();
     }
-    public void cancelRecording() {
-      RecordingService.this.cancelRecording();
-    }
-    public long finishRecording() {
-      return RecordingService.this.finishRecording();
-    }
-    public void reset() {
-      RecordingService.this.state = STATE_IDLE;
-    }
+    public void stopRecording() {
+      if (RecordingService.this.trip.dataAvailable()) {
+        RecordingService.this.finishRecording();
+        RecordingService.this.listener.completed();
+      } else {
+        RecordingService.this.cancelRecording();
+        RecordingService.this.listener.abandoned();
+      }
+    } // stopRecording
+
     public void setListener(TrackListener ra) {
       RecordingService.this.listener = ra;
       notifyStatusUpdate();

@@ -4,9 +4,7 @@ public interface IRecordService {
 	public int getState();
 
 	public TripData startRecording();
-	public void cancelRecording();
-	public long finishRecording();
-	public void reset();
+	public void stopRecording();
 
 	public void setListener(TrackListener ra);
 }

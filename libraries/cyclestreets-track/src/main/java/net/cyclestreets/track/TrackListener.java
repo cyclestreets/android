@@ -4,4 +4,7 @@ public interface TrackListener {
   void updateStatus(float spdCurrent, float spdMax);
   void updateTimer(long elapsedMS);
   void riderHasStopped();
+
+  void completed();
+  void abandoned();
 }
