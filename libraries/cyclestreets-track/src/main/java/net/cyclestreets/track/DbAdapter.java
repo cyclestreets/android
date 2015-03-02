@@ -94,10 +94,21 @@ public class DbAdapter {
     return -1;
   } // availableForUpload
 
-  public static List<Integer> unUploadedTrips(final Context context) {
-    final List<Integer> result = new ArrayList<Integer>();
+  public static List<TripData> unUploadedTrips(final Context context) {
+    final List<Integer> tripIds = unUploadedTripIds(context);
+
+    final List<TripData> tripData = new ArrayList<>();
+    for (int id : tripIds)
+      tripData.add(TripData.fetchTrip(context, id));
+
+    return tripData;
+  } // unUploadedTrips
+
+  public static List<Integer> unUploadedTripIds(final Context context) {
     final DbAdapter db = new DbAdapter(context.getApplicationContext());
     db.openReadOnly();
+
+    final List<Integer> result = new ArrayList<Integer>();
 
     Cursor c = null;
     try {

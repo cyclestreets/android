@@ -46,7 +46,7 @@ public class TripDataUploader extends AsyncTask<Void, Void, Boolean> {
       try  {
         notification("Uploading trip ...");
 
-        final byte[] resultBytes = ApiClient.postApiRaw("/v2/gpstracks.add",
+        /*final byte[] resultBytes = ApiClient.postApiRaw("/v2/gpstracks.add",
                        "username", "",
                        "password", "",
                        "version", 1,
@@ -62,7 +62,7 @@ public class TripDataUploader extends AsyncTask<Void, Void, Boolean> {
         final JSONObject result = parse(resultBytes);
 
         if (result.has("error") && result.getString("error").length() != 0)
-          throw new RuntimeException("Poop");
+          throw new RuntimeException("Poop");*/
 
         td.successfullyUploaded();
         cancelNotification();
