@@ -21,17 +21,11 @@ import android.os.Handler;
 import android.os.IBinder;
 
 public class RecordingService extends Service implements LocationListener {
-  public interface RecordingListener {
-    void updateStatus(float spdCurrent, float spdMax);
-    void updateTimer(long elapsedMS);
-    void riderHasStopped();
-  }
-
   private static int updateDistance = 5;  // metres
   private static int updateTime = 5000;    // milliseconds
   private static final int NOTIFICATION_ID = 1;
 
-  private RecordingListener recordActivity;
+  private TrackListener listener;
   private LocationManager locationManager_ = null;
 
   // Bike bell variables
@@ -105,8 +99,8 @@ public class RecordingService extends Service implements LocationListener {
     public void reset() {
       RecordingService.this.state = STATE_IDLE;
     }
-    public void setListener(RecordingListener ra) {
-      RecordingService.this.recordActivity = ra;
+    public void setListener(TrackListener ra) {
+      RecordingService.this.listener = ra;
       notifyStatusUpdate();
     }
   } // class MyServiceBinder
@@ -285,15 +279,18 @@ public class RecordingService extends Service implements LocationListener {
   } // checkForAutoStop
 
   private void notifyStatusUpdate() {
-    if (recordActivity != null)
-      recordActivity.updateStatus(curSpeed, maxSpeed);
+    if (listener == null)
+      return;
+
+    listener.updateStatus(curSpeed, maxSpeed);
   } // notifyStatusUpdate
 
   private void notifyTick() {
-    if (recordActivity != null) {
-      recordActivity.updateTimer(trip.elapsedMS());
-      if (hasRiderStopped())
-        recordActivity.riderHasStopped();
-    }
+    if (listener == null)
+      return;
+
+    listener.updateTimer(trip.elapsedMS());
+    if (hasRiderStopped())
+      listener.riderHasStopped();
   } // notifyStatusUpdate
 } // RecordingService

@@ -8,5 +8,5 @@ public interface IRecordService {
 	public long finishRecording();
 	public void reset();
 
-	public void setListener(RecordingService.RecordingListener ra);
+	public void setListener(TrackListener ra);
 }
