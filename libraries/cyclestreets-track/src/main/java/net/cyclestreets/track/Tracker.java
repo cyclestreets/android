@@ -6,11 +6,10 @@ import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.IBinder;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class Tracker {
-  public static void checkStatus(final Context context, final TrackerStatusListener callback) {
+  public static void checkStatus(final Context context, final StatusCallback callback) {
     // check to see if already recording here
     Intent rService = new Intent(context, RecordingService.class);
     ServiceConnection sc = new ServiceConnection() {
@@ -19,7 +18,7 @@ public class Tracker {
         IRecordService rs = (IRecordService)service;
         int state = rs.getState();
         if (state == RecordingService.STATE_RECORDING) {
-          callback.recordingActive();
+          callback.alreadyRecording();
         } else {
           int unfinishedTrip = DbAdapter.unfinishedTrip(context);
           if (unfinishedTrip != -1) {
