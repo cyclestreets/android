@@ -41,12 +41,11 @@ public class RecordingService extends Service implements LocationListener {
   };
   private final Runnable tick_ = new Runnable() {
     public void run() {
-      notifyTick();
+      notifyUpdate();
     }
   };
 
-  private float curSpeed_;
-  private float maxSpeed_;
+  private float curSpeedMph_;
   private TripData trip_;
 
   public final static int STATE_IDLE = 0;
@@ -101,7 +100,7 @@ public class RecordingService extends Service implements LocationListener {
 
     public void setListener(TrackListener ra) {
       RecordingService.this.listener = ra;
-      notifyStatusUpdate();
+      notifyUpdate();
     }
   } // class MyServiceBinder
 
@@ -116,7 +115,7 @@ public class RecordingService extends Service implements LocationListener {
     state_ = STATE_RECORDING;
     trip_ = TripData.createTrip(this);
 
-    curSpeed_ = maxSpeed_ = 0.0f;
+    curSpeedMph_ = 0.0f;
 
     // Start listening for GPS updates!
     locationManager_.requestLocationUpdates(LocationManager.GPS_PROVIDER, updateTime, updateDistance, this);
@@ -191,7 +190,7 @@ public class RecordingService extends Service implements LocationListener {
   public void onLocationChanged(Location loc) {
     updateTripStats(loc);
     trip_.addPointNow(loc);
-    notifyStatusUpdate();
+    notifyUpdate();
   } // onLocationChanged
 
   private void updateTripStats(Location newLocation) {
@@ -202,9 +201,7 @@ public class RecordingService extends Service implements LocationListener {
       return;
 
     // Speed data is sometimes awful, too:
-    curSpeed_ = newLocation.getSpeed() * spdConvert;
-    if (curSpeed_ < 60.0f)
-      maxSpeed_ = Math.max(maxSpeed_, curSpeed_);
+    curSpeedMph_ = newLocation.getSpeed() * spdConvert;
   } // updateTripStats
 
   @Override
@@ -243,7 +240,7 @@ public class RecordingService extends Service implements LocationListener {
   private void remindUser() {
     soundpool_.play(bikebell_, 1.0f, 1.0f, 1, 0, 1.0f);
 
-    int minutes = (int) (trip_.elapsed() / 60);
+    int minutes = (int) (trip_.secondsElapsed() / 60);
     String tickerText = String.format("Still recording (%d min)", minutes);
 
     showNotification(tickerText, Notification.FLAG_ONGOING_EVENT);
@@ -256,7 +253,7 @@ public class RecordingService extends Service implements LocationListener {
 
   private boolean hasRiderStopped() {
     long BAIL_TIME = 300;
-    if (trip_.elapsed() < BAIL_TIME)
+    if (trip_.secondsElapsed() < BAIL_TIME)
       return false;
     if (trip_.lastPointElapsed() > BAIL_TIME) // no GPS received in five minutes
       return true;
@@ -278,18 +275,12 @@ public class RecordingService extends Service implements LocationListener {
     return true;
   } // checkForAutoStop
 
-  private void notifyStatusUpdate() {
+  private void notifyUpdate() {
     if (listener == null)
       return;
 
-    listener.updateStatus(curSpeed_, maxSpeed_);
-  } // notifyStatusUpdate
+    listener.updateStatus(curSpeedMph_, trip_);
 
-  private void notifyTick() {
-    if (listener == null)
-      return;
-
-    listener.updateTimer(trip_.elapsedMS());
     if (hasRiderStopped())
       listener.riderHasStopped();
   } // notifyStatusUpdate

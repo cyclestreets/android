@@ -119,7 +119,7 @@ public class SaveTrip extends Activity
     String fancyStartTime = DateFormat.getInstance().format(trip_.startTime()*1000);
 
     // "3.5 miles in 26 minutes"
-    final long minutes = trip_.elapsed() / 60;
+    final long minutes = trip_.secondsElapsed() / 60;
     String fancyEndInfo = String.format("%1.1f miles, %d minutes.  %s",
         trip_.distanceTravelled(),
         minutes,
