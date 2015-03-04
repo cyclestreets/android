@@ -33,8 +33,8 @@ public class RecordingService extends Service implements LocationListener {
   private static int BELL_NEXT_INTERVAL = 5;
   private Timer tickTimer_;
   private Timer bellTimer_;
-  private SoundPool soundpool;
-  private int bikebell;
+  private SoundPool soundpool_;
+  private int bikebell_;
   private final Handler handler_ = new Handler();
   private final Runnable ringBell_ = new Runnable() {
     public void run() { remindUser(); }
@@ -45,23 +45,22 @@ public class RecordingService extends Service implements LocationListener {
     }
   };
 
-  private float curSpeed;
-  private float maxSpeed;
-  private TripData trip;
+  private float curSpeed_;
+  private float maxSpeed_;
+  private TripData trip_;
 
   public final static int STATE_IDLE = 0;
   public final static int STATE_RECORDING = 1;
   public final static int STATE_FULL = 3;
 
-  int state = STATE_IDLE;
+  private int state_ = STATE_IDLE;
   private final MyServiceBinder myServiceBinder = new MyServiceBinder();
 
-  // ---SERVICE methods - required! -----------------
   @Override
   public void onCreate() {
     super.onCreate();
-    soundpool = new SoundPool(1,AudioManager.STREAM_NOTIFICATION,0);
-    bikebell = soundpool.load(this.getBaseContext(), R.raw.bikebell,1);
+    soundpool_ = new SoundPool(1,AudioManager.STREAM_NOTIFICATION,0);
+    bikebell_ = soundpool_.load(this.getBaseContext(), R.raw.bikebell,1);
     locationManager_ = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
   } // onCreate
 
@@ -82,7 +81,7 @@ public class RecordingService extends Service implements LocationListener {
 
   private class MyServiceBinder extends Binder implements IRecordService {
     public int getState() {
-      return state;
+      return state_;
     }
     public boolean hasRiderStopped() {
       return RecordingService.this.hasRiderStopped();
@@ -91,7 +90,7 @@ public class RecordingService extends Service implements LocationListener {
       return RecordingService.this.startRecording();
     }
     public void stopRecording() {
-      if (RecordingService.this.trip.dataAvailable()) {
+      if (RecordingService.this.trip_.dataAvailable()) {
         RecordingService.this.finishRecording();
         RecordingService.this.listener.completed();
       } else {
@@ -109,41 +108,41 @@ public class RecordingService extends Service implements LocationListener {
   // ---end SERVICE methods -------------------------
 
   public TripData startRecording() {
-    if (state == STATE_RECORDING)
-      return this.trip;
+    if (state_ == STATE_RECORDING)
+      return trip_;
 
     startForeground(NOTIFICATION_ID, createNotification("Recording ...", Notification.FLAG_NO_CLEAR | Notification.FLAG_ONGOING_EVENT));
 
-    this.state = STATE_RECORDING;
-    this.trip = TripData.createTrip(RecordingService.this);
+    state_ = STATE_RECORDING;
+    trip_ = TripData.createTrip(this);
 
-    curSpeed = maxSpeed = 0.0f;
+    curSpeed_ = maxSpeed_ = 0.0f;
 
     // Start listening for GPS updates!
     locationManager_.requestLocationUpdates(LocationManager.GPS_PROVIDER, updateTime, updateDistance, this);
 
     startTimers();
 
-    return trip;
+    return trip_;
   }
 
   public long finishRecording() {
-    this.state = STATE_FULL;
+    state_ = STATE_FULL;
 
     clearUp();
 
-    trip.recordingStopped();
+    trip_.recordingStopped();
 
-    return trip.id();
+    return trip_.id();
   }
 
   public void cancelRecording() {
-    if (trip != null)
-      trip.dropTrip();
+    if (trip_ != null)
+      trip_.dropTrip();
 
     clearUp();
 
-    this.state = STATE_IDLE;
+    state_ = STATE_IDLE;
   } // cancelRecording
 
   private void clearUp() {
@@ -191,7 +190,7 @@ public class RecordingService extends Service implements LocationListener {
   @Override
   public void onLocationChanged(Location loc) {
     updateTripStats(loc);
-    trip.addPointNow(loc);
+    trip_.addPointNow(loc);
     notifyStatusUpdate();
   } // onLocationChanged
 
@@ -203,9 +202,9 @@ public class RecordingService extends Service implements LocationListener {
       return;
 
     // Speed data is sometimes awful, too:
-    curSpeed = newLocation.getSpeed() * spdConvert;
-    if (curSpeed < 60.0f)
-      maxSpeed = Math.max(maxSpeed, curSpeed);
+    curSpeed_ = newLocation.getSpeed() * spdConvert;
+    if (curSpeed_ < 60.0f)
+      maxSpeed_ = Math.max(maxSpeed_, curSpeed_);
   } // updateTripStats
 
   @Override
@@ -242,9 +241,9 @@ public class RecordingService extends Service implements LocationListener {
   } // showNotification
 
   private void remindUser() {
-    soundpool.play(bikebell, 1.0f, 1.0f, 1, 0, 1.0f);
+    soundpool_.play(bikebell_, 1.0f, 1.0f, 1, 0, 1.0f);
 
-    int minutes = (int) (trip.elapsed() / 60);
+    int minutes = (int) (trip_.elapsed() / 60);
     String tickerText = String.format("Still recording (%d min)", minutes);
 
     showNotification(tickerText, Notification.FLAG_ONGOING_EVENT);
@@ -257,14 +256,14 @@ public class RecordingService extends Service implements LocationListener {
 
   private boolean hasRiderStopped() {
     long BAIL_TIME = 300;
-    if (trip.elapsed() < BAIL_TIME)
+    if (trip_.elapsed() < BAIL_TIME)
       return false;
-    if (trip.lastPointElapsed() > BAIL_TIME) // no GPS received in five minutes
+    if (trip_.lastPointElapsed() > BAIL_TIME) // no GPS received in five minutes
       return true;
-    if (!trip.dataAvailable())
+    if (!trip_.dataAvailable())
       return false;
 
-    final List<CyclePoint> points = trip.journey();
+    final List<CyclePoint> points = trip_.journey();
     final CyclePoint end = points.get(points.size()-1);
     for(int i = points.size()-1; i != 0; --i) {
       final CyclePoint cur = points.get(i);
@@ -283,14 +282,14 @@ public class RecordingService extends Service implements LocationListener {
     if (listener == null)
       return;
 
-    listener.updateStatus(curSpeed, maxSpeed);
+    listener.updateStatus(curSpeed_, maxSpeed_);
   } // notifyStatusUpdate
 
   private void notifyTick() {
     if (listener == null)
       return;
 
-    listener.updateTimer(trip.elapsedMS());
+    listener.updateTimer(trip_.elapsedMS());
     if (hasRiderStopped())
       listener.riderHasStopped();
   } // notifyStatusUpdate
