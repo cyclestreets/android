@@ -91,10 +91,10 @@ public class RecordingService extends Service implements LocationListener {
     public void stopRecording() {
       if (RecordingService.this.trip_.dataAvailable()) {
         RecordingService.this.finishRecording();
-        RecordingService.this.listener.completed();
+        RecordingService.this.listener.completed(trip_);
       } else {
         RecordingService.this.cancelRecording();
-        RecordingService.this.listener.abandoned();
+        RecordingService.this.listener.abandoned(trip_);
       }
     } // stopRecording
 
@@ -282,6 +282,6 @@ public class RecordingService extends Service implements LocationListener {
     listener.updateStatus(curSpeedMph_, trip_);
 
     if (hasRiderStopped())
-      listener.riderHasStopped();
+      listener.riderHasStopped(trip_);
   } // notifyStatusUpdate
 } // RecordingService
