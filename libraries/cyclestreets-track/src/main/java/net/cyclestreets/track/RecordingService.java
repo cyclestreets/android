@@ -20,12 +20,14 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
 
-public class RecordingService extends Service implements LocationListener {
+class RecordingService
+    extends Service
+    implements LocationListener {
   private static int updateDistance = 5;  // metres
   private static int updateTime = 5000;    // milliseconds
   private static final int NOTIFICATION_ID = 1;
 
-  private TrackListener listener;
+  private TrackListener trackListener_;
   private LocationManager locationManager_ = null;
 
   // Bike bell variables
@@ -69,50 +71,50 @@ public class RecordingService extends Service implements LocationListener {
   } // onDestroy
 
   @Override
-  public IBinder onBind(final Intent intent) {
-    return new MyServiceBinder(this);
+  public IBinder onBind(
+      final Intent intent) {
+    return new ServiceBinder(this);
   }
   @Override
-  public int onStartCommand(final Intent intent, final int flags, final int startId) {
+  public int onStartCommand(
+      final Intent intent,
+      final int flags,
+      final int startId) {
     return Service.START_STICKY;
   } // onStartCommand
 
-  private static class MyServiceBinder extends Binder implements IRecordService {
+  private static class ServiceBinder extends Binder implements IRecordService {
     private final RecordingService rs_;
 
-    public MyServiceBinder(final RecordingService rs) {
+    public ServiceBinder(final RecordingService rs) {
       rs_ = rs;
     } // MyServiceBinder
 
     public int getState() {
       return rs_.state_;
     }
-    public boolean hasRiderStopped() {
-      return rs_.hasRiderStopped();
-    }
     public TripData startRecording() {
       return rs_.startRecording();
     }
-    public void stopRecording() {
-      if (rs_.trip_.dataAvailable())
-        rs_.finishRecording();
-      else
-        rs_.cancelRecording();
+    public TripData stopRecording() {
+      return rs_.stopRecording();
     } // stopRecording
 
-    public void setListener(TrackListener ra) {
-      rs_.listener = ra;
-      rs_.notifyUpdate();
+    public void setListener(
+        final TrackListener ra) {
+      rs_.trackListener_ = ra;
     }
   } // class MyServiceBinder
 
   // ---end SERVICE methods -------------------------
 
-  public TripData startRecording() {
+  private TripData startRecording() {
     if (state_ == STATE_RECORDING)
       return trip_;
 
-    startForeground(NOTIFICATION_ID, createNotification("Recording ...", Notification.FLAG_NO_CLEAR | Notification.FLAG_ONGOING_EVENT));
+    startForeground(NOTIFICATION_ID, createNotification(
+        "Recording ...",
+        Notification.FLAG_NO_CLEAR | Notification.FLAG_ONGOING_EVENT));
 
     state_ = STATE_RECORDING;
     trip_ = TripData.createTrip(this);
@@ -120,32 +122,41 @@ public class RecordingService extends Service implements LocationListener {
     curSpeedMph_ = 0.0f;
 
     // Start listening for GPS updates!
-    locationManager_.requestLocationUpdates(LocationManager.GPS_PROVIDER, updateTime, updateDistance, this);
+    locationManager_.requestLocationUpdates(
+        LocationManager.GPS_PROVIDER,
+        updateTime,
+        updateDistance,
+        this);
 
     startTimers();
+
+    if (trackListener_ != null)
+      trackListener_.started(trip_);
 
     return trip_;
   }
 
-  public long finishRecording() {
+  private TripData stopRecording() {
+    if (trip_.dataAvailable())
+      finishRecording();
+    else
+      cancelRecording();
+    return trip_;
+  } // stopRecording
+
+  private void finishRecording() {
     state_ = STATE_FULL;
 
     clearUp();
 
     trip_.recordingStopped();
-
-    listener.completed(trip_);
-
-    return trip_.id();
   }
 
-  public void cancelRecording() {
+  private void cancelRecording() {
     if (trip_ != null)
       trip_.dropTrip();
 
     clearUp();
-
-    listener.abandoned(trip_);
 
     state_ = STATE_IDLE;
   } // cancelRecording
@@ -193,13 +204,15 @@ public class RecordingService extends Service implements LocationListener {
 
   // LocationListener implementation:
   @Override
-  public void onLocationChanged(Location loc) {
+  public void onLocationChanged(
+      final Location loc) {
     updateTripStats(loc);
     trip_.addPointNow(loc);
     notifyUpdate();
   } // onLocationChanged
 
-  private void updateTripStats(Location newLocation) {
+  private void updateTripStats(
+      final Location newLocation) {
     final float spdConvert = 2.2369f;
 
     // Stats should only be updated if accuracy is decent
@@ -227,8 +240,9 @@ public class RecordingService extends Service implements LocationListener {
     return (NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);
   } // nm
 
-  private Notification createNotification(final String tickerText,
-                                          final int flags) {
+  private Notification createNotification(
+      final String tickerText,
+      final int flags) {
     final Notification notification = new Notification(R.drawable.icon25, tickerText, System.currentTimeMillis());
     notification.flags = flags;
     final Intent notificationIntent = new Intent(this, RecordingService.class);
@@ -237,8 +251,9 @@ public class RecordingService extends Service implements LocationListener {
     return notification;
   } // createNotification
 
-  private void showNotification(final String tickerText,
-                                final int flags) {
+  private void showNotification(
+      final String tickerText,
+      final int flags) {
     final Notification notification = createNotification(tickerText, flags);
     nm().notify(NOTIFICATION_ID, notification);
   } // showNotification
@@ -253,8 +268,7 @@ public class RecordingService extends Service implements LocationListener {
   } // remindUser
 
   private void clearNotifications() {
-    NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-    mNotificationManager.cancel(NOTIFICATION_ID);
+    nm().cancel(NOTIFICATION_ID);
   } // clearNotifications
 
   private boolean hasRiderStopped() {
@@ -282,12 +296,12 @@ public class RecordingService extends Service implements LocationListener {
   } // checkForAutoStop
 
   private void notifyUpdate() {
-    if (listener == null)
+    if (trackListener_ == null)
       return;
 
-    listener.updateStatus(curSpeedMph_, trip_);
+    trackListener_.updateStatus(curSpeedMph_, trip_);
 
     if (hasRiderStopped())
-      listener.riderHasStopped(trip_);
+      trackListener_.riderHasStopped(trip_);
   } // notifyStatusUpdate
 } // RecordingService

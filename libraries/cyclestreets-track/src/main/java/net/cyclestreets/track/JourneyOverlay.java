@@ -36,7 +36,7 @@ public class JourneyOverlay extends Overlay {
   private final CycleMapView mapView_;
   private boolean initial_ = true;
 
-  private final TripData trip_;
+  private TripData trip_;
   private final Paint rideBrush_;
   private Path ridePath_;
   private int zoomLevel_ = -1;
@@ -67,6 +67,11 @@ public class JourneyOverlay extends Overlay {
   private void inProgress() {
     inProgress_ = true;
   } // inProgress
+
+  public void update(final TripData trip) {
+    trip_ = trip;
+    mapView_.invalidate();
+  } // update
 
   @Override
   public void draw(final Canvas canvas, final MapView mapView, final boolean shadow) {

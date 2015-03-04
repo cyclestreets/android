@@ -9,11 +9,14 @@ import android.os.IBinder;
 import java.util.List;
 
 public class Tracker {
+  public static TrackerControl create(final Context context, final TrackListener listener) {
+    return Controller.create(context, listener);
+  } // create
+
   public static void checkStatus(final Context context, final StatusCallback callback) {
     // check to see if already recording here
     Intent rService = new Intent(context, RecordingService.class);
     ServiceConnection sc = new ServiceConnection() {
-      public void onServiceDisconnected(ComponentName name) {}
       public void onServiceConnected(ComponentName name, IBinder service) {
         IRecordService rs = (IRecordService)service;
         int state = rs.getState();
@@ -28,6 +31,7 @@ public class Tracker {
 
         context.unbindService(this); // race?  this says we no longer care
       }
+      public void onServiceDisconnected(ComponentName name) {}
     };
     // This needs to block until the onServiceConnected (above) completes.
     // Thus, we can check the recording status before continuing on.
