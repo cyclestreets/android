@@ -53,7 +53,6 @@ public class RecordingService extends Service implements LocationListener {
   public final static int STATE_FULL = 3;
 
   private int state_ = STATE_IDLE;
-  private final MyServiceBinder myServiceBinder = new MyServiceBinder();
 
   @Override
   public void onCreate() {
@@ -71,36 +70,39 @@ public class RecordingService extends Service implements LocationListener {
 
   @Override
   public IBinder onBind(final Intent intent) {
-    return myServiceBinder;
+    return new MyServiceBinder(this);
   }
   @Override
   public int onStartCommand(final Intent intent, final int flags, final int startId) {
     return Service.START_STICKY;
   } // onStartCommand
 
-  private class MyServiceBinder extends Binder implements IRecordService {
+  private static class MyServiceBinder extends Binder implements IRecordService {
+    private final RecordingService rs_;
+
+    public MyServiceBinder(final RecordingService rs) {
+      rs_ = rs;
+    } // MyServiceBinder
+
     public int getState() {
-      return state_;
+      return rs_.state_;
     }
     public boolean hasRiderStopped() {
-      return RecordingService.this.hasRiderStopped();
+      return rs_.hasRiderStopped();
     }
     public TripData startRecording() {
-      return RecordingService.this.startRecording();
+      return rs_.startRecording();
     }
     public void stopRecording() {
-      if (RecordingService.this.trip_.dataAvailable()) {
-        RecordingService.this.finishRecording();
-        RecordingService.this.listener.completed(trip_);
-      } else {
-        RecordingService.this.cancelRecording();
-        RecordingService.this.listener.abandoned(trip_);
-      }
+      if (rs_.trip_.dataAvailable())
+        rs_.finishRecording();
+      else
+        rs_.cancelRecording();
     } // stopRecording
 
     public void setListener(TrackListener ra) {
-      RecordingService.this.listener = ra;
-      notifyUpdate();
+      rs_.listener = ra;
+      rs_.notifyUpdate();
     }
   } // class MyServiceBinder
 
@@ -132,6 +134,8 @@ public class RecordingService extends Service implements LocationListener {
 
     trip_.recordingStopped();
 
+    listener.completed(trip_);
+
     return trip_.id();
   }
 
@@ -140,6 +144,8 @@ public class RecordingService extends Service implements LocationListener {
       trip_.dropTrip();
 
     clearUp();
+
+    listener.abandoned(trip_);
 
     state_ = STATE_IDLE;
   } // cancelRecording

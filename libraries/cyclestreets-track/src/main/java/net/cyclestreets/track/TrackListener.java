@@ -1,9 +1,9 @@
 package net.cyclestreets.track;
 
 public interface TrackListener {
-  void updateStatus(float currentMph, TripData tripData);
-  void riderHasStopped(TripData tripData);
+  void updateStatus(float currentMph, TripData trip);
+  void riderHasStopped(TripData trip);
 
-  void completed(TripData tripData);
-  void abandoned(TripData tripData);
+  void completed(TripData trip);
+  void abandoned(TripData trip);
 }
