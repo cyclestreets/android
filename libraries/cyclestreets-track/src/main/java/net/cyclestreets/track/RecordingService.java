@@ -20,7 +20,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
 
-class RecordingService
+public class RecordingService
     extends Service
     implements LocationListener {
   private static int updateDistance = 5;  // metres

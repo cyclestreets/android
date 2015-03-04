@@ -11,6 +11,7 @@ import android.graphics.drawable.BitmapDrawable;
 
 import net.cyclestreets.views.CycleMapView;
 
+import org.osmdroid.api.IGeoPoint;
 import org.osmdroid.api.IProjection;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
@@ -40,6 +41,7 @@ public class JourneyOverlay extends Overlay {
   private final Paint rideBrush_;
   private Path ridePath_;
   private int zoomLevel_ = -1;
+  private IGeoPoint mapCentre_;
   private final BitmapDrawable greenWisp_;
   private final BitmapDrawable redWisp_;
   private final Matrix canvasTransform_ = new Matrix();
@@ -81,9 +83,13 @@ public class JourneyOverlay extends Overlay {
     if(!trip_.dataAvailable())
       return;
 
-    if(zoomLevel_ != mapView.getZoomLevel() && !mapView.isAnimating()) {
+    final IGeoPoint centre = mapView.getMapCenter();
+
+    if(zoomLevel_ != mapView.getZoomLevel() ||
+       !centre.equals(mapCentre_)) {
       ridePath_ = null;
       zoomLevel_ = mapView.getProjection().getZoomLevel();
+      mapCentre_ = centre;
     } // if ...
 
     if(ridePath_ == null || inProgress_)
