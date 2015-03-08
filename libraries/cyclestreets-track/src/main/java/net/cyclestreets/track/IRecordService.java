@@ -1,5 +1,7 @@
 package net.cyclestreets.track;
 
+import android.app.Activity;
+
 interface IRecordService {
 	public int getState();
 
@@ -7,4 +9,5 @@ interface IRecordService {
 	public TripData stopRecording();
 
 	public void setListener(TrackListener ra);
+  public void setNotificationActivity(Class<Activity> activityClass);
 }

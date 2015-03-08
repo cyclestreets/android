@@ -1,5 +1,6 @@
 package net.cyclestreets.track;
 
+import android.app.Activity;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
@@ -9,7 +10,7 @@ import android.os.IBinder;
 class Controller
     implements TrackerControl,
                ServiceConnection {
-  public static TrackerControl create(final Context context, final TrackListener listener) {
+  public static TrackerControl create(final Activity context, final TrackListener listener) {
     Controller control = new Controller(context, listener);
 
     Intent rService = new Intent(context, RecordingService.class);
@@ -18,14 +19,14 @@ class Controller
     return control;
   } // create
 
-  private final Context context_;
+  private final Activity context_;
   private final TrackListener listener_;
   private IRecordService rs_;
   private boolean shouldStart_;
   private boolean unbound_;
 
   private Controller(
-      final Context context,
+      final Activity context,
       final TrackListener listener) {
     context_ = context;
     listener_ = listener;
@@ -37,6 +38,7 @@ class Controller
       final IBinder service) {
     rs_ = (IRecordService)service;
     rs_.setListener(listener_);
+    rs_.setNotificationActivity((Class<Activity>)context_.getClass());
 
     if (shouldStart_ == true)
       rs_.startRecording();

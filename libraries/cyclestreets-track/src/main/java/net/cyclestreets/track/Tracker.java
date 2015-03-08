@@ -1,5 +1,6 @@
 package net.cyclestreets.track;
 
+import android.app.Activity;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
@@ -9,7 +10,7 @@ import android.os.IBinder;
 import java.util.List;
 
 public class Tracker {
-  public static TrackerControl create(final Context context, final TrackListener listener) {
+  public static TrackerControl create(final Activity context, final TrackListener listener) {
     return Controller.create(context, listener);
   } // create
 

@@ -4,6 +4,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.List;
 
+import android.app.Activity;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -28,6 +29,7 @@ public class RecordingService
   private static final int NOTIFICATION_ID = 1;
 
   private TrackListener trackListener_;
+  private Class<Activity> activityClass_;
   private LocationManager locationManager_ = null;
 
   // Bike bell variables
@@ -103,6 +105,10 @@ public class RecordingService
     public void setListener(
         final TrackListener ra) {
       rs_.trackListener_ = ra;
+    }
+    public void setNotificationActivity(
+        final Class<Activity> activityClass) {
+      rs_.activityClass_ = activityClass;
     }
   } // class MyServiceBinder
 
@@ -245,7 +251,7 @@ public class RecordingService
       final int flags) {
     final Notification notification = new Notification(R.drawable.icon25, tickerText, System.currentTimeMillis());
     notification.flags = flags;
-    final Intent notificationIntent = new Intent(this, RecordingService.class);
+    final Intent notificationIntent = new Intent(this, activityClass_);
     final PendingIntent contentIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0);
     notification.setLatestEventInfo(this, "Cycle Hackney - Recording", "Tap to see your ongoing trip", contentIntent);
     return notification;
