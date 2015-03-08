@@ -14,6 +14,7 @@ import org.osmdroid.views.overlay.OverlayItem;
 
 import android.content.Context;
 import android.graphics.Canvas;
+import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Rect;
 
@@ -78,9 +79,15 @@ public abstract class LiveItemOverlay<T extends OverlayItem>
 		screen.top += offset()* 2;
 		screen.right = screen.left + width;
 		screen.bottom = screen.top + bounds.height() + (offset() * 2);
-		  
-		DrawingHelper.drawRoundRect(canvas, screen, cornerRadius(), Brush.Grey);
+
+    final Matrix unscaled = mapView.getProjection().getInvertedScaleRotateCanvasMatrix();
+    canvas.save();
+    canvas.concat(unscaled);
+
+    DrawingHelper.drawRoundRect(canvas, screen, cornerRadius(), Brush.Grey);
 		canvas.drawText(LOADING, screen.centerX(), screen.centerY() + bounds.bottom, textBrush());
+
+    canvas.restore();
 	} // drawButtons
 	
 	@Override
