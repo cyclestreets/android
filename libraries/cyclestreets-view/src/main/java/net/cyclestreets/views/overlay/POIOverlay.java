@@ -433,7 +433,7 @@ public class POIOverlay
   //////////////////////////////////
   static class POICategoryAdapter
       extends BaseAdapter
-      implements View.OnTouchListener {
+      implements OnClickListener {
     private final LayoutInflater inflater_;
     private POICategories cats_;
     private List<POICategory> selected_;
@@ -479,7 +479,7 @@ public class POIOverlay
       final CheckBox chk = (CheckBox)v.findViewById(R.id.checkbox);
       chk.setChecked(isSelected(cat));
 
-      v.setOnTouchListener(this);
+      v.setOnClickListener(this);
 
       chk.setOnCheckedChangeListener(new OnCheckedChangeListener() {
         @Override
@@ -497,12 +497,10 @@ public class POIOverlay
     } // getView
 
     @Override
-    public boolean onTouch(
-        final View view,
-        final MotionEvent motionEvent) {
+    public void onClick(
+        final View view) {
       final CheckBox chk = (CheckBox)view.findViewById(R.id.checkbox);
       chk.setChecked(!chk.isChecked());
-      return false;
     } // onClick
 
     private boolean isSelected(
