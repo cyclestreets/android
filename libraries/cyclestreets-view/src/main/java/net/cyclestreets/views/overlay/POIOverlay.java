@@ -16,6 +16,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.graphics.Canvas;
+import android.graphics.Matrix;
 import android.graphics.Point;
 import android.graphics.Rect;
 import android.os.AsyncTask;
@@ -98,6 +99,8 @@ public class POIOverlay
   private final List<POICategory> activeCategories_;
   private POIItem active_;
   private final Point curScreenCoords_ = new Point();
+  private final Matrix matrix_ = new Matrix();
+  private float matrixValues_[] = new float[9];
   private IGeoPoint lastFix_;
   private Rect bubble_;
   private OverlayHelper overlays_;
@@ -243,15 +246,39 @@ public class POIOverlay
     if(active_ == null)
       return;
 
-    final String bubble = active_.getTitle() +
-                          (active_.getSnippet().length() > 0 ? "\n" + active_.getSnippet() : "") +
-                          (active_.getUrl().length() > 0 ? "\n" + active_.getUrl() : "");
+    drawBubble(canvas, mapView);
+  } // draw
 
+  private void drawBubble(final Canvas canvas, final MapView mapView) {
+    final String bubbleText = active_.getTitle() +
+        (active_.getSnippet().length() > 0 ? "\n" + active_.getSnippet() : "") +
+        (active_.getUrl().length() > 0 ? "\n" + active_.getUrl() : "");
+
+    // find the right place
     final IProjection pj = mapView.getProjection();
     pj.toPixels(active_.getPoint(), curScreenCoords_);
 
-    bubble_ = Draw.drawBubble(canvas, textBrush(), offset(), cornerRadius(), curScreenCoords_, bubble);
-  } // draw
+    int x = curScreenCoords_.x;
+    int y = curScreenCoords_.y;
+
+    canvas.getMatrix(matrix_);
+    matrix_.getValues(matrixValues_);
+
+    float scaleX = (float) Math.sqrt(matrixValues_[Matrix.MSCALE_X]
+        * matrixValues_[Matrix.MSCALE_X] + matrixValues_[Matrix.MSKEW_Y]
+        * matrixValues_[Matrix.MSKEW_Y]);
+    float scaleY = (float) Math.sqrt(matrixValues_[Matrix.MSCALE_Y]
+        * matrixValues_[Matrix.MSCALE_Y] + matrixValues_[Matrix.MSKEW_X]
+        * matrixValues_[Matrix.MSKEW_X]);
+
+    canvas.save();
+    canvas.rotate(-mapView.getMapOrientation(), x, y);
+    canvas.scale(1 / scaleX, 1 / scaleY, x, y);
+
+    bubble_ = Draw.drawBubble(canvas, textBrush(), offset(), cornerRadius(), curScreenCoords_, bubbleText);
+
+    canvas.restore();
+  }
 
   public void clear() {
     activeCategories_.clear();
