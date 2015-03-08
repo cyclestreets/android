@@ -1,19 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-  <string-array name="iconsize">
-    <item>Small</item>
-    <item>Medium</item>
-    <item>Large</item>
-    <item>Very Large</item>
-    <item>Colossal</item>
-  </string-array>
-  <string-array name="iconsize_values">
-    <item>16</item>
-    <item>20</item>
-    <item>24</item>
-    <item>32</item>
-    <item>64</item>
-  </string-array>
   <string-array name="units">
     <item>Kilometres</item>
     <item>Miles</item>

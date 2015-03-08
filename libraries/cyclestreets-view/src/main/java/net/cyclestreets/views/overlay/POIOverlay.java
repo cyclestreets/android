@@ -432,7 +432,6 @@ public class POIOverlay extends LiveItemOverlay<POIOverlay.POIItem>
   static class POICategoryAdapter extends BaseAdapter {
     private final LayoutInflater inflater_;
     private POICategories cats_;
-    private POICategories massiveIconCats_;
     private List<POICategory> selected_;
 
     POICategoryAdapter(final Context context,
@@ -440,9 +439,6 @@ public class POIOverlay extends LiveItemOverlay<POIOverlay.POIItem>
                        final List<POICategory> initialCategories) {
       inflater_ = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
       cats_ = allCategories;
-      massiveIconCats_ = POICategories.load(64);
-      if (massiveIconCats_ == null)
-        massiveIconCats_ = cats_;
       selected_ = new ArrayList<>();
       selected_.addAll(initialCategories);
     } // POICategoryAdaptor
@@ -469,7 +465,7 @@ public class POIOverlay extends LiveItemOverlay<POIOverlay.POIItem>
       n.setText(cat.name());
 
       final ImageView iv = (ImageView)v.findViewById(R.id.icon);
-      iv.setImageDrawable(massiveIconCats_.get(cat.name()).icon());
+      iv.setImageDrawable(cats_.get(cat.name()).icon());
 
       final CheckBox chk = (CheckBox)v.findViewById(R.id.checkbox);
       chk.setChecked(isSelected(cat));
