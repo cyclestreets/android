@@ -7,13 +7,11 @@ import java.util.Iterator;
 import java.util.ArrayList;
 import java.util.Map;
 
-import net.cyclestreets.CycleStreetsPreferences;
 import net.cyclestreets.api.json.JsonObjectHandler;
 import net.cyclestreets.api.json.JsonRootHandler;
 import net.cyclestreets.api.json.JsonRootObjectHandler;
 import net.cyclestreets.api.json.JsonStringHandler;
 import net.cyclestreets.util.Base64;
-import net.cyclestreets.util.Bitmaps;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -114,7 +112,7 @@ public class POICategories implements Iterable<POICategory> {
 
   //////////////////////////////////////////////
   private static POICategories loaded_;
-  private static final int iconSize_ = 32;
+  public static final int IconSize = 32;
   
   public static POICategories get() {
     if(loaded_ == null)
@@ -124,7 +122,7 @@ public class POICategories implements Iterable<POICategory> {
   
   public static POICategories load() {
     try {
-      return ApiClient.getPOICategories(iconSize_);
+      return ApiClient.getPOICategories(IconSize);
     } catch(Exception e) {
       // ah
     }
@@ -140,7 +138,7 @@ public class POICategories implements Iterable<POICategory> {
   private static class GetPOICategoriesTask extends AsyncTask<Void,Void,POICategories> {
     protected POICategories doInBackground(Void... params) {
       try {
-        return ApiClient.getPOICategories(POICategories.iconSize_);
+        return ApiClient.getPOICategories(POICategories.IconSize);
       } catch (final Exception ex) {
         // never mind, eh?
       }

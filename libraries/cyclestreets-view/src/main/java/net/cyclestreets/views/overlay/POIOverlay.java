@@ -46,12 +46,14 @@ import net.cyclestreets.views.CycleMapView;
 import static net.cyclestreets.util.MenuHelper.createMenuItem;
 import static net.cyclestreets.util.MenuHelper.enableMenuItem;
 
-public class POIOverlay extends LiveItemOverlay<POIOverlay.POIItem>
-                        implements MapListener,
-                                   MenuListener,
-                                   PauseResumeListener,
-                                   Undoable {
-  static public class POIItem extends OverlayItem {
+public class POIOverlay
+    extends LiveItemOverlay<POIOverlay.POIItem>
+    implements MapListener,
+               MenuListener,
+               PauseResumeListener,
+               Undoable {
+  static public class POIItem
+      extends OverlayItem {
     private final POI poi_;
 
     public POIItem(final POI poi) {
@@ -429,14 +431,17 @@ public class POIOverlay extends LiveItemOverlay<POIOverlay.POIItem>
   } // GetPhotosTask
 
   //////////////////////////////////
-  static class POICategoryAdapter extends BaseAdapter {
+  static class POICategoryAdapter
+      extends BaseAdapter
+      implements View.OnTouchListener {
     private final LayoutInflater inflater_;
     private POICategories cats_;
     private List<POICategory> selected_;
 
-    POICategoryAdapter(final Context context,
-                       final POICategories allCategories,
-                       final List<POICategory> initialCategories) {
+    POICategoryAdapter(
+        final Context context,
+        final POICategories allCategories,
+        final List<POICategory> initialCategories) {
       inflater_ = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
       cats_ = allCategories;
       selected_ = new ArrayList<>();
@@ -457,7 +462,10 @@ public class POIOverlay extends LiveItemOverlay<POIOverlay.POIItem>
     public long getItemId(int position) { return position; }
 
     @Override
-    public View getView(final int position, final View convertView, final ViewGroup parent) {
+    public View getView(
+        final int position,
+        final View convertView,
+        final ViewGroup parent) {
       final POICategory cat = cats_.get(position);
       final View v = inflater_.inflate(R.layout.poicategories_item, parent, false);
 
@@ -466,28 +474,18 @@ public class POIOverlay extends LiveItemOverlay<POIOverlay.POIItem>
 
       final ImageView iv = (ImageView)v.findViewById(R.id.icon);
       iv.setImageDrawable(cats_.get(cat.name()).icon());
+      iv.setMinimumWidth(POICategories.IconSize * 2);
 
       final CheckBox chk = (CheckBox)v.findViewById(R.id.checkbox);
       chk.setChecked(isSelected(cat));
 
-      n.setOnClickListener(new OnClickListener() {
-        @Override
-        public void onClick(View v) {
-          chk.setChecked(!chk.isChecked());
-        } // onClick
-      });
-      iv.setOnClickListener(new OnClickListener() {
-        @Override
-        public void onClick(View v) {
-          chk.setChecked(!chk.isChecked());
-        } // onClick
-      });
+      v.setOnTouchListener(this);
 
       chk.setOnCheckedChangeListener(new OnCheckedChangeListener() {
         @Override
-        public void onCheckedChanged(CompoundButton buttonView,
-                                     boolean isChecked)
-        {
+        public void onCheckedChanged(
+            final CompoundButton buttonView,
+            final boolean isChecked) {
           if(isChecked)
             selected_.add(cat);
           else
@@ -498,7 +496,17 @@ public class POIOverlay extends LiveItemOverlay<POIOverlay.POIItem>
       return v;
     } // getView
 
-    private boolean isSelected(POICategory cat) {
+    @Override
+    public boolean onTouch(
+        final View view,
+        final MotionEvent motionEvent) {
+      final CheckBox chk = (CheckBox)view.findViewById(R.id.checkbox);
+      chk.setChecked(!chk.isChecked());
+      return false;
+    } // onClick
+
+    private boolean isSelected(
+        final POICategory cat) {
       for(POICategory c : selected_)
         if(cat.name().equals(c.name()))
           return true;
