@@ -494,7 +494,9 @@ public class POIOverlay
         final View convertView,
         final ViewGroup parent) {
       final POICategory cat = cats_.get(position);
-      final View v = inflater_.inflate(R.layout.poicategories_item, parent, false);
+      final View v = (convertView == null)
+          ? inflater_.inflate(R.layout.poicategories_item, parent, false)
+          : convertView;
 
       final TextView n = (TextView)v.findViewById(R.id.name);
       n.setText(cat.name());
