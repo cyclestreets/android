@@ -35,6 +35,7 @@ public class RecordingService
   // Bike bell variables
   private static int BELL_FIRST_INTERVAL = 20;
   private static int BELL_NEXT_INTERVAL = 5;
+  private static long BAIL_TIME = 300;
   private Timer tickTimer_;
   private Timer bellTimer_;
   private SoundPool soundpool_;
@@ -278,10 +279,9 @@ public class RecordingService
   } // clearNotifications
 
   private boolean hasRiderStopped() {
-    long BAIL_TIME = 300;
     if (trip_.secondsElapsed() < BAIL_TIME)
       return false;
-    if (trip_.lastPointElapsed() > BAIL_TIME) // no GPS received in five minutes
+    if (trip_.lastPointElapsed() > BAIL_TIME)
       return true;
     if (!trip_.dataAvailable())
       return false;
