@@ -44,7 +44,6 @@ public class LiveRideService extends Service
   @Override
   public void onDestroy()
   {
-    stopRiding();
     super.onDestroy();
   } // onDestroy
 

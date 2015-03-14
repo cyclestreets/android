@@ -34,6 +34,11 @@ public class PebbleNotifier {
 
 
   private Queue<PebbleDictionary> messageQueue = new LinkedList<PebbleDictionary>();
+  private BroadcastReceiver pebbleMessageReceiver;
+  private BroadcastReceiver pebbleConnectedReceiver;
+  private BroadcastReceiver pebbleDisconnectedReceiver;
+  private PebbleKit.PebbleAckReceiver pebbleAckReceiver;
+  private PebbleKit.PebbleNackReceiver pebbleNackReceiver;
 
   private enum PebbleMessages {
     turn(0),
@@ -57,71 +62,79 @@ public class PebbleNotifier {
 
   public PebbleNotifier(Context context) {
     this.isConnected = PebbleKit.isWatchConnected(context);
-    listenForConnections(context);
-    setupHandler(context);
     this.context = context;
-  }
-
-  private void setupHandler(Context context) {
-    BroadcastReceiver receiver = new BroadcastReceiver() {
+    pebbleMessageReceiver = new BroadcastReceiver() {
 
       @Override
       public void onReceive(Context context, Intent intent) {
         if (isSending() == false && !messageQueue.isEmpty()) {
           setSending(true);
-          PebbleDictionary dictionary = messageQueue.remove();
-          int txnId = nextTransactionId();
-          Log.d(TAG, "sending message " + txnId);
-          PebbleKit.sendDataToPebbleWithTransactionId(context, APP_UID, dictionary, txnId);
+          PebbleDictionary dictionary = messageQueue.peek();
+          if (dictionary != null) {
+            int txnId = nextTransactionId();
+            Log.d(TAG, "sending message " + txnId);
+            PebbleKit.sendDataToPebbleWithTransactionId(context, APP_UID, dictionary, txnId);
+          }
         }
       }
     };
 
-    context.registerReceiver(receiver, new IntentFilter(BROADCAST_PEBBLE_MESSAGE));
-  }
-
-  private void listenForConnections(Context context) {
-    PebbleKit.registerPebbleConnectedReceiver(context, new BroadcastReceiver() {
+    pebbleConnectedReceiver = new BroadcastReceiver() {
 
       @Override
       public void onReceive(Context context, Intent intent) {
         isConnected = true;
       }
 
-    });
-
-    PebbleKit.registerPebbleDisconnectedReceiver(context, new BroadcastReceiver() {
+    };
+    pebbleDisconnectedReceiver = new BroadcastReceiver() {
 
       @Override
       public void onReceive(Context context, Intent intent) {
         isConnected = false;
       }
 
-    });
-
-    Log.d(TAG, "Registering ack/nack receivers");
-
-    PebbleKit.registerReceivedAckHandler(context, new PebbleKit.PebbleAckReceiver(APP_UID) {
+    };
+    pebbleAckReceiver = new PebbleKit.PebbleAckReceiver(APP_UID) {
 
       @Override
       public void receiveAck(Context context, int transactionId) {
         Log.i(TAG, "Received ack for transaction " + transactionId);
+        messageQueue.remove();
         setSending(false);
         context.sendBroadcast(new Intent(BROADCAST_PEBBLE_MESSAGE));
       }
 
-    });
+    };
 
-    PebbleKit.registerReceivedNackHandler(context, new PebbleKit.PebbleNackReceiver(APP_UID) {
+    pebbleNackReceiver = new PebbleKit.PebbleNackReceiver(APP_UID) {
 
       @Override
       public void receiveNack(Context context, int transactionId) {
-        Log.i(TAG, "Received nack for transaction " + transactionId);
+        Log.i(TAG, "Received nack for transaction " + transactionId + ", resending");
         setSending(false);
         context.sendBroadcast(new Intent(BROADCAST_PEBBLE_MESSAGE));
       }
 
-    });
+    };
+  }
+
+  private void registerReceivers() {
+    Log.d(TAG, "register");
+    context.registerReceiver(pebbleMessageReceiver, new IntentFilter(BROADCAST_PEBBLE_MESSAGE));
+    PebbleKit.registerPebbleConnectedReceiver(context, pebbleConnectedReceiver);
+    PebbleKit.registerPebbleDisconnectedReceiver(context, pebbleDisconnectedReceiver);
+    PebbleKit.registerReceivedAckHandler(context, pebbleAckReceiver);
+    PebbleKit.registerReceivedNackHandler(context, pebbleNackReceiver);
+  }
+
+  private void unregisterReceivers() {
+    Log.d(TAG, "unregister");
+    context.unregisterReceiver(pebbleMessageReceiver);
+    context.unregisterReceiver(pebbleConnectedReceiver);
+    context.unregisterReceiver(pebbleDisconnectedReceiver);
+    context.unregisterReceiver(pebbleAckReceiver);
+    context.unregisterReceiver(pebbleNackReceiver);
 
   }
 
@@ -134,26 +147,32 @@ public class PebbleNotifier {
     return isConnected;
   }
 
+  public void connectIfNeeded() {
+    if (!isConnected()) {
+      Log.i(TAG, "Received ack for transaction " + transactionId);
+    }
+  }
+
   public void notifyStopped() {
     Log.d(TAG, "Stopping App");
     if (isConnected()) {
       PebbleKit.closeAppOnPebble(this.context, APP_UID);
+      unregisterReceivers();
     }
   }
 
   public void notifyStart(LiveRideState state, Segment seg) {
     Log.d(TAG, "Starting App");
+    registerReceivers();
     messageQueue.clear();
-    if (isConnected()) {
-      PebbleKit.startAppOnPebble(this.context, APP_UID);
-      PebbleDictionary dictionary = new PebbleDictionary();
-      dictionary.addString(PebbleMessages.street.getKey(), "Starting Ride");
-      dictionary.addString(PebbleMessages.stateType.getKey(), state.getClass().getSimpleName());
+    PebbleKit.startAppOnPebble(this.context, APP_UID);
+    PebbleDictionary dictionary = new PebbleDictionary();
+    dictionary.addString(PebbleMessages.street.getKey(), "Starting Ride");
+    dictionary.addString(PebbleMessages.stateType.getKey(), state.getClass().getSimpleName());
 
-      Log.i(TAG, "Notifying " + state.getClass().getSimpleName() + " :: "+ seg.turn() + " into " + seg.street());
-      messageQueue.add(dictionary);
-      context.sendBroadcast(new Intent(BROADCAST_PEBBLE_MESSAGE));
-    }
+    Log.i(TAG, "NotifyStart " + state.getClass().getSimpleName() + " :: "+ seg.turn() + " into " + seg.street());
+    messageQueue.add(dictionary);
+    context.sendBroadcast(new Intent(BROADCAST_PEBBLE_MESSAGE));
   }
 
   public void notify(LiveRideState state) {
