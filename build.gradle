@@ -16,6 +16,7 @@ configure(subprojects.findAll { it.path.startsWith(':custom-versions:') ||
 
   signingKey(it)
   manifestProperties(it)
+  versionProperties(it)
 } // configure apks
 
 configure(subprojects.findAll { it.path.startsWith(':libraries:') }) {
@@ -47,9 +48,7 @@ subprojects {
     defaultConfig {
       minSdkVersion appConfig['minSdkVersion'].toInteger()
       targetSdkVersion appConfig['targetSdkVersion'].toInteger()
-      versionCode appConfig['versionCode'].toInteger()
-      versionName appConfig['versionName']
-    } 
+    }
 
     packagingOptions {
       exclude 'META-INF/LICENSE'
@@ -65,10 +64,10 @@ def loadProperties(fileName) {
   Properties props = new Properties()
   props.load(new FileInputStream(file(fileName)))
   return props;
-}
+} // loadProperties
 
 def manifestProperties(project) {
-  def cyclestreetsDetails = project.file("cyclestreets.properties");
+  def cyclestreetsDetails = project.file("cyclestreets.properties")
   if (!cyclestreetsDetails.exists()) {
     println ":${project.name}:No cyclestreets.properties"
     return;
@@ -82,6 +81,22 @@ def manifestProperties(project) {
     } // buildType
   } // android
 } // manifestProperties
+
+def versionProperties(project) {
+  def versionDetails = project.file("version.properties")
+  def versionConfig = [ versionCode: "-1", versionName: "unknown" ]
+  if (versionDetails.exists())
+    versionConfig = loadProperties(versionDetails)
+  else
+    println ":${project.name}:No version.properties, using placeholder defaults"
+
+  project.android {
+    defaultConfig {
+      versionCode versionConfig['versionCode'].toInteger()
+      versionName versionConfig['versionName']
+    }
+  } // android
+} // versionProperties
 
 def signingKey(project) {
   def licenseDetails = project.file("license.properties");
