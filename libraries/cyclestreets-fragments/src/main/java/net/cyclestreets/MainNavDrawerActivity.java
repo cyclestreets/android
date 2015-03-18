@@ -161,6 +161,8 @@ public abstract class MainNavDrawerActivity
     edit.putInt(Drawer, navDrawer_.selectedItem());
     edit.commit();
 
+    navDrawer_.fragment().onPause();
+
     super.onPause();
   } // onPause
 
@@ -189,9 +191,6 @@ public abstract class MainNavDrawerActivity
 
     private int currentSelectedPosition_ = 0;
     private boolean firstRun_;
-
-    private Fragment lastFrag_;
-    private int lastFragPosition_ = 0;
 
     public NavigationDrawerFragment() { }
 
@@ -266,7 +265,6 @@ public abstract class MainNavDrawerActivity
             public void onDrawerClosed(View drawerView) {
               super.onDrawerClosed(drawerView);
               if (!isAdded()) { return; }
-
               getActivity().supportInvalidateOptionsMenu(); // calls onPrepareOptionsMenu()
             }
 
@@ -294,6 +292,9 @@ public abstract class MainNavDrawerActivity
     } // setUp
 
     public void selectItem(int position) {
+      if (position >= drawerContents_.getCount())
+        return;
+
       final DrawerItem di = drawerContents_.getItem(position);
       if (drawerLayout_ != null)
         drawerLayout_.closeDrawer(fragmentContainerView_);
@@ -301,17 +302,14 @@ public abstract class MainNavDrawerActivity
 
       if (di instanceof FragmentItem) {
         currentSelectedPosition_ = position;
-        if (drawerListView_ != null)
-          drawerListView_.setItemChecked(position, true);
+        drawerListView_.setItemChecked(position, true);
 
         final FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-        final FragmentTransaction ft = fragmentManager.beginTransaction();
-        if (lastFrag_ != null)
-          ft.detach(lastFrag_);
-        lastFrag_ = ((FragmentItem)di).attach(ft);
-        ft.commit();
+        final Fragment newFrag = ((FragmentItem)di).create();
 
-        lastFragPosition_ = position;
+        final FragmentTransaction ft = fragmentManager.beginTransaction();
+        ft.replace(R.id.container, newFrag);
+        ft.commit();
       } //
       if (di instanceof ActivityItem) {
         final Intent intent = new Intent(getActivity(), ((ActivityItem)di).activityClass());
@@ -319,7 +317,7 @@ public abstract class MainNavDrawerActivity
       } //
     } // selectItem
 
-    public int selectedItem() { return lastFragPosition_; }
+    public int selectedItem() { return currentSelectedPosition_; }
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
@@ -509,15 +507,11 @@ public abstract class MainNavDrawerActivity
       initialiser_ = initialiser;
     } // FragmentItem
 
-    public Fragment attach(final FragmentTransaction ft) {
+    public Fragment create() {
       try {
-        if (fragment_ == null) {
-          fragment_ = fragClass_.newInstance();
-          if (initialiser_ != null)
-            initialiser_.initialise(fragment_);
-          ft.add(R.id.container, fragment_, title());
-        } else
-          ft.attach(fragment_);
+        fragment_ = fragClass_.newInstance();
+        if (initialiser_ != null)
+          initialiser_.initialise(fragment_);
       } catch (Exception e) {
         throw new RuntimeException(e);
       } // try
