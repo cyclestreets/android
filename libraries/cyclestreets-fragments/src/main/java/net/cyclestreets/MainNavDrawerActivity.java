@@ -190,6 +190,7 @@ public abstract class MainNavDrawerActivity
     private View fragmentContainerView_;
 
     private int currentSelectedPosition_ = 0;
+    private int nextSelectedPosition_ = 0;
     private boolean firstRun_;
 
     public NavigationDrawerFragment() { }
@@ -229,8 +230,9 @@ public abstract class MainNavDrawerActivity
       drawerListView_.setOnItemClickListener(new AdapterView.OnItemClickListener() {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-          selectItem(position);
-        }
+          nextSelectedPosition_ = position;
+          drawerLayout_.closeDrawer(fragmentContainerView_);
+        } // onItemClick
       });
 
       return drawerListView_;
@@ -266,6 +268,8 @@ public abstract class MainNavDrawerActivity
               super.onDrawerClosed(drawerView);
               if (!isAdded()) { return; }
               getActivity().supportInvalidateOptionsMenu(); // calls onPrepareOptionsMenu()
+              if (nextSelectedPosition_ != currentSelectedPosition_)
+                selectItem(nextSelectedPosition_);
             }
 
             @Override
