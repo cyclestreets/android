@@ -12,6 +12,7 @@ import net.cyclestreets.RouteAvailablePageStatus;
 import net.cyclestreets.RouteMapActivity;
 import net.cyclestreets.RouteMapFragment;
 import net.cyclestreets.WebPageFragment;
+import net.cyclestreets.api.Blog;
 
 public class CycleStreets extends MainNavDrawerActivity
                           implements RouteMapActivity {
@@ -44,10 +45,9 @@ public class CycleStreets extends MainNavDrawerActivity
     addDrawerFragment(R.string.photo_upload,
                       R.drawable.ic_menu_camera,
                       PhotoUploadFragment.class);
-    addDrawerFragment(R.string.cyclestreets_blog,
+    addDrawerFragment(BlogFragment.blogTitle(this),
                       -1,
-                      WebPageFragment.class,
-                      WebPageFragment.initialiser("http://www.cyclestreets.net/blog/"));
+                      BlogFragment.class);
     addDrawerActivity(R.string.settings,
                       android.R.drawable.ic_menu_preferences,
                       SettingsActivity.class);

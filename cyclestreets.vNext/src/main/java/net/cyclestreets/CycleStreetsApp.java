@@ -2,9 +2,6 @@ package net.cyclestreets;
 
 import android.app.Application;
 
-import net.cyclestreets.CycleStreetsAppSupport;
-import net.cyclestreets.RegularUpdates;
-
 import org.acra.ACRA;
 import org.acra.ReportingInteractionMode;
 import org.acra.annotation.ReportsCrashes;
@@ -29,7 +26,5 @@ public class CycleStreetsApp extends Application {
     super.onCreate();
 
     CycleStreetsAppSupport.initialise(this, R.xml.prefs);
-
-    RegularUpdates.schedule(this);
   } // onCreate
 } // CycleStreetsApp
