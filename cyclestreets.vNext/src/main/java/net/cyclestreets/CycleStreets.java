@@ -47,15 +47,7 @@ public class CycleStreets extends MainNavDrawerActivity
     addDrawerFragment(R.string.cyclestreets_blog,
                       -1,
                       WebPageFragment.class,
-                      WebPageFragment.initialiser("http://www.cyclestreets.net/blog/",
-                          "$('#cyclestreets-menu').remove(); " +
-                              "$('.cyclestreets-subtabs').remove(); " +
-                              "$('#cyclestreets-footer').remove(); " +
-                              "$('#sidebar').remove(); " +
-                              "$('h1').remove(); " +
-                              "$('.description').remove(); " +
-                              "$('#cyclestreets-container').css({'width': 'auto'}); " +
-                              "$('div.post').css({'margin-right': '0px'}); "));
+                      WebPageFragment.initialiser("http://www.cyclestreets.net/blog/"));
     addDrawerActivity(R.string.settings,
                       android.R.drawable.ic_menu_preferences,
                       SettingsActivity.class);
