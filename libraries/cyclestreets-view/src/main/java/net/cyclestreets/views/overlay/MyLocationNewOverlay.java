@@ -147,7 +147,7 @@ class MyLocationNewOverlay extends Overlay implements IMyLocationConsumer,
 
     // mMapCoords are wrong for tileSize != 256
     pj.toPixels(new GeoPoint(lastFix), mMapCoords);
-    // final int zoomDiff = MapViewConstants.MAXIMUM_ZOOMLEVEL - pj.getZoomLevel();
+    // final int zoomDiff = MapViewConstants.mapView_.getMaxZoomLevel() - pj.getZoomLevel();
     final float x = mMapCoords.x;
     final float y = mMapCoords.y;
 
@@ -201,7 +201,7 @@ class MyLocationNewOverlay extends Overlay implements IMyLocationConsumer,
     if (reuse == null)
       reuse = new Rect();
 
-    final int zoomDiff = MapViewConstants.MAXIMUM_ZOOMLEVEL - zoomLevel;
+    final int zoomDiff = mapView_.getMaxZoomLevel() - zoomLevel;
     final int posX = mMapCoords.x >> zoomDiff;
     final int posY = mMapCoords.y >> zoomDiff;
 
@@ -350,8 +350,8 @@ class MyLocationNewOverlay extends Overlay implements IMyLocationConsumer,
       mLocation = mMyLocationProvider.getLastKnownLocation();
       if (mLocation != null) {
         TileSystem.LatLongToPixelXY(mLocation.getLatitude(), mLocation.getLongitude(),
-            MapViewConstants.MAXIMUM_ZOOMLEVEL, mMapCoords);
-        final int worldSize_2 = TileSystem.MapSize(MapViewConstants.MAXIMUM_ZOOMLEVEL) / 2;
+            mapView_.getMaxZoomLevel(), mMapCoords);
+        final int worldSize_2 = TileSystem.MapSize(mapView_.getMaxZoomLevel()) / 2;
         mMapCoords.offset(-worldSize_2, -worldSize_2);
         mMapController.animateTo(new GeoPoint(mLocation));
       }
@@ -394,8 +394,8 @@ class MyLocationNewOverlay extends Overlay implements IMyLocationConsumer,
 
     if (mLocation != null) {
       TileSystem.LatLongToPixelXY(mLocation.getLatitude(), mLocation.getLongitude(),
-          MapViewConstants.MAXIMUM_ZOOMLEVEL, mMapCoords);
-      final int worldSize_2 = TileSystem.MapSize(MapViewConstants.MAXIMUM_ZOOMLEVEL) / 2;
+          mapView_.getMaxZoomLevel(), mMapCoords);
+      final int worldSize_2 = TileSystem.MapSize(mapView_.getMaxZoomLevel()) / 2;
       mMapCoords.offset(-worldSize_2, -worldSize_2);
 
       if (mIsFollowing) {
@@ -457,8 +457,8 @@ class MyLocationNewOverlay extends Overlay implements IMyLocationConsumer,
       mLocation = mMyLocationProvider.getLastKnownLocation();
       if (mLocation != null) {
         TileSystem.LatLongToPixelXY(mLocation.getLatitude(), mLocation.getLongitude(),
-            MapViewConstants.MAXIMUM_ZOOMLEVEL, mMapCoords);
-        final int worldSize_2 = TileSystem.MapSize(MapViewConstants.MAXIMUM_ZOOMLEVEL) / 2;
+            mapView_.getMaxZoomLevel(), mMapCoords);
+        final int worldSize_2 = TileSystem.MapSize(mapView_.getMaxZoomLevel()) / 2;
         mMapCoords.offset(-worldSize_2, -worldSize_2);
         mMapController.animateTo(new GeoPoint(mLocation));
       }

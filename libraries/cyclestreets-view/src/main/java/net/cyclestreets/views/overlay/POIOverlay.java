@@ -508,7 +508,7 @@ public class POIOverlay
       final CheckBox chk = (CheckBox)v.findViewById(R.id.checkbox);
       chk.setOnCheckedChangeListener(null);
       chk.setChecked(isSelected(cat));
-      
+
       v.setOnClickListener(this);
 
       chk.setOnCheckedChangeListener(new OnCheckedChangeListener() {

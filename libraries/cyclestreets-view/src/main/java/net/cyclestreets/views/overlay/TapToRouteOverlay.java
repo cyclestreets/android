@@ -181,7 +181,7 @@ public class TapToRouteOverlay extends Overlay
     return p;
   } // waypoints
 
-  private GeoPoint finish()
+  private IGeoPoint finish()
   {
     return waymarkersCount() > 1 ? waymarkers_.get(waymarkersCount()-1).getPoint() : null;
   } // getFinish
@@ -221,7 +221,7 @@ public class TapToRouteOverlay extends Overlay
     default:
       {
         waymarkers_.remove(waymarkersCount()-1);
-        final GeoPoint prevFinished = finish();
+        final IGeoPoint prevFinished = finish();
         waymarkers_.remove(waymarkersCount()-1);
         waymarkers_.add(addMarker(prevFinished, "finish", redWisp_));
       } // default
@@ -508,7 +508,7 @@ public class TapToRouteOverlay extends Overlay
     return true;
   } // tapMarker
 
-  public void setNextMarker(final GeoPoint point)
+  public void setNextMarker(final IGeoPoint point)
   {
     tapAction(Integer.MIN_VALUE, Integer.MIN_VALUE, point, false);
   } // setNextMarker

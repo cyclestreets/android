@@ -55,7 +55,7 @@ public class MapsforgeOSMDroidTileProvider extends MapTileModuleProviderBase
   @Override
   public int getMaximumZoomLevel()
   {
-    return (tileSource_ != null ? tileSource_.getMaximumZoomLevel() : MAXIMUM_ZOOMLEVEL);
+    return (tileSource_ != null ? tileSource_.getMaximumZoomLevel() : 20);
   } // getMaximumZoomLevel
 
   @Override
