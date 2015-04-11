@@ -7,6 +7,6 @@ dependencies {
 
 android {
   defaultConfig {
-    applicationId 'net.cyclestreets'
+    applicationId 'net.cyclestreets.v3'
   } // defaultConfig
 } // android
