@@ -362,6 +362,7 @@ public class POIOverlay
   ////////////////////////////////////////////////
   public void onCreateOptionsMenu(final Menu menu) {
     createMenuItem(menu, R.string.ic_menu_poi, Menu.NONE, R.drawable.ic_menu_poi);
+    enableMenuItem(menu, R.string.ic_menu_poi, true);
   } // onCreateOptionsMenu
 
   public void onPrepareOptionsMenu(final Menu menu) {
