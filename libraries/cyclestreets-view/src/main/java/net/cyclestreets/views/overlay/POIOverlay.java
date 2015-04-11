@@ -506,8 +506,9 @@ public class POIOverlay
       iv.setMinimumWidth(POICategories.IconSize * 2);
 
       final CheckBox chk = (CheckBox)v.findViewById(R.id.checkbox);
+      chk.setOnCheckedChangeListener(null);
       chk.setChecked(isSelected(cat));
-
+      
       v.setOnClickListener(this);
 
       chk.setOnCheckedChangeListener(new OnCheckedChangeListener() {
