@@ -26,6 +26,16 @@ public class CycleStreets extends MainNavDrawerActivity
   } // onCreate
 
   @Override
+  protected void onFirstRun() {
+    Welcome.welcome(this);
+  }
+
+  @Override
+  protected void onNewVersion() {
+    Welcome.whatsNew(this);
+  } // onFirstRun
+
+  @Override
   public void showMap() {
     showPage(0);
   } // showMap
