@@ -72,7 +72,7 @@ public class PebbleNotifier {
           PebbleDictionary dictionary = messageQueue.peek();
           if (dictionary != null) {
             int txnId = nextTransactionId();
-            Log.d(TAG, "sending message " + txnId);
+            Log.d(TAG, "sending message " + txnId + " Queue size: " + messageQueue.size());
             PebbleKit.sendDataToPebbleWithTransactionId(context, APP_UID, dictionary, txnId);
           }
         }
