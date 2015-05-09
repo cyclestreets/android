@@ -8,6 +8,7 @@
   <string name="photomap">Photomap</string>
   <string name="photo_upload">Add photo</string>
   <string name="cyclestreets_blog">Blog</string>
+  <string name="cyclestreets_blog_updates">Blog - updated</string>
 
   <string name="crash_notif_ticker_text">Unexpected error, please send a report …</string>
   <string name="crash_notif_title">CycleStreets has crashed …</string>

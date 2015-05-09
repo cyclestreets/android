@@ -3,8 +3,6 @@
       package="net.cyclestreets.fragments">
 
   <application>
-    <activity android:name="net.cyclestreets.BlogActivity"
-              android:label="CycleStreets : Blog"/>
     <activity android:name="net.cyclestreets.LocationEditorActivity"
               android:label="CycleStreets"/>
     <activity android:name="net.cyclestreets.SettingsActivity"

@@ -92,7 +92,8 @@ public class TapToRouteOverlay extends Overlay
   private Rect tapStateRect_;
 
   private Paint textBrush_;
-  private Paint fillBrush_;
+  private Paint highlightBrush_;
+  private Paint lowlightBrush_;
 
   private TapToRoute tapState_;
 
@@ -131,7 +132,8 @@ public class TapToRouteOverlay extends Overlay
     tapStateRect_.bottom = tapStateRect_.top + stepBackButton_.height();
 
     textBrush_ = Brush.createTextBrush(offset_);
-    fillBrush_ = Brush.HighlightBrush(context_);
+    highlightBrush_ = Brush.HighlightBrush(context_);
+    lowlightBrush_ = Brush.LowlightBrush(context_);
 
     waymarkers_ = new ArrayList<OverlayItem>();
 
@@ -181,7 +183,7 @@ public class TapToRouteOverlay extends Overlay
     return p;
   } // waypoints
 
-  private GeoPoint finish()
+  private IGeoPoint finish()
   {
     return waymarkersCount() > 1 ? waymarkers_.get(waymarkersCount()-1).getPoint() : null;
   } // getFinish
@@ -221,7 +223,7 @@ public class TapToRouteOverlay extends Overlay
     default:
       {
         waymarkers_.remove(waymarkersCount()-1);
-        final GeoPoint prevFinished = finish();
+        final IGeoPoint prevFinished = finish();
         waymarkers_.remove(waymarkersCount()-1);
         waymarkers_.add(addMarker(prevFinished, "finish", redWisp_));
       } // default
@@ -369,7 +371,7 @@ public class TapToRouteOverlay extends Overlay
 
     tapStateRect_.right = tapStateRect_.left + screen.width();
 
-    DrawingHelper.drawRoundRect(canvas, screen, radius_, fillBrush_);
+    DrawingHelper.drawRoundRect(canvas, screen, radius_, fillBrush());
 
     if(tapState_ == TapToRoute.WAITING_FOR_NEXT ||
        tapState_ == TapToRoute.WAITING_TO_ROUTE)
@@ -412,6 +414,13 @@ public class TapToRouteOverlay extends Overlay
     bitmapTransform_.postTranslate(screenPos_.x, screenPos_.y);
     canvas.drawBitmap(thingToDraw.getBitmap(), bitmapTransform_, bitmapPaint_);
   } // drawMarker
+
+  private Paint fillBrush() {
+    if (tapState_ == TapToRoute.WAITING_FOR_START ||
+        tapState_ == TapToRoute.WAITING_FOR_SECOND)
+      return lowlightBrush_;
+    return highlightBrush_;
+  } // fillBrush
 
   //////////////////////////////////////////////
   @Override
@@ -508,7 +517,7 @@ public class TapToRouteOverlay extends Overlay
     return true;
   } // tapMarker
 
-  public void setNextMarker(final GeoPoint point)
+  public void setNextMarker(final IGeoPoint point)
   {
     tapAction(Integer.MIN_VALUE, Integer.MIN_VALUE, point, false);
   } // setNextMarker
@@ -544,7 +553,7 @@ public class TapToRouteOverlay extends Overlay
 
     tapState_ = tapState_.next(waymarkersCount());
     mapView_.invalidate();
-} // tapMarker
+  } // tapMarker
 
   ////////////////////////////////////
   private enum TapToRoute
@@ -614,9 +623,9 @@ public class TapToRouteOverlay extends Overlay
         case WAITING_FOR_START:
           return "Tap map to set Start";
         case WAITING_FOR_SECOND:
-          return "Tap map to Waypoint";
+          return "Tap map to set Waypoint";
         case WAITING_FOR_NEXT:
-          return "Tap map to Waypoint\nTap here to Route";
+          return "Tap map to set Waypoint\nTap here to Route";
         case WAITING_TO_ROUTE:
           return "Tap here to Route";
         case ALL_DONE:

@@ -69,9 +69,9 @@ public class RouteMapFragment extends CycleMapFragment
 	public void onRouteNow(int itinerary)
 	{
 	  Route.FetchRoute(CycleStreetsPreferences.routeType(),
-        itinerary,
-        CycleStreetsPreferences.speed(),
-        getActivity());
+				itinerary,
+				CycleStreetsPreferences.speed(),
+				getActivity());
 	} // onRouteNow
 
 	@Override
@@ -84,10 +84,10 @@ public class RouteMapFragment extends CycleMapFragment
 	@Override
 	public void onPrepareOptionsMenu(final Menu menu)
 	{
-    showMenuItem(menu, R.id.ic_menu_liveride, Route.available() && hasGps_);
-	  enableMenuItem(menu, R.id.ic_menu_directions, true);
-	  showMenuItem(menu, R.id.ic_menu_saved_routes, Route.storedCount() != 0);
-	  enableMenuItem(menu, R.id.ic_menu_route_number, true);
+		showMenuItem(menu, R.id.ic_menu_liveride, Route.available() && hasGps_);
+		enableMenuItem(menu, R.id.ic_menu_directions, true);
+		showMenuItem(menu, R.id.ic_menu_saved_routes, Route.storedCount() != 0);
+		enableMenuItem(menu, R.id.ic_menu_route_number, true);
 		super.onPrepareOptionsMenu(menu);
 	} // onPrepareOptionsMenu
 

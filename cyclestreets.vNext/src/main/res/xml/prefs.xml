@@ -13,13 +13,6 @@
       android:key="confirm-new-route"
       android:title="Confirm start new route"
       android:defaultValue="true"/>
-    <ListPreference
-        android:key="iconsize"
-        android:title="Icon size"
-        android:summary="Icon size"
-        android:defaultValue="32"
-        android:entries="@array/iconsize"
-        android:entryValues="@array/iconsize_values" />
   </PreferenceScreen>
   <PreferenceScreen
       android:title="Routing preferences">

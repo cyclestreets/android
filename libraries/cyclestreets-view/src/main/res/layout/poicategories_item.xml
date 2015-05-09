@@ -8,20 +8,20 @@
         android:layout_height="fill_parent"
         android:layout_alignParentTop="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginLeft="6dip"
+        android:layout_marginLeft="12dip"
         android:layout_marginRight="6dip"
         android:src="@drawable/ic_launcher" />
     <TextView
     	android:id="@+id/name"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
+        android:layout_toRightOf="@id/icon"
         android:layout_centerVertical="true"
-        android:gravity="center_vertical|center_horizontal"
+        android:gravity="center_vertical"
         android:singleLine="false"
         android:ellipsize="marquee"
         android:text="category"
-        />
+      />
     <CheckBox 
       android:id="@+id/checkbox"
         android:layout_width="wrap_content"
@@ -30,6 +30,6 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
         android:layout_marginLeft="6dip"
-        android:layout_marginRight="6dip"
+        android:layout_marginRight="12dip"
         android:text=""/>
 </RelativeLayout>

@@ -36,7 +36,6 @@ public class SettingsActivity extends PreferenceActivity
     setSummary(CycleStreetsPreferences.PREF_SPEED_KEY);
     setSummary(CycleStreetsPreferences.PREF_MAPSTYLE_KEY);
     setSummary(CycleStreetsPreferences.PREF_MAPFILE_KEY);
-    setSummary(CycleStreetsPreferences.PREF_ICON_SIZE);
     setSummary(CycleStreetsPreferences.PREF_UPLOAD_SIZE);
     setSummary(CycleStreetsPreferences.PREF_NEARING_TURN);
     setSummary(CycleStreetsPreferences.PREF_OFFTRACK_DISTANCE);
@@ -82,8 +81,6 @@ public class SettingsActivity extends PreferenceActivity
   @Override
   protected void onPause() {
     super.onPause();
-
-    POICategories.reload();
 
     // stop listening while paused
     getPreferenceScreen().getSharedPreferences().unregisterOnSharedPreferenceChangeListener(this);

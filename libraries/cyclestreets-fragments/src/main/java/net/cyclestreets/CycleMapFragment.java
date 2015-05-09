@@ -24,11 +24,14 @@ import static net.cyclestreets.util.MenuHelper.enableMenuItem;
 public class CycleMapFragment extends Fragment implements Undoable
 {
   private CycleMapView map_;
+  private boolean forceMenuRebuild_;
 
   @Override
   public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle saved)
   {
     super.onCreate(saved);
+
+    forceMenuRebuild_ = true;
 
     map_ = new CycleMapView(getActivity(), this.getClass().getName());
 
@@ -68,6 +71,13 @@ public class CycleMapFragment extends Fragment implements Undoable
   @Override
   public void onPrepareOptionsMenu(final Menu menu)
   {
+    if (forceMenuRebuild_ == true) {
+      forceMenuRebuild_ = false;
+      menu.clear();
+      onCreateOptionsMenu(menu, getActivity().getMenuInflater());
+      onPrepareOptionsMenu(menu);
+    } // if ...
+
     if (map_ != null)
       map_.onPrepareOptionsMenu(menu);
     enableMenuItem(menu, R.string.ic_menu_findplace, true);

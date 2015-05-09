@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.osmdroid.api.IGeoPoint;
-import org.osmdroid.views.MapView;
 import org.osmdroid.util.BoundingBoxE6;
 import org.osmdroid.views.overlay.OverlayItem;
 
@@ -21,12 +20,12 @@ import net.cyclestreets.views.CycleMapView;
 public class PhotosOverlay extends LiveItemOverlay<PhotosOverlay.PhotoItem> {
   public static class PhotoItem extends OverlayItem {
     private final Photo photo_;
-    private final PhotoMarkers photoMarkers;
+    private final PhotoMarkers photoMarkers_;
     
     public PhotoItem(final Photo photo, final PhotoMarkers photoMarkers) {
       super(photo.id() + "", photo.caption(), photo.position());
       photo_ = photo;
-      this.photoMarkers = photoMarkers;
+      photoMarkers_ = photoMarkers;
     } // PhotoItem
 
     public Photo photo() { return photo_; }
@@ -34,7 +33,7 @@ public class PhotosOverlay extends LiveItemOverlay<PhotosOverlay.PhotoItem> {
     // Markers
     @Override
     public Drawable getMarker(int stateBitset) {
-      return photoMarkers.getMarker(photo_);
+      return photoMarkers_.getMarker(photo_);
     } // getMarker
 
     // Equality testing

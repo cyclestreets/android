@@ -3,11 +3,11 @@ package net.cyclestreets.tiles;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.preference.ListPreference;
-import android.util.DisplayMetrics;
 
 import net.cyclestreets.CycleStreetsPreferences;
 import net.cyclestreets.util.MapPack;
 import net.cyclestreets.util.MessageBox;
+import net.cyclestreets.util.Screen;
 import net.cyclestreets.view.R;
 
 import org.apache.http.client.HttpClient;
@@ -120,17 +120,17 @@ public class TileSource {
     return createXYTileSource(name, aResourceId, 256, ".png", baseUrls);
   } // createStandardTileSource
 
-  public static ITileSource createDensityAwareTileSource(final DisplayMetrics metrics,
+  public static ITileSource createDensityAwareTileSource(final Context context,
                                                          final String name,
                                                          final String... baseUrls) {
-    return createDensityAwareTileSource(metrics, name, ResourceProxy.string.unknown, baseUrls);
+    return createDensityAwareTileSource(context, name, ResourceProxy.string.unknown, baseUrls);
   } // createDensityAwareTileSource
 
-  public static ITileSource createDensityAwareTileSource(final DisplayMetrics metrics,
+  public static ITileSource createDensityAwareTileSource(final Context context,
                                                          final String name,
                                                          final ResourceProxy.string aResourceId,
                                                          final String... baseUrls) {
-    final boolean highDensity = isHighDensity(metrics);
+    final boolean highDensity = Screen.isHighDensity(context);
     final int tileSize = highDensity ? 512 : 256;
     final String tileSuffix = highDensity ? "@2x.png" : ".png";
     return createXYTileSource(name, aResourceId, tileSize, tileSuffix, baseUrls);
@@ -149,11 +149,6 @@ public class TileSource {
                             extension,
                             baseUrls);
   } // createXYTileSource
-
-  public static boolean isHighDensity(final DisplayMetrics metrics) {
-    final int density = metrics.densityDpi;
-    return density > DisplayMetrics.DENSITY_HIGH;
-  } // highDensity
 
   private static String DEFAULT_RENDERER = CycleStreetsPreferences.MAPSTYLE_OCM;
   private static String DEFAULT_ATTRIBUTION = "\u00a9 OpenStreetMap contributors";
@@ -178,26 +173,24 @@ public class TileSource {
     if (builtInsAdded_)
       return;
 
-    final DisplayMetrics display = context.getResources().getDisplayMetrics();
-
     final ITileSource OPENCYCLEMAP =
-        createDensityAwareTileSource(display,
+        createDensityAwareTileSource(context,
                                      CycleStreetsPreferences.MAPSTYLE_OCM,
                                      ResourceProxy.string.cyclemap,
                                      "http://tile.cyclestreets.net/opencyclemap/");
     final ITileSource OPENSTREETMAP =
-        createDensityAwareTileSource(display,
+        createDensityAwareTileSource(context,
                                      CycleStreetsPreferences.MAPSTYLE_OSM,
                                      ResourceProxy.string.unknown,
                                      "http://tile.cyclestreets.net/mapnik/");
 
     final ITileSource OSMAP =
-        createDensityAwareTileSource(display,
+        createDensityAwareTileSource(context,
                                      CycleStreetsPreferences.MAPSTYLE_OS,
                                      ResourceProxy.string.unknown,
                                      "http://tile.cyclestreets.net/osopendata/");
 
-    final MapsforgeOSMTileSource MAPSFORGE = new MapsforgeOSMTileSource(CycleStreetsPreferences.MAPSTYLE_MAPSFORGE, isHighDensity(display));
+    final MapsforgeOSMTileSource MAPSFORGE = new MapsforgeOSMTileSource(CycleStreetsPreferences.MAPSTYLE_MAPSFORGE, Screen.isHighDensity(context));
 
     addTileSource("OpenCycleMap (shows hills)", OPENCYCLEMAP, "\u00a9 OpenStreetMap contributors. Map images \u00a9 Thunderforest");
     addTileSource("OpenStreetMap default style", OPENSTREETMAP, DEFAULT_ATTRIBUTION);

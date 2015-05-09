@@ -7,16 +7,15 @@ import java.util.Iterator;
 import java.util.ArrayList;
 import java.util.Map;
 
-import net.cyclestreets.CycleStreetsPreferences;
 import net.cyclestreets.api.json.JsonObjectHandler;
 import net.cyclestreets.api.json.JsonRootHandler;
 import net.cyclestreets.api.json.JsonRootObjectHandler;
 import net.cyclestreets.api.json.JsonStringHandler;
 import net.cyclestreets.util.Base64;
-import net.cyclestreets.util.Bitmaps;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
@@ -102,7 +101,7 @@ public class POICategories implements Iterable<POICategory> {
     private static Bitmap decodeIcon(final String iconAsBase64) {
       try {
         byte[] bytes = Base64.decode(iconAsBase64);
-        return Bitmaps.loadStream(new ByteArrayInputStream(bytes));
+        return BitmapFactory.decodeStream(new ByteArrayInputStream(bytes));
       } // try
       catch(Exception e) {
         // never mind for the moment
@@ -113,17 +112,17 @@ public class POICategories implements Iterable<POICategory> {
 
   //////////////////////////////////////////////
   private static POICategories loaded_;
-  private static int iconSize_;
+  public static final int IconSize = 32;
   
   public static POICategories get() {
     if(loaded_ == null)
-      load();
+      loaded_ = load();
     return loaded_;
   } // get
   
-  public static POICategories load(final int requestedIconSize) {
+  public static POICategories load() {
     try {
-      return ApiClient.getPOICategories(requestedIconSize);      
+      return ApiClient.getPOICategories(IconSize);
     } catch(Exception e) {
       // ah
     }
@@ -131,34 +130,15 @@ public class POICategories implements Iterable<POICategory> {
   } // get
   
   public static boolean loaded() { return loaded_ != null; }
-  
-  public static void load() {
-    try {
-      iconSize_ = CycleStreetsPreferences.iconSize();
-      loaded_ = ApiClient.getPOICategories(iconSize_);      
-    } catch(Exception e) {
-      // ah
-    }
-  } // load
-  
-  public static void reload() {
-    if(iconSize_ == CycleStreetsPreferences.iconSize())
-      return;
-    iconSize_ = 0;
-    loaded_ = null;
-  } // reload
-  
+
   public static void backgroundLoad() {
     new GetPOICategoriesTask().execute();
   } // backgroundLoad
   
   private static class GetPOICategoriesTask extends AsyncTask<Void,Void,POICategories> {
-    private int iconSize_;
-    
     protected POICategories doInBackground(Void... params) {
       try {
-        iconSize_ = CycleStreetsPreferences.iconSize();
-        return ApiClient.getPOICategories(iconSize_);
+        return ApiClient.getPOICategories(POICategories.IconSize);
       } catch (final Exception ex) {
         // never mind, eh?
       }
@@ -167,7 +147,6 @@ public class POICategories implements Iterable<POICategory> {
     
     @Override
     protected void onPostExecute(final POICategories cats) {
-      POICategories.iconSize_ = iconSize_;
       POICategories.loaded_ = cats;
     } // onPostExecute
   } // GetPOICategoriesTask

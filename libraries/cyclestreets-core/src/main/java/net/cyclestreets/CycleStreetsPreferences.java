@@ -28,7 +28,6 @@ public class CycleStreetsPreferences
   public final static String PREF_PENDING_KEY = "pending";
   public final static String PREF_ACCOUNT_KEY = "cyclestreets-account";
   public final static String PREF_UPLOAD_SIZE = "uploadsize";
-  public final static String PREF_ICON_SIZE = "iconsize";
   public final static String PREF_BLOG_NOTIFICATIONS = "blog-notifications";
   public final static String PREF_TURN_NOW = "turn-now-distance";
   public final static String PREF_NEARING_TURN = "nearing-turn-distance";
@@ -77,10 +76,6 @@ public class CycleStreetsPreferences
 
   static public String mapfile() {
     return getString(PREF_MAPFILE_KEY, NOT_SET);
-  }
-
-  static public int iconSize() {
-    return Integer.parseInt(getString(PREF_ICON_SIZE, "32"));
   }
 
   static public String username() {

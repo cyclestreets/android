@@ -16,6 +16,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.graphics.Canvas;
+import android.graphics.Matrix;
 import android.graphics.Point;
 import android.graphics.Rect;
 import android.os.AsyncTask;
@@ -46,12 +47,14 @@ import net.cyclestreets.views.CycleMapView;
 import static net.cyclestreets.util.MenuHelper.createMenuItem;
 import static net.cyclestreets.util.MenuHelper.enableMenuItem;
 
-public class POIOverlay extends LiveItemOverlay<POIOverlay.POIItem>
-                        implements MapListener,
-                                   MenuListener,
-                                   PauseResumeListener,
-                                   Undoable {
-  static public class POIItem extends OverlayItem {
+public class POIOverlay
+    extends LiveItemOverlay<POIOverlay.POIItem>
+    implements MapListener,
+               MenuListener,
+               PauseResumeListener,
+               Undoable {
+  static public class POIItem
+      extends OverlayItem {
     private final POI poi_;
 
     public POIItem(final POI poi) {
@@ -96,6 +99,8 @@ public class POIOverlay extends LiveItemOverlay<POIOverlay.POIItem>
   private final List<POICategory> activeCategories_;
   private POIItem active_;
   private final Point curScreenCoords_ = new Point();
+  private final Matrix matrix_ = new Matrix();
+  private float matrixValues_[] = new float[9];
   private IGeoPoint lastFix_;
   private Rect bubble_;
   private OverlayHelper overlays_;
@@ -241,15 +246,39 @@ public class POIOverlay extends LiveItemOverlay<POIOverlay.POIItem>
     if(active_ == null)
       return;
 
-    final String bubble = active_.getTitle() +
-                          (active_.getSnippet().length() > 0 ? "\n" + active_.getSnippet() : "") +
-                          (active_.getUrl().length() > 0 ? "\n" + active_.getUrl() : "");
+    drawBubble(canvas, mapView);
+  } // draw
 
+  private void drawBubble(final Canvas canvas, final MapView mapView) {
+    final String bubbleText = active_.getTitle() +
+        (active_.getSnippet().length() > 0 ? "\n" + active_.getSnippet() : "") +
+        (active_.getUrl().length() > 0 ? "\n" + active_.getUrl() : "");
+
+    // find the right place
     final IProjection pj = mapView.getProjection();
     pj.toPixels(active_.getPoint(), curScreenCoords_);
 
-    bubble_ = Draw.drawBubble(canvas, textBrush(), offset(), cornerRadius(), curScreenCoords_, bubble);
-  } // draw
+    int x = curScreenCoords_.x;
+    int y = curScreenCoords_.y;
+
+    canvas.getMatrix(matrix_);
+    matrix_.getValues(matrixValues_);
+
+    float scaleX = (float) Math.sqrt(matrixValues_[Matrix.MSCALE_X]
+        * matrixValues_[Matrix.MSCALE_X] + matrixValues_[Matrix.MSKEW_Y]
+        * matrixValues_[Matrix.MSKEW_Y]);
+    float scaleY = (float) Math.sqrt(matrixValues_[Matrix.MSCALE_Y]
+        * matrixValues_[Matrix.MSCALE_Y] + matrixValues_[Matrix.MSKEW_X]
+        * matrixValues_[Matrix.MSKEW_X]);
+
+    canvas.save();
+    canvas.rotate(-mapView.getMapOrientation(), x, y);
+    canvas.scale(1 / scaleX, 1 / scaleY, x, y);
+
+    bubble_ = Draw.drawBubble(canvas, textBrush(), offset(), cornerRadius(), curScreenCoords_, bubbleText);
+
+    canvas.restore();
+  }
 
   public void clear() {
     activeCategories_.clear();
@@ -333,6 +362,7 @@ public class POIOverlay extends LiveItemOverlay<POIOverlay.POIItem>
   ////////////////////////////////////////////////
   public void onCreateOptionsMenu(final Menu menu) {
     createMenuItem(menu, R.string.ic_menu_poi, Menu.NONE, R.drawable.ic_menu_poi);
+    enableMenuItem(menu, R.string.ic_menu_poi, true);
   } // onCreateOptionsMenu
 
   public void onPrepareOptionsMenu(final Menu menu) {
@@ -429,20 +459,19 @@ public class POIOverlay extends LiveItemOverlay<POIOverlay.POIItem>
   } // GetPhotosTask
 
   //////////////////////////////////
-  static class POICategoryAdapter extends BaseAdapter {
+  static class POICategoryAdapter
+      extends BaseAdapter
+      implements OnClickListener {
     private final LayoutInflater inflater_;
     private POICategories cats_;
-    private POICategories massiveIconCats_;
     private List<POICategory> selected_;
 
-    POICategoryAdapter(final Context context,
-                       final POICategories allCategories,
-                       final List<POICategory> initialCategories) {
+    POICategoryAdapter(
+        final Context context,
+        final POICategories allCategories,
+        final List<POICategory> initialCategories) {
       inflater_ = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
       cats_ = allCategories;
-      massiveIconCats_ = POICategories.load(64);
-      if (massiveIconCats_ == null)
-        massiveIconCats_ = cats_;
       selected_ = new ArrayList<>();
       selected_.addAll(initialCategories);
     } // POICategoryAdaptor
@@ -461,37 +490,33 @@ public class POIOverlay extends LiveItemOverlay<POIOverlay.POIItem>
     public long getItemId(int position) { return position; }
 
     @Override
-    public View getView(final int position, final View convertView, final ViewGroup parent) {
+    public View getView(
+        final int position,
+        final View convertView,
+        final ViewGroup parent) {
       final POICategory cat = cats_.get(position);
-      final View v = inflater_.inflate(R.layout.poicategories_item, parent, false);
+      final View v = (convertView == null)
+          ? inflater_.inflate(R.layout.poicategories_item, parent, false)
+          : convertView;
 
       final TextView n = (TextView)v.findViewById(R.id.name);
       n.setText(cat.name());
 
       final ImageView iv = (ImageView)v.findViewById(R.id.icon);
-      iv.setImageDrawable(massiveIconCats_.get(cat.name()).icon());
+      iv.setImageDrawable(cats_.get(cat.name()).icon());
+      iv.setMinimumWidth(POICategories.IconSize * 2);
 
       final CheckBox chk = (CheckBox)v.findViewById(R.id.checkbox);
+      chk.setOnCheckedChangeListener(null);
       chk.setChecked(isSelected(cat));
 
-      n.setOnClickListener(new OnClickListener() {
-        @Override
-        public void onClick(View v) {
-          chk.setChecked(!chk.isChecked());
-        } // onClick
-      });
-      iv.setOnClickListener(new OnClickListener() {
-        @Override
-        public void onClick(View v) {
-          chk.setChecked(!chk.isChecked());
-        } // onClick
-      });
+      v.setOnClickListener(this);
 
       chk.setOnCheckedChangeListener(new OnCheckedChangeListener() {
         @Override
-        public void onCheckedChanged(CompoundButton buttonView,
-                                     boolean isChecked)
-        {
+        public void onCheckedChanged(
+            final CompoundButton buttonView,
+            final boolean isChecked) {
           if(isChecked)
             selected_.add(cat);
           else
@@ -502,7 +527,15 @@ public class POIOverlay extends LiveItemOverlay<POIOverlay.POIItem>
       return v;
     } // getView
 
-    private boolean isSelected(POICategory cat) {
+    @Override
+    public void onClick(
+        final View view) {
+      final CheckBox chk = (CheckBox)view.findViewById(R.id.checkbox);
+      chk.setChecked(!chk.isChecked());
+    } // onClick
+
+    private boolean isSelected(
+        final POICategory cat) {
       for(POICategory c : selected_)
         if(cat.name().equals(c.name()))
           return true;

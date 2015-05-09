@@ -1,6 +1,7 @@
 package net.cyclestreets;
 
 import net.cyclestreets.api.Photo;
+import net.cyclestreets.util.Screen;
 import net.cyclestreets.view.R;
 import net.cyclestreets.util.ImageDownloader;
 
@@ -8,12 +9,15 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Handler;
 import android.os.Message;
+import android.view.GestureDetector;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.animation.AnimationUtils;
@@ -29,9 +33,9 @@ import java.lang.ref.WeakReference;
 
 public final class DisplayPhoto {
   public static void launch(final Photo photo, final Context context) {
-    DisplayDialog dd = (photo.hasVideos()) ?
-      new VideoDisplay(photo, context) :
-      new PhotoDisplay(photo, context);
+    ImageDisplay dd = (photo.hasVideos()) ?
+      videoDisplay(photo, context) :
+      photoDisplay(photo, context);
 
     dd.show();
   } // launch
@@ -39,6 +43,14 @@ public final class DisplayPhoto {
   private DisplayPhoto() { }
 
   //////////////////////////////////////////
+  private static ImageDisplay videoDisplay(
+      final Photo photo,
+      final Context context) {
+    if (Screen.isSmall(context))
+      return new ExternalVideoPlayer(photo, context);
+    return new VideoDisplay(photo, context);
+  } // VideoDisplay
+
   private static class VideoDisplay
       extends DisplayDialog
       implements MediaPlayer.OnPreparedListener {
@@ -111,6 +123,42 @@ public final class DisplayPhoto {
     } // videoUrl
   } // VideoDisplay
 
+  private static class ExternalVideoPlayer implements ImageDisplay {
+    protected final Photo photo_;
+    protected final Context context_;
+
+    ExternalVideoPlayer(final Photo photo, final Context context) {
+      photo_ = photo;
+      context_ = context;
+    } // VideoDisplay
+
+    public void show() {
+      final String videoUrl = videoUrl(photo_);
+      if (videoUrl == null)
+        return;
+
+      final Intent player = new Intent(Intent.ACTION_VIEW);
+      player.setDataAndType(Uri.parse(videoUrl), "video/*");
+      context_.startActivity(player);
+    } // show
+
+    private static String videoUrl(final Photo photo) {
+      for (String format : new String[]{ "mp4", "mov", "3gp" }) {
+        Photo.Video v = photo.video(format);
+        if (v != null)
+          return v.url();
+      } // for ...
+      return null;
+    } // videoUrl
+  } // class ExternalVideoPlayer
+
+  /////////////////////////////////////////////////////////////////////
+  private static ImageDisplay photoDisplay(
+      final Photo photo,
+      final Context context) {
+  return new PhotoDisplay(photo, context);
+  } // photoDisplay
+
   private static class PhotoDisplay extends DisplayDialog {
     private ImageView iv_;
 
@@ -148,13 +196,21 @@ public final class DisplayPhoto {
     } // preShowSetup
   } // class PhotoDisplay
 
-  private abstract static class DisplayDialog {
+  ///////////////////////////////////////////////////////////
+  private interface ImageDisplay {
+    void show();
+  }
+
+  private abstract static class DisplayDialog implements ImageDisplay, View.OnTouchListener, GestureDetector.OnGestureListener {
     protected final Photo photo_;
     protected final Context context_;
+    private final GestureDetector gd_;
+    private AlertDialog ad_;
 
     protected DisplayDialog(final Photo photo, final Context context) {
       photo_ = photo;
       context_ = context;
+      gd_ = new GestureDetector(context_, this);
     } // Display
 
     public void show() {
@@ -169,11 +225,30 @@ public final class DisplayPhoto {
 
       preShowSetup(builder);
 
-      final AlertDialog ad = builder.create();
-      ad.show();
+      ad_ = builder.create();
+      ad_.show();
 
-      postShowSetup(ad);
+      postShowSetup(ad_);
+
+      layout.setOnTouchListener(this);
     } // show
+
+    @Override
+    public boolean onTouch(View view, MotionEvent event) {
+      return gd_.onTouchEvent(event);
+    } // onTouch
+
+    @Override public boolean onDown(MotionEvent motionEvent) { return false; }
+    @Override public void onShowPress(MotionEvent motionEvent) { }
+    @Override public boolean onSingleTapUp(MotionEvent motionEvent) { return false; }
+    @Override public boolean onScroll(MotionEvent motionEvent, MotionEvent motionEvent1, float v, float v1) { return false; }
+    @Override public void onLongPress(MotionEvent motionEvent) { }
+
+    @Override
+    public boolean onFling(MotionEvent motionEvent, MotionEvent motionEvent1, float v, float v1) {
+      ad_.cancel();
+      return true;
+    } // onFling
 
     protected abstract String title();
     protected abstract String caption();

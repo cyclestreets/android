@@ -10,13 +10,19 @@ public class Brush {
   public static Paint LightGrey = createFillBrush(192, 192, 192);
   public static Paint White = createFillBrush(255, 255, 255);
   public static Paint BlackOutline = createOutlineBrush(0, 0, 0);
+  public static Paint LowlightBrush(final Context context) {
+    return createFillBrush(Theme.lowlightColor(context));
+  } // LowlightBrush
   public static Paint HighlightBrush(final Context context) {
-    Paint brush = createFillBrush(255, 255, 255);
-    int highlightColor = Theme.highlightColor(context);
-    highlightColor |= 0xff000000;
-    brush.setColor(highlightColor);
-    return brush;
+    return createFillBrush(Theme.highlightColor(context));
   } // HighlightBrush
+
+  private static Paint createFillBrush(final int color) {
+    Paint brush = createFillBrush(255, 255, 255);
+    int opaqueColor = color | 0xff000000;
+    brush.setColor(opaqueColor);
+    return brush;
+  } // createFillBrush
 
   private static Paint createFillBrush(final int r, final int g, final int b) {
     return createBrush(255, r, g, b, Style.FILL_AND_STROKE);

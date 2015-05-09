@@ -73,6 +73,12 @@ public abstract class MainNavDrawerActivity
     addDrawerFragment(titleId, iconId, fragClass, null, null);
   } // addDrawerFragment
 
+  protected void addDrawerFragment(final PageTitle title,
+                                   final int iconId,
+                                   final Class<? extends Fragment> fragClass) {
+    addDrawerFragment(title, iconId, fragClass, null, null);
+  } // addDrawerFragment
+
   protected void addDrawerFragment(final int titleId,
                                    final int iconId,
                                    final Class<? extends Fragment> fragClass,
@@ -93,6 +99,14 @@ public abstract class MainNavDrawerActivity
                                    final PageInitialiser initialiser,
                                    final PageStatus pageStatus) {
     final String title = getResources().getString(titleId);
+    addDrawerFragment(new FixedTitle(title), iconId, fragClass, initialiser, pageStatus);
+  } // addDrawerFragment
+
+  protected void addDrawerFragment(final PageTitle title,
+                                   final int iconId,
+                                   final Class<? extends Fragment> fragClass,
+                                   final PageInitialiser initialiser,
+                                   final PageStatus pageStatus) {
     final Drawable icon = iconId != -1 ? getResources().getDrawable(iconId) : null;
 
     pages_.add(new FragmentItem(title, icon, fragClass, initialiser, pageStatus));
@@ -111,7 +125,7 @@ public abstract class MainNavDrawerActivity
     final String title = getResources().getString(titleId);
     final Drawable icon = iconId != -1 ? getResources().getDrawable(iconId) : null;
 
-    pages_.add(new ActivityItem(title, icon, fragClass, pageStatus));
+    pages_.add(new ActivityItem(new FixedTitle(title), icon, fragClass, pageStatus));
   } // addDrawerActivity
 
   @Override
@@ -161,6 +175,8 @@ public abstract class MainNavDrawerActivity
     edit.putInt(Drawer, navDrawer_.selectedItem());
     edit.commit();
 
+    navDrawer_.fragment().onPause();
+
     super.onPause();
   } // onPause
 
@@ -188,10 +204,8 @@ public abstract class MainNavDrawerActivity
     private View fragmentContainerView_;
 
     private int currentSelectedPosition_ = 0;
+    private int nextSelectedPosition_ = 0;
     private boolean firstRun_;
-
-    private Fragment lastFrag_;
-    private int lastFragPosition_ = 0;
 
     public NavigationDrawerFragment() { }
 
@@ -230,8 +244,9 @@ public abstract class MainNavDrawerActivity
       drawerListView_.setOnItemClickListener(new AdapterView.OnItemClickListener() {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-          selectItem(position);
-        }
+          nextSelectedPosition_ = position;
+          drawerLayout_.closeDrawer(fragmentContainerView_);
+        } // onItemClick
       });
 
       return drawerListView_;
@@ -266,8 +281,9 @@ public abstract class MainNavDrawerActivity
             public void onDrawerClosed(View drawerView) {
               super.onDrawerClosed(drawerView);
               if (!isAdded()) { return; }
-
               getActivity().supportInvalidateOptionsMenu(); // calls onPrepareOptionsMenu()
+              if (nextSelectedPosition_ != currentSelectedPosition_)
+                selectItem(nextSelectedPosition_);
             }
 
             @Override
@@ -294,6 +310,9 @@ public abstract class MainNavDrawerActivity
     } // setUp
 
     public void selectItem(int position) {
+      if (position >= drawerContents_.getCount())
+        return;
+
       final DrawerItem di = drawerContents_.getItem(position);
       if (drawerLayout_ != null)
         drawerLayout_.closeDrawer(fragmentContainerView_);
@@ -301,17 +320,14 @@ public abstract class MainNavDrawerActivity
 
       if (di instanceof FragmentItem) {
         currentSelectedPosition_ = position;
-        if (drawerListView_ != null)
-          drawerListView_.setItemChecked(position, true);
+        drawerListView_.setItemChecked(position, true);
 
         final FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-        final FragmentTransaction ft = fragmentManager.beginTransaction();
-        if (lastFrag_ != null)
-          ft.detach(lastFrag_);
-        lastFrag_ = ((FragmentItem)di).attach(ft);
-        ft.commit();
+        final Fragment newFrag = ((FragmentItem)di).create();
 
-        lastFragPosition_ = position;
+        final FragmentTransaction ft = fragmentManager.beginTransaction();
+        ft.replace(R.id.container, newFrag);
+        ft.commit();
       } //
       if (di instanceof ActivityItem) {
         final Intent intent = new Intent(getActivity(), ((ActivityItem)di).activityClass());
@@ -319,7 +335,7 @@ public abstract class MainNavDrawerActivity
       } //
     } // selectItem
 
-    public int selectedItem() { return lastFragPosition_; }
+    public int selectedItem() { return currentSelectedPosition_; }
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
@@ -469,11 +485,11 @@ public abstract class MainNavDrawerActivity
   //////////////////////////////////////////
   //////////////////////////////////////////
   private static abstract class DrawerItem {
-    private String title_;
+    private PageTitle title_;
     private Drawable icon_;
     private PageStatus pageStatus_;
 
-    public DrawerItem(final String title,
+    public DrawerItem(final PageTitle title,
                       final Drawable icon,
                       final PageStatus pageStatus) {
       title_ = title;
@@ -481,12 +497,12 @@ public abstract class MainNavDrawerActivity
       pageStatus_ = pageStatus;
     } // DrawerItem
 
-    public String title() { return title_; }
+    public String title() { return title_.title(); }
     public Drawable icon() { return icon_; }
     public boolean enabled() { return (pageStatus_ != null) ? pageStatus_.enabled() : true; }
 
     @Override
-    public String toString() { return title_; }
+    public String toString() { return title_.title(); }
 
     public void setAdapter(final BaseAdapter adapter) {
       if (pageStatus_ != null)
@@ -499,7 +515,7 @@ public abstract class MainNavDrawerActivity
     private Fragment fragment_;
     private PageInitialiser initialiser_;
 
-    public FragmentItem(final String title,
+    public FragmentItem(final PageTitle title,
                         final Drawable icon,
                         final Class<? extends Fragment> fragClass,
                         final PageInitialiser initialiser,
@@ -509,15 +525,11 @@ public abstract class MainNavDrawerActivity
       initialiser_ = initialiser;
     } // FragmentItem
 
-    public Fragment attach(final FragmentTransaction ft) {
+    public Fragment create() {
       try {
-        if (fragment_ == null) {
-          fragment_ = fragClass_.newInstance();
-          if (initialiser_ != null)
-            initialiser_.initialise(fragment_);
-          ft.add(R.id.container, fragment_, title());
-        } else
-          ft.attach(fragment_);
+        fragment_ = fragClass_.newInstance();
+        if (initialiser_ != null)
+          initialiser_.initialise(fragment_);
       } catch (Exception e) {
         throw new RuntimeException(e);
       } // try
@@ -531,7 +543,7 @@ public abstract class MainNavDrawerActivity
   private static class ActivityItem extends DrawerItem {
     private Class<? extends Activity> activityClass_;
 
-    public ActivityItem(final String title,
+    public ActivityItem(final PageTitle title,
                         final Drawable icon,
                         final Class<? extends Activity> activityClass,
                         final PageStatus pageStatus) {
@@ -545,11 +557,21 @@ public abstract class MainNavDrawerActivity
     } // activityClass
   } // ActivityItem
 
-  public static interface PageInitialiser {
+  public interface PageTitle {
+    String title();
+  } // PageTitle
+
+  public class FixedTitle implements PageTitle {
+    private final String title_;
+    public FixedTitle(String t) { title_ = t; }
+    public String title() { return title_; }
+  } // FixedTitle
+
+  public interface PageInitialiser {
     void initialise(final Fragment page);
   } // PageInitialiser
 
-  public static interface PageStatus {
+  public interface PageStatus {
     void setAdapter(BaseAdapter adapter);
     boolean enabled();
   } // PageStatus

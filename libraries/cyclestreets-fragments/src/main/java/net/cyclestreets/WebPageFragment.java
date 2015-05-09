@@ -17,20 +17,29 @@ import net.cyclestreets.fragments.R;
 @SuppressLint("ValidFragment")
 public class WebPageFragment extends Fragment {
   public static MainNavDrawerActivity.PageInitialiser initialiser(final String url) {
-    return new WebPageInitialiser(url);
+    return initialiser(url, null);
+  } // initialiser
+  public static MainNavDrawerActivity.PageInitialiser initialiser(final String url, final String postLoadJs) {
+    return new WebPageInitialiser(url, postLoadJs);
   } // initialiser
 
   private static class WebPageInitialiser implements MainNavDrawerActivity.PageInitialiser {
     private final String url_;
-    public WebPageInitialiser(final String url) { url_ = url; }
+    private final String customiser_;
+    public WebPageInitialiser(final String url) { this(url, null); }
+    public WebPageInitialiser(final String url, final String customiser) {
+      url_ = url;
+      customiser_ = customiser;
+    } // WebPageInitialiser
 
     public void initialise(Fragment page) {
-      ((WebPageFragment)page).loadUrl(url_);
+      ((WebPageFragment)page).loadUrl(url_, customiser_);
     } // initialise
   } // WebPageInitialiser
 
   //////////////////////////////////////////////////
   private String homePage_;
+  private String postLoadJs_;
   private int layout_ = R.layout.webpage;
 
   public WebPageFragment() {
@@ -54,25 +63,31 @@ public class WebPageFragment extends Fragment {
 
     final WebView htmlView = (WebView)webPage.findViewById(R.id.html_view);
     if (homePage_ != null) {
-      htmlView.setWebViewClient(new FragmentViewClient(getActivity(), homePage_));
+      htmlView.setWebViewClient(new FragmentViewClient(getActivity(), homePage_, postLoadJs_));
+      htmlView.getSettings().setJavaScriptEnabled(true);
       htmlView.loadUrl(homePage_);
     } // if ...
 
     return webPage;
   } // onCreateView
 
-  public void loadUrl(final String url) {
+  public void loadUrl(final String url,
+                      final String customiser) {
     homePage_ = url;
+    postLoadJs_ = customiser;
   } // loadUrl
 
   private static class FragmentViewClient extends WebViewClient {
     private final Context context_;
     private String homePage_;
+    private String postLoadJs_;
 
     public FragmentViewClient(final Context context,
-                              final String homePage) {
+                              final String homePage,
+                              final String postLoadJs) {
       context_ = context;
       homePage_ = homePage;
+      postLoadJs_ = postLoadJs;
     } // FragmentViewClient
 
     @Override
@@ -85,5 +100,13 @@ public class WebPageFragment extends Fragment {
       context_.startActivity(intent);
       return true;
     }
+
+    @Override
+    public void onPageFinished(WebView view, String url) {
+      if (url.equals(homePage_) && postLoadJs_ != null)
+          view.loadUrl("javascript:(function() { " +
+              postLoadJs_ +
+          "})()");
+    } // onPageFinished
   }
 } // WebPageFragment

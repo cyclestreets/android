@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+	android:id="@+id/ScrollView01" android:layout_width="wrap_content"
+	android:layout_height="wrap_content">
+  <RelativeLayout android:layout_width="fill_parent"
+		  android:layout_height="fill_parent">
+    <LinearLayout android:id="@+id/LinearLayout02" android:orientation="vertical"
+		  android:layout_width="fill_parent" android:layout_height="wrap_content">
+      <TextView android:id="@+id/TextView01" android:layout_width="wrap_content"
+		android:layout_height="wrap_content" android:textSize="16sp"
+		android:paddingTop="8sp" android:layout_marginLeft="5sp"
+		android:text="Finished recording.  Choose a trip purpose:"
+		android:paddingBottom="4sp"></TextView>
+      <LinearLayout android:id="@+id/LinearLayout03"
+		    android:layout_height="wrap_content" android:orientation="horizontal"
+		    android:layout_width="fill_parent"></LinearLayout>
+      <TableLayout android:id="@+id/TableLayout01"
+		   android:layout_height="wrap_content" android:layout_width="fill_parent">
+	<TableRow android:id="@+id/TableRow01"
+		  android:layout_height="wrap_content" android:layout_width="fill_parent"
+		  android:layout_marginLeft="2sp" android:layout_marginRight="4sp">
+	  <ToggleButton android:layout_height="wrap_content"
+			android:textOff="Commute" android:textOn="Commute"
+			android:layout_width="wrap_content" android:layout_weight="1"
+			android:id="@+id/ToggleCommute" android:textSize="11sp"
+			android:drawableTop="@drawable/commute"></ToggleButton>
+	  <ToggleButton android:layout_width="wrap_content"
+			android:layout_height="wrap_content" android:layout_weight="1"
+			android:textOff="School" android:textOn="School" android:textSize="11sp"
+			android:id="@+id/ToggleSchool" android:drawableTop="@drawable/school"></ToggleButton>
+	  <ToggleButton android:layout_width="wrap_content"
+			android:layout_height="fill_parent" android:id="@+id/ToggleWorkRel"
+			android:textSize="9sp" android:drawableTop="@drawable/workrel"
+			android:layout_weight="0.7" android:textOff="Work-Related"
+			android:textOn="Work-Related"></ToggleButton>
+	  <ToggleButton android:layout_width="wrap_content"
+			android:layout_height="wrap_content" android:layout_weight="1"
+			android:textOff="Exercise" android:textOn="Exercise"
+			android:textSize="11sp" android:id="@+id/ToggleExercise"
+			android:drawableTop="@drawable/exercise"></ToggleButton>
+
+
+	</TableRow>
+	<TableRow android:id="@+id/TableRow02"
+		  android:layout_height="wrap_content" android:layout_width="fill_parent"
+		  android:layout_marginLeft="2sp" android:layout_marginRight="4sp">
+	  <ToggleButton android:layout_height="wrap_content"
+			android:layout_width="wrap_content" android:layout_weight="1"
+			android:textSize="11sp" android:textOff="Social" android:textOn="Social"
+			android:id="@+id/ToggleSocial" android:drawableTop="@drawable/social"
+			android:nextFocusUp="@+id/ToggleCommute" android:nextFocusDown="@+id/NotesField"></ToggleButton>
+	  <ToggleButton android:layout_width="wrap_content"
+			android:layout_height="wrap_content" android:layout_weight="1"
+			android:textSize="11sp" android:textOff="Shopping" android:textOn="Shopping"
+			android:id="@+id/ToggleShopping" android:drawableTop="@drawable/shopping"></ToggleButton>
+	  <ToggleButton android:layout_width="wrap_content"
+			android:layout_height="fill_parent" android:textOff="Errand"
+			android:textOn="Errand" android:id="@+id/ToggleErrand"
+			android:textSize="11sp" android:drawableTop="@drawable/errands"
+			android:layout_weight="0.7"></ToggleButton>
+	  <ToggleButton android:layout_width="wrap_content"
+			android:layout_height="wrap_content" android:layout_weight="1"
+			android:textSize="11sp" android:textOff="Other" android:textOn="Other"
+			android:id="@+id/ToggleOther" android:drawableTop="@drawable/other"></ToggleButton>
+	</TableRow>
+      </TableLayout>
+      <TextView android:layout_width="wrap_content"
+		android:layout_height="wrap_content" android:layout_marginLeft="5sp"
+		android:paddingBottom="2sp" android:paddingTop="4sp"
+		android:id="@+id/TextPurpDescription" android:text="     "
+		android:lines="3" android:bufferType="spannable" android:textSize="14sp"></TextView>
+  <EditText android:bufferType="editable"
+		android:cursorVisible="true" android:layout_width="fill_parent"
+		android:selectAllOnFocus="true" android:layout_height="fill_parent"
+		android:id="@+id/NotesField" android:layout_marginTop="10sp"
+		android:inputType="text" android:hint="Comments about your trip"
+		android:layout_marginRight="2sp" android:layout_marginLeft="2sp"
+    android:maxLength="255"
+		android:nextFocusDown="@+id/ButtonSubmit" android:nextFocusRight="@+id/ButtonSubmit"
+		android:nextFocusUp="@+id/ToggleSocial" android:imeOptions="actionDone"></EditText>
+
+
+    <TableLayout android:layout_height="wrap_content" android:layout_width="fill_parent">
+      <TableRow android:layout_height="wrap_content" android:layout_width="fill_parent"
+                android:layout_marginLeft="2sp" android:layout_marginRight="4sp">
+        <TextView
+          android:layout_width="wrap_content"
+          android:layout_height="match_parent"
+          android:gravity="center"
+          android:textSize="16sp"
+          android:text="Age:"/>
+        <Spinner
+          android:layout_width="match_parent"
+          android:layout_height="match_parent"
+          android:layout_weight="1"
+          android:id="@+id/age"/>
+      </TableRow>
+      <TableRow android:layout_height="wrap_content" android:layout_width="fill_parent"
+                android:layout_marginLeft="2sp" android:layout_marginRight="4sp">
+        <TextView
+          android:layout_width="wrap_content"
+          android:layout_height="match_parent"
+          android:gravity="center"
+          android:textSize="16sp"
+          android:text="Gender:"/>
+        <Spinner
+          android:layout_width="match_parent"
+          android:layout_height="match_parent"
+          android:layout_weight="1"
+          android:id="@+id/gender"/>
+      </TableRow>
+      <TableRow android:layout_height="wrap_content" android:layout_width="fill_parent"
+                android:layout_marginLeft="2sp" android:layout_marginRight="4sp">
+        <LinearLayout android:layout_width="wrap_content"
+                      android:layout_height="match_parent"
+                      android:orientation="vertical"
+                      android:gravity="center">
+          <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textSize="14sp"
+            android:text="Level of"/>
+          <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textSize="14sp"
+            android:text="cycling"/>
+          <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textSize="14sp"
+            android:text="experience:"/>
+        </LinearLayout>
+        <Spinner
+          android:layout_width="match_parent"
+          android:layout_height="match_parent"
+          android:layout_weight="1"
+          android:id="@+id/experience"/>
+      </TableRow>
+    </TableLayout>
+
+      <LinearLayout android:id="@+id/LinearLayout01"
+		    android:layout_height="wrap_content" android:layout_width="fill_parent"
+		    android:paddingTop="10sp">
+	<Button android:layout_height="wrap_content" android:text="Discard"
+		android:layout_width="fill_parent" android:layout_weight="1"
+		android:drawableLeft="@android:drawable/ic_menu_close_clear_cancel"
+		android:id="@+id/ButtonDiscard" android:textStyle="bold"
+		android:textSize="18sp"></Button>
+	<Button android:layout_height="wrap_content" android:text="Submit"
+		android:layout_width="fill_parent" android:layout_weight="1"
+		android:drawableLeft="@android:drawable/ic_menu_save" android:id="@+id/ButtonSubmit"
+		android:textStyle="bold" android:textSize="18sp"></Button>
+      </LinearLayout>
+    </LinearLayout>
+  </RelativeLayout>
+</ScrollView>

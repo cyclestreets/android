@@ -7,18 +7,32 @@ buildscript {
   }
 }
 
-subprojects {
-  repositories {
-    mavenCentral()
-    maven { url "https://oss.sonatype.org/content/groups/public/" }
-  }
-}
-
 configure(subprojects.findAll { it.path.startsWith(':custom-versions:') || 
                                 it.path.startsWith(':cyclestreets') }) {
   if (!file("${projectDir}/build.gradle").exists())
     return
+
   apply plugin: 'com.android.application'
+
+  signingKey(it)
+  manifestProperties(it)
+  versionProperties(it)
+} // configure apks
+
+configure(subprojects.findAll { it.path.startsWith(':libraries:') }) {
+  if (!file("${projectDir}/build.gradle").exists())
+    return
+
+  apply plugin: 'com.android.library'
+} // configure libraries
+
+subprojects {
+  if (!file("${projectDir}/build.gradle").exists())
+    return
+
+  repositories {
+    mavenCentral()
+  }
 
   android {
     Properties appConfig = loadProperties("${rootDir}/config.properties")
@@ -34,45 +48,6 @@ configure(subprojects.findAll { it.path.startsWith(':custom-versions:') ||
     defaultConfig {
       minSdkVersion appConfig['minSdkVersion'].toInteger()
       targetSdkVersion appConfig['targetSdkVersion'].toInteger()
-      versionCode appConfig['versionCode'].toInteger()
-      versionName appConfig['versionName']
-    } // defaultConfig
-
-    def licenseDetails = file("${projectDir}/license.properties");
-    if (licenseDetails.exists()) {
-      signingConfigs {
-        release {
-          Properties props = loadProperties(licenseDetails)
-
-          storeFile file(props['key.store'])
-          storePassword props['key.password']
-          keyAlias props['key.alias']
-          keyPassword props['key.password']
-        }
-      } // signingConfigs
-
-      buildTypes {
-        release {
-          signingConfig signingConfigs.release
-        }
-      } // buildTypes
-    } else {
-      println "${projectDir} : No license.properties"
-    } // licenseDetails.exists
-
-    def cyclestreetsDetails = file("${projectDir}/cyclestreets.properties");
-    if (cyclestreetsDetails.exists()) {
-      buildTypes {
-        debug {
-          manifestPlaceholders = loadProperties("${projectDir}/cyclestreets.properties")
-        }  
-        release {
-          manifestPlaceholders = loadProperties("${projectDir}/cyclestreets.properties")
-        }
-      } // buildTypes
-
-    } else {
-      println "${projectDir} : No cyclestreets.properties"   
     }
 
     packagingOptions {
@@ -82,34 +57,70 @@ configure(subprojects.findAll { it.path.startsWith(':custom-versions:') ||
       exclude 'META-INF/NOTICE'
       exclude 'META-INF/NOTICE.txt'
     } // packagingOptions
-  }
-}
-
-configure(subprojects.findAll { it.path.startsWith(':libraries:') }) {
-  apply plugin: 'com.android.library'
-
-  android {
-    Properties appConfig = loadProperties("${rootDir}/config.properties")
-
-    compileSdkVersion appConfig['sdkVersion'].toInteger()
-    buildToolsVersion appConfig['toolsVersion']
-
-    compileOptions {
-      sourceCompatibility JavaVersion.VERSION_1_7
-      targetCompatibility JavaVersion.VERSION_1_7
-    }
-
-    defaultConfig {
-      minSdkVersion appConfig['minSdkVersion'].toInteger()
-      targetSdkVersion appConfig['targetSdkVersion'].toInteger()
-      versionCode appConfig['versionCode'].toInteger()
-      versionName appConfig['versionName']
-    }
-  }
-}
+  } // android
+} // subprojects
 
 def loadProperties(fileName) {
   Properties props = new Properties()
   props.load(new FileInputStream(file(fileName)))
   return props;
-}
+} // loadProperties
+
+def manifestProperties(project) {
+  def cyclestreetsDetails = project.file("cyclestreets.properties")
+  if (!cyclestreetsDetails.exists()) {
+    println ":${project.name}:No cyclestreets.properties"
+    return;
+  } // no cyclestreets props
+
+  project.android {
+    buildTypes {
+      all {
+        manifestPlaceholders = loadProperties(cyclestreetsDetails)
+      }
+    } // buildType
+  } // android
+} // manifestProperties
+
+def versionProperties(project) {
+  def versionDetails = project.file("version.properties")
+  def versionConfig = [ versionCode: "-1", versionName: "unknown" ]
+  if (versionDetails.exists())
+    versionConfig = loadProperties(versionDetails)
+  else
+    println ":${project.name}:No version.properties, using placeholder defaults"
+
+  project.android {
+    defaultConfig {
+      versionCode versionConfig['versionCode'].toInteger()
+      versionName versionConfig['versionName']
+    }
+  } // android
+} // versionProperties
+
+def signingKey(project) {
+  def licenseDetails = project.file("license.properties");
+  if (!licenseDetails.exists()) {
+    println ":${project.name}:No license.properties"
+    return;
+  } // licenseDetails.exists
+
+  Properties props = loadProperties(licenseDetails)
+
+  project.android {
+    signingConfigs {
+      release {
+        storeFile project.file(props['key.store'])
+        storePassword props['key.password']
+        keyAlias props['key.alias']
+        keyPassword props['key.password']
+      }
+    } // signingConfigs
+
+    buildTypes {
+      release {
+        signingConfig signingConfigs.release
+      }
+    } // buildTypes
+  } // android
+} // signingKey

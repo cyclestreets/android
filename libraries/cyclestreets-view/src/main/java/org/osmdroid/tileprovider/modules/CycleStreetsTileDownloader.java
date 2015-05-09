@@ -147,15 +147,15 @@ public class CycleStreetsTileDownloader extends MapTileModuleProviderBase {
   }
 
   @Override
-  public int getMinimumZoomLevel() {
+  public int getMaximumZoomLevel() {
     IOnlineTileSource tileSource = mTileSource.get();
-    return (tileSource != null ? tileSource.unwrap().getMinimumZoomLevel() : MINIMUM_ZOOMLEVEL);
+    return (tileSource != null ? tileSource.unwrap().getMaximumZoomLevel() : 20);
   }
 
   @Override
-  public int getMaximumZoomLevel() {
+  public int getMinimumZoomLevel() {
     IOnlineTileSource tileSource = mTileSource.get();
-    return (tileSource != null ? tileSource.unwrap().getMaximumZoomLevel() : MAXIMUM_ZOOMLEVEL);
+    return (tileSource != null ? tileSource.unwrap().getMinimumZoomLevel() : MINIMUM_ZOOMLEVEL);
   }
 
   @Override
