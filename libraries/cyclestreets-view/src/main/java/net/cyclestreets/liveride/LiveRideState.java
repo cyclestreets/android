@@ -1,5 +1,6 @@
 package net.cyclestreets.liveride;
 
+import net.cyclestreets.CycleStreetsPreferences;
 import net.cyclestreets.LiveRideActivity;
 import net.cyclestreets.view.R;
 import net.cyclestreets.routing.Journey;
@@ -113,7 +114,9 @@ public abstract class LiveRideState
 
   private void speak(final String words)
   {
-    tts().speak(words, TextToSpeech.QUEUE_ADD, null);
+    if (!CycleStreetsPreferences.pebbleVoice() && getPebbleNotifier().isConnected()) {
+      tts().speak(words, TextToSpeech.QUEUE_ADD, null);
+    }
   } // speak
 } // interface LiveRideState
 
