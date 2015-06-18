@@ -61,6 +61,12 @@
         android:defaultValue="50"
         android:entries="@array/distance"
         android:entryValues="@array/distance_values" />
+    <CheckBoxPreference
+        android:defaultValue="true"
+        android:key="pebble-voice"
+        android:title="Pebble silence"
+        android:summary="Silence voice when Pebble connected"
+        />
   </PreferenceScreen>
   <PreferenceScreen
       android:title="Saved locations">

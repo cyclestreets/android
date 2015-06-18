@@ -1,5 +1,6 @@
 package net.cyclestreets;
 
+import net.cyclestreets.liveride.PebbleNotifier;
 import net.cyclestreets.util.GPS;
 import net.cyclestreets.util.MessageBox;
 import net.cyclestreets.views.CycleMapView;
@@ -15,7 +16,7 @@ import android.widget.RelativeLayout;
 
 public class LiveRideActivity extends Activity
 {
-  static public void launch(final Context context) 
+  static public void launch(final Context context)
   {
     if(!GPS.isOn(context)) {
       MessageBox.YesNo(context, 
@@ -36,7 +37,9 @@ public class LiveRideActivity extends Activity
     context.startActivity(intent);
   } // launchActivity
   
-  private CycleMapView map_; 
+  private CycleMapView map_;
+
+  private PebbleNotifier notifier_;
 
   @Override
   public void onCreate(final Bundle saved)
@@ -54,7 +57,7 @@ public class LiveRideActivity extends Activity
     rl.addView(map_, new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT));
     setContentView(rl);
   } // onCreate
-     
+
   //////////////////////////
   @Override
   public void onPause()

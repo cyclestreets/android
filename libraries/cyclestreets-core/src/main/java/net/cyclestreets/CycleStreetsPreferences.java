@@ -33,6 +33,7 @@ public class CycleStreetsPreferences
   public final static String PREF_NEARING_TURN = "nearing-turn-distance";
   public final static String PREF_OFFTRACK_DISTANCE = "offtrack-distance";
   public final static String PREF_REPLAN_DISTANCE = "replan-distance";
+  public final static String PREF_PEBBLE_VOICE = "pebble-voice";
 
   public final static String MAPSTYLE_OCM = "CycleStreets";
   public final static String MAPSTYLE_OSM = "CycleStreets-OSM";
@@ -132,6 +133,10 @@ public class CycleStreetsPreferences
 
   static public int replanDistance() {
     return Integer.parseInt(getString(PREF_REPLAN_DISTANCE, "50"));
+  }
+
+  static public boolean pebbleVoice() {
+    return getBoolean(PREF_PEBBLE_VOICE, true);
   }
 
   static public boolean uploadSmallImages() {
