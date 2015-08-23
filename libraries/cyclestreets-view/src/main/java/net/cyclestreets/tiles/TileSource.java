@@ -132,7 +132,12 @@ public class TileSource {
                                                          final String... baseUrls) {
     final boolean highDensity = Screen.isHighDensity(context);
     final int tileSize = highDensity ? 512 : 256;
-    final String tileSuffix = highDensity ? "@2x.png" : ".png";
+
+    // It's possible to use "@2x.png" to get upscaled tiles. However, currently, Cyclestreets
+    // tile server currently only performs nearest-neighbor upscaling, so it's better to perform
+    // bilinear scaling on the device.
+    final String tileSuffix = ".png";
+
     return createXYTileSource(name, aResourceId, tileSize, tileSuffix, baseUrls);
   } // createDensityAwareTileSource
 
