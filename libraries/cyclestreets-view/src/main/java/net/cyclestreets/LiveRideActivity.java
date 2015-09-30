@@ -45,17 +45,8 @@ public class LiveRideActivity extends Activity
   public void onCreate(final Bundle saved)
   {
     super.onCreate(saved);
-    
-    map_ = new CycleMapView(this, this.getClass().getName());
-    map_.overlayPushBottom(new RouteOverlay(this));
-    map_.overlayPushTop(new LockScreenOnOverlay(this, map_));
-    map_.overlayPushTop(new LiveRideOverlay(this, map_));
-    map_.lockOnLocation();
-    map_.hideLocationButton();
-    
-    final RelativeLayout rl = new RelativeLayout(this);
-    rl.addView(map_, new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT));
-    setContentView(rl);
+
+    // Map initialized in onResume
   } // onCreate
 
   //////////////////////////
@@ -64,7 +55,7 @@ public class LiveRideActivity extends Activity
   {
     map_.disableFollowLocation();
     map_.onPause();
-    
+
     super.onPause();
   } // onPause
   
@@ -73,7 +64,23 @@ public class LiveRideActivity extends Activity
   {
     super.onResume();
 
+    // Map needs to be recreated, because tile provider is shut down on CycleMapView.onPause
+    initializeMapView();
     map_.onResume();
     map_.enableAndFollowLocation();
   } // onResume
+
+  private void initializeMapView() {
+    map_ = new CycleMapView(this, this.getClass().getName());
+    map_.overlayPushBottom(new RouteOverlay(this));
+    map_.overlayPushTop(new LockScreenOnOverlay(this, map_));
+    map_.overlayPushTop(new LiveRideOverlay(this, map_));
+    map_.lockOnLocation();
+    map_.hideLocationButton();
+
+    final RelativeLayout rl = new RelativeLayout(this);
+    rl.addView(map_, new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT));
+    setContentView(rl);
+  }
+
 } // class LiveRideActivity

@@ -91,6 +91,8 @@ public class CycleMapView extends MapView
     controllerOverlay_.onPause(edit);
     edit.commit();
 
+    // These lines effectively shut down the map.
+    // This object needs to be discarded and re-created on resuming.
     getTileProvider().detach();
     getTileProvider().clearTileCache();
     BitmapPool.getInstance().clearBitmapPool();
