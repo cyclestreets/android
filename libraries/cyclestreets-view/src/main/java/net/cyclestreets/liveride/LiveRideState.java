@@ -45,7 +45,7 @@ public abstract class LiveRideState
     pebbleNotifier_ = pebbleNotifier;
     tts_ = tts;
     title_ = context.getString(context.getApplicationInfo().labelRes);
-    Log.d("CS_PEBBLE", "New State: " + this.getClass().getSimpleName());
+    Log.d("CS_PEBBLE LRS", "New State: " + this.getClass().getSimpleName());
   } // LiveRideState
   
   protected LiveRideState(final LiveRideState state) 
@@ -53,7 +53,7 @@ public abstract class LiveRideState
     context_ = state.context();
     pebbleNotifier_ = state.getPebbleNotifier();
     tts_ = state.tts();
-    Log.d("CS_PEBBLE", "State: " + this.getClass().getSimpleName());
+    Log.d("CS_PEBBLE LRS", "State: " + this.getClass().getSimpleName());
   } // LiveRideState
 
 

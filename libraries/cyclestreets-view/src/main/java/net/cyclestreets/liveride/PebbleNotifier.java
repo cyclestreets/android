@@ -25,7 +25,6 @@ public class PebbleNotifier {
   private static final UUID APP_UID = UUID.fromString("7b99db93-2503-4d6e-a503-67353132a90c");
   public static final String TAG = "CS_PEBBLE";
   private final Context context;
-  private boolean isConnected;
   private int transactionId = 1;
 
 
@@ -35,8 +34,6 @@ public class PebbleNotifier {
 
   private Queue<PebbleDictionary> messageQueue = new LinkedList<PebbleDictionary>();
   private BroadcastReceiver pebbleMessageReceiver;
-  private BroadcastReceiver pebbleConnectedReceiver;
-  private BroadcastReceiver pebbleDisconnectedReceiver;
   private PebbleKit.PebbleAckReceiver pebbleAckReceiver;
   private PebbleKit.PebbleNackReceiver pebbleNackReceiver;
 
@@ -61,7 +58,6 @@ public class PebbleNotifier {
   }
 
   public PebbleNotifier(Context context) {
-    this.isConnected = PebbleKit.isWatchConnected(context);
     this.context = context;
     pebbleMessageReceiver = new BroadcastReceiver() {
 
@@ -79,22 +75,6 @@ public class PebbleNotifier {
       }
     };
 
-    pebbleConnectedReceiver = new BroadcastReceiver() {
-
-      @Override
-      public void onReceive(Context context, Intent intent) {
-        isConnected = true;
-      }
-
-    };
-    pebbleDisconnectedReceiver = new BroadcastReceiver() {
-
-      @Override
-      public void onReceive(Context context, Intent intent) {
-        isConnected = false;
-      }
-
-    };
     pebbleAckReceiver = new PebbleKit.PebbleAckReceiver(APP_UID) {
 
       @Override
@@ -122,8 +102,6 @@ public class PebbleNotifier {
   private void registerReceivers() {
     Log.d(TAG, "register");
     context.registerReceiver(pebbleMessageReceiver, new IntentFilter(BROADCAST_PEBBLE_MESSAGE));
-    PebbleKit.registerPebbleConnectedReceiver(context, pebbleConnectedReceiver);
-    PebbleKit.registerPebbleDisconnectedReceiver(context, pebbleDisconnectedReceiver);
     PebbleKit.registerReceivedAckHandler(context, pebbleAckReceiver);
     PebbleKit.registerReceivedNackHandler(context, pebbleNackReceiver);
   }
@@ -131,8 +109,6 @@ public class PebbleNotifier {
   private void unregisterReceivers() {
     Log.d(TAG, "unregister");
     context.unregisterReceiver(pebbleMessageReceiver);
-    context.unregisterReceiver(pebbleConnectedReceiver);
-    context.unregisterReceiver(pebbleDisconnectedReceiver);
     context.unregisterReceiver(pebbleAckReceiver);
     context.unregisterReceiver(pebbleNackReceiver);
 
@@ -144,7 +120,7 @@ public class PebbleNotifier {
 
 
   public boolean isConnected() {
-    return isConnected;
+    return PebbleKit.isWatchConnected(context);
   }
 
   public void connectIfNeeded() {
