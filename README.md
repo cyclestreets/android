@@ -39,7 +39,7 @@ mobile@lists.cyclestreets.net
 License
 -------
 
-CycleStreets Android App Copyright 2010-2014 CycleStreets Ltd.
+CycleStreets Android App Copyright 2010-2016 CycleStreets Ltd.
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
