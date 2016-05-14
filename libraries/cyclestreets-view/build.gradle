@@ -6,3 +6,4 @@ dependencies {
       'com.android.support:appcompat-v7:20.+',
       'com.getpebble:pebblekit:3.0.0@aar'
 }
+

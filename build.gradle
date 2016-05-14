@@ -3,7 +3,7 @@ buildscript {
     mavenCentral()
   }
   dependencies {
-    classpath 'com.android.tools.build:gradle:1.0.0'
+    classpath 'com.android.tools.build:gradle:2.1.0'
     classpath 'com.jakewharton.sdkmanager:gradle-plugin:0.12.+'
   }
 }
@@ -13,7 +13,7 @@ configure(subprojects.findAll { it.path.startsWith(':custom-versions:') ||
   if (!file("${projectDir}/build.gradle").exists())
     return
 
-  apply plugin: 'android-sdk-manager'
+  //apply plugin: 'android-sdk-manager'
   apply plugin: 'com.android.application'
 
   signingKey(it)
@@ -25,7 +25,7 @@ configure(subprojects.findAll { it.path.startsWith(':libraries:') }) {
   if (!file("${projectDir}/build.gradle").exists())
     return
 
-  apply plugin: 'android-sdk-manager'
+  //apply plugin: 'android-sdk-manager'
   apply plugin: 'com.android.library'
 } // configure libraries
 

@@ -10,3 +10,4 @@ dependencies {
       'org.apache.httpcomponents:httpmime:4.1',
       'org.slf4j:slf4j-android:1.6.1-RC1'
 }
+
