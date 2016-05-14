@@ -35,25 +35,15 @@ public final class CycleStreetsAppSupport {
   public static boolean isFirstRun() { return isFirstRun_; }
 
   private  static String version(final Context context) {
-    return String.format("Version : %s/%s", context.getPackageName(), versionName(context));
+    return "Version : " + AppInfo.version(context);
   } // version
-
-  private static String versionName(final Context context) {
-    try {
-      final PackageInfo info = context.getPackageManager().getPackageInfo(context.getPackageName(), 0);
-      return info.versionName;
-    } // try
-    catch(PackageManager.NameNotFoundException nnfe) {
-      // like this is going to happen
-      return UNKNOWN;
-    } // catch
-  } // versionName
 
   private static boolean isFirstRun(final Context context) {
     return UNKNOWN.equals(previousVersion(context));
   } // isFirstRun
   private static boolean isNew(final Context context, final String version) {
-    return !version.equals(previousVersion(context));
+    String prev = previousVersion(context);
+    return !version.equals(prev);
   } // isNewVersion
   private static String previousVersion(final Context context) {
     return prefs(context).getString(VERSION_KEY, UNKNOWN);
