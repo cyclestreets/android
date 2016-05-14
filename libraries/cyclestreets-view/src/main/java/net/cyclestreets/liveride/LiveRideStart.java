@@ -12,7 +12,7 @@ final class LiveRideStart extends LiveRideState
   LiveRideStart(final Context context, final PebbleNotifier pebbleNotifier, final TextToSpeech tts)
   {
     super(context, pebbleNotifier, tts);
-    notify("LiveRide", "Starting LiveRide");
+    notify("Starting LiveRide", "Starting LiveRide");
   } // LiveRideStart
   
   @Override

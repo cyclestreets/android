@@ -114,9 +114,13 @@ public abstract class LiveRideState
 
   private void speak(final String words)
   {
-    if (!CycleStreetsPreferences.pebbleVoice() && getPebbleNotifier().isConnected()) {
-      tts().speak(words, TextToSpeech.QUEUE_ADD, null);
-    }
+    String toSpeak = words.replace("LiveRide", "Live Ride");
+
+    if (getPebbleNotifier().isConnected()) {
+      if (CycleStreetsPreferences.pebbleVoice())
+        tts().speak(toSpeak, TextToSpeech.QUEUE_ADD, null);
+    } else
+      tts().speak(toSpeak, TextToSpeech.QUEUE_ADD, null);
   } // speak
 } // interface LiveRideState
 
