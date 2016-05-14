@@ -5,7 +5,7 @@ What is it?
 -----------
 
 CycleStreets is a UK-wide cycle journey planner system, which lets you plan
-routes from A to B by bike. It is designed by cyclists, for cyclists, and
+routes from A to B to C by bike. It is designed by cyclists, for cyclists, and
 caters for the needs of both confident and less confident cyclists.
 
 - Point-to-point tap-to-route cycle routing
@@ -39,7 +39,7 @@ mobile@lists.cyclestreets.net
 License
 -------
 
-CycleStreets Android App Copyright 2010-2014 CycleStreets Ltd.
+CycleStreets Android App Copyright 2010-2016 CycleStreets Ltd.
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -57,7 +57,7 @@ along with this program.  If not, see http://www.gnu.org/licenses
 Contacts
 --------
 
-Written by Jez Higgins, with contributions from Theodore Hong, Christopher Fraser, Jonathan Gray, Shaun McDonald, Simon Nuttall, Colin Watson.
+Written by Jez Higgins, with contributions from Theodore Hong, Christopher Fraser, Jonathan Gray, Farid Kurbanov, kyegupov, Shaun McDonald, Simon Nuttall, John Singleton, Colin Watson.
 
 Part of the development of this App has been funded by Cycling Scotland.
 
