@@ -40,7 +40,7 @@ subprojects {
   android {
     Properties appConfig = loadProperties("${rootDir}/config.properties")
 
-    compileSdkVersion appConfig['sdkVersion'].toInteger()
+    compileSdkVersion appConfig['compileSdkVersion'].toInteger()
     buildToolsVersion appConfig['toolsVersion']
 
     compileOptions {
