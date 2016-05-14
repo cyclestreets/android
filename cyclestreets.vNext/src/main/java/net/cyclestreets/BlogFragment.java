@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 
 import net.cyclestreets.api.Blog;
 
@@ -15,7 +14,7 @@ import java.util.TimerTask;
 
 public class BlogFragment
     extends WebPageFragment {
-  private static final String CycleStreetsBlogUrl = "http://www.cyclestreets.net/blog/";
+  private static final String CycleStreetsBlogUrl = "https://www.cyclestreets.net/blog/";
 
   public BlogFragment() {
     super(CycleStreetsBlogUrl);
