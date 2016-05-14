@@ -40,11 +40,14 @@ import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 
+import net.cyclestreets.AppInfo;
+
 public class ApiClient
 {
   private static SchemeRegistry schemeRegistry_;
   private static ClientConnectionManager connectionManager_;
   private static HttpParams params_;
+  private static String userAgent_;
   static
   {
     schemeRegistry_ = new SchemeRegistry();
@@ -99,6 +102,7 @@ public class ApiClient
     context_ = context;
     apiKey_ = findApiKey(context_);
     cache_ = new ApiCallCache(context_);
+    userAgent_ = AppInfo.version(context_);
     POICategories.backgroundLoad();
     PhotomapCategories.backgroundLoad();
   } // initialise
@@ -412,7 +416,7 @@ public class ApiClient
   private static byte[] executeRaw(final HttpRequestBase method)
       throws IOException
   {
-    method.setHeader("User-Agent", "CycleStreets Android/1.0");
+    method.setHeader("User-Agent", userAgent_);
 
     final HttpClient httpclient = new DefaultHttpClient(connectionManager_, params_);
 

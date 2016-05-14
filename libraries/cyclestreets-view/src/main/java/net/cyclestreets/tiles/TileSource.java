@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.preference.ListPreference;
 
+import net.cyclestreets.AppInfo;
 import net.cyclestreets.CycleStreetsPreferences;
 import net.cyclestreets.util.MapPack;
 import net.cyclestreets.util.MessageBox;
@@ -213,7 +214,7 @@ public class TileSource {
       @Override
       public HttpClient createHttpClient() {
         final DefaultHttpClient client = new DefaultHttpClient();
-        client.getParams().setParameter(CoreProtocolPNames.USER_AGENT, "Cyclestreets Android TileSource");
+        client.getParams().setParameter(CoreProtocolPNames.USER_AGENT, AppInfo.version(context));
         return client;
       }
     };
