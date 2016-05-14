@@ -14,7 +14,7 @@ import java.util.TimerTask;
 
 public class BlogFragment
     extends WebPageFragment {
-  private static final String CycleStreetsBlogUrl = "http://www.cyclestreets.net/blog/";
+  private static final String CycleStreetsBlogUrl = "https://www.cyclestreets.net/blog/";
 
   public BlogFragment() {
     super(CycleStreetsBlogUrl);
