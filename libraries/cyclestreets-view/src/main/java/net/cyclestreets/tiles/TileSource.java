@@ -177,18 +177,24 @@ public class TileSource {
         createDensityAwareTileSource(context,
                                      CycleStreetsPreferences.MAPSTYLE_OCM,
                                      ResourceProxy.string.cyclemap,
-                                     "http://tile.cyclestreets.net/opencyclemap/");
+                                     "https://a.tile.cyclestreets.net/opencyclemap/",
+                                     "https://b.tile.cyclestreets.net/opencyclemap/",
+                                     "https://c.tile.cyclestreets.net/opencyclemap/");
     final ITileSource OPENSTREETMAP =
         createDensityAwareTileSource(context,
                                      CycleStreetsPreferences.MAPSTYLE_OSM,
                                      ResourceProxy.string.unknown,
-                                     "http://tile.cyclestreets.net/mapnik/");
+                                     "https://a.tile.cyclestreets.net/mapnik/",
+                                     "https://b.tile.cyclestreets.net/mapnik/",
+                                     "https://c.tile.cyclestreets.net/mapnik/");
 
     final ITileSource OSMAP =
         createDensityAwareTileSource(context,
                                      CycleStreetsPreferences.MAPSTYLE_OS,
                                      ResourceProxy.string.unknown,
-                                     "http://tile.cyclestreets.net/osopendata/");
+                                     "https://a.tile.cyclestreets.net/osopendata/",
+                                     "https://b.tile.cyclestreets.net/osopendata/",
+                                     "https://c.tile.cyclestreets.net/osopendata/");
 
     final MapsforgeOSMTileSource MAPSFORGE = new MapsforgeOSMTileSource(CycleStreetsPreferences.MAPSTYLE_MAPSFORGE, Screen.isHighDensity(context));
 
