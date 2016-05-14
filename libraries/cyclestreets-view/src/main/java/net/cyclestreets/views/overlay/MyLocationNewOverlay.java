@@ -30,7 +30,6 @@ import android.graphics.Point;
 import android.graphics.PointF;
 import android.graphics.Rect;
 import android.location.Location;
-import android.util.FloatMath;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -220,10 +219,10 @@ class MyLocationNewOverlay extends Overlay implements IMyLocationConsumer,
 
     // Add in the accuracy circle if enabled
     if (mDrawAccuracyEnabled) {
-      final int radius = (int) FloatMath.ceil(lastFix.getAccuracy()
+      final int radius = (int)Math.ceil(lastFix.getAccuracy()
           / (float) TileSystem.GroundResolution(lastFix.getLatitude(), zoomLevel));
       reuse.union(posX - radius, posY - radius, posX + radius, posY + radius);
-      final int strokeWidth = (int) FloatMath.ceil(mCirclePaint.getStrokeWidth() == 0 ? 1
+      final int strokeWidth = (int)Math.ceil(mCirclePaint.getStrokeWidth() == 0 ? 1
           : mCirclePaint.getStrokeWidth());
       reuse.inset(-strokeWidth, -strokeWidth);
     }
