@@ -3,11 +3,11 @@ package net.cyclestreets.track;
 import android.app.Activity;
 
 interface IRecordService {
-	public int getState();
+  int getState();
 
-	public TripData startRecording();
-	public TripData stopRecording();
+  TripData startRecording();
+  TripData stopRecording();
 
-	public void setListener(TrackListener ra);
-  public void setNotificationActivity(Class<Activity> activityClass);
+  void setListener(TrackListener ra);
+  void setNotificationActivity(Class<Activity> activityClass);
 }

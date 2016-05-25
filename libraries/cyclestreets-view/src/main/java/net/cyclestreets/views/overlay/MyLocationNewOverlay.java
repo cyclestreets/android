@@ -16,7 +16,6 @@ import org.osmdroid.views.overlay.Overlay.Snappable;
 import org.osmdroid.views.overlay.mylocation.GpsMyLocationProvider;
 import org.osmdroid.views.overlay.mylocation.IMyLocationConsumer;
 import org.osmdroid.views.overlay.mylocation.IMyLocationProvider;
-import org.osmdroid.views.util.constants.MapViewConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -64,7 +63,7 @@ class MyLocationNewOverlay extends Overlay implements IMyLocationConsumer,
   private final IMapController mMapController;
   public IMyLocationProvider mMyLocationProvider;
 
-  private final LinkedList<Runnable> mRunOnFirstFix = new LinkedList<Runnable>();
+  private final LinkedList<Runnable> mRunOnFirstFix = new LinkedList<>();
   private final Point mMapCoords = new Point();
 
   private Location mLocation;

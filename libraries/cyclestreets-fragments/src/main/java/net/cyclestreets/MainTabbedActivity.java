@@ -28,7 +28,7 @@ import android.widget.TabHost.TabSpec;
 public abstract class MainTabbedActivity extends FragmentActivity implements OnTabChangeListener, TabHost.TabContentFactory
 {
   private TabHost tabHost_;
-  private final Map<String, TabInfo> tabs_ = new HashMap<String, TabInfo>();
+  private final Map<String, TabInfo> tabs_ = new HashMap<>();
   private TabInfo lastTab_;
 
 	public void onCreate(final Bundle savedInstanceState)

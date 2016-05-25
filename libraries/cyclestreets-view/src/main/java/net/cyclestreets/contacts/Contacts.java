@@ -12,7 +12,7 @@ public class Contacts
 {
 	static public List<Contact> load(final Context context) 
 	{
-		final List<Contact> contacts = new ArrayList<Contact>();
+		final List<Contact> contacts = new ArrayList<>();
 		
 		final String[] projection = new String[] {
 				ContactsContract.Data.CONTACT_ID,

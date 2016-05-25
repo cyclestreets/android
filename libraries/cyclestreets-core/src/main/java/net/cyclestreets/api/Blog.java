@@ -23,7 +23,7 @@ public class Blog
   
   private Blog()
   {
-    entries_ = new ArrayList<BlogEntry>();
+    entries_ = new ArrayList<>();
   } // Blog
   
   public boolean isNull() 

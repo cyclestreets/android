@@ -1,15 +1,6 @@
 package net.cyclestreets;
 
-import net.cyclestreets.api.DistanceFormatter;
-import net.cyclestreets.fragments.R;
-
-import net.cyclestreets.routing.Journey;
-import net.cyclestreets.routing.Route;
-import net.cyclestreets.routing.Segment;
-import net.cyclestreets.routing.Waypoints;
-
 import android.content.Context;
-import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -22,6 +13,12 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import net.cyclestreets.api.DistanceFormatter;
+import net.cyclestreets.fragments.R;
+import net.cyclestreets.routing.Journey;
+import net.cyclestreets.routing.Route;
+import net.cyclestreets.routing.Segment;
+import net.cyclestreets.routing.Waypoints;
 import net.cyclestreets.util.Theme;
 import net.cyclestreets.util.TurnIcons;
 

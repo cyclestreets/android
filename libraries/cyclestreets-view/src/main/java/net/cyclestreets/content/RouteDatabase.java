@@ -106,7 +106,7 @@ public class RouteDatabase
   
   public List<RouteSummary> savedRoutes()
   {
-    final List<RouteSummary> routes = new ArrayList<RouteSummary>();
+    final List<RouteSummary> routes = new ArrayList<>();
     final Cursor cursor = db_.query(DatabaseHelper.ROUTE_TABLE,
         new String[] { BaseColumns._ID, "journey", "name", "plan", "distance" },
                         null, 

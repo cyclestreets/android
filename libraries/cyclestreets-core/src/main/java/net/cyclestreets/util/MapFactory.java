@@ -11,7 +11,7 @@ public class MapFactory<K, V>
 {
   static public <K, V> MapBuilder<K, V> map(K key, V value)
   {
-	final Builder<K, V> builder = new Builder<K, V>();
+	final Builder<K, V> builder = new Builder<>();
 	return builder.map(key, value);
   } // map
 
@@ -21,7 +21,7 @@ public class MapFactory<K, V>
 		
 	private Builder() 
 	{
-	  backing_ = new HashMap<K, V>();
+	  backing_ = new HashMap<>();
 	} // Builder
 
 	public MapBuilder<K, V> map(K key, V value)

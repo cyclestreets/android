@@ -26,7 +26,7 @@ public class MapPack
   
   static public List<MapPack> availableMapPacks()
   {
-    final List<MapPack> packs = new ArrayList<MapPack>();
+    final List<MapPack> packs = new ArrayList<>();
     
     final File obbDir = new File(Environment.getExternalStorageDirectory(), "Android/obb");
     if(!obbDir.exists())
@@ -70,9 +70,7 @@ public class MapPack
       final File detailsFile = findMapFile(mapDir, "patch.");
       details.load(new FileInputStream(detailsFile));
     } // try
-    catch(IOException e) { 
-    }
-    catch(RuntimeException e) {
+    catch(IOException | RuntimeException e) {
     } // catch
     return details;
   } // mapName

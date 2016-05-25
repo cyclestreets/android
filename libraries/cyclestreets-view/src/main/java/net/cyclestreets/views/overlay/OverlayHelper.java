@@ -44,5 +44,5 @@ public class OverlayHelper
   
   private CycleMapView view_;
   @SuppressWarnings("rawtypes")
-  private Map<Class, Overlay> memo_ = new HashMap<Class, Overlay>();
+  private Map<Class, Overlay> memo_ = new HashMap<>();
 } // OverlayHelper

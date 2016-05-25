@@ -35,7 +35,7 @@ public class PlaceViewBase extends LinearLayout
 {
   public interface OnResolveListener
   {
-    public void onResolve(final GeoPlace place);
+    void onResolve(final GeoPlace place);
   } // interface ResolveListener
 
   ////////////////////////////////
@@ -189,7 +189,7 @@ public class PlaceViewBase extends LinearLayout
   @Override
   public void onClick(final View v)
   {
-    options_ = new ArrayList<String>();
+    options_ = new ArrayList<>();
     for(final GeoPlace gp : allowedPlaces_)
       options_.add(gp.name());
     if (contactsAvailable())

@@ -10,7 +10,6 @@ import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceScreen;
 
-import net.cyclestreets.api.POICategories;
 import net.cyclestreets.tiles.TileSource;
 import net.cyclestreets.util.MapPack;
 import net.cyclestreets.util.MessageBox;
@@ -57,8 +56,8 @@ public class SettingsActivity extends PreferenceActivity
   } // setupMapFileList
 
   private void populateMapFileList(final ListPreference mapfilePref) {
-    final List<String> names = new ArrayList<String>();
-    final List<String> files = new ArrayList<String>();
+    final List<String> names = new ArrayList<>();
+    final List<String> files = new ArrayList<>();
 
     for(final MapPack pack : MapPack.availableMapPacks()) {
       names.add(pack.name());

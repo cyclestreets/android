@@ -1,7 +1,6 @@
 package net.cyclestreets.views.overlay;
 
 import org.osmdroid.views.MapView;
-import org.osmdroid.views.overlay.Overlay;
 
 import android.content.Context;
 import android.content.Intent;
@@ -11,7 +10,6 @@ import android.view.MotionEvent;
 
 import net.cyclestreets.PhotoUploadActivity;
 import net.cyclestreets.view.R;
-import net.cyclestreets.views.CycleMapView;
 
 public class PhotoUploadButtonOverlay extends ButtonOnlyOverlay {
   /////////////////////////////////////////////////////

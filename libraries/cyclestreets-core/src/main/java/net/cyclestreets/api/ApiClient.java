@@ -460,14 +460,14 @@ public class ApiClient
     return factory.read(result);
   } // loadRaw
 
-   private static <T> Map<String, T> argMap(String path, T... args) {
-     Map<String, T> params = new HashMap<>();
-     for (int i = 0; i != args.length; i+=2)
-       params.put((String)args[i], args[i+1]);
+  private static <T> Map<String, T> argMap(String path, T... args) {
+    Map<String, T> params = new HashMap<>();
+    for (int i = 0; i != args.length; i+=2)
+      params.put((String)args[i], args[i+1]);
      
-     if (customiser_ != null)
-       customiser_.customise(path, params);
+    if (customiser_ != null)
+      customiser_.customise(path, params);
      
-     return params;
-   } // argMap
+    return params;
+  } // argMap
 } // ApiClient

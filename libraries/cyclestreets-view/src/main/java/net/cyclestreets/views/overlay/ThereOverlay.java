@@ -19,7 +19,7 @@ import android.view.MotionEvent;
 public class ThereOverlay extends Overlay
                           implements TapListener
 {
-  static public interface LocationListener {
+  public interface LocationListener {
     void onSetLocation(final IGeoPoint point);
   }
 

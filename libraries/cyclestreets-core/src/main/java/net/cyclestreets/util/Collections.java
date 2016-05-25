@@ -7,9 +7,9 @@ import java.util.Iterator;
 
 public class Collections
 {
-  static public interface MapBuilder<K,V> extends Map<K, V>
+  public interface MapBuilder<K,V> extends Map<K, V>
   {
-    public MapBuilder<K, V> map(K key, V v);
+    MapBuilder<K, V> map(K key, V v);
   } // interface MapBuilder
 
   static public <K, V> MapBuilder<K,V> map(K key, V value)

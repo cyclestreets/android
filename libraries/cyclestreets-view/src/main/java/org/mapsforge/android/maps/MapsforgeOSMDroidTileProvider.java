@@ -14,7 +14,6 @@ import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpUriRequest;
-import org.apache.http.impl.client.DefaultHttpClient;
 import org.osmdroid.http.HttpClientFactory;
 import org.osmdroid.tileprovider.MapTile;
 import org.osmdroid.tileprovider.MapTileRequestState;
@@ -129,9 +128,7 @@ public class MapsforgeOSMDroidTileProvider extends MapTileModuleProviderBase
 
         final Drawable result = fallbackTileSource_.getDrawable(new ByteArrayInputStream(data));
         return result;
-      } catch (final UnknownHostException e) {
-        throw new CantContinueException(e);
-      } catch (final LowMemoryException e) {
+      } catch (final UnknownHostException | LowMemoryException e) {
         throw new CantContinueException(e);
       } catch (final Exception e) {
         return null;

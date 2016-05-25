@@ -44,7 +44,7 @@ public class Dialog {
   } // createProgressDialog
   
   public interface UpdatedTextListener {
-    public void updatedText(final String updated);
+    void updatedText(final String updated);
   } // interface UpdatedTextListener
   
   static public void editTextDialog(final Context context, 
