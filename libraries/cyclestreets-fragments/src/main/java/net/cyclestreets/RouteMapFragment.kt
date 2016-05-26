@@ -24,6 +24,13 @@ import android.view.ViewGroup
 
 import net.cyclestreets.util.MenuHelper.enableMenuItem
 import net.cyclestreets.util.MenuHelper.showMenuItem
+import android.R
+import net.cyclestreets.util.MessageBox
+import net.cyclestreets.util.GpsFileDownloader
+
+
+
+
 
 private val TAG = Logging.getTag(RouteMapFragment::class.java)
 
@@ -73,6 +80,8 @@ class RouteMapFragment : CycleMapFragment(), Route.Listener {
         enableMenuItem(menu, R.id.ic_menu_directions, true)
         showMenuItem(menu, R.id.ic_menu_saved_routes, Route.storedCount() != 0)
         enableMenuItem(menu, R.id.ic_menu_route_number, true)
+        showMenuItem(menu, R.id.ic_menu_gps_file_download, Route.available())
+        enableMenuItem(menu, R.id.ic_menu_gps_file_download, true)
         super.onPrepareOptionsMenu(menu)
     }
 
@@ -96,6 +105,10 @@ class RouteMapFragment : CycleMapFragment(), Route.Listener {
             R.id.ic_menu_route_number -> {
                 launchFetchRouteDialog()
                 return true
+            }
+            R.id.ic_menu_gps_file_download -> {
+                launchGpsFileDownloadDialog()
+                return true;
             }
             else -> return false
         }
@@ -125,6 +138,15 @@ class RouteMapFragment : CycleMapFragment(), Route.Listener {
 
     private fun doLaunchFetchRouteDialog() {
         RouteByNumber.launch(activity)
+    }
+
+    private fun launchGpsFileDownloadDialog() {
+        MessageBox.YesNo(mapView(), R.string.confirm_gps_file_download,
+                         DialogInterface.OnClickListener { _, _ -> doLaunchGpsFileDownload() })
+    }
+
+    private fun doLaunchGpsFileDownload() {
+        GpsFileDownloader().downloadGPSFile(activity)
     }
 
     private fun launchStoredRoutes() {

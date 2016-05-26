@@ -10,6 +10,7 @@
   <string name="rba_finish">Finish marker</string>
   <string name="rba_waypoint">Waypoint %d</string>
   <string name="confirm_new_route">Start a new route?</string>
+  <string name="confirm_gps_file_download">Download GPX file?</string>
 
   <!-- Map menu -->
   <string name="ic_menu_directions">Plan a route</string>
@@ -21,6 +22,7 @@
   <string name="ic_menu_rename">Rename</string>
   <string name="ic_menu_edit">Edit</string>
   <string name="ic_menu_delete">Delete</string>
+  <string name="ic_menu_gps_file_download" translatable="false">GPS file download</string>
 
   <string name="ic_menu_itinerary">Itinerary</string>
   <string name="ic_menu_elevation">Elevation</string>
