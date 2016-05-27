@@ -1,8 +1,8 @@
 evaluationDependsOn(':libraries:cyclestreets-fragments')
 
 dependencies {
-  compile project(':libraries:cyclestreets-fragments'),
-          'ch.acra:acra:4.8.5'
+  compile project(':libraries:cyclestreets-fragments')
+  compile 'ch.acra:acra:4.8.5'
 }
 
 android {

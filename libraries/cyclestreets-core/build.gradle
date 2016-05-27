@@ -1,13 +1,11 @@
-
-
 configurations {
   compile.exclude module: 'commons-logging'
+  compile.exclude module: 'httpclient'
 }
 
 dependencies {
-  compile 'org.osmdroid:osmdroid-android:4.3',
-      'org.apache.james:apache-mime4j:0.6',
-      'org.apache.httpcomponents:httpmime:4.1',
-      'org.slf4j:slf4j-android:1.6.1-RC1'
+  compile 'org.osmdroid:osmdroid-android:4.3'
+  compile 'org.apache.james:apache-mime4j:0.7.2'
+  compile 'org.apache.httpcomponents:httpmime:4.5.2'
+  compile 'org.slf4j:slf4j-android:1.7.21'
 }
-
