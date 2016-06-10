@@ -16,7 +16,7 @@ import android.content.Context;
 public class ApiCallCache
 {
   private final Context context_;
-  private final Map<Integer, Long> daysToMs = new HashMap<Integer, Long>();
+  private final Map<Integer, Long> daysToMs = new HashMap<>();
   private static final int DEFAULT_BUFFER_SIZE = 40960;
   
   ApiCallCache(final Context context)

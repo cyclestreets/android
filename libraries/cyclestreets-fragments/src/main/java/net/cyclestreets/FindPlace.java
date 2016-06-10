@@ -4,24 +4,16 @@ import net.cyclestreets.fragments.R;
 
 import net.cyclestreets.api.GeoPlace;
 
-import net.cyclestreets.util.GeoIntent;
 import net.cyclestreets.util.MessageBox;
 import net.cyclestreets.views.PlaceView;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
-import android.content.Intent;
-import android.os.Bundle;
-import android.view.Gravity;
 import android.view.View;
-import android.widget.Button;
 import android.widget.Toast;
-import android.widget.RelativeLayout.LayoutParams;
 
 import org.osmdroid.api.IGeoPoint;
 import org.osmdroid.util.BoundingBoxE6;
-import org.osmdroid.util.GeoPoint;
 
 public class FindPlace {
   public interface Listener {

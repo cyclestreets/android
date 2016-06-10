@@ -15,7 +15,7 @@ import net.cyclestreets.api.json.JsonReader;
 import net.cyclestreets.api.json.JsonRootHandler;
 
 interface Factory<T> {
-  public T read(final byte[] xml);
+  T read(final byte[] xml);
 
   abstract class JsonProcessor<T> implements Factory<T> {
     public T read(final byte[] json) {

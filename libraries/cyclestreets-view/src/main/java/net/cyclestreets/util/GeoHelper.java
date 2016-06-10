@@ -79,7 +79,7 @@ public class GeoHelper
       ON_TRACK,
       BEFORE_START,
       OFF_END
-    };
+    }
     private final int offset_;
     private Position position_ = Position.ON_TRACK;
     

@@ -71,7 +71,7 @@ public class PhotoUploadFragment extends Fragment
     VIEW(LOCATION),
     DONE(VIEW);
     
-    private AddStep(AddStep p)
+    AddStep(AddStep p)
     {
       prev_ = p;
       if(prev_ != null)
@@ -98,7 +98,7 @@ public class PhotoUploadFragment extends Fragment
     private static void save(AddStep a)
     {
       if(Value_ == null)
-        Value_ = new HashMap<AddStep, Integer>();
+        Value_ = new HashMap<>();
       Value_.put(a, Value_.size());
     } // save
 

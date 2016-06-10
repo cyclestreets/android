@@ -275,7 +275,7 @@ public final class JsonReader implements Closeable {
       throw new IllegalStateException("Expected a boolean but was " + token);
     }
 
-    boolean result = (value == TRUE);
+    boolean result = (TRUE.equals(value));
     advance();
     return result;
   }

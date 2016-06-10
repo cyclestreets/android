@@ -97,7 +97,7 @@ public class ItemizedOverlay<Item extends OverlayItem> extends Overlay
     int markerWidth = (int) (marker.getIntrinsicWidth() * mScale);
     int markerHeight = (int) (marker.getIntrinsicHeight() * mScale);
 
-    rect_.set(0, 0, 0 + markerWidth, 0 + markerHeight);
+    rect_.set(0, 0, markerWidth, markerHeight);
 
     if (hotspot == null)
       hotspot = HotspotPlace.BOTTOM_CENTER;
@@ -190,7 +190,7 @@ public class ItemizedOverlay<Item extends OverlayItem> extends Overlay
     return false;
   } // activateSelectedItems
 
-  private static interface ActiveItem<Item> {
-    public boolean run(final Item aIndex);
+  private interface ActiveItem<Item> {
+    boolean run(final Item aIndex);
   } // interface ActiveItem
 } // class ItemizedOverlay

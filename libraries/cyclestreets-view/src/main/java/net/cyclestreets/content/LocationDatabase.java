@@ -86,7 +86,7 @@ public class LocationDatabase {
   } // savedLocations
 
   private List<SavedLocation> locations(String where, String[] whereArgs) {
-    final List<SavedLocation> locations = new ArrayList<SavedLocation>();
+    final List<SavedLocation> locations = new ArrayList<>();
     final Cursor cursor = db_.query(DatabaseHelper.LOCATION_TABLE,
         new String[] { BaseColumns._ID, "name", "lat", "lon" },
         where,

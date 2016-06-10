@@ -108,7 +108,7 @@ public class DbAdapter {
     final DbAdapter db = new DbAdapter(context.getApplicationContext());
     db.openReadOnly();
 
-    final List<Integer> result = new ArrayList<Integer>();
+    final List<Integer> result = new ArrayList<>();
 
     Cursor c = null;
     try {

@@ -2,18 +2,6 @@ package net.cyclestreets;
 
 import android.os.Bundle;
 
-import net.cyclestreets.ElevationProfileFragment;
-import net.cyclestreets.ItineraryFragment;
-import net.cyclestreets.MainNavDrawerActivity;
-import net.cyclestreets.MainSupport;
-import net.cyclestreets.PhotoMapFragment;
-import net.cyclestreets.PhotoUploadFragment;
-import net.cyclestreets.RouteAvailablePageStatus;
-import net.cyclestreets.RouteMapActivity;
-import net.cyclestreets.RouteMapFragment;
-import net.cyclestreets.WebPageFragment;
-import net.cyclestreets.api.Blog;
-
 public class CycleStreets extends MainNavDrawerActivity
                           implements RouteMapActivity {
   @Override

@@ -2,7 +2,6 @@ package net.cyclestreets;
 
 import android.content.Context;
 import android.content.Intent;
-import android.location.Location;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
 import android.view.ContextMenu;
@@ -20,7 +19,6 @@ import android.widget.TextView;
 import net.cyclestreets.content.LocationDatabase;
 import net.cyclestreets.content.SavedLocation;
 import net.cyclestreets.fragments.R;
-import net.cyclestreets.routing.Segment;
 
 import java.util.List;
 

@@ -13,7 +13,7 @@ public class Segments implements Iterable<Segment>
   
   public Segments() 
   {
-    segments_ = new ArrayList<Segment>();
+    segments_ = new ArrayList<>();
   } // Segments
   
   public int count() { return segments_.size(); }
