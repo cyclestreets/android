@@ -71,7 +71,7 @@ public class CycleMapFragment extends Fragment implements Undoable
   @Override
   public void onPrepareOptionsMenu(final Menu menu)
   {
-    if (forceMenuRebuild_ == true) {
+    if (forceMenuRebuild_) {
       forceMenuRebuild_ = false;
       menu.clear();
       onCreateOptionsMenu(menu, getActivity().getMenuInflater());

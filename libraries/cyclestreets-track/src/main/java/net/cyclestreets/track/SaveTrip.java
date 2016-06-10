@@ -42,8 +42,8 @@ public class SaveTrip extends Activity
     start(context, unfinishedTrip);
   } // startWithUnsaved
 
-  private final Map<Integer, ToggleButton> purpButtons = new HashMap<Integer,ToggleButton>();
-  private final Map <Integer, String> purpDescriptions = new HashMap<Integer, String>();
+  private final Map<Integer, ToggleButton> purpButtons = new HashMap<>();
+  private final Map <Integer, String> purpDescriptions = new HashMap<>();
   private TripData trip_;
   private String purpose_;
   private Spinner age_;

@@ -200,22 +200,22 @@ public class ControllerOverlay extends Overlay implements OnDoubleTapListener,
 	//////////////////////////////////////////////////////	
 	private Iterator<TapListener> tapOverlays()
 	{
-		return new OverlayIterator<TapListener>(mapView_, TapListener.class);
+		return new OverlayIterator<>(mapView_, TapListener.class);
 	} // tapOverlays
   private Iterator<ButtonTapListener> buttonTapOverlays()
   {
-    return new OverlayIterator<ButtonTapListener>(mapView_, ButtonTapListener.class);
+    return new OverlayIterator<>(mapView_, ButtonTapListener.class);
   } // buttonTapOverlays
 	private Iterator<MenuListener> menuOverlays()
 	{
-		return new OverlayIterator<MenuListener>(mapView_, MenuListener.class);
+		return new OverlayIterator<>(mapView_, MenuListener.class);
 	} // menuOverlays
 	private Iterator<ContextMenuListener> contextMenuOverlays()
 	{
-		return new OverlayIterator<ContextMenuListener>(mapView_, ContextMenuListener.class);
+		return new OverlayIterator<>(mapView_, ContextMenuListener.class);
 	} // contextMenuOverlays
 	private Iterator<PauseResumeListener> pauseResumeOverlays()
 	{
-	  return new OverlayIterator<PauseResumeListener>(mapView_, PauseResumeListener.class);
+	  return new OverlayIterator<>(mapView_, PauseResumeListener.class);
 	} // pauseResumeOverlays	
 } // class ControllerOverlay

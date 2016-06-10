@@ -373,7 +373,7 @@ public class POIOverlay
     if(item.getItemId() != R.string.ic_menu_poi)
       return false;
 
-    if(chooserShowing_ == true)
+    if(chooserShowing_)
       return true;
 
     chooserShowing_  = true;

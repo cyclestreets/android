@@ -11,7 +11,7 @@ public class RoutePlans {
       PLAN_QUIETEST, PLAN_BALANCED, PLAN_FASTEST, PLAN_SHORTEST
   };
 
-  public final static String[] allPlans() {
+  public static String[] allPlans() {
     return Plans;
   } // plans
 } // RoutePlans

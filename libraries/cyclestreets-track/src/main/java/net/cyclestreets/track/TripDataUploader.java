@@ -8,18 +8,12 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.provider.Settings.System;
 
-import net.cyclestreets.api.ApiClient;
 import net.cyclestreets.util.ListFactory;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.text.SimpleDateFormat;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Random;
-
 
 public class TripDataUploader extends AsyncTask<Void, Void, Boolean> {
   private int NOTIFICATION_ID = 1;

@@ -135,7 +135,7 @@ public class TapToRouteOverlay extends Overlay
     highlightBrush_ = Brush.HighlightBrush(context_);
     lowlightBrush_ = Brush.LowlightBrush(context_);
 
-    waymarkers_ = new ArrayList<OverlayItem>();
+    waymarkers_ = new ArrayList<>();
 
     tapState_ = TapToRoute.start();
 

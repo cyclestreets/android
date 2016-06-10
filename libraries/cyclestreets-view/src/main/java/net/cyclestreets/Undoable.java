@@ -2,5 +2,5 @@ package net.cyclestreets;
 
 public interface Undoable
 {
-  public boolean onBackPressed();
+  boolean onBackPressed();
 } // Undoable

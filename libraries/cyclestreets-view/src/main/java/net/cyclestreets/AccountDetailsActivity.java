@@ -33,7 +33,7 @@ public class AccountDetailsActivity extends Activity
     
     EXISTING_SIGNIN_DETAILS(null);
     
-    private RegisterStep(final RegisterStep p)
+    RegisterStep(final RegisterStep p)
     {
       prev_ = p;
       if(prev_ != null)

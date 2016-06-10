@@ -21,12 +21,12 @@ public class Waypoints implements Iterable<IGeoPoint>
   
   public Waypoints() 
   {
-    waypoints_ = new ArrayList<IGeoPoint>();
+    waypoints_ = new ArrayList<>();
   } // Waypoints
   
   private Waypoints(final IGeoPoint from, final IGeoPoint to)
   {
-    waypoints_ = new ArrayList<IGeoPoint>();
+    waypoints_ = new ArrayList<>();
     waypoints_.add(from);
     waypoints_.add(to);
   } // Waypoints
@@ -55,7 +55,7 @@ public class Waypoints implements Iterable<IGeoPoint>
   
   public Waypoints reversed() 
   {
-    final List<IGeoPoint> points = new ArrayList<IGeoPoint>(waypoints_);
+    final List<IGeoPoint> points = new ArrayList<>(waypoints_);
     Collections.reverse(points);
     return new Waypoints(points);
   } // reversed

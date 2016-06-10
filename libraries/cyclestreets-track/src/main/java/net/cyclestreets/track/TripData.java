@@ -59,7 +59,7 @@ public class TripData {
 
     purp_ = fancystart_ = info_ = "";
 
-    gpspoints = new ArrayList<CyclePoint>();
+    gpspoints = new ArrayList<>();
 
     mDb.open();
     mDb.setStartTime(tripid, startTime_);
@@ -92,7 +92,7 @@ public class TripData {
 
   private void loadJourney() {
     // Otherwise, we need to query DB and build points from scratch.
-    gpspoints = new ArrayList<CyclePoint>();
+    gpspoints = new ArrayList<>();
 
     mDb.openReadOnly();
 

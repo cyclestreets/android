@@ -93,7 +93,7 @@ public class GeoLiveAdapter extends GeoAdapter
     @Override
     protected FilterResults performFiltering(CharSequence cs)
     {
-      final List<GeoPlace> list = new ArrayList<GeoPlace>();
+      final List<GeoPlace> list = new ArrayList<>();
       
       if (cs != null)
       {
@@ -138,7 +138,7 @@ public class GeoLiveAdapter extends GeoAdapter
         return;
 			
       final String match = (PREFS_GEO_NAME_PREFIX + cs).toLowerCase();
-      final Set<String> sortedKeys = new TreeSet<String>(prefs.getAll().keySet());
+      final Set<String> sortedKeys = new TreeSet<>(prefs.getAll().keySet());
 		
       for (final String s: sortedKeys)
       {		

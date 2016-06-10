@@ -24,7 +24,7 @@ public class PlaceAutoCompleteTextView extends AutoCompleteTextView
   private GeoLiveAdapter adapter_;
   private GeoPlace place_;
   private Contact contact_;
-  private Set<GeoPlace> localHistory_ = new HashSet<GeoPlace>();
+  private Set<GeoPlace> localHistory_ = new HashSet<>();
   
   public PlaceAutoCompleteTextView(final Context context)
   {

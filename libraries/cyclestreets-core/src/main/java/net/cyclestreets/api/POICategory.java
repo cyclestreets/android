@@ -5,15 +5,8 @@ import java.util.Collections;
 import java.util.List;
 
 import org.osmdroid.api.IGeoPoint;
-import org.xml.sax.Attributes;
-import org.xml.sax.ContentHandler;
 
 import android.graphics.drawable.Drawable;
-import android.sax.Element;
-import android.sax.EndElementListener;
-import android.sax.EndTextElementListener;
-import android.sax.RootElement;
-import android.sax.StartElementListener;
 
 import net.cyclestreets.api.json.JsonArrayHandler;
 import net.cyclestreets.api.json.JsonObjectHandler;

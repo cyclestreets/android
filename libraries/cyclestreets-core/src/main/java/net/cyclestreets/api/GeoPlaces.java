@@ -22,7 +22,7 @@ public class GeoPlaces implements Iterable<GeoPlace>
   
   private GeoPlaces()
   {
-    places_ = new ArrayList<GeoPlace>();
+    places_ = new ArrayList<>();
   } // GeoPlaces
   
   private void add(final GeoPlace place) { places_.add(place); }

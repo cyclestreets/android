@@ -69,7 +69,7 @@ public class PhotoUploadActivity extends Activity
     VIEW(LOCATION),
     DONE(VIEW);
     
-    private AddStep(AddStep p)
+    AddStep(AddStep p)
     {
       prev_ = p;
       if(prev_ != null)
@@ -96,7 +96,7 @@ public class PhotoUploadActivity extends Activity
     private static void save(AddStep a)
     {
       if(Value_ == null)
-        Value_ = new HashMap<AddStep, Integer>();
+        Value_ = new HashMap<>();
       Value_.put(a, Value_.size());
     } // save
 
@@ -165,7 +165,7 @@ public class PhotoUploadActivity extends Activity
       else
         takePhoto.setEnabled(false);
     }
-    ((Button)photoView_.findViewById(R.id.chooseexisting_button)).setOnClickListener(this);
+    photoView_.findViewById(R.id.chooseexisting_button).setOnClickListener(this);
     {
       final Button textOnly = (Button)photoView_.findViewById(R.id.textonly_button);
       if (allowTextOnly_)

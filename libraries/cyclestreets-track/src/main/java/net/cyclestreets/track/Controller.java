@@ -40,7 +40,7 @@ class Controller
     rs_.setListener(listener_);
     rs_.setNotificationActivity((Class<Activity>)context_.getClass());
 
-    if (shouldStart_ == true)
+    if (shouldStart_)
       rs_.startRecording();
   } // onServiceConnected
 

@@ -17,8 +17,8 @@ import net.cyclestreets.content.RouteSummary;
 public class Route
 {
   public interface Listener {
-    public void onNewJourney(final Journey journey, final Waypoints waypoints);
-    public void onResetJourney();
+    void onNewJourney(final Journey journey, final Waypoints waypoints);
+    void onResetJourney();
   } // Listener
 
   private static class Listeners {

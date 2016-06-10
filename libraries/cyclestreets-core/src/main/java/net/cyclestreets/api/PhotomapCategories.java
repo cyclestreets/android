@@ -20,8 +20,8 @@ public class PhotomapCategories
 {
   static private PhotomapCategories loaded_;
 
-  private List<PhotomapCategory> categories_ = new ArrayList<PhotomapCategory>();
-  private List<PhotomapCategory> metaCategories_ = new ArrayList<PhotomapCategory>();
+  private List<PhotomapCategory> categories_ = new ArrayList<>();
+  private List<PhotomapCategory> metaCategories_ = new ArrayList<>();
 
   public List<PhotomapCategory> categories() { return categories_; }
   public List<PhotomapCategory> metaCategories() { return metaCategories_; }

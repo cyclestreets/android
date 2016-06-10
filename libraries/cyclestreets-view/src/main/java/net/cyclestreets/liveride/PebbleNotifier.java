@@ -32,7 +32,7 @@ public class PebbleNotifier {
   private boolean isSending = false;
 
 
-  private Queue<PebbleDictionary> messageQueue = new LinkedList<PebbleDictionary>();
+  private Queue<PebbleDictionary> messageQueue = new LinkedList<>();
   private BroadcastReceiver pebbleMessageReceiver;
   private PebbleKit.PebbleAckReceiver pebbleAckReceiver;
   private PebbleKit.PebbleNackReceiver pebbleNackReceiver;
@@ -63,7 +63,7 @@ public class PebbleNotifier {
 
       @Override
       public void onReceive(Context context, Intent intent) {
-        if (isSending() == false && !messageQueue.isEmpty()) {
+        if (!isSending() && !messageQueue.isEmpty()) {
           setSending(true);
           PebbleDictionary dictionary = messageQueue.peek();
           if (dictionary != null) {
