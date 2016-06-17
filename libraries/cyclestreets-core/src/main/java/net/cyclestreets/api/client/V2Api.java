@@ -1,6 +1,6 @@
 package net.cyclestreets.api.client;
 
-import net.cyclestreets.api.client.dto.FeatureCollection;
+import org.geojson.FeatureCollection;
 
 import retrofit2.Call;
 import retrofit2.http.GET;

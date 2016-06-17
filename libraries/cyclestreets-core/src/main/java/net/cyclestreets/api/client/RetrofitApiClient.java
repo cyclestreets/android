@@ -1,7 +1,9 @@
 package net.cyclestreets.api.client;
 
 import net.cyclestreets.api.POI;
-import net.cyclestreets.api.client.dto.FeatureCollection;
+import net.cyclestreets.api.client.geojson.PoiFactory;
+
+import org.geojson.FeatureCollection;
 
 import java.io.IOException;
 import java.util.List;
@@ -10,7 +12,7 @@ import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import retrofit2.Response;
 import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit2.converter.jackson.JacksonConverterFactory;
 
 public class RetrofitApiClient {
 
@@ -23,14 +25,14 @@ public class RetrofitApiClient {
 
     Retrofit retrofitV1 = new Retrofit.Builder()
             .client(client)
-            .addConverterFactory(GsonConverterFactory.create())
+            .addConverterFactory(JacksonConverterFactory.create())
             .baseUrl(builder.v1Host)
             .build();
     v1Api = retrofitV1.create(V1Api.class);
 
     Retrofit retrofitV2 = new Retrofit.Builder()
         .client(client)
-        .addConverterFactory(GsonConverterFactory.create())
+        .addConverterFactory(JacksonConverterFactory.create())
         .baseUrl(builder.v2Host)
         .build();
     v2Api = retrofitV2.create(V2Api.class);
@@ -67,7 +69,7 @@ public class RetrofitApiClient {
                            final double latS) throws IOException {
     String bbox = lonW + "," + latS + "," + lonE + "," + latN;
     Response<FeatureCollection> response = v2Api.getPOIs(type, bbox).execute();
-    return response.body().toPoiList();
+    return PoiFactory.toPoiList(response.body());
   }
 
   public List<POI> getPOIs(final String type,
@@ -75,6 +77,6 @@ public class RetrofitApiClient {
                            final double lat,
                            final int radius) throws IOException {
     Response<FeatureCollection> response = v2Api.getPOIs(type, lon, lat, radius).execute();
-    return response.body().toPoiList();
+    return PoiFactory.toPoiList(response.body());
   }
 }

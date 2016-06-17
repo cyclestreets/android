@@ -10,9 +10,9 @@ dependencies {
   compile 'org.slf4j:slf4j-android:1.7.21'
 
   // Retrofit for HTTP Client activities
-  compile 'com.google.code.gson:gson:2.6.2'
   compile 'com.squareup.retrofit2:retrofit:2.0.2'
-  compile 'com.squareup.retrofit2:converter-gson:2.0.2'
+  compile 'com.squareup.retrofit2:converter-jackson:2.0.2'
+  compile 'de.grundid.opendatalab:geojson-jackson:1.6'
 
   testCompile 'com.github.tomakehurst:wiremock-standalone:2.0.10-beta'
   testCompile 'junit:junit:4.12'
