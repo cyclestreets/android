@@ -31,7 +31,11 @@ public class RetrofitApiClientTest {
   @Rule
   public WireMockRule wireMockRule = new WireMockRule(8089);
 
-  RetrofitApiClient apiClient = new RetrofitApiClient("http://localhost:8089", "http://localhost:8089", "myApiKey");
+  RetrofitApiClient apiClient = new RetrofitApiClient.Builder()
+      .withApiKey("myApiKey")
+      .withV1Host("http://localhost:8089")
+      .withV2Host("http://localhost:8089")
+      .build();
 
   @Test
   public void poisByBboxAPI() throws Exception {

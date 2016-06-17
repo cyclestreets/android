@@ -107,7 +107,11 @@ public class ApiClient
     POICategories.backgroundLoad();
     PhotomapCategories.backgroundLoad();
 
-    retrofitApiClient = new RetrofitApiClient(API_HOST, API_HOST_V2, apiKey_);
+    retrofitApiClient = new RetrofitApiClient.Builder()
+        .withApiKey(apiKey_)
+        .withV1Host(API_HOST)
+        .withV2Host(API_HOST_V2)
+        .build();
   } // initialise
   
   public static void setCustomiser(ApiCustomiser customiser) {

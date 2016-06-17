@@ -12,7 +12,11 @@ import java.util.List;
 @Ignore
 public class RetrofitApiClientIntegrationTest {
 
-  RetrofitApiClient apiClient = new RetrofitApiClient("http://www.cyclestreets.net/", "https://api.cyclestreets.net", "apiKeyRedacted");
+  RetrofitApiClient apiClient = new RetrofitApiClient.Builder()
+      .withApiKey("apiKeyRedacted")
+      .withV1Host("https://www.cyclestreets.net/")
+      .withV2Host("https://api.cyclestreets.net")
+      .build();
 
   @Test
   public void hitAnApi() throws Exception {
