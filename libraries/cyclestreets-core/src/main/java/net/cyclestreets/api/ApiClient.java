@@ -41,6 +41,7 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 
 import net.cyclestreets.AppInfo;
+import net.cyclestreets.api.client.RetrofitApiClient;
 
 public class ApiClient
 {
@@ -80,15 +81,15 @@ public class ApiClient
   public final static String API_PATH_FEEDBACK = API_PATH + "feedback.xml";
   public final static String API_PATH_GEOCODER = API_PATH + "geocoder.xml";
   public final static String API_PATH_POI_CATEGORIES = API_PATH_V2 + "pois.types";
-  public final static String API_PATH_POIS = API_PATH_V2 + "pois.locations";
   public final static String API_PATH_USERJOURNIES = API_PATH_V2 + "journeys.user";
 
   private final static String BLOG_PATH = "/blog/";
   public final static String BLOG_PATH_FEED = BLOG_PATH + "feed/";
 
-
   private static ApiCustomiser customiser_;
   private static Context context_;
+
+  private static RetrofitApiClient retrofitApiClient;
 
   static Context context()
   {
@@ -105,6 +106,8 @@ public class ApiClient
     userAgent_ = AppInfo.version(context_);
     POICategories.backgroundLoad();
     PhotomapCategories.backgroundLoad();
+
+    retrofitApiClient = new RetrofitApiClient(API_HOST, API_HOST_V2, apiKey_);
   } // initialise
   
   public static void setCustomiser(ApiCustomiser customiser) {
@@ -287,14 +290,7 @@ public class ApiClient
                            final double latS)
     throws Exception
   {
-    return callApi(POICategory.factory(),
-                   API_PATH_POIS,
-                   "type", key,
-                   "fields", "id,name,notes,website,latitude,longitude",
-                   "e", Double.toString(lonE),
-                   "w", Double.toString(lonW),
-                   "n", Double.toString(latN),
-                   "s", Double.toString(latS));
+    return retrofitApiClient.getPOIs(key, lonE, lonW, latN, latS);
   } // getPOIs
 
   static List<POI> getPOIs(final String key,
@@ -303,14 +299,7 @@ public class ApiClient
                            final int radius)
     throws Exception
   {
-    return callApi(POICategory.factory(),
-        API_PATH_POIS,
-        "type", key,
-        "fields", "id,name,notes,website,latitude,longitude",
-        "longitude", Double.toString(lon),
-        "latitude", Double.toString(lat),
-        "radius", Integer.toString(radius),
-        "limit", "150");
+    return retrofitApiClient.getPOIs(key, lon, lat, radius);
   } // getPOIs
 
   static Blog getBlogEntries()
