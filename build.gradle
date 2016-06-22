@@ -3,7 +3,7 @@ buildscript {
     mavenCentral()
   }
   dependencies {
-    classpath 'com.android.tools.build:gradle:2.1.0'
+    classpath 'com.android.tools.build:gradle:2.1.2'
     classpath 'com.jakewharton.sdkmanager:gradle-plugin:0.12.+'
   }
 }
@@ -60,6 +60,13 @@ subprojects {
       exclude 'META-INF/NOTICE'
       exclude 'META-INF/NOTICE.txt'
     } // packagingOptions
+
+    // Required as per:
+    // https://github.com/codepath/android_guides/wiki/Consuming-APIs-with-Retrofit#issues
+    // https://github.com/FasterXML/jackson-databind/issues/1192
+    lintOptions {
+      lintConfig rootProject.file('gradle/lint.xml')
+    }
   } // android
 } // subprojects
 
