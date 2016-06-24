@@ -1,0 +1,102 @@
+{
+  "type": "FeatureCollection",
+  "properties": {
+    "dimensions": "0.1,0.1",
+    "gridwsen": "0.05,52.15,0.25,52.35"
+  },
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "id": 60141,
+        "caption": "'One of the closest near misses'\n\nhttp://www.bbc.co.uk/news/uk-england-cambridgeshire-24562951\n\nI wonder if one reason this happened was that she regularly took a risk here and became de-sensitized to the danger?",
+        "categoryId": "road",
+        "metacategoryId": "other",
+        "hasVideo": false,
+        "videoFormats": null,
+        "thumbnailUrl": "https://www.cyclestreets.net/location/60141/cyclestreets60141-size640.jpg",
+        "shortlink": "http://cycle.st/p60141"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          0.196767,
+          52.262512
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": 80565,
+        "caption": "More cycle parking for another 60 bikes added at Longstanton Park & Ride",
+        "categoryId": "general",
+        "metacategoryId": "other",
+        "hasVideo": false,
+        "videoFormats": null,
+        "thumbnailUrl": "https://www.cyclestreets.net/location/80565/cyclestreets80565-size640.jpg",
+        "shortlink": "http://cycle.st/p80565"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          0.055318,
+          52.291302
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": 81980,
+        "caption": "These branches need trimming before they knock someone off. When wet they hang lower than shoulder height across most of the path.\n\nUPDATE: Path cleared within 24 hours of making this report on the Cambs website!",
+        "categoryId": "cycleways",
+        "metacategoryId": "bad",
+        "hasVideo": false,
+        "videoFormats": null,
+        "thumbnailUrl": "https://www.cyclestreets.net/location/81980/cyclestreets81980-size640.jpg",
+        "shortlink": "http://cycle.st/p81980"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          0.160959,
+          52.193138
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": 82169,
+        "caption": "Link from Clerk Maxwell Road to the West Cambridge site",
+        "categoryId": "cycleways",
+        "metacategoryId": "other",
+        "hasVideo": true,
+        "videoFormats": {
+          "mov": {
+            "url": "http://www.cyclestreets.net/location/20588/cyclestreets20588.mov",
+            "location": "/location/20588/cyclestreets20588.mov",
+            "sizeBytes": 25152682,
+            "sizeBytesFormatted": "24MB"
+          },
+          "flv": {
+            "url": "http://www.cyclestreets.net/location/20588/cyclestreets20588.flv",
+            "location": "/location/20588/cyclestreets20588.flv",
+            "sizeBytes": 1382820,
+            "sizeBytesFormatted": "1MB"
+          }
+        },
+        "thumbnailUrl": "https://www.cyclestreets.net/location/82169/cyclestreets82169-size640.jpg",
+        "shortlink": "http://cycle.st/p82169"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          0.094543,
+          52.209908
+        ]
+      }
+    }
+  ]
+}

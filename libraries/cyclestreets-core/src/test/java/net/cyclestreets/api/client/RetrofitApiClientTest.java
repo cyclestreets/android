@@ -3,6 +3,10 @@ package net.cyclestreets.api.client;
 import com.github.tomakehurst.wiremock.junit.WireMockRule;
 
 import net.cyclestreets.api.POI;
+import net.cyclestreets.api.Photo;
+import net.cyclestreets.api.Photos;
+import net.cyclestreets.api.UserJourney;
+import net.cyclestreets.api.UserJourneys;
 
 import org.junit.Rule;
 import org.junit.Test;
@@ -11,7 +15,10 @@ import org.osmdroid.util.GeoPoint;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 
+import java.util.Iterator;
 import java.util.List;
+
+import static net.cyclestreets.api.Photo.Video;
 
 import static com.github.tomakehurst.wiremock.client.WireMock.aResponse;
 import static com.github.tomakehurst.wiremock.client.WireMock.equalTo;
@@ -38,7 +45,7 @@ public class RetrofitApiClientTest {
       .build();
 
   @Test
-  public void poisByBboxAPI() throws Exception {
+  public void testGetPoisByBbox() throws Exception {
     // given
     stubFor(get(urlPathEqualTo("/v2/pois.locations"))
             .willReturn(aResponse()
@@ -59,7 +66,7 @@ public class RetrofitApiClientTest {
   }
 
   @Test
-  public void poisByRadius() throws Exception {
+  public void testGetPoisByRadius() throws Exception {
     // given
     stubFor(get(urlPathEqualTo("/v2/pois.locations"))
             .willReturn(aResponse()
@@ -91,5 +98,75 @@ public class RetrofitApiClientTest {
     assertThat(poi.notes(), is("The notes section"));
     assertThat(poi.url(), is("http://www.madeup.com"));
     assertThat(poi.position(), is(new GeoPoint(52.225338, 0.091919)));
+  }
+
+  @Test
+  public void testGetUserJourneys() throws Exception {
+    // given
+    stubFor(get(urlPathEqualTo("/v2/journeys.user"))
+            .willReturn(aResponse()
+                    .withStatus(200)
+                    .withHeader("Content-Type", "application/json")
+                    .withBodyFile("journeys.json")));
+
+    // when
+    UserJourneys journeys = apiClient.getUserJourneys("socrates");
+
+    // then
+    verify(getRequestedFor(urlPathEqualTo("/v2/journeys.user"))
+            .withQueryParam("username", equalTo("socrates"))
+            .withQueryParam("format", equalTo("flat"))
+            .withQueryParam("datetime", equalTo("friendly"))
+            .withQueryParam("key", matching("myApiKey")));
+
+    assertThat(journeys.size(), is(3));
+    UserJourney journey = journeys.get(2);
+
+    assertThat(journey.name(), is("Hedingham Close to Old Montague Street"));
+    assertThat(journey.id(), is(43089395));
+  }
+
+  @Test
+  public void testGetPhotos() throws Exception {
+    // given
+    stubFor(get(urlPathEqualTo("/v2/photomap.locations"))
+            .willReturn(aResponse()
+                    .withStatus(200)
+                    .withHeader("Content-Type", "application/json")
+                    .withBodyFile("photos.json")));
+
+    // when
+    Photos photos = apiClient.getPhotos(0.2, 0.1, 52.3, 52.2);
+
+    // then
+    verify(getRequestedFor(urlPathEqualTo("/v2/photomap.locations"))
+            .withQueryParam("bbox", equalTo("0.1,52.2,0.2,52.3"))
+            .withQueryParam("fields", equalTo("id,caption,categoryId,metacategoryId,hasVideo,videoFormats,thumbnailUrl,shortlink"))
+            .withQueryParam("thumbnailsize", equalTo("640"))
+            .withQueryParam("limit", equalTo("45"))
+            .withQueryParam("key", matching("myApiKey")));
+
+    Iterator<Photo> iterator = photos.iterator();
+    iterator.next();
+    iterator.next();
+    iterator.next();
+    Photo photo4 = iterator.next();
+
+    assertThat(iterator.hasNext(), is(false));
+
+    assertThat(photo4.id(), is(82169));
+    assertThat(photo4.caption(), is("Link from Clerk Maxwell Road to the West Cambridge site"));
+    assertThat(photo4.category(), is("cycleways"));
+    assertThat(photo4.metacategory(), is("other"));
+    assertThat(photo4.thumbnailUrl(), is("https://www.cyclestreets.net/location/82169/cyclestreets82169-size640.jpg"));
+    assertThat(photo4.url(), is("http://cycle.st/p82169"));
+    assertThat(photo4.position(), is(new GeoPoint(52.209908, 0.094543)));
+    assertThat(photo4.isPlaceholder(), is(false));
+    assertThat(photo4.hasVideos(), is(true));
+    List<Video> videos = (List<Video>)photo4.videos();
+    assertThat(videos.size(), is(2));
+    Video video = videos.get(1);
+    assertThat(video.url(), is("http://www.cyclestreets.net/location/20588/cyclestreets20588.flv"));
+    assertThat(video.format(), is("flv"));
   }
 }

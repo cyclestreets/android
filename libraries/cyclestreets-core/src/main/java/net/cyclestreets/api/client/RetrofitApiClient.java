@@ -1,12 +1,20 @@
 package net.cyclestreets.api.client;
 
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import net.cyclestreets.api.POI;
+import net.cyclestreets.api.Photos;
+import net.cyclestreets.api.UserJourneys;
+import net.cyclestreets.api.client.dto.UserJourneysDto;
+import net.cyclestreets.api.client.geojson.PhotosFactory;
 import net.cyclestreets.api.client.geojson.PoiFactory;
 
 import org.geojson.FeatureCollection;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
@@ -23,16 +31,22 @@ public class RetrofitApiClient {
     Interceptor apiKeyInterceptor = new ApiKeyInterceptor(builder.apiKey);
     OkHttpClient client = new OkHttpClient.Builder().addInterceptor(apiKeyInterceptor).build();
 
+    // Configure our ObjectMapper to globally ignore unknown properties
+    // Required for e.g. getPhotos API which returns `properties` on a `FeatureCollection`, which is
+    // not part of standard GeoJSON
+    ObjectMapper objectMapper = new ObjectMapper();
+    objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+
     Retrofit retrofitV1 = new Retrofit.Builder()
             .client(client)
-            .addConverterFactory(JacksonConverterFactory.create())
+            .addConverterFactory(JacksonConverterFactory.create(objectMapper))
             .baseUrl(builder.v1Host)
             .build();
     v1Api = retrofitV1.create(V1Api.class);
 
     Retrofit retrofitV2 = new Retrofit.Builder()
         .client(client)
-        .addConverterFactory(JacksonConverterFactory.create())
+        .addConverterFactory(JacksonConverterFactory.create(objectMapper))
         .baseUrl(builder.v2Host)
         .build();
     v2Api = retrofitV2.create(V2Api.class);
@@ -78,5 +92,19 @@ public class RetrofitApiClient {
                            final int radius) throws IOException {
     Response<FeatureCollection> response = v2Api.getPOIs(type, lon, lat, radius).execute();
     return PoiFactory.toPoiList(response.body());
+  }
+
+  public Photos getPhotos(final double lonE,
+                          final double lonW,
+                          final double latN,
+                          final double latS) throws IOException {
+    String bbox = lonW + "," + latS + "," + lonE + "," + latN;
+    Response<FeatureCollection> response = v2Api.getPhotos(bbox).execute();
+    return PhotosFactory.toPhotos(response.body());
+  }
+
+  public UserJourneys getUserJourneys(String username) throws IOException {
+    Response<UserJourneysDto> response = v2Api.getUserJourneys(username).execute();
+    return response.body().toUserJourneys();
   }
 }

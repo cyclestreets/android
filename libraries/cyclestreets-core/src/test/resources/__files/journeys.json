@@ -1,0 +1,79 @@
+{
+  "pagination": {
+    "latest": 43106958,
+    "urlLater": "https://api.cyclestreets.net/v2/journeys.user?username=socrates&format=flat&limit=3&datetime=friendly&after=43106958",
+    "hasLater": false,
+    "top": 43106958,
+    "bottom": 43089395,
+    "hasEarlier": true,
+    "urlEarlier": "https://api.cyclestreets.net/v2/journeys.user?username=socrates&format=flat&limit=3&datetime=friendly&before=43089395",
+    "earliest": 0,
+    "count": 3,
+    "total": 889
+  },
+  "journeys": {
+    "43106958": {
+      "id": "43106958",
+      "name": "Covent Garden Piazza to Station Approach",
+      "plans": {
+        "balanced": {
+          "name": "Balanced",
+          "url": "https://api.cyclestreets.net/v2/journey.retrieve?itinerary=43106958&plan=balanced"
+        },
+        "quietest": {
+          "name": "Quietest",
+          "url": "https://api.cyclestreets.net/v2/journey.retrieve?itinerary=43106958&plan=quietest"
+        },
+        "fastest": {
+          "name": "Fastest",
+          "url": "https://api.cyclestreets.net/v2/journey.retrieve?itinerary=43106958&plan=fastest"
+        }
+      },
+      "datetime": "2:46pm, 20th December 2014",
+      "idFormatted": "43,106,958",
+      "url": "http://www.cyclestreets.net/journey/43106958/"
+    },
+    "43106946": {
+      "id": "43106946",
+      "name": "Suffolk Place to York Road",
+      "plans": {
+        "balanced": {
+          "name": "Balanced",
+          "url": "https://api.cyclestreets.net/v2/journey.retrieve?itinerary=43106946&plan=balanced"
+        },
+        "quietest": {
+          "name": "Quietest",
+          "url": "https://api.cyclestreets.net/v2/journey.retrieve?itinerary=43106946&plan=quietest"
+        },
+        "fastest": {
+          "name": "Fastest",
+          "url": "https://api.cyclestreets.net/v2/journey.retrieve?itinerary=43106946&plan=fastest"
+        }
+      },
+      "datetime": "2:42pm, 20th December 2014",
+      "idFormatted": "43,106,946",
+      "url": "http://www.cyclestreets.net/journey/43106946/"
+    },
+    "43089395": {
+      "id": "43089395",
+      "name": "Hedingham Close to Old Montague Street",
+      "plans": {
+        "balanced": {
+          "name": "Balanced",
+          "url": "https://api.cyclestreets.net/v2/journey.retrieve?itinerary=43089395&plan=balanced"
+        },
+        "quietest": {
+          "name": "Quietest",
+          "url": "https://api.cyclestreets.net/v2/journey.retrieve?itinerary=43089395&plan=quietest"
+        },
+        "fastest": {
+          "name": "Fastest",
+          "url": "https://api.cyclestreets.net/v2/journey.retrieve?itinerary=43089395&plan=fastest"
+        }
+      },
+      "datetime": "4:08pm, 16th December 2014",
+      "idFormatted": "43,089,395",
+      "url": "http://www.cyclestreets.net/journey/43089395/"
+    }
+  }
+}
