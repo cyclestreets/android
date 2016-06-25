@@ -2,6 +2,8 @@ package net.cyclestreets.api.client;
 
 import com.github.tomakehurst.wiremock.junit.WireMockRule;
 
+import net.cyclestreets.api.GeoPlace;
+import net.cyclestreets.api.GeoPlaces;
 import net.cyclestreets.api.POI;
 import net.cyclestreets.api.Photo;
 import net.cyclestreets.api.Photos;
@@ -11,6 +13,7 @@ import net.cyclestreets.api.UserJourneys;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.osmdroid.api.IGeoPoint;
 import org.osmdroid.util.GeoPoint;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
@@ -168,5 +171,34 @@ public class RetrofitApiClientTest {
     Video video = videos.get(1);
     assertThat(video.url(), is("http://www.cyclestreets.net/location/20588/cyclestreets20588.flv"));
     assertThat(video.format(), is("flv"));
+  }
+
+  @Test
+  public void testGeoCoder() throws Exception {
+    // given
+    stubFor(get(urlPathEqualTo("/api/geocoder.xml"))
+            .willReturn(aResponse()
+                    .withStatus(200)
+                    .withHeader("Content-Type", "text/xml")
+                    .withBodyFile("geocoder.xml")));
+
+    // when
+    GeoPlaces geoPlaces = apiClient.geoCoder("High", 52.3, 52.2, 0.2, 0.1);
+
+    // then
+    verify(getRequestedFor(urlPathEqualTo("/api/geocoder.xml"))
+            .withQueryParam("w", equalTo("0.1"))
+            .withQueryParam("e", equalTo("0.2"))
+            .withQueryParam("s", equalTo("52.2"))
+            .withQueryParam("n", equalTo("52.3"))
+            .withQueryParam("countrycodes", equalTo("gb,ie"))
+            .withQueryParam("street", equalTo("High"))
+            .withQueryParam("key", matching("myApiKey")));
+
+    assertThat(geoPlaces.size(), is(5));
+    GeoPlace place = geoPlaces.get(1);
+    assertThat(place.name(), is("The High"));
+    assertThat(place.near(), is("Essex, East of England"));
+    assertThat(place.coord(), is((IGeoPoint)new GeoPoint(51.769678, 0.0939271)));
   }
 }

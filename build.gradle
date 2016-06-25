@@ -61,9 +61,7 @@ subprojects {
       exclude 'META-INF/NOTICE.txt'
     } // packagingOptions
 
-    // Required as per:
-    // https://github.com/codepath/android_guides/wiki/Consuming-APIs-with-Retrofit#issues
-    // https://github.com/FasterXML/jackson-databind/issues/1192
+    // Required due to strictness of the Android developer tools.  See lint.xml for full details.
     lintOptions {
       lintConfig rootProject.file('gradle/lint.xml')
     }

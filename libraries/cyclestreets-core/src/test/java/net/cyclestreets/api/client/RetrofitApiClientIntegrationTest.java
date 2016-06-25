@@ -1,5 +1,7 @@
 package net.cyclestreets.api.client;
 
+import net.cyclestreets.api.GeoPlace;
+import net.cyclestreets.api.GeoPlaces;
 import net.cyclestreets.api.POI;
 import net.cyclestreets.api.Photo;
 import net.cyclestreets.api.Photos;
@@ -21,6 +23,14 @@ public class RetrofitApiClientIntegrationTest {
           .withV1Host("https://www.cyclestreets.net")
           .withV2Host("https://api.cyclestreets.net")
           .build();
+
+  @Test
+  public void hitGeoCoderApi() throws Exception {
+    GeoPlaces geoPlaces = apiClient.geoCoder("High", 52.3, 52.2, 0.2, 0.1);
+    for (GeoPlace place : geoPlaces) {
+      System.out.println(place);
+    }
+  }
 
   @Test
   public void hitGetPOIsByBboxApi() throws Exception {

@@ -78,7 +78,6 @@ public class ApiClient
   public final static String API_PATH_SIGNIN = API_PATH + "uservalidate.xml";
   public final static String API_PATH_REGISTER = API_PATH + "usercreate.xml";
   public final static String API_PATH_FEEDBACK = API_PATH + "feedback.xml";
-  public final static String API_PATH_GEOCODER = API_PATH + "geocoder.xml";
   public final static String API_PATH_POI_CATEGORIES = API_PATH_V2 + "pois.types";
 
   private final static String BLOG_PATH = "/blog/";
@@ -111,7 +110,7 @@ public class ApiClient
         .withV2Host(API_HOST_V2)
         .build();
   } // initialise
-  
+
   public static void setCustomiser(ApiCustomiser customiser) {
     customiser_ = customiser;
   } // setCustomiser
@@ -174,17 +173,8 @@ public class ApiClient
                                       double n,
                                       double s,
                                       double e,
-                                      double w)
-    throws Exception
-  {
-    return callApi(GeoPlaces.factory(),
-                   API_PATH_GEOCODER,
-                   "street", search,
-                   "n", Double.toString(n),
-                   "s", Double.toString(s),
-                   "e", Double.toString(e),
-                   "w", Double.toString(w),
-                   "countrycodes", "gb,ie");
+                                      double w) throws IOException {
+    return retrofitApiClient.geoCoder(search, n, s, e, w);
   } // geoCoder
 
   static Feedback.Result sendFeedback(final int itinerary,
@@ -309,7 +299,7 @@ public class ApiClient
 
   private static byte[] callApiRaw(final String path, String... arguments) throws Exception {
     Map<String, String> args = argMap(path, arguments);
-    
+
     final List<NameValuePair> params = createParamsList(args);
     final URI uri = createURI(null, path, params);
     final HttpGet httpget = new HttpGet(uri);
@@ -353,7 +343,7 @@ public class ApiClient
 
   public static byte[] postApiRaw(final String path, Object... arguments) throws Exception {
     Map<String, Object> args = argMap(path, arguments);
-    
+
     final List<NameValuePair> params = createParamsList();
     final URI uri = createURI(API_POST_SCHEME, path, params);
 
@@ -440,10 +430,10 @@ public class ApiClient
     Map<String, T> params = new HashMap<>();
     for (int i = 0; i != args.length; i+=2)
       params.put((String)args[i], args[i+1]);
-     
+
     if (customiser_ != null)
       customiser_.customise(path, params);
-     
+
     return params;
   } // argMap
 } // ApiClient

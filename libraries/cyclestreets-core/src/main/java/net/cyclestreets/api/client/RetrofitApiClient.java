@@ -3,9 +3,11 @@ package net.cyclestreets.api.client;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import net.cyclestreets.api.GeoPlaces;
 import net.cyclestreets.api.POI;
 import net.cyclestreets.api.Photos;
 import net.cyclestreets.api.UserJourneys;
+import net.cyclestreets.api.client.dto.GeoPlacesDto;
 import net.cyclestreets.api.client.dto.UserJourneysDto;
 import net.cyclestreets.api.client.geojson.PhotosFactory;
 import net.cyclestreets.api.client.geojson.PoiFactory;
@@ -14,13 +16,13 @@ import org.geojson.FeatureCollection;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.Map;
 
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.jackson.JacksonConverterFactory;
+import retrofit2.converter.simplexml.SimpleXmlConverterFactory;
 
 public class RetrofitApiClient {
 
@@ -38,10 +40,10 @@ public class RetrofitApiClient {
     objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 
     Retrofit retrofitV1 = new Retrofit.Builder()
-            .client(client)
-            .addConverterFactory(JacksonConverterFactory.create(objectMapper))
-            .baseUrl(builder.v1Host)
-            .build();
+        .client(client)
+        .addConverterFactory(SimpleXmlConverterFactory.createNonStrict())
+        .baseUrl(builder.v1Host)
+        .build();
     v1Api = retrofitV1.create(V1Api.class);
 
     Retrofit retrofitV2 = new Retrofit.Builder()
@@ -75,6 +77,22 @@ public class RetrofitApiClient {
       return new RetrofitApiClient(this);
     }
   }
+
+  // --------------------------------------------------------------------------------
+  // V1 APIs
+  // --------------------------------------------------------------------------------
+  public GeoPlaces geoCoder(final String search,
+                            final double n,
+                            final double s,
+                            final double e,
+                            final double w) throws IOException {
+    Response<GeoPlacesDto> response = v1Api.geoCoder(search, n, s, e, w).execute();
+    return response.body().toGeoPlaces();
+  }
+
+  // --------------------------------------------------------------------------------
+  // V2 APIs
+  // --------------------------------------------------------------------------------
 
   public List<POI> getPOIs(final String type,
                            final double lonE,
