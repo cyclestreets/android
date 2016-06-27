@@ -1,14 +1,20 @@
 package net.cyclestreets.api;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public final class UserJourney {
-  private final String name_;
-  private final int id_;
 
-  UserJourney(final String name, final int id) {
-    name_ = name;
-    id_ = id;
-  } // UserJourney
+  @JsonProperty
+  private String name;
 
-  public String name() { return name_; }
-  public int id() { return id_; }
-} // UserJourney
+  @JsonProperty
+  private int id;
+
+  public String name() {
+    return name;
+  }
+
+  public int id() {
+    return id;
+  }
+}

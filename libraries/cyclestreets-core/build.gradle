@@ -10,8 +10,14 @@ dependencies {
   compile 'org.slf4j:slf4j-android:1.7.21'
 
   // Retrofit for HTTP Client activities
-  compile 'com.squareup.retrofit2:retrofit:2.0.2'
-  compile 'com.squareup.retrofit2:converter-jackson:2.0.2'
+  compile 'com.squareup.retrofit2:retrofit:2.1.0'
+  compile('com.squareup.retrofit2:converter-simplexml:2.1.0') {
+    // Exclusions required as per https://github.com/square/retrofit/issues/1796
+    exclude group: 'xpp3', module: 'xpp3'
+    exclude group: 'stax', module: 'stax-api'
+    exclude group: 'stax', module: 'stax'
+  }
+  compile 'com.squareup.retrofit2:converter-jackson:2.1.0'
   compile 'de.grundid.opendatalab:geojson-jackson:1.6'
 
   testCompile 'com.github.tomakehurst:wiremock-standalone:2.0.10-beta'

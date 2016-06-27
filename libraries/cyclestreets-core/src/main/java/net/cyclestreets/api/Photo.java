@@ -15,10 +15,10 @@ public class Photo implements Parcelable {
   private final String caption_;
   private final String url_;
   private final String thumbnailUrl_;
-  private GeoPoint position_;
-  private List<Video> videos_;
+  private final GeoPoint position_;
+  private final List<Video> videos_;
   
-  Photo(int id, 
+  public Photo(int id,
         String feature,
         String metaCategory,
         String caption,
@@ -52,8 +52,6 @@ public class Photo implements Parcelable {
         return v;
     return null;
   } // video
-
-  void setPosition(final GeoPoint position) { position_ = position; }
 
   @Override
   public int hashCode() { return id_; }

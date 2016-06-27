@@ -73,15 +73,12 @@ public class ApiClient
   private final static String API_PATH_V2 = "/v2/";
 
   public final static String API_PATH_JOURNEY = API_PATH + "journey.xml";
-  public final static String API_PATH_PHOTOS = API_PATH_V2 + "photomap.locations";
   public final static String API_PATH_PHOTOMAP_CATEGORIES = API_PATH + "photomapcategories.xml";
   public final static String API_PATH_ADDPHOTO = API_PATH + "addphoto.xml";
   public final static String API_PATH_SIGNIN = API_PATH + "uservalidate.xml";
   public final static String API_PATH_REGISTER = API_PATH + "usercreate.xml";
   public final static String API_PATH_FEEDBACK = API_PATH + "feedback.xml";
-  public final static String API_PATH_GEOCODER = API_PATH + "geocoder.xml";
   public final static String API_PATH_POI_CATEGORIES = API_PATH_V2 + "pois.types";
-  public final static String API_PATH_USERJOURNIES = API_PATH_V2 + "journeys.user";
 
   private final static String BLOG_PATH = "/blog/";
   public final static String BLOG_PATH_FEED = BLOG_PATH + "feed/";
@@ -113,7 +110,7 @@ public class ApiClient
         .withV2Host(API_HOST_V2)
         .build();
   } // initialise
-  
+
   public static void setCustomiser(ApiCustomiser customiser) {
     customiser_ = customiser;
   } // setCustomiser
@@ -164,44 +161,20 @@ public class ApiClient
     return callApiWithCache(PhotomapCategories.factory(), API_PATH_PHOTOMAP_CATEGORIES);
   } // getPhotomapCategories
 
-  static Photos getPhotos(double e,
-                          double w,
-                          double n,
-                          double s)
-    throws Exception
-  {
-    return callApi(Photos.factory(),
-                    API_PATH_PHOTOS,
-                    "bbox", String.format("%s,%s,%s,%s", w, s, e, n),
-                    "limit", "45",
-                    "thumbnailsize", "640",
-                    "fields", "id,caption,categoryId,metacategoryId,hasVideo,videoFormats,thumbnailUrl,shortlink");
+  static Photos getPhotos(double e, double w, double n, double s) throws IOException {
+    return retrofitApiClient.getPhotos(e, w, n, s);
   } // getPhotos
 
-  static UserJourneys getUserJournies(final String username)
-      throws Exception {
-    return callApi(UserJourneys.factory(),
-                   API_PATH_USERJOURNIES,
-                   "username", username,
-                   "format", "flat",
-                   "datetime", "friendly");
+  static UserJourneys getUserJournies(final String username) throws IOException {
+    return retrofitApiClient.getUserJourneys(username);
   } // getUserJournies
 
   static protected GeoPlaces geoCoder(final String search,
                                       double n,
                                       double s,
                                       double e,
-                                      double w)
-    throws Exception
-  {
-    return callApi(GeoPlaces.factory(),
-                   API_PATH_GEOCODER,
-                   "street", search,
-                   "n", Double.toString(n),
-                   "s", Double.toString(s),
-                   "e", Double.toString(e),
-                   "w", Double.toString(w),
-                   "countrycodes", "gb,ie");
+                                      double w) throws IOException {
+    return retrofitApiClient.geoCoder(search, n, s, e, w);
   } // geoCoder
 
   static Feedback.Result sendFeedback(final int itinerary,
@@ -291,18 +264,14 @@ public class ApiClient
                            final double lonE,
                            final double lonW,
                            final double latN,
-                           final double latS)
-    throws Exception
-  {
+                           final double latS) throws IOException {
     return retrofitApiClient.getPOIs(key, lonE, lonW, latN, latS);
   } // getPOIs
 
   static List<POI> getPOIs(final String key,
                            final double lon,
                            final double lat,
-                           final int radius)
-    throws Exception
-  {
+                           final int radius) throws IOException {
     return retrofitApiClient.getPOIs(key, lon, lat, radius);
   } // getPOIs
 
@@ -330,7 +299,7 @@ public class ApiClient
 
   private static byte[] callApiRaw(final String path, String... arguments) throws Exception {
     Map<String, String> args = argMap(path, arguments);
-    
+
     final List<NameValuePair> params = createParamsList(args);
     final URI uri = createURI(null, path, params);
     final HttpGet httpget = new HttpGet(uri);
@@ -374,7 +343,7 @@ public class ApiClient
 
   public static byte[] postApiRaw(final String path, Object... arguments) throws Exception {
     Map<String, Object> args = argMap(path, arguments);
-    
+
     final List<NameValuePair> params = createParamsList();
     final URI uri = createURI(API_POST_SCHEME, path, params);
 
@@ -461,10 +430,10 @@ public class ApiClient
     Map<String, T> params = new HashMap<>();
     for (int i = 0; i != args.length; i+=2)
       params.put((String)args[i], args[i+1]);
-     
+
     if (customiser_ != null)
       customiser_.customise(path, params);
-     
+
     return params;
   } // argMap
 } // ApiClient

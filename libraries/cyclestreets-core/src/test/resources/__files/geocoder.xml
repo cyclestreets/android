@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+<sayt>
+    <query>High</query>
+    <time>110</time>
+    <results>
+        <result>
+            <name>High Street</name>
+            <near>Oxford, Oxon</near>
+            <type>OSM</type>
+            <longitude>-1.2523614</longitude>
+            <latitude>51.7527219</latitude>
+        </result>
+        <result>
+            <name>The High</name>
+            <near>Essex, East of England</near>
+            <type>OSM</type>
+            <longitude>0.0939271</longitude>
+            <latitude>51.769678</latitude>
+        </result>
+        <result>
+            <name>High Street</name>
+            <near>Oxford, Oxon</near>
+            <type>OSM</type>
+            <longitude>-1.246921</longitude>
+            <latitude>51.7516122</latitude>
+        </result>
+        <result>
+            <name>High Street</name>
+            <near>Oxford, Oxon</near>
+            <type>OSM</type>
+            <longitude>-1.2487345</longitude>
+            <latitude>51.7523394</latitude>
+        </result>
+        <result>
+            <name>High Street</name>
+            <near>Oxford, Oxon</near>
+            <type>OSM</type>
+            <longitude>-1.2547771</longitude>
+            <latitude>51.7523995</latitude>
+        </result>
+    </results>
+</sayt>
