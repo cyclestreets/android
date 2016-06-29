@@ -6,8 +6,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import net.cyclestreets.api.GeoPlaces;
 import net.cyclestreets.api.POI;
 import net.cyclestreets.api.Photos;
+import net.cyclestreets.api.Registration;
 import net.cyclestreets.api.UserJourneys;
 import net.cyclestreets.api.client.dto.GeoPlacesDto;
+import net.cyclestreets.api.client.dto.ApiResponseDto;
 import net.cyclestreets.api.client.dto.UserJourneysDto;
 import net.cyclestreets.api.client.geojson.PhotosFactory;
 import net.cyclestreets.api.client.geojson.PoiFactory;
@@ -124,5 +126,13 @@ public class RetrofitApiClient {
   public UserJourneys getUserJourneys(String username) throws IOException {
     Response<UserJourneysDto> response = v2Api.getUserJourneys(username).execute();
     return response.body().toUserJourneys();
+  }
+
+  public Registration.Result register(String username,
+                                      String password,
+                                      String name,
+                                      String email) throws IOException {
+    Response<ApiResponseDto> response = v2Api.register(username, password, name, email).execute();
+    return new Registration.Result(response.body().wasSuccessful(), response.body().getMessage());
   }
 }

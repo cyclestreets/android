@@ -1,11 +1,15 @@
 package net.cyclestreets.api.client;
 
+import net.cyclestreets.api.client.dto.ApiResponseDto;
 import net.cyclestreets.api.client.dto.UserJourneysDto;
 
 import org.geojson.FeatureCollection;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
+import retrofit2.http.Multipart;
+import retrofit2.http.POST;
+import retrofit2.http.Part;
 import retrofit2.http.Query;
 
 public interface V2Api {
@@ -25,4 +29,11 @@ public interface V2Api {
 
   @GET("/v2/journeys.user?format=flat&datetime=friendly")
   Call<UserJourneysDto> getUserJourneys(@Query("username") String username);
+
+  @Multipart
+  @POST("v2/user.create")
+  Call<ApiResponseDto> register(@Part("username") String username,
+                                @Part("password") String password,
+                                @Part("name") String name,
+                                @Part("email") String email);
 }

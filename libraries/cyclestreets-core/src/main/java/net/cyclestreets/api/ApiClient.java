@@ -76,7 +76,6 @@ public class ApiClient
   public final static String API_PATH_PHOTOMAP_CATEGORIES = API_PATH + "photomapcategories.xml";
   public final static String API_PATH_ADDPHOTO = API_PATH + "addphoto.xml";
   public final static String API_PATH_SIGNIN = API_PATH + "uservalidate.xml";
-  public final static String API_PATH_REGISTER = API_PATH + "usercreate.xml";
   public final static String API_PATH_FEEDBACK = API_PATH + "feedback.xml";
   public final static String API_PATH_POI_CATEGORIES = API_PATH_V2 + "pois.types";
 
@@ -241,16 +240,9 @@ public class ApiClient
   static Registration.Result register(final String username,
                                       final String password,
                                       final String name,
-                                      final String email)
-    throws Exception
-  {
-    return postApi(Registration.factory(),
-                   API_PATH_REGISTER,
-                   "username", username,
-                   "password", password,
-                   "name", name,
-                   "email", email);
-  } // register
+                                      final String email) throws IOException {
+    return retrofitApiClient.register(username, password, name, email);
+  }
 
   static POICategories getPOICategories(int iconSize)
     throws Exception

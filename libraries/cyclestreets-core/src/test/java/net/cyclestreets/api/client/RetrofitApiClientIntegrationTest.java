@@ -5,6 +5,7 @@ import net.cyclestreets.api.GeoPlaces;
 import net.cyclestreets.api.POI;
 import net.cyclestreets.api.Photo;
 import net.cyclestreets.api.Photos;
+import net.cyclestreets.api.Registration;
 import net.cyclestreets.api.UserJourney;
 import net.cyclestreets.api.UserJourneys;
 
@@ -12,6 +13,7 @@ import org.junit.Ignore;
 import org.junit.Test;
 
 import java.util.List;
+import java.util.Random;
 
 // Useful for manual testing that operations do work with the real API, and not just WireMock.
 // If we assigned an appropriate api key, these tests could be expanded and un-ignored.
@@ -58,5 +60,14 @@ public class RetrofitApiClientIntegrationTest {
     for (UserJourney journey : userJourneys) {
       System.out.println(journey);
     }
+  }
+
+  @Test
+  public void hitRegistrationApi() throws Exception {
+    String random = String.valueOf(new Random().nextInt(100000));
+    System.out.println("Registering user test" + random);
+    Registration.Result result = apiClient.register("test" + random, "pwd1234", "friendlyname", "test" + random + "@nosuchdomain.com");
+    System.out.println(result.ok());
+    System.out.println(result.message());
   }
 }

@@ -7,6 +7,7 @@ import net.cyclestreets.api.GeoPlaces;
 import net.cyclestreets.api.POI;
 import net.cyclestreets.api.Photo;
 import net.cyclestreets.api.Photos;
+import net.cyclestreets.api.Registration;
 import net.cyclestreets.api.UserJourney;
 import net.cyclestreets.api.UserJourneys;
 
@@ -21,6 +22,8 @@ import org.robolectric.annotation.Config;
 import java.util.Iterator;
 import java.util.List;
 
+import static com.github.tomakehurst.wiremock.client.WireMock.post;
+import static com.github.tomakehurst.wiremock.client.WireMock.postRequestedFor;
 import static net.cyclestreets.api.Photo.Video;
 
 import static com.github.tomakehurst.wiremock.client.WireMock.aResponse;
@@ -31,6 +34,7 @@ import static com.github.tomakehurst.wiremock.client.WireMock.matching;
 import static com.github.tomakehurst.wiremock.client.WireMock.stubFor;
 import static com.github.tomakehurst.wiremock.client.WireMock.urlPathEqualTo;
 import static com.github.tomakehurst.wiremock.client.WireMock.verify;
+import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
@@ -200,5 +204,48 @@ public class RetrofitApiClientTest {
     assertThat(place.name(), is("The High"));
     assertThat(place.near(), is("Essex, East of England"));
     assertThat(place.coord(), is((IGeoPoint)new GeoPoint(51.769678, 0.0939271)));
+  }
+
+  @Test
+  public void testRegisterReturnsOk() throws Exception {
+    // given
+    stubFor(post(urlPathEqualTo("/v2/user.create"))
+            .willReturn(aResponse()
+                    .withStatus(200)
+                    .withHeader("Content-Type", "application/json")
+                    .withBodyFile("registration-ok.json")));
+
+    // when
+    Registration.Result result = apiClient.register("arnold", "cyberdyne101", "The Terminator", "101@skynet.com");
+
+    // then
+    verify(postRequestedFor(urlPathEqualTo("/v2/user.create"))
+            .withHeader("Content-Type", matching("multipart/form-data; boundary=.*"))
+            .withRequestBody(matching(".*name=\"username\".*arnold.*name=\"password\".*cyberdyne101.*name=\"name\".*The Terminator.*name=\"email\".*101@skynet.com.*"))
+            .withQueryParam("key", matching("myApiKey")));
+
+    assertThat(result.ok(), is(true));
+    assertThat(result.message(), containsString("Your account has been registered"));
+  }
+
+  @Test
+  public void testRegisterReturnsError() throws Exception {
+    // given
+    stubFor(post(urlPathEqualTo("/v2/user.create"))
+            .willReturn(aResponse()
+                    .withStatus(200)
+                    .withHeader("Content-Type", "application/json")
+                    .withBodyFile("registration-error.json")));
+
+    // when
+    Registration.Result result = apiClient.register("username", "pwd", "name", "email@bob.com");
+
+    // then
+    verify(postRequestedFor(urlPathEqualTo("/v2/user.create"))
+            .withHeader("Content-Type", matching("multipart/form-data; boundary=.*"))
+            .withQueryParam("key", matching("myApiKey")));
+
+    assertThat(result.ok(), is(false));
+    assertThat(result.message(), containsString("Your account could not be registered."));
   }
 }
