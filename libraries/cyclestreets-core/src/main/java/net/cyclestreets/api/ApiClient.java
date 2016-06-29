@@ -75,8 +75,6 @@ public class ApiClient
   public final static String API_PATH_JOURNEY = API_PATH + "journey.xml";
   public final static String API_PATH_PHOTOMAP_CATEGORIES = API_PATH + "photomapcategories.xml";
   public final static String API_PATH_ADDPHOTO = API_PATH + "addphoto.xml";
-  public final static String API_PATH_SIGNIN = API_PATH + "uservalidate.xml";
-  public final static String API_PATH_FEEDBACK = API_PATH + "feedback.xml";
   public final static String API_PATH_POI_CATEGORIES = API_PATH_V2 + "pois.types";
 
   private final static String BLOG_PATH = "/blog/";
@@ -177,19 +175,11 @@ public class ApiClient
   } // geoCoder
 
   static Feedback.Result sendFeedback(final int itinerary,
-                                             final String comments,
-                                             final String name,
-                                             final String email)
-    throws Exception
-  {
-    return postApi(Feedback.factory(),
-             API_PATH_FEEDBACK,
-             "type", "routing",
-             "itinerary", Integer.toString(itinerary),
-             "comments", comments,
-             "name", name,
-             "email", email);
-  } // sendFeedback
+                                      final String comments,
+                                      final String name,
+                                      final String email) throws IOException {
+    return retrofitApiClient.sendFeedback(itinerary, comments, name, email);
+  }
 
   static Upload.Result uploadPhoto(final String filename,
                                    final String username,
@@ -228,14 +218,9 @@ public class ApiClient
   } // uploadPhoto
 
   static Signin.Result signin(final String username,
-                              final String password)
-    throws Exception
-  {
-    return postApi(Signin.factory(),
-                   API_PATH_SIGNIN,
-                   "username", username,
-                   "password", password);
-    } // signin
+                              final String password) throws IOException {
+    return retrofitApiClient.authenticate(username, password);
+  }
 
   static Registration.Result register(final String username,
                                       final String password,

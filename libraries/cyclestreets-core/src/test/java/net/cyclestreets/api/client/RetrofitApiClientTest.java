@@ -2,12 +2,14 @@ package net.cyclestreets.api.client;
 
 import com.github.tomakehurst.wiremock.junit.WireMockRule;
 
+import net.cyclestreets.api.Feedback;
 import net.cyclestreets.api.GeoPlace;
 import net.cyclestreets.api.GeoPlaces;
 import net.cyclestreets.api.POI;
 import net.cyclestreets.api.Photo;
 import net.cyclestreets.api.Photos;
 import net.cyclestreets.api.Registration;
+import net.cyclestreets.api.Signin;
 import net.cyclestreets.api.UserJourney;
 import net.cyclestreets.api.UserJourneys;
 
@@ -92,7 +94,7 @@ public class RetrofitApiClientTest {
             .withQueryParam("radius", equalTo("100"))
             .withQueryParam("limit", equalTo("150"))
             .withQueryParam("fields", equalTo("id,name,notes,website,latitude,longitude"))
-            .withQueryParam("key", matching("myApiKey")));
+            .withQueryParam("key", equalTo("myApiKey")));
     validatePois(pois);
   }
 
@@ -124,7 +126,7 @@ public class RetrofitApiClientTest {
             .withQueryParam("username", equalTo("socrates"))
             .withQueryParam("format", equalTo("flat"))
             .withQueryParam("datetime", equalTo("friendly"))
-            .withQueryParam("key", matching("myApiKey")));
+            .withQueryParam("key", equalTo("myApiKey")));
 
     assertThat(journeys.size(), is(3));
     UserJourney journey = journeys.get(2);
@@ -151,7 +153,7 @@ public class RetrofitApiClientTest {
             .withQueryParam("fields", equalTo("id,caption,categoryId,metacategoryId,hasVideo,videoFormats,thumbnailUrl,shortlink"))
             .withQueryParam("thumbnailsize", equalTo("640"))
             .withQueryParam("limit", equalTo("45"))
-            .withQueryParam("key", matching("myApiKey")));
+            .withQueryParam("key", equalTo("myApiKey")));
 
     Iterator<Photo> iterator = photos.iterator();
     iterator.next();
@@ -197,7 +199,7 @@ public class RetrofitApiClientTest {
             .withQueryParam("n", equalTo("52.3"))
             .withQueryParam("countrycodes", equalTo("gb,ie"))
             .withQueryParam("street", equalTo("High"))
-            .withQueryParam("key", matching("myApiKey")));
+            .withQueryParam("key", equalTo("myApiKey")));
 
     assertThat(geoPlaces.size(), is(5));
     GeoPlace place = geoPlaces.get(1);
@@ -220,9 +222,9 @@ public class RetrofitApiClientTest {
 
     // then
     verify(postRequestedFor(urlPathEqualTo("/v2/user.create"))
-            .withHeader("Content-Type", matching("multipart/form-data; boundary=.*"))
-            .withRequestBody(matching(".*name=\"username\".*arnold.*name=\"password\".*cyberdyne101.*name=\"name\".*The Terminator.*name=\"email\".*101@skynet.com.*"))
-            .withQueryParam("key", matching("myApiKey")));
+            .withHeader("Content-Type", equalTo("application/x-www-form-urlencoded"))
+            .withRequestBody(equalTo("username=arnold&password=cyberdyne101&name=The%20Terminator&email=101%40skynet.com"))
+            .withQueryParam("key", equalTo("myApiKey")));
 
     assertThat(result.ok(), is(true));
     assertThat(result.message(), containsString("Your account has been registered"));
@@ -235,17 +237,62 @@ public class RetrofitApiClientTest {
             .willReturn(aResponse()
                     .withStatus(200)
                     .withHeader("Content-Type", "application/json")
-                    .withBodyFile("registration-error.json")));
+                    .withBodyFile("api-error.json")));
 
     // when
     Registration.Result result = apiClient.register("username", "pwd", "name", "email@bob.com");
 
     // then
     verify(postRequestedFor(urlPathEqualTo("/v2/user.create"))
-            .withHeader("Content-Type", matching("multipart/form-data; boundary=.*"))
-            .withQueryParam("key", matching("myApiKey")));
+            .withHeader("Content-Type", equalTo("application/x-www-form-urlencoded"))
+            .withQueryParam("key", equalTo("myApiKey")));
 
     assertThat(result.ok(), is(false));
     assertThat(result.message(), containsString("Your account could not be registered."));
+  }
+
+  @Test
+  public void testAuthenticateReturnsOk() throws Exception {
+    // given
+    stubFor(post(urlPathEqualTo("/v2/user.authenticate"))
+            .willReturn(aResponse()
+                    .withStatus(200)
+                    .withHeader("Content-Type", "application/json")
+                    .withBodyFile("authenticate-ok.json")));
+
+    // when
+    Signin.Result result = apiClient.authenticate("precious", "9nazgul");
+
+    // then
+    verify(postRequestedFor(urlPathEqualTo("/v2/user.authenticate"))
+            .withHeader("Content-Type", equalTo("application/x-www-form-urlencoded"))
+            .withRequestBody(equalTo("identifier=precious&password=9nazgul"))
+            .withQueryParam("key", equalTo("myApiKey")));
+
+    assertThat(result.ok(), is(true));
+    assertThat(result.name(), is("Bilbo Baggins"));
+    assertThat(result.email(), is("bilbo@bag-end.com"));
+  }
+
+  @Test
+  public void testSendFeedbackReturnsOk() throws Exception {
+    // given
+    stubFor(post(urlPathEqualTo("/v2/feedback.add"))
+            .willReturn(aResponse()
+                    .withStatus(200)
+                    .withHeader("Content-Type", "application/json")
+                    .withBodyFile("feedback-ok.json")));
+
+    // when
+    Feedback.Result result = apiClient.sendFeedback(1234, "Comments I want to make", "My Name", "ballboy@wimbledon.com");
+
+    // then
+    verify(postRequestedFor(urlPathEqualTo("/v2/feedback.add"))
+            .withHeader("Content-Type", equalTo("application/x-www-form-urlencoded"))
+            .withRequestBody(matching("type=routing&itinerary=1234&comments=Comments%20I%20want%20to%20make&name=My%20Name&email=ballboy%40wimbledon.com"))
+            .withQueryParam("key", equalTo("myApiKey")));
+
+    assertThat(result.ok(), is(true));
+    assertThat(result.message(), containsString("Thank you for submitting this feedback"));
   }
 }

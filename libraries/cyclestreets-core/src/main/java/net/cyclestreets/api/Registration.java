@@ -1,27 +1,30 @@
 package net.cyclestreets.api;
 
+import java.io.IOException;
+
 public class Registration
 {
   static public class Result {
-    boolean ok_;
-    String message_;
+    private final boolean ok;
+    private final String errorMessage;
 
     public Result() {
-      ok_ = false;
-      message_ = "Unknown reason";
+      ok = false;
+      errorMessage = "Unknown reason";
     }
     
-    public Result(final boolean ok, final String message) {
-      ok_ = ok;
-      message_ = message;
+    public Result(final boolean ok, final String errorMessage) {
+      this.ok = ok;
+      this.errorMessage = errorMessage;
     }
     
-    public boolean ok() { return ok_; }
+    public boolean ok() { return ok; }
 
     public String message() {
-      if (ok_)
+      if (ok) {
         return "Your account has been registered.\n\nAn email has been sent to the address you gave.\n\nWhen the email arrives, follow the instructions it contains to complete the registration.";
-      return "Your account could not be registered.\n\n" + message_; 
+      }
+      return "Your account could not be registered.\n\n" + errorMessage;
     }
   }
   
@@ -33,7 +36,7 @@ public class Registration
     try {
       return ApiClient.register(username, password, name, email);
     }
-    catch(Exception e) {
+    catch (IOException e) {
       return new Result(false, e.getMessage());
     }
   }
