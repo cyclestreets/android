@@ -3,11 +3,17 @@ package net.cyclestreets.api.client;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import net.cyclestreets.api.Feedback;
 import net.cyclestreets.api.GeoPlaces;
 import net.cyclestreets.api.POI;
 import net.cyclestreets.api.Photos;
+import net.cyclestreets.api.Registration;
+import net.cyclestreets.api.Signin;
 import net.cyclestreets.api.UserJourneys;
+import net.cyclestreets.api.client.dto.SendFeedbackResponseDto;
+import net.cyclestreets.api.client.dto.UserAuthenticateResponseDto;
 import net.cyclestreets.api.client.dto.GeoPlacesDto;
+import net.cyclestreets.api.client.dto.UserCreateResponseDto;
 import net.cyclestreets.api.client.dto.UserJourneysDto;
 import net.cyclestreets.api.client.geojson.PhotosFactory;
 import net.cyclestreets.api.client.geojson.PoiFactory;
@@ -121,8 +127,30 @@ public class RetrofitApiClient {
     return PhotosFactory.toPhotos(response.body());
   }
 
-  public UserJourneys getUserJourneys(String username) throws IOException {
+  public UserJourneys getUserJourneys(final String username) throws IOException {
     Response<UserJourneysDto> response = v2Api.getUserJourneys(username).execute();
     return response.body().toUserJourneys();
+  }
+
+  public Registration.Result register(final String username,
+                                      final String password,
+                                      final String name,
+                                      final String email) throws IOException {
+    Response<UserCreateResponseDto> response = v2Api.register(username, password, name, email).execute();
+    return response.body().toRegistrationResult();
+  }
+
+  public Signin.Result authenticate(final String identifier,
+                                    final String password) throws IOException {
+    Response<UserAuthenticateResponseDto> response = v2Api.authenticate(identifier, password).execute();
+    return response.body().toSigninResult();
+  }
+
+  public Feedback.Result sendFeedback(final int itinerary,
+                                      final String comments,
+                                      final String name,
+                                      final String email) throws IOException {
+    Response<SendFeedbackResponseDto> response = v2Api.sendFeedback("routing", itinerary, comments, name, email).execute();
+    return response.body().toFeedbackResult();
   }
 }

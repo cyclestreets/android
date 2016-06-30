@@ -1,97 +1,43 @@
 package net.cyclestreets.api;
 
-import org.xml.sax.ContentHandler;
+import java.io.IOException;
 
-import android.sax.Element;
-import android.sax.EndTextElementListener;
-import android.sax.RootElement;
-
-public class Registration 
+public class Registration
 {
-  static public class Result
-  {
-    public Result()
-    {
-      ok_ = false;
-      message_ = "Unknown reason";
-    } // RegistrationResult
+  static public class Result {
+    private final boolean ok;
+    private final String errorMessage;
+
+    public Result() {
+      ok = false;
+      errorMessage = "Unknown reason";
+    }
     
-    public Result(final boolean ok, final String message)
-    {
-      ok_ = ok;
-      message_ = message;
-    } // Result
+    public Result(final boolean ok, final String errorMessage) {
+      this.ok = ok;
+      this.errorMessage = errorMessage;
+    }
     
-    public boolean ok() { return ok_; }
-    
-    public String message() 
-    {
-      if(ok())
+    public boolean ok() { return ok; }
+
+    public String message() {
+      if (ok) {
         return "Your account has been registered.\n\nAn email has been sent to the address you gave.\n\nWhen the email arrives, follow the instructions it contains to complete the registration.";
-      return "Your account could not be registered.\n\n" + message_; 
-    } // message  
-    
-    boolean ok_;
-    String message_;
-  } // class Result  
+      }
+      return "Your account could not be registered.\n\n" + errorMessage;
+    }
+  }
   
   //////////////////////////////////////////////////////
   static public Result register(final String username, 
                                 final String password,
                                 final String name,
-                                final String email) 
-  {
+                                final String email) {
     try {
       return ApiClient.register(username, password, name, email);
-    } // try
-    catch(Exception e) {
+    }
+    catch (IOException e) {
       return new Result(false, e.getMessage());
-    } // catch
-  } // register
-  
-  ///////////////////////////////////////////////////
-  /*
-  <?xml version="1.0"?>
-  <signin>
-    <request></request>
-    <result>
-      <code>0</code>
-      <message>No username was supplied.</message>
-    </result>
-  </signin>
-  */
-
-  static public Factory<Result> factory() { 
-    return new RegistrationFactory();
-  } // factory
-
-  static private class RegistrationFactory extends Factory.XmlReader<Result>
-  {    
-    private Registration.Result result_;
-    
-    @Override
-    protected ContentHandler contentHandler()
-    {
-      result_ = new Result();
-      
-      final RootElement root = new RootElement("signin");
-      final Element code = root.getChild("result").getChild("code");
-      final Element message = root.getChild("message").getChild("message");
-
-      code.setEndTextElementListener(new EndTextElementListener() {
-        public void end(String body) { result_.ok_ = "1".equals(body); }
-      });
-      message.setEndTextElementListener(new EndTextElementListener() {
-        public void end(String body) { result_.message_ = body; }
-      });
-      
-      return root.getContentHandler();
-    } // contentHandler
-
-    @Override
-    protected Registration.Result get()
-    {
-      return result_;
-    } // get
-  } // class RegistrationFactory
-} // class Registration
+    }
+  }
+}
