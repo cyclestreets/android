@@ -8,6 +8,7 @@ import net.cyclestreets.api.Photo;
 import net.cyclestreets.api.Photos;
 import net.cyclestreets.api.Registration;
 import net.cyclestreets.api.Signin;
+import net.cyclestreets.api.Upload;
 import net.cyclestreets.api.UserJourney;
 import net.cyclestreets.api.UserJourneys;
 
@@ -94,5 +95,27 @@ public class RetrofitApiClientIntegrationTest {
     System.out.println(result.ok());
     System.out.println(result.message());
     assertThat(result.ok(), is(true));
+  }
+
+  @Test
+  public void hitUploadPhotoApiWithoutPhoto() throws Exception {
+    Upload.Result result = apiClient.uploadPhoto("test66137", "pwd1234", 0, 52, 1467394411,
+            "cycleparking", "good", "Caption: THIS IS TEST DATA and should not be on the map", null);
+    System.out.println(result.ok());
+    System.out.println(result.url());
+    System.out.println(result.error());
+    // Important - remove the test data from the map, otherwise we look pretty unprofessional!
+    System.out.println("Don't forgot to log on as this user and delete the photo afterwards...");
+  }
+
+  @Test
+  public void hitUploadPhotoApiWithPhoto() throws Exception {
+    Upload.Result result = apiClient.uploadPhoto("test66137", "pwd1234", 0, 52, 1467394411,
+            "cycleparking", "good", "Caption: THIS IS TEST DATA and should not be on the map", "/tmp/test-image.png");
+    System.out.println(result.ok());
+    System.out.println(result.url());
+    System.out.println(result.error());
+    // Important - remove the test data from the map, otherwise we look pretty unprofessional!
+    System.out.println("Don't forgot to log on as this user and delete the photo afterwards...");
   }
 }

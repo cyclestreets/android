@@ -1,14 +1,16 @@
 package net.cyclestreets.api.client;
 
 import net.cyclestreets.api.client.dto.SendFeedbackResponseDto;
+import net.cyclestreets.api.client.dto.UploadPhotoResponseDto;
 import net.cyclestreets.api.client.dto.UserAuthenticateResponseDto;
 import net.cyclestreets.api.client.dto.UserCreateResponseDto;
 import net.cyclestreets.api.client.dto.UserJourneysDto;
 
 import org.geojson.FeatureCollection;
 
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import retrofit2.Call;
-import retrofit2.Response;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
@@ -54,4 +56,16 @@ public interface V2Api {
                                              @Field("comments") String comments,
                                              @Field("name") String name,
                                              @Field("email") String email);
+
+  @Multipart
+  @POST("v2/photomap.add")
+  Call<UploadPhotoResponseDto> uploadPhoto(@Part("username") RequestBody username,
+                                           @Part("password") RequestBody password,
+                                           @Part("longitude") double lon,
+                                           @Part("latitude") double lat,
+                                           @Part("datetime") long dateTime,
+                                           @Part("category") RequestBody category,
+                                           @Part("metacategory") RequestBody metaCat,
+                                           @Part("caption") RequestBody caption,
+                                           @Part MultipartBody.Part file);
 }

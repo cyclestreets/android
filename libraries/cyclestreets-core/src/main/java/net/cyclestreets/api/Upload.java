@@ -1,29 +1,30 @@
 package net.cyclestreets.api;
 
 import org.osmdroid.api.IGeoPoint;
-import org.xml.sax.ContentHandler;
 
-import android.sax.Element;
-import android.sax.EndTextElementListener;
-import android.sax.RootElement;
+import java.io.IOException;
 
-public class Upload 
-{
-  static public class Result
-  {
-    public Result() { }
-    public Result(final String error)
-    {
-      error_ = error;
-    } // UploadResult
+public class Upload {
+  public static class Result {
+    private String url;
+    private String error;
 
-    public boolean ok() { return url_ != null; }
-    public String url() { return url_; }     
-    public String error() { return error_; }
-    
-    private String url_;
-    private String error_;
-  } // class Result
+    public static Result forError(final String error) {
+      Result result = new Result();
+      result.error = error;
+      return result;
+    }
+
+    public static Result forUrl(final String url) {
+      Result result = new Result();
+      result.url = url;
+      return result;
+    }
+
+    public boolean ok() { return url != null; }
+    public String url() { return url; }
+    public String error() { return error; }
+  }
 
   static public Upload.Result photo(final String filename,
                                     final String username,
@@ -32,9 +33,7 @@ public class Upload
                                     final String metaCat,
                                     final String category,
                                     final String dateTime,
-                                    final String caption)
-          throws Exception
-  {
+                                    final String caption) throws IOException {
     return ApiClient.uploadPhoto(filename, 
                                  username, 
                                  password, 
@@ -44,40 +43,5 @@ public class Upload
                                  category, 
                                  dateTime, 
                                  caption);
-  } // photo
-  
-  ///////////////////////////////////////////////////
-  static public Factory<Result> factory() { 
-    return new UploadFactory();
-  } // factory
-
-  static private class UploadFactory extends Factory.XmlReader<Result>
-  {    
-    private Upload.Result result_;
-    
-    @Override
-    protected ContentHandler contentHandler()
-    {
-      result_ = new Result();
-      
-      final RootElement root = new RootElement("addphoto");
-      final Element url = root.getChild("result").getChild("url");
-      final Element error = root.getChild("error").getChild("message");
-
-      url.setEndTextElementListener(new EndTextElementListener() {
-        public void end(String body) { result_.url_ = body; }
-      });
-      error.setEndTextElementListener(new EndTextElementListener() {
-        public void end(String body) { result_.error_ = body; }
-      });
-      
-      return root.getContentHandler();
-    } // contentHandler
-
-    @Override
-    protected Upload.Result get()
-    {
-      return result_;
-    } // get
-  } // class UploadFactory
-} // class UploadResult
+  }
+}
