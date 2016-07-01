@@ -80,8 +80,7 @@ public class RetrofitApiClientIntegrationTest {
 
   @Test
   public void hitAuthenticateApi() throws Exception {
-    // This test will fail until we have a username/password for a registered user above!
-    Signin.Result result = apiClient.authenticate("testretro", "retro123");
+    Signin.Result result = apiClient.authenticate("test66137", "pwd1234");
     System.out.println(result.ok());
     System.out.println(result.name());
     System.out.println(result.email());
