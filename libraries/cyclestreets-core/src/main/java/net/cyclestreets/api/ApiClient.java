@@ -1,6 +1,5 @@
 package net.cyclestreets.api;
 
-import java.io.File;
 import java.io.IOException;
 import java.net.URI;
 import java.util.ArrayList;
@@ -16,7 +15,6 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.HttpResponseException;
 import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.utils.URIUtils;
 import org.apache.http.client.utils.URLEncodedUtils;
 import org.apache.http.conn.ClientConnectionManager;
@@ -24,10 +22,6 @@ import org.apache.http.conn.scheme.PlainSocketFactory;
 import org.apache.http.conn.ssl.SSLSocketFactory;
 import org.apache.http.conn.scheme.Scheme;
 import org.apache.http.conn.scheme.SchemeRegistry;
-import org.apache.http.entity.mime.MultipartEntity;
-import org.apache.http.entity.mime.content.ContentBody;
-import org.apache.http.entity.mime.content.FileBody;
-import org.apache.http.entity.mime.content.StringBody;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.impl.conn.tsccm.ThreadSafeClientConnManager;
 import org.apache.http.message.BasicNameValuePair;
@@ -65,7 +59,6 @@ public class ApiClient
 
   private final static String API_SCHEME = "http";
   private final static String API_SCHEME_V2 = "https";
-  private final static String API_POST_SCHEME = "https";
   private final static String API_HOST = "www.cyclestreets.net";
   private final static String API_HOST_V2 = "api.cyclestreets.net";
   private final static int API_PORT = -1;
@@ -74,7 +67,6 @@ public class ApiClient
 
   public final static String API_PATH_JOURNEY = API_PATH + "journey.xml";
   public final static String API_PATH_PHOTOMAP_CATEGORIES = API_PATH + "photomapcategories.xml";
-  public final static String API_PATH_ADDPHOTO = API_PATH + "addphoto.xml";
   public final static String API_PATH_POI_CATEGORIES = API_PATH_V2 + "pois.types";
 
   private final static String BLOG_PATH = "/blog/";
@@ -172,7 +164,7 @@ public class ApiClient
                                       double e,
                                       double w) throws IOException {
     return retrofitApiClient.geoCoder(search, n, s, e, w);
-  } // geoCoder
+  }
 
   static Feedback.Result sendFeedback(final int itinerary,
                                       final String comments,
@@ -189,33 +181,10 @@ public class ApiClient
                                    final String metaCat,
                                    final String category,
                                    final String dateTime,
-                                   final String caption)
-    throws Exception
-  {
-    if (filename != null)
-      return postApi(Upload.factory(),
-                     API_PATH_ADDPHOTO,
-                     "username", username,
-                     "password", password,
-                     "longitude", Double.toString(lon),
-                     "latitude", Double.toString(lat),
-                     "datetime", dateTime,
-                     "category", category,
-                     "metacategory", metaCat,
-                     "caption", caption,
-                     "mediaupload", new FileBody(new File(filename)));
-    else
-      return postApi(Upload.factory(),
-                     API_PATH_ADDPHOTO,
-                     "username", username,
-                     "password", password,
-                     "longitude", Double.toString(lon),
-                     "latitude", Double.toString(lat),
-                     "datetime", dateTime,
-                     "category", category,
-                     "metacategory", metaCat,
-                     "caption", caption);
-  } // uploadPhoto
+                                   final String caption) throws IOException {
+    return retrofitApiClient.uploadPhoto(username, password, lon, lat, Long.valueOf(dateTime),
+                                         category, metaCat, caption, filename);
+  }
 
   static Signin.Result signin(final String username,
                               final String password) throws IOException {
@@ -243,14 +212,14 @@ public class ApiClient
                            final double latN,
                            final double latS) throws IOException {
     return retrofitApiClient.getPOIs(key, lonE, lonW, latN, latS);
-  } // getPOIs
+  }
 
   static List<POI> getPOIs(final String key,
                            final double lon,
                            final double lat,
                            final int radius) throws IOException {
     return retrofitApiClient.getPOIs(key, lon, lat, radius);
-  } // getPOIs
+  }
 
   static Blog getBlogEntries()
     throws Exception
@@ -283,15 +252,6 @@ public class ApiClient
     return executeRaw(httpget);
   } // callApiRaw
 
-  private static <T> T callApi(final Factory<T> factory, final String path, String... args) throws Exception
-  {
-    if ((customiser_ != null) && (customiser_.shouldCache(path)))
-      return callApiWithCache(customiser_.cacheExpiry(path), factory, path, args);
-
-    final byte[] results = callApiRaw(path, args);
-    return loadRaw(factory, results);
-  } // callApi
-
   private static <T> T callApiWithCache(final Factory<T> factory, final String path, String... args) throws Exception
   {
     return callApiWithCache(cacheExpiryDays_, factory, path, args);
@@ -310,33 +270,6 @@ public class ApiClient
 
     return loadRaw(factory, results);
   } // callApiWithCache
-
-  private static <T> T postApi(final Factory<T> factory, final String path, Object... args)
-    throws Exception
-  {
-    final byte[] results = postApiRaw(path, args);
-    return loadRaw(factory, results);
-  } // postApi
-
-  public static byte[] postApiRaw(final String path, Object... arguments) throws Exception {
-    Map<String, Object> args = argMap(path, arguments);
-
-    final List<NameValuePair> params = createParamsList();
-    final URI uri = createURI(API_POST_SCHEME, path, params);
-
-    final MultipartEntity entity = new MultipartEntity();
-    for (String name : args.keySet()) {
-      final Object value = args.get(name);
-      if(value instanceof ContentBody)
-        entity.addPart(name, (ContentBody)value);
-      else
-        entity.addPart(name, new StringBody(value.toString()));
-    } // for ...
-
-    final HttpPost httppost = new HttpPost(uri);
-    httppost.setEntity(entity);
-    return executeRaw(httppost);
-  } // postApiRaw
 
   private static String cacheName(final String path, final String... args)
   {

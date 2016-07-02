@@ -44,6 +44,7 @@ import android.widget.Toast;
 import android.widget.RelativeLayout.LayoutParams;
 
 import java.io.File;
+import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -805,8 +806,8 @@ if (url.startsWith("content://com.google.android.apps.photos.content")){
                             dateTime_, 
                             caption_);
       } // try
-      catch(Exception e) {
-        return new Upload.Result("There was a problem uploading your photo: \n" + e.getMessage());
+      catch (IOException e) {
+        return Upload.Result.forError("There was a problem uploading your photo: \n" + e.getMessage());
       }
     } // doInBackground
     

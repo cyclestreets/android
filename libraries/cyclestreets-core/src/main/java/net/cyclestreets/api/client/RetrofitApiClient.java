@@ -9,8 +9,10 @@ import net.cyclestreets.api.POI;
 import net.cyclestreets.api.Photos;
 import net.cyclestreets.api.Registration;
 import net.cyclestreets.api.Signin;
+import net.cyclestreets.api.Upload;
 import net.cyclestreets.api.UserJourneys;
 import net.cyclestreets.api.client.dto.SendFeedbackResponseDto;
+import net.cyclestreets.api.client.dto.UploadPhotoResponseDto;
 import net.cyclestreets.api.client.dto.UserAuthenticateResponseDto;
 import net.cyclestreets.api.client.dto.GeoPlacesDto;
 import net.cyclestreets.api.client.dto.UserCreateResponseDto;
@@ -20,11 +22,15 @@ import net.cyclestreets.api.client.geojson.PoiFactory;
 
 import org.geojson.FeatureCollection;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
 import okhttp3.Interceptor;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
+import okhttp3.RequestBody;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.jackson.JacksonConverterFactory;
@@ -152,5 +158,30 @@ public class RetrofitApiClient {
                                       final String email) throws IOException {
     Response<SendFeedbackResponseDto> response = v2Api.sendFeedback("routing", itinerary, comments, name, email).execute();
     return response.body().toFeedbackResult();
+  }
+
+  public Upload.Result uploadPhoto(final String username,
+                                   final String password,
+                                   final double lon,
+                                   final double lat,
+                                   final long dateTime,
+                                   final String category,
+                                   final String metaCat,
+                                   final String caption,
+                                   final String filename) throws IOException {
+    MultipartBody.Part filePart = null;
+    if (filename != null) {
+      File file = new File(filename);
+      RequestBody fileBody = RequestBody.create(MediaType.parse("multipart/form-data"), file);
+      filePart = MultipartBody.Part.createFormData("mediaupload", file.getName(), fileBody);
+    }
+    // Unfortunately we have to do all this faff, otherwise the JSON converter will insert quotes!
+    RequestBody usernamePart = RequestBody.create(MediaType.parse("text/plain"), username);
+    RequestBody passwordPart = RequestBody.create(MediaType.parse("text/plain"), password);
+    RequestBody categoryPart = RequestBody.create(MediaType.parse("text/plain"), category);
+    RequestBody metaCatPart = RequestBody.create(MediaType.parse("text/plain"), metaCat);
+    RequestBody captionPart = RequestBody.create(MediaType.parse("text/plain"), caption);
+    Response<UploadPhotoResponseDto> response = v2Api.uploadPhoto(usernamePart, passwordPart, lon, lat, dateTime, categoryPart, metaCatPart, captionPart, filePart).execute();
+    return response.body().toUploadResult();
   }
 }
