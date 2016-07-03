@@ -34,7 +34,7 @@ import okhttp3.RequestBody;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.jackson.JacksonConverterFactory;
-import retrofit2.converter.simplexml.SimpleXmlConverterFactory;
+import retrofit2.converter.scalars.ScalarsConverterFactory;
 
 public class RetrofitApiClient {
 
@@ -53,7 +53,7 @@ public class RetrofitApiClient {
 
     Retrofit retrofitV1 = new Retrofit.Builder()
         .client(client)
-        .addConverterFactory(SimpleXmlConverterFactory.createNonStrict())
+        .addConverterFactory(ScalarsConverterFactory.create())
         .baseUrl(builder.v1Host)
         .build();
     v1Api = retrofitV1.create(V1Api.class);
@@ -97,7 +97,20 @@ public class RetrofitApiClient {
   // --------------------------------------------------------------------------------
   // V1 APIs
   // --------------------------------------------------------------------------------
-  // None at present
+  public String getJourneyXml(final String plan,
+                              final String itineraryPoints,
+                              final String leaving,
+                              final String arriving,
+                              final int speed) throws IOException {
+    Response<String> response = v1Api.getJourneyXml(plan, itineraryPoints, leaving, arriving, speed).execute();
+    return response.body();
+  }
+
+  public String retrievePreviousJourneyXml(final String plan,
+                                           final long itineraryId) throws IOException {
+    Response<String> response = v1Api.retrievePreviousJourneyXml(plan, itineraryId).execute();
+    return response.body();
+  }
 
   // --------------------------------------------------------------------------------
   // V2 APIs

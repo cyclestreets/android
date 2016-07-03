@@ -118,4 +118,16 @@ public class RetrofitApiClientIntegrationTest {
     // Important - remove the test data from the map, otherwise we look pretty unprofessional!
     System.out.println("Don't forgot to log on as this user and delete the photo afterwards...");
   }
+
+  @Test
+  public void hitGetJourneyXmlApi() throws Exception {
+    String xml = apiClient.getJourneyXml("quietest", "0.117950,52.205302,City+Centre|0.131402,52.221046,Mulberry+Close|0.147324,52.199650,Thoday+Street", null, null, 24);
+    System.out.println(xml);
+  }
+
+  @Test
+  public void hitRetrievePreviousJourneyXmlApi() throws Exception {
+    String xml = apiClient.retrievePreviousJourneyXml("fastest", 53135357);
+    System.out.println(xml);
+  }
 }

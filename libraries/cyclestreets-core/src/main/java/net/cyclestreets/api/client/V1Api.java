@@ -1,5 +1,20 @@
 package net.cyclestreets.api.client;
 
+import retrofit2.Call;
+import retrofit2.http.GET;
+import retrofit2.http.Query;
+
 public interface V1Api {
-  // Not currently using any V1 APIs
+
+  @GET("/api/journey.xml")
+  Call<String> getJourneyXml(@Query("plan") String plan,
+                             @Query("itinerarypoints") String itineraryPoints,
+                             @Query("leaving") String leaving,
+                             @Query("arriving") String arriving,
+                             @Query("speed") int speed);
+
+  @GET("/api/journey.xml")
+  Call<String> retrievePreviousJourneyXml(@Query("plan") String plan,
+                                          @Query("itinerary") long itineraryId);
+
 }

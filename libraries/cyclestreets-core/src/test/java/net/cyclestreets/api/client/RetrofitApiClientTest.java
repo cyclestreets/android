@@ -1,6 +1,7 @@
 package net.cyclestreets.api.client;
 
 import com.github.tomakehurst.wiremock.junit.WireMockRule;
+import com.github.tomakehurst.wiremock.verification.LoggedRequest;
 
 import net.cyclestreets.api.Feedback;
 import net.cyclestreets.api.GeoPlace;
@@ -25,8 +26,10 @@ import org.robolectric.annotation.Config;
 import java.util.Iterator;
 import java.util.List;
 
+import static com.github.tomakehurst.wiremock.client.WireMock.findAll;
 import static com.github.tomakehurst.wiremock.client.WireMock.post;
 import static com.github.tomakehurst.wiremock.client.WireMock.postRequestedFor;
+import static com.github.tomakehurst.wiremock.client.WireMock.urlMatching;
 import static net.cyclestreets.api.Photo.Video;
 
 import static com.github.tomakehurst.wiremock.client.WireMock.aResponse;
@@ -39,6 +42,7 @@ import static com.github.tomakehurst.wiremock.client.WireMock.urlPathEqualTo;
 import static com.github.tomakehurst.wiremock.client.WireMock.verify;
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.junit.Assert.assertThat;
 
 @Config(manifest=Config.NONE)
@@ -317,4 +321,38 @@ public class RetrofitApiClientTest {
     assertThat(result.ok(), is(true));
     assertThat(result.url(), is("https://www.cyclestreets.net/location/64001/"));
   }
+
+  @Test
+  public void testGetJourneyXml() throws Exception {
+    // given
+    stubFor(get(urlPathEqualTo("/api/journey.xml"))
+            .willReturn(aResponse()
+                    .withStatus(200)
+                    .withHeader("Content-Type", "text/xml")
+                    .withBodyFile("journey.xml")));
+
+    // when
+    String result = apiClient.getJourneyXml("balanced",
+                                            "mySetOfItineraryPoints",
+                                            "2016-07-03 07:51:12",
+                                            null,
+                                            24);
+    // N.B. if you try putting a realistic set of itinerary points, Wiremock barfs at the presence
+    //      of the unencoded pipe character (see https://github.com/square/retrofit/issues/1891).
+
+    // then
+    List<LoggedRequest> requests = findAll(getRequestedFor(urlMatching(".*")));
+    System.out.println(requests);
+
+    verify(getRequestedFor(urlPathEqualTo("/api/journey.xml"))
+            .withQueryParam("plan", equalTo("balanced"))
+            .withQueryParam("itinerarypoints", equalTo("mySetOfItineraryPoints"))
+            .withQueryParam("leaving", equalTo("2016-07-03 07:51:12"))
+            .withQueryParam("speed", equalTo("24"))
+            .withQueryParam("key", equalTo("myApiKey")));
+
+    assertThat(result, is(notNullValue()));
+    assertThat(result, containsString("xml"));
+  }
+
 }

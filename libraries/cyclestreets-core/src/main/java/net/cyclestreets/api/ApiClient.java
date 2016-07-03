@@ -65,7 +65,6 @@ public class ApiClient
   private final static String API_PATH = "/api/";
   private final static String API_PATH_V2 = "/v2/";
 
-  public final static String API_PATH_JOURNEY = API_PATH + "journey.xml";
   public final static String API_PATH_PHOTOMAP_CATEGORIES = API_PATH + "photomapcategories.xml";
   public final static String API_PATH_POI_CATEGORIES = API_PATH_V2 + "pois.types";
 
@@ -121,28 +120,15 @@ public class ApiClient
                               final String leaving,
                               final String arriving,
                               final int speed,
-                              final double[] lonLat)
-    throws Exception
-  {
+                              final double[] lonLat) throws IOException {
     final String points = itineraryPoints(lonLat);
-    final byte[] xml = callApiRaw(API_PATH_JOURNEY,
-              "plan", plan,
-              "itinerarypoints", points,
-              "leaving", leaving,
-              "arriving", arriving,
-              "speed", Integer.toString(speed));
-    return new String(xml, "UTF-8");
-  } // getJourneyXml
+    return retrofitApiClient.getJourneyXml(plan, points, leaving, arriving, speed);
+  }
 
   static String getJourneyXml(final String plan,
-                              final long itinerary)
-    throws Exception
-  {
-    final byte[] xml = callApiRaw(API_PATH_JOURNEY,
-                                  "plan", plan,
-                                  "itinerary", Long.toString(itinerary));
-    return new String(xml, "UTF-8");
-  } // getJourneyXml
+                              final long itineraryId) throws IOException {
+    return retrofitApiClient.retrievePreviousJourneyXml(plan, itineraryId);
+  }
 
   static PhotomapCategories getPhotomapCategories()
     throws Exception
@@ -152,11 +138,11 @@ public class ApiClient
 
   static Photos getPhotos(double e, double w, double n, double s) throws IOException {
     return retrofitApiClient.getPhotos(w, s, e, n);
-  } // getPhotos
+  }
 
   static UserJourneys getUserJournies(final String username) throws IOException {
     return retrofitApiClient.getUserJourneys(username);
-  } // getUserJournies
+  }
 
   static protected GeoPlaces geoCoder(final String search,
                                       double n,

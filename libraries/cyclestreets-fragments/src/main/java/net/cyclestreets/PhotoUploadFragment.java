@@ -821,9 +821,8 @@ if (url.startsWith("content://com.google.android.apps.photos.content")){
                             category_, 
                             dateTime_, 
                             caption_);
-      } // try
-      catch(Exception e) {
-        return new Upload.Result("There was a problem uploading your photo: \n" + e.getMessage());
+      } catch (Exception e) {
+        return Upload.Result.forError("There was a problem uploading your photo: \n" + e.getMessage());
       }
     } // doInBackground
     
