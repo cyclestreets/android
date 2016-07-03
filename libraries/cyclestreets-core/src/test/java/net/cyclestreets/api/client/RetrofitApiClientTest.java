@@ -10,6 +10,7 @@ import net.cyclestreets.api.Photo;
 import net.cyclestreets.api.Photos;
 import net.cyclestreets.api.Registration;
 import net.cyclestreets.api.Signin;
+import net.cyclestreets.api.Upload;
 import net.cyclestreets.api.UserJourney;
 import net.cyclestreets.api.UserJourneys;
 
@@ -294,5 +295,29 @@ public class RetrofitApiClientTest {
 
     assertThat(result.ok(), is(true));
     assertThat(result.message(), containsString("Thank you for submitting this feedback"));
+  }
+
+  @Test
+  public void testUploadPhotoReturnsOk() throws Exception {
+    // given
+    stubFor(post(urlPathEqualTo("/v2/photomap.add"))
+            .willReturn(aResponse()
+                    .withStatus(200)
+                    .withHeader("Content-Type", "application/json")
+                    .withBodyFile("upload-ok.json")));
+
+    // when
+    Upload.Result result = apiClient.uploadPhoto("arnold", "cyberdyne101", -0.5, 53, 12345678,
+                                                 "scifi", "evilrobots", "The Cyberdyne Model 101",
+                                                 null);
+
+    // then
+    verify(postRequestedFor(urlPathEqualTo("/v2/photomap.add"))
+            .withHeader("Content-Type", matching("multipart/form-data; boundary=.*"))
+            .withRequestBody(matching(".*username.*arnold.*password.*cyberdyne101.*longitude.*-0.5.*latitude.*53.*datetime.*12345678.*category.*scifi.*metacategory.*evilrobots.*caption.*The Cyberdyne Model 101.*"))
+            .withQueryParam("key", equalTo("myApiKey")));
+
+    assertThat(result.ok(), is(true));
+    assertThat(result.url(), is("https://www.cyclestreets.net/location/64001/"));
   }
 }
