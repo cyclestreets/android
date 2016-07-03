@@ -1,0 +1,75 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "High Street",
+        "near": "Oxford, Oxon"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -1.2523614,
+          51.7527219
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "The High",
+        "near": "Essex, East of England"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          0.0939271,
+          51.769678
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "High Street",
+        "near": "Oxford, Oxon"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -1.246921,
+          51.7516122
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "High Street",
+        "near": "Oxford, Oxon"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -1.2487345,
+          51.7523394
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "High Street",
+        "near": "Oxford, Oxon"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -1.2547771,
+          51.7523995
+        ]
+      }
+    }
+  ]
+}

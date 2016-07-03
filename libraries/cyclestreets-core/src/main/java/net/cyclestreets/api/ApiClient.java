@@ -151,7 +151,7 @@ public class ApiClient
   } // getPhotomapCategories
 
   static Photos getPhotos(double e, double w, double n, double s) throws IOException {
-    return retrofitApiClient.getPhotos(e, w, n, s);
+    return retrofitApiClient.getPhotos(w, s, e, n);
   } // getPhotos
 
   static UserJourneys getUserJournies(final String username) throws IOException {
@@ -163,7 +163,7 @@ public class ApiClient
                                       double s,
                                       double e,
                                       double w) throws IOException {
-    return retrofitApiClient.geoCoder(search, n, s, e, w);
+    return retrofitApiClient.geoCoder(search, w, s, e, n);
   }
 
   static Feedback.Result sendFeedback(final int itinerary,
@@ -211,7 +211,7 @@ public class ApiClient
                            final double lonW,
                            final double latN,
                            final double latS) throws IOException {
-    return retrofitApiClient.getPOIs(key, lonE, lonW, latN, latS);
+    return retrofitApiClient.getPOIs(key, lonW, latS, lonE, latN);
   }
 
   static List<POI> getPOIs(final String key,

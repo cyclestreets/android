@@ -14,9 +14,9 @@ import net.cyclestreets.api.UserJourneys;
 import net.cyclestreets.api.client.dto.SendFeedbackResponseDto;
 import net.cyclestreets.api.client.dto.UploadPhotoResponseDto;
 import net.cyclestreets.api.client.dto.UserAuthenticateResponseDto;
-import net.cyclestreets.api.client.dto.GeoPlacesDto;
 import net.cyclestreets.api.client.dto.UserCreateResponseDto;
 import net.cyclestreets.api.client.dto.UserJourneysDto;
+import net.cyclestreets.api.client.geojson.GeoPlacesFactory;
 import net.cyclestreets.api.client.geojson.PhotosFactory;
 import net.cyclestreets.api.client.geojson.PoiFactory;
 
@@ -90,28 +90,25 @@ public class RetrofitApiClient {
     }
   }
 
+  private static String toBboxString(double lonW, double latS, double lonE, double latN) {
+    return lonW + "," + latS + "," + lonE + "," + latN;
+  }
+
   // --------------------------------------------------------------------------------
   // V1 APIs
   // --------------------------------------------------------------------------------
-  public GeoPlaces geoCoder(final String search,
-                            final double n,
-                            final double s,
-                            final double e,
-                            final double w) throws IOException {
-    Response<GeoPlacesDto> response = v1Api.geoCoder(search, n, s, e, w).execute();
-    return response.body().toGeoPlaces();
-  }
+  // None at present
 
   // --------------------------------------------------------------------------------
   // V2 APIs
   // --------------------------------------------------------------------------------
 
   public List<POI> getPOIs(final String type,
-                           final double lonE,
                            final double lonW,
-                           final double latN,
-                           final double latS) throws IOException {
-    String bbox = lonW + "," + latS + "," + lonE + "," + latN;
+                           final double latS,
+                           final double lonE,
+                           final double latN) throws IOException {
+    String bbox = toBboxString(lonW, latS, lonE, latN);
     Response<FeatureCollection> response = v2Api.getPOIs(type, bbox).execute();
     return PoiFactory.toPoiList(response.body());
   }
@@ -124,11 +121,21 @@ public class RetrofitApiClient {
     return PoiFactory.toPoiList(response.body());
   }
 
-  public Photos getPhotos(final double lonE,
-                          final double lonW,
-                          final double latN,
-                          final double latS) throws IOException {
-    String bbox = lonW + "," + latS + "," + lonE + "," + latN;
+  public GeoPlaces geoCoder(final String search,
+                            final double lonW,
+                            final double latS,
+                            final double lonE,
+                            final double latN) throws IOException {
+    String bbox = toBboxString(lonW, latS, lonE, latN);
+    Response<FeatureCollection> response = v2Api.geoCoder(search, bbox).execute();
+    return GeoPlacesFactory.toGeoPlaces(response.body());
+  }
+
+  public Photos getPhotos(final double lonW,
+                          final double latS,
+                          final double lonE,
+                          final double latN) throws IOException {
+    String bbox = toBboxString(lonW, latS, lonE, latN);
     Response<FeatureCollection> response = v2Api.getPhotos(bbox).execute();
     return PhotosFactory.toPhotos(response.body());
   }

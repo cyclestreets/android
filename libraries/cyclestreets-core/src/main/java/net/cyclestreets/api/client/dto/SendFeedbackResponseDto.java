@@ -3,7 +3,6 @@ package net.cyclestreets.api.client.dto;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import net.cyclestreets.api.Feedback;
-import net.cyclestreets.api.Registration;
 
 public class SendFeedbackResponseDto extends ApiResponseDto {
   @JsonProperty

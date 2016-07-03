@@ -64,7 +64,7 @@ public class RetrofitApiClientTest {
                     .withBodyFile("pois.json")));
 
     // when
-    List<POI> pois = apiClient.getPOIs("bikeshops", 0.2, 0.1, 52.3, 52.2);
+    List<POI> pois = apiClient.getPOIs("bikeshops", 0.1, 52.2, 0.2, 52.3);
 
     // then
     verify(getRequestedFor(urlPathEqualTo("/v2/pois.locations"))
@@ -146,7 +146,7 @@ public class RetrofitApiClientTest {
                     .withBodyFile("photos.json")));
 
     // when
-    Photos photos = apiClient.getPhotos(0.2, 0.1, 52.3, 52.2);
+    Photos photos = apiClient.getPhotos(0.1, 52.2, 0.2, 52.3);
 
     // then
     verify(getRequestedFor(urlPathEqualTo("/v2/photomap.locations"))
@@ -183,23 +183,20 @@ public class RetrofitApiClientTest {
   @Test
   public void testGeoCoder() throws Exception {
     // given
-    stubFor(get(urlPathEqualTo("/api/geocoder.xml"))
+    stubFor(get(urlPathEqualTo("/v2/geocoder"))
             .willReturn(aResponse()
                     .withStatus(200)
-                    .withHeader("Content-Type", "text/xml")
-                    .withBodyFile("geocoder.xml")));
+                    .withHeader("Content-Type", "application/json")
+                    .withBodyFile("geocoder.json")));
 
     // when
-    GeoPlaces geoPlaces = apiClient.geoCoder("High", 52.3, 52.2, 0.2, 0.1);
+    GeoPlaces geoPlaces = apiClient.geoCoder("High", 0.1, 52.2, 0.2, 52.3);
 
     // then
-    verify(getRequestedFor(urlPathEqualTo("/api/geocoder.xml"))
-            .withQueryParam("w", equalTo("0.1"))
-            .withQueryParam("e", equalTo("0.2"))
-            .withQueryParam("s", equalTo("52.2"))
-            .withQueryParam("n", equalTo("52.3"))
+    verify(getRequestedFor(urlPathEqualTo("/v2/geocoder"))
+            .withQueryParam("bbox", equalTo("0.1,52.2,0.2,52.3"))
             .withQueryParam("countrycodes", equalTo("gb,ie"))
-            .withQueryParam("street", equalTo("High"))
+            .withQueryParam("q", equalTo("High"))
             .withQueryParam("key", equalTo("myApiKey")));
 
     assertThat(geoPlaces.size(), is(5));

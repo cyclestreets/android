@@ -31,6 +31,10 @@ public interface V2Api {
                                   @Query("latitude") double lat,
                                   @Query("radius") int radius);
 
+  @GET("/v2/geocoder?countrycodes=gb,ie")
+  Call<FeatureCollection> geoCoder(@Query("q") String search,
+                                   @Query("bbox") String bbox);
+
   @GET("/v2/photomap.locations?fields=id,caption,categoryId,metacategoryId,hasVideo,videoFormats,thumbnailUrl,shortlink&limit=45&thumbnailsize=640")
   Call<FeatureCollection> getPhotos(@Query("bbox") String bbox);
 

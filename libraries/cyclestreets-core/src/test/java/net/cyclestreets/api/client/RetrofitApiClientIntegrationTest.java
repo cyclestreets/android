@@ -34,7 +34,7 @@ public class RetrofitApiClientIntegrationTest {
 
   @Test
   public void hitGeoCoderApi() throws Exception {
-    GeoPlaces geoPlaces = apiClient.geoCoder("High", 52.3, 52.2, 0.2, 0.1);
+    GeoPlaces geoPlaces = apiClient.geoCoder("High", 0.1, 52.2, 0.2, 52.3);
     for (GeoPlace place : geoPlaces) {
       System.out.println(place);
     }
@@ -42,7 +42,7 @@ public class RetrofitApiClientIntegrationTest {
 
   @Test
   public void hitGetPOIsByBboxApi() throws Exception {
-    List<POI> pois = apiClient.getPOIs("bikeshops", 0.2, 0.1, 52.3, 52.2);
+    List<POI> pois = apiClient.getPOIs("bikeshops", 0.1, 52.2, 0.2, 52.3);
     System.out.println(pois);
   }
 
@@ -54,7 +54,7 @@ public class RetrofitApiClientIntegrationTest {
 
   @Test
   public void hitGetPhotosApi() throws Exception {
-    Photos photos = apiClient.getPhotos(0.2, 0.1, 52.3, 52.2);
+    Photos photos = apiClient.getPhotos(0.1, 52.2, 0.2, 52.3);
     for (Photo photo : photos) {
       System.out.println(photo);
     }
