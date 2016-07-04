@@ -1,6 +1,7 @@
 package net.cyclestreets.api.client;
 
 import com.github.tomakehurst.wiremock.junit.WireMockRule;
+import com.github.tomakehurst.wiremock.verification.LoggedRequest;
 
 import net.cyclestreets.api.Feedback;
 import net.cyclestreets.api.GeoPlace;
@@ -10,6 +11,7 @@ import net.cyclestreets.api.Photo;
 import net.cyclestreets.api.Photos;
 import net.cyclestreets.api.Registration;
 import net.cyclestreets.api.Signin;
+import net.cyclestreets.api.Upload;
 import net.cyclestreets.api.UserJourney;
 import net.cyclestreets.api.UserJourneys;
 
@@ -24,8 +26,10 @@ import org.robolectric.annotation.Config;
 import java.util.Iterator;
 import java.util.List;
 
+import static com.github.tomakehurst.wiremock.client.WireMock.findAll;
 import static com.github.tomakehurst.wiremock.client.WireMock.post;
 import static com.github.tomakehurst.wiremock.client.WireMock.postRequestedFor;
+import static com.github.tomakehurst.wiremock.client.WireMock.urlMatching;
 import static net.cyclestreets.api.Photo.Video;
 
 import static com.github.tomakehurst.wiremock.client.WireMock.aResponse;
@@ -38,6 +42,7 @@ import static com.github.tomakehurst.wiremock.client.WireMock.urlPathEqualTo;
 import static com.github.tomakehurst.wiremock.client.WireMock.verify;
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.junit.Assert.assertThat;
 
 @Config(manifest=Config.NONE)
@@ -63,7 +68,7 @@ public class RetrofitApiClientTest {
                     .withBodyFile("pois.json")));
 
     // when
-    List<POI> pois = apiClient.getPOIs("bikeshops", 0.2, 0.1, 52.3, 52.2);
+    List<POI> pois = apiClient.getPOIs("bikeshops", 0.1, 52.2, 0.2, 52.3);
 
     // then
     verify(getRequestedFor(urlPathEqualTo("/v2/pois.locations"))
@@ -145,7 +150,7 @@ public class RetrofitApiClientTest {
                     .withBodyFile("photos.json")));
 
     // when
-    Photos photos = apiClient.getPhotos(0.2, 0.1, 52.3, 52.2);
+    Photos photos = apiClient.getPhotos(0.1, 52.2, 0.2, 52.3);
 
     // then
     verify(getRequestedFor(urlPathEqualTo("/v2/photomap.locations"))
@@ -182,23 +187,20 @@ public class RetrofitApiClientTest {
   @Test
   public void testGeoCoder() throws Exception {
     // given
-    stubFor(get(urlPathEqualTo("/api/geocoder.xml"))
+    stubFor(get(urlPathEqualTo("/v2/geocoder"))
             .willReturn(aResponse()
                     .withStatus(200)
-                    .withHeader("Content-Type", "text/xml")
-                    .withBodyFile("geocoder.xml")));
+                    .withHeader("Content-Type", "application/json")
+                    .withBodyFile("geocoder.json")));
 
     // when
-    GeoPlaces geoPlaces = apiClient.geoCoder("High", 52.3, 52.2, 0.2, 0.1);
+    GeoPlaces geoPlaces = apiClient.geoCoder("High", 0.1, 52.2, 0.2, 52.3);
 
     // then
-    verify(getRequestedFor(urlPathEqualTo("/api/geocoder.xml"))
-            .withQueryParam("w", equalTo("0.1"))
-            .withQueryParam("e", equalTo("0.2"))
-            .withQueryParam("s", equalTo("52.2"))
-            .withQueryParam("n", equalTo("52.3"))
+    verify(getRequestedFor(urlPathEqualTo("/v2/geocoder"))
+            .withQueryParam("bbox", equalTo("0.1,52.2,0.2,52.3"))
             .withQueryParam("countrycodes", equalTo("gb,ie"))
-            .withQueryParam("street", equalTo("High"))
+            .withQueryParam("q", equalTo("High"))
             .withQueryParam("key", equalTo("myApiKey")));
 
     assertThat(geoPlaces.size(), is(5));
@@ -295,4 +297,62 @@ public class RetrofitApiClientTest {
     assertThat(result.ok(), is(true));
     assertThat(result.message(), containsString("Thank you for submitting this feedback"));
   }
+
+  @Test
+  public void testUploadPhotoReturnsOk() throws Exception {
+    // given
+    stubFor(post(urlPathEqualTo("/v2/photomap.add"))
+            .willReturn(aResponse()
+                    .withStatus(200)
+                    .withHeader("Content-Type", "application/json")
+                    .withBodyFile("upload-ok.json")));
+
+    // when
+    Upload.Result result = apiClient.uploadPhoto("arnold", "cyberdyne101", -0.5, 53, 12345678,
+                                                 "scifi", "evilrobots", "The Cyberdyne Model 101",
+                                                 null);
+
+    // then
+    verify(postRequestedFor(urlPathEqualTo("/v2/photomap.add"))
+            .withHeader("Content-Type", matching("multipart/form-data; boundary=.*"))
+            .withRequestBody(matching(".*username.*arnold.*password.*cyberdyne101.*longitude.*-0.5.*latitude.*53.*datetime.*12345678.*category.*scifi.*metacategory.*evilrobots.*caption.*The Cyberdyne Model 101.*"))
+            .withQueryParam("key", equalTo("myApiKey")));
+
+    assertThat(result.ok(), is(true));
+    assertThat(result.url(), is("https://www.cyclestreets.net/location/64001/"));
+  }
+
+  @Test
+  public void testGetJourneyXml() throws Exception {
+    // given
+    stubFor(get(urlPathEqualTo("/api/journey.xml"))
+            .willReturn(aResponse()
+                    .withStatus(200)
+                    .withHeader("Content-Type", "text/xml")
+                    .withBodyFile("journey.xml")));
+
+    // when
+    String result = apiClient.getJourneyXml("balanced",
+                                            "mySetOfItineraryPoints",
+                                            "2016-07-03 07:51:12",
+                                            null,
+                                            24);
+    // N.B. if you try putting a realistic set of itinerary points, Wiremock barfs at the presence
+    //      of the unencoded pipe character (see https://github.com/square/retrofit/issues/1891).
+
+    // then
+    List<LoggedRequest> requests = findAll(getRequestedFor(urlMatching(".*")));
+    System.out.println(requests);
+
+    verify(getRequestedFor(urlPathEqualTo("/api/journey.xml"))
+            .withQueryParam("plan", equalTo("balanced"))
+            .withQueryParam("itinerarypoints", equalTo("mySetOfItineraryPoints"))
+            .withQueryParam("leaving", equalTo("2016-07-03 07:51:12"))
+            .withQueryParam("speed", equalTo("24"))
+            .withQueryParam("key", equalTo("myApiKey")));
+
+    assertThat(result, is(notNullValue()));
+    assertThat(result, containsString("xml"));
+  }
+
 }

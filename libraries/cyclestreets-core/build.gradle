@@ -11,6 +11,7 @@ dependencies {
 
   // Retrofit for HTTP Client activities
   compile 'com.squareup.retrofit2:retrofit:2.1.0'
+  compile 'com.squareup.retrofit2:converter-scalars:2.1.0'
   compile('com.squareup.retrofit2:converter-simplexml:2.1.0') {
     // Exclusions required as per https://github.com/square/retrofit/issues/1796
     exclude group: 'xpp3', module: 'xpp3'

@@ -31,6 +31,10 @@ public interface V2Api {
                                   @Query("latitude") double lat,
                                   @Query("radius") int radius);
 
+  @GET("/v2/geocoder?countrycodes=gb,ie")
+  Call<FeatureCollection> geoCoder(@Query("q") String search,
+                                   @Query("bbox") String bbox);
+
   @GET("/v2/photomap.locations?fields=id,caption,categoryId,metacategoryId,hasVideo,videoFormats,thumbnailUrl,shortlink&limit=45&thumbnailsize=640")
   Call<FeatureCollection> getPhotos(@Query("bbox") String bbox);
 
@@ -38,19 +42,19 @@ public interface V2Api {
   Call<UserJourneysDto> getUserJourneys(@Query("username") String username);
 
   @FormUrlEncoded
-  @POST("v2/user.create")
+  @POST("/v2/user.create")
   Call<UserCreateResponseDto> register(@Field("username") String username,
                                        @Field("password") String password,
                                        @Field("name") String name,
                                        @Field("email") String email);
 
   @FormUrlEncoded
-  @POST("v2/user.authenticate")
+  @POST("/v2/user.authenticate")
   Call<UserAuthenticateResponseDto> authenticate(@Field("identifier") String identifier,
                                                  @Field("password") String password);
 
   @FormUrlEncoded
-  @POST("v2/feedback.add")
+  @POST("/v2/feedback.add")
   Call<SendFeedbackResponseDto> sendFeedback(@Field("type") String type,
                                              @Field("itinerary") int itinerary,
                                              @Field("comments") String comments,
@@ -58,7 +62,7 @@ public interface V2Api {
                                              @Field("email") String email);
 
   @Multipart
-  @POST("v2/photomap.add")
+  @POST("/v2/photomap.add")
   Call<UploadPhotoResponseDto> uploadPhoto(@Part("username") RequestBody username,
                                            @Part("password") RequestBody password,
                                            @Part("longitude") double lon,
