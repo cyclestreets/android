@@ -9,11 +9,13 @@ import net.cyclestreets.api.Feedback;
 import net.cyclestreets.api.GeoPlaces;
 import net.cyclestreets.api.POI;
 import net.cyclestreets.api.POICategories;
+import net.cyclestreets.api.PhotomapCategories;
 import net.cyclestreets.api.Photos;
 import net.cyclestreets.api.Registration;
 import net.cyclestreets.api.Signin;
 import net.cyclestreets.api.Upload;
 import net.cyclestreets.api.UserJourneys;
+import net.cyclestreets.api.client.dto.PhotomapCategoriesDto;
 import net.cyclestreets.api.client.dto.PoiTypesDto;
 import net.cyclestreets.api.client.dto.SendFeedbackResponseDto;
 import net.cyclestreets.api.client.dto.UploadPhotoResponseDto;
@@ -151,6 +153,11 @@ public class RetrofitApiClient {
     String bbox = toBboxString(lonW, latS, lonE, latN);
     Response<FeatureCollection> response = v2Api.geoCoder(search, bbox).execute();
     return GeoPlacesFactory.toGeoPlaces(response.body());
+  }
+
+  public PhotomapCategories getPhotomapCategories() throws IOException {
+    Response<PhotomapCategoriesDto> response = v2Api.getPhotomapCategories().execute();
+    return response.body().toPhotomapCategories();
   }
 
   public Photos getPhotos(final double lonW,

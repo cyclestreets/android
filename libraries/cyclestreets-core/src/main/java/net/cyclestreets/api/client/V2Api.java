@@ -1,5 +1,6 @@
 package net.cyclestreets.api.client;
 
+import net.cyclestreets.api.client.dto.PhotomapCategoriesDto;
 import net.cyclestreets.api.client.dto.PoiTypesDto;
 import net.cyclestreets.api.client.dto.SendFeedbackResponseDto;
 import net.cyclestreets.api.client.dto.UploadPhotoResponseDto;
@@ -64,6 +65,9 @@ public interface V2Api {
                                              @Field("comments") String comments,
                                              @Field("name") String name,
                                              @Field("email") String email);
+
+  @GET("/v2/photomap.categories")
+  Call<PhotomapCategoriesDto> getPhotomapCategories();
 
   @Multipart
   @POST("/v2/photomap.add")

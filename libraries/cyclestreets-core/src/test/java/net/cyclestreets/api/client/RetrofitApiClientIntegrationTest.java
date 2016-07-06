@@ -9,6 +9,7 @@ import net.cyclestreets.api.POI;
 import net.cyclestreets.api.POICategories;
 import net.cyclestreets.api.POICategory;
 import net.cyclestreets.api.Photo;
+import net.cyclestreets.api.PhotomapCategories;
 import net.cyclestreets.api.Photos;
 import net.cyclestreets.api.Registration;
 import net.cyclestreets.api.Signin;
@@ -112,6 +113,13 @@ public class RetrofitApiClientIntegrationTest {
     System.out.println(result.ok());
     System.out.println(result.message());
     assertThat(result.ok(), is(true));
+  }
+
+  @Test
+  public void hitGetPhotomapCategoriesApi() throws Exception {
+    PhotomapCategories categories = apiClient.getPhotomapCategories();
+    System.out.println("categories: " + categories.categories());
+    System.out.println("meta-categories: " + categories.metaCategories());
   }
 
   @Test

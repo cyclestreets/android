@@ -62,10 +62,7 @@ public class ApiClient
   private final static String API_HOST = "www.cyclestreets.net";
   private final static String API_HOST_V2 = "api.cyclestreets.net";
   private final static int API_PORT = -1;
-  private final static String API_PATH = "/api/";
   private final static String API_PATH_V2 = "/v2/";
-
-  public final static String API_PATH_PHOTOMAP_CATEGORIES = API_PATH + "photomapcategories.xml";
 
   private final static String BLOG_PATH = "/blog/";
   public final static String BLOG_PATH_FEED = BLOG_PATH + "feed/";
@@ -129,11 +126,12 @@ public class ApiClient
     return retrofitApiClient.retrievePreviousJourneyXml(plan, itineraryId);
   }
 
-  static PhotomapCategories getPhotomapCategories()
-    throws Exception
-  {
-    return callApiWithCache(PhotomapCategories.factory(), API_PATH_PHOTOMAP_CATEGORIES);
-  } // getPhotomapCategories
+  static PhotomapCategories getPhotomapCategories() throws IOException {
+    // TODO: ADD 7-day CACHING like callApiWithCache()
+    // Despite endpoint returning "Cache-Control: no-store, no-cache, must-revalidate"
+    // Do we want to use the validUntil value?
+    return retrofitApiClient.getPhotomapCategories();
+  }
 
   static Photos getPhotos(double e, double w, double n, double s) throws IOException {
     return retrofitApiClient.getPhotos(w, s, e, n);
