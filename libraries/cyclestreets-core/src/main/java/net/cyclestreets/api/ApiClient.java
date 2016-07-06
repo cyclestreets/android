@@ -66,7 +66,6 @@ public class ApiClient
   private final static String API_PATH_V2 = "/v2/";
 
   public final static String API_PATH_PHOTOMAP_CATEGORIES = API_PATH + "photomapcategories.xml";
-  public final static String API_PATH_POI_CATEGORIES = API_PATH_V2 + "pois.types";
 
   private final static String BLOG_PATH = "/blog/";
   public final static String BLOG_PATH_FEED = BLOG_PATH + "feed/";
@@ -184,13 +183,11 @@ public class ApiClient
     return retrofitApiClient.register(username, password, name, email);
   }
 
-  static POICategories getPOICategories(int iconSize)
-    throws Exception
-  {
-    return callApiWithCache(POICategories.factory(context()),
-                            API_PATH_POI_CATEGORIES,
-                            "icons", Integer.toString(iconSize));
-  } // getPOICategories
+  static POICategories getPOICategories(int iconSize) throws IOException {
+    // TODO: ADD 7-day CACHING like callApiWithCache()
+    // Despite endpoint returning "Cache-Control: no-store, no-cache, must-revalidate"
+    return retrofitApiClient.getPOICategories(context(), iconSize);
+  }
 
   static List<POI> getPOIs(final String key,
                            final double lonE,

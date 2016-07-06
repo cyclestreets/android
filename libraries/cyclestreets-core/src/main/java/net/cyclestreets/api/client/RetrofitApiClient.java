@@ -1,16 +1,20 @@
 package net.cyclestreets.api.client;
 
+import android.content.Context;
+
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import net.cyclestreets.api.Feedback;
 import net.cyclestreets.api.GeoPlaces;
 import net.cyclestreets.api.POI;
+import net.cyclestreets.api.POICategories;
 import net.cyclestreets.api.Photos;
 import net.cyclestreets.api.Registration;
 import net.cyclestreets.api.Signin;
 import net.cyclestreets.api.Upload;
 import net.cyclestreets.api.UserJourneys;
+import net.cyclestreets.api.client.dto.PoiTypesDto;
 import net.cyclestreets.api.client.dto.SendFeedbackResponseDto;
 import net.cyclestreets.api.client.dto.UploadPhotoResponseDto;
 import net.cyclestreets.api.client.dto.UserAuthenticateResponseDto;
@@ -115,6 +119,11 @@ public class RetrofitApiClient {
   // --------------------------------------------------------------------------------
   // V2 APIs
   // --------------------------------------------------------------------------------
+
+  public POICategories getPOICategories(Context context, int iconSize) throws IOException {
+    Response<PoiTypesDto> response = v2Api.getPOICategories(iconSize).execute();
+    return response.body().toPOICategories(context);
+  }
 
   public List<POI> getPOIs(final String type,
                            final double lonW,

@@ -1,9 +1,13 @@
 package net.cyclestreets.api.client;
 
+import android.content.Context;
+
 import net.cyclestreets.api.Feedback;
 import net.cyclestreets.api.GeoPlace;
 import net.cyclestreets.api.GeoPlaces;
 import net.cyclestreets.api.POI;
+import net.cyclestreets.api.POICategories;
+import net.cyclestreets.api.POICategory;
 import net.cyclestreets.api.Photo;
 import net.cyclestreets.api.Photos;
 import net.cyclestreets.api.Registration;
@@ -14,16 +18,20 @@ import net.cyclestreets.api.UserJourneys;
 
 import org.junit.Ignore;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.runners.MockitoJUnitRunner;
 
 import java.util.List;
 import java.util.Random;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
+import static org.mockito.Mockito.mock;
 
 // Useful for manual testing that operations do work with the real API, and not just WireMock.
 // If we assigned an appropriate api key, these tests could be expanded and un-ignored.
 @Ignore
+@RunWith(MockitoJUnitRunner.class)
 public class RetrofitApiClientIntegrationTest {
 
   RetrofitApiClient apiClient = new RetrofitApiClient.Builder()
@@ -37,6 +45,15 @@ public class RetrofitApiClientIntegrationTest {
     GeoPlaces geoPlaces = apiClient.geoCoder("High", 0.1, 52.2, 0.2, 52.3);
     for (GeoPlace place : geoPlaces) {
       System.out.println(place);
+    }
+  }
+
+  @Test
+  public void hitGetPOICategoriesApi() throws Exception {
+    Context mockContext = mock(Context.class);
+    POICategories poiCategories = apiClient.getPOICategories(mockContext, 16);
+    for (POICategory category : poiCategories) {
+      System.out.println(category.name() + ": " + category);
     }
   }
 
