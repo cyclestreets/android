@@ -184,6 +184,7 @@ public class ApiClient
   static POICategories getPOICategories(int iconSize) throws IOException {
     // TODO: ADD 7-day CACHING like callApiWithCache()
     // Despite endpoint returning "Cache-Control: no-store, no-cache, must-revalidate"
+    // Do we want to use the validUntil value?
     return retrofitApiClient.getPOICategories(context(), iconSize);
   }
 
@@ -202,13 +203,12 @@ public class ApiClient
     return retrofitApiClient.getPOIs(key, lon, lat, radius);
   }
 
-  static Blog getBlogEntries()
-    throws Exception
-  {
-    return callApiWithCache(1, // only cache for a day
-                            Blog.factory(),
-                            BLOG_PATH_FEED);
-  } // getBlogEntries
+  static Blog getBlogEntries() throws IOException {
+    // TODO: ADD 1-day CACHING like callApiWithCache()
+    // Despite endpoint returning "Cache-Control: no-store, no-cache, must-revalidate"
+    // Do we want to use the validUntil value?
+    return retrofitApiClient.getBlogEntries();
+  }
 
   /////////////////////////////////////////////////////
   /////////////////////////////////////////////////////

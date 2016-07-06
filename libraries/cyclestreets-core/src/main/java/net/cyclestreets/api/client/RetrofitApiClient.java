@@ -5,6 +5,7 @@ import android.content.Context;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import net.cyclestreets.api.Blog;
 import net.cyclestreets.api.Feedback;
 import net.cyclestreets.api.GeoPlaces;
 import net.cyclestreets.api.POI;
@@ -15,6 +16,7 @@ import net.cyclestreets.api.Registration;
 import net.cyclestreets.api.Signin;
 import net.cyclestreets.api.Upload;
 import net.cyclestreets.api.UserJourneys;
+import net.cyclestreets.api.client.dto.BlogFeedDto;
 import net.cyclestreets.api.client.dto.PhotomapCategoriesDto;
 import net.cyclestreets.api.client.dto.PoiTypesDto;
 import net.cyclestreets.api.client.dto.SendFeedbackResponseDto;
@@ -41,6 +43,7 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.jackson.JacksonConverterFactory;
 import retrofit2.converter.scalars.ScalarsConverterFactory;
+import retrofit2.converter.simplexml.SimpleXmlConverterFactory;
 
 public class RetrofitApiClient {
 
@@ -60,6 +63,7 @@ public class RetrofitApiClient {
     Retrofit retrofitV1 = new Retrofit.Builder()
         .client(client)
         .addConverterFactory(ScalarsConverterFactory.create())
+        .addConverterFactory(SimpleXmlConverterFactory.createNonStrict())
         .baseUrl(builder.v1Host)
         .build();
     v1Api = retrofitV1.create(V1Api.class);
@@ -116,6 +120,11 @@ public class RetrofitApiClient {
                                            final long itineraryId) throws IOException {
     Response<String> response = v1Api.retrievePreviousJourneyXml(plan, itineraryId).execute();
     return response.body();
+  }
+
+  public Blog getBlogEntries() throws IOException {
+    Response<BlogFeedDto> response = v1Api.getBlogEntries().execute();
+    return response.body().toBlog();
   }
 
   // --------------------------------------------------------------------------------

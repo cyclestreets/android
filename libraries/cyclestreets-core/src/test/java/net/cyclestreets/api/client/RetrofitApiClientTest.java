@@ -1,8 +1,8 @@
 package net.cyclestreets.api.client;
 
 import com.github.tomakehurst.wiremock.junit.WireMockRule;
-import com.github.tomakehurst.wiremock.verification.LoggedRequest;
 
+import net.cyclestreets.api.Blog;
 import net.cyclestreets.api.Feedback;
 import net.cyclestreets.api.GeoPlace;
 import net.cyclestreets.api.GeoPlaces;
@@ -26,10 +26,8 @@ import org.robolectric.annotation.Config;
 import java.util.Iterator;
 import java.util.List;
 
-import static com.github.tomakehurst.wiremock.client.WireMock.findAll;
 import static com.github.tomakehurst.wiremock.client.WireMock.post;
 import static com.github.tomakehurst.wiremock.client.WireMock.postRequestedFor;
-import static com.github.tomakehurst.wiremock.client.WireMock.urlMatching;
 import static net.cyclestreets.api.Photo.Video;
 
 import static com.github.tomakehurst.wiremock.client.WireMock.aResponse;
@@ -332,7 +330,7 @@ public class RetrofitApiClientTest {
                     .withBodyFile("journey.xml")));
 
     // when
-    String result = apiClient.getJourneyXml("balanced",
+    String journeyXml = apiClient.getJourneyXml("balanced",
                                             "mySetOfItineraryPoints",
                                             "2016-07-03 07:51:12",
                                             null,
@@ -341,9 +339,6 @@ public class RetrofitApiClientTest {
     //      of the unencoded pipe character (see https://github.com/square/retrofit/issues/1891).
 
     // then
-    List<LoggedRequest> requests = findAll(getRequestedFor(urlMatching(".*")));
-    System.out.println(requests);
-
     verify(getRequestedFor(urlPathEqualTo("/api/journey.xml"))
             .withQueryParam("plan", equalTo("balanced"))
             .withQueryParam("itinerarypoints", equalTo("mySetOfItineraryPoints"))
@@ -351,8 +346,28 @@ public class RetrofitApiClientTest {
             .withQueryParam("speed", equalTo("24"))
             .withQueryParam("key", equalTo("myApiKey")));
 
-    assertThat(result, is(notNullValue()));
-    assertThat(result, containsString("xml"));
+    assertThat(journeyXml, is(notNullValue()));
+    assertThat(journeyXml, containsString("xml"));
   }
 
+  @Test
+  public void testGetBlogEntries() throws Exception {
+    // given
+    stubFor(get(urlPathEqualTo("/blog/feed/"))
+            .willReturn(aResponse()
+                    .withStatus(200)
+                    .withHeader("Content-Type", "application/rss+xml; charset=UTF-8")
+                    .withBodyFile("blogfeed.xml")));
+
+    // when
+    Blog blog = apiClient.getBlogEntries();
+
+    // then
+    verify(getRequestedFor(urlPathEqualTo("/blog/feed/"))
+            .withQueryParam("key", equalTo("myApiKey")));
+
+    assertThat(blog, is(notNullValue()));
+    assertThat(blog.mostRecentTitle(), is("CycleHack Cambridge 2016"));
+    assertThat(blog.mostRecent(), is("Sun, 10 Apr 2016 18:39:49 +0000"));
+  }
 }

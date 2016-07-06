@@ -2,28 +2,26 @@ package net.cyclestreets.api;
 
 public class BlogEntry
 {
-  private final String title_;
-  private final String link_;
-  private final String description_;
-  private final String date_;
+  private final String title;
+  private final String link;
+  private final String description;
+  private final String date;
   
   public BlogEntry(final String title,
                    final String link,
                    final String description,
-                   final String date)
-  {
-    title_ = title;
-    link_ = link;
-    description_ = description;
-    date_ = date;
-  } // BlogEntry
+                   final String date) {
+    this.title = title;
+    this.link = link;
+    this.description = description;
+    this.date = date;
+  }
   
-  public String title() { return title_; }
-  public String date() { return date_; }
+  public String title() { return title; }
+  public String date() { return date; }
   
-  public String toHtml()
-  {
+  public String toHtml() {
     return String.format("<h3><a href='%s'>%s</a></h3><p>%s</p><p><small>%s</small></p>",
-                         link_, title_, description_, date_); 
-  } // toHtml
-} // class BlogEntry
+            link, title, description, date);
+  }
+}

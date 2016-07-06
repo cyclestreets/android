@@ -2,6 +2,7 @@ package net.cyclestreets.api.client;
 
 import android.content.Context;
 
+import net.cyclestreets.api.Blog;
 import net.cyclestreets.api.Feedback;
 import net.cyclestreets.api.GeoPlace;
 import net.cyclestreets.api.GeoPlaces;
@@ -154,5 +155,11 @@ public class RetrofitApiClientIntegrationTest {
   public void hitRetrievePreviousJourneyXmlApi() throws Exception {
     String xml = apiClient.retrievePreviousJourneyXml("fastest", 53135357);
     System.out.println(xml);
+  }
+
+  @Test
+  public void hitGetBlogEntriesApi() throws Exception {
+    Blog blog = apiClient.getBlogEntries();
+    System.out.println(blog.toHtml());
   }
 }

@@ -1,5 +1,7 @@
 package net.cyclestreets.api.client;
 
+import net.cyclestreets.api.client.dto.BlogFeedDto;
+
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Query;
@@ -17,4 +19,6 @@ public interface V1Api {
   Call<String> retrievePreviousJourneyXml(@Query("plan") String plan,
                                           @Query("itinerary") long itineraryId);
 
+  @GET("/blog/feed/")
+  Call<BlogFeedDto> getBlogEntries();
 }
