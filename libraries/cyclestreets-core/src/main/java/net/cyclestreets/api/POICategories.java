@@ -1,13 +1,13 @@
 package net.cyclestreets.api;
 
+import android.os.AsyncTask;
+
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Iterator;
-import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
-
-import android.os.AsyncTask;
 
 public class POICategories implements Iterable<POICategory> {
   private final List<POICategory> categories = new ArrayList<>();

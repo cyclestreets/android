@@ -1,11 +1,11 @@
 package net.cyclestreets.api;
 
+import org.osmdroid.util.BoundingBoxE6;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-
-import org.osmdroid.util.BoundingBoxE6;
 
 public class Photos implements Iterable<Photo> {
   private final List<Photo> photos = new ArrayList<>();

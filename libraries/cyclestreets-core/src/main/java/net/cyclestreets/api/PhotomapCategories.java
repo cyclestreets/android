@@ -1,20 +1,9 @@
 package net.cyclestreets.api;
 
-import java.util.List;
-import java.util.ArrayList;
-import java.util.Map;
-
-import net.cyclestreets.util.Collections;
-
-import org.xml.sax.Attributes;
-import org.xml.sax.ContentHandler;
-
 import android.os.AsyncTask;
-import android.sax.Element;
-import android.sax.EndElementListener;
-import android.sax.EndTextElementListener;
-import android.sax.RootElement;
-import android.sax.StartElementListener;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class PhotomapCategories 
 {

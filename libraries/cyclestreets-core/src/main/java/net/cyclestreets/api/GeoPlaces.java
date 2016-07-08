@@ -1,12 +1,12 @@
 package net.cyclestreets.api;
 
+import org.osmdroid.util.BoundingBoxE6;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
-
-import org.osmdroid.util.BoundingBoxE6;
 
 public class GeoPlaces implements Iterable<GeoPlace>
 {
