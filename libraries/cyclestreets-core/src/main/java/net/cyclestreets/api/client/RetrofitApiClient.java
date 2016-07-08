@@ -34,7 +34,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
-import okhttp3.Interceptor;
+import okhttp3.Cache;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
@@ -49,10 +49,21 @@ public class RetrofitApiClient {
 
   private final V1Api v1Api;
   private final V2Api v2Api;
+  private final Context context;
+
+  // ~30KB covers /blog/feed/, /v2/pois.types and /v2/photomap.categories - allow 200KB for headroom
+  private static final int HTTP_RESPONSE_DISK_CACHE_MAX_SIZE = 200 * 1024;
 
   public RetrofitApiClient(Builder builder) {
-    Interceptor apiKeyInterceptor = new ApiKeyInterceptor(builder.apiKey);
-    OkHttpClient client = new OkHttpClient.Builder().addInterceptor(apiKeyInterceptor).build();
+
+    context = builder.context;
+    Cache cache = new Cache(new File(context.getCacheDir(), "HttpResponseCache"),
+                            HTTP_RESPONSE_DISK_CACHE_MAX_SIZE);
+    OkHttpClient client = new OkHttpClient.Builder()
+            .addInterceptor(new ApiKeyInterceptor(builder.apiKey))
+            .addNetworkInterceptor(new RewriteCacheControlInterceptor())
+            .cache(cache)
+            .build();
 
     // Configure our ObjectMapper to globally ignore unknown properties
     // Required for e.g. getPhotos API which returns `properties` on a `FeatureCollection`, which is
@@ -77,9 +88,15 @@ public class RetrofitApiClient {
   }
 
   public static class Builder {
+    private Context context;
     private String apiKey;
     private String v1Host;
     private String v2Host;
+
+    public Builder withContext(Context context) {
+      this.context = context;
+      return this;
+    }
 
     public Builder withApiKey(String apiKey) {
       this.apiKey = apiKey;
@@ -131,7 +148,7 @@ public class RetrofitApiClient {
   // V2 APIs
   // --------------------------------------------------------------------------------
 
-  public POICategories getPOICategories(Context context, int iconSize) throws IOException {
+  public POICategories getPOICategories(int iconSize) throws IOException {
     Response<PoiTypesDto> response = v2Api.getPOICategories(iconSize).execute();
     return response.body().toPOICategories(context);
   }

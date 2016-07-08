@@ -64,9 +64,6 @@ public class ApiClient
   private final static int API_PORT = -1;
   private final static String API_PATH_V2 = "/v2/";
 
-  private final static String BLOG_PATH = "/blog/";
-  public final static String BLOG_PATH_FEED = BLOG_PATH + "feed/";
-
   private static ApiCustomiser customiser_;
   private static Context context_;
 
@@ -127,9 +124,6 @@ public class ApiClient
   }
 
   static PhotomapCategories getPhotomapCategories() throws IOException {
-    // TODO: ADD 7-day CACHING like callApiWithCache()
-    // Despite endpoint returning "Cache-Control: no-store, no-cache, must-revalidate"
-    // Do we want to use the validUntil value?
     return retrofitApiClient.getPhotomapCategories();
   }
 
@@ -181,11 +175,8 @@ public class ApiClient
     return retrofitApiClient.register(username, password, name, email);
   }
 
-  static POICategories getPOICategories(int iconSize) throws IOException {
-    // TODO: ADD 7-day CACHING like callApiWithCache()
-    // Despite endpoint returning "Cache-Control: no-store, no-cache, must-revalidate"
-    // Do we want to use the validUntil value?
-    return retrofitApiClient.getPOICategories(context(), iconSize);
+  static POICategories getPOICategories(final int iconSize) throws IOException {
+    return retrofitApiClient.getPOICategories(iconSize);
   }
 
   static List<POI> getPOIs(final String key,
@@ -204,9 +195,6 @@ public class ApiClient
   }
 
   static Blog getBlogEntries() throws IOException {
-    // TODO: ADD 1-day CACHING like callApiWithCache()
-    // Despite endpoint returning "Cache-Control: no-store, no-cache, must-revalidate"
-    // Do we want to use the validUntil value?
     return retrofitApiClient.getBlogEntries();
   }
 

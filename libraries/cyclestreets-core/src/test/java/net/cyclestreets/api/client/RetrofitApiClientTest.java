@@ -1,13 +1,20 @@
 package net.cyclestreets.api.client;
 
+import android.content.Context;
+
 import com.github.tomakehurst.wiremock.junit.WireMockRule;
+import com.github.tomakehurst.wiremock.verification.LoggedRequest;
 
 import net.cyclestreets.api.Blog;
 import net.cyclestreets.api.Feedback;
 import net.cyclestreets.api.GeoPlace;
 import net.cyclestreets.api.GeoPlaces;
 import net.cyclestreets.api.POI;
+import net.cyclestreets.api.POICategories;
+import net.cyclestreets.api.POICategory;
 import net.cyclestreets.api.Photo;
+import net.cyclestreets.api.PhotomapCategories;
+import net.cyclestreets.api.PhotomapCategory;
 import net.cyclestreets.api.Photos;
 import net.cyclestreets.api.Registration;
 import net.cyclestreets.api.Signin;
@@ -15,6 +22,8 @@ import net.cyclestreets.api.Upload;
 import net.cyclestreets.api.UserJourney;
 import net.cyclestreets.api.UserJourneys;
 
+import org.apache.commons.io.FileUtils;
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -23,9 +32,11 @@ import org.osmdroid.util.GeoPoint;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 
+import java.io.File;
 import java.util.Iterator;
 import java.util.List;
 
+import static com.github.tomakehurst.wiremock.client.WireMock.findAll;
 import static com.github.tomakehurst.wiremock.client.WireMock.post;
 import static com.github.tomakehurst.wiremock.client.WireMock.postRequestedFor;
 import static net.cyclestreets.api.Photo.Video;
@@ -41,7 +52,10 @@ import static com.github.tomakehurst.wiremock.client.WireMock.verify;
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
+import static org.hamcrest.Matchers.hasSize;
 import static org.junit.Assert.assertThat;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 @Config(manifest=Config.NONE)
 @RunWith(RobolectricTestRunner.class)
@@ -50,11 +64,54 @@ public class RetrofitApiClientTest {
   @Rule
   public WireMockRule wireMockRule = new WireMockRule(8089);
 
-  RetrofitApiClient apiClient = new RetrofitApiClient.Builder()
-      .withApiKey("myApiKey")
-      .withV1Host("http://localhost:8089")
-      .withV2Host("http://localhost:8089")
-      .build();
+  RetrofitApiClient apiClient;
+
+  @Before
+  public void setUp() throws Exception {
+    // Delete the cache so that we can test cached endpoints are hit once!
+    File cacheDirFile = new File("/tmp/HttpResponseCache");
+    FileUtils.deleteDirectory(cacheDirFile);
+
+    Context testContext = mock(Context.class);
+    when(testContext.getCacheDir()).thenReturn(new File("/tmp"));
+    apiClient = new RetrofitApiClient.Builder()
+        .withApiKey("myApiKey")
+        .withContext(testContext)
+        .withV1Host("http://localhost:8089")
+        .withV2Host("http://localhost:8089")
+        .build();
+  }
+
+  @Test
+  public void testGetPoiCategories() throws Exception {
+    // given
+    stubFor(get(urlPathEqualTo("/v2/pois.types"))
+            .willReturn(aResponse()
+                    .withStatus(200)
+                    .withHeader("Content-Type", "application/json")
+                    .withBodyFile("pois-types.json")));
+
+    // when
+    POICategories poiCategories = apiClient.getPOICategories(16);
+
+    // call the endpoint 5 more times
+    for (int ii = 0; ii < 5; ii++) {
+      apiClient.getPOICategories(16);
+    }
+
+    // then
+    verify(getRequestedFor(urlPathEqualTo("/v2/pois.types"))
+            .withQueryParam("icons", equalTo("16"))
+            .withQueryParam("key", equalTo("myApiKey")));
+    assertThat(poiCategories.count(), is(52));
+    POICategory category = poiCategories.get(37);
+    assertThat(category.name(), is("Supermarkets"));
+    assertThat(category.icon(), is(notNullValue()));
+
+    // caching should mean the REST request is only made once
+    List<LoggedRequest> requests = findAll(getRequestedFor(urlPathEqualTo("/v2/pois.types")));
+    assertThat(requests, hasSize(1));
+  }
 
   @Test
   public void testGetPoisByBbox() throws Exception {
@@ -89,6 +146,11 @@ public class RetrofitApiClientTest {
     // when
     List<POI> pois = apiClient.getPOIs("bikeshops", 0.15, 52.25, 100);
 
+    // call the endpoint 5 more times
+    for (int ii = 0; ii < 5; ii++) {
+      apiClient.getPOIs("bikeshops", 0.15, 52.25, 100);
+    }
+
     // then
     verify(getRequestedFor(urlPathEqualTo("/v2/pois.locations"))
             .withQueryParam("type", equalTo("bikeshops"))
@@ -99,6 +161,10 @@ public class RetrofitApiClientTest {
             .withQueryParam("fields", equalTo("id,name,notes,website,latitude,longitude"))
             .withQueryParam("key", equalTo("myApiKey")));
     validatePois(pois);
+
+    // not cached - REST request will be made 6 times
+    List<LoggedRequest> requests = findAll(getRequestedFor(urlPathEqualTo("/v2/pois.locations")));
+    assertThat(requests, hasSize(6));
   }
 
   private static void validatePois(List<POI> pois) {
@@ -193,6 +259,10 @@ public class RetrofitApiClientTest {
 
     // when
     GeoPlaces geoPlaces = apiClient.geoCoder("High", 0.1, 52.2, 0.2, 52.3);
+    // call the endpoint 5 more times
+    for (int ii = 0; ii < 5; ii++) {
+      apiClient.geoCoder("High", 0.1, 52.2, 0.2, 52.3);
+    }
 
     // then
     verify(getRequestedFor(urlPathEqualTo("/v2/geocoder"))
@@ -206,6 +276,10 @@ public class RetrofitApiClientTest {
     assertThat(place.name(), is("The High"));
     assertThat(place.near(), is("Essex, East of England"));
     assertThat(place.coord(), is((IGeoPoint)new GeoPoint(51.769678, 0.0939271)));
+
+    // not cached - REST request will be made 6 times
+    List<LoggedRequest> requests = findAll(getRequestedFor(urlPathEqualTo("/v2/geocoder")));
+    assertThat(requests, hasSize(6));
   }
 
   @Test
@@ -297,6 +371,42 @@ public class RetrofitApiClientTest {
   }
 
   @Test
+  public void testGetPhotomapCategories() throws Exception {
+    // given
+    stubFor(get(urlPathEqualTo("/v2/photomap.categories"))
+            .willReturn(aResponse()
+                    .withStatus(200)
+                    .withHeader("Content-Type", "application/json")
+                    .withBodyFile("photomap-categories.json")));
+
+    // when
+    PhotomapCategories categories = apiClient.getPhotomapCategories();
+
+    // call the endpoint 5 more times
+    for (int ii = 0; ii < 5; ii++) {
+      apiClient.getPhotomapCategories();
+    }
+
+    // then
+    verify(getRequestedFor(urlPathEqualTo("/v2/photomap.categories"))
+            .withQueryParam("key", equalTo("myApiKey")));
+    assertThat(categories.categories().size(), is(18));
+    assertThat(categories.metaCategories().size(), is(5));
+    PhotomapCategory category = categories.categories().get(12);
+    assertThat(category.getTag(), is("destinations"));
+    assertThat(category.getName(), is("Destination"));
+    assertThat(category.getDescription(), is("A place where you might want to visit."));
+    PhotomapCategory metaCategory = categories.metaCategories().get(3);
+    assertThat(metaCategory.getTag(), is("any"));
+    assertThat(metaCategory.getName(), is("Misc"));
+    assertThat(metaCategory.getDescription(), is("Non-specific"));
+
+    // caching should mean the REST request is only made once
+    List<LoggedRequest> requests = findAll(getRequestedFor(urlPathEqualTo("/v2/photomap.categories")));
+    assertThat(requests, hasSize(1));
+  }
+
+  @Test
   public void testUploadPhotoReturnsOk() throws Exception {
     // given
     stubFor(post(urlPathEqualTo("/v2/photomap.add"))
@@ -362,6 +472,11 @@ public class RetrofitApiClientTest {
     // when
     Blog blog = apiClient.getBlogEntries();
 
+    // call the endpoint 5 more times
+    for (int ii = 0; ii < 5; ii++) {
+      apiClient.getBlogEntries();
+    }
+
     // then
     verify(getRequestedFor(urlPathEqualTo("/blog/feed/"))
             .withQueryParam("key", equalTo("myApiKey")));
@@ -369,5 +484,10 @@ public class RetrofitApiClientTest {
     assertThat(blog, is(notNullValue()));
     assertThat(blog.mostRecentTitle(), is("CycleHack Cambridge 2016"));
     assertThat(blog.mostRecent(), is("Sun, 10 Apr 2016 18:39:49 +0000"));
+
+    // caching should mean the REST request is only made once
+    List<LoggedRequest> requests = findAll(getRequestedFor(urlPathEqualTo("/blog/feed/"))
+            .withQueryParam("key", equalTo("myApiKey")));
+    assertThat(requests, hasSize(1));
   }
 }

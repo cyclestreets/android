@@ -18,29 +18,55 @@ import net.cyclestreets.api.Upload;
 import net.cyclestreets.api.UserJourney;
 import net.cyclestreets.api.UserJourneys;
 
+import org.apache.commons.io.IOUtils;
+import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.runners.MockitoJUnitRunner;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 import java.util.Random;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 // Useful for manual testing that operations do work with the real API, and not just WireMock.
 // If we assigned an appropriate api key, these tests could be expanded and un-ignored.
 @Ignore
-@RunWith(MockitoJUnitRunner.class)
 public class RetrofitApiClientIntegrationTest {
 
-  RetrofitApiClient apiClient = new RetrofitApiClient.Builder()
-          .withApiKey("apiKeyRedacted")
-          .withV1Host("https://www.cyclestreets.net")
-          .withV2Host("https://api.cyclestreets.net")
-          .build();
+  RetrofitApiClient apiClient;
+
+  @Before
+  public void setUp() throws Exception {
+    Context testContext = mock(Context.class);
+    when(testContext.getCacheDir()).thenReturn(new File("/tmp"));
+    apiClient = new RetrofitApiClient.Builder()
+        .withApiKey(getApiKey())
+        .withContext(testContext)
+        .withV1Host("https://www.cyclestreets.net")
+        .withV2Host("https://api.cyclestreets.net")
+        .build();
+  }
+
+  private String getApiKey() throws IOException {
+    String apiKey = "apiKeyRedacted";
+    InputStream in = RetrofitApiClientIntegrationTest.class.getClassLoader().getResourceAsStream("api.key");
+    if (in != null) {
+      try {
+        apiKey = IOUtils.toString(in, "UTF-8");
+      } catch (IOException e) {
+        // Give up and use default
+      } finally {
+        in.close();
+      }
+    }
+    return apiKey;
+  }
 
   @Test
   public void hitGeoCoderApi() throws Exception {
@@ -52,8 +78,7 @@ public class RetrofitApiClientIntegrationTest {
 
   @Test
   public void hitGetPOICategoriesApi() throws Exception {
-    Context mockContext = mock(Context.class);
-    POICategories poiCategories = apiClient.getPOICategories(mockContext, 16);
+    POICategories poiCategories = apiClient.getPOICategories(16);
     for (POICategory category : poiCategories) {
       System.out.println(category.name() + ": " + category);
     }
