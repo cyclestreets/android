@@ -32,14 +32,16 @@ public class PoiTypesDto {
     private String total;
     @JsonProperty
     private String icon;
+
+    private POICategory toPOICategory(Context context) {
+      return new POICategory(id, name, poiIcon(context, icon));
+    }
   }
 
   public POICategories toPOICategories(Context context) {
     List<POICategory> categories = new ArrayList<>();
     for (Map.Entry<String, PoiTypeDto> entry : types.entrySet()) {
-      categories.add(new POICategory(entry.getValue().id,
-                                     entry.getValue().name,
-                                     poiIcon(context, entry.getValue().icon)));
+      categories.add(entry.getValue().toPOICategory(context));
     }
     return new POICategories(categories);
   }

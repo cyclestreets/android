@@ -441,10 +441,10 @@ public class RetrofitApiClientTest {
 
     // when
     String journeyXml = apiClient.getJourneyXml("balanced",
-                                            "mySetOfItineraryPoints",
-                                            "2016-07-03 07:51:12",
-                                            null,
-                                            24);
+                                                "mySetOfItineraryPoints",
+                                                "2016-07-03 07:51:12",
+                                                null,
+                                                24);
     // N.B. if you try putting a realistic set of itinerary points, Wiremock barfs at the presence
     //      of the unencoded pipe character (see https://github.com/square/retrofit/issues/1891).
 
