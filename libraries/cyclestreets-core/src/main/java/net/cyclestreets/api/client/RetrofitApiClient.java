@@ -52,13 +52,13 @@ public class RetrofitApiClient {
   private final Context context;
 
   // ~30KB covers /blog/feed/, /v2/pois.types and /v2/photomap.categories - allow 200KB for headroom
-  private static final int HTTP_RESPONSE_DISK_CACHE_MAX_SIZE = 200 * 1024;
+  private static final int CACHE_MAX_SIZE_BYTES = 200 * 1024;
+  private static final String CACHE_DIR_NAME = "RetrofitApiClientCache";
 
   public RetrofitApiClient(Builder builder) {
 
     context = builder.context;
-    Cache cache = new Cache(new File(context.getCacheDir(), "HttpResponseCache"),
-                            HTTP_RESPONSE_DISK_CACHE_MAX_SIZE);
+    Cache cache = new Cache(new File(context.getCacheDir(), CACHE_DIR_NAME), CACHE_MAX_SIZE_BYTES);
     OkHttpClient client = new OkHttpClient.Builder()
             .addInterceptor(new ApiKeyInterceptor(builder.apiKey))
             .addNetworkInterceptor(new RewriteCacheControlInterceptor())

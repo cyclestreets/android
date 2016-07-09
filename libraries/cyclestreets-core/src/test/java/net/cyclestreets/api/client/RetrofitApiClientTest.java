@@ -69,7 +69,7 @@ public class RetrofitApiClientTest {
   @Before
   public void setUp() throws Exception {
     // Delete the cache so that we can test cached endpoints are hit once!
-    File cacheDirFile = new File("/tmp/HttpResponseCache");
+    File cacheDirFile = new File("/tmp/RetrofitApiClientCache");
     FileUtils.deleteDirectory(cacheDirFile);
 
     Context testContext = mock(Context.class);
