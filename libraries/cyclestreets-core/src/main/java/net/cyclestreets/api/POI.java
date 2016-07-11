@@ -1,8 +1,8 @@
 package net.cyclestreets.api;
 
-import org.osmdroid.util.GeoPoint;
-
 import android.graphics.drawable.Drawable;
+
+import org.osmdroid.util.GeoPoint;
 
 public class POI
 {

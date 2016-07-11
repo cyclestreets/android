@@ -1,9 +1,9 @@
 package net.cyclestreets.api;
 
-import org.osmdroid.util.BoundingBoxE6;
-
 import android.content.Context;
 import android.os.AsyncTask;
+
+import org.osmdroid.util.BoundingBoxE6;
 
 public class GeoStaticAdapter extends GeoAdapter 
 {

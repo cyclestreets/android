@@ -1,0 +1,99 @@
+{
+  "validuntil": 1469190075,
+  "categories": {
+    "cycleparking": {
+      "name": "Cycle parking",
+      "description": "Photos of parked cycles, on racks, railings, in shelters. Or photos of cycle racks themselves."
+    },
+    "obstructions": {
+      "name": "Obstruction",
+      "description": "A narrow place, difficult for cycles to pass."
+    },
+    "track": {
+      "name": "Track",
+      "description": "A track or path other than a cycleway mainly for walking"
+    },
+    "dutchcycleways": {
+      "name": "Dutch-style cycleway",
+      "description": "Dutch-style cycleway"
+    },
+    "road": {
+      "name": "Road environment",
+      "description": "General road environment"
+    },
+    "cycleways": {
+      "name": "Cycleway",
+      "description": "Cycleway"
+    },
+    "enforcement": {
+      "name": "Enforcement",
+      "description": "Enforcement-related"
+    },
+    "carstorage": {
+      "name": "Car storage",
+      "description": "Issues relating to the storage of motor vehicles in the public realm."
+    },
+    "closure": {
+      "name": "Temporary closure",
+      "description": "A route temporarily barred to cycle access."
+    },
+    "roadworks": {
+      "name": "Roadworks",
+      "description": "A place where cyclists will be delayed or need to take extra care, but they can still pass."
+    },
+    "bikeshops": {
+      "name": "Bike shop",
+      "description": "A place where you can buy bikes or get them fixed."
+    },
+    "potholes": {
+      "name": "Pothole",
+      "description": "A hole in the ground to avoid."
+    },
+    "destinations": {
+      "name": "Destination",
+      "description": "A place where you might want to visit."
+    },
+    "signs": {
+      "name": "General sign/notice",
+      "description": "Any old sign"
+    },
+    "routesigns": {
+      "name": "Route sign",
+      "description": "A sign, usually on the cycleway network, indicating a route for cycling."
+    },
+    "congestion": {
+      "name": "Congestion",
+      "description": "A place where cyclists will be delayed or need to take extra care, but they can still pass."
+    },
+    "bicycles": {
+      "name": "Bicycle",
+      "description": "A photo of a bicycle. Usually some interesting bike, eg. recumbent, basket or trailer, or even rider."
+    },
+    "general": {
+      "name": "Other",
+      "description": "A general photo."
+    }
+  },
+  "metacategories": {
+    "bad": {
+      "name": "Problem",
+      "description": "A problem that needs to be fixed"
+    },
+    "good": {
+      "name": "Good practice",
+      "description": "An example of good practice"
+    },
+    "other": {
+      "name": "Infrastructure",
+      "description": "Other (infrastructure-related)"
+    },
+    "any": {
+      "name": "Misc",
+      "description": "Non-specific"
+    },
+    "event": {
+      "name": "Event",
+      "description": "Event or temporary issue"
+    }
+  }
+}

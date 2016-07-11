@@ -1,18 +1,17 @@
 package net.cyclestreets.api;
 
-import java.util.List;
-
-import net.cyclestreets.core.R;
-import net.cyclestreets.api.GeoPlace;
-
-import org.osmdroid.util.BoundingBoxE6;
-
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
+
+import net.cyclestreets.core.R;
+
+import org.osmdroid.util.BoundingBoxE6;
+
+import java.util.List;
 
 public class GeoAdapter extends ArrayAdapter<GeoPlace>
 {

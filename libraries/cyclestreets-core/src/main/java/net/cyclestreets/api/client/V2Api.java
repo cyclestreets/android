@@ -1,5 +1,7 @@
 package net.cyclestreets.api.client;
 
+import net.cyclestreets.api.client.dto.PhotomapCategoriesDto;
+import net.cyclestreets.api.client.dto.PoiTypesDto;
 import net.cyclestreets.api.client.dto.SendFeedbackResponseDto;
 import net.cyclestreets.api.client.dto.UploadPhotoResponseDto;
 import net.cyclestreets.api.client.dto.UserAuthenticateResponseDto;
@@ -20,6 +22,9 @@ import retrofit2.http.Part;
 import retrofit2.http.Query;
 
 public interface V2Api {
+
+  @GET("/v2/pois.types")
+  Call<PoiTypesDto> getPOICategories(@Query("icons") int iconSize);
 
   @GET("/v2/pois.locations?fields=id,name,notes,website,latitude,longitude")
   Call<FeatureCollection> getPOIs(@Query("type") String type,
@@ -60,6 +65,9 @@ public interface V2Api {
                                              @Field("comments") String comments,
                                              @Field("name") String name,
                                              @Field("email") String email);
+
+  @GET("/v2/photomap.categories")
+  Call<PhotomapCategoriesDto> getPhotomapCategories();
 
   @Multipart
   @POST("/v2/photomap.add")

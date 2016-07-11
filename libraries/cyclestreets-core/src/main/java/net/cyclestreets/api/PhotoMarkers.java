@@ -1,12 +1,12 @@
 package net.cyclestreets.api;
 
-import net.cyclestreets.core.R;
-
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+
+import net.cyclestreets.core.R;
 
 import java.io.InputStream;
 import java.util.HashMap;

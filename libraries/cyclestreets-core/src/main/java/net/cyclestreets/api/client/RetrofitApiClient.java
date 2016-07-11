@@ -1,16 +1,24 @@
 package net.cyclestreets.api.client;
 
+import android.content.Context;
+
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import net.cyclestreets.api.Blog;
 import net.cyclestreets.api.Feedback;
 import net.cyclestreets.api.GeoPlaces;
 import net.cyclestreets.api.POI;
+import net.cyclestreets.api.POICategories;
+import net.cyclestreets.api.PhotomapCategories;
 import net.cyclestreets.api.Photos;
 import net.cyclestreets.api.Registration;
 import net.cyclestreets.api.Signin;
 import net.cyclestreets.api.Upload;
 import net.cyclestreets.api.UserJourneys;
+import net.cyclestreets.api.client.dto.BlogFeedDto;
+import net.cyclestreets.api.client.dto.PhotomapCategoriesDto;
+import net.cyclestreets.api.client.dto.PoiTypesDto;
 import net.cyclestreets.api.client.dto.SendFeedbackResponseDto;
 import net.cyclestreets.api.client.dto.UploadPhotoResponseDto;
 import net.cyclestreets.api.client.dto.UserAuthenticateResponseDto;
@@ -26,7 +34,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
-import okhttp3.Interceptor;
+import okhttp3.Cache;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
@@ -35,15 +43,27 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.jackson.JacksonConverterFactory;
 import retrofit2.converter.scalars.ScalarsConverterFactory;
+import retrofit2.converter.simplexml.SimpleXmlConverterFactory;
 
 public class RetrofitApiClient {
 
   private final V1Api v1Api;
   private final V2Api v2Api;
+  private final Context context;
+
+  // ~30KB covers /blog/feed/, /v2/pois.types and /v2/photomap.categories - allow 200KB for headroom
+  private static final int CACHE_MAX_SIZE_BYTES = 200 * 1024;
+  private static final String CACHE_DIR_NAME = "RetrofitApiClientCache";
 
   public RetrofitApiClient(Builder builder) {
-    Interceptor apiKeyInterceptor = new ApiKeyInterceptor(builder.apiKey);
-    OkHttpClient client = new OkHttpClient.Builder().addInterceptor(apiKeyInterceptor).build();
+
+    context = builder.context;
+    Cache cache = new Cache(new File(context.getCacheDir(), CACHE_DIR_NAME), CACHE_MAX_SIZE_BYTES);
+    OkHttpClient client = new OkHttpClient.Builder()
+            .addInterceptor(new ApiKeyInterceptor(builder.apiKey))
+            .addNetworkInterceptor(new RewriteCacheControlInterceptor())
+            .cache(cache)
+            .build();
 
     // Configure our ObjectMapper to globally ignore unknown properties
     // Required for e.g. getPhotos API which returns `properties` on a `FeatureCollection`, which is
@@ -54,6 +74,7 @@ public class RetrofitApiClient {
     Retrofit retrofitV1 = new Retrofit.Builder()
         .client(client)
         .addConverterFactory(ScalarsConverterFactory.create())
+        .addConverterFactory(SimpleXmlConverterFactory.createNonStrict())
         .baseUrl(builder.v1Host)
         .build();
     v1Api = retrofitV1.create(V1Api.class);
@@ -67,9 +88,15 @@ public class RetrofitApiClient {
   }
 
   public static class Builder {
+    private Context context;
     private String apiKey;
     private String v1Host;
     private String v2Host;
+
+    public Builder withContext(Context context) {
+      this.context = context;
+      return this;
+    }
 
     public Builder withApiKey(String apiKey) {
       this.apiKey = apiKey;
@@ -112,9 +139,19 @@ public class RetrofitApiClient {
     return response.body();
   }
 
+  public Blog getBlogEntries() throws IOException {
+    Response<BlogFeedDto> response = v1Api.getBlogEntries().execute();
+    return response.body().toBlog();
+  }
+
   // --------------------------------------------------------------------------------
   // V2 APIs
   // --------------------------------------------------------------------------------
+
+  public POICategories getPOICategories(int iconSize) throws IOException {
+    Response<PoiTypesDto> response = v2Api.getPOICategories(iconSize).execute();
+    return response.body().toPOICategories(context);
+  }
 
   public List<POI> getPOIs(final String type,
                            final double lonW,
@@ -142,6 +179,11 @@ public class RetrofitApiClient {
     String bbox = toBboxString(lonW, latS, lonE, latN);
     Response<FeatureCollection> response = v2Api.geoCoder(search, bbox).execute();
     return GeoPlacesFactory.toGeoPlaces(response.body());
+  }
+
+  public PhotomapCategories getPhotomapCategories() throws IOException {
+    Response<PhotomapCategoriesDto> response = v2Api.getPhotomapCategories().execute();
+    return response.body().toPhotomapCategories();
   }
 
   public Photos getPhotos(final double lonW,

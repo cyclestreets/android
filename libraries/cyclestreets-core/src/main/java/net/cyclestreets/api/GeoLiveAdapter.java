@@ -1,18 +1,16 @@
 package net.cyclestreets.api;
 
-import java.util.List;
-import java.util.Set;
-import java.util.ArrayList;
-import java.util.TreeSet;
-
-import net.cyclestreets.api.GeoPlace;
-
-import org.osmdroid.util.BoundingBoxE6;
-
 import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.widget.Filter;
+
+import org.osmdroid.util.BoundingBoxE6;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 
 public class GeoLiveAdapter extends GeoAdapter 
 {
