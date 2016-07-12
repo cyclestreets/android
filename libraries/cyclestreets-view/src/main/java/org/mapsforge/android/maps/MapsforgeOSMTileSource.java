@@ -78,8 +78,6 @@ public class MapsforgeOSMTileSource implements ITileSource {
   } // setMapFile
 
   @Override
-  public String localizedName(ResourceProxy proxy) { return name(); }
-  @Override
   public String name() { return name_; }
   @Override
   public int ordinal() { return name_.hashCode(); }

@@ -40,7 +40,6 @@ public class CycleMapView extends MapView
 
   public CycleMapView(final Context context, final String name) {
     super(context,
-          256,
           new DefaultResourceProxyImpl(context),
           TileSource.mapTileProvider(context));
 

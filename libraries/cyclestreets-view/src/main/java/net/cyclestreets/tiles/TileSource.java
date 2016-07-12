@@ -112,32 +112,23 @@ public class TileSource {
   public static ITileSource createStandardTileSource(final String name,
                                                      final ResourceProxy.string aResourceId,
                                                      final String... baseUrls) {
-    return createXYTileSource(name, aResourceId, 256, ".png", baseUrls);
+    return createXYTileSource(name, 256, ".png", baseUrls);
   } // createStandardTileSource
 
   public static ITileSource createDensityAwareTileSource(final Context context,
                                                          final String name,
                                                          final String... baseUrls) {
-    return createDensityAwareTileSource(context, name, ResourceProxy.string.unknown, baseUrls);
-  } // createDensityAwareTileSource
-
-  public static ITileSource createDensityAwareTileSource(final Context context,
-                                                         final String name,
-                                                         final ResourceProxy.string aResourceId,
-                                                         final String... baseUrls) {
     final boolean highDensity = Screen.isHighDensity(context);
     final int tileSize = highDensity ? 512 : 256;
     final String tileSuffix = highDensity ? "@2x.png" : ".png";
-    return createXYTileSource(name, aResourceId, tileSize, tileSuffix, baseUrls);
+    return createXYTileSource(name, tileSize, tileSuffix, baseUrls);
   } // createDensityAwareTileSource
 
   private static ITileSource createXYTileSource(final String name,
-                                                final ResourceProxy.string aResourceId,
                                                 final int tileSize,
                                                 final String extension,
                                                 final String... baseUrls) {
     return new XYTileSource(name,
-                            aResourceId,
                             0,
                             17,
                             tileSize,
@@ -171,14 +162,12 @@ public class TileSource {
     final ITileSource OPENCYCLEMAP =
         createDensityAwareTileSource(context,
                                      CycleStreetsPreferences.MAPSTYLE_OCM,
-                                     ResourceProxy.string.cyclemap,
                                      "https://a.tile.cyclestreets.net/opencyclemap/",
                                      "https://b.tile.cyclestreets.net/opencyclemap/",
                                      "https://c.tile.cyclestreets.net/opencyclemap/");
     final ITileSource OPENSTREETMAP =
         createDensityAwareTileSource(context,
                                      CycleStreetsPreferences.MAPSTYLE_OSM,
-                                     ResourceProxy.string.unknown,
                                      "https://a.tile.cyclestreets.net/mapnik/",
                                      "https://b.tile.cyclestreets.net/mapnik/",
                                      "https://c.tile.cyclestreets.net/mapnik/");
@@ -186,7 +175,6 @@ public class TileSource {
     final ITileSource OSMAP =
         createDensityAwareTileSource(context,
                                      CycleStreetsPreferences.MAPSTYLE_OS,
-                                     ResourceProxy.string.unknown,
                                      "https://a.tile.cyclestreets.net/osopendata/",
                                      "https://b.tile.cyclestreets.net/osopendata/",
                                      "https://c.tile.cyclestreets.net/osopendata/");

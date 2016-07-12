@@ -19,6 +19,8 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
+import static org.osmdroid.tileprovider.constants.OpenStreetMapTileProviderConstants.*;
+
 public class MapsforgeOSMDroidTileProvider extends MapTileModuleProviderBase
 {
   private MapsforgeOSMTileSource tileSource;

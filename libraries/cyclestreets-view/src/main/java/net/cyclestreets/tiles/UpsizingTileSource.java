@@ -28,8 +28,6 @@ public class UpsizingTileSource implements ITileSource {
   @Override
   public String name() { return base_.name(); }
   @Override
-  public String localizedName(ResourceProxy proxy) { return base_.localizedName(proxy); }
-  @Override
   public int getMaximumZoomLevel() { return base_.getMaximumZoomLevel(); }
   @Override
   public int getMinimumZoomLevel() { return base_.getMinimumZoomLevel(); }
