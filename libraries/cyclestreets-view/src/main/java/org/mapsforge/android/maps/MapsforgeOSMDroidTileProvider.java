@@ -1,20 +1,8 @@
 package org.mapsforge.android.maps;
 
-import java.io.BufferedOutputStream;
 import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.net.UnknownHostException;
 
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.methods.HttpUriRequest;
-import org.osmdroid.http.HttpClientFactory;
 import org.osmdroid.tileprovider.MapTile;
 import org.osmdroid.tileprovider.MapTileRequestState;
 import org.osmdroid.tileprovider.modules.MapTileModuleProviderBase;
@@ -22,25 +10,32 @@ import org.osmdroid.tileprovider.modules.NetworkAvailabliltyCheck;
 import org.osmdroid.tileprovider.tilesource.BitmapTileSourceBase.LowMemoryException;
 import org.osmdroid.tileprovider.tilesource.ITileSource;
 import org.osmdroid.tileprovider.tilesource.OnlineTileSourceBase;
-import org.osmdroid.tileprovider.util.StreamUtils;
 
 import android.graphics.drawable.Drawable;
 import android.text.TextUtils;
 
+import okhttp3.Interceptor;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
+
 public class MapsforgeOSMDroidTileProvider extends MapTileModuleProviderBase
 {
-  private MapsforgeOSMTileSource tileSource_;
-  private final OnlineTileSourceBase fallbackTileSource_;
-  private final NetworkAvailabliltyCheck networkCheck_;
+  private MapsforgeOSMTileSource tileSource;
+  private final OnlineTileSourceBase fallbackTileSource;
+  private final NetworkAvailabliltyCheck networkCheck;
+  private final OkHttpClient client;
 
   public MapsforgeOSMDroidTileProvider(final ITileSource fallbackSource,
-                                       final NetworkAvailabliltyCheck networkCheck)
-  {
+                                       final NetworkAvailabliltyCheck networkCheck,
+                                       final Interceptor interceptor) {
     super(4, TILE_DOWNLOAD_MAXIMUM_QUEUE_SIZE);
-    tileSource_ = null;
-    fallbackTileSource_ = fallbackSource instanceof OnlineTileSourceBase ? (OnlineTileSourceBase)fallbackSource : null;
-    networkCheck_ = networkCheck;
-  } // MapsforgeOSMDroidTileProvider
+    tileSource = null;
+    fallbackTileSource = fallbackSource instanceof OnlineTileSourceBase ? (OnlineTileSourceBase)fallbackSource : null;
+    this.networkCheck = networkCheck;
+
+    client = new OkHttpClient.Builder().addInterceptor(interceptor).build();
+  }
 
   @Override
   protected String getName() { return "Mapsforge"; }
@@ -52,64 +47,57 @@ public class MapsforgeOSMDroidTileProvider extends MapTileModuleProviderBase
   public boolean getUsesDataConnection() { return false; }
 
   @Override
-  public int getMaximumZoomLevel()
-  {
-    return (tileSource_ != null ? tileSource_.getMaximumZoomLevel() : 20);
-  } // getMaximumZoomLevel
+  public int getMaximumZoomLevel() {
+    return (tileSource != null ? tileSource.getMaximumZoomLevel() : 20);
+  }
 
   @Override
-  public int getMinimumZoomLevel()
-  {
-    return (tileSource_ != null ? tileSource_.getMinimumZoomLevel() : MINIMUM_ZOOMLEVEL);
-  } // getMinimumZoomLevel
+  public int getMinimumZoomLevel() {
+    return (tileSource != null ? tileSource.getMinimumZoomLevel() : MINIMUM_ZOOMLEVEL);
+  }
 
   @Override
-  protected Runnable getTileLoader()
-  {
+  protected Runnable getTileLoader() {
     return new TileLoader();
-  } // getTileLoader
+  }
 
   @Override
-  public void setTileSource(final ITileSource tileSource)
-  {
-    tileSource_ = (tileSource instanceof MapsforgeOSMTileSource) ?
+  public void setTileSource(final ITileSource tileSource) {
+    this.tileSource = (tileSource instanceof MapsforgeOSMTileSource) ?
         (MapsforgeOSMTileSource)tileSource :
         null;
-  } // setTileSource
+  }
 
   /////////////////////////////////////////////////
   private class TileLoader extends MapTileModuleProviderBase.TileLoader
   {
     @Override
-    public Drawable loadTile(final MapTileRequestState aState) throws CantContinueException
-    {
-      if(tileSource_ == null)
+    public Drawable loadTile(final MapTileRequestState aState) throws CantContinueException {
+      if (tileSource == null)
         return null;
 
       Drawable tile = drawMapsforgeTile(aState);
-      if(tile == null)
+      if (tile == null)
         tile = downloadTile(aState);
       return tile;
-    } // loadFile
+    }
 
-    private Drawable drawMapsforgeTile(final MapTileRequestState aState)
-    {
+    private Drawable drawMapsforgeTile(final MapTileRequestState aState) {
       final MapTile tile = aState.getMapTile();
       // mapsforge goes wonky at zoom <= 7
       if (tile.getZoomLevel() <= 7)
         return null;
 
       try {
-        return tileSource_.getDrawable(tile.getX(), tile.getY(), tile.getZoomLevel());
+        return tileSource.getDrawable(tile.getX(), tile.getY(), tile.getZoomLevel());
       }
       catch(Exception e) {
         return null;
       }
-    } // drawMapsforgeTile
+    }
 
-    private Drawable downloadTile(final MapTileRequestState aState) throws CantContinueException
-    {
-      if(fallbackTileSource_ == null)
+    private Drawable downloadTile(final MapTileRequestState aState) throws CantContinueException {
+      if (fallbackTileSource == null)
         return null;
 
       final MapTile tile = aState.getMapTile();
@@ -118,58 +106,33 @@ public class MapsforgeOSMDroidTileProvider extends MapTileModuleProviderBase
         if (!isNetworkAvailable())
           return null;
 
-        final String tileUrl = fallbackTileSource_.getTileURLString(tile);
-
-        final InputStream in = fetchTileFromUrl(tileUrl);
-        if(in == null)
+        final String tileUrl = fallbackTileSource.getTileURLString(tile);
+        if (TextUtils.isEmpty(tileUrl))
           return null;
 
-        final byte[] data = loadTileByteArray(in);
+        Request request = new Request.Builder()
+                .url(tileUrl)
+                .build();
+        Response response = client.newCall(request).execute();
 
-        final Drawable result = fallbackTileSource_.getDrawable(new ByteArrayInputStream(data));
+        if (!response.isSuccessful())
+          return null;
+
+        final byte[] data = response.body().bytes();
+        if (data.length == 0)
+          return null;
+
+        final Drawable result = fallbackTileSource.getDrawable(new ByteArrayInputStream(data));
         return result;
       } catch (final UnknownHostException | LowMemoryException e) {
         throw new CantContinueException(e);
       } catch (final Exception e) {
         return null;
       }
-    } // downloadTile
+    }
 
-    private boolean isNetworkAvailable()
-    {
-      return (networkCheck_ == null || networkCheck_.getNetworkAvailable());
-    } // networkAvailable
-
-    private InputStream fetchTileFromUrl(final String tileURLString) throws ClientProtocolException, IOException
-    {
-      if (TextUtils.isEmpty(tileURLString))
-        return null;
-
-      final HttpClient client = HttpClientFactory.createHttpClient();
-      final HttpUriRequest head = new HttpGet(tileURLString);
-      final HttpResponse response = client.execute(head);
-
-      final org.apache.http.StatusLine line = response.getStatusLine();
-      if (line.getStatusCode() != 200)
-        return null;
-
-      final HttpEntity entity = response.getEntity();
-      return (entity != null) ? entity.getContent() : null;
-    } // fetchTileFromUrl
-
-    private byte[] loadTileByteArray(final InputStream in) throws IOException
-    {
-      final ByteArrayOutputStream dataStream = new ByteArrayOutputStream();
-      final OutputStream out = new BufferedOutputStream(dataStream, StreamUtils.IO_BUFFER_SIZE);
-      try {
-        StreamUtils.copy(in, out);
-        out.flush();
-        return dataStream.toByteArray();
-      }
-      finally {
-        StreamUtils.closeStream(in);
-        StreamUtils.closeStream(out);
-      } // finally
-    } // loadTileByteArray
-  } // TileLoader
-} // MapsForgeOSMDroidTileProvider
+    private boolean isNetworkAvailable() {
+      return (networkCheck == null || networkCheck.getNetworkAvailable());
+    }
+  }
+}
