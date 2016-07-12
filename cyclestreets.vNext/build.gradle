@@ -2,11 +2,11 @@ evaluationDependsOn(':libraries:cyclestreets-fragments')
 
 dependencies {
   compile project(':libraries:cyclestreets-fragments')
-  compile 'ch.acra:acra:4.8.5'
+  compile 'ch.acra:acra:4.9.0'
 }
 
 android {
   defaultConfig {
     applicationId 'net.cyclestreets'
-  } // defaultConfig
-} // android
+  }
+}
