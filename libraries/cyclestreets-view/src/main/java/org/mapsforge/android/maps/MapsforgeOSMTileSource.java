@@ -1,7 +1,7 @@
 package org.mapsforge.android.maps;
 
-import java.io.File;
-import java.io.InputStream;
+import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 
 import org.mapsforge.android.maps.mapgenerator.JobParameters;
 import org.mapsforge.android.maps.mapgenerator.JobTheme;
@@ -10,14 +10,13 @@ import org.mapsforge.android.maps.mapgenerator.databaserenderer.DatabaseRenderer
 import org.mapsforge.core.BoundingBox;
 import org.mapsforge.core.Tile;
 import org.mapsforge.map.reader.MapDatabase;
-import org.osmdroid.ResourceProxy;
 import org.osmdroid.tileprovider.ExpirableBitmapDrawable;
 import org.osmdroid.tileprovider.MapTile;
 import org.osmdroid.tileprovider.tilesource.BitmapTileSourceBase.LowMemoryException;
 import org.osmdroid.tileprovider.tilesource.ITileSource;
 
-import android.graphics.Bitmap;
-import android.graphics.drawable.Drawable;
+import java.io.File;
+import java.io.InputStream;
 
 public class MapsforgeOSMTileSource implements ITileSource {
   @SuppressWarnings("serial")

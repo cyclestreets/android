@@ -4,6 +4,8 @@ import net.cyclestreets.view.R;
 
 import org.osmdroid.views.MapView;
 import org.osmdroid.util.GeoPoint;
+import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay;
+
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Canvas;
@@ -31,7 +33,7 @@ public class LocationOverlay extends MyLocationNewOverlay
   private boolean lockedOn_;
 
   public LocationOverlay(final Context context, final MapView mapView) {
-    super(context, mapView);
+    super(mapView);
 
     //setLocationUpdateMinTime(500);
     //setLocationUpdateMinDistance(10);

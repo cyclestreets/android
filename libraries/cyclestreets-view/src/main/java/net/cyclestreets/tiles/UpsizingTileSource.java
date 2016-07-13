@@ -4,7 +4,6 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 
-import org.osmdroid.ResourceProxy;
 import org.osmdroid.tileprovider.ExpirableBitmapDrawable;
 import org.osmdroid.tileprovider.MapTile;
 import org.osmdroid.tileprovider.tilesource.BitmapTileSourceBase;
@@ -21,7 +20,7 @@ public class UpsizingTileSource implements ITileSource {
   public UpsizingTileSource(final ITileSource base) {
     base_ = base;
     online_ = (base_ instanceof  OnlineTileSourceBase) ? (OnlineTileSourceBase)base_ : null;
-  } // base
+  }
 
   @Override
   public int ordinal() { return base_.ordinal(); }
@@ -44,11 +43,11 @@ public class UpsizingTileSource implements ITileSource {
   @Override
   public Drawable getDrawable(String aFilePath) throws BitmapTileSourceBase.LowMemoryException {
     return scaleUp(base_.getDrawable(aFilePath));
-  } // getDrawable
+  }
   @Override
   public Drawable getDrawable(InputStream aTileInputStream) throws BitmapTileSourceBase.LowMemoryException {
     return scaleUp(base_.getDrawable(aTileInputStream));
-  } // getDrawable
+  }
 
   private Drawable scaleUp(final Drawable mapTile) {
     if (mapTile == null)
@@ -58,5 +57,5 @@ public class UpsizingTileSource implements ITileSource {
     Bitmap largerB = Bitmap.createScaledBitmap(b, upsize_, upsize_, true);
 
     return new ExpirableBitmapDrawable(largerB);
-  } // scaleUp
-} // UpsizingTileSource
+  }
+}

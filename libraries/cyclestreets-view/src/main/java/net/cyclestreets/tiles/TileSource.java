@@ -11,7 +11,6 @@ import net.cyclestreets.util.Screen;
 import net.cyclestreets.view.R;
 
 import org.mapsforge.android.maps.MapsforgeOSMTileSource;
-import org.osmdroid.ResourceProxy;
 import org.osmdroid.tileprovider.MapTileProviderBase;
 import org.osmdroid.tileprovider.tilesource.ITileSource;
 import org.osmdroid.tileprovider.tilesource.XYTileSource;
@@ -104,16 +103,6 @@ public class TileSource {
     else
       addSource(source);
   } // addTileSource
-
-  public static ITileSource createStandardTileSource(final String name, final String... baseUrls) {
-    return createStandardTileSource(name, ResourceProxy.string.unknown, baseUrls);
-  } // createStandardTileSource
-
-  public static ITileSource createStandardTileSource(final String name,
-                                                     final ResourceProxy.string aResourceId,
-                                                     final String... baseUrls) {
-    return createXYTileSource(name, 256, ".png", baseUrls);
-  } // createStandardTileSource
 
   public static ITileSource createDensityAwareTileSource(final Context context,
                                                          final String name,

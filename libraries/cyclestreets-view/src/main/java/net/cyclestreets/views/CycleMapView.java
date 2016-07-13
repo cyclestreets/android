@@ -1,6 +1,5 @@
 package net.cyclestreets.views;
 
-import net.cyclestreets.liveride.PebbleNotifier;
 import net.cyclestreets.tiles.TileSource;
 import net.cyclestreets.views.overlay.LocationOverlay;
 import net.cyclestreets.views.overlay.ControllerOverlay;
@@ -9,7 +8,6 @@ import org.osmdroid.api.IGeoPoint;
 import org.osmdroid.tileprovider.BitmapPool;
 import org.osmdroid.tileprovider.tilesource.ITileSource;
 import org.osmdroid.util.GeoPoint;
-import org.osmdroid.DefaultResourceProxyImpl;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.Overlay;
 
@@ -36,12 +34,9 @@ public class CycleMapView extends MapView
   private final int overlayBottomIndex_;
 
   private IGeoPoint centreOn_ = null;
-  private PebbleNotifier notifier_;
 
   public CycleMapView(final Context context, final String name) {
-    super(context,
-          new DefaultResourceProxyImpl(context),
-          TileSource.mapTileProvider(context));
+    super(context, TileSource.mapTileProvider(context));
 
     prefs_ = context.getSharedPreferences("net.cyclestreets.mapview."+name, Context.MODE_PRIVATE);
 
