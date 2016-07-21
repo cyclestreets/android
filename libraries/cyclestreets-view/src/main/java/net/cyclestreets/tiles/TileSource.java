@@ -4,20 +4,14 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.preference.ListPreference;
 
-import net.cyclestreets.AppInfo;
 import net.cyclestreets.CycleStreetsPreferences;
 import net.cyclestreets.util.MapPack;
 import net.cyclestreets.util.MessageBox;
 import net.cyclestreets.util.Screen;
 import net.cyclestreets.view.R;
 
-import org.apache.http.client.HttpClient;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.params.CoreProtocolPNames;
 import org.mapsforge.android.maps.MapsforgeOSMTileSource;
 import org.osmdroid.ResourceProxy;
-import org.osmdroid.http.HttpClientFactory;
-import org.osmdroid.http.IHttpClientFactory;
 import org.osmdroid.tileprovider.MapTileProviderBase;
 import org.osmdroid.tileprovider.tilesource.ITileSource;
 import org.osmdroid.tileprovider.tilesource.XYTileSource;
@@ -209,17 +203,6 @@ public class TileSource {
 
   public static MapTileProviderBase mapTileProvider(final Context context) {
     addBuiltInSources(context);
-
-    final IHttpClientFactory httpFactory = new IHttpClientFactory() {
-      @Override
-      public HttpClient createHttpClient() {
-        final DefaultHttpClient client = new DefaultHttpClient();
-        client.getParams().setParameter(CoreProtocolPNames.USER_AGENT, AppInfo.version(context));
-        return client;
-      }
-    };
-    HttpClientFactory.setFactoryInstance(httpFactory);
-
     return new CycleMapTileProvider(context, TileSource.source(TileSource.DEFAULT_RENDERER).renderer());
   } // MapTileProviderBase
 

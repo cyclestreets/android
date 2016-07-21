@@ -1,14 +1,8 @@
 package net.cyclestreets.util;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.lang.ref.WeakReference;
-
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.HttpStatus;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.DefaultHttpClient;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -17,40 +11,50 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
+
 public class ImageDownloader {
-  static public void get(final String url,
-						             final ImageView imageView) {
-		final BitmapDownloaderTask task = new BitmapDownloaderTask(imageView);
-		task.execute(url);
-	} // get
 
-	//////////////////////////
-	static class BitmapDownloaderTask extends AsyncTask<String, Void, Bitmap> {
-		private final WeakReference<ImageView> imageViewReference;
+  private static OkHttpClient client = new OkHttpClient.Builder().build();
 
-		public BitmapDownloaderTask(final ImageView imageView) {
-			imageViewReference = new WeakReference<>(imageView);
- 		} // BitmapDownloaderTask
+  // Prevent instantiation as this is class only contains static methods
+  private ImageDownloader() {}
 
-		@Override
-		protected Bitmap doInBackground(String... params) {
-			return downloadBitmap(params[0]);
-		} // doInBackground
+  public static void get(final String url,
+                         final ImageView imageView) {
+    final BitmapDownloaderTask task = new BitmapDownloaderTask(imageView);
+    task.execute(url);
+  } // get
 
-		@Override
-		protected void onPostExecute(final Bitmap bitmap) {
- 			if (isCancelled())
-				return;
+  //////////////////////////
+  private static class BitmapDownloaderTask extends AsyncTask<String, Void, Bitmap> {
+    private final WeakReference<ImageView> imageViewReference;
+
+    public BitmapDownloaderTask(final ImageView imageView) {
+      imageViewReference = new WeakReference<>(imageView);
+    }
+
+    @Override
+    protected Bitmap doInBackground(String... params) {
+      return downloadBitmap(params[0]);
+    }
+
+    @Override
+    protected void onPostExecute(final Bitmap bitmap) {
+      if (isCancelled())
+        return;
 
       if (bitmap == null)
         return;
 
-			if(imageViewReference == null)
-				return;
-			
-			final ImageView imageView = imageViewReference.get();
-			if (imageView == null) 
-				return;
+      if (imageViewReference == null)
+        return;
+      
+      final ImageView imageView = imageViewReference.get();
+      if (imageView == null) 
+        return;
 
       final WindowManager wm = (WindowManager)imageView.getContext().getSystemService(Context.WINDOW_SERVICE);
       final int device_height = wm.getDefaultDisplay().getHeight();
@@ -70,39 +74,31 @@ public class ImageDownloader {
         final int viewHeight = imageView.getHeight();
         int newViewHeight = (int)(viewHeight/aspect);
         imageView.setMaxHeight(newViewHeight);
-      } //
+      }
 
       imageView.setAnimation(null);
 
       imageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
-			imageView.setImageBitmap(bitmap);
-		} // onPostExecute
+      imageView.setImageBitmap(bitmap);
+    }
 
-		private Bitmap downloadBitmap(final String url) {
-			final HttpClient client = new DefaultHttpClient();
-			final HttpGet getRequest = new HttpGet(url);
-			getRequest.setHeader("User-Agent", "CycleStreets Android/1.0");
+    private static Bitmap downloadBitmap(final String url) {
 
-			try {
-				HttpResponse response = client.execute(getRequest);
-				final int statusCode = response.getStatusLine().getStatusCode();
-				if (statusCode != HttpStatus.SC_OK) 
-					return null;
-
-				final HttpEntity entity = response.getEntity();
-				if (entity == null) 
-					return null;
-				
-				try {
-					final InputStream inputStream = entity.getContent();
-					return Bitmaps.loadStream(inputStream);
-				} finally	{
-					entity.consumeContent();
-				} // finally
-			} catch (Exception e)	{
-				getRequest.abort();
-			} // catch
-			return null;
-		} // downloadBitmap
-	} // BitmapDownloaderTask 
-} // ImageDownloader
+      Request request = new Request.Builder()
+              .url(url)
+              .header("User-Agent", "CycleStreets Android/1.0")
+              .build();
+      try {
+        Response response = client.newCall(request).execute();
+        if (!response.isSuccessful()) {
+          return null;
+        }
+        final InputStream inputStream = response.body().byteStream();
+        return Bitmaps.loadStream(inputStream);
+      } catch (IOException e) {
+        // Uh-oh
+        return null;
+      }
+    }
+  }
+}

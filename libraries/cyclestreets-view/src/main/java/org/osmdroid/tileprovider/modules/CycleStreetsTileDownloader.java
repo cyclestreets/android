@@ -1,21 +1,10 @@
 package org.osmdroid.tileprovider.modules;
 
-import java.io.BufferedOutputStream;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.net.UnknownHostException;
-import java.util.concurrent.atomic.AtomicReference;
+import android.graphics.drawable.Drawable;
+import android.text.TextUtils;
 
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.methods.HttpUriRequest;
-import org.osmdroid.http.HttpClientFactory;
+import net.cyclestreets.tiles.UpsizingTileSource;
+
 import org.osmdroid.tileprovider.BitmapPool;
 import org.osmdroid.tileprovider.MapTile;
 import org.osmdroid.tileprovider.MapTileRequestState;
@@ -23,14 +12,20 @@ import org.osmdroid.tileprovider.ReusableBitmapDrawable;
 import org.osmdroid.tileprovider.tilesource.BitmapTileSourceBase.LowMemoryException;
 import org.osmdroid.tileprovider.tilesource.ITileSource;
 import org.osmdroid.tileprovider.tilesource.OnlineTileSourceBase;
-import org.osmdroid.tileprovider.util.StreamUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import android.graphics.drawable.Drawable;
-import android.text.TextUtils;
+import java.io.ByteArrayInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.UnknownHostException;
+import java.util.concurrent.atomic.AtomicReference;
 
-import net.cyclestreets.tiles.UpsizingTileSource;
+import okhttp3.Interceptor;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 
 /**
  * The {@link CycleStreetsTileDownloader} loads tiles from an HTTP server. It saves downloaded tiles to an
@@ -82,35 +77,53 @@ public class CycleStreetsTileDownloader extends MapTileModuleProviderBase {
 
   private final INetworkAvailablityCheck mNetworkAvailablityCheck;
 
+  private final OkHttpClient client;
+
   // ===========================================================
   // Constructors
   // ===========================================================
 
-  public CycleStreetsTileDownloader(final ITileSource pTileSource) {
-    this(pTileSource, null, null);
+  private CycleStreetsTileDownloader(Builder builder) {
+    super(builder.threadPoolSize, builder.pendingQueueSize);
+
+    mFilesystemCache = builder.filesystemCache;
+    mNetworkAvailablityCheck = builder.networkAvailabilityCheck;
+    setTileSource(builder.tileSource);
+
+    client = new OkHttpClient.Builder().addInterceptor(builder.interceptor).build();
   }
 
-  public CycleStreetsTileDownloader(final ITileSource pTileSource, final IFilesystemCache pFilesystemCache) {
-    this(pTileSource, pFilesystemCache, null);
-  }
+  public static class Builder {
+    ITileSource tileSource;
+    IFilesystemCache filesystemCache;
+    INetworkAvailablityCheck networkAvailabilityCheck;
+    int threadPoolSize = 4;
+    int pendingQueueSize = TILE_DOWNLOAD_MAXIMUM_QUEUE_SIZE;
+    private Interceptor interceptor;
 
-  public CycleStreetsTileDownloader(final ITileSource pTileSource,
-                                    final IFilesystemCache pFilesystemCache,
-                                    final INetworkAvailablityCheck pNetworkAvailablityCheck) {
-    this(pTileSource, pFilesystemCache, pNetworkAvailablityCheck,
-         4, TILE_DOWNLOAD_MAXIMUM_QUEUE_SIZE);
-  }
+    public Builder withTileSource(ITileSource tileSource) {
+      this.tileSource = tileSource;
+      return this;
+    }
 
-  public CycleStreetsTileDownloader(final ITileSource pTileSource,
-                                    final IFilesystemCache pFilesystemCache,
-                                    final INetworkAvailablityCheck pNetworkAvailablityCheck,
-                                    int pThreadPoolSize,
-                                    int pPendingQueueSize) {
-    super(pThreadPoolSize, pPendingQueueSize);
+    public Builder withFilesystemCache(IFilesystemCache filesystemCache) {
+      this.filesystemCache = filesystemCache;
+      return this;
+    }
 
-    mFilesystemCache = pFilesystemCache;
-    mNetworkAvailablityCheck = pNetworkAvailablityCheck;
-    setTileSource(pTileSource);
+    public Builder withNetworkAvailabilityCheck(INetworkAvailablityCheck networkAvailabilityCheck) {
+      this.networkAvailabilityCheck = networkAvailabilityCheck;
+      return this;
+    }
+
+    public Builder withInterceptor(Interceptor interceptor) {
+      this.interceptor = interceptor;
+      return this;
+    }
+
+    public CycleStreetsTileDownloader build() {
+      return new CycleStreetsTileDownloader(this);
+    }
   }
 
   // ===========================================================
@@ -181,14 +194,10 @@ public class CycleStreetsTileDownloader extends MapTileModuleProviderBase {
       if (tileSource == null)
         return null;
 
-      InputStream in = null;
-      OutputStream out = null;
       final MapTile tile = aState.getMapTile();
 
       try {
-
-        if (mNetworkAvailablityCheck != null
-            && !mNetworkAvailablityCheck.getNetworkAvailable()) {
+        if (mNetworkAvailablityCheck != null && !mNetworkAvailablityCheck.getNetworkAvailable()) {
           if (DEBUGMODE) {
             logger.debug("Skipping " + getName() + " due to NetworkAvailabliltyCheck.");
           }
@@ -205,29 +214,23 @@ public class CycleStreetsTileDownloader extends MapTileModuleProviderBase {
           return null;
         }
 
-        final HttpClient client = HttpClientFactory.createHttpClient();
-        final HttpUriRequest head = new HttpGet(tileURLString);
-        final HttpResponse response = client.execute(head);
+        Request request = new Request.Builder()
+                .url(tileURLString)
+                .build();
+        Response response = client.newCall(request).execute();
 
         // Check to see if we got success
-        final org.apache.http.StatusLine line = response.getStatusLine();
-        if (line.getStatusCode() != 200) {
-          logger.warn("Problem downloading MapTile: " + tile + " HTTP response: " + line);
+        if (!response.isSuccessful()) {
+          logger.warn("Problem downloading MapTile: " + tile + " HTTP response: " + response.code());
           return null;
         }
 
-        final HttpEntity entity = response.getEntity();
-        if (entity == null) {
+        final byte[] data = response.body().bytes();
+        if (data.length == 0) {
           logger.warn("No content downloading MapTile: " + tile);
           return null;
         }
-        in = entity.getContent();
 
-        final ByteArrayOutputStream dataStream = new ByteArrayOutputStream();
-        out = new BufferedOutputStream(dataStream, StreamUtils.IO_BUFFER_SIZE);
-        StreamUtils.copy(in, out);
-        out.flush();
-        final byte[] data = dataStream.toByteArray();
         final ByteArrayInputStream byteStream = new ByteArrayInputStream(data);
 
         // Save the data to the filesystem cache
@@ -252,9 +255,6 @@ public class CycleStreetsTileDownloader extends MapTileModuleProviderBase {
         logger.warn("IOException downloading MapTile: " + tile + " : " + e);
       } catch (final Throwable e) {
         logger.error("Error downloading MapTile: " + tile, e);
-      } finally {
-        StreamUtils.closeStream(in);
-        StreamUtils.closeStream(out);
       }
 
       return null;
@@ -271,6 +271,5 @@ public class CycleStreetsTileDownloader extends MapTileModuleProviderBase {
       if (pDrawable instanceof ReusableBitmapDrawable)
         BitmapPool.getInstance().returnDrawableToPool((ReusableBitmapDrawable) pDrawable);
     }
-
   }
 }
