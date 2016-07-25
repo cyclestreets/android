@@ -63,7 +63,7 @@ public class MapsforgeOSMTileSource implements ITileSource {
     jobParameters_ = new JobParameters(new RenderTheme(), DEFAULT_TEXT_SCALE);
     debugSettings_ = new DebugSettings(false, false, false);
 
-    tileSize_ = upSize ? 512 : 256;
+    tileSize_ = upSize ? 2 * Tile.TILE_SIZE : Tile.TILE_SIZE;
   } // MapsforgeOSMTileSource
   
   public void setMapFile(final String mapFile) {
@@ -104,7 +104,7 @@ public class MapsforgeOSMTileSource implements ITileSource {
     boolean success = mapGenerator_.executeJob(mapGeneratorJob, tileBitmap);
 
     if (tileSize_ != Tile.TILE_SIZE)
-      tileBitmap = Bitmap.createScaledBitmap(tileBitmap, tileSize_, tileSize_, false);
+      tileBitmap = Bitmap.createScaledBitmap(tileBitmap, tileSize_, tileSize_, true);
 
     return success ? new ExpirableBitmapDrawable(tileBitmap) : null;
   } // getDrawable
