@@ -1,14 +1,5 @@
 package net.cyclestreets.views.overlay;
 
-import java.util.List;
-
-import org.osmdroid.DefaultResourceProxyImpl;
-import org.osmdroid.views.MapView;
-import org.osmdroid.views.Projection;
-import org.osmdroid.views.overlay.Overlay;
-import org.osmdroid.views.overlay.OverlayItem;
-import org.osmdroid.views.overlay.OverlayItem.HotspotPlace;
-
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
@@ -16,6 +7,14 @@ import android.graphics.Point;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.view.MotionEvent;
+
+import org.osmdroid.views.MapView;
+import org.osmdroid.views.Projection;
+import org.osmdroid.views.overlay.Overlay;
+import org.osmdroid.views.overlay.OverlayItem;
+import org.osmdroid.views.overlay.OverlayItem.HotspotPlace;
+
+import java.util.List;
 
 public class ItemizedOverlay<Item extends OverlayItem> extends Overlay
                                                        implements TapListener {
@@ -34,10 +33,10 @@ public class ItemizedOverlay<Item extends OverlayItem> extends Overlay
   public ItemizedOverlay(final Context context,
                          final MapView mapView, 
                          final List<Item> items) {
-    super(new DefaultResourceProxyImpl(context));
+    super(context);
     mapView_ = mapView;
     items_ = items;
-  } // ItemizedOverlay
+  }
 
   protected List<Item> items() { return items_; }
   

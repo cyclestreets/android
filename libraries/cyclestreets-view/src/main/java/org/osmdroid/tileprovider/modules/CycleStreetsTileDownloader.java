@@ -27,6 +27,8 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
+import static org.osmdroid.tileprovider.constants.OpenStreetMapTileProviderConstants.*;
+
 /**
  * The {@link CycleStreetsTileDownloader} loads tiles from an HTTP server. It saves downloaded tiles to an
  * IFilesystemCache if available.
