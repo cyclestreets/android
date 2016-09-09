@@ -12,8 +12,8 @@ import java.util.List;
 
 public class ApiClient
 {
-  private final static String API_HOST = "www.cyclestreets.net";
-  private final static String API_HOST_V2 = "api.cyclestreets.net";
+  private final static String API_HOST = "https://www.cyclestreets.net";
+  private final static String API_HOST_V2 = "https://api.cyclestreets.net";
 
   private static ApiCustomiser customiser;
   private static Context context;
@@ -28,14 +28,16 @@ public class ApiClient
 
   public static void initialise(final Context context) {
     ApiClient.context = context;
-    POICategories.backgroundLoad();
-    PhotomapCategories.backgroundLoad();
 
     retrofitApiClient = new RetrofitApiClient.Builder()
-        .withApiKey(findApiKey(ApiClient.context))
+        .withContext(context())
+        .withApiKey(findApiKey(context()))
         .withV1Host(API_HOST)
         .withV2Host(API_HOST_V2)
         .build();
+
+    POICategories.backgroundLoad();
+    PhotomapCategories.backgroundLoad();
   }
 
   public static void setCustomiser(ApiCustomiser customiser) {
