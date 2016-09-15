@@ -19,7 +19,13 @@ dependencies {
   compile 'com.squareup.retrofit2:converter-jackson:2.1.0'
   compile 'de.grundid.opendatalab:geojson-jackson:1.6'
 
-  testCompile 'com.github.tomakehurst:wiremock-standalone:2.1.0-beta'
+  // Jackson is already included transitively from multiple sources; we specify explicit versions
+  // to ensure consistency across these artifacts.
+  compile 'com.fasterxml.jackson.core:jackson-annotations:2.7.7'
+  compile 'com.fasterxml.jackson.core:jackson-core:2.7.7'
+  compile 'com.fasterxml.jackson.core:jackson-databind:2.7.7'
+
+  testCompile 'com.github.tomakehurst:wiremock-standalone:2.1.12'
   testCompile 'junit:junit:4.12'
   testCompile 'org.hamcrest:hamcrest-all:1.3'
   testCompile 'org.mockito:mockito-core:1.10.19'
