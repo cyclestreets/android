@@ -1,11 +1,15 @@
 package net.cyclestreets;
 
 import net.cyclestreets.api.Result;
+import net.cyclestreets.util.Dialog;
 import net.cyclestreets.view.R;
 import net.cyclestreets.api.Feedback;
 import net.cyclestreets.routing.Route;
 import net.cyclestreets.util.MessageBox;
 import android.app.Activity;
+import android.app.ProgressDialog;
+import android.content.Context;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -58,15 +62,50 @@ public class FeedbackActivity extends Activity implements TextWatcher, OnClickLi
 
   @Override
   public void onClick(View v) {
-    try { 
-      final Result result = Feedback.send(Route.journey().itinerary(),
-                                          text(R.id.comments),
-                                          text(R.id.name),
-                                          text(R.id.email));
-      MessageBox.OKAndFinish(this.getCurrentFocus(), result.message(), this, result.ok());
+    FeedbackTask task = new FeedbackTask(this, Route.journey().itinerary(), text(R.id.comments),
+                                         text(R.id.name), text(R.id.email));
+    task.execute();
+  }
+
+  private void messageBox(Result result) {
+    MessageBox.OKAndFinish(this.getCurrentFocus(), result.message(), this, result.ok());
+  }
+
+  private class FeedbackTask extends AsyncTask<Object, Void, Result> {
+    private final int itinerary;
+    private final String comments;
+    private final String name;
+    private final String email;
+    private final ProgressDialog progress;
+
+    public FeedbackTask(Context context,
+                        int itinerary,
+                        String comments,
+                        String name,
+                        String email) {
+      this.itinerary = itinerary;
+      this.comments = comments;
+      this.name = name;
+      this.email = email;
+
+      this.progress = Dialog.createProgressDialog(context, R.string.sending_feedback);
     }
-    catch(Exception e) {
-      MessageBox.OK(v, "There was a problem sending your comments:\n" + e.getMessage());
+
+    @Override
+    protected void onPreExecute() {
+      super.onPreExecute();
+      progress.show();
+    }
+
+    @Override
+    protected Result doInBackground(final Object... params) {
+      return Feedback.send(itinerary, comments, name, email);
+    }
+
+    @Override
+    protected void onPostExecute(final Result result) {
+      progress.dismiss();
+      messageBox(result);
     }
   }
 }
