@@ -17,6 +17,7 @@ import net.cyclestreets.api.PhotomapCategories;
 import net.cyclestreets.api.PhotomapCategory;
 import net.cyclestreets.api.Photos;
 import net.cyclestreets.api.Registration;
+import net.cyclestreets.api.Result;
 import net.cyclestreets.api.Signin;
 import net.cyclestreets.api.Upload;
 import net.cyclestreets.api.UserJourney;
@@ -292,7 +293,7 @@ public class RetrofitApiClientTest {
                     .withBodyFile("registration-ok.json")));
 
     // when
-    Registration.Result result = apiClient.register("arnold", "cyberdyne101", "The Terminator", "101@skynet.com");
+    Result result = apiClient.register("arnold", "cyberdyne101", "The Terminator", "101@skynet.com");
 
     // then
     verify(postRequestedFor(urlPathEqualTo("/v2/user.create"))
@@ -314,7 +315,7 @@ public class RetrofitApiClientTest {
                     .withBodyFile("api-error.json")));
 
     // when
-    Registration.Result result = apiClient.register("username", "pwd", "name", "email@bob.com");
+    Result result = apiClient.register("username", "pwd", "name", "email@bob.com");
 
     // then
     verify(postRequestedFor(urlPathEqualTo("/v2/user.create"))
@@ -358,7 +359,7 @@ public class RetrofitApiClientTest {
                     .withBodyFile("feedback-ok.json")));
 
     // when
-    Feedback.Result result = apiClient.sendFeedback(1234, "Comments I want to make", "My Name", "ballboy@wimbledon.com");
+    Result result = apiClient.sendFeedback(1234, "Comments I want to make", "My Name", "ballboy@wimbledon.com");
 
     // then
     verify(postRequestedFor(urlPathEqualTo("/v2/feedback.add"))

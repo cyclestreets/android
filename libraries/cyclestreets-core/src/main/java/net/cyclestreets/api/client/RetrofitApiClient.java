@@ -6,13 +6,12 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import net.cyclestreets.api.Blog;
-import net.cyclestreets.api.Feedback;
 import net.cyclestreets.api.GeoPlaces;
 import net.cyclestreets.api.POI;
 import net.cyclestreets.api.POICategories;
 import net.cyclestreets.api.PhotomapCategories;
 import net.cyclestreets.api.Photos;
-import net.cyclestreets.api.Registration;
+import net.cyclestreets.api.Result;
 import net.cyclestreets.api.Signin;
 import net.cyclestreets.api.Upload;
 import net.cyclestreets.api.UserJourneys;
@@ -200,10 +199,10 @@ public class RetrofitApiClient {
     return response.body().toUserJourneys();
   }
 
-  public Registration.Result register(final String username,
-                                      final String password,
-                                      final String name,
-                                      final String email) throws IOException {
+  public Result register(final String username,
+                         final String password,
+                         final String name,
+                         final String email) throws IOException {
     Response<UserCreateResponseDto> response = v2Api.register(username, password, name, email).execute();
     return response.body().toRegistrationResult();
   }
@@ -214,10 +213,10 @@ public class RetrofitApiClient {
     return response.body().toSigninResult();
   }
 
-  public Feedback.Result sendFeedback(final int itinerary,
-                                      final String comments,
-                                      final String name,
-                                      final String email) throws IOException {
+  public Result sendFeedback(final int itinerary,
+                             final String comments,
+                             final String name,
+                             final String email) throws IOException {
     Response<SendFeedbackResponseDto> response = v2Api.sendFeedback("routing", itinerary, comments, name, email).execute();
     return response.body().toFeedbackResult();
   }

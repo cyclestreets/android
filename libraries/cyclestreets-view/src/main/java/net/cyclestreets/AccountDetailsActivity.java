@@ -1,5 +1,6 @@
 package net.cyclestreets;
 
+import net.cyclestreets.api.Result;
 import net.cyclestreets.view.R;
 import net.cyclestreets.util.Dialog;
 import net.cyclestreets.util.MessageBox;
@@ -316,7 +317,7 @@ public class AccountDetailsActivity extends Activity
     task.execute();
   } // register
   
-  private class RegisterTask extends AsyncTask<Object, Void, Registration.Result>
+  private class RegisterTask extends AsyncTask<Object, Void, Result>
   {
     private final String username_;
     private final String password_;
@@ -345,7 +346,7 @@ public class AccountDetailsActivity extends Activity
       progress_.show();
     } // onPreExecute
     
-    protected Registration.Result doInBackground(Object... params)
+    protected Result doInBackground(Object... params)
     {
       return Registration.register(username_, 
                                    password_,
@@ -354,7 +355,7 @@ public class AccountDetailsActivity extends Activity
     } // doInBackground
     
     @Override
-    protected void onPostExecute(final Registration.Result result) 
+    protected void onPostExecute(final Result result)
     {
       progress_.dismiss();
       CycleStreetsPreferences.setPendingUsernamePassword(username_, password_, name_, email_, result.ok());
