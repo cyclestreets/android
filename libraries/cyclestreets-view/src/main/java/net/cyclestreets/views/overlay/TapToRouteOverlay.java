@@ -301,7 +301,7 @@ public class TapToRouteOverlay extends Overlay
       final Location lastFix = mapView_.getLastFix();
       if(lastFix == null)
       {
-        Toast.makeText(mapView_.getContext(), R.string.no_location, Toast.LENGTH_LONG).show();
+        Toast.makeText(mapView_.getContext(), R.string.route_no_location, Toast.LENGTH_LONG).show();
         return true;
       } // if ...
 

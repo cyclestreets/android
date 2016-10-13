@@ -412,9 +412,9 @@ public class PhotoUploadActivity extends Activity
       setUploadView(photoLocation_);
       there_.recentre();
       if (photo_ == null && allowTextOnly_)
-        ((TextView)photoRoot_.findViewById(R.id.label)).setText(getString(R.string.report_where));
+        ((TextView)photoRoot_.findViewById(R.id.label)).setText(getString(R.string.report_location_hint));
       else
-        ((TextView)photoRoot_.findViewById(R.id.label)).setText(getString(R.string.photo_where));
+        ((TextView)photoRoot_.findViewById(R.id.label)).setText(getString(R.string.photo_location_hint));
       break;
     case VIEW:
       setUploadView(photoWebView_);
