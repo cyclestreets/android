@@ -1,6 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-  <string name="previous_trips">Saved Trips:</string>
-  <string name="startNewTrip">Start Trip!</string>
-  <string name="finishedButtonLabel">Finish</string>
+  <string name="journey_current_speed">Current Speed:</string>
+  <string name="journey_time">Journey Time:</string>
+  <string name="journey_distance">Distance:</string>
+  <string name="journey_finish_button">Finish</string>
+
+  <string name="completedjourney_info">journey info</string>
+  <string name="completedjourney_start_time">start time</string>
+  <string name="completedjourney_purpose">purpose of trip</string>
+
+  <string name="save_choose_purpose_hint">Finished recording. Choose a trip purpose:</string>
+  <string name="save_purpose_commute">Commute</string>
+  <string name="save_purpose_school">School</string>
+  <string name="save_purpose_work">Work-Related</string>
+  <string name="save_purpose_exercise">Exercise</string>
+  <string name="save_purpose_social">Social</string>
+  <string name="save_purpose_shopping">Shopping</string>
+  <string name="save_purpose_errand">Errand</string>
+  <string name="save_purpose_other">Other</string>
+  <string name="save_wide_blank">"     "</string>
+  <string name="save_trip_comments_hint">Comments about your trip</string>
+  <string name="save_age">Age:</string>
+  <string name="save_gender">Gender:</string>
+
+  <!-- Note to translators: These three strings form the sentence "Level of cycling experience:" -->
+  <string name="save_level_of">Level of</string>
+  <string name="save_cycling">cycling</string>
+  <string name="save_experience">experience:</string>
+
+  <string name="save_submit_button">Submit</string>
+  <string name="save_discard_button">Discard</string>
+
 </resources>
