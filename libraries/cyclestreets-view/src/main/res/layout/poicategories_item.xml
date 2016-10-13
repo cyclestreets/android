@@ -18,9 +18,8 @@
         android:layout_toRightOf="@id/icon"
         android:layout_centerVertical="true"
         android:gravity="center_vertical"
-        android:singleLine="false"
         android:ellipsize="marquee"
-        android:text="category"
+        android:text="@string/poi_category"
       />
     <CheckBox 
       android:id="@+id/checkbox"

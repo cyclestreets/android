@@ -176,13 +176,13 @@ public class PhotoUploadActivity extends Activity
     }
     
     photoCategory_ = inflater_.inflate(R.layout.addphotocategory, null);
-    backNextButtons(photoCategory_, "Back", android.R.drawable.ic_media_rew, "Next", android.R.drawable.ic_media_ff);
+    backNextButtons(photoCategory_, getString(R.string.photo_back), android.R.drawable.ic_media_rew, getString(R.string.photo_next), android.R.drawable.ic_media_ff);
 
     photoLocation_ = inflater_.inflate(R.layout.addphotolocation, null);
-    backNextButtons(photoLocation_, "Back", android.R.drawable.ic_media_rew, "Upload!", android.R.drawable.ic_menu_upload);
+    backNextButtons(photoLocation_, getString(R.string.photo_back), android.R.drawable.ic_media_rew, getString(R.string.common_upload), android.R.drawable.ic_menu_upload);
 
     photoWebView_ = inflater_.inflate(R.layout.addphotoview, null);
-    backNextButtons(photoWebView_, "Upload another", android.R.drawable.ic_menu_revert, "Close", android.R.drawable.ic_menu_close_clear_cancel);
+    backNextButtons(photoWebView_, getString(R.string.photo_upload_another), android.R.drawable.ic_menu_revert, getString(R.string.photo_close), android.R.drawable.ic_menu_close_clear_cancel);
 
     // start reading categories
     if(photomapCategories == null)
@@ -392,11 +392,11 @@ public class PhotoUploadActivity extends Activity
       // keyboard to hide, if we don't recreate the view afresh, Android won't redisplay 
       // the keyboard if we come back to this view
       photoCaption_ = inflater_.inflate(R.layout.addphotocaption, null);
-      backNextButtons(photoCaption_, "Back", android.R.drawable.ic_media_rew, "Next", android.R.drawable.ic_media_ff);
+      backNextButtons(photoCaption_, getString(R.string.photo_back), android.R.drawable.ic_media_rew, getString(R.string.photo_next), android.R.drawable.ic_media_ff);
       setUploadView(photoCaption_);
       captionEditor().setText(caption_);
       if (photo_ == null && allowTextOnly_) {
-        ((TextView)photoRoot_.findViewById(R.id.label)).setText("Your Report");
+        ((TextView)photoRoot_.findViewById(R.id.label)).setText(getString(R.string.report_title));
         ((EditText)photoRoot_.findViewById(R.id.caption)).setLines(10);
       } // if ...
       break;
@@ -412,9 +412,9 @@ public class PhotoUploadActivity extends Activity
       setUploadView(photoLocation_);
       there_.recentre();
       if (photo_ == null && allowTextOnly_)
-        ((TextView)photoRoot_.findViewById(R.id.label)).setText("Where is the location your report describes?");
+        ((TextView)photoRoot_.findViewById(R.id.label)).setText(getString(R.string.report_where));
       else
-        ((TextView)photoRoot_.findViewById(R.id.label)).setText("Where was this photo taken?");
+        ((TextView)photoRoot_.findViewById(R.id.label)).setText(getString(R.string.photo_where));
       break;
     case VIEW:
       setUploadView(photoWebView_);

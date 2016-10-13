@@ -5,43 +5,43 @@
 	<TextView
 		android:layout_width="fill_parent"
 		android:layout_height="wrap_content"
-		android:text="  "
+		android:text="@string/blank"
 		/>
 	<TextView android:id="@+id/addphoto_text"
 		android:layout_width="fill_parent"
 		android:layout_height="wrap_content"
 		android:gravity="center"
-		android:text="Upload reports of cycling-related problems or of good practice."
+		android:text="@string/photo_upload_title"
 		/>
 	<TextView
 		android:layout_width="fill_parent"
 		android:layout_height="wrap_content"
-		android:text="  "
+		android:text="@string/blank"
 		/>
 	<TextView android:id="@+id/addphoto_text2"
 		android:layout_width="fill_parent"
 		android:layout_height="wrap_content"
 		android:gravity="center"
-		android:text="These will be used so that we can report problems to decision makers."
+		android:text="@string/photo_upload_subtitle"
 		/>		
 	<TextView
 		android:layout_width="fill_parent"
 		android:layout_height="wrap_content"
-		android:text="  "
+		android:text="@string/blank"
 		/>
 	<Button android:id="@+id/takephoto_button"
 		android:layout_width="fill_parent"
 		android:layout_height="wrap_content"
-		android:text="Take a photo"/>
+		android:text="@string/photo_take"/>
 	<Button android:id="@+id/chooseexisting_button"
 		android:layout_width="fill_parent"
 		android:layout_height="wrap_content"
-		android:text="Select existing photo"/>
+		android:text="@string/photo_select_existing"/>
 
   <TextView
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:text="  "
+    android:text="@string/blank"
     android:id="@+id/textView"
     android:layout_gravity="center_horizontal"/>
 
@@ -50,5 +50,5 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_gravity="center_horizontal"
-    android:text="Continue without photo"/>
+    android:text="@string/photo_continue_without"/>
 </LinearLayout>

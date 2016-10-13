@@ -3,14 +3,18 @@
 	android:layout_width="fill_parent"
 	android:layout_height="wrap_content"
 	android:gravity="bottom">
-  <Button android:text="Back"
-          android:id="@+id/back"
-          android:layout_height="wrap_content"
-          android:layout_weight="1.0"
-          android:layout_width="30dip"></Button>
-  <Button android:text="Next"
-          android:id="@+id/next"
-    	    android:layout_height="wrap_content"
-    	    android:layout_weight="1.0"
-    	    android:layout_width="30dip"></Button>
+
+	<Button
+		android:text="@string/photo_back"
+		android:id="@+id/back"
+		android:layout_height="wrap_content"
+		android:layout_weight="1.0"
+		android:layout_width="30dip"/>
+
+	<Button
+		android:text="@string/photo_next"
+		android:id="@+id/next"
+		android:layout_height="wrap_content"
+		android:layout_weight="1.0"
+		android:layout_width="30dip"/>
 </LinearLayout>

@@ -15,12 +15,12 @@
     android:gravity="center"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
-    android:text="Where was this photo taken?"/>
+    android:text="@string/photo_where"/>
   <TextView
     android:id="@+id/nogeo"
     android:gravity="center"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
-    android:text="The photo could not be geolocated. To automatically locate photos, please turn on geolocation in your Camera settings."/>
+    android:text="@string/photo_not_geolocatable"/>
 	<include layout="@layout/addphotonext"/>
 </LinearLayout>
