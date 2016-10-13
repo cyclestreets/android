@@ -22,7 +22,7 @@
 		<TextView
 		    android:layout_height="wrap_content" 
 			android:layout_width="fill_parent"
-		    android:text=" "/>
+		    android:text="@string/blank"/>
 		<TextView 
 			android:id="@+id/photo_url"
 			android:gravity="center"
@@ -31,10 +31,10 @@
 			android:background="#000000"
 			android:textColor="#ffffff"/>		     
 	</LinearLayout>
-    <Button android:text="Share this photo" 
-    	android:id="@+id/photo_share"
-      android:drawableRight="@android:drawable/ic_menu_share"
-      android:layout_height="wrap_content"
-	 	android:layout_width="fill_parent"/>
+    <Button android:text="@string/photo_share"
+			android:id="@+id/photo_share"
+			android:drawableRight="@android:drawable/ic_menu_share"
+			android:layout_height="wrap_content"
+			android:layout_width="fill_parent"/>
 	<include layout="@layout/addphotonext"/>
 </LinearLayout>

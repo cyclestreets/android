@@ -15,7 +15,6 @@
         android:gravity="center_vertical|center_horizontal"
         android:textAppearance="?android:attr/textAppearanceMediumInverse"
         android:padding="6dip"
-        android:singleLine="false"
         android:text="@string/location_list_header"
         />
   </RelativeLayout>

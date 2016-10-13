@@ -15,13 +15,12 @@
       <TextView
 	  android:layout_width="fill_parent"
 	  android:layout_height="wrap_content"
-	  android:text="Your comments"/>
+	  android:text="@string/feedback_your_comments"/>
       <EditText
 	  android:id="@+id/comments"
-	  android:singleLine="false" 
-	  android:lines="8" 
+	  android:lines="8"
 	  android:minLines="8" 
-	  android:gravity="top|left" 
+	  android:gravity="top|left"
 	  android:maxLines="8" 
 	  android:layout_height="wrap_content" 
 	  android:layout_width="fill_parent" 
@@ -30,7 +29,7 @@
       <TextView 
 	  android:layout_width="fill_parent"
 	  android:layout_height="wrap_content"
-	  android:text="Your name"/>
+	  android:text="@string/common_your_name"/>
       <EditText 
 	  android:id="@+id/name"
 	  android:layout_width="fill_parent"
@@ -39,7 +38,7 @@
       <TextView 
 	  android:layout_width="fill_parent"
 	  android:layout_height="wrap_content"
-	  android:text="Your email address"/>
+	  android:text="@string/common_your_email"/>
       <EditText 
 	  android:id="@+id/email"
 	  android:layout_width="fill_parent"
@@ -56,7 +55,7 @@
 	android:layout_width="0.0dip"
 	android:layout_height="fill_parent"
 	android:layout_weight="1"/>				
-    <Button android:text="Upload!" 
+    <Button android:text="@string/common_upload"
 	    android:id="@+id/upload" 
 	    android:layout_height="wrap_content" 
 	    android:layout_weight="1" 

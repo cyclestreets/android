@@ -25,7 +25,6 @@
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:singleLine="false"
         android:ellipsize="marquee"
         android:text="Street" />
     <LinearLayout
