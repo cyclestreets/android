@@ -5,7 +5,7 @@
 	<TextView
 		android:layout_width="fill_parent"
 		android:layout_height="wrap_content"
-		android:text="@string/blank"
+		android:text="@string/all_blank"
 		/>
 	<TextView android:id="@+id/addphoto_text"
 		android:layout_width="fill_parent"
@@ -16,7 +16,7 @@
 	<TextView
 		android:layout_width="fill_parent"
 		android:layout_height="wrap_content"
-		android:text="@string/blank"
+		android:text="@string/all_blank"
 		/>
 	<TextView android:id="@+id/addphoto_text2"
 		android:layout_width="fill_parent"
@@ -27,7 +27,7 @@
 	<TextView
 		android:layout_width="fill_parent"
 		android:layout_height="wrap_content"
-		android:text="@string/blank"
+		android:text="@string/all_blank"
 		/>
 	<Button android:id="@+id/takephoto_button"
 		android:layout_width="fill_parent"
@@ -41,7 +41,7 @@
   <TextView
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:text="@string/blank"
+    android:text="@string/all_blank"
     android:id="@+id/textView"
     android:layout_gravity="center_horizontal"/>
 

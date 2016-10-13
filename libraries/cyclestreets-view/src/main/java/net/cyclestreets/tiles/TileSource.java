@@ -41,7 +41,7 @@ public class TileSource {
           ((MapsforgeOSMTileSource)renderer).setMapFile(mapFile);
         else {
           MessageBox.YesNo(context,
-              R.string.out_of_date_map_pack,
+              R.string.tiles_map_pack_out_of_date,
               new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface arg0, int arg1) {
                   MapPack.searchGooglePlay(context);

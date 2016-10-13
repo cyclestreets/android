@@ -2,28 +2,28 @@
 <resources>
   <string name="app_name">CycleStreets</string>
 
-  <string name="blank" translatable="false">"  "</string>
+  <string name="all_blank" translatable="false">"  "</string>
 
-  <string name="finding_route">Obtaining route from CycleStreets.net, please wait</string>
-  <string name="fetching_route">Fetching route from CycleStreets.net, please wait</string>
-  <string name="route_failed">Route finding failed</string>
-  <string name="loading_route">Loading route, please wait</string>
-  <string name="uploading_photo">Uploading report, please wait</string>
+  <string name="route_finding_new">Obtaining route from CycleStreets.net, please wait</string>
+  <string name="route_fetching_existing">Fetching route from CycleStreets.net, please wait</string>
+  <string name="route_finding_failed">Route finding failed</string>
+  <string name="route_loading">Loading route, please wait</string>
+  <string name="photo_uploading">Uploading report, please wait</string>
 
-  <string name="ic_menu_replan">Change route type</string>
-  <string name="ic_menu_reverse">Reverse route</string>
-  <string name="ic_menu_share">Share this route</string>
-  <string name="ic_menu_feedback">Comment on this route</string>
-  <string name="ic_menu_replan_fastest">Replan as fastest</string>
-  <string name="ic_menu_replan_balanced">Replan as balanced</string>
-  <string name="ic_menu_replan_quietest">Replan as quietest</string>
-  <string name="ic_menu_replan_shortest">Replan as shortest</string>
-  <string name="ic_menu_reroute_from_here">Reroute from current location</string>
+  <string name="route_menu_change">Change route type</string>
+  <string name="route_menu_change_reverse">Reverse route</string>
+  <string name="route_menu_change_share">Share this route</string>
+  <string name="route_menu_change_comment">Comment on this route</string>
+  <string name="route_menu_change_replan_fastest">Replan as fastest</string>
+  <string name="route_menu_change_replan_balanced">Replan as balanced</string>
+  <string name="route_menu_change_replan_quietest">Replan as quietest</string>
+  <string name="route_menu_change_replan_shortest">Replan as shortest</string>
+  <string name="route_menu_change_reroute_from_here">Reroute from current location</string>
 
-  <string name="ic_menu_restart">Start again</string>
-  <string name="ic_menu_back">Back</string>
+  <string name="all_menu_restart">Start again</string>
+  <string name="all_menu_back">Back</string>
 
-  <string name="no_location">Location not currently available.</string>
+  <string name="route_no_location">Location not currently available.</string>
 
   <string name="photo_upload_title">Upload reports of cycling-related problems or of good practice.</string>
   <string name="photo_upload_subtitle">These will be used so that we can report problems to decision makers.</string>
@@ -34,18 +34,18 @@
   <string name="photo_good_or_bad">Is this a problem or good practice?</string>
   <string name="photo_what_feature_type">What type of feature is being shown</string>
   <string name="photo_share">Share this photo</string>
-  <string name="photo_back">Back</string>
-  <string name="photo_next">Next</string>
-  <string name="photo_close">Close</string>
+  <string name="all_button_back">Back</string>
+  <string name="all_button_next">Next</string>
+  <string name="all_button_close">Close</string>
   <string name="photo_upload_another">Upload another</string>
   <string name="photo_where">Where was this photo taken?</string>
   <string name="photo_not_geolocatable">The photo could not be geolocated. To automatically locate photos, please turn on geolocation in your Camera settings.</string>
   <string name="report_title">Your Report</string>
   <string name="report_where">Where is the location your report describes?</string>
 
-  <string name="out_of_date_map_pack">This map pack is cannot be used with this version of the app. \n\nWould you like to search for an update?</string>
+  <string name="tiles_map_pack_out_of_date">This map pack is cannot be used with this version of the app. \n\nWould you like to search for an update?</string>
 
-  <string name="ic_menu_mylocation">Show location</string>
+  <string name="location_menu_mylocation">Show location</string>
 
   <string name="placeview_menu">Menu</string>
   <string name="placeview_current_location">Current Location</string>
@@ -58,28 +58,27 @@
   <string name="placeview_remove">Remove</string>
   <string name="placeview_saved_locations">Saved Locations</string>
 
-  <string name="ic_menu_poi">Points of Interest</string>
-  <string name="ic_menu_poi_clear_all">Clear all</string>
+  <string name="poi_menu_title">Points of Interest</string>
 
-  <string name="signing_in">Signing into CycleStreets.net</string>
-  <string name="registering">Registering with CycleStreets.net</string>
-  <string name="sending_feedback">Sending route feedback to CycleStreets.net</string>
+  <string name="account_signing_in">Signing into CycleStreets.net</string>
+  <string name="account_registering">Registering with CycleStreets.net</string>
+  <string name="feedback_sending">Sending route feedback to CycleStreets.net</string>
 
-  <string name="no_map_packs">You do not have any map packs installed.  Vector maps for
+  <string name="settings_no_map_packs">You do not have any map packs installed.  Vector maps for
 	    offline use are available as separate downloads.
 	    \n\nWould you like to search for map packs now?</string>
   <string name="settings_signed_in">Signed in to CycleStreets</string>
   <string name="settings_awaiting">Account registration awaiting verification</string>
 
-  <string name="common_upload">Upload!</string>
-  <string name="common_your_name">Your name</string>
-  <string name="common_your_email">Your email address</string>
+  <string name="all_upload">Upload!</string>
+  <string name="all_your_name">Your name</string>
+  <string name="all_your_email">Your email address</string>
 
   <string name="feedback_your_comments">Your comments</string>
 
-  <string name="account_required">To upload photos you must have a CycleStreets signin account.</string>
-  <string name="account_registering_free">Registering for an account is free.</string>
-  <string name="account_register">Register for an account</string>
+  <string name="account_required_for_photos">To upload photos you must have a CycleStreets signin account.</string>
+  <string name="account_registering_is_free">Registering for an account is free.</string>
+  <string name="account_register_message">Register for an account</string>
   <string name="account_signin_with_existing">Signin with an existing account</string>
   <string name="account_desired_username">Desired username</string>
   <string name="account_desired_password">Desired password</string>
@@ -89,10 +88,10 @@
   <string name="account_signin_message">Please enter your account username and password to sign in.</string>
   <string name="account_username">Username</string>
   <string name="account_password">Password</string>
-  <string name="account_clear_stored">Clear stored details</string>
-  <string name="account_signin">Sign in</string>
+  <string name="account_clear_stored_button">Clear stored details</string>
+  <string name="account_signin_button">Sign in</string>
 
-  <string name="route_type">Route type</string>
-  <string name="poi_category">category</string>
+  <string name="journey_route_type">Route type</string>
+  <string name="poi_menu_entry">category</string>
 
 </resources>

@@ -15,7 +15,7 @@ public class ReplanRoutingTask
 	                  final RouteDatabase db,
 	                  final Context context)
 	{
-		super(R.string.loading_route, context);
+		super(R.string.route_loading, context);
 		db_ = db;
 		newPlan_ = newPlan;
 	} // ReplanRouteTask
@@ -28,7 +28,7 @@ public class ReplanRoutingTask
 	  if(rd != null)
 		  return rd;
 
-	  publishProgress(R.string.finding_route);
+	  publishProgress(R.string.route_finding_new);
 	  return fetchRoute(newPlan_, pr.itinerary(), 0, pr.waypoints());
 	} // doInBackground
 } // class ReplanRoutingTask

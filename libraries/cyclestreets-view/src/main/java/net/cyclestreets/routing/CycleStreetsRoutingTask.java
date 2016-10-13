@@ -15,7 +15,7 @@ class CycleStreetsRoutingTask extends RoutingTask<Waypoints>
 				                  final int speed,
 				                  final Context context)
 	{
-	  super(R.string.finding_route, context);
+	  super(R.string.route_finding_new, context);
 		routeType_ = routeType;
 		speed_ = speed;
 	} // NewRouteTask

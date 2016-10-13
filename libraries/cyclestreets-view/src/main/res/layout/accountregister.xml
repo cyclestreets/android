@@ -15,21 +15,21 @@
       <TextView
 	  android:layout_width="fill_parent"
 	  android:layout_height="wrap_content"
-	  android:text="@string/blank"/>
+	  android:text="@string/all_blank"/>
       <TextView 
 	  android:id="@+id/registration_message"
 	  android:layout_width="fill_parent"
 	  android:layout_height="wrap_content"
 	  android:gravity="center"
-	  android:text="@string/blank"/>
+	  android:text="@string/all_blank"/>
       <TextView
 	  android:layout_width="fill_parent"
 	  android:layout_height="wrap_content"
-	  android:text="@string/blank"/>
+	  android:text="@string/all_blank"/>
       <TextView
 	  android:layout_width="fill_parent"
 	  android:layout_height="wrap_content"
-	  android:text="@string/common_your_name"/>
+	  android:text="@string/all_your_name"/>
       <EditText
 	  android:id="@+id/name"
 	  android:layout_height="wrap_content" 
@@ -38,7 +38,7 @@
       <TextView
 	  android:layout_width="fill_parent"
 	  android:layout_height="wrap_content"
-	  android:text="@string/common_your_email"/>
+	  android:text="@string/all_your_email"/>
       <EditText
 	  android:id="@+id/email"
 	  android:layout_height="wrap_content" 
@@ -47,7 +47,7 @@
       <TextView
 	  android:layout_width="fill_parent"
 	  android:layout_height="wrap_content"
-	  android:text="@string/blank"/>
+	  android:text="@string/all_blank"/>
       <TextView
 	  android:layout_width="fill_parent"
 	  android:layout_height="wrap_content"

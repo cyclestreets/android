@@ -124,19 +124,19 @@ public class LocationOverlay extends MyLocationNewOverlay
   ////////////////////////////////////////////////
   @Override
   public void onCreateOptionsMenu(final Menu menu) {
-    createMenuItem(menu, R.string.ic_menu_mylocation, Menu.NONE, R.drawable.ic_menu_mylocation);
+    createMenuItem(menu, R.string.location_menu_mylocation, Menu.NONE, R.drawable.ic_menu_mylocation);
   } // onCreateOptionsMenu
 
   @Override
   public void onPrepareOptionsMenu(final Menu menu) {
-    final MenuItem item = enableMenuItem(menu, R.string.ic_menu_mylocation, true);
+    final MenuItem item = enableMenuItem(menu, R.string.location_menu_mylocation, true);
     if(item != null)
       item.setTitle(isMyLocationEnabled() ? LOCATION_OFF : LOCATION_ON);
   } // onPrepareOptionsMenu
 
   @Override
   public boolean onMenuItemSelected(final int featureId, final MenuItem item) {
-    if(item.getItemId() != R.string.ic_menu_mylocation)
+    if(item.getItemId() != R.string.location_menu_mylocation)
       return false;
 
     enableAndFollowLocation(!isMyLocationEnabled());

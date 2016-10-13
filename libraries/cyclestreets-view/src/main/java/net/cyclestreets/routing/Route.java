@@ -144,7 +144,7 @@ public class Route
       return true;
     } // try
     catch(Exception e) {
-      Toast.makeText(context_, R.string.route_failed, Toast.LENGTH_LONG).show();
+      Toast.makeText(context_, R.string.route_finding_failed, Toast.LENGTH_LONG).show();
     }
     return false;
   } // onNewJourney

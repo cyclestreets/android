@@ -58,15 +58,15 @@ public class TapToRouteOverlay extends Overlay
                                           PauseResumeListener,
                                           Route.Listener
 {
-  private static int[] Replan_Menu_Ids = { R.string.ic_menu_replan_quietest,
-                                           R.string.ic_menu_replan_balanced,
-                                           R.string.ic_menu_replan_fastest,
-                                           R.string.ic_menu_replan_shortest };
+  private static int[] Replan_Menu_Ids = { R.string.route_menu_change_replan_quietest,
+                                           R.string.route_menu_change_replan_balanced,
+                                           R.string.route_menu_change_replan_fastest,
+                                           R.string.route_menu_change_replan_shortest};
   private static Map<Integer, String> Replan_Menu_Plans =
-      Collections.map(R.string.ic_menu_replan_quietest, RoutePlans.PLAN_QUIETEST)
-                 .map(R.string.ic_menu_replan_balanced, RoutePlans.PLAN_BALANCED)
-                 .map(R.string.ic_menu_replan_fastest, RoutePlans.PLAN_FASTEST)
-                 .map(R.string.ic_menu_replan_shortest, RoutePlans.PLAN_SHORTEST);
+      Collections.map(R.string.route_menu_change_replan_quietest, RoutePlans.PLAN_QUIETEST)
+                 .map(R.string.route_menu_change_replan_balanced, RoutePlans.PLAN_BALANCED)
+                 .map(R.string.route_menu_change_replan_fastest, RoutePlans.PLAN_FASTEST)
+                 .map(R.string.route_menu_change_replan_shortest, RoutePlans.PLAN_SHORTEST);
 
   private final Drawable greenWisp_;
   private final Drawable orangeWisp_;
@@ -253,13 +253,13 @@ public class TapToRouteOverlay extends Overlay
   @Override
   public void onCreateOptionsMenu(final Menu menu)
   {
-    createMenuItem(menu, R.string.ic_menu_replan, Menu.FIRST, R.drawable.ic_menu_more);
+    createMenuItem(menu, R.string.route_menu_change, Menu.FIRST, R.drawable.ic_menu_more);
   } // onCreateOptionsMenu
 
   @Override
   public void onPrepareOptionsMenu(final Menu menu)
   {
-    showMenuItem(menu, R.string.ic_menu_replan, tapState_ == TapToRoute.ALL_DONE);
+    showMenuItem(menu, R.string.route_menu_change, tapState_ == TapToRoute.ALL_DONE);
   } // onPrepareOptionsMenu
 
   @Override
@@ -273,10 +273,10 @@ public class TapToRouteOverlay extends Overlay
       if(!currentPlan.equals(Replan_Menu_Plans.get(id)))
         createMenuItem(menu, id);
     if(mapView_.isMyLocationEnabled())
-      createMenuItem(menu, R.string.ic_menu_reroute_from_here);
-    createMenuItem(menu, R.string.ic_menu_reverse);
-    createMenuItem(menu, R.string.ic_menu_share);
-    createMenuItem(menu, R.string.ic_menu_feedback);
+      createMenuItem(menu, R.string.route_menu_change_reroute_from_here);
+    createMenuItem(menu, R.string.route_menu_change_reverse);
+    createMenuItem(menu, R.string.route_menu_change_share);
+    createMenuItem(menu, R.string.route_menu_change_comment);
   } // onCreateContextMenu
 
   @Override
@@ -284,7 +284,7 @@ public class TapToRouteOverlay extends Overlay
   {
     final int menuId = item.getItemId();
 
-    if(menuId == R.string.ic_menu_replan)
+    if(menuId == R.string.route_menu_change)
     {
       mapView_.showContextMenu();
       return true;
@@ -296,7 +296,7 @@ public class TapToRouteOverlay extends Overlay
       return true;
     } // if ...
 
-    if(R.string.ic_menu_reroute_from_here == menuId)
+    if(R.string.route_menu_change_reroute_from_here == menuId)
     {
       final Location lastFix = mapView_.getLastFix();
       if(lastFix == null)
@@ -309,18 +309,18 @@ public class TapToRouteOverlay extends Overlay
                                          (int)(lastFix.getLongitude() * 1E6));
       onRouteNow(Waypoints.fromTo(from, finish()));
     }
-    if(R.string.ic_menu_reverse == menuId) {
+    if(R.string.route_menu_change_reverse == menuId) {
       onRouteNow(waypoints().reversed());
       return true;
     }
-    if(R.string.ic_menu_share == menuId) {
+    if(R.string.route_menu_change_share == menuId) {
       Share.Url(mapView_,
           Route.journey().url(),
           Route.journey().name(),
           "CycleStreets journey");
       return true;
     }
-    if(R.string.ic_menu_feedback == menuId) {
+    if(R.string.route_menu_change_comment == menuId) {
       final Context context = mapView_.getContext();
       context.startActivity(new Intent(context, FeedbackActivity.class));
       return true;
