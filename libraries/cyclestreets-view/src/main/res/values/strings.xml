@@ -46,6 +46,7 @@
 
   <string name="signing_in">Signing into CycleStreets.net</string>
   <string name="registering">Registering with CycleStreets.net</string>
+  <string name="sending_feedback">Sending route feedback to CycleStreets.net</string>
 
   <string name="no_map_packs">You do not have any map packs installed.  Vector maps for
 	    offline use are available as separate downloads.

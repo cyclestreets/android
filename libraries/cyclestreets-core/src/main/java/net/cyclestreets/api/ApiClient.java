@@ -94,10 +94,10 @@ public class ApiClient
     return retrofitApiClient.geoCoder(search, w, s, e, n);
   }
 
-  static Feedback.Result sendFeedback(final int itinerary,
-                                      final String comments,
-                                      final String name,
-                                      final String email) throws IOException {
+  static Result sendFeedback(final int itinerary,
+                             final String comments,
+                             final String name,
+                             final String email) throws IOException {
     return retrofitApiClient.sendFeedback(itinerary, comments, name, email);
   }
 
@@ -119,10 +119,10 @@ public class ApiClient
     return retrofitApiClient.authenticate(username, password);
   }
 
-  static Registration.Result register(final String username,
-                                      final String password,
-                                      final String name,
-                                      final String email) throws IOException {
+  static Result register(final String username,
+                         final String password,
+                         final String name,
+                         final String email) throws IOException {
     return retrofitApiClient.register(username, password, name, email);
   }
 

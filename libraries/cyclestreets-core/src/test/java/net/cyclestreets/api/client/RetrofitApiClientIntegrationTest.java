@@ -13,6 +13,7 @@ import net.cyclestreets.api.Photo;
 import net.cyclestreets.api.PhotomapCategories;
 import net.cyclestreets.api.Photos;
 import net.cyclestreets.api.Registration;
+import net.cyclestreets.api.Result;
 import net.cyclestreets.api.Signin;
 import net.cyclestreets.api.Upload;
 import net.cyclestreets.api.UserJourney;
@@ -117,7 +118,7 @@ public class RetrofitApiClientIntegrationTest {
     // Apologies for the test users that this method generates - we should probably delete them...
     String random = String.valueOf(new Random().nextInt(100000));
     System.out.println("Registering user test" + random);
-    Registration.Result result = apiClient.register("test" + random, "pwd1234", "friendlyname", "test" + random + "@nosuchdomain.com");
+    Result result = apiClient.register("test" + random, "pwd1234", "friendlyname", "test" + random + "@nosuchdomain.com");
     System.out.println(result.ok());
     System.out.println(result.message());
     assertThat(result.ok(), is(true));
@@ -135,7 +136,7 @@ public class RetrofitApiClientIntegrationTest {
 
   @Test
   public void hitSendFeedbackApi() throws Exception {
-    Feedback.Result result = apiClient.sendFeedback(1234, "test comment", "test", "test@nosuchdomain.com");
+    Result result = apiClient.sendFeedback(1234, "test comment", "test", "test@nosuchdomain.com");
     System.out.println(result.ok());
     System.out.println(result.message());
     assertThat(result.ok(), is(true));
