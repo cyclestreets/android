@@ -1,0 +1,101 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+  <PreferenceScreen
+      android:title="Maps display">
+    <ListPreference
+        android:key="mapstyle"
+        android:title="Map style"
+        android:summary="OpenStreetMap"
+        android:defaultValue="CycleStreets-OSM"/>
+    <ListPreference
+        android:key="mapfile"
+        android:title="Vector mapfile"/>
+    <CheckBoxPreference
+      android:key="confirm-new-route"
+      android:title="Confirm start new route"
+      android:defaultValue="true"/>
+  </PreferenceScreen>
+  <PreferenceScreen
+      android:title="Routing preferences">
+    <ListPreference
+        android:key="routetype"
+        android:title="Route type default"
+        android:summary="Balanced"
+        android:defaultValue="balanced"
+        android:entries="@array/routetype"
+        android:entryValues="@array/routetype_values" />
+    <ListPreference
+        android:key="speed"
+        android:title="Cycling speed"
+        android:summary="20 km/h"
+        android:defaultValue="20"
+        android:entries="@array/speed"
+        android:entryValues="@array/speed_values" />
+    <ListPreference
+        android:key="units"
+        android:title="Units"
+        android:summary="Kilometres"
+        android:defaultValue="km"
+        android:entries="@array/units"
+        android:entryValues="@array/unit_values"/>
+  </PreferenceScreen>
+  <PreferenceScreen
+      android:title="LiveRide">
+    <ListPreference
+        android:key="nearing-turn-distance"
+        android:title="Turn warning distance"
+        android:summary="100 m"
+        android:defaultValue="100"
+        android:entries="@array/distance"
+        android:entryValues="@array/distance_values" />
+    <ListPreference
+        android:key="offtrack-distance"
+        android:title="Going off course distance"
+        android:summary="30 m"
+        android:defaultValue="30"
+        android:entries="@array/distance"
+        android:entryValues="@array/distance_values" />
+    <ListPreference
+        android:key="replan-distance"
+        android:title="Route replanning distance"
+        android:summary="50 m"
+        android:defaultValue="50"
+        android:entries="@array/distance"
+        android:entryValues="@array/distance_values" />
+    <CheckBoxPreference
+        android:defaultValue="true"
+        android:key="pebble-voice"
+        android:title="Pebble silence"
+        android:summary="Silence voice when Pebble connected"
+        />
+  </PreferenceScreen>
+  <PreferenceScreen
+      android:title="Saved locations">
+    <intent android:action="net.cyclestreets.LocationsActivity"/>
+  </PreferenceScreen>
+  <PreferenceScreen
+      android:title="CycleStreets account">
+    <PreferenceScreen
+        android:title="Account details"
+        android:key="cyclestreets-account">
+      <intent android:action="net.cyclestreets.AccountDetailsActivity"/>
+      <EditTextPreference
+          android:key="username"
+          android:title="Username"/>
+      <EditTextPreference
+          android:key="password"
+          android:title="Password"
+          android:password="true"/>
+    </PreferenceScreen>
+    <ListPreference
+        android:key="uploadsize"
+        android:title="Photo upload"
+        android:summary="medium"
+        android:defaultValue="big"
+        android:entries="@array/uploadsize"
+        android:entryValues="@array/uploadsize_values"/>
+  </PreferenceScreen>
+  <PreferenceScreen
+      android:title="About">
+    <intent android:action="net.cyclestreets.AboutActivity"/>
+  </PreferenceScreen>
+</PreferenceScreen>

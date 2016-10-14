@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+
+  <RelativeLayout android:layout_height="wrap_content" android:layout_width="match_parent" android:layout_marginTop="5sp">
+    <TextView android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_alignParentLeft="true"
+              android:textStyle="bold"
+              android:layout_marginTop="5sp"
+              android:textSize="26sp"
+              android:text="Distance:" ></TextView>
+    <TextView android:id="@+id/journey_distance"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_alignParentRight="true"
+              android:textStyle="bold"
+              android:layout_marginTop="5sp"
+              android:layout_marginRight="5sp" android:textSize="26sp"></TextView>
+  </RelativeLayout>
+  <RelativeLayout android:layout_height="wrap_content" android:layout_width="match_parent" android:layout_marginTop="5sp">
+    <TextView android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_alignParentLeft="true"
+              android:textStyle="bold"
+              android:layout_marginTop="5sp"
+              android:textSize="26sp"
+              android:text="Journey Time:" ></TextView>
+    <TextView android:id="@+id/journey_time"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_alignParentRight="true"
+              android:textStyle="bold"
+              android:layout_marginTop="5sp"
+              android:layout_marginRight="5sp" android:textSize="26sp"></TextView>
+  </RelativeLayout>
+  <RelativeLayout android:layout_height="wrap_content" android:layout_width="match_parent" android:layout_marginTop="5sp">
+    <TextView android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_alignParentLeft="true"
+              android:textStyle="bold"
+              android:layout_marginTop="5sp"
+              android:textSize="26sp"
+              android:text="Current Speed:" ></TextView>
+    <TextView android:id="@+id/journey_speed"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_alignParentRight="true"
+              android:textStyle="bold"
+              android:layout_marginTop="5sp"
+              android:layout_marginRight="5sp" android:textSize="26sp"></TextView>
+  </RelativeLayout>
+
+  <RelativeLayout
+    android:id="@+id/mapholder"
+    android:layout_width="match_parent"
+    android:layout_height="0dp"
+    android:orientation="vertical"
+    android:layout_weight="5.0"
+    android:padding="4.0dip">
+    <TextView
+      android:layout_width="fill_parent"
+      android:layout_height="wrap_content"
+      android:text=""/>
+  </RelativeLayout>
+  <Button android:id="@+id/ButtonFinished"
+          android:text="@string/finishedButtonLabel"
+          android:layout_height="wrap_content"
+          android:layout_width="match_parent"
+          android:drawableLeft="@android:drawable/ic_media_next"
+          android:textStyle="bold" android:textSize="18sp"></Button>
+</LinearLayout>

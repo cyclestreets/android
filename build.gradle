@@ -1,0 +1,134 @@
+buildscript {
+  repositories {
+    mavenCentral()
+  }
+  dependencies {
+    classpath 'com.android.tools.build:gradle:2.1.2'
+    classpath 'com.jakewharton.sdkmanager:gradle-plugin:0.12.+'
+  }
+}
+
+configure(subprojects.findAll { it.path.startsWith(':custom-versions:') ||
+                                it.path.startsWith(':cyclestreets') }) {
+  if (!file("${projectDir}/build.gradle").exists())
+    return
+
+  //apply plugin: 'android-sdk-manager'
+  apply plugin: 'com.android.application'
+
+  signingKey(it)
+  manifestProperties(it)
+  versionProperties(it)
+} // configure apks
+
+configure(subprojects.findAll { it.path.startsWith(':libraries:') }) {
+  if (!file("${projectDir}/build.gradle").exists())
+    return
+
+  //apply plugin: 'android-sdk-manager'
+  apply plugin: 'com.android.library'
+} // configure libraries
+
+subprojects {
+  if (!file("${projectDir}/build.gradle").exists())
+    return
+
+  repositories {
+    mavenCentral()
+  }
+
+  android {
+    Properties appConfig = loadProperties("${rootDir}/config.properties")
+
+    compileSdkVersion appConfig['compileSdkVersion'].toInteger()
+    buildToolsVersion appConfig['toolsVersion']
+
+    compileOptions {
+      sourceCompatibility JavaVersion.VERSION_1_7
+      targetCompatibility JavaVersion.VERSION_1_7
+    }
+
+    defaultConfig {
+      minSdkVersion appConfig['minSdkVersion'].toInteger()
+      targetSdkVersion appConfig['targetSdkVersion'].toInteger()
+    }
+
+    packagingOptions {
+      exclude 'META-INF/LICENSE'
+      exclude 'META-INF/LICENSE.txt'
+      exclude 'META-INF/DEPENDENCIES'
+      exclude 'META-INF/NOTICE'
+      exclude 'META-INF/NOTICE.txt'
+    } // packagingOptions
+
+    // Required due to strictness of the Android developer tools.  See lint.xml for full details.
+    lintOptions {
+      lintConfig rootProject.file('gradle/lint.xml')
+    }
+  } // android
+} // subprojects
+
+def loadProperties(fileName) {
+  Properties props = new Properties()
+  props.load(new FileInputStream(file(fileName)))
+  return props;
+} // loadProperties
+
+def manifestProperties(project) {
+  def cyclestreetsDetails = project.file("cyclestreets.properties")
+  if (!cyclestreetsDetails.exists()) {
+    println ":${project.name}:No cyclestreets.properties"
+    return;
+  } // no cyclestreets props
+
+  project.android {
+    buildTypes {
+      all {
+        manifestPlaceholders = loadProperties(cyclestreetsDetails)
+      }
+    } // buildType
+  } // android
+} // manifestProperties
+
+def versionProperties(project) {
+  def versionDetails = project.file("version.properties")
+  def versionConfig = [ versionCode: "-1", versionName: "unknown" ]
+  if (versionDetails.exists())
+    versionConfig = loadProperties(versionDetails)
+  else
+    println ":${project.name}:No version.properties, using placeholder defaults"
+
+  project.android {
+    defaultConfig {
+      versionCode versionConfig['versionCode'].toInteger()
+      versionName versionConfig['versionName']
+    }
+  } // android
+} // versionProperties
+
+def signingKey(project) {
+  def licenseDetails = project.file("license.properties");
+  if (!licenseDetails.exists()) {
+    println ":${project.name}:No license.properties"
+    return;
+  } // licenseDetails.exists
+
+  Properties props = loadProperties(licenseDetails)
+
+  project.android {
+    signingConfigs {
+      release {
+        storeFile project.file(props['key.store'])
+        storePassword props['key.password']
+        keyAlias props['key.alias']
+        keyPassword props['key.password']
+      }
+    } // signingConfigs
+
+    buildTypes {
+      release {
+        signingConfig signingConfigs.release
+      }
+    } // buildTypes
+  } // android
+} // signingKey

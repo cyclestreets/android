@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+	    android:orientation="vertical"
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    android:clipChildren="false"
+	    android:paddingLeft="9dip"
+	    android:paddingRight="9dip"
+	    android:paddingTop="12dip"
+	    android:paddingBottom="6dip"
+      android:background="?android:attr/colorBackground">
+	<LinearLayout
+	    android:orientation="vertical"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content">
+	 <LinearLayout
+	    android:id="@+id/places"
+	    android:orientation="vertical"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_marginLeft="2.0dip" 
+      android:layout_marginTop="1.0dip" 
+      android:layout_marginRight="2.0dip" 
+      android:layout_marginBottom="2.0dip">
+  </LinearLayout>
+
+  <!-- Route type / Go =============================== -->
+	<LinearLayout
+	    android:orientation="vertical"
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content">
+
+      <Button
+          android:id="@+id/addVia"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:text="@string/addvia" />
+    <net.cyclestreets.views.RouteType
+        android:id="@+id/routeType"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"/>
+  </LinearLayout>
+
+  </LinearLayout>
+</ScrollView>

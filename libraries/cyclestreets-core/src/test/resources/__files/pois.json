@@ -1,0 +1,117 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "101399",
+        "name": "Chris's Bikes",
+        "notes": "The notes section",
+        "website": "http://www.madeup.com"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          0.091919,
+          52.225338
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "101404",
+        "name": "Bishops of Histon",
+        "notes": "",
+        "website": null
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          0.127319,
+          52.214512
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "101406",
+        "name": "D Tek",
+        "notes": "",
+        "website": null
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          0.109873,
+          52.238747
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "113230",
+        "name": "Primo Cycles",
+        "notes": "",
+        "website": null
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          0.133025,
+          52.205715
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "113235",
+        "name": "Station Cycles",
+        "notes": "",
+        "website": null
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          0.105464,
+          52.252403
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "113266",
+        "name": "Ben Hayward Cycles",
+        "notes": "",
+        "website": null
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          0.185512,
+          52.23917
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "113267",
+        "name": "Bicycle Ambulance",
+        "notes": "",
+        "website": null
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          0.120061,
+          52.209179
+        ]
+      }
+    }
+  ]
+}

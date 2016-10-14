@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<lint>
+    <issue id="InvalidPackage">
+        <!-- https://github.com/FasterXML/jackson-databind/issues/1192 -->
+        <ignore regexp=".*jackson.*" />
+        <!-- https://github.com/codepath/android_guides/wiki/Consuming-APIs-with-Retrofit#issues -->
+        <ignore regexp=".*okio.*" />
+        <ignore regexp=".*retrofit.*" />
+        <!-- http://sourceforge.net/p/simple/mailman/simple-support/thread/339270128E13BE47A6B10EED7367E7852BC2A912@MERCMBX18D.na.SAS.com/ -->
+        <ignore regexp=".*simple-xml.*" />
+    </issue>
+</lint>

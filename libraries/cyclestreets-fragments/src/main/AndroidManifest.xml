@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+      package="net.cyclestreets.fragments">
+
+  <application>
+    <activity android:name="net.cyclestreets.LocationEditorActivity"
+              android:label="CycleStreets"/>
+    <activity android:name="net.cyclestreets.SettingsActivity"
+              android:label="Settings"/>
+  </application>
+</manifest>

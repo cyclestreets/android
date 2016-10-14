@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <string name="previous_trips">Saved Trips:</string>
+  <string name="startNewTrip">Start Trip!</string>
+  <string name="finishedButtonLabel">Finish</string>
+</resources>

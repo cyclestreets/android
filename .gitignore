@@ -1,4 +1,15 @@
+.DS_Store
+build
+*/build
 bin
 gen
 local.properties
-lint.xml
+license.properties
+.gradle
+.idea/libraries
+*.iml
+.idea
+*~
+*/keystore
+custom-versions/*
+api.key

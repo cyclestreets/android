@@ -1,0 +1,9 @@
+include ':libraries:cyclestreets-core',
+        ':libraries:cyclestreets-view',
+        ':libraries:cyclestreets-fragments',
+        ':libraries:cyclestreets-track'
+
+include ':cyclestreets.vNext'
+
+include ':custom-versions:cycle-hackney'
+include ':custom-versions:urban-location'

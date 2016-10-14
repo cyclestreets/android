@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:action="http://schemas.android.com/apk/res-auto">
+  <item android:id="@+id/ic_menu_itinerary"
+        android:title="@string/ic_menu_itinerary"
+        action:showAsAction="ifRoom|withText"/>
+  <item android:id="@+id/ic_menu_elevation"
+        android:title="@string/ic_menu_elevation"
+        action:showAsAction="ifRoom|withText"/>
+</menu>

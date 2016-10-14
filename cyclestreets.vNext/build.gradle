@@ -1,0 +1,18 @@
+evaluationDependsOn(':libraries:cyclestreets-fragments')
+
+dependencies {
+  compile project(':libraries:cyclestreets-fragments')
+  compile 'ch.acra:acra:4.9.0'
+
+  androidTestCompile 'com.android.support.test.espresso:espresso-core:2.2.2'
+  androidTestCompile 'com.android.support.test:runner:0.5'
+  androidTestCompile 'com.android.support:support-annotations:23.4.0'
+}
+
+android {
+  defaultConfig {
+    applicationId 'net.cyclestreets'
+
+    testInstrumentationRunner 'android.support.test.runner.AndroidJUnitRunner'
+  }
+}

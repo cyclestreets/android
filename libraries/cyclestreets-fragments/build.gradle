@@ -1,0 +1,6 @@
+evaluationDependsOn(':libraries:cyclestreets-view')
+
+dependencies {
+  compile project(':libraries:cyclestreets-view')
+  compile 'com.jjoe64:graphview:3.1.4'
+}
