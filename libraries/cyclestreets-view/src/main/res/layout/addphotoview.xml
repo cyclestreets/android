@@ -22,7 +22,7 @@
 		<TextView
 		    android:layout_height="wrap_content" 
 			android:layout_width="fill_parent"
-		    android:text="@string/blank"/>
+		    android:text="@string/all_blank"/>
 		<TextView 
 			android:id="@+id/photo_url"
 			android:gravity="center"

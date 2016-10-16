@@ -20,7 +20,7 @@
 	  	<TextView
 			android:layout_width="fill_parent"
 			android:layout_height="wrap_content"
-			android:text="@string/photo_good_or_bad"/>
+			android:text="@string/photo_good_or_bad_hint"/>
 		<Spinner 
 			android:id="@+id/metacat"
 			android:layout_width="fill_parent" 
@@ -28,7 +28,7 @@
 	  	<TextView
 			android:layout_width="fill_parent"
 			android:layout_height="wrap_content"
-			android:text="@string/photo_what_feature_type"/>
+			android:text="@string/photo_feature_type_hint"/>
 		<Spinner 
 			android:id="@+id/category"
 			android:layout_width="fill_parent" 

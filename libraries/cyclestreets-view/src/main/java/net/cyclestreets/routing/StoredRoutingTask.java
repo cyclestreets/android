@@ -13,7 +13,7 @@ public class StoredRoutingTask extends RoutingTask<Integer>
 	StoredRoutingTask(final RouteDatabase db,
 	                  final Context context)
 	{
-		super(R.string.loading_route, context);
+		super(R.string.route_loading, context);
 		db_ = db;
 	} // StoredRoutingTask
 

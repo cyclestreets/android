@@ -15,7 +15,7 @@
       <TextView
 	  android:layout_width="fill_parent"
 	  android:layout_height="wrap_content"
-	  android:text="@string/blank"/>
+	  android:text="@string/all_blank"/>
       <TextView 
 	  android:id="@+id/signin_message"
 	  android:layout_width="fill_parent"
@@ -25,7 +25,7 @@
       <TextView
 	  android:layout_width="fill_parent"
 	  android:layout_height="wrap_content"
-	  android:text="@string/blank"/>
+	  android:text="@string/all_blank"/>
       <TextView
 	  android:layout_width="fill_parent"
 	  android:layout_height="wrap_content"
@@ -56,12 +56,12 @@
 	android:layout_width="0dip"
 	android:layout_height="wrap_content"
 	android:layout_weight="1"     	
-	android:text="@string/account_clear_stored"/>
+	android:text="@string/account_clear_stored_button"/>
     <Button
 	android:id="@+id/signin_button"
 	android:layout_width="0dip"
 	android:layout_height="wrap_content"
 	android:layout_weight="1"     	
-	android:text="@string/account_signin"/>
+	android:text="@string/account_signin_button"/>
   </LinearLayout>       
 </LinearLayout>

@@ -13,7 +13,7 @@ public class FetchCycleStreetsRouteTask extends RoutingTask<Long>
                              final int speed,
                              final Context context)
   {
-    super(R.string.fetching_route, context);
+    super(R.string.route_fetching_existing, context);
     routeType_ = routeType;
     speed_ = speed;
   } // FetchCycleStreetsRouteTask

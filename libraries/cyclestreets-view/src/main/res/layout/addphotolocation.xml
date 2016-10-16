@@ -15,12 +15,12 @@
     android:gravity="center"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
-    android:text="@string/photo_where"/>
+    android:text="@string/photo_location_hint"/>
   <TextView
     android:id="@+id/nogeo"
     android:gravity="center"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
-    android:text="@string/photo_not_geolocatable"/>
+    android:text="@string/photo_not_geolocatable_hint"/>
 	<include layout="@layout/addphotonext"/>
 </LinearLayout>

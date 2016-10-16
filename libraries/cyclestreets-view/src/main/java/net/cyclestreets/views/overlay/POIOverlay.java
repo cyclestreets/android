@@ -361,16 +361,16 @@ public class POIOverlay
   /////////////////////////////////////////////////////
   ////////////////////////////////////////////////
   public void onCreateOptionsMenu(final Menu menu) {
-    createMenuItem(menu, R.string.ic_menu_poi, Menu.NONE, R.drawable.ic_menu_poi);
-    enableMenuItem(menu, R.string.ic_menu_poi, true);
+    createMenuItem(menu, R.string.poi_menu_title, Menu.NONE, R.drawable.ic_menu_poi);
+    enableMenuItem(menu, R.string.poi_menu_title, true);
   } // onCreateOptionsMenu
 
   public void onPrepareOptionsMenu(final Menu menu) {
-    enableMenuItem(menu, R.string.ic_menu_poi, true);
+    enableMenuItem(menu, R.string.poi_menu_title, true);
   } // onPrepareOptionsMenu
 
   public boolean onMenuItemSelected(final int featureId, final MenuItem item) {
-    if(item.getItemId() != R.string.ic_menu_poi)
+    if(item.getItemId() != R.string.poi_menu_title)
       return false;
 
     if(chooserShowing_)
@@ -382,7 +382,7 @@ public class POIOverlay
                                                                  activeCategories_);
 
     Dialog.listViewDialog(context_,
-                          R.string.ic_menu_poi,
+                          R.string.poi_menu_title,
                           poiAdapter,
                           new DialogInterface.OnClickListener() {
                             @Override

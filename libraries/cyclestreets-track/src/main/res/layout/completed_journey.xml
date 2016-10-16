@@ -4,22 +4,34 @@
               android:layout_width="match_parent"
               android:layout_height="match_parent">
   <RelativeLayout android:id="@+id/RelativeLayout01"
-                  android:layout_width="wrap_content" android:layout_height="wrap_content"
-                  android:paddingLeft="4sp" android:paddingTop="4sp"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:paddingLeft="4sp"
+                  android:paddingTop="4sp"
                   android:paddingRight="6sp">
     <TextView android:id="@+id/journey_purpose"
-              android:layout_height="wrap_content" android:layout_width="wrap_content"
-              android:layout_alignParentLeft="true" android:layout_marginLeft="2sp"
-              android:textSize="20sp" android:textStyle="bold" android:text="purpose of trip"></TextView>
+              android:layout_height="wrap_content"
+              android:layout_width="wrap_content"
+              android:layout_alignParentLeft="true"
+              android:layout_marginLeft="2sp"
+              android:textSize="20sp"
+              android:textStyle="bold"
+              android:text="@string/completedjourney_purpose"/>
     <TextView android:id="@+id/journey_start"
-              android:layout_width="wrap_content" android:layout_height="wrap_content"
-              android:layout_alignParentRight="true" android:textSize="20sp"
-              android:textStyle="bold" android:text="start time"></TextView>
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_alignParentRight="true"
+              android:textSize="20sp"
+              android:textStyle="bold"
+              android:text="@string/completedjourney_start_time"/>
   </RelativeLayout>
-  <TextView android:layout_height="wrap_content" android:id="@+id/journey_info"
-            android:layout_width="match_parent" android:layout_marginLeft="7sp"
-            android:paddingBottom="8sp" android:text="journey info"
-            android:layout_marginRight="7sp"></TextView>
+  <TextView android:layout_height="wrap_content"
+            android:id="@+id/journey_info"
+            android:layout_width="match_parent"
+            android:layout_marginLeft="7sp"
+            android:paddingBottom="8sp"
+            android:text="@string/completedjourney_info"
+            android:layout_marginRight="7sp"/>
   <RelativeLayout
     android:id="@+id/mapholder"
     android:layout_width="fill_parent"

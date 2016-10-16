@@ -1,8 +1,8 @@
-Cyclestreets Android App
-========================
+[![Build Status](https://travis-ci.org/cyclestreets/android.svg?branch=master)](https://travis-ci.org/cyclestreets/android)
 
-What is it?
------------
+# Cyclestreets Android App
+
+## What is it?
 
 CycleStreets is a UK-wide cycle journey planner system, which lets you plan
 routes from A to B to C by bike. It is designed by cyclists, for cyclists, and
@@ -18,14 +18,12 @@ caters for the needs of both confident and less confident cyclists.
 - Save your preferred cycling speed, map type etc
 - Downloadable off-line maps available
 
-The Latest Version
-------------------
+## The Latest Version
 
 - Latest version https://play.google.com/store/apps/details?id=net.cyclestreets
 - Source at http://www.cyclestreets.net/mobile/android/
 
-Contribute!
------------
+## Contribute!
 
 Code contributions are welcome!
 
@@ -36,8 +34,7 @@ See the Issues list for bug reports: https://github.com/cyclestreets/android/iss
 Before adding new features, please contact the CycleStreets Mobile mailing list:
 mobile@lists.cyclestreets.net
 
-License
--------
+## License
 
 CycleStreets Android App Copyright 2010-2016 CycleStreets Ltd.
 
@@ -54,8 +51,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see http://www.gnu.org/licenses
 
-Contacts
---------
+## Contacts
 
 Written by Jez Higgins, with contributions from Oliver Lockwood, Theodore Hong, Christopher Fraser, Jonathan Gray, Farid Kurbanov, kyegupov, Shaun McDonald, Simon Nuttall, John Singleton, Colin Watson.
 
