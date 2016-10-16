@@ -5,6 +5,7 @@ android:
     - android-19
 
     # The BuildTools version used by your project
+    - tools
     - build-tools-23.0.2
     
     # if you need to run emulator(s) during your tests
