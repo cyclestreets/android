@@ -323,15 +323,15 @@ public class PhotoUploadFragment extends Fragment
   @Override
   public void onCreateOptionsMenu(final Menu menu, final MenuInflater inflater) 
   {
-    createMenuItem(menu, R.string.ic_menu_restart, Menu.NONE, R.drawable.ic_menu_rotate);
-    createMenuItem(menu, R.string.ic_menu_back, Menu.NONE, R.drawable.ic_menu_revert);
+    createMenuItem(menu, R.string.all_menu_restart, Menu.NONE, R.drawable.ic_menu_rotate);
+    createMenuItem(menu, R.string.all_menu_back, Menu.NONE, R.drawable.ic_menu_revert);
   } // onCreateOptionsMenu
   
   @Override
   public void onPrepareOptionsMenu(final Menu menu)
   {
-    enableMenuItem(menu, R.string.ic_menu_restart, step_ != AddStep.PHOTO);
-    enableMenuItem(menu, R.string.ic_menu_back, step_ != AddStep.PHOTO && step_ != AddStep.VIEW);
+    enableMenuItem(menu, R.string.all_menu_restart, step_ != AddStep.PHOTO);
+    enableMenuItem(menu, R.string.all_menu_back, step_ != AddStep.PHOTO && step_ != AddStep.VIEW);
   } // onPrepareOptionsMenu
     
   @Override
@@ -339,13 +339,13 @@ public class PhotoUploadFragment extends Fragment
   {
     final int menuItem = item.getItemId();
 
-    if(R.string.ic_menu_restart == menuItem) {
+    if(R.string.all_menu_restart == menuItem) {
       step_ = AddStep.PHOTO;
       setupView();
       return true;
     }
 
-    if(R.string.ic_menu_back == menuItem) {
+    if(R.string.all_menu_back == menuItem) {
       onBackPressed();
       return true;
     }
@@ -800,7 +800,7 @@ if (url.startsWith("content://com.google.android.apps.photos.content")){
       dateTime_ = dateTime;
       caption_ = caption;
       
-      progress_ = Dialog.createProgressDialog(context, R.string.uploading_photo);
+      progress_ = Dialog.createProgressDialog(context, R.string.photo_uploading);
     } // UploadPhotoTask
     
     @Override

@@ -176,13 +176,13 @@ public class PhotoUploadActivity extends Activity
     }
     
     photoCategory_ = inflater_.inflate(R.layout.addphotocategory, null);
-    backNextButtons(photoCategory_, getString(R.string.photo_back), android.R.drawable.ic_media_rew, getString(R.string.photo_next), android.R.drawable.ic_media_ff);
+    backNextButtons(photoCategory_, getString(R.string.all_button_back), android.R.drawable.ic_media_rew, getString(R.string.all_button_next), android.R.drawable.ic_media_ff);
 
     photoLocation_ = inflater_.inflate(R.layout.addphotolocation, null);
-    backNextButtons(photoLocation_, getString(R.string.photo_back), android.R.drawable.ic_media_rew, getString(R.string.common_upload), android.R.drawable.ic_menu_upload);
+    backNextButtons(photoLocation_, getString(R.string.all_button_back), android.R.drawable.ic_media_rew, getString(R.string.all_upload), android.R.drawable.ic_menu_upload);
 
     photoWebView_ = inflater_.inflate(R.layout.addphotoview, null);
-    backNextButtons(photoWebView_, getString(R.string.photo_upload_another), android.R.drawable.ic_menu_revert, getString(R.string.photo_close), android.R.drawable.ic_menu_close_clear_cancel);
+    backNextButtons(photoWebView_, getString(R.string.photo_upload_another), android.R.drawable.ic_menu_revert, getString(R.string.all_button_close), android.R.drawable.ic_menu_close_clear_cancel);
 
     // start reading categories
     if(photomapCategories == null)
@@ -311,16 +311,16 @@ public class PhotoUploadActivity extends Activity
   @Override
   public boolean onCreateOptionsMenu(final Menu menu)
   {
-    createMenuItem(menu, R.string.ic_menu_restart, Menu.NONE, R.drawable.ic_menu_rotate);
-    createMenuItem(menu, R.string.ic_menu_back, Menu.NONE, R.drawable.ic_menu_revert);
+    createMenuItem(menu, R.string.all_menu_restart, Menu.NONE, R.drawable.ic_menu_rotate);
+    createMenuItem(menu, R.string.all_menu_back, Menu.NONE, R.drawable.ic_menu_revert);
     return true;
   } // onCreateOptionsMenu
   
   @Override
   public boolean onPrepareOptionsMenu(final Menu menu)
   {
-    enableMenuItem(menu, R.string.ic_menu_restart, step_ != AddStep.PHOTO);
-    enableMenuItem(menu, R.string.ic_menu_back, step_ != AddStep.PHOTO && step_ != AddStep.VIEW);
+    enableMenuItem(menu, R.string.all_menu_restart, step_ != AddStep.PHOTO);
+    enableMenuItem(menu, R.string.all_menu_back, step_ != AddStep.PHOTO && step_ != AddStep.VIEW);
     return true;
   } // onPrepareOptionsMenu
     
@@ -329,13 +329,13 @@ public class PhotoUploadActivity extends Activity
   {
     final int menuItem = item.getItemId();
 
-    if(R.string.ic_menu_restart == menuItem) {
+    if(R.string.all_menu_restart == menuItem) {
       step_ = AddStep.PHOTO;
       setupView();
       return true;
     }
 
-    if(R.string.ic_menu_back == menuItem) {
+    if(R.string.all_menu_back == menuItem) {
       onBackPressed();
       return true;
     }
@@ -392,7 +392,7 @@ public class PhotoUploadActivity extends Activity
       // keyboard to hide, if we don't recreate the view afresh, Android won't redisplay 
       // the keyboard if we come back to this view
       photoCaption_ = inflater_.inflate(R.layout.addphotocaption, null);
-      backNextButtons(photoCaption_, getString(R.string.photo_back), android.R.drawable.ic_media_rew, getString(R.string.photo_next), android.R.drawable.ic_media_ff);
+      backNextButtons(photoCaption_, getString(R.string.all_button_back), android.R.drawable.ic_media_rew, getString(R.string.all_button_next), android.R.drawable.ic_media_ff);
       setUploadView(photoCaption_);
       captionEditor().setText(caption_);
       if (photo_ == null && allowTextOnly_) {
@@ -412,9 +412,9 @@ public class PhotoUploadActivity extends Activity
       setUploadView(photoLocation_);
       there_.recentre();
       if (photo_ == null && allowTextOnly_)
-        ((TextView)photoRoot_.findViewById(R.id.label)).setText(getString(R.string.report_where));
+        ((TextView)photoRoot_.findViewById(R.id.label)).setText(getString(R.string.report_location_hint));
       else
-        ((TextView)photoRoot_.findViewById(R.id.label)).setText(getString(R.string.photo_where));
+        ((TextView)photoRoot_.findViewById(R.id.label)).setText(getString(R.string.photo_location_hint));
       break;
     case VIEW:
       setUploadView(photoWebView_);
@@ -784,7 +784,7 @@ if (url.startsWith("content://com.google.android.apps.photos.content")){
       dateTime_ = dateTime;
       caption_ = caption;
       
-      progress_ = Dialog.createProgressDialog(context, R.string.uploading_photo);
+      progress_ = Dialog.createProgressDialog(context, R.string.photo_uploading);
     } // UploadPhotoTask
     
     @Override

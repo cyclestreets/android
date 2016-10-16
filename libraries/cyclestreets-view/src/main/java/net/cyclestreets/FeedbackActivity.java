@@ -88,7 +88,7 @@ public class FeedbackActivity extends Activity implements TextWatcher, OnClickLi
       this.name = name;
       this.email = email;
 
-      this.progress = Dialog.createProgressDialog(context, R.string.sending_feedback);
+      this.progress = Dialog.createProgressDialog(context, R.string.feedback_sending);
     }
 
     @Override

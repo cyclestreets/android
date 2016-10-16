@@ -114,7 +114,7 @@ public class SettingsActivity extends PreferenceActivity
     if(mapfilePref.getEntryValues().length == 0) {
       mapfilePref.setEnabled(false);
       MessageBox.YesNo(getListView(),
-                       R.string.no_map_packs,
+                       R.string.settings_no_map_packs,
                        new DialogInterface.OnClickListener() {
                          public void onClick(DialogInterface arg0, int arg1) {
                            MapPack.searchGooglePlay(SettingsActivity.this);

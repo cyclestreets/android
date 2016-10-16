@@ -19,7 +19,7 @@
         android:layout_centerVertical="true"
         android:gravity="center_vertical"
         android:ellipsize="marquee"
-        android:text="@string/poi_category"
+        android:text="@string/poi_menu_entry"
       />
     <CheckBox 
       android:id="@+id/checkbox"

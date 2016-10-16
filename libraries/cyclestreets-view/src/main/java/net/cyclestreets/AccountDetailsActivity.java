@@ -249,7 +249,7 @@ public class AccountDetailsActivity extends Activity
       username_ = username;
       password_ = password;
       
-      progress_ = Dialog.createProgressDialog(context, R.string.signing_in);
+      progress_ = Dialog.createProgressDialog(context, R.string.account_signing_in);
     } // SigninTask
     
     @Override
@@ -336,7 +336,7 @@ public class AccountDetailsActivity extends Activity
       name_ = name;
       email_ = email;
       
-      progress_ = Dialog.createProgressDialog(context, R.string.registering);
+      progress_ = Dialog.createProgressDialog(context, R.string.account_registering);
       } // RegisterTask
     
     @Override
