@@ -15,7 +15,6 @@ android:
     - build-tools-${toolsVersion}
     
     # if you need to run emulator(s) during your tests
-    # - sys-img-armeabi-v7a-android-19
     - sys-img-${ANDROID_ABI}-android-${targetSdkVersion}
     
 # Emulator Management: Create, Start and Wait
