@@ -3,8 +3,8 @@
       xmlns:action="http://schemas.android.com/apk/res-auto">
   <item android:id="@+id/ic_menu_itinerary"
         android:title="@string/ic_menu_itinerary"
-        action:showAsAction="ifRoom|withText"/>
+        android:showAsAction="ifRoom|withText"/>
   <item android:id="@+id/ic_menu_elevation"
         android:title="@string/ic_menu_elevation"
-        action:showAsAction="ifRoom|withText"/>
+        android:showAsAction="ifRoom|withText"/>
 </menu>
