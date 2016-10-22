@@ -27,7 +27,7 @@ public class StoredRoutes {
   public static void launch(final Context context) {
     RouteSummaryAdapter rsa = new RouteSummaryAdapter(context);
     AlertDialog ad = Dialog.listViewDialog(context,
-        R.string.ic_menu_saved_routes,
+        R.string.menu_saved_routes,
         rsa,
         null,
         null);
@@ -97,8 +97,8 @@ public class StoredRoutes {
       final String plan = initCap(summary.plan());
 
       titleView.setText(summary.title());
-      detailView.setText(plan + " route, " +
-                         Segment.formatter.total_distance(summary.distance()));
+      detailView.setText(context_.getString(R.string.storedroutes_detail_format, plan,
+                                            Segment.formatter.total_distance(summary.distance())));
 
       view.setOnClickListener(this);
       view.setOnLongClickListener(this);

@@ -65,7 +65,7 @@ public class CycleMapFragment extends Fragment implements Undoable
   {
     if (map_ != null)
       map_.onCreateOptionsMenu(menu);
-    createMenuItem(menu, R.string.ic_menu_findplace, Menu.NONE, R.drawable.ic_menu_search);
+    createMenuItem(menu, R.string.menu_find_place, Menu.NONE, R.drawable.ic_menu_search);
   } // onCreateOptionsMenu
 
   @Override
@@ -80,7 +80,7 @@ public class CycleMapFragment extends Fragment implements Undoable
 
     if (map_ != null)
       map_.onPrepareOptionsMenu(menu);
-    enableMenuItem(menu, R.string.ic_menu_findplace, true);
+    enableMenuItem(menu, R.string.menu_find_place, true);
   } // onPrepareOptionsMenu
 
   @Override
@@ -89,7 +89,7 @@ public class CycleMapFragment extends Fragment implements Undoable
     if(map_.onMenuItemSelected(item.getItemId(), item))
       return true;
 
-    if(item.getItemId() == R.string.ic_menu_findplace)
+    if(item.getItemId() == R.string.menu_find_place)
     {
       launchFindDialog();
       return true;

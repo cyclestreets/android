@@ -7,5 +7,5 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
-        android:text="Turn-by-turn route information will be shown\nhere once a route is planned." />
+        android:text="@string/itinerary_not_available" />
 </RelativeLayout>

@@ -403,11 +403,11 @@ public class PhotoUploadFragment extends Fragment
       // keyboard to hide, if we don't recreate the view afresh, Android won't redisplay 
       // the keyboard if we come back to this view
       photoCaption_ = inflater_.inflate(R.layout.addphotocaption, null);
-      backNextButtons(photoCaption_, "Back", android.R.drawable.ic_media_rew, "Next", android.R.drawable.ic_media_ff);
+      backNextButtons(photoCaption_, getString(R.string.all_button_back), android.R.drawable.ic_media_rew, getString(R.string.all_button_next), android.R.drawable.ic_media_ff);
       setContentView(photoCaption_);
       captionEditor().setText(caption_);
       if (photo_ == null && allowTextOnly_) {
-        ((TextView)photoRoot_.findViewById(R.id.label)).setText("Your Report");
+        ((TextView)photoRoot_.findViewById(R.id.label)).setText(R.string.report_title);
         ((EditText)photoRoot_.findViewById(R.id.caption)).setLines(10);
       } // if ...
       break;
@@ -423,11 +423,11 @@ public class PhotoUploadFragment extends Fragment
       setContentView(photoLocation_);
       there_.recentre();
       if (photo_ == null && allowTextOnly_) {
-        ((TextView) photoRoot_.findViewById(R.id.label)).setText("Where is the location your report describes?");
+        ((TextView) photoRoot_.findViewById(R.id.label)).setText(R.string.report_location_hint);
         photoRoot_.findViewById(R.id.nogeo).setVisibility(View.GONE);
       }
       else {
-        ((TextView) photoRoot_.findViewById(R.id.label)).setText("Where was this photo taken?");
+        ((TextView) photoRoot_.findViewById(R.id.label)).setText(R.string.photo_location_hint);
         photoRoot_.findViewById(R.id.nogeo).setVisibility(geolocated_ ? View.GONE : View.VISIBLE);
       }
       break;

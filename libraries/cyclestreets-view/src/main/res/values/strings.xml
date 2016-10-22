@@ -5,6 +5,8 @@
   <string name="all_blank" translatable="false">"  "</string>
   <string name="all_button_back">Back</string>
   <string name="all_button_next">Next</string>
+  <string name="all_button_save">Save</string>
+  <string name="all_button_cancel">Cancel</string>
   <string name="all_button_close">Close</string>
   <string name="all_menu_back">Back</string>
   <string name="all_menu_restart">Start again</string>
@@ -13,6 +15,8 @@
   <string name="all_your_email">Your email address</string>
 
   <string name="location_menu_mylocation">Show location</string>
+  <string name="location_menu_on">Follow Location</string>
+  <string name="location_menu_off">Location Off</string>
 
   <string name="route_type">Route type</string>
   <string name="route_finding_new">Obtaining route from CycleStreets.net, please wait</string>
