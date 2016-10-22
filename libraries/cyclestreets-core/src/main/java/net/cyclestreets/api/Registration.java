@@ -1,17 +1,16 @@
 package net.cyclestreets.api;
 
+import net.cyclestreets.core.R;
+
 import java.io.IOException;
 
 public class Registration {
-  private static final String okMessage = "Your account has been registered.\n\nAn email has been sent to the address you gave.\n\nWhen the email arrives, follow the instructions it contains to complete the registration.";
-  private static final String errorPrefix = "Your account could not be registered.\n\n";
-
   public static Result ok() {
-    return new Result(okMessage);
+    return new Result(ApiClient.context().getString(R.string.registration_ok));
   }
 
   public static Result error(String errorMessage) {
-    return new Result(errorPrefix, errorMessage);
+    return new Result(ApiClient.context().getString(R.string.registration_error_prefix), errorMessage);
   }
 
   //////////////////////////////////////////////////////

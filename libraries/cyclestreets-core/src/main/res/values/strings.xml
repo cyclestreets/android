@@ -1,4 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
   <string name="blog_notifications">Show Blog update notifications</string>
+
+  <string name="feedback_ok">Thank you for submitting this feedback. We will get back to you when we have checked this out.</string>
+  <string name="feedback_error_prefix">Your feedback could not be sent.\n\n</string>
+
+  <string name="registration_ok">Your account has been registered.\n\nAn email has been sent to the address you gave.\n\nWhen the email arrives, follow the instructions it contains to complete the registration.</string>
+  <string name="registration_error_prefix">Your account could not be registered.\n\n</string>
+
+  <string name="signin_ok">You have successfully signed into CycleStreets.</string>
+  <string name="signin_error_prefix">"Error : "</string>
+  <string name="signin_default_error">Could not sign into CycleStreets.  Please check your username and password.</string>
+
+  <string name="upload_ok">You have successfully signed into CycleStreets.</string>
+  <string name="upload_error_prefix">There was a problem uploading your photo: \n</string>
 </resources>

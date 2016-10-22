@@ -1,5 +1,7 @@
 package net.cyclestreets.api;
 
+import net.cyclestreets.core.R;
+
 import org.osmdroid.api.IGeoPoint;
 
 import java.io.IOException;
@@ -8,19 +10,16 @@ public class Upload {
   public static class Result extends net.cyclestreets.api.Result {
     private String url;
 
-    private static final String okMessage = "You have successfully signed into CycleStreets.";
-    private static final String errorPrefix = "There was a problem uploading your photo: \n";
-
     public static Result forUrl(String url) {
       return new Result(url);
     }
 
     public static Result error(String error) {
-      return new Result(errorPrefix, error);
+      return new Result(ApiClient.context().getString(R.string.upload_error_prefix), error);
     }
 
     private Result(String url) {
-      super(okMessage);
+      super(ApiClient.context().getString(R.string.upload_ok));
       this.url = url;
     }
 
