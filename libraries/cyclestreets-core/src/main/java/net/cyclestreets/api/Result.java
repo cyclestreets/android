@@ -21,6 +21,6 @@ public class Result {
   public final boolean ok() { return ok; }
 
   public final String message() {
-    return (ok) ? okMessage : errorPrefix + "\n\n" + errorMessage;
+    return (ok) ? okMessage : errorPrefix + errorMessage;
   }
 }

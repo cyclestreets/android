@@ -4,7 +4,7 @@ import java.io.IOException;
 
 public class Registration {
   private static final String okMessage = "Your account has been registered.\n\nAn email has been sent to the address you gave.\n\nWhen the email arrives, follow the instructions it contains to complete the registration.";
-  private static final String errorPrefix = "Your account could not be registered.";
+  private static final String errorPrefix = "Your account could not be registered.\n\n";
 
   public static Result ok() {
     return new Result(okMessage);

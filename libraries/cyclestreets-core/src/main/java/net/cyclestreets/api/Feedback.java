@@ -4,7 +4,7 @@ import java.io.IOException;
 
 public class Feedback {
   private static final String okMessage = "Thank you for submitting this feedback. We will get back to you when we have checked this out.";
-  private static final String errorPrefix = "Your feedback could not be sent.";
+  private static final String errorPrefix = "Your feedback could not be sent.\n\n";
 
   public static Result ok() {
     return new Result(okMessage);

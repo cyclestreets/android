@@ -663,7 +663,7 @@ if (url.startsWith("content://com.google.android.apps.photos.content")){
     }
     catch(Exception e)  
     { 
-      Toast.makeText(getActivity(), "Could not upload photo.  Please check your network connection.", Toast.LENGTH_LONG).show();
+      Toast.makeText(getActivity(), R.string.photo_could_not_upload, Toast.LENGTH_LONG).show();
       step_ = AddStep.LOCATION;
     }
   } // upload
@@ -758,7 +758,7 @@ if (url.startsWith("content://com.google.android.apps.photos.content")){
     {
       if(photomapCategories == null) 
       {
-        Toast.makeText(getActivity(), "Could not load photomap categories.  Please check network connection.", Toast.LENGTH_LONG).show();
+        Toast.makeText(getActivity(), R.string.photo_could_not_load_categories, Toast.LENGTH_LONG).show();
         return;
       } // if ...
       PhotoUploadFragment.photomapCategories = photomapCategories;
@@ -822,20 +822,19 @@ if (url.startsWith("content://com.google.android.apps.photos.content")){
                             dateTime_, 
                             caption_);
       } catch (Exception e) {
-        return Upload.Result.forError("There was a problem uploading your photo: \n" + e.getMessage());
+        return Upload.Result.error(e.getMessage());
       }
     } // doInBackground
     
     @Override
-    protected void onPostExecute(final Upload.Result result) 
-    {
+    protected void onPostExecute(final Upload.Result result) {
       if(smallImage_)
         new File(filename_).delete();
       progress_.dismiss();
       if(result.ok())
         uploadComplete(result.url());
       else
-        uploadFailed(result.error());
+        uploadFailed(result.message());
     } // onPostExecute
   } // class UploadPhotoTask
   

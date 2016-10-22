@@ -15,6 +15,6 @@ public class UserAuthenticateResponseDto extends ApiResponseDto {
   private String[] privileges;
 
   public Signin.Result toSigninResult() {
-    return wasSuccessful() ? new Signin.Result(name, email) : new Signin.Result(error);
+    return wasSuccessful() ? Signin.Result.forNameAndEmail(name, email) : Signin.Result.error(error);
   }
 }

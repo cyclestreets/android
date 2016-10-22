@@ -5,25 +5,30 @@ import org.osmdroid.api.IGeoPoint;
 import java.io.IOException;
 
 public class Upload {
-  public static class Result {
+  public static class Result extends net.cyclestreets.api.Result {
     private String url;
-    private String error;
 
-    public static Result forError(final String error) {
-      Result result = new Result();
-      result.error = error;
-      return result;
+    private static final String okMessage = "You have successfully signed into CycleStreets.";
+    private static final String errorPrefix = "There was a problem uploading your photo: \n";
+
+    public static Result forUrl(String url) {
+      return new Result(url);
     }
 
-    public static Result forUrl(final String url) {
-      Result result = new Result();
-      result.url = url;
-      return result;
+    public static Result error(String error) {
+      return new Result(errorPrefix, error);
     }
 
-    public boolean ok() { return url != null; }
+    private Result(String url) {
+      super(okMessage);
+      this.url = url;
+    }
+
+    private Result(String prefix, String error) {
+      super(prefix, error);
+    }
+
     public String url() { return url; }
-    public String error() { return error; }
   }
 
   static public Upload.Result photo(final String filename,

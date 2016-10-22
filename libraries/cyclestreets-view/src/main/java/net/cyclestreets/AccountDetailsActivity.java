@@ -122,22 +122,19 @@ public class AccountDetailsActivity extends Activity
     } // switch
   } // setupView
   
-  private String signinMessage()
-  {
-    if(CycleStreetsPreferences.accountOK())
-      return String.format("You are already signed in as\n%s, %s", 
-                 CycleStreetsPreferences.name(),
-                 CycleStreetsPreferences.email());
-    return "Please enter your account username and password to sign in.";
-  } // signinMessage
+  private String signinMessage() {
+    if (CycleStreetsPreferences.accountOK())
+      return getString(R.string.account_already_signed_in_format,
+                       CycleStreetsPreferences.name(),
+                       CycleStreetsPreferences.email());
+    return getString(R.string.account_signin_message);
+  }
   
-  private String registrationMessage()
-  {
-    if(CycleStreetsPreferences.accountPending())
-      return "You have already registered an account.  Please check your email for the verification email.";
-    return "Registration is free and registered users can add photos. To start " + 
-           "the registration process please enter your details in the form below.";
-  } // registrationMessage
+  private String registrationMessage() {
+    if (CycleStreetsPreferences.accountPending())
+      return getString(R.string.account_pending);
+    return getString(R.string.account_registration_is_free_long);
+  }
   
   private void hookUpButton(final View v, final int id)
   {
@@ -206,7 +203,7 @@ public class AccountDetailsActivity extends Activity
   private void confirmClear()
   {
     MessageBox.YesNo(signinDetails_, 
-             "Are you sure you want to clear the stored account details?",
+             getString(R.string.account_clear_details_confirm),
              new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface arg0, int arg1) {
                       CycleStreetsPreferences.clearUsernamePassword();
@@ -276,10 +273,7 @@ public class AccountDetailsActivity extends Activity
                             result.ok());
       setText(signinDetails_, R.id.signin_message, signinMessage());
       
-      String msg = "You have successfully signed into CycleStreets.";
-      if(!result.ok())
-        msg = result.error().startsWith("Error:") ? result.error() : "Could not sign into CycleStreets.  Please check your username and password.";        
-      MessageBox(msg, result.ok());
+      MessageBox(result.message(), result.ok());
     } // onPostExecute
   } // class SignInTask
   
@@ -296,24 +290,23 @@ public class AccountDetailsActivity extends Activity
       
     String oops = null;
     
-    if(!email.toLowerCase().matches(emailRegex))
-      oops = "The email address entered is not a properly formatted address.";
-    if(!password.equals(password2))
-      oops = "Password and confirmation password do not match.";
-    if(username.length() < 5)
-      oops = "Username must be at least five letters/numbers long.";
+    if (!email.toLowerCase().matches(emailRegex))
+      oops = getString(R.string.account_email_format);
+    if (!password.equals(password2))
+      oops = getString(R.string.account_password_mismatch);
+    if (username.length() < 5)
+      oops = getString(R.string.account_username_too_short);
     
-    if(oops != null)
-    {
+    if (oops != null) {
       MessageBox(oops, false);
       return;
-    } // if(oops)
+    }
     
     final RegisterTask task = new RegisterTask(this,
-                           username,
-                           password,
-                           name,
-                           email);
+                                               username,
+                                               password,
+                                               name,
+                                               email);
     task.execute();
   } // register
   
@@ -326,18 +319,17 @@ public class AccountDetailsActivity extends Activity
     private final ProgressDialog progress_;
     
     RegisterTask(final Context context,
-           final String username,
-           final String password,
-           final String name,
-           final String email) 
-      {
+                 final String username,
+                 final String password,
+                 final String name,
+                 final String email) {
       username_ = username;
       password_ = password;
       name_ = name;
       email_ = email;
       
       progress_ = Dialog.createProgressDialog(context, R.string.account_registering);
-      } // RegisterTask
+    } // RegisterTask
     
     @Override
     protected void onPreExecute() 

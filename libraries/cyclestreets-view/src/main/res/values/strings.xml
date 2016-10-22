@@ -43,10 +43,12 @@
   <string name="photo_describe_hint">Describe this photo</string>
   <string name="photo_good_or_bad_hint">Is this a problem or good practice?</string>
   <string name="photo_feature_type_hint">What type of feature is being shown?</string>
+  <string name="photo_could_not_load_categories">Could not load photomap categories.  Please check network connection.</string>
   <string name="photo_location_hint">Where was this photo taken?</string>
   <string name="photo_not_geolocatable_hint">The photo could not be geolocated. To automatically locate photos, please turn on geolocation in your Camera settings.</string>
   <string name="photo_share">Share this photo</string>
   <string name="photo_uploading">Uploading report, please wait</string>
+  <string name="photo_could_not_upload">Could not upload photo.  Please check your network connection.</string>
   <string name="photo_upload_another">Upload another</string>
 
   <string name="report_continue_without_photo_button">Continue without photo</string>
@@ -89,10 +91,18 @@
   <string name="account_registering">Registering with CycleStreets.net</string>
 
   <string name="account_signin_message">Please enter your account username and password to sign in.</string>
+  <string name="account_already_signed_in_format">You are already signed in as\n%1$s, %2$s</string>
   <string name="account_username">Username</string>
   <string name="account_password">Password</string>
   <string name="account_clear_stored_button">Clear stored details</string>
   <string name="account_signin_button">Sign in</string>
   <string name="account_signing_in">Signing into CycleStreets.net</string>
+
+  <string name="account_email_format">The email address entered is not a properly formatted address.</string>
+  <string name="account_password_mismatch">Password and confirmation password do not match.</string>
+  <string name="account_username_too_short">Username must be at least five letters/numbers long.</string>
+  <string name="account_clear_details_confirm">Are you sure you want to clear the stored account details?</string>
+  <string name="account_pending">You have already registered an account.  Please check your email for the verification email.</string>
+  <string name="account_registration_is_free_long">Registration is free and registered users can add photos. To start the registration process please enter your details in the form below.</string>
 
 </resources>

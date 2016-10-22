@@ -99,7 +99,7 @@ public class SaveTrip extends Activity
   } // onClick
 
   private void discardTrip() {
-    Toast.makeText(getBaseContext(), "Trip discarded.",	Toast.LENGTH_SHORT).show();
+    Toast.makeText(getBaseContext(), R.string.savetrip_discarded, Toast.LENGTH_SHORT).show();
 
     trip_.dropTrip();
 
@@ -110,7 +110,7 @@ public class SaveTrip extends Activity
   private void uploadTrip() {
     if (purpose_.equals("")) {
       // Oh no!  No trip purpose!
-      Toast.makeText(getBaseContext(), "You must select a trip purpose before submitting! Choose from the purposes above.", Toast.LENGTH_SHORT).show();
+      Toast.makeText(getBaseContext(), R.string.savetrip_no_purpose, Toast.LENGTH_SHORT).show();
       return;
     }
 
@@ -120,10 +120,10 @@ public class SaveTrip extends Activity
 
     // "3.5 miles in 26 minutes"
     final long minutes = trip_.secondsElapsed() / 60;
-    String fancyEndInfo = String.format("%1.1f miles, %d minutes.  %s",
-        trip_.distanceTravelled(),
-        minutes,
-        notes.getEditableText().toString());
+    String fancyEndInfo = getString(R.string.savetrip_end_info_format,
+                                    trip_.distanceTravelled(),
+                                    minutes,
+                                    notes.getEditableText().toString());
 
     // Save the trip details to the phone database. W00t!
     trip_.updateTrip(purpose_,
@@ -148,7 +148,7 @@ public class SaveTrip extends Activity
   } // uploadTrip
 
   private void setupAge(final Spinner age) {
-    final List<String> ages = ListFactory.list("Please select",
+    final List<String> ages = ListFactory.list(getString(R.string.savetrip_please_select),
                                                "0-10",
                                                "11-16",
                                                "17-24",
@@ -164,11 +164,11 @@ public class SaveTrip extends Activity
   } // setupAge
 
   private void setupGender(final Spinner gender) {
-    final List<String> genders = ListFactory.list("Please select",
-                                                  "male",
-                                                  "female",
-                                                  "prefer not to say");
-    gender.setPrompt("Please select gender");
+    final List<String> genders = ListFactory.list(getString(R.string.savetrip_please_select),
+                                                  getString(R.string.savetrip_gender_male),
+                                                  getString(R.string.savetrip_gender_female),
+                                                  getString(R.string.savetrip_gender_private));
+    gender.setPrompt(getString(R.string.savetrip_gender_prompt));
     gender.setAdapter(new SpinnerList(this, genders));
     int index = prefs_.getInt("gender", 0);
     gender.setSelection(index);
@@ -176,11 +176,11 @@ public class SaveTrip extends Activity
   } // setupGender
 
   private void setupExperience(final Spinner experience) {
-    final List<String> experienceLevels = ListFactory.list("Please select",
-                                                           "experienced",
-                                                           "infrequent",
-                                                           "beginner");
-    experience.setPrompt("Please select experience level");
+    final List<String> experienceLevels = ListFactory.list(getString(R.string.savetrip_please_select),
+                                                           getString(R.string.savetrip_experience_experienced),
+                                                           getString(R.string.savetrip_experience_infrequent),
+                                                           getString(R.string.savetrip_experience_beginner));
+    experience.setPrompt(getString(R.string.savetrip_experience_prompt));
     experience.setAdapter(new SpinnerList(this, experienceLevels));
     int index = prefs_.getInt("experience", 0);
     experience.setSelection(index);
@@ -197,22 +197,14 @@ public class SaveTrip extends Activity
     purpButtons.put(R.id.ToggleErrand,  (ToggleButton)findViewById(R.id.ToggleErrand));
     purpButtons.put(R.id.ToggleOther,   (ToggleButton)findViewById(R.id.ToggleOther));
 
-    purpDescriptions.put(R.id.ToggleCommute,
-        "<b>Commute:</b> this bike trip was primarily to get between home and your main workplace.");
-    purpDescriptions.put(R.id.ToggleSchool,
-        "<b>School:</b> this bike trip was primarily to go to or from school or college.");
-    purpDescriptions.put(R.id.ToggleWorkRel,
-        "<b>Work-Related:</b> this bike trip was primarily to go to or from a business related meeting, function, or work-related errand for your job.");
-    purpDescriptions.put(R.id.ToggleExercise,
-        "<b>Exercise:</b> this bike trip was primarily for exercise, or biking for the sake of biking.");
-    purpDescriptions.put(R.id.ToggleSocial,
-        "<b>Social:</b> this bike trip was primarily for going to or from a social activity, e.g. at a friend's house, the park, a restaurant, the movies.");
-    purpDescriptions.put(R.id.ToggleShopping,
-        "<b>Shopping:</b> this bike trip was primarily to purchase or bring home goods or groceries.");
-    purpDescriptions.put(R.id.ToggleErrand,
-        "<b>Errand:</b> this bike trip was primarily to attend to personal business such as banking, a doctor  visit, going to the gym, etc.");
-    purpDescriptions.put(R.id.ToggleOther,
-        "<b>Other:</b> if none of the other reasons applied to this trip, you can enter comments below to tell us more.");
+    purpDescriptions.put(R.id.ToggleCommute, getString(R.string.savetrip_purpose_commute));
+    purpDescriptions.put(R.id.ToggleSchool, getString(R.string.savetrip_purpose_school));
+    purpDescriptions.put(R.id.ToggleWorkRel, getString(R.string.savetrip_purpose_work_related));
+    purpDescriptions.put(R.id.ToggleExercise, getString(R.string.savetrip_purpose_exercise));
+    purpDescriptions.put(R.id.ToggleSocial, getString(R.string.savetrip_purpose_social));
+    purpDescriptions.put(R.id.ToggleShopping, getString(R.string.savetrip_purpose_shopping));
+    purpDescriptions.put(R.id.ToggleErrand, getString(R.string.savetrip_purpose_errand));
+    purpDescriptions.put(R.id.ToggleOther, getString(R.string.savetrip_purpose_other));
 
     for (Entry<Integer, ToggleButton> e: purpButtons.entrySet())
       e.getValue().setOnCheckedChangeListener(this);

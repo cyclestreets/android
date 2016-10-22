@@ -17,6 +17,6 @@ public class UploadPhotoResponseDto extends ApiResponseDto {
   String thumbnailUrl;
 
   public Upload.Result toUploadResult() {
-    return wasSuccessful() ? Upload.Result.forUrl(url) : Upload.Result.forError(error);
+    return wasSuccessful() ? Upload.Result.forUrl(url) : Upload.Result.error(error);
   }
 }

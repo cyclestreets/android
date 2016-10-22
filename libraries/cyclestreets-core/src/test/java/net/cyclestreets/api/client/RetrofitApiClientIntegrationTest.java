@@ -130,7 +130,7 @@ public class RetrofitApiClientIntegrationTest {
     System.out.println(result.ok());
     System.out.println(result.name());
     System.out.println(result.email());
-    System.out.println(result.error());
+    System.out.println(result.message());
     assertThat(result.ok(), is(true));
   }
 
@@ -155,7 +155,7 @@ public class RetrofitApiClientIntegrationTest {
             "cycleparking", "good", "Caption: THIS IS TEST DATA and should not be on the map", null);
     System.out.println(result.ok());
     System.out.println(result.url());
-    System.out.println(result.error());
+    System.out.println(result.message());
     // Important - remove the test data from the map, otherwise we look pretty unprofessional!
     System.out.println("Don't forgot to log on as this user and delete the photo afterwards...");
   }
@@ -166,7 +166,7 @@ public class RetrofitApiClientIntegrationTest {
             "cycleparking", "good", "Caption: THIS IS TEST DATA and should not be on the map", "/tmp/test-image.png");
     System.out.println(result.ok());
     System.out.println(result.url());
-    System.out.println(result.error());
+    System.out.println(result.message());
     // Important - remove the test data from the map, otherwise we look pretty unprofessional!
     System.out.println("Don't forgot to log on as this user and delete the photo afterwards...");
   }
