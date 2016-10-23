@@ -16,7 +16,7 @@
     android:layout_height="wrap_content"
     android:gravity="bottom">    
     <TextView android:id="@+id/version_view"
-              android:text="net.cyclestreets"
+              android:text="@string/about_version_default"
               android:layout_height="wrap_content"
               android:layout_width="fill_parent"
               android:gravity="center"/>

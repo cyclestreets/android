@@ -30,5 +30,25 @@
 
   <string name="save_submit_button">Submit</string>
   <string name="save_discard_button">Discard</string>
+  <string name="savetrip_discarded">Trip discarded.</string>
+  <string name="savetrip_no_purpose">You must select a trip purpose before submitting! Choose from the purposes above.</string>
+  <string name="savetrip_purpose_commute"><![CDATA[<b>Commute:</b> this bike trip was primarily to get between home and your main workplace.]]></string>
+  <string name="savetrip_purpose_school"><![CDATA[<b>School:</b> this bike trip was primarily to go to or from school or college.]]></string>
+  <string name="savetrip_purpose_work_related"><![CDATA[<b>Work-Related:</b> this bike trip was primarily to go to or from a business related meeting, function, or work-related errand for your job.]]></string>
+  <string name="savetrip_purpose_exercise"><![CDATA[<b>Exercise:</b> this bike trip was primarily for exercise, or biking for the sake of biking.]]></string>
+  <string name="savetrip_purpose_social"><![CDATA[<b>Social:</b> this bike trip was primarily for going to or from a social activity, e.g. at a friend\'s house, the park, a restaurant, the movies.]]></string>
+  <string name="savetrip_purpose_shopping"><![CDATA[<b>Shopping:</b> this bike trip was primarily to purchase or bring home goods or groceries.]]></string>
+  <string name="savetrip_purpose_errand"><![CDATA[<b>Errand:</b> this bike trip was primarily to attend to personal business such as banking, a doctor  visit, going to the gym, etc.]]></string>
+  <string name="savetrip_purpose_other"><![CDATA[<b>Other:</b> if none of the other reasons applied to this trip, you can enter comments below to tell us more.]]></string>
+  <string name="savetrip_please_select">Please select</string>
+  <string name="savetrip_gender_prompt">Please select gender</string>
+  <string name="savetrip_gender_male">male</string>
+  <string name="savetrip_gender_female">female</string>
+  <string name="savetrip_gender_private">prefer not to say</string>
+  <string name="savetrip_experience_prompt">Please select experience level</string>
+  <string name="savetrip_experience_experienced">experienced</string>
+  <string name="savetrip_experience_infrequent">infrequent</string>
+  <string name="savetrip_experience_beginner">beginner</string>
+  <string name="savetrip_end_info_format">%1$1.1f miles, %2$d minutes.  %3$s</string>
 
 </resources>

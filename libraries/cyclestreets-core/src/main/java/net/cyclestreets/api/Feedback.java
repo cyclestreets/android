@@ -1,17 +1,16 @@
 package net.cyclestreets.api;
 
+import net.cyclestreets.core.R;
+
 import java.io.IOException;
 
 public class Feedback {
-  private static final String okMessage = "Thank you for submitting this feedback. We will get back to you when we have checked this out.";
-  private static final String errorPrefix = "Your feedback could not be sent.";
-
   public static Result ok() {
-    return new Result(okMessage);
+    return new Result(ApiClient.context().getString(R.string.feedback_ok));
   }
 
   public static Result error(String errorMessage) {
-    return new Result(errorPrefix, errorMessage);
+    return new Result(ApiClient.context().getString(R.string.feedback_error_prefix), errorMessage);
   }
 
   //////////////////////////////////////////////////////

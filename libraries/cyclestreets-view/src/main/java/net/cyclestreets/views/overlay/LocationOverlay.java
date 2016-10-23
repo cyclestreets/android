@@ -19,9 +19,6 @@ import static net.cyclestreets.util.MenuHelper.enableMenuItem;
 
 public class LocationOverlay extends MyLocationNewOverlay
                              implements ButtonTapListener, MenuListener {
-  static private String LOCATION_ON = "Follow Location";
-  static private String LOCATION_OFF = "Location Off";
-
   private final int offset_;
   private final float radius_;
 
@@ -131,7 +128,7 @@ public class LocationOverlay extends MyLocationNewOverlay
   public void onPrepareOptionsMenu(final Menu menu) {
     final MenuItem item = enableMenuItem(menu, R.string.location_menu_mylocation, true);
     if(item != null)
-      item.setTitle(isMyLocationEnabled() ? LOCATION_OFF : LOCATION_ON);
+      item.setTitle(isMyLocationEnabled() ? R.string.location_menu_off : R.string.location_menu_on);
   } // onPrepareOptionsMenu
 
   @Override

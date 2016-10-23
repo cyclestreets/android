@@ -2,6 +2,7 @@ package net.cyclestreets.api.client;
 
 import android.content.Context;
 
+import net.cyclestreets.api.ApiClient;
 import net.cyclestreets.api.Blog;
 import net.cyclestreets.api.Feedback;
 import net.cyclestreets.api.GeoPlace;
@@ -18,6 +19,7 @@ import net.cyclestreets.api.Signin;
 import net.cyclestreets.api.Upload;
 import net.cyclestreets.api.UserJourney;
 import net.cyclestreets.api.UserJourneys;
+import net.cyclestreets.core.R;
 
 import org.apache.commons.io.IOUtils;
 import org.junit.Before;
@@ -27,6 +29,7 @@ import org.junit.Test;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.reflect.Field;
 import java.util.List;
 import java.util.Random;
 
@@ -52,6 +55,20 @@ public class RetrofitApiClientIntegrationTest {
         .withV1Host("https://www.cyclestreets.net")
         .withV2Host("https://api.cyclestreets.net")
         .build();
+
+    when(testContext.getString(R.string.feedback_ok)).thenReturn("Thank you for submitting this feedback. We will get back to you when we have checked this out.");
+    when(testContext.getString(R.string.feedback_error_prefix)).thenReturn("Your feedback could not be sent.\n\n");
+    when(testContext.getString(R.string.registration_ok)).thenReturn("Your account has been registered.\n\nAn email has been sent to the address you gave.\n\nWhen the email arrives, follow the instructions it contains to complete the registration.");
+    when(testContext.getString(R.string.registration_error_prefix)).thenReturn("Your account could not be registered.\n\n");
+    when(testContext.getString(R.string.signin_ok)).thenReturn("You have successfully signed into CycleStreets.");
+    when(testContext.getString(R.string.signin_error_prefix)).thenReturn("Error : ");
+    when(testContext.getString(R.string.signin_default_error)).thenReturn("Could not sign into CycleStreets.  Please check your username and password.");
+    when(testContext.getString(R.string.upload_ok)).thenReturn("Your photo was uploaded successfully.");
+    when(testContext.getString(R.string.upload_error_prefix)).thenReturn("There was a problem uploading your photo: \n");
+    // Use reflection to set context without doing full initialise
+    Field contextField = ApiClient.class.getDeclaredField("context");
+    contextField.setAccessible(true);
+    contextField.set(ApiClient.class, testContext);
   }
 
   private String getApiKey() throws IOException {
@@ -130,7 +147,7 @@ public class RetrofitApiClientIntegrationTest {
     System.out.println(result.ok());
     System.out.println(result.name());
     System.out.println(result.email());
-    System.out.println(result.error());
+    System.out.println(result.message());
     assertThat(result.ok(), is(true));
   }
 
@@ -155,7 +172,7 @@ public class RetrofitApiClientIntegrationTest {
             "cycleparking", "good", "Caption: THIS IS TEST DATA and should not be on the map", null);
     System.out.println(result.ok());
     System.out.println(result.url());
-    System.out.println(result.error());
+    System.out.println(result.message());
     // Important - remove the test data from the map, otherwise we look pretty unprofessional!
     System.out.println("Don't forgot to log on as this user and delete the photo afterwards...");
   }
@@ -166,7 +183,7 @@ public class RetrofitApiClientIntegrationTest {
             "cycleparking", "good", "Caption: THIS IS TEST DATA and should not be on the map", "/tmp/test-image.png");
     System.out.println(result.ok());
     System.out.println(result.url());
-    System.out.println(result.error());
+    System.out.println(result.message());
     // Important - remove the test data from the map, otherwise we look pretty unprofessional!
     System.out.println("Don't forgot to log on as this user and delete the photo afterwards...");
   }

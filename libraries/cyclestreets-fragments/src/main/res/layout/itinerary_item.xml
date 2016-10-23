@@ -13,7 +13,7 @@
       android:layout_height="fill_parent"
       android:layout_marginRight="@dimen/abc_dropdownitem_text_padding_right"
       android:src="@drawable/ic_launcher"
-      android:contentDescription="direction" />
+      android:contentDescription="@string/itinerary_direction" />
 
   <LinearLayout
       android:layout_width="fill_parent"
@@ -26,7 +26,7 @@
         android:gravity="center_vertical"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:ellipsize="marquee"
-        android:text="Street" />
+        android:text="@string/itinerary_street" />
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -36,7 +36,7 @@
 	        android:layout_width="0dip"
 	        android:layout_height="wrap_content"
 	        android:layout_weight="1"
-	        android:text="00m00"
+	        android:text="@string/itinerary_segment_time"
           android:gravity="right"
           android:textAppearance="?android:attr/textAppearanceSmall"/>
 	    <TextView
@@ -44,7 +44,7 @@
 	        android:layout_width="0dip"
 	        android:layout_height="wrap_content"
 	        android:layout_weight="2"
-	        android:text="0m"
+	        android:text="@string/itinerary_segment_distance"
           android:gravity="right"
           android:textAppearance="?android:attr/textAppearanceSmall"/>
 	    <TextView
@@ -52,7 +52,7 @@
 	        android:layout_width="0dip"
 	        android:layout_height="wrap_content"
 	        android:layout_weight="2"
-	        android:text="(0km)"
+	        android:text="@string/itinerary_segment_cumulative_distance"
           android:gravity="right"
           android:textAppearance="?android:attr/textAppearanceSmall"/>
       <TextView

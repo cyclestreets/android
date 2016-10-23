@@ -11,21 +11,19 @@
       android:orientation="vertical">
     <TextView
     	android:id="@+id/route_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="left"
-        android:ellipsize="marquee"
-        android:text="Route "
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        />
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:gravity="left"
+      android:ellipsize="marquee"
+      android:text="@string/storedroutes_title_default"
+      android:textAppearance="?android:attr/textAppearanceMedium"/>
     <TextView
       android:id="@+id/route_details"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       android:gravity="left"
       android:ellipsize="marquee"
-      android:text="Details"
-      android:textAppearance="?android:attr/textAppearanceSmall"
-      />
+      android:text="@string/storedroutes_detail_default"
+      android:textAppearance="?android:attr/textAppearanceSmall"/>
   </LinearLayout>
 </RelativeLayout>

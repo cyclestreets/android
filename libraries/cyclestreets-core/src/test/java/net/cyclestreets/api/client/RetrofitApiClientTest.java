@@ -5,8 +5,8 @@ import android.content.Context;
 import com.github.tomakehurst.wiremock.junit.WireMockRule;
 import com.github.tomakehurst.wiremock.verification.LoggedRequest;
 
+import net.cyclestreets.api.ApiClient;
 import net.cyclestreets.api.Blog;
-import net.cyclestreets.api.Feedback;
 import net.cyclestreets.api.GeoPlace;
 import net.cyclestreets.api.GeoPlaces;
 import net.cyclestreets.api.POI;
@@ -16,12 +16,12 @@ import net.cyclestreets.api.Photo;
 import net.cyclestreets.api.PhotomapCategories;
 import net.cyclestreets.api.PhotomapCategory;
 import net.cyclestreets.api.Photos;
-import net.cyclestreets.api.Registration;
 import net.cyclestreets.api.Result;
 import net.cyclestreets.api.Signin;
 import net.cyclestreets.api.Upload;
 import net.cyclestreets.api.UserJourney;
 import net.cyclestreets.api.UserJourneys;
+import net.cyclestreets.core.R;
 
 import org.apache.commons.io.FileUtils;
 import org.junit.Before;
@@ -34,6 +34,7 @@ import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 
 import java.io.File;
+import java.lang.reflect.Field;
 import java.util.Iterator;
 import java.util.List;
 
@@ -81,6 +82,20 @@ public class RetrofitApiClientTest {
         .withV1Host("http://localhost:8089")
         .withV2Host("http://localhost:8089")
         .build();
+
+    when(testContext.getString(R.string.feedback_ok)).thenReturn("Thank you for submitting this feedback. We will get back to you when we have checked this out.");
+    when(testContext.getString(R.string.feedback_error_prefix)).thenReturn("Your feedback could not be sent.\n\n");
+    when(testContext.getString(R.string.registration_ok)).thenReturn("Your account has been registered.\n\nAn email has been sent to the address you gave.\n\nWhen the email arrives, follow the instructions it contains to complete the registration.");
+    when(testContext.getString(R.string.registration_error_prefix)).thenReturn("Your account could not be registered.\n\n");
+    when(testContext.getString(R.string.signin_ok)).thenReturn("You have successfully signed into CycleStreets.");
+    when(testContext.getString(R.string.signin_error_prefix)).thenReturn("Error : ");
+    when(testContext.getString(R.string.signin_default_error)).thenReturn("Could not sign into CycleStreets.  Please check your username and password.");
+    when(testContext.getString(R.string.upload_ok)).thenReturn("Your photo was uploaded successfully.");
+    when(testContext.getString(R.string.upload_error_prefix)).thenReturn("There was a problem uploading your photo: \n");
+    // Use reflection to set context without doing full initialise
+    Field contextField = ApiClient.class.getDeclaredField("context");
+    contextField.setAccessible(true);
+    contextField.set(ApiClient.class, testContext);
   }
 
   @Test

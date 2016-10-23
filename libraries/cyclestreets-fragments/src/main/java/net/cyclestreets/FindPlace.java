@@ -24,7 +24,7 @@ public class FindPlace {
                             final BoundingBoxE6 boundingBox,
                             final FindPlace.Listener listener) {
     final AlertDialog.Builder builder = new AlertDialog.Builder(context);
-    builder.setTitle(R.string.ic_menu_findplace);
+    builder.setTitle(R.string.menu_find_place);
 
     final FindPlaceCallbacks fpcb = new FindPlaceCallbacks(context, builder, boundingBox, listener);
 
