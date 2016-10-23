@@ -9,9 +9,9 @@
   <string name="registration_error_prefix">Your account could not be registered.\n\n</string>
 
   <string name="signin_ok">You have successfully signed into CycleStreets.</string>
-  <string name="signin_error_prefix">"Error : "</string>
+  <string name="signin_error_prefix">Error : </string>
   <string name="signin_default_error">Could not sign into CycleStreets.  Please check your username and password.</string>
 
-  <string name="upload_ok">You have successfully signed into CycleStreets.</string>
+  <string name="upload_ok">Your photo was uploaded successfully.</string>
   <string name="upload_error_prefix">There was a problem uploading your photo: \n</string>
 </resources>
