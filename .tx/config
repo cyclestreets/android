@@ -1,0 +1,8 @@
+[main]
+host = https://www.transifex.com
+
+[cyclestreets-android.app]
+source_file = cyclestreets.vNext/src/main/res/values/strings.xml
+source_lang = en
+type = ANDROID
+file_filter = cyclestreets.vNext/src/main/res/values-<lang>/strings.xml
