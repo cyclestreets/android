@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
   <string-array name="units">
-    <item>Kilometres</item>
-    <item>Miles</item>
+    <item>Quilômetros</item>
+    <item>Milhas</item>
   </string-array>
   <string-array name="unit_values">
     <item>km</item>
-    <item>miles</item>
+    <item>mi</item>
   </string-array>
   <string-array name="speed">
-    <item>Unhurried 10mph (16km/h)</item>
-    <item>Cruising 12mph (20km/h)</item>
-    <item>Quick 15mph (24km/h)</item>
+    <item>Unhurried 16km/h (10mph)</item>
+    <item>Cruising 20km/h (12mph)</item>
+    <item>Rápido 24km/h (15mph)</item>
   </string-array>
   <string-array name="speed_values">
     <item>16</item>
@@ -19,10 +19,10 @@
     <item>24</item>
   </string-array>
   <string-array name="routetype">
-    <item>Quietest</item>
-    <item>Balanced</item>
-    <item>Fastest</item>
-    <item>Shortest</item>
+    <item>Mais tranquila</item>
+    <item>Balanceada</item>
+    <item>Mais rápida</item>
+    <item>Mais curta</item>
   </string-array>
   <string-array name="routetype_values">
     <item>quietest</item>
@@ -31,9 +31,9 @@
     <item>shortest</item>
   </string-array>
   <string-array name="uploadsize">
-    <item>Always resize to 640 pixels wide</item>
-    <item>Full size when WiFi, 3.5G or 4G available</item>
-    <item>Full size</item>
+    <item>Sempre redimensionar para 640 pixels de largura</item>
+    <item>Tamanho completo quando conectado a uma raede WiFi, 3.5G ou 4G</item>
+    <item>Tamanho completo</item>
   </string-array>
   <string-array name="uploadsize_values">
     <item>640px</item>
