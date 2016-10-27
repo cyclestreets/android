@@ -1,8 +1,41 @@
+### N.B.  Currently this file needs to be included with our TXGH deployment.
+###       See https://github.com/transifex/txgh/issues/65 for more details.
+
 [main]
 host = https://www.transifex.com
 
-[cyclestreets-android.app]
+[cyclestreets-android.app-strings]
 source_file = cyclestreets.vNext/src/main/res/values/strings.xml
+source_lang = en
+type = ANDROID
+file_filter = cyclestreets.vNext/src/main/res/values-<lang>/strings.xml
+
+[cyclestreets-android.lib-core-strings]
+source_file = libraries/cyclestreets-core/src/main/res/values/strings.xml
+source_lang = en
+type = ANDROID
+file_filter = cyclestreets.vNext/src/main/res/values-<lang>/strings.xml
+
+[cyclestreets-android.lib-core-arrays]
+source_file = libraries/cyclestreets-core/src/main/res/values/arrays.xml
+source_lang = en
+type = ANDROID
+file_filter = cyclestreets.vNext/src/main/res/values-<lang>/arrays.xml
+
+[cyclestreets-android.lib-fragments-strings]
+source_file = libraries/cyclestreets-fragments/src/main/res/values/strings.xml
+source_lang = en
+type = ANDROID
+file_filter = cyclestreets.vNext/src/main/res/values-<lang>/strings.xml
+
+[cyclestreets-android.lib-track-strings]
+source_file = libraries/cyclestreets-track/src/main/res/values/strings.xml
+source_lang = en
+type = ANDROID
+file_filter = cyclestreets.vNext/src/main/res/values-<lang>/strings.xml
+
+[cyclestreets-android.lib-view-strings]
+source_file = libraries/cyclestreets-view/src/main/res/values/strings.xml
 source_lang = en
 type = ANDROID
 file_filter = cyclestreets.vNext/src/main/res/values-<lang>/strings.xml

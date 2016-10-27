@@ -1,47 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
   <string-array name="units">
     <item>Kilometres</item>
     <item>Miles</item>
   </string-array>
-  <string-array name="unit_values">
+  <string-array name="unit_values" translatable="false">
     <item>km</item>
     <item>miles</item>
   </string-array>
+
   <string-array name="speed">
     <item>Unhurried 10mph (16km/h)</item>
     <item>Cruising 12mph (20km/h)</item>
     <item>Quick 15mph (24km/h)</item>
   </string-array>
-  <string-array name="speed_values">
+  <string-array name="speed_values" translatable="false">
     <item>16</item>
     <item>20</item>
     <item>24</item>
   </string-array>
+
   <string-array name="routetype">
     <item>Quietest</item>
     <item>Balanced</item>
     <item>Fastest</item>
     <item>Shortest</item>
   </string-array>
-  <string-array name="routetype_values">
+  <string-array name="routetype_values" translatable="false">
     <item>quietest</item>
     <item>balanced</item>
     <item>fastest</item>
     <item>shortest</item>
   </string-array>
+
   <string-array name="uploadsize">
     <item>Always resize to 640 pixels wide</item>
     <item>Full size when WiFi, 3.5G or 4G available</item>
     <item>Full size</item>
   </string-array>
-  <string-array name="uploadsize_values">
+  <string-array name="uploadsize_values" translatable="false">
     <item>640px</item>
     <item>bigIfWifi</item>
     <item>big</item>
   </string-array>
 
-  <string-array name="distance">
+  <string-array name="distance" translatable="false">
     <item>15 m</item>
     <item>20 m</item>
     <item>25 m</item>
@@ -81,7 +85,7 @@
     <item>195 m</item>
     <item>200 m</item>
   </string-array>
-  <string-array name="distance_values">
+  <string-array name="distance_values" translatable="false">
     <item>15</item>
     <item>20</item>
     <item>25</item>
