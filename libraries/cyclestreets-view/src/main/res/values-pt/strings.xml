@@ -2,7 +2,6 @@
 <resources>
   <string name="app_name">CycleStreets</string>
 
-  <string name="all_blank" translatable="false">"  "</string>
   <string name="all_button_back">Anterior</string>
   <string name="all_button_next">Próximo</string>
   <string name="all_button_save">Salvar</string>
