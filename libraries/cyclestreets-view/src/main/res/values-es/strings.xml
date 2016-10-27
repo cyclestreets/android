@@ -20,7 +20,7 @@
   <string name="location_menu_off">Desactiva localización</string>
 
   <string name="route_type">Tipo de ruta</string>
-  <string name="route_finding_new">Obteniendo tura de CycleStreets.net, por favor espere</string>
+  <string name="route_finding_new">Obteniendo rute de CycleStreets.net, por favor espere</string>
   <string name="route_fetching_existing">Buscando ruta de CycleStreets.net, por favor espere</string>
   <string name="route_finding_failed">Búsqueda sin éxito</string>
   <string name="route_loading">Cargando ruta, por favor espere</string>
@@ -29,16 +29,16 @@
   <string name="route_menu_change_reverse">Ruta inversa</string>
   <string name="route_menu_change_share">Compartir ruta</string>
   <string name="route_menu_change_comment">Comentar ruta</string>
-  <string name="route_menu_change_replan_fastest">Replantear como rápida</string>
-  <string name="route_menu_change_replan_balanced">Replantear como  equilibrada</string>
-  <string name="route_menu_change_replan_quietest">Replantear como tranquila</string>
-  <string name="route_menu_change_replan_shortest">Replantear como  corta</string>
+  <string name="route_menu_change_replan_fastest">Replantear como ruta rápida</string>
+  <string name="route_menu_change_replan_balanced">Replantear como ruta equilibrada</string>
+  <string name="route_menu_change_replan_quietest">Replantear como ruta tranquila</string>
+  <string name="route_menu_change_replan_shortest">Replantear como ruta corta</string>
   <string name="route_menu_change_reroute_from_here">Retrazar desde la localización actual</string>
 
-  <string name="route_no_location">La localizacióin no está disponible actualmente.</string>
+  <string name="route_no_location">La localización no está disponible actualmente.</string>
 
-  <string name="photo_upload_hint1">Subir informaes de problemas relacionados con el ciclismo o para buenas prácticas.</string>
-  <string name="photo_upload_hint2">Esos serán usados para informar de problemas a los que tomaban las decisiones.</string>
+  <string name="photo_upload_hint1">Subir información de problemas relacionados con el ciclismo o como buena práctica.</string>
+  <string name="photo_upload_hint2">Esos serán usados para informar de problemas a los que toman las decisiones.</string>
   <string name="photo_take_button">Toma una foto</string>
   <string name="photo_select_button">Seleccionar una foto existente.</string>
   <string name="photo_describe_hint">Describe la foto.</string>
@@ -46,7 +46,7 @@
   <string name="photo_feature_type_hint"> ¿Qué tipo de característica se muestra?</string>
   <string name="photo_could_not_load_categories">No se pueden cargar categorías de mapas. Comprueba la conexión.</string>
   <string name="photo_location_hint">¿Donde se tomó esta foto?</string>
-  <string name="photo_not_geolocatable_hint">La fotono se puede geolocalizar. Para autolocalizar fotos, activa la opcióin de geolocalización en la configuración de tu cámara.</string>
+  <string name="photo_not_geolocatable_hint">La foto no se puede geolocalizar. Para autolocalizar fotos, activa la opción de geolocalización en la configuración de tu cámara.</string>
   <string name="photo_share">Comparte esta foto</string>
   <string name="photo_uploading">Subiendo informe, espere por favor.</string>
   <string name="photo_could_not_upload">No se puede subir la foto. Comprueba tu conexión.</string>
@@ -74,8 +74,8 @@
 
   <string name="settings_no_map_packs">No tienes paquetes de mapas instalados. Vector maps está disponible como descarga a parte para los mapas sin conexión.
 	    \n\n¿Te gustaría buscar paquetes de mapas ahora?</string>
-  <string name="settings_signed_in"> Registro en CycleStreets</string>
-  <string name="settings_awaiting">Registro de cuenta esperando verificación</string>
+  <string name="settings_signed_in">Registro en CycleStreets</string>
+  <string name="settings_awaiting">Registro esperando verificación de cuenta</string>
 
   <string name="feedback_your_comments">Tus comentarios</string>
   <string name="feedback_sending">Enviando opinión a CycleStreets.net</string>
@@ -86,11 +86,11 @@
   <string name="account_signin_with_existing">Entrar con una cuenta</string>
   <string name="account_desired_username">Nombre de usuario deseado</string>
   <string name="account_desired_password">Contraseña deseada</string>
-  <string name="account_confirm_password">Confirma contraseña</string>
+  <string name="account_confirm_password">Confirma la contraseña</string>
   <string name="account_register_button">Registro</string>
   <string name="account_registering">Registrandose con CycleStreets.net</string>
 
-  <string name="account_signin_message">Por favor introduce tun nombre de usuario y contraseña para entrar.</string>
+  <string name="account_signin_message">Por favor introduce un nombre de usuario y contraseña para entrar.</string>
   <string name="account_already_signed_in_format">Ya estás conectado como\n%1$s, %2$s</string>
   <string name="account_username">Nombre de usuario</string>
   <string name="account_password">Contraseña</string>
