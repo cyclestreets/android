@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
   <string name="journey_current_speed">Current Speed:</string>
   <string name="journey_time">Journey Time:</string>
   <string name="journey_distance">Distance:</string>

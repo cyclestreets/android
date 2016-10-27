@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
   <string-array name="units">
     <item>Kilometres</item>
     <item>Miles</item>
@@ -8,6 +9,7 @@
     <item>km</item>
     <item>miles</item>
   </string-array>
+
   <string-array name="speed">
     <item>Unhurried 10mph (16km/h)</item>
     <item>Cruising 12mph (20km/h)</item>
@@ -18,6 +20,7 @@
     <item>20</item>
     <item>24</item>
   </string-array>
+
   <string-array name="routetype">
     <item>Quietest</item>
     <item>Balanced</item>
@@ -30,6 +33,7 @@
     <item>fastest</item>
     <item>shortest</item>
   </string-array>
+
   <string-array name="uploadsize">
     <item>Always resize to 640 pixels wide</item>
     <item>Full size when WiFi, 3.5G or 4G available</item>
