@@ -20,7 +20,7 @@
   <string name="location_menu_off">Desactiva localización</string>
 
   <string name="route_type">Tipo de ruta</string>
-  <string name="route_finding_new">Obteniendo rute de CycleStreets.net, por favor espere</string>
+  <string name="route_finding_new">Obteniendo ruta de CycleStreets.net, por favor espere</string>
   <string name="route_fetching_existing">Buscando ruta de CycleStreets.net, por favor espere</string>
   <string name="route_finding_failed">Búsqueda sin éxito</string>
   <string name="route_loading">Cargando ruta, por favor espere</string>
