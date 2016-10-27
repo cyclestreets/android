@@ -7,7 +7,7 @@
   </string-array>
   <string-array name="unit_values" translatable="false">
     <item>km</item>
-    <item>millas</item>
+    <item>miles</item>
   </string-array>
 
   <string-array name="speed">
