@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
   <string-array name="units">
     <item>Quilômetros</item>
     <item>Milhas</item>
   </string-array>
   <string-array name="unit_values">
     <item>km</item>
-    <item>mi</item>
+    <item>miles</item>
   </string-array>
   <string-array name="speed">
     <item>Unhurried 16km/h (10mph)</item>

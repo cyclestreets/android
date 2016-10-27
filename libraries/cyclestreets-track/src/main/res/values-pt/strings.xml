@@ -24,9 +24,9 @@
   <string name="save_gender">Gênero:</string>
 
   <!-- Note to translators: These three strings form the sentence "Level of cycling experience:" -->
-  <string name="save_level_of">Nível</string>
-  <string name="save_cycling">pedalada</string>
-  <string name="save_experience">experiência:</string>
+  <string name="save_level_of">Nível de</string>
+  <string name="save_cycling">experiência com</string>
+  <string name="save_experience">ciclismo:</string>
 
   <string name="save_submit_button">Enviar</string>
   <string name="save_discard_button">Discartar</string>
