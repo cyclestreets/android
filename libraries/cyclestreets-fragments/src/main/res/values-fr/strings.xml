@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+  <string name="navigation_drawer_open">Ouvrez le dessinateur du navigation</string>
+  <string name="navigation_drawer_close">Fermer le dessinateur du navigation</string>
+  <string name="app_name">CycleStreets</string>
+  <string name="settings">Paramètres</string>
+  <string name="about">À propos</string>
+  <string name="blog">Blog</string>
+  <string name="go">Trouver la route</string>
+  <string name="addvia">Ajouter un point sur chemin</string>
+  <string name="blog_cyclestreets_update">CycleStreets blog à jour</string>
+  <string name="blog_update">Blog à jour</string>
+  <string name="rba_start">Lancer le marqueur</string>
+  <string name="rba_finish">Terminer le marqueur</string>
+  <string name="rba_waypoint">point sur chemin %d</string>
+  <string name="confirm_new_route">Démarrer une nouvelle route?</string>
+
+  <!-- Map menu -->
+  <string name="ic_menu_directions">Planifier un itinéraire</string>
+  <string name="menu_saved_routes">Les routes enregistrées</string>
+  <string name="menu_route_by_number">Ouvrir la route par numéro</string>
+  <string name="menu_find_place">Chercher un lieu</string>
+  <string name="ic_menu_settings">Paramètres</string>
+  <string name="ic_menu_open">Ouvrir</string>
+  <string name="ic_menu_rename">Renommer</string>
+  <string name="ic_menu_edit">Editer</string>
+  <string name="ic_menu_delete">Effacer</string>
+
+  <string name="ic_menu_itinerary">Itinéraire</string>
+  <string name="ic_menu_elevation">Élévation</string>
+
+  <!-- find place dialog -->
+  <string name="btn_find_place">Trouver</string>
+  <string name="lbl_choose_place">Choisissez Lieu</string>
+
+  <!-- live ride -->
+  <string name="ic_menu_liveride">Démarrer en direct Tour</string>
+  <string name="ic_menu_stopride">Terminer en direct Tour</string>
+  <string name="ic_menu_addlocation">Nouvel emplacement</string>
+  <string name="hello_blank_fragment">Bonjour fragment vierge</string>
+
+  <string name="location_list_header">Ajouter de nouveaux emplacements en utilisant le bouton ci-dessus.\nTouchez et maintenez un emplacement dans la liste pour modifier ou supprimer.</string>
+
+  <string name="elevation_co2_saved">CO₂ sauvegarde:</string>
+  <string name="elevation_calories_burned">Calories:</string>
+  <string name="elevation_estimated_time">Temps:</string>
+  <string name="elevation_journey_number">numéro Journey:</string>
+  <!-- Do we really need the text "Fruit", Jez? :-) -->
+  <string name="elevation_fruit">Fruit</string>
+  <string name="elevation_route">route</string>
+
+  <string name="about_version_default">net.cyclestreets</string>
+
+  <string name="findplace_name_or_address">Placez le nom ou l'adresse</string>
+
+  <string name="itinerary_direction">direction</string>
+  <string name="itinerary_street">Rue</string>
+  <string name="itinerary_segment_time">00m00</string>
+  <string name="itinerary_segment_distance">0m</string>
+  <string name="itinerary_segment_cumulative_distance">(0km)</string>
+  <string name="itinerary_not_available">virage par virage les informations sur l'itinéraire seront affichées\nici une fois qu'un itinéraire est programmé.</string>
+
+  <string name="location_editor_hint">Placez la marque sur la carte et puis nommez l'emplacement.</string>
+  <string name="location_editor_name">Nom de la localisation :</string>
+  <string name="routenumber_hint">Numéro de route</string>
+
+  <string name="storedroutes_title_default">Route </string>
+  <string name="storedroutes_detail_default">Détails</string>
+  <string name="storedroutes_detail_format">%1$s route, %2$s</string>
+
+</resources>
