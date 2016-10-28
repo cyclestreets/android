@@ -19,7 +19,7 @@
   <string name="save_purpose_shopping">Shopping</string>
   <string name="save_purpose_errand">Errand</string>
   <string name="save_purpose_other">Other</string>
-  <string name="save_wide_blank">"     "</string>
+  <string name="save_wide_blank" translatable="false">"     "</string>
   <string name="save_trip_comments_hint">Comments about your trip</string>
   <string name="save_age">Age:</string>
   <string name="save_gender">Gender:</string>
