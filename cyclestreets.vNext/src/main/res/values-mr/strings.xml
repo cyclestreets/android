@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+  <string name="app_name">CycleStreets</string>
+  <string name="route_map">रवास नियोजक</string>
+  <string name="itinerary">प्रवासाचा मार्ग</string>
+  <string name="elevation">उत्थान</string>
+  <string name="photomap">फोटो नकाशा</string>
+  <string name="photo_upload">फोटो जोडा</string>
+  <string name="cyclestreets_blog">ब्लॉग</string>
+  <string name="cyclestreets_blog_updates">ब्लॉग - सुधारित</string>
+
+  <string name="crash_notif_ticker_text">अनपेक्षित त्रुटी, कृपया एक अहवाल पाठवा …</string>
+  <string name="crash_notif_title">CycleStreets क्रॅश झाला आहे …</string>
+  <string name="crash_notif_text">समस्येचे निवारण करण्यात मदत करण्यासाठी येथे क्लिक करा.</string>
+  <string name="crash_dialog_title">CycleStreets क्रॅश झाला आहे </string>
+  <string name="crash_dialog_text">एक अनपेक्षित त्रुटी आढळली. आम्हाला त्रुटी डेटा पाठवून आम्हाला या निराकरण करण्यात मदत करा, क्लिक करा \'OK\'.</string>
+  <string name="crash_dialog_comment_prompt">खालील समस्या आपल्या टिप्पण्या जोडा:</string>
+  <string name="crash_dialog_ok_toast">धन्यवाद !</string>
+
+</resources>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+  <string name="blog_notifications">ब्लॉग सूचना दर्शवा</string>
+
+  <string name="feedback_ok">आपल्या अभिप्रायाबद्दल धन्यवाद.. आपल्याला लवकरच संपर्क साधू.</string>
+  <string name="feedback_error_prefix">आपला अभिप्राय पाठवला जाऊ शकत नाही.\n\n</string>
+
+  <string name="registration_ok">आपले खाते दाखल करण्यात आले आहे.\n\n ई-मेल आपल्याला दिली पत्त्यावर पाठविला गेला आहे. \n\n सूचना ई-मेल नोंदणी पूर्ण करण्यासाठी समाविष्टीत आहे पालन करा.</string>
+  <string name="registration_error_prefix">आपले खाते नोंदणीकृत केले जाऊ शकत नाही.\n\n</string>
+
+  <string name="signin_ok">आपण यशस्वीरित्या CycleStreets साइन इन केले आहे.</string>
+  <string name="signin_error_prefix">त्रुटी : </string>
+  <string name="signin_default_error">CycleStreets साइन इन करू शकत नाही. कृपया आपले वापरकर्तानाव आणि संकेतशब्द तपासा.</string>
+
+  <string name="upload_ok">आपला फोटो यशस्वीरित्या अपलोड केला.</string>
+  <string name="upload_error_prefix">आपला फोटो अपलोड करताना एक समस्या आली: \n</string>
+
+</resources>

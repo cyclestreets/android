@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+  <string name="app_name">CycleStreets</string>
+
+  <string name="all_button_back">परत</string>
+  <string name="all_button_next">पुढे</string>
+  <string name="all_button_save">जतन करा</string>
+  <string name="all_button_cancel">रद्द करा</string>
+  <string name="all_button_close">बंद</string>
+  <string name="all_menu_back">परत</string>
+  <string name="all_menu_restart">पुन्हा सुरू</string>
+  <string name="all_upload">अपलोड करा!</string>
+  <string name="all_your_name">आपले नाव</string>
+  <string name="all_your_email">आपला ई-मेल पत्ता</string>
+
+  <string name="location_menu_mylocation">स्थान दर्शवा</string>
+  <string name="location_menu_on">स्थान अनुसरण करा</string>
+  <string name="location_menu_off">स्थान बंद</string>
+
+  <string name="route_type">मार्ग प्रकार</string>
+  <string name="route_finding_new">CycleStreets.net पासून मार्ग प्राप्त आहे, कृपया थांबा</string>
+  <string name="route_fetching_existing">CycleStreets.net पासून मार्ग आणत आहे, कृपया थांबा</string>
+  <string name="route_finding_failed">मार्ग शोधत अयशस्वी</string>
+  <string name="route_loading">लोड करीत आहे मार्ग आहे, कृपया थांबा</string>
+
+  <string name="route_menu_change">मार्ग प्रकार बदला</string>
+  <string name="route_menu_change_reverse">उलट मार्ग</string>
+  <string name="route_menu_change_share">हा मार्ग सामायिक करा</string>
+  <string name="route_menu_change_comment">या मार्गावर टिप्पणी</string>
+  <string name="route_menu_change_replan_fastest">वेगवान योजना करू</string>
+  <string name="route_menu_change_replan_balanced">योजना समतोल करू</string>
+  <string name="route_menu_change_replan_quietest">शांत योजना करू</string>
+  <string name="route_menu_change_replan_shortest">कमीत कम ीयोजना  करू</string>
+  <string name="route_menu_change_reroute_from_here">वर्तमान स्थान पासून बदलायचा</string>
+
+  <string name="route_no_location">स्थान सध्या उपलब्ध नाही.</string>
+
+  <string name="photo_upload_hint1">सायकलिंग संबंधित समस्या किंवा चांगला सराव अहवाल अपलोड करा.</string>
+  <string name="photo_upload_hint2">जेणेकरून आम्ही निर्णय घेणारे समस्या तक्रार करू शकता हे वापरले जाईल.</string>
+  <string name="photo_take_button">Take a photo</string>
+  <string name="photo_select_button">विद्यमान फोटो निवडा</string>
+  <string name="photo_describe_hint">हा फोटो वर्णन</string>
+  <string name="photo_good_or_bad_hint">ही समस्या किंवा चांगला सराव आहे?</string>
+  <string name="photo_feature_type_hint">वैशिष्ट्य काय प्रकार दर्शविली जात आहे?</string>
+  <string name="photo_could_not_load_categories">Photomap श्रेण्या लोड करणे शक्य नाही. नेटवर्क कनेक्शन तपासा.</string>
+  <string name="photo_location_hint">जेथे हे छायाचित्र घेतले होते?</string>
+  <string name="photo_not_geolocatable_hint">फोटो भौगोलिक स्थान जाऊ शकत नाही. स्वयंचलितपणे फोटो शोधून आपल्या कॅमेरा सेटिंग्ज भौगोलिक स्थान चालू करा.</string>
+  <string name="photo_share">हा फोटो शेअर करा</string>
+  <string name="photo_uploading">अहवाल अपलोड करत आहे, कृपया थांबा</string>
+  <string name="photo_could_not_upload">फोटो अपलोड करू शकत नाही. आपले नेटवर्क कनेक्शन तपासा.</string>
+  <string name="photo_upload_another">आणखी एक अपलोड करा</string>
+
+  <string name="report_continue_without_photo_button">फोटो न करता सुरू ठेवा</string>
+  <string name="report_title">आपला अहवाल</string>
+  <string name="report_location_hint">स्थान आपला अहवाल वर्णन जेथे आहे?</string>
+
+  <string name="tiles_map_pack_out_of_date">हा नकाशा पॅक अॅप च्या या आवृत्तीमध्ये वापरले करू शकत नाहीत जाईल.\n आपण एक सुधारणा शोधू इच्छिता?</string>
+
+  <string name="placeview_menu">मेनू</string>
+  <string name="placeview_current_location">वर्तमान स्थान</string>
+  <string name="placeview_choose_location">स्थान निवडा</string>
+  <string name="placeview_location_not_found">कोणतेहि स्थान सापडले नाही</string>
+  <string name="placeview_location_search">स्थान शोधताना</string>
+  <string name="placeview_contacts">संपर्क</string>
+  <string name="placeview_no_contacts_with_addresses">आपल्या संपर्कातील कोणीही पत्ते.</string>
+  <string name="placeview_contacts_loading">संपर्क लोड करीत आहे</string>
+  <string name="placeview_remove">काढा</string>
+  <string name="placeview_saved_locations">जतन केलेले स्थान</string>
+
+  <string name="poi_menu_title">व्याज पॉइंट्स</string>
+  <string name="poi_menu_entry">श्रेणी</string>
+
+  <string name="settings_no_map_packs">आपण स्थापित केलेले कोणतेही नकाशा पॅक नाही. वेक्टर नकाशे ऑफलाइन वापरासाठी स्वतंत्र डाउनलोड म्हणून उपलब्ध आहेत.
+  \n आपण आता नकाशा पॅक्स शोधू इच्छिता?</string>
+  <string name="settings_signed_in">CycleStreets मध्ये साइन इन</string>
+  <string name="settings_awaiting">खाते नोंदणी सत्यापन वाट पहात</string>
+
+  <string name="feedback_your_comments">आपल्या टिप्पण्या</string>
+  <string name="feedback_sending">CycleStreets.net मार्ग अभिप्राय पाठवत आहे</string>
+
+  <string name="account_required_for_photos">फोटो अपलोड करण्यासाठी आपण साइन इन करा खाते CycleStreets असणे आवश्यक आहे.</string>
+  <string name="account_registering_is_free">खाते नोंदणी मोफत आहे.</string>
+  <string name="account_register_message">खात्यासाठी नोंदणी</string>
+  <string name="account_signin_with_existing">विद्यमान खात्याशी साइन इन</string>
+  <string name="account_desired_username">इच्छित वापरकर्तानाव</string>
+  <string name="account_desired_password">इच्छित पासवर्ड</string>
+  <string name="account_confirm_password">पासवर्ड पुष्टी</string>
+  <string name="account_register_button">नोंदणी</string>
+  <string name="account_registering">CycleStreets.net नोंदणी</string>
+
+  <string name="account_signin_message">साइन इन करण्यासाठी आपले खाते वापरकर्तानाव आणि संकेतशब्द प्रविष्ट करा.</string>
+  <string name="account_already_signed_in_format">आपण आता मध्ये साइन इन केले\n%1$s, %2$s</string>
+  <string name="account_username">वापरकर्तानाव</string>
+  <string name="account_password">पासवर्ड</string>
+  <string name="account_clear_stored_button">संग्रहित तपशील स्पष्ट</string>
+  <string name="account_signin_button">साइन इन कराn</string>
+  <string name="account_signing_in">साइन इन CycleStreets.net मध्ये</string>
+
+  <string name="account_email_format">प्रविष्ट केलेला ईमेल पत्ता योग्यरितीने स्वरूपित पत्ता नाही.</string>
+  <string name="account_password_mismatch">संकेतशब्द आणि पुष्टीकरण संकेतशब्द जुळत नाही.</string>
+  <string name="account_username_too_short">वापरकर्तानाव किमान पाच अक्षरे / संख्या असणे आवश्यक आहे.</string>
+  <string name="account_clear_details_confirm">आपण संग्रहित खाते तपशील साफ करायचे आहे का?</string>
+  <string name="account_pending">आपण आधीच एक खाते आहे नोंदणी केली आहे. कृपया सत्यापन ई-मेल ईमेल तपासा.</string>
+  <string name="account_registration_is_free_long">नोंदणी मोफत आहे आणि ते नोंदणीकृत वापरकर्ते फोटो जोडू शकतात. नोंदणी प्रक्रिया सुरू करण्यासाठी खालील फॉर्म मध्ये आपली माहिती प्रविष्ट करा.</string>
+
+</resources>
