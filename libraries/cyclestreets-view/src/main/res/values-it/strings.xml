@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+  <string name="app_name">CycleStreets</string>
+
+  <string name="all_button_back">Indietro</string>
+  <string name="all_button_next">Prossimo</string>
+  <string name="all_button_save">Salva</string>
+  <string name="all_button_cancel">Cancella</string>
+  <string name="all_button_close">Chiudi</string>
+  <string name="all_menu_back">Indietro</string>
+  <string name="all_menu_restart">Ricomincia</string>
+  <string name="all_upload">Carica!</string>
+  <string name="all_your_name">Il tuo nome</string>
+  <string name="all_your_email">Il tuo indirizzo email</string>
+
+  <string name="location_menu_mylocation">Mostra località</string>
+  <string name="location_menu_on">Segui la localizzazione</string>
+
+  <string name="route_type">Tipo percorso</string>
+  <string name="route_finding_new">Ottenendo il percorso da CycleStreets.net, attendere</string>
+  <string name="route_fetching_existing">Richiamando il percorso da CycleStreets.net, attendere</string>
+  <string name="route_finding_failed">Ricerca del percorso fallita</string>
+  <string name="route_loading">Percorso in caricamento, attendee</string>
+
+  <string name="route_menu_change">Cambia tipo percorso</string>
+  <string name="route_menu_change_reverse">Percorso inverso</string>
+  <string name="route_menu_change_share">Condividi queto percorso</string>
+  <string name="route_menu_change_comment">Commenta percorso</string>
+  <string name="route_menu_change_replan_fastest">Ricalcola come più veloce</string>
+  <string name="route_menu_change_replan_balanced">Ricalcola come bilanciato</string>
+  <string name="route_menu_change_replan_quietest">Ricalcola come più tranquillo</string>
+  <string name="route_menu_change_replan_shortest">Ricalcola come più corto</string>
+  <string name="route_menu_change_reroute_from_here">Ricalcola dalla posizione attuale</string>
+
+  <string name="route_no_location">Posizione momentaneamente non disponibile.</string>
+
+  <string name="photo_upload_hint1">Carica rapporto di problemi di cliclismo o buone prassi.</string>
+  <string name="photo_upload_hint2">Questi verranno usati per permetterci di segnalare problemi a chi di competenza.</string>
+  <string name="photo_take_button">Scatta una foto</string>
+  <string name="photo_select_button">Seleziona una foto esistente</string>
+  <string name="photo_describe_hint">Descrivi questa foto</string>
+  <string name="photo_good_or_bad_hint">E\' un problema o una buona prassi?</string>
+  <string name="photo_feature_type_hint">Che tipo di funzionalità ti stiamo mostrando?</string>
+  <string name="photo_could_not_load_categories">Impossibile caricare le categorie photomap. Controllare la connessione.</string>
+  <string name="photo_location_hint">Quando è stata scattata questa foto?</string>
+  <string name="photo_share">Condividi questa foto</string>
+  <string name="photo_uploading">Rapporto in caricamento, attendere</string>
+  <string name="photo_could_not_upload">Impossibile caricare foto. Controlla la tua connessione.</string>
+  <string name="photo_upload_another">Carica un\'altra foto</string>
+
+  <string name="report_continue_without_photo_button">Continua senza foto</string>
+  <string name="report_location_hint">Dove è la località descritta nel rapporto?</string>
+
+  <string name="tiles_map_pack_out_of_date">Questo pacchetto mappe non può essere usato con questa versione dell\'app. \n\nVuoi cercare un aggiornamento?</string>
+
+  <string name="placeview_menu">Menu</string>
+  <string name="placeview_current_location">Posizione Attuale</string>
+  <string name="placeview_choose_location">Seleziona posizione</string>
+  <string name="placeview_location_not_found">Posizione non trovata</string>
+  <string name="placeview_location_search">Ricerca della posizione</string>
+  <string name="placeview_contacts">Contatti</string>
+  <string name="placeview_no_contacts_with_addresses">Nessuno dei tui contatti ha un indirizzo</string>
+  <string name="placeview_contacts_loading">Contatti in caricamento</string>
+  <string name="placeview_remove">Rimuovi</string>
+  <string name="placeview_saved_locations">Posizioni Salvate</string>
+
+  <string name="poi_menu_title">Punti di interesse</string>
+  <string name="poi_menu_entry">categoria</string>
+
+  <string name="settings_no_map_packs">Non hai nessuna mappa installata. Mappe vettoriale per l\'uso\n\t    offline sono disponibili come download separati..\n\t    \n\nVuoi cercare i pacchetti mappe ora?</string>
+  <string name="settings_signed_in">Accesso effettuato su CycleStreets</string>
+  <string name="settings_awaiting">Registrazione account in attesa di verifica</string>
+
+  <string name="feedback_your_comments">I tuoi commenti</string>
+  <string name="feedback_sending">Inviando opinione sul percorso a CycleStreets.net</string>
+
+  <string name="account_required_for_photos">Per caricare le foto devi avere un account CycleStreets.</string>
+  <string name="account_registering_is_free">Creare un account è gratis.</string>
+  <string name="account_register_message">Crea un nuovo account</string>
+  <string name="account_signin_with_existing">Esegui l\'accesso con un account esistente</string>
+  <string name="account_desired_password">Password desiderata</string>
+  <string name="account_register_button">Registrati</string>
+  <string name="account_registering">Registrati con CycleStreets.net</string>
+
+  <string name="account_signin_message">Inserisci il tuo username e password per effettuare l\'accesso.</string>
+  <string name="account_already_signed_in_format">Hai già effettuato l\'accesso come\n%1$s, %2$s</string>
+  <string name="account_username">Username</string>
+  <string name="account_password">Password</string>
+  <string name="account_clear_stored_button">Cancella dati salvati</string>
+  <string name="account_signin_button">Accedi</string>
+  <string name="account_signing_in">Accedi a CycleStreets.net</string>
+
+  <string name="account_password_mismatch">La password e la password di conferma non corrispondono.</string>
+  <string name="account_pending">Hai già creato un account. Controlla il tuo indirizzo email per l\'attivazione.</string>
+  <string name="account_registration_is_free_long">La registrazione è gratuita e gli utenti registrati possono caricare foto. Per iniziare la procedura di iscrizione inserisci i tuoi dati nel modulo di seguito.</string>
+  <string name="account_clear_details_confirm">Sei sicuro di voler cancellare i dati del tuo account?</string>
+  <string name="account_confirm_password">Conferma password</string>
+  <string name="account_desired_username">Nome utente desiderato</string>
+  <string name="account_email_format">L\'indirizzo email inserito non è corretto.</string>
+  <string name="account_username_too_short">Il nome utente deve essere lungo almeno cinque lettere/numeri</string>
+  <string name="location_menu_off">Disattiva Posizionamento</string>
+  <string name="photo_not_geolocatable_hint">Non abbiamo potuto geolocalizzare la foto. Per localizzare le foto in automatico, attiva la geolocalizzazione nelle impostazioni della tua fotocamera.</string>
+  <string name="report_title">Il tuo rapporto</string>
+
+</resources>
