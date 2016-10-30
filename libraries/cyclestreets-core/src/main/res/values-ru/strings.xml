@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+  <string name="blog_notifications">Показать уведомления об обновлениях в блоге</string>
+
+  <string name="feedback_ok">Благодарим Вас за отправку обратную связь. Мы свяжемся с вами, когда мы проверим ее.</string>
+  <string name="feedback_error_prefix">Ваша обратная связь не может быть отправлено.\n\n</string>
+
+  <string name="registration_ok">Ваш аккаунт был зарегистрирован.\n\n Электронное сообщение было отправлено по адресу, который вы дали.\n Когда почта придет, следуйте инструкциям, которые оно содержит, чтобы завершить регистрацию.</string>
+  <string name="registration_error_prefix">Ваша учетная запись не может быть зарегистрировано.\n\n</string>
+
+  <string name="signin_ok">Вы успешно вошли в CycleStreets.</string>
+  <string name="signin_error_prefix">Ошибка : </string>
+  <string name="signin_default_error">Не удалось войти в CycleStreets. Пожалуйста, проверьте имя пользователя и пароль.</string>
+
+  <string name="upload_ok">Ваше фото загружено успешно.</string>
+  <string name="upload_error_prefix">Произошла ошибка при загрузке вашей фотографии: \n</string>
+
+</resources>

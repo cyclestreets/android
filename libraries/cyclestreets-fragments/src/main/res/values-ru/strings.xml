@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+  <string name="navigation_drawer_open">Открыть панель навигации</string>
+  <string name="navigation_drawer_close">Закрыть панель навигации</string>
+  <string name="app_name">CycleStreets</string>
+  <string name="settings">Настройки</string>
+  <string name="about">О апликации</string>
+  <string name="blog">Блог</string>
+  <string name="go">Найти маршрут</string>
+  <string name="addvia">Добавить точку</string>
+  <string name="blog_cyclestreets_update">Обновление блога CycleStreets</string>
+  <string name="blog_update">Обновлении блога</string>
+  <string name="rba_start">Запустить маркер</string>
+  <string name="rba_finish">Закончить маркер</string>
+  <string name="rba_waypoint">Точка %d</string>
+  <string name="confirm_new_route">Начать новый маршрут?</string>
+
+  <!-- Map menu -->
+  <string name="ic_menu_directions">Планирование маршрута</string>
+  <string name="menu_saved_routes">Сохраненные маршруты</string>
+  <string name="menu_route_by_number">Открыть маршрут по номеру</string>
+  <string name="menu_find_place">Найти место</string>
+  <string name="ic_menu_settings">Настройки</string>
+  <string name="ic_menu_open">Открыть</string>
+  <string name="ic_menu_rename">Переименовывать</string>
+  <string name="ic_menu_edit">Редактировать</string>
+  <string name="ic_menu_delete">Удалить</string>
+
+  <string name="ic_menu_itinerary">Маршрут</string>
+  <string name="ic_menu_elevation">Высота</string>
+
+  <!-- find place dialog -->
+  <string name="btn_find_place">Найти</string>
+  <string name="lbl_choose_place">Выберите место</string>
+
+  <!-- live ride -->
+  <string name="ic_menu_liveride">Начатъ LiveRide</string>
+  <string name="ic_menu_stopride">Закончить LiveRide</string>
+  <string name="ic_menu_addlocation">Новое место</string>
+  <string name="hello_blank_fragment">Привет пустой фрагмент</string>
+
+  <string name="location_list_header">Добавить новые места с помощью кнопки выше.\nНажмите и удерживайте местоположение в списке, чтобы изменить или удалить.</string>
+
+  <string name="elevation_co2_saved">CO₂ экономия:</string>
+  <string name="elevation_calories_burned">Калории:</string>
+  <string name="elevation_estimated_time">Время:</string>
+  <string name="elevation_journey_number">Количество Путешествие:</string>
+  <!-- Do we really need the text "Fruit", Jez? :-) -->
+  <string name="elevation_fruit">Фрукты</string>
+  <string name="elevation_route">маршрут</string>
+
+  <string name="about_version_default">net.cyclestreets</string>
+
+  <string name="findplace_name_or_address">Поместите имя или адрес</string>
+
+  <string name="itinerary_direction">Направление</string>
+  <string name="itinerary_street">Улица</string>
+  <string name="itinerary_segment_time">00м00</string>
+  <string name="itinerary_segment_distance">0м</string>
+  <string name="itinerary_segment_cumulative_distance">(0км)</string>
+  <string name="itinerary_not_available">Turn-by-turn route information will be shown\nhere once a route is planned.</string>
+
+  <string name="location_editor_hint">Поместите метку на карте, а затем назовите местоположение.</string>
+  <string name="location_editor_name">Название местоположения :</string>
+  <string name="routenumber_hint">Номер маршрута</string>
+
+  <string name="storedroutes_title_default">Маршрут </string>
+  <string name="storedroutes_detail_default">Детали</string>
+  <string name="storedroutes_detail_format">%1$s  маршрут, %2$s</string>
+
+</resources>
