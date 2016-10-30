@@ -83,7 +83,7 @@
   <string name="account_required_for_photos">Для того, чтобы загрузить фотографии вы должны иметь CycleStreets счет и войти в свой аккаунт.</string>
   <string name="account_registering_is_free">Регистрация учетной записи является бесплатным.</string>
   <string name="account_register_message">Зарегистрировать учетную запись</string>
-  <string name="account_signin_with_existing">Войти в свой аккаунт/string>
+  <string name="account_signin_with_existing">Войти в свой аккаунт</string>
   <string name="account_desired_username">Желаемое имя пользователя</string>
   <string name="account_desired_password">Желаемый пароль</string>
   <string name="account_confirm_password">Подтвердите Пароль</string>

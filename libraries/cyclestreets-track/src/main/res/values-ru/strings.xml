@@ -19,7 +19,6 @@
   <string name="save_purpose_shopping">Покупка</string>
   <string name="save_purpose_errand">Поручение</string>
   <string name="save_purpose_other">Другое</string>
-  <string name="save_wide_blank">"     "</string>
   <string name="save_trip_comments_hint">Комментарии о вашей поездке</string>
   <string name="save_age">Возраст:</string>
   <string name="save_gender">Пол:</string>

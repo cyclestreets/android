@@ -3,7 +3,6 @@
 
   <string name="app_name">CycleStreets</string>
 
-  <string name="all_blank" translatable="false">"  "</string>
   <string name="all_button_back">वापस</string>
   <string name="all_button_next">अगला</string>
   <string name="all_button_save">संचय</string>

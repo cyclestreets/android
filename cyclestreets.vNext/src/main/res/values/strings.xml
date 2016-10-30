@@ -11,7 +11,7 @@
   <string name="cyclestreets_blog_updates">Blog - updated</string>
 
   <string name="crash_notif_ticker_text">Unexpected error, please send a report …</string>
-  <string name="crash_notif_title">CycleStets has crashed …</string>
+  <string name="crash_notif_title">CycleStreets has crashed …</string>
   <string name="crash_notif_text">Please click here to help fix the issue.</string>
   <string name="crash_dialog_title">CycleStreets has crashed</string>
   <string name="crash_dialog_text">An unexpected error occurred forcing the

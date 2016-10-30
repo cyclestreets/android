@@ -11,11 +11,6 @@
     <item>तेज 12mph (20km/h)</item>
     <item>बहुत तेज  15mph (24km/h)</item>
   </string-array>
-  <string-array name="speed_values" translatable="false">
-    <item>16</item>
-    <item>20</item>
-    <item>24</item>
-  </string-array>
 
   <string-array name="routetype">
     <item>शांत</item>
@@ -28,11 +23,6 @@
     <item>हमेशा आकार 640 पिक्सल चौड़ा करना </item>
     <item>पूर्ण आकार जब WiFi, 3.5G या 4G उपलब्ध</item>
     <item>पूर्ण आकार</item>
-  </string-array>
-  <string-array name="uploadsize_values" translatable="false">
-    <item>640px</item>
-    <item>bigIfWifi</item>
-    <item>big</item>
   </string-array>
 
 </resources>
