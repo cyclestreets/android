@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <string name="journey_current_speed">Velocidade atual:</string>
+  <string name="journey_time">Tempo decorrido:</string>
+  <string name="journey_distance">Distancia:</string>
+  <string name="journey_finish_button">Terminar</string>
+
+  <string name="completedjourney_info">Informações de jornada</string>
+  <string name="completedjourney_start_time">Iniciar tempo</string>
+  <string name="completedjourney_purpose">razão da viagem</string>
+
+  <string name="save_choose_purpose_hint">Parar de gravar.Escolha razão da viagem:</string>
+  <string name="save_purpose_commute">Trasporte</string>
+  <string name="save_purpose_school">Estudos</string>
+  <string name="save_purpose_work">Negócios</string>
+  <string name="save_purpose_exercise">Exercício</string>
+  <string name="save_purpose_social">Social</string>
+  <string name="save_purpose_shopping">Compras</string>
+  <string name="save_purpose_errand">Pessoal</string>
+  <string name="save_purpose_other">Outra</string>
+  <string name="save_trip_comments_hint">Comentários sobre sua viagem</string>
+  <string name="save_age">Idade:</string>
+  <string name="save_gender">Gênero:</string>
+
+  <!-- Note to translators: These three strings form the sentence "Level of cycling experience:" -->
+  <string name="save_level_of">Nível de</string>
+  <string name="save_cycling">experiência com</string>
+  <string name="save_experience">ciclismo:</string>
+
+  <string name="save_submit_button">Enviar</string>
+  <string name="save_discard_button">Discartar</string>
+  <string name="savetrip_discarded">Viagem discartada.</string>
+  <string name="savetrip_no_purpose">Você deve escolher um propósito para a viagem antes de enviar! Escolha nas opções acima.</string>
+  <string name="savetrip_purpose_commute"><![CDATA[<b>Transporte:</b> sua viagem de bicicleta foi de transporte entre sua casa e seu local de trabalho.]]></string>
+  <string name="savetrip_purpose_school"><![CDATA[<b>Estudos:</b> sua viagem de bicicleta foi de transporte para a escola ou faculdade.]]></string>
+  <string name="savetrip_purpose_work_related"><![CDATA[<b>Negócios:</b> sua viagem de bicicleta foi com o propósito de negócios, transporte para reunião, ou transporte para realizar qualquer função relacioanda com trabalho.]]></string>
+  <string name="savetrip_purpose_exercise"><![CDATA[<b>Exercício:</b> sua viagem de bicicleta foi primariamente para se exercitar, ou apenas para pedalar.]]></string>
+  <string name="savetrip_purpose_social"><![CDATA[<b>Social:</b> sua viagem de bicicleta foi pripariamente para transporte a uma atividade social, como ir para a casa de um amigo, ir ao parque, a um restaurante ou ao cinema.]]></string>
+  <string name="savetrip_purpose_shopping"><![CDATA[<b>Compras:</b> sua viagem de bicicleta foi primariamente para compras.]]></string>
+  <string name="savetrip_purpose_errand"><![CDATA[<b>Pessoal:</b> sua viagem de bicicleta foi para atender a necessidaes pessoais, como ir ao banco, ao médico, ir para a academia, e etc.]]></string>
+  <string name="savetrip_purpose_other"><![CDATA[<b>Outros:</b> se nenhuma das razões acima se aplica, comente abaixo e nos diga mais.]]></string>
+  <string name="savetrip_please_select">Favor selecionar</string>
+  <string name="savetrip_gender_prompt">Favor selecionar seu gênero</string>
+  <string name="savetrip_gender_male">Masculino</string>
+  <string name="savetrip_gender_female">Feminino</string>
+  <string name="savetrip_gender_private">Outro</string>
+  <string name="savetrip_experience_prompt">Favor selecionar seu nível de esperiência</string>
+  <string name="savetrip_experience_experienced">Experiente</string>
+  <string name="savetrip_experience_infrequent">Médio</string>
+  <string name="savetrip_experience_beginner">Iniciante</string>
+  <string name="savetrip_end_info_format">%1$1.1f milhas, %2$d minutos.  %3$s</string>
+
+</resources>
