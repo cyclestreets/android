@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+  <string-array name="units">
+    <item>Kilometres</item>
+    <item>Miles</item>
+  </string-array>
+  <string-array name="unit_values" translatable="false">
+    <item>km</item>
+    <item>miles</item>
+  </string-array>
+
+  <string-array name="speed">
+    <item>Unhurried 10mph (16km/h)</item>
+    <item>Cruising 12mph (20km/h)</item>
+    <item>Quick 15mph (24km/h)</item>
+  </string-array>
+  <string-array name="speed_values" translatable="false">
+    <item>16</item>
+    <item>20</item>
+    <item>24</item>
+  </string-array>
+
+  <string-array name="routetype">
+    <item>Quietest</item>
+    <item>Balanced</item>
+    <item>Fastest</item>
+    <item>Shortest</item>
+  </string-array>
+  <string-array name="routetype_values" translatable="false">
+    <item>quietest</item>
+    <item>balanced</item>
+    <item>fastest</item>
+    <item>shortest</item>
+  </string-array>
+
+  <string-array name="uploadsize">
+    <item>Always resize to 640 pixels wide</item>
+    <item>Full size when WiFi, 3.5G or 4G available</item>
+    <item>Full size</item>
+  </string-array>
+  <string-array name="uploadsize_values" translatable="false">
+    <item>640px</item>
+    <item>bigIfWifi</item>
+    <item>big</item>
+  </string-array>
+
+  <string-array name="distance" translatable="false">
+    <item>15 m</item>
+    <item>20 m</item>
+    <item>25 m</item>
+    <item>30 m</item>
+    <item>35 m</item>
+    <item>40 m</item>
+    <item>45 m</item>
+    <item>50 m</item>
+    <item>55 m</item>
+    <item>60 m</item>
+    <item>65 m</item>
+    <item>70 m</item>
+    <item>75 m</item>
+    <item>80 m</item>
+    <item>85 m</item>
+    <item>90 m</item>
+    <item>95 m</item>
+    <item>100 m</item>
+    <item>105 m</item>
+    <item>110 m</item>
+    <item>115 m</item>
+    <item>120 m</item>
+    <item>125 m</item>
+    <item>130 m</item>
+    <item>135 m</item>
+    <item>140 m</item>
+    <item>145 m</item>
+    <item>150 m</item>
+    <item>155 m</item>
+    <item>160 m</item>
+    <item>165 m</item>
+    <item>170 m</item>
+    <item>175 m</item>
+    <item>180 m</item>
+    <item>185 m</item>
+    <item>190 m</item>
+    <item>195 m</item>
+    <item>200 m</item>
+  </string-array>
+  <string-array name="distance_values" translatable="false">
+    <item>15</item>
+    <item>20</item>
+    <item>25</item>
+    <item>30</item>
+    <item>35</item>
+    <item>40</item>
+    <item>45</item>
+    <item>50</item>
+    <item>55</item>
+    <item>60</item>
+    <item>65</item>
+    <item>70</item>
+    <item>75</item>
+    <item>80</item>
+    <item>85</item>
+    <item>90</item>
+    <item>95</item>
+    <item>100</item>
+    <item>105</item>
+    <item>110</item>
+    <item>115</item>
+    <item>120</item>
+    <item>125</item>
+    <item>130</item>
+    <item>135</item>
+    <item>140</item>
+    <item>145</item>
+    <item>150</item>
+    <item>155</item>
+    <item>160</item>
+    <item>165</item>
+    <item>170</item>
+    <item>175</item>
+    <item>180</item>
+    <item>185</item>
+    <item>190</item>
+    <item>195</item>
+    <item>200</item>
+  </string-array>
+
+</resources>
