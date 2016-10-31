@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+  <string name="journey_current_speed">Velocidad actual:</string>
+  <string name="journey_time">Tiempo viajado:</string>
+  <string name="journey_distance">Distancia:</string>
+  <string name="journey_finish_button">Terminado</string>
+
+  <string name="completedjourney_info">Información de viaje</string>
+  <string name="completedjourney_start_time">hora de comienzo</string>
+  <string name="completedjourney_purpose">propósito del viaje</string>
+
+  <string name="save_choose_purpose_hint">Grabación terminada. Elige un propósito de viaje:</string>
+  <string name="save_purpose_commute">Commutar</string>
+  <string name="save_purpose_school">Escuela</string>
+  <string name="save_purpose_work">Relacionado con el trabajo</string>
+  <string name="save_purpose_exercise">Ejercicio</string>
+  <string name="save_purpose_social">Social</string>
+  <string name="save_purpose_shopping">Compra</string>
+  <string name="save_purpose_errand">Errando</string>
+  <string name="save_purpose_other">Otro</string>
+  <string name="save_trip_comments_hint">Comentarios sobre el viaje.</string>
+  <string name="save_age">Edad:</string>
+  <string name="save_gender">Género:</string>
+
+  <!-- Note to translators: These three strings form the sentence "Level of cycling experience:" -->
+  <string name="save_level_of">Nivel de</string>
+  <string name="save_cycling">ciclismo</string>
+  <string name="save_experience">experiencia:</string>
+
+  <string name="save_submit_button">Enviar</string>
+  <string name="save_discard_button">Descartar</string>
+  <string name="savetrip_discarded">Viaje descartado.</string>
+  <string name="savetrip_no_purpose">Debes seleccionar un propósito para tu viaje antes de enviar. Elige uno de los propósitos anteriores.</string>
+  <string name="savetrip_purpose_commute"><![CDATA[<b>Conmutar:</b> este viaje es para ir básicamente de tu casa al trabajo.]]></string>
+  <string name="savetrip_purpose_school"><![CDATA[<b>Colegio:</b> este viaje es para ir a tu centro de estudios.]]></string>
+  <string name="savetrip_purpose_work_related"><![CDATA[<b>Relacionado con el trabajo:</b> este viaje es para ir a una reunión, convenció, conferencia... relacionados con el trabajo]]></string>
+  <string name="savetrip_purpose_exercise"><![CDATA[<b>Ejercicio:</b> este viaje es para hacer ejercicio, o por el amor al ciclismo.]]></string>
+  <string name="savetrip_purpose_social"><![CDATA[<b>Social:</b> este viaje es para moverse a una actividad social, como la casa de una amigo,parque, restaurante...]]></string>
+  <string name="savetrip_purpose_shopping"><![CDATA[<b>Shopping:</b> this bike trip was primarily to purchase or bring home goods or groceries.]]></string>
+  <string name="savetrip_purpose_errand"><![CDATA[<b>Errando:</b> este viaje es para asistir a asuntos personales como el banco, el médico, gimnasio...]]></string>
+  <string name="savetrip_purpose_other"><![CDATA[<b>Otro:</b> si ninguna de las otras razones son aplicables, puedes comentarlo a continuación.]]></string>
+  <string name="savetrip_please_select">Por favor selecciona</string>
+  <string name="savetrip_gender_prompt">Por favor selecciona género</string>
+  <string name="savetrip_gender_male">masculino</string>
+  <string name="savetrip_gender_female">femenino</string>
+  <string name="savetrip_gender_private">prefiero no decirlo</string>
+  <string name="savetrip_experience_prompt">Por favor selecciona nivel de experiencia</string>
+  <string name="savetrip_experience_experienced">experimentado</string>
+  <string name="savetrip_experience_infrequent">casual</string>
+  <string name="savetrip_experience_beginner">principiante</string>
+  <string name="savetrip_end_info_format">%1$1.1f millas, %2$d minutos.  %3$s</string>
+
+</resources>
