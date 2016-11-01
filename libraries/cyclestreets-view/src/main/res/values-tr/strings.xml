@@ -35,18 +35,18 @@
   <string name="route_menu_change_replan_shortest">En kısa olacak şekilde yeniden planla</string>
   <string name="route_menu_change_reroute_from_here">Şimdiki konumdan yeniden yönlendir</string>
 
-  <string name="route_no_location">Location not currently available.</string>
+  <string name="route_no_location">Konum mevcut durumda uygun değil.</string>
 
-  <string name="photo_upload_hint1">Upload reports of cycling-related problems or of good practice.</string>
-  <string name="photo_upload_hint2">These will be used so that we can report problems to decision makers.</string>
-  <string name="photo_take_button">Take a photo</string>
-  <string name="photo_select_button">Select existing photo</string>
-  <string name="photo_describe_hint">Describe this photo</string>
-  <string name="photo_good_or_bad_hint">Is this a problem or good practice?</string>
-  <string name="photo_feature_type_hint">What type of feature is being shown?</string>
-  <string name="photo_could_not_load_categories">Could not load photomap categories.  Please check network connection.</string>
-  <string name="photo_location_hint">Where was this photo taken?</string>
-  <string name="photo_not_geolocatable_hint">The photo could not be geolocated. To automatically locate photos, please turn on geolocation in your Camera settings.</string>
+  <string name="photo_upload_hint1">Bisikletle ilgili sorunları veya iyi yöntem raporlarını yükleyin.</string>
+  <string name="photo_upload_hint2">Bunlar kullanılacak, bu yüzden karar vericiler için sorunları bildirebiliriz.</string>
+  <string name="photo_take_button">Fotoğraf çek</string>
+  <string name="photo_select_button">Varolan fotoğrafı seç</string>
+  <string name="photo_describe_hint">Fotoğrafı tanımla</string>
+  <string name="photo_good_or_bad_hint">Bu bir sorun ya da iyi bir yöntem mi?</string>
+  <string name="photo_feature_type_hint">Özelliğin hangi tipi gösteriliyor?</string>
+  <string name="photo_could_not_load_categories">Fotoğraf haritası kategorileri yüklenemedi. İnternet bağlantısını kontrol edin.</string>
+  <string name="photo_location_hint">Fotoğraf nerede çekildi?</string>
+  <string name="photo_not_geolocatable_hint">Fotoğrafın coğrafi konumu elde edilemedi. Fotoğrafları otomatik olarak bulmak için, lütfen kamera ayarlarında coğrafi konum açın.</string>
   <string name="photo_share">Fotoğrafı paylaş</string>
   <string name="photo_uploading">Rapor yükleniyor, lütfen bekleyin</string>
   <string name="photo_could_not_upload">Fotoğraf yüklenemedi. Lütfen internet bağlantınızı kontrol edin.</string>
@@ -54,9 +54,9 @@
 
   <string name="report_continue_without_photo_button">Fotoğrafsız devam et</string>
   <string name="report_title">Raporunuz</string>
-  <string name="report_location_hint">Where is the location your report describes?</string>
+  <string name="report_location_hint">Neredeki konumda raporu taımladın?</string>
 
-  <string name="tiles_map_pack_out_of_date">This map pack is cannot be used with this version of the app. \n\nWould you like to search for an update?</string>
+  <string name="tiles_map_pack_out_of_date">Bu harita paketi uygulamasının bu sürümü kullanılamaz.\n\nBir güncelleme aramak ister misiniz?</string>
 
   <string name="placeview_menu">Menu</string>
   <string name="placeview_current_location">Şimdiki konum</string>
@@ -80,7 +80,7 @@
   <string name="feedback_sending">CycleStreets.net için rota geri bildirimi gönderin</string>
 
   <string name="account_required_for_photos">Fotoğraf eklemek için CycleStreets'e giriş yapmış olmalısınız.</string>
-  <string name="account_registering_is_free">Registering for an account is free.</string>
+  <string name="account_registering_is_free">Bu hesap için kayıt ücretsizdir.</string>
   <string name="account_register_message">Hesap için kayıl olun</string>
   <string name="account_signin_with_existing">Varolan hesabınızla giriş yapın</string>
   <string name="account_desired_username">Kullanıcı Adı Gerekli</string>

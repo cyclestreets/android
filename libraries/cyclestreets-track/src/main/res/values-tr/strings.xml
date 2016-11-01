@@ -31,7 +31,7 @@
 
   <string name="save_submit_button">Yayınla</string>
   <string name="save_discard_button">İptal et</string>
-  <string name="savetrip_discarded">Seyahat iptla edildi.</string>
+  <string name="savetrip_discarded">Seyahat iptal edildi.</string>
   <string name="savetrip_no_purpose">Yayınlamadan önce seyahat amacınızı seçmelisiniz! Yukarıdan seyahat amacınızı seçiniz.</string>
   <string name="savetrip_purpose_commute"><![CDATA[<b>Commute:</b> this bike trip was primarily to get between home and your main workplace.]]></string>
   <string name="savetrip_purpose_school"><![CDATA[<b>School:</b> this bike trip was primarily to go to or from school or college.]]></string>
