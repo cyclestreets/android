@@ -12,7 +12,7 @@
 
   <string name="signin_ok">CycleStreets'e başarıyla giriş yapıldı.</string>
   <string name="signin_error_prefix">Hata : </string>
-  <string name="signin_default_error">CycleStreets'e giriş yapılamadı. Lütfen kullanıcı adı ve parolanızı kontrol ediniz..</string>
+  <string name="signin_default_error">CycleStreets'e giriş yapılamadı. Lütfen kullanıcı adı ve parolanızı kontrol ediniz.</string>
 
   <string name="upload_ok">Fotoğrafınız başarıyla yüklendi.</string>
   <string name="upload_error_prefix">Fotoğrafınız yüklenirken bir problem oluştu: \n</string>
