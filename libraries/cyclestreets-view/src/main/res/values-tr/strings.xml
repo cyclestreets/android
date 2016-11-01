@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+  <string name="app_name">CycleStreets</string>
+
+  <string name="all_blank" translatable="false">"  "</string>
+  <string name="all_button_back">Geri</string>
+  <string name="all_button_next">İleri</string>
+  <string name="all_button_save">Kaydet</string>
+  <string name="all_button_cancel">İptal Et</string>
+  <string name="all_button_close">Kapat</string>
+  <string name="all_menu_back">Geri</string>
+  <string name="all_menu_restart">Yeniden başla</string>
+  <string name="all_upload">Yükle!</string>
+  <string name="all_your_name">Adınız</string>
+  <string name="all_your_email">Email adresiniz</string>
+
+  <string name="location_menu_mylocation">Konumu göster</string>
+  <string name="location_menu_on">Konumu Takip Et</string>
+  <string name="location_menu_off">Konum Kapalı</string>
+
+  <string name="route_type">Güzergah Tipi</string>
+  <string name="route_finding_new">Güzergah, CycleStreets.net'ten temin ediliyor, lütfen bekleyiniz</string>
+  <string name="route_fetching_existing">Güzergah, CycleStreets.net'ten çekiliyor, lütfen bekleyiniz</string>
+  <string name="route_finding_failed">Güzergah bulunamadı</string>
+  <string name="route_loading">Güzergah yükleniyor, lütfen bekleyiniz</string>
+
+  <string name="route_menu_change">Güzergah tipini değiştir</string>
+  <string name="route_menu_change_reverse">Güzergahı ters çevir</string>
+  <string name="route_menu_change_share">Güzergahı paylaş</string>
+  <string name="route_menu_change_comment">Güzergaha yorum bırak</string>
+  <string name="route_menu_change_replan_fastest">En hızlı olacak şekilde yeniden planla</string>
+  <string name="route_menu_change_replan_balanced">Dengeli olacak şekilde yeniden planla</string>
+  <string name="route_menu_change_replan_quietest">En sakin olacak şekilde yeniden planla</string>
+  <string name="route_menu_change_replan_shortest">En kısa olacak şekilde yeniden planla</string>
+  <string name="route_menu_change_reroute_from_here">Şimdiki konumdan yeniden yönlendir</string>
+
+  <string name="route_no_location">Location not currently available.</string>
+
+  <string name="photo_upload_hint1">Upload reports of cycling-related problems or of good practice.</string>
+  <string name="photo_upload_hint2">These will be used so that we can report problems to decision makers.</string>
+  <string name="photo_take_button">Take a photo</string>
+  <string name="photo_select_button">Select existing photo</string>
+  <string name="photo_describe_hint">Describe this photo</string>
+  <string name="photo_good_or_bad_hint">Is this a problem or good practice?</string>
+  <string name="photo_feature_type_hint">What type of feature is being shown?</string>
+  <string name="photo_could_not_load_categories">Could not load photomap categories.  Please check network connection.</string>
+  <string name="photo_location_hint">Where was this photo taken?</string>
+  <string name="photo_not_geolocatable_hint">The photo could not be geolocated. To automatically locate photos, please turn on geolocation in your Camera settings.</string>
+  <string name="photo_share">Fotoğrafı paylaş</string>
+  <string name="photo_uploading">Rapor yükleniyor, lütfen bekleyin</string>
+  <string name="photo_could_not_upload">Fotoğraf yüklenemedi. Lütfen internet bağlantınızı kontrol edin.</string>
+  <string name="photo_upload_another">Diğerini yükleyin</string>
+
+  <string name="report_continue_without_photo_button">Fotoğrafsız devam et</string>
+  <string name="report_title">Raporunuz</string>
+  <string name="report_location_hint">Where is the location your report describes?</string>
+
+  <string name="tiles_map_pack_out_of_date">This map pack is cannot be used with this version of the app. \n\nWould you like to search for an update?</string>
+
+  <string name="placeview_menu">Menu</string>
+  <string name="placeview_current_location">Şimdiki konum</string>
+  <string name="placeview_choose_location">Konum seçin</string>
+  <string name="placeview_location_not_found">Konum bulunamadı</string>
+  <string name="placeview_location_search">Konum aranıyor</string>
+  <string name="placeview_contacts">Kişiler</string>
+  <string name="placeview_no_contacts_with_addresses">Hiçbir kişinin adresi bulunamadı.</string>
+  <string name="placeview_contacts_loading">Kişiler yükleniyor</string>
+  <string name="placeview_remove">Kaldır</string>
+  <string name="placeview_saved_locations">Konumları kaydet</string>
+
+  <string name="poi_menu_title">İlgili noktalar</string>
+  <string name="poi_menu_entry">kategori</string>
+
+  <string name="settings_no_map_packs">Yüklü herhangi bir harita paketi yok. Çevrimdışı kullanım için vektör haritaları ayrı yüklemeler olarak mevcuttur. \n\nŞimdi harita paketlerini aramak ister misiniz?</string>
+  <string name="settings_signed_in">CycleStreets için Giriş</string>
+  <string name="settings_awaiting">Hesap kaydı doğrulama bekliyor</string>
+
+  <string name="feedback_your_comments">Yorumlarınız</string>
+  <string name="feedback_sending">CycleStreets.net için rota geri bildirimi gönderin</string>
+
+  <string name="account_required_for_photos">Fotoğraf eklemek için CycleStreets'e giriş yapmış olmalısınız.</string>
+  <string name="account_registering_is_free">Registering for an account is free.</string>
+  <string name="account_register_message">Hesap için kayıl olun</string>
+  <string name="account_signin_with_existing">Varolan hesabınızla giriş yapın</string>
+  <string name="account_desired_username">Kullanıcı Adı Gerekli</string>
+  <string name="account_desired_password">Parola Gerekli</string>
+  <string name="account_confirm_password">Parola doğrula</string>
+  <string name="account_register_button">Kayıt</string>
+  <string name="account_registering">CycleStreets.net ile kayıt ol</string>
+
+  <string name="account_signin_message">Giriş yapmak için lütfen kullanıcı adı ve parolanızı giriniz.</string>
+  <string name="account_already_signed_in_format">\n%1$s ile zaten giriş yapmışsınız, %2$s</string>
+  <string name="account_username">Kullanıcı adı</string>
+  <string name="account_password">Parola</string>
+  <string name="account_clear_stored_button">Kayıtlı detayları temizle</string>
+  <string name="account_signin_button">Giriş yap</string>
+  <string name="account_signing_in">CycleStreets.net'e giriş yap</string>
+
+  <string name="account_email_format">Girilen e-posta adresi düzgün şekilde biçimlendirilmiş bir adres değil.</string>
+  <string name="account_password_mismatch">Parola ve doğrulama parolası eşleşmedi.</string>
+  <string name="account_username_too_short">Adınız en az 5 karakter sayı/harf içermeli.</string>
+  <string name="account_clear_details_confirm">Kayıtlı hesap detaylarını silmek istediğine emin misin?</string>
+  <string name="account_pending">Zaten kayıtlı hesabınız mevcut.  Lütfen email doğrulamanızı kontrol edin.</string>
+  <string name="account_registration_is_free_long">Kayıt ücretsizdir ve kayıtlı kullanıcılar fotoğraf ekleyebilirsiniz. Kayıt işlemi aşağıdaki forma bilgilerinizi girin başlatın.</string>
+
+</resources>

@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+  <string name="navigation_drawer_open">Rota çiziciyi aç</string>
+  <string name="navigation_drawer_close">Rota çiziciyi kapat</string>
+  <string name="app_name">CycleStreets</string>
+  <string name="settings">Ayarlar</string>
+  <string name="about">Hakkında</string>
+  <string name="blog">Blog</string>
+  <string name="go">Güzergah bul</string>
+  <string name="addvia">Ara nokta ekle</string>
+  <string name="blog_cyclestreets_update">CycleStreets blogu güncelle</string>
+  <string name="blog_update">Blog update</string>
+  <string name="rba_start">İşaretçi başlat</string>
+  <string name="rba_finish">İşaretçi bitir</string>
+  <string name="rba_waypoint">Ara nokta %d</string>
+  <string name="confirm_new_route">Yeni güzergaha başla?</string>
+
+  <!-- Map menu -->
+  <string name="ic_menu_directions">Güzergahı planla</string>
+  <string name="menu_saved_routes">Güzergahları kaydet</string>
+  <string name="menu_route_by_number">Güzergah numarasına göre aç</string>
+  <string name="menu_find_place">Yer bul</string>
+  <string name="ic_menu_settings">Ayarlar</string>
+  <string name="ic_menu_open">Aç</string>
+  <string name="ic_menu_rename">İsim değiştir</string>
+  <string name="ic_menu_edit">Düzenle</string>
+  <string name="ic_menu_delete">Sil</string>
+
+  <string name="ic_menu_itinerary">İzlenecek Yol</string>
+  <string name="ic_menu_elevation">Yükselti</string>
+
+  <!-- find place dialog -->
+  <string name="btn_find_place">Bul</string>
+  <string name="lbl_choose_place">Yer Seç</string>
+
+  <!-- live ride -->
+  <string name="ic_menu_liveride">LiveRide Başlangıç</string>
+  <string name="ic_menu_stopride">LiveRide Sonu</string>
+  <string name="ic_menu_addlocation">Yeni Konum</string>
+  <string name="hello_blank_fragment">Merhaba boş bölüm</string>
+
+  <string name="location_list_header">Yukarıdaki düğmeyi kullanarak yeni konumlar ekle. \n Düzenlemek veya silmek için listedeki bir konuma dokunun ve basılı tutun.</string>
+
+  <string name="elevation_co2_saved">CO₂ birikimi:</string>
+  <string name="elevation_calories_burned">Kalori:</string>
+  <string name="elevation_estimated_time">Zaman:</string>
+  <string name="elevation_journey_number">Seyahat numarası:</string>
+  <!-- Do we really need the text "Fruit", Jez? :-) -->
+  <string name="elevation_fruit">Meyve</string>
+  <string name="elevation_route">güzergah</string>
+
+  <string name="about_version_default">net.cyclestreets</string>
+
+  <string name="findplace_name_or_address">Yer adı ya da adresi</string>
+
+  <string name="itinerary_direction">yön</string>
+  <string name="itinerary_street">Cadde</string>
+  <string name="itinerary_segment_time">00m00</string>
+  <string name="itinerary_segment_distance">0m</string>
+  <string name="itinerary_segment_cumulative_distance">(0km)</string>
+  <string name="itinerary_not_available">Turn-by-turn güzergah bilgileri planlanırken bir kez gösterilecek.</string>
+
+  <string name="location_editor_hint">Harita üzerinde ve daha sonra işareti koyun ve konumu adlandırın.</string>
+  <string name="location_editor_name">Konum adı :</string>
+  <string name="routenumber_hint">Güzergah numarası</string>
+
+  <string name="storedroutes_title_default">Güzergah </string>
+  <string name="storedroutes_detail_default">Detaylar</string>
+  <string name="storedroutes_detail_format">%1$s güzergah, %2$s</string>
+
+</resources>
