@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+  <string name="app_name">CycleStreets</string>
+  <string name="route_map">Планировщик путешествий</string>
+  <string name="itinerary">Маршрут</string>
+  <string name="elevation">Высота</string>
+  <string name="photomap">Фотокарта</string>
+  <string name="photo_upload">Добавить фото</string>
+  <string name="cyclestreets_blog">Блог</string>
+  <string name="cyclestreets_blog_updates">Блог - обновился</string>
+
+  <string name="crash_notif_ticker_text">Неожиданная ошибка, пожалуйста, отправить отчет …</string>
+  <string name="crash_notif_title">CycleStreets аварийно завершилось …</string>
+  <string name="crash_notif_text">Пожалуйста, нажмите здесь, чтобы помочь решить проблему.</string>
+  <string name="crash_dialog_title">CycleStreets аварийно завершилось</string>
+  <string name="crash_dialog_text">Произошла неожиданная ошибка заставляя
+    Приложение остановиться. Пожалуйста, помогите нам исправить это, отправив нам данные об ошибках,
+    все, что вам нужно сделать, это нажать \ "OK \".</string>
+  <string name="crash_dialog_comment_prompt">Вы можете добавить свои комментарии о следующей проблеме:</string>
+  <string name="crash_dialog_ok_toast">Спасибо !</string>
+
+</resources>

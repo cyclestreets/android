@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+  <string-array name="units">
+    <item>Километры</item>
+    <item>Мили</item>
+  </string-array>
+
+  <string-array name="speed">
+    <item>Неторопливый 10миля/ч (16км / ч)</item>
+    <item>Запас хода 12миля/ч (20 км / ч)</item>
+    <item>Быстрый 15миля/ч (24км / ч)</item>
+  </string-array>
+
+  <string-array name="routetype">
+    <item>Бесшумный</item>
+    <item>Уравновешенный</item>
+    <item>Быстрый</item>
+    <item>Короткий</item>
+  </string-array>
+
+  <string-array name="uploadsize">
+    <item>Всегда изменять размер в ширину 640 пикселей</item>
+    <item>Полный размер, когда WiFi, 3.5G или 4G доступен</item>
+    <item>Полный размер</item>
+  </string-array>
+</resources>

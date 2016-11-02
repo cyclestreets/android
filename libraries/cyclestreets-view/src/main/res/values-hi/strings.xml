@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+  <string name="app_name">CycleStreets</string>
+
+  <string name="all_button_back">वापस</string>
+  <string name="all_button_next">अगला</string>
+  <string name="all_button_save">संचय</string>
+  <string name="all_button_cancel">रद्द करें</string>
+  <string name="all_button_close">बंद करे</string>
+  <string name="all_menu_back">वापस</string>
+  <string name="all_menu_restart">फिर से शुरू करें</string>
+  <string name="all_upload">अपलोड!</string>
+  <string name="all_your_name">आपका नाम</string>
+  <string name="all_your_email">आपका ईमेल पता</string>
+
+  <string name="location_menu_mylocation">स्थान दिखाएं</string>
+  <string name="location_menu_on">स्थान का पालन करें</string>
+  <string name="location_menu_off">स्थान बंद कर</string>
+
+  <string name="route_type">रूट प्रकार</string>
+  <string name="route_finding_new">CycleStreets.net से मार्ग प्राप्त करने, कृपया प्रतीक्षा करें</string>
+  <string name="route_fetching_existing">ला रहा है CycleStreets.net से मार्ग, कृपया प्रतीक्षा करें</string>
+  <string name="route_finding_failed">मार्ग खोजने में विफल रहा है</string>
+  <string name="route_loading">लोड हो रहा है मार्ग, कृपया प्रतीक्षा करें</string>
+
+  <string name="route_menu_change">बदलें मार्ग प्रकार</string>
+  <string name="route_menu_change_reverse">रिवर्स मार्ग</string>
+  <string name="route_menu_change_share">मार्ग भेजें</string>
+  <string name="route_menu_change_comment">इस मार्ग पर टिप्पणी करें</string>
+  <string name="route_menu_change_replan_fastest">तेजी के रूप में फिर से योजना</string>
+  <string name="route_menu_change_replan_balanced">संतुलित के रूप में फिर से योजना</string>
+  <string name="route_menu_change_replan_quietest">शांत के रूप में फिर से योजना</string>
+  <string name="route_menu_change_replan_shortest">कम से कम के रूप में फिर से योजना</string>
+  <string name="route_menu_change_reroute_from_here">वर्तमान स्थान से reroute</string>
+
+  <string name="route_no_location">स्थान वर्तमान में उपलब्ध नहीं.</string>
+
+  <string name="photo_upload_hint1">साइकिल चालन से संबंधित समस्याओं का या अच्छा अभ्यास की रिपोर्ट के शब्द.</string>
+  <string name="photo_upload_hint2">ये इसलिए है कि हम निर्णय निर्माताओं के लिए समस्याओं की रिपोर्ट कर सकते हैं इस्तेमाल किया जाएगा.</string>
+  <string name="photo_take_button">एक तस्वीर लें</string>
+  <string name="photo_select_button">मौजूदा तस्वीर का चयन करें</string>
+  <string name="photo_describe_hint">इस तस्वीर का वर्णन करें</string>
+  <string name="photo_good_or_bad_hint">यह एक समस्या है या अच्छा अभ्यास है?</string>
+  <string name="photo_feature_type_hint">सुविधा के प्रकार क्या दिखाया जा रहा है?</string>
+  <string name="photo_could_not_load_categories">photomap श्रेणियों के लोड नहीं कर सका। नेटवर्क कनेक्शन की जाँच करें।.</string>
+  <string name="photo_location_hint">इस फोटो को कहाँ लिया गया था?</string>
+  <string name="photo_not_geolocatable_hint">तस्वीर geolocated नहीं किया जा सकता है। स्वचालित रूप से तस्वीरों का पता लगाने के लिए, कृपया अपने कैमरा सेटिंग में जियोलोकेशन पर बारी।</string>
+  <string name="photo_share">इस तस्वीर को बाँटो</string>
+  <string name="photo_uploading">अपलोड करने की रिपोर्ट, कृपया प्रतीक्षा करें</string>
+  <string name="photo_could_not_upload">तस्वीर अपलोड नहीं किया जा सका। अपने नेटवर्क कनेक्शन की जाँच करें।</string>
+  <string name="photo_upload_another">एक और अपलोड</string>
+
+  <string name="report_continue_without_photo_button">तस्वीर के बिना जारी</string>
+  <string name="report_title">अपनी रिपोर्ट</string>
+  <string name="report_location_hint">जहां स्थान अपनी रिपोर्ट का वर्णन करता है?</string>
+
+  <string name="tiles_map_pack_out_of_date">इस नक्शे पैक एप्लिकेशन के इस संस्करण के साथ इस्तेमाल किया जा नहीं कर सकता है। \ N \ n क्या आप एक अद्यतन के लिए खोज करने के लिए पसंद है?</string>
+
+  <string name="placeview_menu">मेन्यू</string>
+  <string name="placeview_current_location">वर्तमान स्थान</string>
+  <string name="placeview_choose_location">स्थान का चयन</string>
+  <string name="placeview_location_not_found">कोई स्थान नहीं मिला</string>
+  <string name="placeview_location_search">स्थान के लिए खोज</string>
+  <string name="placeview_contacts">संपर्क</string>
+  <string name="placeview_no_contacts_with_addresses">अपने संपर्कों में से कोई भी पते हैं.</string>
+  <string name="placeview_contacts_loading">संपर्क लोड</string>
+  <string name="placeview_remove">हटाना</string>
+  <string name="placeview_saved_locations">सहेजे गए स्थान</string>
+
+  <string name="poi_menu_title">रूचि के बिंदु</string>
+  <string name="poi_menu_entry">वर्ग</string>
+
+  <string name="settings_no_map_packs">आप स्थापित किसी भी मानचित्र पैक की जरूरत नहीं है। वेक्टर के लिए नक्शे
+ऑफ़लाइन उपयोग के अलग डाउनलोड के रूप में उपलब्ध हैं।
+\ N \ n क्या आप अब नक्शा पैक के लिए खोज करने के लिए पसंद है?</string>
+  <string name="settings_signed_in">CycleStreets में प्रवेश किया</string>
+  <string name="settings_awaiting">खाते के पंजीकरण के सत्यापन का इंतजार</string>
+
+  <string name="feedback_your_comments">आपकी टिप्पणी</string>
+  <string name="feedback_sending">CycleStreets.net करने के लिए आपका commentsSending मार्ग प्रतिक्रिया</string>
+
+  <string name="account_required_for_photos">फोटो अपलोड करने के लिए आप खाते प्रवेश एक CycleStreets होना चाहिए।</string>
+  <string name="account_registering_is_free">एक खाते के लिए पंजीकरण नि: शुल्क है।</string>
+  <string name="account_register_message">एक खाते के लिए रजिस्टर।</string>
+  <string name="account_signin_with_existing">एक मौजूदा खाते के साथ साइन इन करें</string>
+  <string name="account_desired_username">वांछित उपयोगकर्ता का नाम</string>
+  <string name="account_desired_password">वांछित पासवर्ड</string>
+  <string name="account_confirm_password">पासवर्ड की पुष्टि कीजिये</string>
+  <string name="account_register_button">रजिस्टर</string>
+  <string name="account_registering">CycleStreets.net के साथ पंजीयन</string>
+
+  <string name="account_signin_message">में प्रवेश के लिए अपने खाते यूज़रनेम और पासवर्ड दर्ज करें.</string>
+  <string name="account_already_signed_in_format">आप पहले से ही के रूप में प्रवेश कर रहे हैं\n%1$s, %2$s</string>
+  <string name="account_username">उपयोगकर्ता नाम</string>
+  <string name="account_password">पासवर्ड</string>
+  <string name="account_clear_stored_button">साफ संग्रहीत विवरण</string>
+  <string name="account_signin_button">साइन इन करें</string>
+  <string name="account_signing_in">CycleStreets.net में साइन इन करना</string>
+
+  <string name="account_email_format">ईमेल पता दर्ज एक ठीक से प्रारूपित पता नहीं है.</string>
+  <string name="account_password_mismatch">पासवर्ड और पुष्टि पासवर्ड मेल नहीं खाते।</string>
+  <string name="account_username_too_short">यूजर का नाम कम से कम पांच पत्र / संख्या जरूर होना चाहिए।</string>
+  <string name="account_clear_details_confirm">आप संग्रहीत खाते के विवरण स्पष्ट करना चाहते हैं आप सुनिश्चित हैं?</string>
+  <string name="account_pending">आप पहले से ही एक खाता दर्ज कर लिया है। सत्यापन ईमेल के लिए अपने ईमेल की जाँच करें।</string>
+  <string name="account_registration_is_free_long">पंजीकरण मुफ्त है और पंजीकृत उपयोगकर्ताओं तस्वीरें जोड़ सकते हैं। प्रारंभ करने के लिए पंजीकरण की प्रक्रिया नीचे दिए फॉर्म में अपना विवरण दर्ज करें।</string>
+
+</resources>

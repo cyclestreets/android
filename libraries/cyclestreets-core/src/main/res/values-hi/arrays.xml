@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+  <string-array name="units">
+    <item>किलोमीटर</item>
+    <item>मील</item>
+  </string-array>
+
+  <string-array name="speed">
+    <item>धीरे 10mph (16km/h)</item>
+    <item>तेज 12mph (20km/h)</item>
+    <item>बहुत तेज  15mph (24km/h)</item>
+  </string-array>
+
+  <string-array name="routetype">
+    <item>शांत</item>
+    <item>संतुलित</item>
+    <item>तेज</item>
+    <item>कम से कम</item>
+  </string-array>
+
+  <string-array name="uploadsize">
+    <item>हमेशा आकार 640 पिक्सल चौड़ा करना </item>
+    <item>पूर्ण आकार जब WiFi, 3.5G या 4G उपलब्ध</item>
+    <item>पूर्ण आकार</item>
+  </string-array>
+
+</resources>

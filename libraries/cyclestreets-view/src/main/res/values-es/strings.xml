@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+  <string name="app_name">CycleStreets</string>
+
+  <string name="all_button_back">Atrás</string>
+  <string name="all_button_next">Siguiente</string>
+  <string name="all_button_save">Guardar</string>
+  <string name="all_button_cancel">Cancelar</string>
+  <string name="all_button_close">Cerrar</string>
+  <string name="all_menu_back">Atrás</string>
+  <string name="all_menu_restart">Volver a comenzar</string>
+  <string name="all_upload">Subir</string>
+  <string name="all_your_name">Tu nombre</string>
+  <string name="all_your_email">Tu dirección de correo</string>
+
+  <string name="location_menu_mylocation">Muestra localización</string>
+  <string name="location_menu_on">Sigue localización</string>
+  <string name="location_menu_off">Desactiva localización</string>
+
+  <string name="route_type">Tipo de ruta</string>
+  <string name="route_finding_new">Obteniendo ruta de CycleStreets.net, por favor espere</string>
+  <string name="route_fetching_existing">Buscando ruta de CycleStreets.net, por favor espere</string>
+  <string name="route_finding_failed">Búsqueda sin éxito</string>
+  <string name="route_loading">Cargando ruta, por favor espere</string>
+
+  <string name="route_menu_change">Cambia tipo de ruta</string>
+  <string name="route_menu_change_reverse">Ruta inversa</string>
+  <string name="route_menu_change_share">Compartir ruta</string>
+  <string name="route_menu_change_comment">Comentar ruta</string>
+  <string name="route_menu_change_replan_fastest">Replantear como ruta rápida</string>
+  <string name="route_menu_change_replan_balanced">Replantear como ruta equilibrada</string>
+  <string name="route_menu_change_replan_quietest">Replantear como ruta tranquila</string>
+  <string name="route_menu_change_replan_shortest">Replantear como ruta corta</string>
+  <string name="route_menu_change_reroute_from_here">Retrazar desde la localización actual</string>
+
+  <string name="route_no_location">La localización no está disponible actualmente.</string>
+
+  <string name="photo_upload_hint1">Subir información de problemas relacionados con el ciclismo o como buena práctica.</string>
+  <string name="photo_upload_hint2">Esos serán usados para informar de problemas a los que toman las decisiones.</string>
+  <string name="photo_take_button">Toma una foto</string>
+  <string name="photo_select_button">Seleccionar una foto existente.</string>
+  <string name="photo_describe_hint">Describe la foto.</string>
+  <string name="photo_good_or_bad_hint">¿Es un problema o una buena práctica?</string>
+  <string name="photo_feature_type_hint"> ¿Qué tipo de característica se muestra?</string>
+  <string name="photo_could_not_load_categories">No se pueden cargar categorías de mapas. Comprueba la conexión.</string>
+  <string name="photo_location_hint">¿Donde se tomó esta foto?</string>
+  <string name="photo_not_geolocatable_hint">La foto no se puede geolocalizar. Para autolocalizar fotos, activa la opción de geolocalización en la configuración de tu cámara.</string>
+  <string name="photo_share">Comparte esta foto</string>
+  <string name="photo_uploading">Subiendo informe, espere por favor.</string>
+  <string name="photo_could_not_upload">No se puede subir la foto. Comprueba tu conexión.</string>
+  <string name="photo_upload_another">Subir otra</string>
+
+  <string name="report_continue_without_photo_button">Continuar sin foto.</string>
+  <string name="report_title">Tu informe</string>
+  <string name="report_location_hint">¿Donde está la localización que describe tu informe?</string>
+
+  <string name="tiles_map_pack_out_of_date">Este paquete de mapas no puede ser usado con esta versión de la aplicación. ¿Quieres comprobar si existe una actualización?</string>
+
+  <string name="placeview_menu">Menú</string>
+  <string name="placeview_current_location">Localización actual</string>
+  <string name="placeview_choose_location">Elige localización</string>
+  <string name="placeview_location_not_found">No se encuentran localizaciones</string>
+  <string name="placeview_location_search">Buscando localizaciones</string>
+  <string name="placeview_contacts">Contactos</string>
+  <string name="placeview_no_contacts_with_addresses">Ninguno de los contactos tiene dirección.</string>
+  <string name="placeview_contacts_loading">Cargando contactos</string>
+  <string name="placeview_remove">Eliminar</string>
+  <string name="placeview_saved_locations">Localizaciones guardadas</string>
+
+  <string name="poi_menu_title">Puntos de interés</string>
+  <string name="poi_menu_entry">Categorías</string>
+
+  <string name="settings_no_map_packs">No tienes paquetes de mapas instalados. Vector maps está disponible como descarga a parte para los mapas sin conexión.
+	    \n\n¿Te gustaría buscar paquetes de mapas ahora?</string>
+  <string name="settings_signed_in">Registro en CycleStreets</string>
+  <string name="settings_awaiting">Registro esperando verificación de cuenta</string>
+
+  <string name="feedback_your_comments">Tus comentarios</string>
+  <string name="feedback_sending">Enviando opinión a CycleStreets.net</string>
+
+  <string name="account_required_for_photos"> Para subir fotos a CycleStreets necesitas una cuenta verificada.</string>
+  <string name="account_registering_is_free">El registro en CycleStreets es gratis</string>
+  <string name="account_register_message">Registrarse</string>
+  <string name="account_signin_with_existing">Entrar con una cuenta</string>
+  <string name="account_desired_username">Nombre de usuario deseado</string>
+  <string name="account_desired_password">Contraseña deseada</string>
+  <string name="account_confirm_password">Confirma la contraseña</string>
+  <string name="account_register_button">Registro</string>
+  <string name="account_registering">Registrandose con CycleStreets.net</string>
+
+  <string name="account_signin_message">Por favor introduce un nombre de usuario y contraseña para entrar.</string>
+  <string name="account_already_signed_in_format">Ya estás conectado como\n%1$s, %2$s</string>
+  <string name="account_username">Nombre de usuario</string>
+  <string name="account_password">Contraseña</string>
+  <string name="account_clear_stored_button">Limpiando detalles guardados</string>
+  <string name="account_signin_button">Entrar</string>
+  <string name="account_signing_in">Entrando CycleStreets.net</string>
+
+  <string name="account_email_format">El email introducido no tiene el formato correcto.</string>
+  <string name="account_password_mismatch">Contraseña y confirmación de la contraseña no coinciden.</string>
+  <string name="account_username_too_short">El nombre de usuario debe tener al menos cinco caracteres de longitud.</string>
+  <string name="account_clear_details_confirm">¿Estás seguro de que quieres limpiar los detalles de cuenta almacenados?</string>
+  <string name="account_pending">Ya tienes una cuenta registrada. Por favor comprueba tu email en busca del email de confirmación.</string>
+  <string name="account_registration_is_free_long">El registro es gratis y los usuarios registrados pueden añadir fotos. Para comenzar el registro por favor introduce tus detalles en el siguiente formulario.</string>
+
+</resources>

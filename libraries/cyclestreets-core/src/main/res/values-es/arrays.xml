@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+  <string-array name="units">
+    <item>Kilometros</item>
+    <item>Millas</item>
+  </string-array>
+ 
+
+  <string-array name="speed">
+    <item>Lento 10mph (16km/h)</item>
+    <item>Paseo 12mph (20km/h)</item>
+    <item>Rápido 15mph (24km/h)</item>
+  </string-array>
+
+
+  <string-array name="routetype">
+    <item>Lento</item>
+    <item>Equilibrado</item>
+    <item>Rápido</item>
+    <item>Corto</item>
+  </string-array>
+ 
+  <string-array name="uploadsize">
+    <item>Siempre redimensiona a 640 pixels de ancho</item>
+    <item>Resolución completa cuando se esté conectado a WiFi, 3.5G or 4G</item>
+    <item>Resolución completa</item>
+  </string-array>
+ 
+
+</resources>

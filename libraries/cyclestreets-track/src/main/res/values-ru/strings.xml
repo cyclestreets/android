@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+  <string name="journey_current_speed">Текущая скорость:</string>
+  <string name="journey_time">Время путешествий:</string>
+  <string name="journey_distance">Расстояние:</string>
+  <string name="journey_finish_button">Конец</string>
+
+  <string name="completedjourney_info">Информация о путешествие</string>
+  <string name="completedjourney_start_time">Время начала</string>
+  <string name="completedjourney_purpose">Цель поездки</string>
+
+  <string name="save_choose_purpose_hint">Запись окончена. Выберите цель поездки:</string>
+  <string name="save_purpose_commute">Ездить</string>
+  <string name="save_purpose_school">Школа</string>
+  <string name="save_purpose_work">Связанная с работой</string>
+  <string name="save_purpose_exercise">Упражнение</string>
+  <string name="save_purpose_social">Социальное</string>
+  <string name="save_purpose_shopping">Покупка</string>
+  <string name="save_purpose_errand">Поручение</string>
+  <string name="save_purpose_other">Другое</string>
+  <string name="save_trip_comments_hint">Комментарии о вашей поездке</string>
+  <string name="save_age">Возраст:</string>
+  <string name="save_gender">Пол:</string>
+
+  <!-- Note to translators: These three strings form the sentence "Level of cycling experience:" -->
+  <string name="save_level_of">Уровень</string>
+  <string name="save_cycling">езда на велосипеде</string>
+  <string name="save_experience">опыт:</string>
+
+  <string name="save_submit_button">Отправить</string>
+  <string name="save_discard_button">Отбросить</string>
+  <string name="savetrip_discarded">Поездка отброшена.</string>
+  <string name="savetrip_no_purpose">Вы должны выбрать цель поездки перед отправкой! Выберите один из указанных выше целей.</string>
+  <string name="savetrip_purpose_commute"><![CDATA[<b>Ездить:</b> эта поездка была в первую очередь, чтобы дойти до дом с работы или наоборот.]]></string>
+  <string name="savetrip_purpose_school"><![CDATA[<b>Школа:</b> эта поездка была в первую очередь, чтобы прийти или уйти с школа или колледжа.]]></string>
+  <string name="savetrip_purpose_work_related"><![CDATA[<b>Связанная с работой:</b> эта поездка была в первую очередь, чтобы прийти или уйти с деловой встречи, функции или дело связанное с моей работой.]]></string>
+  <string name="savetrip_purpose_exercise"><![CDATA[<b>Упражнение:</b> это поездка была в первую очередь для физических упражнений, или езда на велосипеде ради езды на велосипеде.]]></string>
+  <string name="savetrip_purpose_social"><![CDATA[<b>Социальное:</b> это поездка была в первую очередь для перехода к или от социальной активности, например, в другом доме, парк, ресторан, кино.]]></string>
+  <string name="savetrip_purpose_shopping"><![CDATA[<b>Покупка:</b> это поездка была в первую очередь, чтобы купить или привезти домой товары или продукты.]]></string>
+  <string name="savetrip_purpose_errand"><![CDATA[<b>Поручение:</b> это поездка была в первую очередь для участия в личном бизнесе таких как банковское дело, визит врача, поход в тренажерный зал и т.д.]]></string>
+  <string name="savetrip_purpose_other"><![CDATA[<b>Другое:</b> если ни одна из других причин, не применяется к этой поездке, вы можете ввести комментарии ниже, чтобы рассказать нам больше.]]></string>
+  <string name="savetrip_please_select">Пожалуйста выберите</string>
+  <string name="savetrip_gender_prompt">Пожалуйста, выберите пол</string>
+  <string name="savetrip_gender_male">мужской</string>
+  <string name="savetrip_gender_female">женский</string>
+  <string name="savetrip_gender_private">Предпочитаю не говорить</string>
+  <string name="savetrip_experience_prompt">Пожалуйста, выберите уровень опыта</string>
+  <string name="savetrip_experience_experienced">опытный</string>
+  <string name="savetrip_experience_infrequent">нечастый</string>
+  <string name="savetrip_experience_beginner">начинающий</string>
+  <string name="savetrip_end_info_format">%1$1.1f мили, %2$d минут.  %3$s</string>
+
+</resources>

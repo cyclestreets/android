@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+  <string name="app_name">CycleStreets</string>
+  <string name="route_map">यात्रा योजनाकार</string>
+  <string name="itinerary">यात्रा कार्यक्रम</string>
+  <string name="elevation">ऊंचाई</string>
+  <string name="photomap">तस्वीर नक्शा</string>
+  <string name="photo_upload">तस्वीर लगाना</string>
+  <string name="cyclestreets_blog">ब्लॉग</string>
+  <string name="cyclestreets_blog_updates">ब्लॉग - अद्यतन</string>
+
+  <string name="crash_notif_ticker_text">अनपेक्षित त्रुटि है, कृपया एक रिपोर्ट भेज …</string>
+  <string name="crash_notif_title">CycleStreets ध्वस्त हुआ है…</string>
+  <string name="crash_notif_text">इस मुद्दे को ठीक करने में मदद करने के लिए यहां क्लिक करें</string>
+  <string name="crash_dialog_title">CycleStreets ध्वस्त हुआ है</string>
+  <string name="crash_dialog_text">बंद करने के लिए आवेदन के लिए मजबूर एक अनपेक्षित त्रुटि हुई। कृपया हमारी सहायता करें। हमें त्रुटि डेटा भेजने के द्वारा इसे ठीक करने के लिए, क्लिक करें \'OK\'.</string>
+  <string name="crash_dialog_comment_prompt">आप नीचे दिए गए समस्या के बारे में अपनी टिप्पणी जोड़ सकता है:</string>
+  <string name="crash_dialog_ok_toast">धन्यवाद !</string>
+
+</resources>

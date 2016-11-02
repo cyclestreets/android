@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+  <string name="navigation_drawer_open">नेविगेशन दराज खोलें </string>
+  <string name="navigation_drawer_close">नेविगेशन दरा कृपया बंद करना </string>
+  <string name="app_name">CycleStreets</string>
+  <string name="settings">सेटिंग्स</string>
+  <string name="about">जानकारी</string>
+  <string name="blog">ब्लॉग</string>
+  <string name="go">मार्ग का पता</string>
+  <string name="addvia">waypoint जोड़े</string>
+  <string name="blog_cyclestreets_update">CycleStreets ब्लॉग अपडेट</string>
+  <string name="blog_update">ब्लॉग अपडेट</string>
+  <string name="rba_start">शुरू मार्कर</string>
+  <string name="rba_finish">समाप्त मार्कर</string>
+  <string name="rba_waypoint">Waypoint %d</string>
+  <string name="confirm_new_route">नया मार्ग शुर कर ?</string>
+
+  <!-- Map menu -->
+  <string name="ic_menu_directions">एक मार्ग की योजना</string>
+  <string name="menu_saved_routes">मार्ग संग्रह</string>
+  <string name="menu_route_by_number">संख्या से मार्ग खोलना </string>
+  <string name="menu_find_place">जगह का पता लगाएं</string>
+  <string name="ic_menu_settings">सेटिंग्स</string>
+  <string name="ic_menu_open">खोलना</string>
+  <string name="ic_menu_rename">नाम बदलें</string>
+  <string name="ic_menu_edit">संपादित करें</string>
+  <string name="ic_menu_delete">मिटाना</string>
+
+  <string name="ic_menu_itinerary">यात्रा कार्यक्रम</string>
+  <string name="ic_menu_elevation">ऊंचाई</string>
+
+  <!-- find place dialog -->
+  <string name="btn_find_place">खोज</string>
+  <string name="lbl_choose_place">जगह का चयन</string>
+
+  <!-- live ride -->
+  <string name="ic_menu_liveride">LiveRide प्रारंभ</string>
+  <string name="ic_menu_stopride">LiveRide समाप्त</string>
+  <string name="ic_menu_addlocation">नया स्थान</string>
+  <string name="hello_blank_fragment">नमस्ते blank fragment</string>
+
+  <string name="location_list_header">ऊपर बटन का उपयोग कर नए स्थानों जोड़े.\n संपादित करने के लि़ए, सूची में एक स्थान पकड़ए.</string>
+
+  <string name="elevation_co2_saved">CO₂ बचत:</string>
+  <string name="elevation_calories_burned">कैलोरी:</string>
+  <string name="elevation_estimated_time">समय:</string>
+  <string name="elevation_journey_number">यात्रा नंबर:</string>
+  <!-- Do we really need the text "Fruit", Jez? :-) -->
+  <string name="elevation_fruit">फल</string>
+  <string name="elevation_route">मार्ग</string>
+
+  <string name="about_version_default">net.cyclestreets</string>
+
+  <string name="findplace_name_or_address">नाम या पते की जगह</string>
+
+  <string name="itinerary_direction">दिशा</string>
+  <string name="itinerary_street">सड़क</string>
+  <string name="itinerary_segment_time">00m00</string>
+  <string name="itinerary_segment_distance">0m</string>
+  <string name="itinerary_segment_cumulative_distance">(0km)</string>
+  <string name="itinerary_not_available">बारी-बारी से मार्ग की जानकारी यहाँ दिखाया जाएगा.</string>
+
+  <string name="location_editor_hint">नक्शे पर मार्क प्लेस और फिर स्थान का नाम.</string>
+  <string name="location_editor_name">स्थान का नाम :</string>
+  <string name="routenumber_hint">रूट नंबर</string>
+
+  <string name="storedroutes_title_default">मार्ग </string>
+  <string name="storedroutes_detail_default">विवरण</string>
+  <string name="storedroutes_detail_format">%1$s मार्ग, %2$s</string>
+
+</resources>

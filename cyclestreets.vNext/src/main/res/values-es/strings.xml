@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+  <string name="app_name">CycleStreets</string>
+  <string name="route_map">Planificador de viajes</string>
+  <string name="itinerary">Itinerario</string>
+  <string name="elevation">Elevacion</string>
+  <string name="photomap">Mapa fotográfico</string>
+  <string name="photo_upload">Añadir fotografía</string>
+  <string name="cyclestreets_blog">Blog</string>
+  <string name="cyclestreets_blog_updates">Blog - actualizado</string>
+
+  <string name="crash_notif_ticker_text">Error inesperado, enviar un informe</string>
+  <string name="crash_notif_title">CycleStreets se ha bloqueado…</string>
+  <string name="crash_notif_text">Por favor haga clic aquí para solucionar el problema.</string>
+  <string name="crash_dialog_title">CycleStreets se ha bloqueado</string>
+  <string name="crash_dialog_text">Un error inesperado ha forzado la aplicación a cerrar. Por favor ayúdanos a repararlo mandando los datos del error, todo lo que tienes que hacer es hacer clic en \'OK\'.</string>
+  <string name="crash_dialog_comment_prompt">Añade tus comentarios sobre el problema a continuación:</string>
+  <string name="crash_dialog_ok_toast">¡Gracias!</string>
+
+</resources>

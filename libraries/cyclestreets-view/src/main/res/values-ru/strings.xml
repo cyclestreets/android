@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+  <string name="app_name">CycleStreets</string>
+  
+  <string name="all_button_back">Назад</string>
+  <string name="all_button_next">Следующий</string>
+  <string name="all_button_save">Сохранить</string>
+  <string name="all_button_cancel">Отмена</string>
+  <string name="all_button_close">Закрыть</string>
+  <string name="all_menu_back">Назад</string>
+  <string name="all_menu_restart">Начать заново</string>
+  <string name="all_upload">Загрузить!</string>
+  <string name="all_your_name">Ваше имя</string>
+  <string name="all_your_email">Ваш адрес электронной почты</string>
+
+  <string name="location_menu_mylocation">Показать расположение</string>
+  <string name="location_menu_on">Следовать расположение</string>
+  <string name="location_menu_off">Отключить расположение</string>
+
+  <string name="route_type">Тип маршрута</string>
+  <string name="route_finding_new">Получение маршрута от CycleStreets.net, пожалуйста, подождите</string>
+  <string name="route_fetching_existing">Получение маршрута от CycleStreets.net, пожалуйста, подождите</string>
+  <string name="route_finding_failed">Маршрут не удалось найти</string>
+  <string name="route_loading">Загрузка маршрута, пожалуйста, подождите</string>
+
+  <string name="route_menu_change">Изменить тип маршрута</string>
+  <string name="route_menu_change_reverse">Обратный маршрут</string>
+  <string name="route_menu_change_share">Поделитесь этим маршрутом</string>
+  <string name="route_menu_change_comment">Сделать комментарии по этому маршруту</string>
+  <string name="route_menu_change_replan_fastest">Перепланировать как сами быстры</string>
+  <string name="route_menu_change_replan_balanced">Перепланировать как сами балансированы</string>
+  <string name="route_menu_change_replan_quietest">Перепланировать как самый бесшумный</string>
+  <string name="route_menu_change_replan_shortest">Перепланировать как самый короткий</string>
+  <string name="route_menu_change_reroute_from_here">Перенаправить от текущего местоположения</string>
+
+  <string name="route_no_location">Расположение в настоящее время недоступно.</string>
+
+  <string name="photo_upload_hint1">Загрузить сообщения о проблемах, связанных с велосипедным или хорошей практики.</string>
+  <string name="photo_upload_hint2">Они будут использоваться, чтобы мы могли сообщить о проблемах, кто принимает решения.</string>
+  <string name="photo_take_button">Сфотографировать</string>
+  <string name="photo_select_button">Выберите существующую фотографию</string>
+  <string name="photo_describe_hint">Опишите эту фотографию</string>
+  <string name="photo_good_or_bad_hint">Является ли это проблемой или хорошей практикой?</string>
+  <string name="photo_feature_type_hint">Какой тип функции показывается?</string>
+  <string name="photo_could_not_load_categories">Не удалось загрузить категории фотокарти. Пожалуйста, проверьте подключение к сети.</string>
+  <string name="photo_location_hint">Где была сделана эта фотография?</string>
+  <string name="photo_not_geolocatable_hint">Фотография не может быть привязываемого. Чтобы автоматически находить фотографии, пожалуйста, включите геолокации в настройках камеры.</string>
+  <string name="photo_share">Поделиться этим фото</string>
+  <string name="photo_uploading">Загрузка отчета, пожалуйста, подождите</string>
+  <string name="photo_could_not_upload">Не удалось загрузить фотографию. Пожалуйста, проверьте подключение к сети.</string>
+  <string name="photo_upload_another">Загрузить другой</string>
+
+  <string name="report_continue_without_photo_button">Продолжить без фото</string>
+  <string name="report_title">Ваш отчет</string>
+  <string name="report_location_hint">Где это место, которую отчет описывает?</string>
+
+  <string name="tiles_map_pack_out_of_date">Этот пакет карты не может быть использована с этой версией приложения.\n\nвы хотите найти обновление?</string>
+
+  <string name="placeview_menu">Меню</string>
+  <string name="placeview_current_location">Текущее местоположение</string>
+  <string name="placeview_choose_location">Выберите местоположение</string>
+  <string name="placeview_location_not_found">Не найдено ни одного места</string>
+  <string name="placeview_location_search">Поиск местоположения</string>
+  <string name="placeview_contacts">Контакты</string>
+  <string name="placeview_no_contacts_with_addresses">Ни одного из ваших контактов нет адресов.</string>
+  <string name="placeview_contacts_loading">Загрузка контактов</string>
+  <string name="placeview_remove">Удалить</string>
+  <string name="placeview_saved_locations">Сохраненные местоположения</string>
+
+  <string name="poi_menu_title">Точки интереса</string>
+  <string name="poi_menu_entry">категория</string>
+
+  <string name="settings_no_map_packs">У вас нет каких-либо карту пакеты установлены. Векторные карты для
+использования в автономном режиме доступны в виде отдельных загружаемых файлов.
+\n\nВы хотите искать карты пакетов сейчас?</string>
+  <string name="settings_signed_in">Вы вошли в CycleStreets</string>
+  <string name="settings_awaiting">Регистрация аккаунта в ожидании проверки</string>
+
+  <string name="feedback_your_comments">Ваши комментарии</string>
+  <string name="feedback_sending">Отправка обратной связи о маршрута к CycleStreets.net</string>
+
+  <string name="account_required_for_photos">Для того, чтобы загрузить фотографии вы должны иметь CycleStreets счет и войти в свой аккаунт.</string>
+  <string name="account_registering_is_free">Регистрация учетной записи является бесплатным.</string>
+  <string name="account_register_message">Зарегистрировать учетную запись</string>
+  <string name="account_signin_with_existing">Войти в свой аккаунт</string>
+  <string name="account_desired_username">Желаемое имя пользователя</string>
+  <string name="account_desired_password">Желаемый пароль</string>
+  <string name="account_confirm_password">Подтвердите Пароль</string>
+  <string name="account_register_button">Регистрация</string>
+  <string name="account_registering">Регистрация с CycleStreets.net</string>
+
+  <string name="account_signin_message">Пожалуйста, введите ваше имя пользователя и пароль для входа в систему.</string>
+  <string name="account_already_signed_in_format">Вы уже вошли в систему \n%1$s, %2$s</string>
+  <string name="account_username">Имя пользователя</string>
+  <string name="account_password">Пароль</string>
+  <string name="account_clear_stored_button">Очистить сохраненные детали</string>
+  <string name="account_signin_button">Войти в систему</string>
+  <string name="account_signing_in">Войти в CycleStreets.net</string>
+
+  <string name="account_email_format">Адрес электронной почты, введенный неправильный</string>
+  <string name="account_password_mismatch">Пароль и подтверждение пароля не совпадают.</string>
+  <string name="account_username_too_short">Имя пользователя должно быть не менее пяти букв / цифр длиной.</string>
+  <string name="account_clear_details_confirm">Вы уверены, что хотите удалить сохраненные данные учетной записи?</string>
+  <string name="account_pending">Вы уже зарегистрировали аккаунт. Пожалуйста, проверьте свою электронную почту для проверки электронной почты.</string>
+  <string name="account_registration_is_free_long">Регистрация абсолютно бесплатна и зарегистрированные пользователи могут добавлять фотографии. Для того, чтобы начать процесс регистрации, пожалуйста, введите свои данные в форму ниже.</string>
+
+</resources>
