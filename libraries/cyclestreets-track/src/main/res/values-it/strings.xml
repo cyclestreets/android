@@ -29,7 +29,7 @@
   <string name="save_discard_button">Scarta</string>
   <string name="savetrip_discarded">Spostamento scartato.</string>
   <string name="savetrip_no_purpose">Devi selezionare lo scopo dello spostamento prima di inviare! Scegli tra le motivazioni qui sopra.</string>
-  <string name="savetrip_purpose_school"><![CDATA[<b>Scuola:</b> questo spostamento in bici è stato effettuato principalmente per andare o tornare da scuola o dall'università.]]></string>
+  <string name="savetrip_purpose_school"><![CDATA[<b>Scuola:</b> questo spostamento in bici è stato effettuato principalmente per andare o tornare da scuola o dall\'università.]]></string>
   <string name="savetrip_purpose_work_related"><![CDATA[<b>Per Lavoro:</b> questo spostamento in bici è stato effettuato principalmente per andare o tornare da una attività legata alla propria occupazione .]]></string>
   <string name="savetrip_purpose_exercise"><![CDATA[<b>Allenamento:</b>questo spostamento in bici è stato effettuato principalmente per allenarsi o per fare semplicemente un giro in bici.]]></string>
   <string name="savetrip_purpose_social"><![CDATA[<b>Sociale:</b> questo spostamento in bici è stato effettuato principalmente per andare o tornare da una attività sociale, per esempio la casa di un amico, il parco, un ristorante, il cinema.]]></string>
