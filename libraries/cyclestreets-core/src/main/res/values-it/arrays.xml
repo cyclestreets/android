@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+  <string-array name="units">
+    <item>Chilometri</item>
+    <item>Miglia</item>
+  </string-array>
+
+  <string-array name="speed">
+    <item>Rilassata 10mph (16km/h)</item>
+    <item>Regolare 12mph (20km/h)</item>
+    <item>Veloce 15mph (24km/h)</item>
+  </string-array>
+
+  <string-array name="routetype">
+    <item>Tranquillo</item>
+    <item>Bilanciato</item>
+    <item>Veloce</item>
+    <item>Corto</item>
+  </string-array>
+
+  <string-array name="uploadsize">
+    <item>Ridimensiona sempre a 640 pixel di larghezza</item>
+    <item>Dimensioni massime se WiFi, 3.5G o 4G disponibili</item>
+    <item>Dimensioni massime</item>
+  </string-array>
+
+</resources>

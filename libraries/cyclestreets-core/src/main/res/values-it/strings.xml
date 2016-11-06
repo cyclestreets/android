@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+  <string name="blog_notifications">Mostra notifiche blog</string>
+
+  <string name="feedback_ok">Grazie per averci inviato la tua opinione. Ti risponderemo appena la leggeremo.</string>
+  <string name="feedback_error_prefix">La tua opinione non è stata inviata.\n\n</string>
+
+  <string name="registration_ok">Il tuo account è stato registrato.\n\nAbbiamo inviato una email all\'indirizzo che ci hai fornito.\n\nQuando riceverai la mail, segui le istruzioni contenute al suo interno per completare la registrazione.</string>
+  <string name="registration_error_prefix">Il tuo account non è stato creato.\n\n</string>
+
+  <string name="signin_ok">Connessione con CycleStreets riuscita.</string>
+  <string name="signin_error_prefix">"Errore : "</string>
+  <string name="signin_default_error">Login in CycleStreets non riuscito.  Controlla l\'username e la password.</string>
+
+  <string name="upload_ok">Upload della foto completato con successo.</string>
+  <string name="upload_error_prefix">C\'è stato un problema con l\'upload della tua foto: \n</string>
+
+</resources>

@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+  <string name="navigation_drawer_open">Apri menù di navigazione</string>
+  <string name="navigation_drawer_close">Chiudi menù di navigazione</string>
+  <string name="app_name">CycleStreets</string>
+  <string name="settings">Impostazioni</string>
+  <string name="blog">Blog</string>
+  <string name="go">Cerca percorso</string>
+  <string name="addvia">Aggiungi destinazione</string>
+  <string name="blog_cyclestreets_update">News dal blog di CycleStreets</string>
+  <string name="blog_update">Blog news</string>
+  <string name="rba_start">Punto di partenza</string>
+  <string name="rba_waypoint">Tappa %d</string>
+  <string name="confirm_new_route">Creare un nuovo tragitto?</string>
+
+  <!-- Map menu -->
+  <string name="ic_menu_directions">Calcola percorso</string>
+  <string name="menu_route_by_number">Apri percorso per numero</string>
+  <string name="menu_find_place">Cerca luogo</string>
+  <string name="ic_menu_settings">Impostazioni</string>
+  <string name="ic_menu_open">Apri</string>
+  <string name="ic_menu_rename">Rinomina</string>
+  <string name="ic_menu_edit">Modifica</string>
+  <string name="ic_menu_delete">Elimina</string>
+
+  <string name="ic_menu_itinerary">Itinerario</string>
+
+  <!-- find place dialog -->
+  <string name="btn_find_place">Cerca</string>
+  <string name="lbl_choose_place">Scegli Luogo</string>
+
+  <!-- live ride -->
+  <string name="ic_menu_liveride">Inizia LiveRide</string>
+  <string name="ic_menu_stopride">Termina LiveRide</string>
+  <string name="ic_menu_addlocation">Nuova Destinazione</string>
+  <string name="hello_blank_fragment">Hello blank fragment</string>
+
+  <string name="location_list_header">Aggiungi una nuova località usando il pulsante qui sopra.\nTocca e tieni premuto su una località nella lista per modificarla o cancellarla.</string>
+
+  <string name="elevation_co2_saved">CO₂ evitata:</string>
+  <string name="elevation_calories_burned">Calorie:</string>
+  <string name="elevation_estimated_time">Tempo:</string>
+  <string name="elevation_journey_number">Itinerario numero:</string>
+  <!-- Do we really need the text "Fruit", Jez? :-) -->
+  <string name="elevation_fruit">Frutta</string>
+  <string name="elevation_route">percorso</string>
+
+  <string name="about_version_default">net.cyclestreets</string>
+
+  <string name="findplace_name_or_address">Nome del luogo o indirizzo</string>
+
+  <string name="itinerary_street">Strada</string>
+  <string name="itinerary_segment_time">00m00</string>
+  <string name="itinerary_segment_distance">0m</string>
+  <string name="itinerary_segment_cumulative_distance">(0km)</string>
+  <string name="itinerary_not_available">Le indicazioni svolta per svolta saranno mostrate\nqui dopo che il percorso sarà calcolato.</string>
+
+  <string name="location_editor_hint">Piazza il puntatore sulla mappa e dai un nome al luogo.</string>
+  <string name="location_editor_name">Nome del luogo :</string>
+  <string name="routenumber_hint">Numero percorso</string>
+
+  <string name="storedroutes_title_default">"Percorso "</string>
+  <string name="storedroutes_detail_default">Dettagli</string>
+  <string name="storedroutes_detail_format">%1$s percorso, %2$s</string>
+  <string name="about">Chi Siamo</string>
+  <string name="ic_menu_elevation">Dislivello</string>
+  <string name="itinerary_direction">direzione</string>
+  <string name="menu_saved_routes">Percorsi salvati</string>
+  <string name="rba_finish">Punto di arrivo</string>
+
+</resources>

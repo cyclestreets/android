@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+  <string name="journey_current_speed">Velocità Attuale:</string>
+  <string name="journey_time">Durata Spostamento:</string>
+  <string name="journey_distance">Distanza:</string>
+  <string name="journey_finish_button">Arrivo</string>
+
+  <string name="completedjourney_info">info tragitto</string>
+  <string name="completedjourney_purpose">scopo dello spostamento</string>
+
+  <string name="save_choose_purpose_hint">Registrazione terminata. Scegli il motivo dello spostamento:</string>
+  <string name="save_purpose_commute">Lavoro</string>
+  <string name="save_purpose_school">Scuola</string>
+  <string name="save_purpose_work">Per Lavoro</string>
+  <string name="save_purpose_exercise">Allenamento</string>
+  <string name="save_purpose_social">Sociale</string>
+  <string name="save_purpose_shopping">Shopping</string>
+  <string name="save_trip_comments_hint">Commenti sul tuo spostamento</string>
+  <string name="save_age">Età:</string>
+  <string name="save_gender">Genere:</string>
+
+  <!-- Note to translators: These three strings form the sentence "Level of cycling experience:" -->
+  <string name="save_level_of">Livello di</string>
+  <string name="save_cycling">ciclismo</string>
+  <string name="save_experience">esperienza:</string>
+
+  <string name="save_submit_button">Invia</string>
+  <string name="save_discard_button">Scarta</string>
+  <string name="savetrip_discarded">Spostamento scartato.</string>
+  <string name="savetrip_no_purpose">Devi selezionare lo scopo dello spostamento prima di inviare! Scegli tra le motivazioni qui sopra.</string>
+  <string name="savetrip_purpose_school"><![CDATA[<b>Scuola:</b> questo spostamento in bici è stato effettuato principalmente per andare o tornare da scuola o dall\'università.]]></string>
+  <string name="savetrip_purpose_work_related"><![CDATA[<b>Per Lavoro:</b> questo spostamento in bici è stato effettuato principalmente per andare o tornare da una attività legata alla propria occupazione .]]></string>
+  <string name="savetrip_purpose_exercise"><![CDATA[<b>Allenamento:</b>questo spostamento in bici è stato effettuato principalmente per allenarsi o per fare semplicemente un giro in bici.]]></string>
+  <string name="savetrip_purpose_social"><![CDATA[<b>Sociale:</b> questo spostamento in bici è stato effettuato principalmente per andare o tornare da una attività sociale, per esempio la casa di un amico, il parco, un ristorante, il cinema.]]></string>
+  <string name="savetrip_purpose_shopping"><![CDATA[<b>Shopping:</b> questo spostamento in bici è stato effettuato principalmente per compare o portare a casa oggetti o la spesa.]]></string>
+  <string name="savetrip_purpose_errand"><![CDATA[<b>Passeggiata:</b> questo spostamento in bici è stato effettuato principalmente per motivi personali come andare in banca, dal dottore, in palestra, ecc.]]></string>
+  <string name="savetrip_purpose_other"><![CDATA[<b>Altro:</b> se nessuna delle altre motivazioni rispecchia questo spostamento, puoi inserire un commento qui sotto per dirci di più.]]></string>
+  <string name="savetrip_please_select">Seleziona</string>
+  <string name="savetrip_gender_prompt">Seleziona il tuo sesso</string>
+  <string name="savetrip_gender_male">uomo</string>
+  <string name="savetrip_gender_female">donna</string>
+  <string name="savetrip_gender_private">preferisco non dirlo</string>
+  <string name="savetrip_experience_prompt">Seleziona il livello di esperienza</string>
+  <string name="savetrip_experience_infrequent">saltuario</string>
+  <string name="savetrip_experience_beginner">principiante</string>
+  <string name="savetrip_end_info_format">%1$1.1f miglia, %2$d minuti.  %3$s</string>
+  <string name="completedjourney_start_time">ora di partenza</string>
+  <string name="save_purpose_errand">Passeggiata</string>
+  <string name="save_purpose_other">Altro</string>
+  <string name="savetrip_experience_experienced">esperto</string>
+  <string name="savetrip_purpose_commute"><![CDATA[<b>Lavoro:</b> questo sportamento in bici è stato effettuato principalmente per spostarsi tra casa e il luogo di lavoro.]]></string>
+
+</resources>
