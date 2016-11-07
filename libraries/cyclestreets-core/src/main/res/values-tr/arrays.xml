@@ -5,7 +5,7 @@
     <item>Kilometre</item>
     <item>Mil</item>
   </string-array>
-  <string-array name="unit_values" translatable="false">
+  <string-array name="unit_values">
     <item>km</item>
     <item>mil</item>
   </string-array>
@@ -15,7 +15,7 @@
     <item> 12mph (20km/h) Sabit Hız</item>
     <item> 15mph (24km/h) Hız</item>
   </string-array>
-  <string-array name="speed_values" translatable="false">
+  <string-array name="speed_values">
     <item>16</item>
     <item>20</item>
     <item>24</item>
@@ -27,7 +27,7 @@
     <item>En hızlı</item>
     <item>En kısa</item>
   </string-array>
-  <string-array name="routetype_values" translatable="false">
+  <string-array name="routetype_values">
     <item>en sessiz</item>
     <item>dengeli</item>
     <item>en hızlı</item>
@@ -39,13 +39,13 @@
     <item>WiFi, 3.5G ya da 4G iken tam boyut</item>
     <item>Tam boyut</item>
   </string-array>
-  <string-array name="uploadsize_values" translatable="false">
+  <string-array name="uploadsize_values">
     <item>640px</item>
     <item>bigIfWifi</item>
     <item>büyük</item>
   </string-array>
 
-  <string-array name="distance" translatable="false">
+  <string-array name="distance">
     <item>15 m</item>
     <item>20 m</item>
     <item>25 m</item>
@@ -85,7 +85,7 @@
     <item>195 m</item>
     <item>200 m</item>
   </string-array>
-  <string-array name="distance_values" translatable="false">
+  <string-array name="distance_values">
     <item>15</item>
     <item>20</item>
     <item>25</item>
