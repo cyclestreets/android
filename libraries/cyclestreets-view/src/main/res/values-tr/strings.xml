@@ -19,8 +19,8 @@
   <string name="location_menu_off">Konum Kapalı</string>
 
   <string name="route_type">Güzergah Tipi</string>
-  <string name="route_finding_new">Güzergah, CycleStreets.net'ten temin ediliyor, lütfen bekleyiniz</string>
-  <string name="route_fetching_existing">Güzergah, CycleStreets.net'ten çekiliyor, lütfen bekleyiniz</string>
+  <string name="route_finding_new">Güzergah, CycleStreets.net adresinden temin ediliyor, lütfen bekleyiniz</string>
+  <string name="route_fetching_existing">Güzergah, CycleStreets.net adresinden çekiliyor, lütfen bekleyiniz</string>
   <string name="route_finding_failed">Güzergah bulunamadı</string>
   <string name="route_loading">Güzergah yükleniyor, lütfen bekleyiniz</string>
 
@@ -78,7 +78,7 @@
   <string name="feedback_your_comments">Yorumlarınız</string>
   <string name="feedback_sending">CycleStreets.net için rota geri bildirimi gönderin</string>
 
-  <string name="account_required_for_photos">Fotoğraf eklemek için CycleStreets'e giriş yapmış olmalısınız.</string>
+  <string name="account_required_for_photos">Fotoğraf eklemek için CycleStreets uygulamasına giriş yapmış olmalısınız.</string>
   <string name="account_registering_is_free">Bu hesap için kayıt ücretsizdir.</string>
   <string name="account_register_message">Hesap için kayıl olun</string>
   <string name="account_signin_with_existing">Varolan hesabınızla giriş yapın</string>
@@ -94,7 +94,7 @@
   <string name="account_password">Parola</string>
   <string name="account_clear_stored_button">Kayıtlı detayları temizle</string>
   <string name="account_signin_button">Giriş yap</string>
-  <string name="account_signing_in">CycleStreets.net'e giriş yap</string>
+  <string name="account_signing_in">CycleStreets.net adresine giriş yap</string>
 
   <string name="account_email_format">Girilen e-posta adresi düzgün şekilde biçimlendirilmiş bir adres değil.</string>
   <string name="account_password_mismatch">Parola ve doğrulama parolası eşleşmedi.</string>
