@@ -3,15 +3,15 @@
 
   <string name="blog_notifications">Afficher les notifications de mise à jour du Blog</string>
 
-  <string name="feedback_ok">Merci d'avoir envoyé ce feedback. Nous reviendrons vers vous quand nous l'aurons vérifié.</string>
-  <string name="feedback_error_prefix">Votre feedback n'a pas pu être envoyé.\n\n</string>
+  <string name="feedback_ok">Merci d\'avoir envoyé ce feedback. Nous reviendrons vers vous quand nous l\'aurons vérifié.</string>
+  <string name="feedback_error_prefix">Votre feedback n\'a pas pu être envoyé.\n\n</string>
 
-  <string name="registration_ok">Votre compte a été enregistré.\n\nUn e-mail a été envoyé à l'adresse que vous avez donné.\n\nLorsque l'e-mail arrive, suivez les instructions qu'il contient pour terminer l'enregistrement.</string>
-  <string name="registration_error_prefix">Votre compte n'a pas pu être enregistré.\n\n</string>
+  <string name="registration_ok">Votre compte a été enregistré.\n\nUn e-mail a été envoyé à l\'adresse que vous avez donné.\n\nLorsque l\'e-mail arrive, suivez les instructions qu\'il contient pour terminer l\'enregistrement.</string>
+  <string name="registration_error_prefix">Votre compte n\'a pas pu être enregistré.\n\n</string>
 
   <string name="signin_ok">vous vous êtes connecté avec succès sur CycleStreets.</string>
   <string name="signin_error_prefix">Erreur : </string>
-  <string name="signin_default_error">Impossible de se connecter à CycleStreets.  S'il vous plaît vérifier votre nom d'utilisateur et mot de passe.</string>
+  <string name="signin_default_error">Impossible de se connecter à CycleStreets.  S\'il vous plaît vérifier votre nom d\'utilisateur et mot de passe.</string>
 
   <string name="upload_ok">Votre photo a été chargé avec succès.</string>
   <string name="upload_error_prefix">Il y avait un problème de chargement de votre photo: \n</string>

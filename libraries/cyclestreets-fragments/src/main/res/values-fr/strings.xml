@@ -52,16 +52,16 @@
 
   <string name="about_version_default">net.cyclestreets</string>
 
-  <string name="findplace_name_or_address">Placez le nom ou l'adresse</string>
+  <string name="findplace_name_or_address">Placez le nom ou l\'adresse</string>
 
   <string name="itinerary_direction">direction</string>
   <string name="itinerary_street">Rue</string>
   <string name="itinerary_segment_time">00m00</string>
   <string name="itinerary_segment_distance">0m</string>
   <string name="itinerary_segment_cumulative_distance">(0km)</string>
-  <string name="itinerary_not_available">virage par virage les informations sur l'itinéraire seront affichées\nici une fois qu'un itinéraire est programmé.</string>
+  <string name="itinerary_not_available">virage par virage les informations sur l\'itinéraire seront affichées\nici une fois qu\'un itinéraire est programmé.</string>
 
-  <string name="location_editor_hint">Placez la marque sur la carte et puis nommez l'emplacement.</string>
+  <string name="location_editor_hint">Placez la marque sur la carte et puis nommez l\'emplacement.</string>
   <string name="location_editor_name">Nom de la localisation :</string>
   <string name="routenumber_hint">Numéro de route</string>
 
