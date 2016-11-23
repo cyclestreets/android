@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+  <string name="journey_current_speed">वर्तमान गत ी:</string>
+  <string name="journey_time">प्रवास वेळ :</string>
+  <string name="journey_distance">अंतर :</string>
+  <string name="journey_finish_button">समाप्त</string>
+
+  <string name="completedjourney_info">प्रवास माहिती</string>
+  <string name="completedjourney_start_time">सुरवातीची वेळ</string>
+  <string name="completedjourney_purpose">ट्रिप उद्देश</string>
+
+  <string name="save_choose_purpose_hint">रेकॉर्डिंग पूर्ण . एक ट्रिप उद्देश निवडा:</string>
+  <string name="save_purpose_commute">ये - जा</string>
+  <string name="save_purpose_school">शाळा</string>
+  <string name="save_purpose_work">काम-संबंधित</string>
+  <string name="save_purpose_exercise">व्यायाम</string>
+  <string name="save_purpose_social">सामाजिक</string>
+  <string name="save_purpose_shopping">खरेदी</string>
+  <string name="save_purpose_errand">निरोप</string>
+  <string name="save_purpose_other">इतर</string>
+  <string name="save_trip_comments_hint">आपल्या ट्रिप टिप्पण्या</string>
+  <string name="save_age">वय:</string>
+  <string name="save_gender">लिंग:</string>
+
+  <!-- Note to translators: These three strings form the sentence "Level of cycling experience:" -->
+  <string name="save_level_of">पातळी</string>
+  <string name="save_cycling">सायकलिंग</string>
+  <string name="save_experience">अनुभव:</string>
+
+  <string name="save_submit_button">सादर</string>
+  <string name="save_discard_button">टाकून</string>
+  <string name="savetrip_discarded">प्रवासाचा टाकून.</string>
+  <string name="savetrip_no_purpose">आपण सादर करण्यापूर्वी एक ट्रिप उद्देश निवडणे आवश्यक आहे! वरील कारणांसाठी निवडा.</string>
+  <string name="savetrip_purpose_commute"><![CDATA[<b>ये - जा:</b> या दुचाकी ट्रिप घरी आणि आपल्या मुख्य कामाच्या दरम्यान प्राप्त करण्यासाठी प्रामुख्याने होते.]]></string>
+  <string name="savetrip_purpose_school"><![CDATA[<b>शाळा:</b> या दुचाकी उत्तम किंवा शाळा किंवा कॉलेज मधील जाण्यासाठी प्रामुख्याने होते.]]></string>
+  <string name="savetrip_purpose_work_related"><![CDATA[<b>काम-संबंधि:</b> या दुचाकी उत्तम किंवा आपली नोकरी व्यवसाय संबंधित बैठक, समारंभ, किंवा कार्याशी संबंधित निरोप जाऊ प्रामुख्याने होते.]]></string>
+  <string name="savetrip_purpose_exercise"><![CDATA[<b>व्यायाम:</b> या दुचाकी ट्रिप प्रामुख्याने व्यायाम होते, किंवा दुचाकी चालविणे च्या फायद्यासाठी बाइक.]]></string>
+  <string name="savetrip_purpose_social"><![CDATA[<b>सामाजिक:</b> या दुचाकी ट्रिप उदा प्रामुख्याने किंवा सामाजिक पासून जात होते एक मित्र \'घरी पार्क, एक रेस्टॉरंट, चित्रपट.]]></string>
+  <string name="savetrip_purpose_shopping"><![CDATA[<b>खरेदी:</b> या दुचाकी ट्रिप खरेदी किंवा घरातील सामान किंवा किराणामाल आणण्यासाठी प्रामुख्याने होते.]]></string>
+  <string name="savetrip_purpose_errand"><![CDATA[<b>निरोप:</b> या दुचाकी ट्रिप अशा बँकिंग, एक डॉक्टर भेट, व्यायामशाळा जात, इ वैयक्तिक व्यवसाय उपस्थित प्रामुख्याने होते.]]></string>
+  <string name="savetrip_purpose_other"><![CDATA[<b>इतर:</b> इतर कारणे काहीही या ट्रिप लागू असल्यास, आपण अधिक आम्हाला सांगा खाली टिप्पण्या प्रविष्ट करू शकता.]]></string>
+  <string name="savetrip_please_select">कृपया निवडा</string>
+  <string name="savetrip_gender_prompt">कृपया लिंग निवडा</string>
+  <string name="savetrip_gender_male">नर</string>
+  <string name="savetrip_gender_female">महिला</string>
+  <string name="savetrip_gender_private">सांगू इच्छित नाहीत</string>
+  <string name="savetrip_experience_prompt">कृपया अनुभव पातळी निवडा</string>
+  <string name="savetrip_experience_experienced">अनुभवी</string>
+  <string name="savetrip_experience_infrequent">वरचे वर</string>
+  <string name="savetrip_experience_beginner">नवशिक्या</string>
+  <string name="savetrip_end_info_format">%1$1.1f मैल, %2$d मिनिटे.  %3$s</string>
+
+</resources>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+  <string-array name="units">
+    <item>किलोमीटर्स</item>
+    <item>मैल</item>
+  </string-array>
+
+  <string-array name="speed">
+    <item>मंद 10mph (16km/h)</item>
+    <item>मध्यम गती 12mph (20km/h)</item>
+    <item>जलद 15mph (24km/h)</item>
+  </string-array>
+  <string-array name="routetype">
+    <item>शांत</item>
+    <item>संतुलित</item>
+    <item>वेगवान</item>
+    <item>कमीत कमी</item>
+  </string-array>
+  <string-array name="uploadsize">
+    <item>नेहमी 640 रुंद पिक्सेल आकार बदल</item>
+    <item>पूर्ण आकारात तेव्हा केलेली, 3.5G किंवा  4G उपलब्ध</item>
+    <item>पूर्ण आकारात</item>
+  </string-array>
+</resources>
