@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+  <string name="journey_current_speed">Şuanki hız:</string>
+  <string name="journey_time">Seyahat zamanı:</string>
+  <string name="journey_distance">Kat edilen yol:</string>
+  <string name="journey_finish_button">Bitiş</string>
+
+  <string name="completedjourney_info">seyahat bilgisi</string>
+  <string name="completedjourney_start_time">zamanı başlat</string>
+  <string name="completedjourney_purpose">seyahat amacı</string>
+
+  <string name="save_choose_purpose_hint">Kaydı bitir. Seyahat amacını seçiniz:</string>
+  <string name="save_purpose_commute">ev iş arası gidip gelmek</string>
+  <string name="save_purpose_school">Okul</string>
+  <string name="save_purpose_work">İş ile ilgili</string>
+  <string name="save_purpose_exercise">Egzersiz</string>
+  <string name="save_purpose_social">Sosyal</string>
+  <string name="save_purpose_shopping">Alışveriş</string>
+  <string name="save_purpose_errand">Günlük işler</string>
+  <string name="save_purpose_other">Diğer</string>
+  <string name="save_wide_blank">"     "</string>
+  <string name="save_trip_comments_hint">Seyahatiniz hakkında yorun giriniz</string>
+  <string name="save_age">Yaş:</string>
+  <string name="save_gender">Cinsiyet:</string>
+
+  <!-- Note to translators: These three strings form the sentence "Level of cycling experience:" -->
+  <string name="save_level_of">Seviye</string>
+  <string name="save_cycling">bisiklete binme</string>
+  <string name="save_experience">deneyim:</string>
+
+  <string name="save_submit_button">Yayınla</string>
+  <string name="save_discard_button">İptal et</string>
+  <string name="savetrip_discarded">Seyahat iptal edildi.</string>
+  <string name="savetrip_no_purpose">Yayınlamadan önce seyahat amacınızı seçmelisiniz! Yukarıdan seyahat amacınızı seçiniz.</string>
+  <string name="savetrip_purpose_commute"><![CDATA[<b>Commute:</b> this bike trip was primarily to get between home and your main workplace.]]></string>
+  <string name="savetrip_purpose_school"><![CDATA[<b>School:</b> this bike trip was primarily to go to or from school or college.]]></string>
+  <string name="savetrip_purpose_work_related"><![CDATA[<b>Work-Related:</b> this bike trip was primarily to go to or from a business related meeting, function, or work-related errand for your job.]]></string>
+  <string name="savetrip_purpose_exercise"><![CDATA[<b>Exercise:</b> this bike trip was primarily for exercise, or biking for the sake of biking.]]></string>
+  <string name="savetrip_purpose_social"><![CDATA[<b>Social:</b> this bike trip was primarily for going to or from a social activity, e.g. at a friend\'s house, the park, a restaurant, the movies.]]></string>
+  <string name="savetrip_purpose_shopping"><![CDATA[<b>Shopping:</b> this bike trip was primarily to purchase or bring home goods or groceries.]]></string>
+  <string name="savetrip_purpose_errand"><![CDATA[<b>Errand:</b> this bike trip was primarily to attend to personal business such as banking, a doctor  visit, going to the gym, etc.]]></string>
+  <string name="savetrip_purpose_other"><![CDATA[<b>Other:</b> if none of the other reasons applied to this trip, you can enter comments below to tell us more.]]></string>
+  <string name="savetrip_please_select">Lütfen seçiniz</string>
+  <string name="savetrip_gender_prompt">Lütfen cinsiyetinizi seçiniz</string>
+  <string name="savetrip_gender_male">erkek</string>
+  <string name="savetrip_gender_female">kadın</string>
+  <string name="savetrip_gender_private">birşey söylememeyi tercih ediyorum</string>
+  <string name="savetrip_experience_prompt">Lütfen deneyim seviyenizi seçiniz</string>
+  <string name="savetrip_experience_experienced">deneyimli</string>
+  <string name="savetrip_experience_infrequent">nadir</string>
+  <string name="savetrip_experience_beginner">başlangıç</string>
+  <string name="savetrip_end_info_format">%2$d dakikada, %1$1.1f mil. %3$s</string>
+
+</resources>

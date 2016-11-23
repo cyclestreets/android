@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+  <string name="blog_notifications">Blog güncelleme bildirimlerini göster</string>
+
+  <string name="feedback_ok">Geri dönüşünüzü yayınladığınız için teşekkürler. Kontrol ettikten sonra geri dönüş yapacağız.</string>
+  <string name="feedback_error_prefix">Geri dönüşünüz gönderilemedi.\n\n</string>
+
+  <string name="registration_ok">Hesabınız kaydedildi.\n\n Mail verdiğiniz adrese gönderildi.\n\n
+	  E-posta geldiğinde, bu kaydı tamamlamak için içerdiği yönergeleri izleyin.</string>
+  <string name="registration_error_prefix">Hesabınız kaydedilemedi.\n\n</string>
+
+  <string name="signin_ok">CycleStreets uygulamasına başarıyla giriş yapıldı.</string>
+  <string name="signin_error_prefix">Hata : </string>
+  <string name="signin_default_error">CycleStreets uygulamasına giriş yapılamadı. Lütfen kullanıcı adı ve parolanızı kontrol ediniz.</string>
+
+  <string name="upload_ok">Fotoğrafınız başarıyla yüklendi.</string>
+  <string name="upload_error_prefix">Fotoğrafınız yüklenirken bir problem oluştu: \n</string>
+
+</resources>
