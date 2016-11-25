@@ -2,7 +2,6 @@
 <resources>
 
   <string name="app_name">CycleStreets</string>
-  <string name="all_blank">"  "</string>
   <string name="all_button_back">Geri</string>
   <string name="all_button_next">İleri</string>
   <string name="all_button_save">Kaydet</string>
@@ -18,13 +17,13 @@
   <string name="location_menu_on">Konumu Takip Et</string>
   <string name="location_menu_off">Konum Kapalı</string>
 
-  <string name="route_type">Güzergah Tipi</string>
-  <string name="route_finding_new">Güzergah, CycleStreets.net adresinden temin ediliyor, lütfen bekleyiniz</string>
-  <string name="route_fetching_existing">Güzergah, CycleStreets.net adresinden çekiliyor, lütfen bekleyiniz</string>
-  <string name="route_finding_failed">Güzergah bulunamadı</string>
-  <string name="route_loading">Güzergah yükleniyor, lütfen bekleyiniz</string>
+  <string name="route_type">Güzergâh Tipi</string>
+  <string name="route_finding_new">Güzergâh, CycleStreets.net adresinden temin ediliyor, lütfen bekleyiniz</string>
+  <string name="route_fetching_existing">Güzergâh, CycleStreets.net adresinden çekiliyor, lütfen bekleyiniz</string>
+  <string name="route_finding_failed">Güzergâh bulunamadı</string>
+  <string name="route_loading">Güzergâh yükleniyor, lütfen bekleyiniz</string>
 
-  <string name="route_menu_change">Güzergah tipini değiştir</string>
+  <string name="route_menu_change">Güzergâh tipini değiştir</string>
   <string name="route_menu_change_reverse">Güzergahı ters çevir</string>
   <string name="route_menu_change_share">Güzergahı paylaş</string>
   <string name="route_menu_change_comment">Güzergaha yorum bırak</string>

@@ -19,7 +19,6 @@
   <string name="save_purpose_shopping">Alışveriş</string>
   <string name="save_purpose_errand">Günlük işler</string>
   <string name="save_purpose_other">Diğer</string>
-  <string name="save_wide_blank">"     "</string>
   <string name="save_trip_comments_hint">Seyahatiniz hakkında yorun giriniz</string>
   <string name="save_age">Yaş:</string>
   <string name="save_gender">Cinsiyet:</string>
@@ -45,7 +44,7 @@
   <string name="savetrip_gender_prompt">Lütfen cinsiyetinizi seçiniz</string>
   <string name="savetrip_gender_male">erkek</string>
   <string name="savetrip_gender_female">kadın</string>
-  <string name="savetrip_gender_private">birşey söylememeyi tercih ediyorum</string>
+  <string name="savetrip_gender_private">bir şey söylememeyi tercih ediyorum</string>
   <string name="savetrip_experience_prompt">Lütfen deneyim seviyenizi seçiniz</string>
   <string name="savetrip_experience_experienced">deneyimli</string>
   <string name="savetrip_experience_infrequent">nadir</string>

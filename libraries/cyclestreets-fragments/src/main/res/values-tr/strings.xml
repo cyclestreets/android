@@ -7,7 +7,7 @@
   <string name="settings">Ayarlar</string>
   <string name="about">Hakkında</string>
   <string name="blog">Blog</string>
-  <string name="go">Güzergah bul</string>
+  <string name="go">Güzergâh bul</string>
   <string name="addvia">Ara nokta ekle</string>
   <string name="blog_cyclestreets_update">CycleStreets blogu güncelle</string>
   <string name="blog_update">Blog update</string>
@@ -19,7 +19,7 @@
   <!-- Map menu -->
   <string name="ic_menu_directions">Güzergahı planla</string>
   <string name="menu_saved_routes">Güzergahları kaydet</string>
-  <string name="menu_route_by_number">Güzergah numarasına göre aç</string>
+  <string name="menu_route_by_number">Güzergâh numarasına göre aç</string>
   <string name="menu_find_place">Yer bul</string>
   <string name="ic_menu_settings">Ayarlar</string>
   <string name="ic_menu_open">Aç</string>
@@ -48,7 +48,7 @@
   <string name="elevation_journey_number">Seyahat numarası:</string>
   <!-- Do we really need the text "Fruit", Jez? :-) -->
   <string name="elevation_fruit">Meyve</string>
-  <string name="elevation_route">güzergah</string>
+  <string name="elevation_route">güzergâh</string>
 
   <string name="about_version_default">net.cyclestreets</string>
 
@@ -59,14 +59,14 @@
   <string name="itinerary_segment_time">00m00</string>
   <string name="itinerary_segment_distance">0m</string>
   <string name="itinerary_segment_cumulative_distance">(0km)</string>
-  <string name="itinerary_not_available">Turn-by-turn güzergah bilgileri planlanırken bir kez gösterilecek.</string>
+  <string name="itinerary_not_available">Turn-by-turn güzergâh bilgileri planlanırken bir kez gösterilecek.</string>
 
   <string name="location_editor_hint">Harita üzerinde ve daha sonra işareti koyun ve konumu adlandırın.</string>
   <string name="location_editor_name">Konum adı :</string>
-  <string name="routenumber_hint">Güzergah numarası</string>
+  <string name="routenumber_hint">Güzergâh numarası</string>
 
-  <string name="storedroutes_title_default">Güzergah </string>
+  <string name="storedroutes_title_default">Güzergâh </string>
   <string name="storedroutes_detail_default">Detaylar</string>
-  <string name="storedroutes_detail_format">%1$s güzergah, %2$s</string>
+  <string name="storedroutes_detail_format">%1$s güzergâh, %2$s</string>
 
 </resources>
