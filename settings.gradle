@@ -5,5 +5,3 @@ include ':libraries:cyclestreets-core',
 
 include ':cyclestreets.vNext'
 
-include ':custom-versions:cycle-hackney'
-include ':custom-versions:urban-location'
