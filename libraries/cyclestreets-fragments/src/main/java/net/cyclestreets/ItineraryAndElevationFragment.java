@@ -1,10 +1,9 @@
 package net.cyclestreets;
 
 import android.os.Bundle;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
+import android.app.Fragment;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -67,7 +66,7 @@ public class ItineraryAndElevationFragment extends Fragment {
 
     lastFrag_ = frag;
 
-    ActivityCompat.invalidateOptionsMenu(getActivity());
+    getActivity().invalidateOptionsMenu();
   } // showFrag
 
   @Override

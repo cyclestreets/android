@@ -1,7 +1,7 @@
 package net.cyclestreets;
 
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
+import android.app.Activity;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
@@ -17,7 +17,7 @@ import net.cyclestreets.views.overlay.ThereOverlay;
 
 import org.osmdroid.api.IGeoPoint;
 
-public class LocationEditorActivity extends ActionBarActivity
+public class LocationEditorActivity extends Activity
     implements ThereOverlay.LocationListener,
                View.OnClickListener,
                TextWatcher {

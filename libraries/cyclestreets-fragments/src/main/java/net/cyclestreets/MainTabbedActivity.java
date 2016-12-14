@@ -10,10 +10,10 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
+import android.app.Fragment;
+import android.app.Activity;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -25,7 +25,7 @@ import android.widget.TabHost;
 import android.widget.TabHost.OnTabChangeListener;
 import android.widget.TabHost.TabSpec;
 
-public abstract class MainTabbedActivity extends FragmentActivity implements OnTabChangeListener, TabHost.TabContentFactory
+public abstract class MainTabbedActivity extends Activity implements OnTabChangeListener, TabHost.TabContentFactory
 {
   private TabHost tabHost_;
   private final Map<String, TabInfo> tabs_ = new HashMap<>();
@@ -186,7 +186,7 @@ public abstract class MainTabbedActivity extends FragmentActivity implements OnT
     tabSpec.setIndicator("", getResources().getDrawable(iconId));
     tabSpec.setContent(this);
 
-    final TabInfo info = new TabInfo(getSupportFragmentManager(),
+    final TabInfo info = new TabInfo(getFragmentManager(),
                                      tabId, fragClass, null);
 
     tabs_.put(tabId, info);
@@ -200,7 +200,7 @@ public abstract class MainTabbedActivity extends FragmentActivity implements OnT
     if(lastTab_ == newTab)
       return;
 
-    final FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+    final FragmentTransaction ft = getFragmentManager().beginTransaction();
     if(lastTab_ != null)
       lastTab_.detach(ft);
 
@@ -209,7 +209,7 @@ public abstract class MainTabbedActivity extends FragmentActivity implements OnT
 
     lastTab_ = newTab;
     ft.commit();
-    getSupportFragmentManager().executePendingTransactions();
+    getFragmentManager().executePendingTransactions();
 
     setTitle(applicationName() + " : " + tabId);
   } // onTabChanged
