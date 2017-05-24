@@ -5,7 +5,7 @@
     android:orientation="horizontal"
     android:paddingLeft="@dimen/abc_dropdownitem_text_padding_left"
     android:paddingRight="@dimen/abc_dropdownitem_text_padding_right"
-    android:paddingBottom="@dimen/abc_action_bar_subtitle_bottom_margin">
+    android:paddingBottom="@dimen/abc_action_bar_subtitle_bottom_margin_material">
     <include layout="@layout/elevation_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

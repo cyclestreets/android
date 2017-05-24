@@ -19,14 +19,14 @@
         android:layout_height="wrap_content"
         android:layout_width="0dp"
         android:layout_weight="1"
-        android:textSize="@dimen/abc_action_bar_title_text_size"
+        android:textSize="@dimen/abc_text_size_title_material_toolbar"
         android:text="@string/elevation_route"/>
     <TextView
         android:id="@+id/distance"
         android:layout_height="wrap_content"
         android:layout_width="0dp"
         android:layout_weight="1.4"
-        android:textSize="@dimen/abc_action_bar_title_text_size"
+        android:textSize="@dimen/abc_text_size_title_material_toolbar"
         android:text="@string/elevation_fruit"/>
   </LinearLayout>
   <LinearLayout
@@ -37,14 +37,14 @@
       android:layout_height="wrap_content"
       android:layout_width="0dp"
       android:layout_weight="1"
-      android:textSize="@dimen/abc_action_bar_title_text_size"
+      android:textSize="@dimen/abc_text_size_title_material_toolbar"
       android:text="@string/elevation_estimated_time"/>
     <TextView
       android:id="@+id/journeytime"
       android:layout_height="wrap_content"
       android:layout_width="0dp"
       android:layout_weight="1.4"
-      android:textSize="@dimen/abc_action_bar_title_text_size"
+      android:textSize="@dimen/abc_text_size_title_material_toolbar"
       android:text="@string/elevation_fruit"/>
   </LinearLayout>
   <LinearLayout
@@ -55,14 +55,14 @@
       android:layout_height="wrap_content"
       android:layout_width="0dp"
       android:layout_weight="1"
-      android:textSize="@dimen/abc_action_bar_title_text_size"
+      android:textSize="@dimen/abc_text_size_title_material_toolbar"
       android:text="@string/elevation_calories_burned"/>
     <TextView
       android:id="@+id/calories"
       android:layout_height="wrap_content"
       android:layout_width="0dp"
       android:layout_weight="1.4"
-      android:textSize="@dimen/abc_action_bar_title_text_size"
+      android:textSize="@dimen/abc_text_size_title_material_toolbar"
       android:text="@string/elevation_fruit"/>
   </LinearLayout>
   <LinearLayout
@@ -73,14 +73,14 @@
       android:layout_height="wrap_content"
       android:layout_width="0dp"
       android:layout_weight="1"
-      android:textSize="@dimen/abc_action_bar_title_text_size"
+      android:textSize="@dimen/abc_text_size_title_material_toolbar"
       android:text="@string/elevation_co2_saved"/>
     <TextView
       android:id="@+id/carbondioxide"
       android:layout_height="wrap_content"
       android:layout_width="0dp"
       android:layout_weight="1.4"
-      android:textSize="@dimen/abc_action_bar_title_text_size"
+      android:textSize="@dimen/abc_text_size_title_material_toolbar"
       android:text="@string/elevation_fruit"/>
   </LinearLayout>
   <LinearLayout
@@ -91,14 +91,14 @@
         android:layout_height="wrap_content"
         android:layout_width="0dp"
         android:layout_weight="1"
-        android:textSize="@dimen/abc_action_bar_title_text_size"
+        android:textSize="@dimen/abc_text_size_title_material_toolbar"
         android:text="@string/elevation_journey_number"/>
     <TextView
         android:id="@+id/journeyid"
         android:layout_height="wrap_content"
         android:layout_width="0dp"
         android:layout_weight="1.4"
-        android:textSize="@dimen/abc_action_bar_title_text_size"
+        android:textSize="@dimen/abc_text_size_title_material_toolbar"
         android:text="@string/elevation_fruit"/>
   </LinearLayout>
 </LinearLayout>
