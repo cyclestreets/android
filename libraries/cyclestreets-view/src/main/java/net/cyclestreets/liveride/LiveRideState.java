@@ -94,11 +94,20 @@ public abstract class LiveRideState
   private void notification(final String text, final String ticker)
   {
     final NotificationManager nm = nm();
-    final Notification notification = new Notification(R.drawable.ic_launcher, ticker, System.currentTimeMillis());
-    notification.flags = Notification.FLAG_AUTO_CANCEL | Notification.FLAG_ONGOING_EVENT;
     final Intent notificationIntent = new Intent(context(), LiveRideActivity.class);
     final PendingIntent contentIntent = PendingIntent.getActivity(context(), 0, notificationIntent, PendingIntent.FLAG_CANCEL_CURRENT);
-    notification.setLatestEventInfo(context(), title_, text, contentIntent);
+
+    Notification notification = new Notification.Builder(context())
+            .setSmallIcon(R.drawable.ic_launcher)
+            .setTicker(ticker)
+            .setWhen(System.currentTimeMillis())
+            .setAutoCancel(true)
+            .setOngoing(true)
+            .setContentTitle(title_)
+            .setContentText(text)
+            .setContentIntent(contentIntent)
+            .getNotification();
+
     nm.notify(NOTIFICATION_ID, notification);
   } // notify
 

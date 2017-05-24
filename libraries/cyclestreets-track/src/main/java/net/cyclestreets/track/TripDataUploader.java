@@ -143,11 +143,18 @@ public class TripDataUploader extends AsyncTask<Void, Void, Boolean> {
   }
 
   private Notification createNotification(final String text, final int flags) {
-    final Notification notification = new Notification(R.drawable.icon25, text, java.lang.System.currentTimeMillis());
-    notification.flags = flags;
     final Intent notificationIntent = new Intent(context_, TripDataUploader.class);
     final PendingIntent contentIntent = PendingIntent.getActivity(context_, 0, notificationIntent, PendingIntent.FLAG_CANCEL_CURRENT);
-    notification.setLatestEventInfo(context_.getApplicationContext(), "Cycle Hackney", text, contentIntent);
+
+    Notification notification = new Notification.Builder(context_.getApplicationContext())
+            .setSmallIcon(R.drawable.icon25)
+            .setTicker(text)
+            .setWhen(java.lang.System.currentTimeMillis())
+            .setContentTitle("Cycle Hackney")
+            .setContentText(text)
+            .setContentIntent(contentIntent)
+            .getNotification();
+    notification.flags = flags;
     return notification;
   }
 

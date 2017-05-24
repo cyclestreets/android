@@ -247,14 +247,19 @@ public class RecordingService
     return (NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);
   } // nm
 
-  private Notification createNotification(
-      final String tickerText,
-      final int flags) {
-    final Notification notification = new Notification(R.drawable.icon25, tickerText, System.currentTimeMillis());
-    notification.flags = flags;
+  private Notification createNotification(final String tickerText, final int flags) {
     final Intent notificationIntent = new Intent(this, activityClass_);
     final PendingIntent contentIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0);
-    notification.setLatestEventInfo(this, "Cycle Hackney - Recording", "Tap to see your ongoing trip", contentIntent);
+
+    Notification notification = new Notification.Builder(this)
+            .setSmallIcon(R.drawable.icon25)
+            .setTicker(tickerText)
+            .setWhen(java.lang.System.currentTimeMillis())
+            .setContentTitle("Cycle Hackney - Recording")
+            .setContentText("Tap to see your ongoing trip")
+            .setContentIntent(contentIntent)
+            .getNotification();
+    notification.flags = flags;
     return notification;
   } // createNotification
 
