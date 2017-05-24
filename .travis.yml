@@ -19,10 +19,7 @@ android:
     # if you need to run emulator(s) during your tests
     - sys-img-${ANDROID_ABI}-android-${targetSdkVersion}
     
-before_install:
-  - openssl aes-256-cbc -K $encrypted_29b04bc3212e_key -iv $encrypted_29b04bc3212e_iv -in license.properties.enc -out license.properties -d
-  - openssl aes-256-cbc -K $encrypted_29b04bc3212e_key -iv $encrypted_29b04bc3212e_iv -in signature.asc.enc -out signature.asc -d
-  - openssl aes-256-cbc -K $encrypted_29b04bc3212e_key -iv $encrypted_29b04bc3212e_iv -in android-keystore.enc -out android-keystore -d
+before_install: ./ciLicense.sh
 
 # Emulator Management: Create, Start and Wait
 before_script:
@@ -31,4 +28,4 @@ before_script:
   - android-wait-for-emulator
   - adb shell input keyevent 82 &
 
-deploy: "./ciPublish.sh"
+deploy: ./ciPublish.sh
