@@ -11,5 +11,6 @@ license.properties
 .idea
 *~
 */keystore
+*/signature.asc
 custom-versions/*
 api.key

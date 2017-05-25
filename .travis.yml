@@ -7,6 +7,7 @@ env:
     - targetSdkVersion=19
     - toolsVersion=23.0.2
     - ANDROID_ABI=armeabi-v7a
+    - secure: "LipL0wPv0uQrKitaeGxCpoQsx5sl/Pg/DtQv4S7Bi52DxfArgvD2hPB0TWgkgYGJPfENHLEyqg+H+/v2nON3IXY+cnsd+TW+P1T03/52D56ieSKGVtVtSYUOZUgoyxIIvRZWFh/UNg+AmZIjOCTJDLitBTUxD8kWux8NjhIqZow="
 android:
   components:
     # The SDK version used to compile your project
