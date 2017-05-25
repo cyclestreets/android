@@ -3,9 +3,11 @@ jdk:
   - oraclejdk8
 env:
   global:
-    - compileSdkVersion=19
+    # Remember to keep this in sync with config.properties
+    - compileSdkVersion=23
+    - minSdkVersion=14
     - targetSdkVersion=19
-    - toolsVersion=23.0.2
+    - toolsVersion=25.0.3
     - ANDROID_ABI=armeabi-v7a
     - secure: "LipL0wPv0uQrKitaeGxCpoQsx5sl/Pg/DtQv4S7Bi52DxfArgvD2hPB0TWgkgYGJPfENHLEyqg+H+/v2nON3IXY+cnsd+TW+P1T03/52D56ieSKGVtVtSYUOZUgoyxIIvRZWFh/UNg+AmZIjOCTJDLitBTUxD8kWux8NjhIqZow="
 android:

@@ -17,7 +17,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_toRightOf="@id/menu_icon"
-        android:textSize="@dimen/abc_action_bar_title_text_size"
+        android:textSize="@dimen/abc_text_size_title_material_toolbar"
         android:textColor="?android:attr/textColorPrimaryInverse"
         android:layout_centerVertical="true"
         android:gravity="center_vertical"/>

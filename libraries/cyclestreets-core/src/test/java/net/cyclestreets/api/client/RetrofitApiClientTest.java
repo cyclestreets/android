@@ -59,7 +59,7 @@ import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-@Config(manifest=Config.NONE)
+@Config(manifest=Config.NONE, sdk = 23)
 @RunWith(RobolectricTestRunner.class)
 public class RetrofitApiClientTest {
 
