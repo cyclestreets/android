@@ -130,8 +130,8 @@ def signingKey(project) {
 
     playAccountConfigs {
       defaultAccountConfig {
-        serviceAccountEmail = 'name@server.com'
-        pk12File = project.file('key.p12') // Will need to encrypt this in Travis, obvs
+        serviceAccountEmail = 'cyclestreets@api-7698300952134656507-752021.iam.gserviceaccount.com'
+        pk12File = project.file('play-api-key.p12')
       }
     }
 

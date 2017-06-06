@@ -12,5 +12,6 @@ license.properties
 *~
 */keystore
 */signature.asc
+*/*.p12
 custom-versions/*
 api.key
