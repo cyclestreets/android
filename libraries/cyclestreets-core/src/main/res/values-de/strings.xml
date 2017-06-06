@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="feedback_error_prefix">Dein Feedback konnte nicht gesendet werden\n\n</string>
+    <string name="blog_notifications">Notifications für Blog-Updates anzeigen</string>
+    <string name="feedback_ok">Danke für dein Feedback. Wir melden uns wenn wir uns das angesehen haben.</string>
+    <string name="registration_error_prefix">Account konnte nicht registriert werden.</string>
+    <string name="registration_ok">Account wurde angelegt. Eine E-Mail wurde an die angegebene Adresse versendet. Wenn du die E-Mail erhalten hast, folge der darin enthaltenen Anleitung um die Registrierung abzuschließen.</string>
+    <string name="signin_default_error">Die anmeldung bei CycleStreets ist fehlgeschlagen. Bitte überprüfe Benutzername und Passwort.</string>
+    <string name="signin_error_prefix">Fehler:</string>
+    <string name="signin_ok">Du hast dich erfolgreich bei CycleStreets angemeldet.</string>
+    <string name="upload_error_prefix">Fehler beim Hochladen deines Fotos:</string>
+</resources>
