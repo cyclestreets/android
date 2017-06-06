@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+  <string name="app_name">CycleStreets</string>
+  <string name="route_map">Utazás tervező</string>
+  <string name="itinerary">Útiterv</string>
+  <string name="elevation">Magasság</string>
+  <string name="photomap">Műholdkép</string>
+  <string name="photo_upload">Fotó hozzáadása</string>
+  <string name="cyclestreets_blog">Blog</string>
+  <string name="cyclestreets_blog_updates">Blog - frissített</string>
+
+  <string name="crash_notif_ticker_text">Váratlan hiba, kérem jelentse…</string>
+  <string name="crash_notif_title">CycleStreets összeomlott…</string>
+  <string name="crash_notif_text">Kattintson ide, segítsen a probléma megoldásában.</string>
+  <string name="crash_dialog_title">CycleStreets összeomlott</string>
+  <string name="crash_dialog_text">Egy váratlan hiba következtében az alkalmazás bezárult.
+    Kérjük segítsen a probléma megoldásában a hibaüzenet továbbításával,
+    továbbításhoz kattintson az \'OK\' gombra.</string>
+  <string name="crash_dialog_comment_prompt">Esetleges megjegyzés hozzáadása:</string>
+  <string name="crash_dialog_ok_toast">Köszönjük!</string>
+
+</resources>
