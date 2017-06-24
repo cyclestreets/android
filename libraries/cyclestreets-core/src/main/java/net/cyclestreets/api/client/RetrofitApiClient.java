@@ -132,6 +132,15 @@ public class RetrofitApiClient {
     return response.body();
   }
 
+  public String getJourneyJson(final String plan,
+                               final String itineraryPoints,
+                               final String leaving,
+                               final String arriving,
+                               final int speed) throws IOException {
+    Response<String> response = v1Api.getJourneyJson(plan, itineraryPoints, leaving, arriving, speed).execute();
+    return response.body();
+  }
+
   public String retrievePreviousJourneyXml(final String plan,
                                            final long itineraryId) throws IOException {
     Response<String> response = v1Api.retrievePreviousJourneyXml(plan, itineraryId).execute();
