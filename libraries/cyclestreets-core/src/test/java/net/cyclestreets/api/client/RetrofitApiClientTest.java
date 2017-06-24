@@ -2,6 +2,8 @@ package net.cyclestreets.api.client;
 
 import android.content.Context;
 
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.tomakehurst.wiremock.junit.WireMockRule;
 import com.github.tomakehurst.wiremock.verification.LoggedRequest;
 
@@ -21,6 +23,10 @@ import net.cyclestreets.api.Signin;
 import net.cyclestreets.api.Upload;
 import net.cyclestreets.api.UserJourney;
 import net.cyclestreets.api.UserJourneys;
+import net.cyclestreets.api.client.dto.JourneyDto;
+import net.cyclestreets.api.client.dto.Route;
+import net.cyclestreets.api.client.dto.Segment;
+import net.cyclestreets.api.client.dto.Waypoint;
 import net.cyclestreets.core.R;
 
 import org.apache.commons.io.FileUtils;
@@ -506,6 +512,32 @@ public class RetrofitApiClientTest {
 
     assertThat(journeyJson, is(notNullValue()));
     assertThat(journeyJson, containsString("{"));
+
+    ObjectMapper objectMapper = new ObjectMapper();
+    objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+    JourneyDto journey = objectMapper.readValue(journeyJson, JourneyDto.class);
+
+    // Verify route object
+    Route route = journey.getRoute();
+    assertThat(route.getStart(), is("City+Centre"));
+    assertThat(route.getFinish(), is("Thoday+Street"));
+    assertThat(route.getName(), is("City+Centre to Thoday+Street"));
+
+    // Verify segments
+    List<Segment> segments = journey.getSegments();
+    assertThat(segments, hasSize(60));
+    System.out.println(segments);
+    Segment segment = segments.get(12);
+    assertThat(segment.getTurn(), is("turn right"));
+
+    // Verify waypoints
+    List<Waypoint> waypoints = journey.getWaypoints();
+    assertThat(waypoints, hasSize(3));
+    System.out.println(waypoints);
+    Waypoint waypointTwo = waypoints.get(1);
+    assertThat(waypointTwo.getSequenceId(), is(2));
+    assertThat(waypointTwo.getLongitude(), is(0.131407));
+    assertThat(waypointTwo.getLatitude(), is(52.221050));
   }
 
   @Test
