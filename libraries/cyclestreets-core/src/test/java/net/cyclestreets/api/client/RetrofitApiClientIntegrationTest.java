@@ -196,6 +196,12 @@ public class RetrofitApiClientIntegrationTest {
   }
 
   @Test
+  public void hitGetJourneyJsonApi() throws Exception {
+    String json = apiClient.getJourneyJson("quietest", "0.117950,52.205302,City+Centre|0.131402,52.221046,Mulberry+Close|0.147324,52.199650,Thoday+Street", null, null, 24);
+    System.out.println(json);
+  }
+
+  @Test
   public void hitRetrievePreviousJourneyXmlApi() throws Exception {
     String xml = apiClient.retrievePreviousJourneyXml("fastest", 53135357);
     System.out.println(xml);
