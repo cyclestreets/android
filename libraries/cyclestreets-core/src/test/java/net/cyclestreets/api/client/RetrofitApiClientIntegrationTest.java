@@ -37,7 +37,6 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 // Useful for manual testing that operations do work with the real API, and not just WireMock.
-// If we assigned an appropriate api key, these tests could be expanded and un-ignored.
 @Ignore
 public class RetrofitApiClientIntegrationTest {
 
@@ -71,7 +70,7 @@ public class RetrofitApiClientIntegrationTest {
 
   private String getApiKey() throws IOException {
     String apiKey = "apiKeyRedacted";
-    InputStream in = RetrofitApiClientIntegrationTest.class.getClassLoader().getResourceAsStream("api.key");
+    InputStream in = RetrofitApiClientIntegrationTest.class.getClassLoader().getResourceAsStream("cyclestreets-api.key");
     if (in != null) {
       try {
         apiKey = IOUtils.toString(in, "UTF-8").trim();
