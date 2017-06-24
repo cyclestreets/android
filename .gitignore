@@ -14,4 +14,4 @@ license.properties
 */signature.asc
 */*.p12
 custom-versions/*
-api.key
+cyclestreets-api.key
