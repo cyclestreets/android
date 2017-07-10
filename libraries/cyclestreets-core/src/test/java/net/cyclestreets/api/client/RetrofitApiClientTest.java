@@ -59,7 +59,7 @@ import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-@Config(manifest=Config.NONE)
+@Config(manifest=Config.NONE, sdk = 23)
 @RunWith(RobolectricTestRunner.class)
 public class RetrofitApiClientTest {
 
@@ -105,6 +105,7 @@ public class RetrofitApiClientTest {
             .willReturn(aResponse()
                     .withStatus(200)
                     .withHeader("Content-Type", "application/json")
+                    .withHeader("Cache-Control", "public, max-age=604800")
                     .withBodyFile("pois-types.json")));
 
     // when
@@ -393,6 +394,7 @@ public class RetrofitApiClientTest {
             .willReturn(aResponse()
                     .withStatus(200)
                     .withHeader("Content-Type", "application/json")
+                    .withHeader("Cache-Control", "public, max-age=1209600")
                     .withBodyFile("photomap-categories.json")));
 
     // when
