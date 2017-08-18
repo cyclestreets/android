@@ -130,7 +130,7 @@ def signingKey(project) {
 
     playAccountConfigs {
       defaultAccountConfig {
-        serviceAccountEmail = 'cyclestreets@api-7698300952134656507-752021.iam.gserviceaccount.com'
+        serviceAccountEmail = 'cyclestreets-android@api-7698300952134656507-752021.iam.gserviceaccount.com'
         pk12File = project.file('play-api-key.p12')
       }
     }
