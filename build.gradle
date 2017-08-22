@@ -3,7 +3,8 @@ buildscript {
     jcenter()
   }
   dependencies {
-    classpath 'com.android.tools.build:gradle:2.2.3'
+    classpath 'com.android.tools.build:gradle:2.3.2'
+    classpath 'com.github.triplet.gradle:play-publisher:1.2.0'
   }
 }
 
@@ -13,6 +14,7 @@ configure(subprojects.findAll { it.path.startsWith(':custom-versions:') ||
     return
 
   apply plugin: 'com.android.application'
+  apply plugin: 'com.github.triplet.play'
 
   signingKey(it)
   manifestProperties(it)
@@ -112,6 +114,10 @@ def signingKey(project) {
 
   Properties props = loadProperties(licenseDetails)
 
+  project.play {
+    track = 'beta'
+  }
+
   project.android {
     signingConfigs {
       release {
@@ -121,6 +127,17 @@ def signingKey(project) {
         keyPassword props['key.password']
       }
     } // signingConfigs
+
+    playAccountConfigs {
+      defaultAccountConfig {
+        serviceAccountEmail = 'cyclestreets-android@api-7698300952134656507-752021.iam.gserviceaccount.com'
+        pk12File = project.file('play-api-key.p12')
+      }
+    }
+
+    defaultConfig {
+      playAccountConfig = playAccountConfigs.defaultAccountConfig
+    }
 
     buildTypes {
       release {
