@@ -40,7 +40,7 @@ public class RouteHighlightOverlay extends Overlay
 
   public RouteHighlightOverlay(final Context context, final CycleMapView map)
   {
-    super(context);
+    super();
 
     context_ = context;
 

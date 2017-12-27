@@ -38,19 +38,18 @@ public abstract class LiveItemOverlay<T extends OverlayItem>
 	
 	static private final String LOADING = "Loading ...";
 	
-	public LiveItemOverlay(final Context context,
-							           final CycleMapView mapView,
+	public LiveItemOverlay(final CycleMapView mapView,
 							           final boolean showLoading)
 	{
-		super(context, 
-		      mapView,
+		super(mapView,
 		      new ArrayList<T>());
 		
 		mapView_ = mapView;
 		zoomLevel_ = mapView_.getZoomLevel();
 		loading_ = false;
 		showLoading_ = showLoading;
-		
+
+		final Context context = mapView_.getContext();
 		offset_ = DrawingHelper.offset(context);
 		radius_ = DrawingHelper.cornerRadius(context);
 		textBrush_ = Brush.createTextBrush(offset_);

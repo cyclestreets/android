@@ -29,7 +29,7 @@ public class LocationOverlay extends MyLocationNewOverlay
   private boolean hidden_;
   private boolean lockedOn_;
 
-  public LocationOverlay(final Context context, final MapView mapView) {
+  public LocationOverlay(final MapView mapView) {
     super(mapView);
 
     //setLocationUpdateMinTime(500);
@@ -37,6 +37,7 @@ public class LocationOverlay extends MyLocationNewOverlay
 
     mapView_ = mapView;
 
+    final Context context = mapView_.getContext();
     offset_ = DrawingHelper.offset(context);
     radius_ = DrawingHelper.cornerRadius(context);
 

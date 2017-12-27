@@ -45,10 +45,10 @@ public class CycleMapView extends MapView
 
     overlayBottomIndex_ = getOverlays().size();
 
-    location_ = new LocationOverlay(context, this);
+    location_ = new LocationOverlay(this);
     getOverlays().add(location_);
 
-    controllerOverlay_ = new ControllerOverlay(context, this);
+    controllerOverlay_ = new ControllerOverlay(this);
     getOverlays().add(controllerOverlay_);
   } // CycleMapView
 

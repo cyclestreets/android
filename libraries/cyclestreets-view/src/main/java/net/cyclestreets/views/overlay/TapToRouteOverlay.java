@@ -99,22 +99,21 @@ public class TapToRouteOverlay extends Overlay
 
   private OverlayHelper overlays_;
 
-  public TapToRouteOverlay(final Context context,
-                           final CycleMapView mapView)
+  public TapToRouteOverlay(final CycleMapView mapView)
   {
-    super(context);
+    super();
 
-    context_ = context;
+    context_ = mapView.getContext();
     mapView_ = mapView;
 
-    final Resources res = context.getResources();
+    final Resources res = context_.getResources();
     greenWisp_ = res.getDrawable(R.drawable.greep_wisp);
     orangeWisp_ = res.getDrawable(R.drawable.orange_wisp);
     redWisp_ = res.getDrawable(R.drawable.red_wisp);
     canRoute_ = ((BitmapDrawable)res.getDrawable(R.drawable.ic_route_now)).getBitmap();
 
-    offset_ = DrawingHelper.offset(context);
-    radius_ = DrawingHelper.cornerRadius(context);
+    offset_ = DrawingHelper.offset(context_);
+    radius_ = DrawingHelper.cornerRadius(context_);
 
     stepBackButton_ = new OverlayButton(res.getDrawable(R.drawable.ic_menu_revert),
                           offset_,

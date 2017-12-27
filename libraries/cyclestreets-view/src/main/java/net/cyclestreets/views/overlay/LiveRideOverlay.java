@@ -46,7 +46,7 @@ public class LiveRideOverlay extends Overlay implements ServiceConnection
 
   public LiveRideOverlay(final Activity context, final View view) 
   {
-    super(context);
+    super();
     
     activity_ = context;
 

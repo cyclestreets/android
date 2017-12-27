@@ -1,6 +1,5 @@
 package net.cyclestreets.views.overlay;
 
-import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.graphics.Point;
@@ -30,10 +29,9 @@ public class ItemizedOverlay<Item extends OverlayItem> extends Overlay
 
   protected MapView mapView() { return mapView_; }
   
-  public ItemizedOverlay(final Context context,
-                         final MapView mapView, 
+  public ItemizedOverlay(final MapView mapView,
                          final List<Item> items) {
-    super(context);
+    super();
     mapView_ = mapView;
     items_ = items;
   }

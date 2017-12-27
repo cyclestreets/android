@@ -37,12 +37,12 @@ public class RouteMapFragment extends CycleMapFragment
 
 	  overlayPushBottom(new RouteHighlightOverlay(getActivity(), mapView()));
 
-    poiOverlay_ = new POIOverlay(getActivity(), mapView());
+    poiOverlay_ = new POIOverlay(mapView());
     overlayPushBottom(poiOverlay_);
 
 	  overlayPushBottom(new RouteOverlay(getActivity()));
 
-	  routeSetter_ = new TapToRouteOverlay(getActivity(), mapView());
+	  routeSetter_ = new TapToRouteOverlay(mapView());
 	  overlayPushTop(routeSetter_);
 
 	  hasGps_ = GPS.deviceHasGPS(getActivity());

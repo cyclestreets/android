@@ -34,11 +34,13 @@ public class ControllerOverlay extends Overlay implements OnDoubleTapListener,
 	private final Paint textBrush_;
 	private List<Undoable> undoStack_;
 	
-	public ControllerOverlay(final Context context, final CycleMapView mapView)
+	public ControllerOverlay(final CycleMapView mapView)
 	{
-		super(context);
+		super();
 		
 		mapView_ = mapView;
+
+		final Context context = mapView_.getContext();
 		textBrush_ = Brush.createTextBrush(DrawingHelper.offset(context)/2);
 		textBrush_.setColor(Color.BLACK);
 		

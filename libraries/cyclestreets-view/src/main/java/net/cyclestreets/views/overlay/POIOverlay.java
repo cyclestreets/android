@@ -106,11 +106,10 @@ public class POIOverlay
   private OverlayHelper overlays_;
   private boolean chooserShowing_;
 
-  public POIOverlay(final Context context,
-                    final CycleMapView mapView) {
-    super(context, mapView, false);
+  public POIOverlay(final CycleMapView mapView) {
+    super(mapView, false);
 
-    context_ = context;
+    context_ = mapView.getContext();
     activeCategories_ = new ArrayList<>();
     overlays_ = new OverlayHelper(mapView);
     chooserShowing_ = false;

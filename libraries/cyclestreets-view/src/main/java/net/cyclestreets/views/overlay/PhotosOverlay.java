@@ -68,14 +68,12 @@ public class PhotosOverlay extends LiveItemOverlay<PhotosOverlay.PhotoItem> {
   private final Context context_;
   private final PhotoMarkers photoMarkers_;
 
-  public PhotosOverlay(final Context context,
-                       final CycleMapView mapView) {
-    super(context, 
-          mapView,
+  public PhotosOverlay(final CycleMapView mapView) {
+    super(mapView,
           true);
   
-    context_ = context;
-    photoMarkers_ = new PhotoMarkers(context.getResources());
+    context_ = mapView.getContext();
+    photoMarkers_ = new PhotoMarkers(context_.getResources());
   } // PhotoItemOverlay
 
   ///////////////////////////////////////////////////
