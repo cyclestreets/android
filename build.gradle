@@ -70,14 +70,14 @@ subprojects {
 def loadProperties(fileName) {
   Properties props = new Properties()
   props.load(new FileInputStream(file(fileName)))
-  return props;
+  return props
 } // loadProperties
 
 def manifestProperties(project) {
   def cyclestreetsDetails = project.file("cyclestreets.properties")
   if (!cyclestreetsDetails.exists()) {
     println ":${project.name}:No cyclestreets.properties"
-    return;
+    return
   } // no cyclestreets props
 
   project.android {
@@ -106,10 +106,10 @@ def versionProperties(project) {
 } // versionProperties
 
 def signingKey(project) {
-  def licenseDetails = project.file("license.properties");
+  def licenseDetails = project.file("license.properties")
   if (!licenseDetails.exists()) {
     println ":${project.name}:No license.properties"
-    return;
+    return
   } // licenseDetails.exists
 
   Properties props = loadProperties(licenseDetails)
