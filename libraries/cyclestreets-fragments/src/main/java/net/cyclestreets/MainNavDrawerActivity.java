@@ -498,7 +498,7 @@ public abstract class MainNavDrawerActivity
 
     public String title() { return title_.title(); }
     public Drawable icon() { return icon_; }
-    public boolean enabled() { return (pageStatus_ != null) ? pageStatus_.enabled() : true; }
+    public boolean enabled() { return (pageStatus_ == null) || pageStatus_.enabled(); }
 
     @Override
     public String toString() { return title_.title(); }

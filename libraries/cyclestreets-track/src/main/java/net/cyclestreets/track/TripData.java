@@ -206,8 +206,6 @@ public class TripData {
     mDb.addCoordToTrip(tripid, pt);
     mDb.setDistance(tripid, distance);
     mDb.close();
-
-    return;
   } // addPointNow
 
   public void recordingStopped() {
