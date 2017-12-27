@@ -5,6 +5,7 @@ import android.text.TextUtils;
 
 import net.cyclestreets.tiles.UpsizingTileSource;
 
+import org.osmdroid.config.Configuration;
 import org.osmdroid.tileprovider.BitmapPool;
 import org.osmdroid.tileprovider.MapTile;
 import org.osmdroid.tileprovider.MapTileRequestState;
@@ -99,8 +100,8 @@ public class CycleStreetsTileDownloader extends MapTileModuleProviderBase {
     ITileSource tileSource;
     IFilesystemCache filesystemCache;
     INetworkAvailablityCheck networkAvailabilityCheck;
-    int threadPoolSize = 4;
-    int pendingQueueSize = TILE_DOWNLOAD_MAXIMUM_QUEUE_SIZE;
+    int threadPoolSize = Configuration.getInstance().getTileDownloadThreads();
+    int pendingQueueSize = Configuration.getInstance().getTileDownloadMaxQueueSize();
     private Interceptor interceptor;
 
     public Builder withTileSource(ITileSource tileSource) {
@@ -199,22 +200,12 @@ public class CycleStreetsTileDownloader extends MapTileModuleProviderBase {
       final MapTile tile = aState.getMapTile();
 
       try {
-        if (mNetworkAvailablityCheck != null && !mNetworkAvailablityCheck.getNetworkAvailable()) {
-          if (DEBUGMODE) {
-            logger.debug("Skipping " + getName() + " due to NetworkAvailabliltyCheck.");
-          }
+        if (mNetworkAvailablityCheck != null && !mNetworkAvailablityCheck.getNetworkAvailable())
           return null;
-        }
 
         final String tileURLString = tileSource.getTileURLString(tile);
-
-        if (DEBUGMODE) {
-          logger.debug("Downloading Maptile from url: " + tileURLString);
-        }
-
-        if (TextUtils.isEmpty(tileURLString)) {
+        if (TextUtils.isEmpty(tileURLString))
           return null;
-        }
 
         Request request = new Request.Builder()
                 .url(tileURLString)

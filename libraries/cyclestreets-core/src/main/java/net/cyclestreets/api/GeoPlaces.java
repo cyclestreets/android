@@ -1,6 +1,6 @@
 package net.cyclestreets.api;
 
-import org.osmdroid.util.BoundingBoxE6;
+import org.osmdroid.util.BoundingBox;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -32,12 +32,12 @@ public class GeoPlaces implements Iterable<GeoPlace>
 
   ///////////////////////////////////////////////
   static public GeoPlaces search(final String searchTerm,
-                                 final BoundingBoxE6 bounds)
+                                 final BoundingBox bounds)
           throws IOException {
     return ApiClient.geoCoder(searchTerm,
-            bounds.getLatNorthE6() / 1E6,
-            bounds.getLatSouthE6() / 1E6,
-            bounds.getLonEastE6() / 1E6,
-            bounds.getLonWestE6() / 1E6);
+            bounds.getLatNorth(),
+            bounds.getLatSouth(),
+            bounds.getLonEast(),
+            bounds.getLonWest());
   }
 }

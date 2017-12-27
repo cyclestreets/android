@@ -3,7 +3,7 @@ package net.cyclestreets.api;
 import android.content.Context;
 import android.os.AsyncTask;
 
-import org.osmdroid.util.BoundingBoxE6;
+import org.osmdroid.util.BoundingBox;
 
 public class GeoStaticAdapter extends GeoAdapter 
 {
@@ -16,7 +16,7 @@ public class GeoStaticAdapter extends GeoAdapter
 
   public GeoStaticAdapter(final Context context,
               final String search,
-                final BoundingBoxE6 bounds,
+                final BoundingBox bounds,
                 final OnPopulatedListener listener)
   {
     super(context);
@@ -35,7 +35,7 @@ public class GeoStaticAdapter extends GeoAdapter
   } // addAll
   
   private void asyncGeoCode(final String search,
-                            final BoundingBoxE6 bounds)
+                            final BoundingBox bounds)
   {
     final AsyncGeoCoder coder = new AsyncGeoCoder(this);
     coder.execute(search, bounds);
@@ -54,7 +54,7 @@ public class GeoStaticAdapter extends GeoAdapter
     protected GeoPlaces doInBackground(Object... params) 
     {
       final String search = (String)params[0];
-      final BoundingBoxE6 box = (BoundingBoxE6)params[1];
+      final BoundingBox box = (BoundingBox)params[1];
       return owner_.geoCode(search, box);
     } // doInBackground
     

@@ -9,7 +9,7 @@ import org.osmdroid.events.DelayedMapListener;
 import org.osmdroid.events.MapListener;
 import org.osmdroid.events.ScrollEvent;
 import org.osmdroid.events.ZoomEvent;
-import org.osmdroid.util.BoundingBoxE6;
+import org.osmdroid.util.BoundingBox;
 import org.osmdroid.views.overlay.OverlayItem;
 
 import android.content.Context;
@@ -116,7 +116,7 @@ public abstract class LiveItemOverlay<T extends OverlayItem>
 	{		
 		final IGeoPoint centre = mapView_.getMapCenter();
     final int zoom = mapView_.getZoomLevel();
-    final BoundingBoxE6 bounds = mapView_.getBoundingBox();
+    final BoundingBox bounds = mapView_.getBoundingBox();
 		
 		if(!fetchItemsInBackground(centre, zoom, bounds))
 		  return;
@@ -127,7 +127,7 @@ public abstract class LiveItemOverlay<T extends OverlayItem>
 	
 	protected abstract boolean fetchItemsInBackground(final IGeoPoint mapCentre,
 	                                                  final int zoom,
-	                                                  final BoundingBoxE6 boundingBox);
+	                                                  final BoundingBox boundingBox);
 	
 	protected void setItems(final List<T> items)
 	{

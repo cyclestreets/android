@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.osmdroid.api.IGeoPoint;
-import org.osmdroid.util.BoundingBoxE6;
+import org.osmdroid.util.BoundingBox;
 import org.osmdroid.views.overlay.OverlayItem;
 
 import android.content.Context;
@@ -98,7 +98,7 @@ public class PhotosOverlay extends LiveItemOverlay<PhotosOverlay.PhotoItem> {
   ///////////////////////////////////////////////////
   protected boolean fetchItemsInBackground(final IGeoPoint mapCentre,
                                            final int zoom,
-                                           final BoundingBoxE6 boundingBox) {
+                                           final BoundingBox boundingBox) {
     GetPhotosTask.fetch(this, boundingBox);
     return true;
   } // refreshPhotos
@@ -119,7 +119,7 @@ public class PhotosOverlay extends LiveItemOverlay<PhotosOverlay.PhotoItem> {
     } // GetPhotosTask
     
     protected Photos doInBackground(Object... params) {
-      final BoundingBoxE6 boundingBox = (BoundingBoxE6)params[0];
+      final BoundingBox boundingBox = (BoundingBox)params[0];
 
       try {
         return Photos.load(boundingBox);

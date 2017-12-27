@@ -13,7 +13,7 @@ import net.cyclestreets.api.GeoPlace;
 import net.cyclestreets.views.RouteType;
 
 import org.osmdroid.api.IGeoPoint;
-import org.osmdroid.util.BoundingBoxE6;
+import org.osmdroid.util.BoundingBox;
 import org.osmdroid.util.GeoPoint;
 
 import android.app.AlertDialog;
@@ -26,7 +26,7 @@ import android.widget.LinearLayout;
 
 public class RouteByAddress {
   public static void launch(final Context context,
-                            final BoundingBoxE6 boundingBox,
+                            final BoundingBox boundingBox,
                             final Location lastFix,
                             final Waypoints waypoints) {
     final AlertDialog.Builder builder = new AlertDialog.Builder(context);
@@ -47,7 +47,7 @@ public class RouteByAddress {
     private final RouteType routeType_;
     private final Button addWaypoint_;
 
-    private final BoundingBoxE6 bounds_;
+    private final BoundingBox bounds_;
     private final IGeoPoint currentLoc_;
     private final Waypoints waypoints_;
 
@@ -60,7 +60,7 @@ public class RouteByAddress {
 
     public RouteByAddressCallbacks(final Context context,
                                    final AlertDialog.Builder builder,
-                                   final BoundingBoxE6 boundingBox,
+                                   final BoundingBox boundingBox,
                                    final Location lastFix,
                                    final Waypoints waypoints) {
       context_ = context;

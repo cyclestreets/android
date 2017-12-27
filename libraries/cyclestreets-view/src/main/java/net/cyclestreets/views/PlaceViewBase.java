@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.ArrayList;
 
 import org.osmdroid.api.IGeoPoint;
-import org.osmdroid.util.BoundingBoxE6;
+import org.osmdroid.util.BoundingBox;
 
 import net.cyclestreets.content.LocationDatabase;
 import net.cyclestreets.content.SavedLocation;
@@ -141,8 +141,8 @@ public class PlaceViewBase extends LinearLayout
     textView_.addHistory(place);
   } // addHistory
 
-  private BoundingBoxE6 bounds() { return textView_.bounds(); }
-  public void setBounds(final BoundingBoxE6 bounds) { textView_.setBounds(bounds); }
+  private BoundingBox bounds() { return textView_.bounds(); }
+  public void setBounds(final BoundingBox bounds) { textView_.setBounds(bounds); }
 
   public void swap(final PlaceViewBase other)
   {
@@ -388,7 +388,7 @@ public class PlaceViewBase extends LinearLayout
     @Override
     protected GeoPlaces doInBackground(Object... params)
     {
-      final BoundingBoxE6 bounds = (BoundingBoxE6)params[1];
+      final BoundingBox bounds = (BoundingBox)params[1];
 
       if(params[0] instanceof String)
         return doSearch((String)params[0], bounds);
@@ -404,7 +404,7 @@ public class PlaceViewBase extends LinearLayout
     } // onPostExecute
 
     private GeoPlaces doContactSearch(final Contact contact,
-                                      final BoundingBoxE6 bounds)
+                                      final BoundingBox bounds)
     {
       GeoPlaces r = doSearch(contact.address(), bounds);
       if(!r.isEmpty())
@@ -419,7 +419,7 @@ public class PlaceViewBase extends LinearLayout
     } // doContactSearch
 
     private GeoPlaces doSearch(final String search,
-                    final BoundingBoxE6 bounds)
+                    final BoundingBox bounds)
     {
       try {
         return GeoPlaces.search(search, bounds);

@@ -5,7 +5,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.widget.Filter;
 
-import org.osmdroid.util.BoundingBoxE6;
+import org.osmdroid.util.BoundingBox;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,14 +24,14 @@ public class GeoLiveAdapter extends GeoAdapter
   public static final String MY_LOCATION = "My Location";
 	
   private final GeocodeFilter filter;
-  private final BoundingBoxE6 bounds_;
+  private final BoundingBox bounds_;
   private final SharedPreferences prefs;
 
   /*
    * Constructor when used with an AutoCompleteTextView
    */
   public GeoLiveAdapter(final Context context,
-                        final BoundingBoxE6 bounds)
+                        final BoundingBox bounds)
   {
     super(context);
     bounds_ = bounds;
@@ -46,7 +46,7 @@ public class GeoLiveAdapter extends GeoAdapter
     return filter;
   } // getFilter
 	
-  public BoundingBoxE6 bounds() { return bounds_; }
+  public BoundingBox bounds() { return bounds_; }
   
   public GeoPlace exactMatch(final String p)
   {

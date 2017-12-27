@@ -84,7 +84,7 @@ public class LiveRideOverlay extends Overlay implements ServiceConnection
   } // onDetach
 
   @Override
-  protected void draw(final Canvas canvas, final MapView mapView, final boolean shadow)
+  public void draw(final Canvas canvas, final MapView mapView, final boolean shadow)
   {
     final Matrix unscaled = mapView.getProjection().getInvertedScaleRotateCanvasMatrix();
 

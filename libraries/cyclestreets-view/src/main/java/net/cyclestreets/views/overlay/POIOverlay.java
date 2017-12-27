@@ -9,7 +9,7 @@ import org.osmdroid.views.Projection;
 import org.osmdroid.api.IProjection;
 import org.osmdroid.events.MapListener;
 import org.osmdroid.events.ZoomEvent;
-import org.osmdroid.util.BoundingBoxE6;
+import org.osmdroid.util.BoundingBox;
 import org.osmdroid.views.overlay.OverlayItem;
 
 import android.content.Context;
@@ -335,12 +335,12 @@ public class POIOverlay
 
   protected boolean fetchItemsInBackground(final IGeoPoint mapCentre,
                                            final int zoom,
-                                           final BoundingBoxE6 boundingBox) {
+                                           final BoundingBox boundingBox) {
     if(activeCategories_.isEmpty())
       return false;
 
     final int moved = lastFix_ != null ? GeoHelper.distanceBetween(mapCentre, lastFix_) : Integer.MAX_VALUE;
-    final int diagonalWidth = boundingBox.getDiagonalLengthInMeters() / 1000;
+    final int diagonalWidth = (int)(boundingBox.getDiagonalLengthInMeters() / 1000);
 
     // first time through width can be zero
     if(diagonalWidth == 0)

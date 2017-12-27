@@ -87,6 +87,9 @@ public class MapsforgeOSMTileSource implements ITileSource {
   @Override
   public int getMinimumZoomLevel() { return 6; }
 
+  @Override
+  public String getCopyrightNotice() { return "\u00a9 OpenStreetMap contributors"; }
+
   public synchronized Drawable getDrawable(int tileX, int tileY, int zoom) throws LowMemoryException {
 	  if(tileOutOfBounds(tileX, tileY, zoom))
 		  return null;
