@@ -5,7 +5,7 @@
 
   <style name="AppTheme" parent="@style/_AppTheme"/>
 
-  <style name="_AppTheme" parent="android:Theme.Material.Light.DarkActionBar">
+  <style name="_AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
 
     <item name="android:editTextBackground">@drawable/apptheme_edit_text_holo_light</item>
 
