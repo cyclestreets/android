@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.FloatingActionButton
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+
+    android:id="@+id/location"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_alignParentBottom="true"
+    android:layout_alignParentRight="true"
+    app:fabSize="normal"
+    app:borderWidth="0dp"
+    app:elevation="6dp"
+    app:pressedTranslationZ="12dp"
+    android:src="@android:drawable/ic_menu_mylocation"
+/>
