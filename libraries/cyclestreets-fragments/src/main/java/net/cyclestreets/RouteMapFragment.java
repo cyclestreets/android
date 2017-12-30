@@ -11,7 +11,10 @@ import net.cyclestreets.routing.Journey;
 import net.cyclestreets.routing.Route;
 import net.cyclestreets.routing.Waypoints;
 
+import android.app.Activity;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -33,7 +36,10 @@ public class RouteMapFragment extends CycleMapFragment
 	@Override
   public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle saved)
   {
-    final View v = super.onCreateView(inflater, container, saved);
+		if (getContext().checkSelfPermission(android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED)
+			getActivity().requestPermissions(new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}, 1);
+
+		final View v = super.onCreateView(inflater, container, saved);
 
 	  overlayPushBottom(new RouteHighlightOverlay(getActivity(), mapView()));
 
