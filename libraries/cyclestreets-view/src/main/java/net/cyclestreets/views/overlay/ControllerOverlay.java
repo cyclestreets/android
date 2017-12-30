@@ -172,9 +172,6 @@ public class ControllerOverlay extends Overlay implements OnDoubleTapListener,
     for(final Iterator<ButtonTapListener> overlays = buttonTapOverlays(); overlays.hasNext(); )
       overlays.next().drawButtons(canvas, mapView);
 
-    if(!(mapView instanceof CycleMapView))
-      return;
-
     final Rect screen = canvas.getClipBounds();
     canvas.drawText(mapView_.mapAttribution(),
         screen.centerX(),

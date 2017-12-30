@@ -1,6 +1,7 @@
 package net.cyclestreets.views.overlay;
 
 import net.cyclestreets.view.R;
+import net.cyclestreets.views.CycleMapView;
 
 import org.osmdroid.views.MapView;
 import org.osmdroid.util.GeoPoint;
@@ -10,9 +11,12 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Canvas;
 import android.location.Location;
+import android.support.design.widget.FloatingActionButton;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
+import android.view.View;
 
 import static net.cyclestreets.util.MenuHelper.createMenuItem;
 import static net.cyclestreets.util.MenuHelper.enableMenuItem;
@@ -24,13 +28,13 @@ public class LocationOverlay extends MyLocationNewOverlay
 
   private final OverlayButton locationButton_;
 
-  private final MapView mapView_;
+  private final CycleMapView mapView_;
 
   private boolean hidden_;
   private boolean lockedOn_;
 
-  public LocationOverlay(final MapView mapView) {
-    super(mapView);
+  public LocationOverlay(final CycleMapView mapView) {
+    super(mapView.mapView());
 
     //setLocationUpdateMinTime(500);
     //setLocationUpdateMinDistance(10);

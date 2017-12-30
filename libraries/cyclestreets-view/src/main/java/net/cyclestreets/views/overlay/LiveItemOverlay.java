@@ -41,7 +41,7 @@ public abstract class LiveItemOverlay<T extends OverlayItem>
 	public LiveItemOverlay(final CycleMapView mapView,
 							           final boolean showLoading)
 	{
-		super(mapView,
+		super(mapView.mapView(),
 		      new ArrayList<T>());
 		
 		mapView_ = mapView;

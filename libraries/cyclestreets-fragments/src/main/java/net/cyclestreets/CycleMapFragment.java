@@ -35,9 +35,8 @@ public class CycleMapFragment extends Fragment implements Undoable
 
     map_ = new CycleMapView(getActivity(), this.getClass().getName());
 
-    final RelativeLayout rl = new RelativeLayout(getActivity());
-    rl.addView(map_, new RelativeLayout.LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT));
-    return rl;
+    //map_.addView(inflater.inflate(R.layout.locationbutton, null));
+    return map_;
   } // onCreate
 
   protected CycleMapView mapView() { return map_; }
