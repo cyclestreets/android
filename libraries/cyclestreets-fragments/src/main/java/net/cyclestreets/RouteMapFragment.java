@@ -48,7 +48,7 @@ public class RouteMapFragment extends CycleMapFragment
     poiOverlay_ = new POIOverlay(mapView());
     overlayPushBottom(poiOverlay_);
 
-	  overlayPushBottom(new RouteOverlay(getActivity()));
+	  overlayPushBottom(new RouteOverlay());
 
 	  routeSetter_ = new TapToRouteOverlay(mapView());
 	  overlayPushTop(routeSetter_);

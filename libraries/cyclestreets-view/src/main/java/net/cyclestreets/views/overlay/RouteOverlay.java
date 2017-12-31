@@ -45,7 +45,7 @@ public class RouteOverlay extends Overlay implements PauseResumeListener, Listen
   private Segment highlight_;
   private IGeoPoint mapCentre_;
 
-  public RouteOverlay(final Context context) 
+  public RouteOverlay()
   {
     super();
     
