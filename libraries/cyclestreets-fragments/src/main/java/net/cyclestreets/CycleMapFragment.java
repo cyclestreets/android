@@ -15,8 +15,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.RelativeLayout;
-import android.widget.RelativeLayout.LayoutParams;
 
 import static net.cyclestreets.util.MenuHelper.createMenuItem;
 import static net.cyclestreets.util.MenuHelper.enableMenuItem;
@@ -35,7 +33,6 @@ public class CycleMapFragment extends Fragment implements Undoable
 
     map_ = new CycleMapView(getActivity(), this.getClass().getName());
 
-    //map_.addView(inflater.inflate(R.layout.locationbutton, null));
     return map_;
   } // onCreate
 

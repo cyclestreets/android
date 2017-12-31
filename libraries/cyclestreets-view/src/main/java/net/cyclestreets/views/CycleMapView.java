@@ -21,6 +21,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Canvas;
 import android.location.Location;
+import android.os.CountDownTimer;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.ContextMenu;
@@ -152,6 +153,11 @@ public class CycleMapView extends FrameLayout
     getController().setZoom(pref(PREFS_APP_ZOOM_LEVEL, 14));
 
     controllerOverlay_.onResume(prefs_);
+
+    new CountDownTimer(100, 100) {
+      public void onTick(long unfinished) { }
+      public void onFinish() { mapView_.postInvalidate(); postInvalidate(); }
+    }.start();
   } // onResume
 
   ////////////////////////////////////////////////////////////
