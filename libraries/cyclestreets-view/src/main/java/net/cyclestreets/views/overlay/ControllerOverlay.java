@@ -124,11 +124,16 @@ public class ControllerOverlay extends Overlay implements OnDoubleTapListener,
   } // flushUndo
 
 	////////////////////////////////////////////////////////////////
+	private boolean redraw() {
+		mapView_.mapView().postInvalidate();
+		return true;
+	} // redraw
+
 	@Override
 	public boolean onTouchEvent(final MotionEvent event, final MapView mapView)
 	{
 		if(gestureDetector_.onTouchEvent(event))
-			return true;
+			return redraw();
 		return super.onTouchEvent(event, mapView);
 	} // onTouchEvent
 
@@ -137,10 +142,10 @@ public class ControllerOverlay extends Overlay implements OnDoubleTapListener,
 	{
     for(final Iterator<ButtonTapListener> overlays = buttonTapOverlays(); overlays.hasNext(); )
       if(overlays.next().onButtonTap(e))
-        return true;
+        return redraw();
 		for(final Iterator<TapListener> overlays = tapOverlays(); overlays.hasNext(); )
 			if(overlays.next().onSingleTap(e))
-				return true;
+				return redraw();
 		return false;
 	} // onSingleTapConfirmed
 
@@ -149,10 +154,10 @@ public class ControllerOverlay extends Overlay implements OnDoubleTapListener,
 	{ 
     for(final Iterator<ButtonTapListener> overlays = buttonTapOverlays(); overlays.hasNext(); )
       if(overlays.next().onButtonDoubleTap(e))
-        return true;
+        return redraw();
 		for(final Iterator<TapListener> overlays = tapOverlays(); overlays.hasNext(); )
 			if(overlays.next().onDoubleTap(e))
-				return true;
+				return redraw();
 		return false; 
 	} // onDoubleTap
 	
