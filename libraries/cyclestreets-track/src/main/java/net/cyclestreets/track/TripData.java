@@ -4,7 +4,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.location.Location;
 
-import org.osmdroid.util.BoundingBoxE6;
+import org.osmdroid.util.BoundingBox;
 import org.osmdroid.util.GeoPoint;
 
 import java.util.ArrayList;
@@ -137,20 +137,20 @@ public class TripData {
   public boolean dataAvailable() { return gpspoints.size() != 0; }
   public GeoPoint startLocation() { return gpspoints.get(0); }
   public GeoPoint endLocation() { return gpspoints.get(gpspoints.size()-1); }
-  public BoundingBoxE6 boundingBox() {
-    int lathigh = Integer.MIN_VALUE;
-    int lgthigh = Integer.MIN_VALUE;
-    int latlow = Integer.MAX_VALUE;
-    int lgtlow = Integer.MAX_VALUE;
+  public BoundingBox boundingBox() {
+    double lathigh = Double.MIN_VALUE;
+    double lgthigh = Double.MIN_VALUE;
+    double latlow = Double.MAX_VALUE;
+    double lgtlow = Double.MAX_VALUE;
 
     for(GeoPoint gp : gpspoints) {
-      lathigh = Math.max(gp.getLatitudeE6(), lathigh);
-      latlow = Math.min(gp.getLatitudeE6(), latlow);
-      lgthigh = Math.max(gp.getLongitudeE6(), lgthigh);
-      lgtlow = Math.min(gp.getLongitudeE6(), lgtlow);
+      lathigh = Math.max(gp.getLatitude(), lathigh);
+      latlow = Math.min(gp.getLatitude(), latlow);
+      lgthigh = Math.max(gp.getLongitude(), lgthigh);
+      lgtlow = Math.min(gp.getLongitude(), lgtlow);
     }
 
-    return new BoundingBoxE6(lathigh, lgtlow, latlow, lgthigh);
+    return new BoundingBox(lathigh, lgtlow, latlow, lgthigh);
   }
 	public List<CyclePoint> journey() { return gpspoints;	}
   public long startTime() { return startTime_; }
