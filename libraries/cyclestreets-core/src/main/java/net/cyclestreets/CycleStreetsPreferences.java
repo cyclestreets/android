@@ -163,7 +163,7 @@ public class CycleStreetsPreferences
   static private String getString(final String key, final String defVal) {
     final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context_);
     return prefs.getString(key, defVal);
-  } // getStirng
+  } // getString
 
   static private void putString(final String key, final String value) {
     final Editor editor = editor();

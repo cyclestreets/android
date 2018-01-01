@@ -28,7 +28,7 @@
         android:layout_height="wrap_content"
         android:singleLine="true"
         android:layout_below="@android:id/text1"
-        android:layout_alignLeft="@android:id/text1"
+        android:layout_alignStart="@android:id/text1"
         style="?android:dropDownItemStyle" />
   </TwoLineListItem>
 </LinearLayout>
