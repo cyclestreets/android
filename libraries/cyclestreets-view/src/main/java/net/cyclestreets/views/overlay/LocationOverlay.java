@@ -59,9 +59,7 @@ public class LocationOverlay extends MyLocationNewOverlay
 
     View overlayView = LayoutInflater.from(mapView_.getContext()).inflate(R.layout.locationbutton, null);
     button_ = overlayView.findViewById(R.id.locationbutton);
-    button_.setOnClickListener(view -> {
-      enableAndFollowLocation(!isFollowLocationEnabled());
-    });
+    button_.setOnClickListener(view -> enableAndFollowLocation(!isFollowLocationEnabled()));
 
     mapView_.addView(overlayView);
 
