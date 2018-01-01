@@ -28,8 +28,7 @@ import android.view.View;
 import static net.cyclestreets.util.MenuHelper.createMenuItem;
 import static net.cyclestreets.util.MenuHelper.enableMenuItem;
 
-public class LocationOverlay extends MyLocationNewOverlay
-                             implements MenuListener {
+public class LocationOverlay extends MyLocationNewOverlay {
   private final FloatingActionButton button_;
 
   private final CycleMapView mapView_;
@@ -125,27 +124,4 @@ public class LocationOverlay extends MyLocationNewOverlay
 
     super.draw(canvas, mapView, shadow);
   } // onDraw
-
-  ////////////////////////////////////////////////
-  @Override
-  public void onCreateOptionsMenu(final Menu menu) {
-    createMenuItem(menu, R.string.location_menu_mylocation, Menu.NONE, R.drawable.ic_menu_mylocation);
-  } // onCreateOptionsMenu
-
-  @Override
-  public void onPrepareOptionsMenu(final Menu menu) {
-    final MenuItem item = enableMenuItem(menu, R.string.location_menu_mylocation, true);
-    if(item != null)
-      item.setTitle(isMyLocationEnabled() ? R.string.location_menu_off : R.string.location_menu_on);
-  } // onPrepareOptionsMenu
-
-  @Override
-  public boolean onMenuItemSelected(final int featureId, final MenuItem item) {
-    if(item.getItemId() != R.string.location_menu_mylocation)
-      return false;
-
-    enableAndFollowLocation(!isMyLocationEnabled());
-
-    return true;
-  } // onMenuItemSelected
 } // LocationOverlay
