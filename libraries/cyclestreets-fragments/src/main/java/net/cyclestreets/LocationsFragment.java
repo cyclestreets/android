@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.app.ListFragment;
+import android.support.design.widget.FloatingActionButton;
+import android.text.Layout;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -39,7 +41,12 @@ public class LocationsFragment extends ListFragment {
                            final ViewGroup container,
                            final Bundle savedInstanceState) {
     super.onCreateView(inflater, container, savedInstanceState);
-    return inflater.inflate(R.layout.locations_list, container, false);
+    final View layout = inflater.inflate(R.layout.locations_list, container, false);
+
+    final FloatingActionButton addButton = layout.findViewById(R.id.addlocation);
+    addButton.setOnClickListener(view -> editLocation(-1));
+
+    return layout;
   } // onCreateView
 
   @Override
@@ -48,21 +55,6 @@ public class LocationsFragment extends ListFragment {
     setHasOptionsMenu(true);
     registerForContextMenu(getListView());
   } // onActivityCreated
-
-  @Override
-  public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-    super.onCreateOptionsMenu(menu, inflater);
-    inflater.inflate(R.menu.locations, menu);
-  } // onCreateOptionsMenu
-
-  @Override
-  public boolean onOptionsItemSelected(MenuItem item) {
-    if (item.getItemId() == R.id.ic_menu_addlocation) {
-      editLocation(-1);
-      return true;
-    } // if ...
-    return super.onOptionsItemSelected(item);
-  } // onOptionsItemSelected
 
   @Override
   public void onCreateContextMenu(final ContextMenu menu,

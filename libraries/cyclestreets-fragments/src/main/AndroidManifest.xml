@@ -5,7 +5,5 @@
   <application>
     <activity android:name="net.cyclestreets.LocationEditorActivity"
               android:label="CycleStreets"/>
-    <activity android:name="net.cyclestreets.SettingsActivity"
-              android:label="Settings"/>
   </application>
 </manifest>

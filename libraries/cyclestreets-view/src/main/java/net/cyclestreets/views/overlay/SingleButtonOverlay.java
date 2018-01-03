@@ -14,7 +14,7 @@ public abstract class SingleButtonOverlay extends ButtonOnlyOverlay {
 
   public SingleButtonOverlay(final Context context,
                              final int drawable) {
-    super(context);
+    super();
 
     offset_ = DrawingHelper.offset(context);
     radius_ = DrawingHelper.cornerRadius(context);

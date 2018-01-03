@@ -1,6 +1,5 @@
 package net.cyclestreets.views.overlay;
 
-import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.graphics.Point;
@@ -30,10 +29,9 @@ public class ItemizedOverlay<Item extends OverlayItem> extends Overlay
 
   protected MapView mapView() { return mapView_; }
   
-  public ItemizedOverlay(final Context context,
-                         final MapView mapView, 
+  public ItemizedOverlay(final MapView mapView,
                          final List<Item> items) {
-    super(context);
+    super();
     mapView_ = mapView;
     items_ = items;
   }
@@ -44,22 +42,26 @@ public class ItemizedOverlay<Item extends OverlayItem> extends Overlay
   public void draw(final Canvas canvas, final MapView mapView, final boolean shadow) {
     if(shadow)
       return;
+
+    final float scale = mapView.getContext().getResources().getDisplayMetrics().density;
+    final float orientation = mapView.getMapOrientation();
     
     final Projection pj = mapView.getProjection();
     for (int i = items_.size() -1; i >= 0; --i) {
       final Item item = items_.get(i);
       pj.toPixels(item.getPoint(), screenCoords);
-      onDrawItem(canvas, item, screenCoords, mapView.getMapOrientation());
+      onDrawItem(canvas, item, screenCoords, scale, orientation);
     } // for ...
   } // draw
 
   private void onDrawItem(final Canvas canvas,
                           final Item item,
                           final Point curScreenCoords,
+                          final float scale,
                           final float mapOrientation) {
     final HotspotPlace hotspot = item.getMarkerHotspot();
     final Drawable marker = item.getMarker(0);
-    boundToHotspot(marker, hotspot);
+    boundToHotspot(marker, hotspot, scale);
 
     int x = curScreenCoords.x;
     int y = curScreenCoords.y;
@@ -92,9 +94,11 @@ public class ItemizedOverlay<Item extends OverlayItem> extends Overlay
     return marker.getBounds().contains(hitX, hitY);
   } // hitTest
 
-  private Drawable boundToHotspot(Drawable marker, HotspotPlace hotspot) {
-    int markerWidth = (int) (marker.getIntrinsicWidth() * mScale);
-    int markerHeight = (int) (marker.getIntrinsicHeight() * mScale);
+  private Drawable boundToHotspot(final Drawable marker,
+                                  HotspotPlace hotspot,
+                                  final float scale) {
+    int markerWidth = (int) (marker.getIntrinsicWidth() * scale);
+    int markerHeight = (int) (marker.getIntrinsicHeight() * scale);
 
     rect_.set(0, 0, markerWidth, markerHeight);
 

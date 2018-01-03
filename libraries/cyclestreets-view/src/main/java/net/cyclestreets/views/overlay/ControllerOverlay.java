@@ -34,11 +34,13 @@ public class ControllerOverlay extends Overlay implements OnDoubleTapListener,
 	private final Paint textBrush_;
 	private List<Undoable> undoStack_;
 	
-	public ControllerOverlay(final Context context, final CycleMapView mapView)
+	public ControllerOverlay(final CycleMapView mapView)
 	{
-		super(context);
+		super();
 		
 		mapView_ = mapView;
+
+		final Context context = mapView_.getContext();
 		textBrush_ = Brush.createTextBrush(DrawingHelper.offset(context)/2);
 		textBrush_.setColor(Color.BLACK);
 		
@@ -122,11 +124,16 @@ public class ControllerOverlay extends Overlay implements OnDoubleTapListener,
   } // flushUndo
 
 	////////////////////////////////////////////////////////////////
+	private boolean redraw() {
+		mapView_.mapView().postInvalidate();
+		return true;
+	} // redraw
+
 	@Override
 	public boolean onTouchEvent(final MotionEvent event, final MapView mapView)
 	{
 		if(gestureDetector_.onTouchEvent(event))
-			return true;
+			return redraw();
 		return super.onTouchEvent(event, mapView);
 	} // onTouchEvent
 
@@ -135,10 +142,10 @@ public class ControllerOverlay extends Overlay implements OnDoubleTapListener,
 	{
     for(final Iterator<ButtonTapListener> overlays = buttonTapOverlays(); overlays.hasNext(); )
       if(overlays.next().onButtonTap(e))
-        return true;
+        return redraw();
 		for(final Iterator<TapListener> overlays = tapOverlays(); overlays.hasNext(); )
 			if(overlays.next().onSingleTap(e))
-				return true;
+				return redraw();
 		return false;
 	} // onSingleTapConfirmed
 
@@ -147,10 +154,10 @@ public class ControllerOverlay extends Overlay implements OnDoubleTapListener,
 	{ 
     for(final Iterator<ButtonTapListener> overlays = buttonTapOverlays(); overlays.hasNext(); )
       if(overlays.next().onButtonDoubleTap(e))
-        return true;
+        return redraw();
 		for(final Iterator<TapListener> overlays = tapOverlays(); overlays.hasNext(); )
 			if(overlays.next().onDoubleTap(e))
-				return true;
+				return redraw();
 		return false; 
 	} // onDoubleTap
 	
@@ -169,9 +176,6 @@ public class ControllerOverlay extends Overlay implements OnDoubleTapListener,
   protected void drawUnskewed(final Canvas canvas, final MapView mapView) {
     for(final Iterator<ButtonTapListener> overlays = buttonTapOverlays(); overlays.hasNext(); )
       overlays.next().drawButtons(canvas, mapView);
-
-    if(!(mapView instanceof CycleMapView))
-      return;
 
     final Rect screen = canvas.getClipBounds();
     canvas.drawText(mapView_.mapAttribution(),

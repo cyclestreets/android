@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <android.support.design.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/locationbutton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top|end"
+            android:layout_margin="16dp"
+            app:fabSize="normal"
+            app:borderWidth="12dp"
+            android:src="@android:drawable/ic_menu_mylocation"
+            app:backgroundTint="@android:color/background_light"
+            />
+<!--
+        <android.support.design.widget.FloatingActionButton
+          android:id="@+id/padding"
+          android:layout_width="16dp"
+          android:layout_height="16dp"
+          android:layout_gravity="bottom|center_horizontal"
+          app:layout_anchor="@id/locationbutton"
+          app:layout_anchorGravity="bottom|center_horizontal"
+          app:fabSize="normal"
+          android:visibility="invisible"
+          />
+
+        <android.support.design.widget.FloatingActionButton
+          android:id="@+id/locationsearch"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_gravity="bottom|center_horizontal"
+          app:layout_anchor="@id/padding"
+          app:layout_anchorGravity="bottom|center_horizontal"
+          android:layout_margin="16dp"
+          app:fabSize="mini"
+          app:borderWidth="12dp"
+          android:src="@android:drawable/ic_menu_search"
+          app:backgroundTint="@android:color/background_light"
+          />
+-->
+    </android.support.design.widget.CoordinatorLayout>
+</RelativeLayout>

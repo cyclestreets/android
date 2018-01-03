@@ -1,15 +1,15 @@
 package net.cyclestreets;
 
-import net.cyclestreets.fragments.R;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.EditTextPreference;
 import android.preference.ListPreference;
 import android.preference.Preference;
-import android.preference.PreferenceActivity;
+import android.preference.PreferenceFragment;
 import android.preference.PreferenceScreen;
 
+import net.cyclestreets.fragments.R;
 import net.cyclestreets.tiles.TileSource;
 import net.cyclestreets.util.MapPack;
 import net.cyclestreets.util.MessageBox;
@@ -17,16 +17,14 @@ import net.cyclestreets.util.MessageBox;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SettingsActivity extends PreferenceActivity
-                implements SharedPreferences.OnSharedPreferenceChangeListener
-
+public class SettingsFragment extends PreferenceFragment
+    implements SharedPreferences.OnSharedPreferenceChangeListener
 {
   @Override
-  public void onCreate(final Bundle savedInstanceState) {
-    super.onCreate(savedInstanceState);
+  public void onCreate(final Bundle savedInstance) {
+    super.onCreate(savedInstance);
 
     addPreferencesFromResource(R.xml.prefs);
-
     setupMapStyles();
     setupMapFileList();
 
@@ -69,7 +67,7 @@ public class SettingsActivity extends PreferenceActivity
   } // populateMapFileList
 
   @Override
-  protected void onResume() {
+  public void onResume() {
     super.onResume();
 
     getPreferenceScreen().getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
@@ -78,7 +76,7 @@ public class SettingsActivity extends PreferenceActivity
   } // onResume
 
   @Override
-  protected void onPause() {
+  public void onPause() {
     super.onPause();
 
     // stop listening while paused
@@ -113,13 +111,10 @@ public class SettingsActivity extends PreferenceActivity
 
     if(mapfilePref.getEntryValues().length == 0) {
       mapfilePref.setEnabled(false);
-      MessageBox.YesNo(getListView(),
-                       R.string.settings_no_map_packs,
-                       new DialogInterface.OnClickListener() {
-                         public void onClick(DialogInterface arg0, int arg1) {
-                           MapPack.searchGooglePlay(SettingsActivity.this);
-                         } // onClick
-                       });
+      MessageBox.YesNo(getView(),
+          R.string.settings_no_map_packs,
+          (DialogInterface di, int i) -> MapPack.searchGooglePlay(getContext())
+      );
       return;
     } // if ...
 
@@ -144,4 +139,4 @@ public class SettingsActivity extends PreferenceActivity
     else
       account.setSummary("");
   } // setAccountSummary
-} // class SettingsActivity
+} // class SettingsFragment

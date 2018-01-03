@@ -11,8 +11,9 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
-import android.app.ActionBar;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.support.v4.widget.DrawerLayout;
@@ -35,7 +36,7 @@ import net.cyclestreets.routing.Route;
 import net.cyclestreets.routing.Waypoints;
 
 public abstract class MainNavDrawerActivity
-    extends Activity
+    extends AppCompatActivity
     implements Route.Listener {
   private NavigationDrawerFragment navDrawer_;
   private List<DrawerItem> pages_;
@@ -145,7 +146,7 @@ public abstract class MainNavDrawerActivity
 
 
   private void restoreActionBar() {
-    ActionBar actionBar = getActionBar();
+    ActionBar actionBar = getSupportActionBar();
     actionBar.setDisplayShowTitleEnabled(true);
     actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
     actionBar.setTitle(navDrawer_.title());
@@ -399,7 +400,7 @@ public abstract class MainNavDrawerActivity
     } // showGlobalContextActionBar
 
     private ActionBar getActionBar() {
-      return getActivity().getActionBar();
+      return ((AppCompatActivity)getActivity()).getSupportActionBar();
     } // getActionBar
   } // NavigationDrawerFragment
 
@@ -498,7 +499,7 @@ public abstract class MainNavDrawerActivity
 
     public String title() { return title_.title(); }
     public Drawable icon() { return icon_; }
-    public boolean enabled() { return (pageStatus_ != null) ? pageStatus_.enabled() : true; }
+    public boolean enabled() { return (pageStatus_ == null) || pageStatus_.enabled(); }
 
     @Override
     public String toString() { return title_.title(); }

@@ -78,18 +78,14 @@ public class TileSource {
   } // configurePreferences
 
   public static void addTileSource(final String friendlyName,
-                                   final ITileSource source,
-                                   final String attribution) {
-    addTileSource(friendlyName, source, attribution, false);
+                                   final ITileSource source) {
+    addTileSource(friendlyName, source, false);
   } // addTileSource
   public static void addTileSource(final String friendlyName,
                                    final ITileSource tileSource,
-                                   final String attribution,
                                    final boolean setAsDefault) {
     final Source source =
-        new Source(friendlyName,
-                   attribution != null ? attribution : DEFAULT_ATTRIBUTION,
-                   tileSource);
+        new Source(friendlyName, tileSource);
 
     if (setAsDefault) {
       DEFAULT_RENDERER = tileSource.name();
@@ -106,23 +102,26 @@ public class TileSource {
 
   public static ITileSource createDensityAwareTileSource(final Context context,
                                                          final String name,
+                                                         final String attribution,
                                                          final String... baseUrls) {
     final boolean highDensity = Screen.isHighDensity(context);
     final int tileSize = highDensity ? 512 : 256;
     final String tileSuffix = highDensity ? "@2x.png" : ".png";
-    return createXYTileSource(name, tileSize, tileSuffix, baseUrls);
+    return createXYTileSource(name, attribution, tileSize, tileSuffix, baseUrls);
   } // createDensityAwareTileSource
 
   private static ITileSource createXYTileSource(final String name,
+                                                final String attribution,
                                                 final int tileSize,
                                                 final String extension,
-                                                final String... baseUrls) {
+                                                final String[] baseUrls) {
     return new XYTileSource(name,
                             0,
                             17,
                             tileSize,
                             extension,
-                            baseUrls);
+                            baseUrls,
+                            attribution);
   } // createXYTileSource
 
   private static String DEFAULT_RENDERER = CycleStreetsPreferences.MAPSTYLE_OCM;
@@ -151,12 +150,14 @@ public class TileSource {
     final ITileSource OPENCYCLEMAP =
         createDensityAwareTileSource(context,
                                      CycleStreetsPreferences.MAPSTYLE_OCM,
+                                     "\u00a9 OpenStreetMap contributors. Map images \u00a9 Thunderforest",
                                      "https://a.tile.cyclestreets.net/opencyclemap/",
                                      "https://b.tile.cyclestreets.net/opencyclemap/",
                                      "https://c.tile.cyclestreets.net/opencyclemap/");
     final ITileSource OPENSTREETMAP =
         createDensityAwareTileSource(context,
                                      CycleStreetsPreferences.MAPSTYLE_OSM,
+                                     DEFAULT_ATTRIBUTION,
                                      "https://a.tile.cyclestreets.net/mapnik/",
                                      "https://b.tile.cyclestreets.net/mapnik/",
                                      "https://c.tile.cyclestreets.net/mapnik/");
@@ -164,16 +165,20 @@ public class TileSource {
     final ITileSource OSMAP =
         createDensityAwareTileSource(context,
                                      CycleStreetsPreferences.MAPSTYLE_OS,
+                                     "Contains Ordnance Survey Data \u00a9 Crown copyright and database right 2010",
                                      "https://a.tile.cyclestreets.net/osopendata/",
                                      "https://b.tile.cyclestreets.net/osopendata/",
                                      "https://c.tile.cyclestreets.net/osopendata/");
 
-    final MapsforgeOSMTileSource MAPSFORGE = new MapsforgeOSMTileSource(CycleStreetsPreferences.MAPSTYLE_MAPSFORGE, Screen.isHighDensity(context));
+    final MapsforgeOSMTileSource MAPSFORGE =
+            new MapsforgeOSMTileSource(CycleStreetsPreferences.MAPSTYLE_MAPSFORGE,
+                                       DEFAULT_ATTRIBUTION,
+                                       Screen.isHighDensity(context));
 
-    addTileSource("OpenCycleMap (shows hills)", OPENCYCLEMAP, "\u00a9 OpenStreetMap contributors. Map images \u00a9 Thunderforest");
-    addTileSource("OpenStreetMap default style", OPENSTREETMAP, DEFAULT_ATTRIBUTION);
-    addTileSource("Ordnance Survey OpenData", OSMAP, "Contains Ordnance Survey Data \u00a9 Crown copyright and database right 2010");
-    addTileSource("Offline Vector Maps", MAPSFORGE, DEFAULT_ATTRIBUTION);
+    addTileSource("OpenCycleMap (shows hills)", OPENCYCLEMAP);
+    addTileSource("OpenStreetMap default style", OPENSTREETMAP);
+    addTileSource("Ordnance Survey OpenData", OSMAP);
+    addTileSource("Offline Vector Maps", MAPSFORGE);
 
     builtInsAdded_ = true;
   } // addBuiltInSources
@@ -185,19 +190,16 @@ public class TileSource {
 
   private static class Source {
     private final String friendlyName_;
-    private final String attribution_;
     private final ITileSource tileSource_;
 
     public Source(final String friendlyName,
-                  final String attribution,
                   final ITileSource tileSource) {
       friendlyName_ = friendlyName;
-      attribution_ = attribution;
       tileSource_ = tileSource;
     } // Source
 
     public String friendlyName() { return friendlyName_; }
-    public String attribution() { return attribution_; }
+    public String attribution() { return tileSource_.getCopyrightNotice(); }
     public String tileSourceName() { return tileSource_.name(); }
     public ITileSource renderer() { return tileSource_; }
   } // TS

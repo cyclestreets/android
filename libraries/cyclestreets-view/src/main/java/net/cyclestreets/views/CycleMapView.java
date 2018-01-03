@@ -5,21 +5,31 @@ import net.cyclestreets.views.overlay.LocationOverlay;
 import net.cyclestreets.views.overlay.ControllerOverlay;
 
 import org.osmdroid.api.IGeoPoint;
+import org.osmdroid.api.IMapController;
+import org.osmdroid.events.MapListener;
 import org.osmdroid.tileprovider.BitmapPool;
+import org.osmdroid.tileprovider.MapTileProviderBase;
 import org.osmdroid.tileprovider.tilesource.ITileSource;
+import org.osmdroid.util.BoundingBox;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
+import org.osmdroid.views.Projection;
 import org.osmdroid.views.overlay.Overlay;
 
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Canvas;
 import android.location.Location;
+import android.os.CountDownTimer;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.ContextMenu;
+import android.widget.FrameLayout;
+import android.widget.Scroller;
 
-public class CycleMapView extends MapView
+import java.util.List;
+
+public class CycleMapView extends FrameLayout
 {
   private static final String PREFS_APP_CENTRE_LON = "centreLon";
   private static final String PREFS_APP_CENTRE_LAT = "centreLat";
@@ -27,6 +37,7 @@ public class CycleMapView extends MapView
   private static final String PREFS_APP_MY_LOCATION = "myLocation";
   private static final String PREFS_APP_FOLLOW_LOCATION = "followLocation";
 
+  private MapView mapView_;
   private ITileSource renderer_;
   private final SharedPreferences prefs_;
   private final ControllerOverlay controllerOverlay_;
@@ -34,21 +45,25 @@ public class CycleMapView extends MapView
   private final int overlayBottomIndex_;
 
   private IGeoPoint centreOn_ = null;
+  private boolean paused_ = false;
 
   public CycleMapView(final Context context, final String name) {
-    super(context, TileSource.mapTileProvider(context));
+    super(context);
+
+    mapView_ = new MapView(context, TileSource.mapTileProvider(context));
+    addView(mapView_);
 
     prefs_ = context.getSharedPreferences("net.cyclestreets.mapview."+name, Context.MODE_PRIVATE);
 
-    setBuiltInZoomControls(false);
-    setMultiTouchControls(true);
+    mapView_.setBuiltInZoomControls(false);
+    mapView_.setMultiTouchControls(true);
 
     overlayBottomIndex_ = getOverlays().size();
 
-    location_ = new LocationOverlay(context, this);
+    location_ = new LocationOverlay(this);
     getOverlays().add(location_);
 
-    controllerOverlay_ = new ControllerOverlay(context, this);
+    controllerOverlay_ = new ControllerOverlay(this);
     getOverlays().add(controllerOverlay_);
   } // CycleMapView
 
@@ -67,13 +82,32 @@ public class CycleMapView extends MapView
   } // overlayPushFront
 
   /////////////////////////////////////////
+  public MapView mapView() { return mapView_; }
+  public List<Overlay> getOverlays() { return mapView_.getOverlays(); }
+  public IGeoPoint getMapCenter() { return mapView_.getMapCenter(); }
+  private MapTileProviderBase getTileProvider() { return mapView_.getTileProvider(); }
+  public int getZoomLevel() { return mapView_.getZoomLevel(); }
+  private Scroller getScroller() { return mapView_.getScroller(); }
+  public IMapController getController() { return mapView_.getController(); }
+  public BoundingBox getBoundingBox() { return mapView_.getBoundingBox(); }
+  public Projection getProjection() { return mapView_.getProjection(); }
+  public void zoomToBoundingBox(BoundingBox boundingBox) { mapView_.zoomToBoundingBox(boundingBox, true); }
+
+  private void setTileSource(ITileSource tileSource) { mapView_.setTileSource(tileSource); }
+  public void setMapListener(MapListener ml) { mapView_.setMapListener(ml); }
+
+  /////////////////////////////////////////
   // save/restore
   public void onPause()
   {
+    if (paused_)
+      return;
+    paused_ = true;
+
     final SharedPreferences.Editor edit = prefs_.edit();
     final IGeoPoint centre = getMapCenter();
-    int lon = centre.getLongitudeE6();
-    int lat = centre.getLatitudeE6();
+    int lon = (int)(centre.getLongitude()*1e6);
+    int lat = (int)(centre.getLatitude()*1e6);
     edit.putInt(PREFS_APP_CENTRE_LON, lon);
     edit.putInt(PREFS_APP_CENTRE_LAT, lat);
     edit.putInt(PREFS_APP_ZOOM_LEVEL, getZoomLevel());
@@ -100,27 +134,28 @@ public class CycleMapView extends MapView
       setTileSource(renderer_);
     } // if ...
 
-    location_.enableLocation(pref(PREFS_APP_MY_LOCATION, CycleMapDefaults.gps()));
-    if(pref(PREFS_APP_FOLLOW_LOCATION, CycleMapDefaults.gps()))
-      location_.enableFollowLocation();
-    else
-      location_.disableFollowLocation();
+    boolean locationEnabled = pref(PREFS_APP_MY_LOCATION, CycleMapDefaults.gps());
+    boolean locationFollow = pref(PREFS_APP_FOLLOW_LOCATION, CycleMapDefaults.gps());
+    location_.disableFollowLocation();
+    location_.enableLocation(locationEnabled);
+    if(locationFollow)
+      location_.enableAndFollowLocation(true);
 
-    if(centreOn_ == null) {
-      // mild data race if we're setting centre in onActivityResult
-      // because that's followed by an onResume
-      GeoPoint defCentre = CycleMapDefaults.centre();
-      int lat = pref(PREFS_APP_CENTRE_LAT, defCentre.getLatitudeE6()); /* Greenwich */
-      int lon = pref(PREFS_APP_CENTRE_LON, defCentre.getLongitudeE6());
-      final GeoPoint centre = new GeoPoint(lat, lon);
-      getScroller().abortAnimation();
-      getController().setCenter(centre);
-      centreOn(centre);
-    } // if ...
+    GeoPoint defCentre = CycleMapDefaults.centre();
+    double lat = pref(PREFS_APP_CENTRE_LAT, (int)(defCentre.getLatitude()*1e6))/1e6; /* Greenwich */
+    double lon = pref(PREFS_APP_CENTRE_LON, (int)(defCentre.getLongitude()*1e6))/1e6;
+    final GeoPoint centre = new GeoPoint(lat, lon);
+    getScroller().abortAnimation();
+    getController().setCenter(centre);
+    centreOn(centre);
 
     getController().setZoom(pref(PREFS_APP_ZOOM_LEVEL, 14));
-
     controllerOverlay_.onResume(prefs_);
+
+    new CountDownTimer(250, 50) {
+      public void onTick(long unfinished) { }
+      public void onFinish() { postInvalidate(); }
+    }.start();
   } // onResume
 
   ////////////////////////////////////////////////////////////
@@ -167,21 +202,27 @@ public class CycleMapView extends MapView
   public void centreOn(final IGeoPoint place)
   {
     centreOn_ = place;
-    invalidate();
+    postInvalidate();
   } // centreOn
 
   @Override
   protected void dispatchDraw(final Canvas canvas)
   {
-    if(centreOn_  != null)
+    if(centreOn_ != null)
     {
-      getController().animateTo(new GeoPoint(centreOn_.getLatitudeE6(), centreOn_.getLongitudeE6()));
+      getController().animateTo(new GeoPoint(centreOn_.getLatitude(), centreOn_.getLongitude()));
       centreOn_ = null;
       return;
     } // if ..
 
     super.dispatchDraw(canvas);
   } // dispatchDraw
+
+  @Override
+  public void invalidate() {
+    mapView_.invalidate();
+    super.invalidate();
+  } // invalidate
 
   ///////////////////////////////////////////////////////
   private int pref(final String key, int defValue)

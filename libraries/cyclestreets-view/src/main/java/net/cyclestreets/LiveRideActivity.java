@@ -72,7 +72,7 @@ public class LiveRideActivity extends Activity
 
   private void initializeMapView() {
     map_ = new CycleMapView(this, this.getClass().getName());
-    map_.overlayPushBottom(new RouteOverlay(this));
+    map_.overlayPushBottom(new RouteOverlay());
     map_.overlayPushTop(new LockScreenOnOverlay(this, map_));
     map_.overlayPushTop(new LiveRideOverlay(this, map_));
     map_.lockOnLocation();

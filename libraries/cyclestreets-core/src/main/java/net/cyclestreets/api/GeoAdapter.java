@@ -9,7 +9,7 @@ import android.widget.TextView;
 
 import net.cyclestreets.core.R;
 
-import org.osmdroid.util.BoundingBoxE6;
+import org.osmdroid.util.BoundingBox;
 
 import java.util.List;
 
@@ -45,7 +45,7 @@ public class GeoAdapter extends ArrayAdapter<GeoPlace>
   } // setText
 
   protected GeoPlaces geoCode(final String search,
-                              final BoundingBoxE6 bounds)
+                              final BoundingBox bounds)
   {
     try {
       return GeoPlaces.search(search, bounds);

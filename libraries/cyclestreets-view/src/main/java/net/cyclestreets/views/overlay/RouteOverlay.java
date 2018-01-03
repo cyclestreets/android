@@ -27,8 +27,8 @@ import android.graphics.Point;
 
 public class RouteOverlay extends Overlay implements PauseResumeListener, Listener
 {
-  static public int ROUTE_COLOUR = 0x80ff00ff;
-  static public int HIGHLIGHT_COLOUR = 0xA000ff00;
+  static private int ROUTE_COLOUR = 0x80ff00ff;
+  static private int HIGHLIGHT_COLOUR = 0xA000ff00;
 
   private Segments route_;
 
@@ -45,9 +45,9 @@ public class RouteOverlay extends Overlay implements PauseResumeListener, Listen
   private Segment highlight_;
   private IGeoPoint mapCentre_;
 
-  public RouteOverlay(final Context context) 
+  public RouteOverlay()
   {
-    super(context);
+    super();
     
     rideBrush_ = createBrush(ROUTE_COLOUR);
     walkBrush_ = createBrush(ROUTE_COLOUR);

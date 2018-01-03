@@ -1,56 +1,68 @@
 package net.cyclestreets.views.overlay;
 
+import net.cyclestreets.util.Theme;
 import net.cyclestreets.view.R;
+import net.cyclestreets.views.CycleMapView;
 
 import org.osmdroid.views.MapView;
 import org.osmdroid.util.GeoPoint;
+import org.osmdroid.views.overlay.mylocation.GpsMyLocationProvider;
 import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.location.Location;
+import android.location.LocationManager;
+import android.support.design.widget.FloatingActionButton;
+import android.util.TypedValue;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
+import android.view.View;
 
 import static net.cyclestreets.util.MenuHelper.createMenuItem;
 import static net.cyclestreets.util.MenuHelper.enableMenuItem;
 
-public class LocationOverlay extends MyLocationNewOverlay
-                             implements ButtonTapListener, MenuListener {
-  private final int offset_;
-  private final float radius_;
+public class LocationOverlay extends MyLocationNewOverlay {
+  private final FloatingActionButton button_;
 
-  private final OverlayButton locationButton_;
+  private final CycleMapView mapView_;
+  private final int onColor_;
+  private final int followColor_;
 
-  private final MapView mapView_;
-
-  private boolean hidden_;
   private boolean lockedOn_;
 
-  public LocationOverlay(final Context context, final MapView mapView) {
-    super(mapView);
+  static private class UseEverythingLocationProvider extends GpsMyLocationProvider {
+    public UseEverythingLocationProvider(Context context) {
+      super(context);
+      LocationManager locMan = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
+      for (String source : locMan.getProviders(true))
+        addLocationSource(source);
+    }
+  }
 
+  public LocationOverlay(final CycleMapView mapView) {
+    super(new UseEverythingLocationProvider(mapView.getContext()), mapView.mapView());
     //setLocationUpdateMinTime(500);
     //setLocationUpdateMinDistance(10);
 
     mapView_ = mapView;
 
-    offset_ = DrawingHelper.offset(context);
-    radius_ = DrawingHelper.cornerRadius(context);
+    onColor_ = Theme.lowlightColor(mapView_.getContext());
+    followColor_ = Theme.highlightColor(mapView_.getContext());
 
-    final Resources res = context.getResources();
-    locationButton_ = new OverlayButton(res.getDrawable(R.drawable.ic_menu_followlocation),
-                                        res.getDrawable(R.drawable.ic_menu_mylocation),
-                                        offset_,
-                                        offset_*2,
-                                        radius_);
-    locationButton_.bottomAlign();
-    locationButton_.rightAlign();
+    View overlayView = LayoutInflater.from(mapView_.getContext()).inflate(R.layout.locationbutton, null);
+    button_ = overlayView.findViewById(R.id.locationbutton);
+    button_.setOnClickListener(view -> enableAndFollowLocation(!isFollowLocationEnabled()));
+
+    mapView_.addView(overlayView);
 
     lockedOn_ = false;
-    hidden_ = false;
   } // LocationOverlay
 
   public void enableLocation(final boolean enable) {
@@ -84,7 +96,7 @@ public class LocationOverlay extends MyLocationNewOverlay
   } // lockOnLocation
 
   public void hideButton() {
-    hidden_ = true;
+    button_.setVisibility(View.INVISIBLE);
   } // hideButton
 
   @Override
@@ -100,6 +112,11 @@ public class LocationOverlay extends MyLocationNewOverlay
   ////////////////////////////////////////////
   @Override
   public void draw(final Canvas canvas, final MapView mapView, final boolean shadow) {
+    if (isFollowLocationEnabled())
+      button_.setColorFilter(followColor_);
+    else
+      button_.setColorFilter(isMyLocationEnabled() ? onColor_ : Color.TRANSPARENT);
+
     // I'm not thrilled about this but there isn't any other way (short of killing
     // and recreating the overlay) of turning off the little here-you-are man
     if(!isMyLocationEnabled())
@@ -107,61 +124,4 @@ public class LocationOverlay extends MyLocationNewOverlay
 
     super.draw(canvas, mapView, shadow);
   } // onDraw
-
-  @Override
-  public void drawButtons(final Canvas canvas, final MapView mapView) {
-    if(hidden_)
-      return;
-    locationButton_.pressed(isFollowLocationEnabled());
-    locationButton_.alternate(isMyLocationEnabled());
-
-    locationButton_.draw(canvas);
-  } // drawLocationButton
-
-  ////////////////////////////////////////////////
-  @Override
-  public void onCreateOptionsMenu(final Menu menu) {
-    createMenuItem(menu, R.string.location_menu_mylocation, Menu.NONE, R.drawable.ic_menu_mylocation);
-  } // onCreateOptionsMenu
-
-  @Override
-  public void onPrepareOptionsMenu(final Menu menu) {
-    final MenuItem item = enableMenuItem(menu, R.string.location_menu_mylocation, true);
-    if(item != null)
-      item.setTitle(isMyLocationEnabled() ? R.string.location_menu_off : R.string.location_menu_on);
-  } // onPrepareOptionsMenu
-
-  @Override
-  public boolean onMenuItemSelected(final int featureId, final MenuItem item) {
-    if(item.getItemId() != R.string.location_menu_mylocation)
-      return false;
-
-    enableAndFollowLocation(!isMyLocationEnabled());
-
-    return true;
-  } // onMenuItemSelected
-
-  //////////////////////////////////////////////
-  @Override
-  public boolean onButtonTap(final MotionEvent event) {
-     if(hidden_)
-        return false;
-    return tapLocation(event);
-  } // onSingleTapUp
-
-  @Override
-  public boolean onButtonDoubleTap(final MotionEvent event) {
-    if(hidden_)
-      return false;
-    return locationButton_.hit(event);
-  } // onDoubleTap
-
-  private boolean tapLocation(final MotionEvent event) {
-    if(!locationButton_.hit(event))
-      return false;
-
-    enableAndFollowLocation(!locationButton_.pressed());
-
-    return true;
-  } // tapLocation
 } // LocationOverlay

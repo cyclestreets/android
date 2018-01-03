@@ -39,6 +39,7 @@ public class MapsforgeOSMTileSource implements ITileSource {
 
   private static final float DEFAULT_TEXT_SCALE = 1;
   private final String name_;
+  private final String attribution_;
   private final DatabaseRenderer mapGenerator_;
   private final MapDatabase mapDatabase_;
   private final JobParameters jobParameters_;
@@ -53,8 +54,10 @@ public class MapsforgeOSMTileSource implements ITileSource {
   private int tileSize_;
   
   public MapsforgeOSMTileSource(final String name,
+                                final String attribution,
                                 final boolean upSize) {
     name_ = name;
+    attribution_ = attribution;
     mapGenerator_ = new DatabaseRenderer();
     mapDatabase_ = new MapDatabase();
     mapGenerator_.setMapDatabase(mapDatabase_);
@@ -86,6 +89,9 @@ public class MapsforgeOSMTileSource implements ITileSource {
   public int getMaximumZoomLevel() { return mapGenerator_.getZoomLevelMax(); }
   @Override
   public int getMinimumZoomLevel() { return 6; }
+
+  @Override
+  public String getCopyrightNotice() { return attribution_; }
 
   public synchronized Drawable getDrawable(int tileX, int tileY, int zoom) throws LowMemoryException {
 	  if(tileOutOfBounds(tileX, tileY, zoom))

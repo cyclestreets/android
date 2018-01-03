@@ -4,8 +4,6 @@ import net.cyclestreets.api.ApiClient;
 import net.cyclestreets.routing.Route;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
 
 public final class CycleStreetsAppSupport {
   private static boolean isFirstRun_;

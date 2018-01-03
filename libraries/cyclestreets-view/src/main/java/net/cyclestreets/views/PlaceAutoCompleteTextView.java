@@ -7,7 +7,7 @@ import net.cyclestreets.api.GeoPlace;
 import net.cyclestreets.api.GeoLiveAdapter;
 import net.cyclestreets.contacts.Contact;
 
-import org.osmdroid.util.BoundingBoxE6;
+import org.osmdroid.util.BoundingBox;
 
 import android.content.Context;
 import android.util.AttributeSet;
@@ -52,8 +52,8 @@ public class PlaceAutoCompleteTextView extends AppCompatAutoCompleteTextView
   } // init
   
   /////////////////////////////////////
-  public BoundingBoxE6 bounds() {  return adapter_.bounds(); }
-  public void setBounds(final BoundingBoxE6 bounds)
+  public BoundingBox bounds() {  return adapter_.bounds(); }
+  public void setBounds(final BoundingBox bounds)
   {
     adapter_ = new GeoLiveAdapter(getContext(), bounds);
     setAdapter(adapter_);  

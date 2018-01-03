@@ -9,7 +9,7 @@ import org.osmdroid.events.DelayedMapListener;
 import org.osmdroid.events.MapListener;
 import org.osmdroid.events.ScrollEvent;
 import org.osmdroid.events.ZoomEvent;
-import org.osmdroid.util.BoundingBoxE6;
+import org.osmdroid.util.BoundingBox;
 import org.osmdroid.views.overlay.OverlayItem;
 
 import android.content.Context;
@@ -38,19 +38,18 @@ public abstract class LiveItemOverlay<T extends OverlayItem>
 	
 	static private final String LOADING = "Loading ...";
 	
-	public LiveItemOverlay(final Context context,
-							           final CycleMapView mapView,
+	public LiveItemOverlay(final CycleMapView mapView,
 							           final boolean showLoading)
 	{
-		super(context, 
-		      mapView,
+		super(mapView.mapView(),
 		      new ArrayList<T>());
 		
 		mapView_ = mapView;
 		zoomLevel_ = mapView_.getZoomLevel();
 		loading_ = false;
 		showLoading_ = showLoading;
-		
+
+		final Context context = mapView_.getContext();
 		offset_ = DrawingHelper.offset(context);
 		radius_ = DrawingHelper.cornerRadius(context);
 		textBrush_ = Brush.createTextBrush(offset_);
@@ -116,7 +115,7 @@ public abstract class LiveItemOverlay<T extends OverlayItem>
 	{		
 		final IGeoPoint centre = mapView_.getMapCenter();
     final int zoom = mapView_.getZoomLevel();
-    final BoundingBoxE6 bounds = mapView_.getBoundingBox();
+    final BoundingBox bounds = mapView_.getBoundingBox();
 		
 		if(!fetchItemsInBackground(centre, zoom, bounds))
 		  return;
@@ -127,7 +126,7 @@ public abstract class LiveItemOverlay<T extends OverlayItem>
 	
 	protected abstract boolean fetchItemsInBackground(final IGeoPoint mapCentre,
 	                                                  final int zoom,
-	                                                  final BoundingBoxE6 boundingBox);
+	                                                  final BoundingBox boundingBox);
 	
 	protected void setItems(final List<T> items)
 	{

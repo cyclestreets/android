@@ -20,8 +20,6 @@
               android:label="LiveRide"
               android:launchMode="singleTop"
               android:screenOrientation="portrait"/>
-    <activity android:name="net.cyclestreets.PhotoUploadActivity"
-              android:label="@string/app_name"/>
 
     <service android:name="net.cyclestreets.liveride.LiveRideService"/>
   </application>

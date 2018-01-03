@@ -13,7 +13,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import org.osmdroid.api.IGeoPoint;
-import org.osmdroid.util.BoundingBoxE6;
+import org.osmdroid.util.BoundingBox;
 
 public class FindPlace {
   public interface Listener {
@@ -21,7 +21,7 @@ public class FindPlace {
   }
 
   public static void launch(final Context context,
-                            final BoundingBoxE6 boundingBox,
+                            final BoundingBox boundingBox,
                             final FindPlace.Listener listener) {
     final AlertDialog.Builder builder = new AlertDialog.Builder(context);
     builder.setTitle(R.string.menu_find_place);
@@ -43,7 +43,7 @@ public class FindPlace {
 
     public FindPlaceCallbacks(final Context context,
                               final AlertDialog.Builder builder,
-                              final BoundingBoxE6 boundingBox,
+                              final BoundingBox boundingBox,
                               final Listener listener) {
       context_ = context;
 

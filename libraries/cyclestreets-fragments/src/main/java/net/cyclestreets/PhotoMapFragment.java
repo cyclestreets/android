@@ -13,7 +13,7 @@ public class PhotoMapFragment extends CycleMapFragment
   {
     final View v = super.onCreateView(inflater, container, saved);
 
-    overlayPushBottom(new PhotosOverlay(getActivity(), mapView()));
+    overlayPushBottom(new PhotosOverlay(mapView()));
 
     return v;
   } // onCreate

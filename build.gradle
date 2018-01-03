@@ -1,9 +1,10 @@
 buildscript {
   repositories {
+    google()
     jcenter()
   }
   dependencies {
-    classpath 'com.android.tools.build:gradle:2.3.3'
+    classpath 'com.android.tools.build:gradle:3.0.1'
     classpath 'com.github.triplet.gradle:play-publisher:1.2.0'
   }
 }
@@ -33,6 +34,7 @@ subprojects {
     return
 
   repositories {
+    google()
     jcenter()
   }
 
@@ -43,8 +45,8 @@ subprojects {
     buildToolsVersion appConfig['toolsVersion']
 
     compileOptions {
-      sourceCompatibility JavaVersion.VERSION_1_7
-      targetCompatibility JavaVersion.VERSION_1_7
+      sourceCompatibility JavaVersion.VERSION_1_8
+      targetCompatibility JavaVersion.VERSION_1_8
     }
 
     defaultConfig {
@@ -63,6 +65,7 @@ subprojects {
     // Required due to strictness of the Android developer tools.  See lint.xml for full details.
     lintOptions {
       lintConfig rootProject.file('gradle/lint.xml')
+      abortOnError false
     }
   } // android
 } // subprojects
@@ -70,14 +73,14 @@ subprojects {
 def loadProperties(fileName) {
   Properties props = new Properties()
   props.load(new FileInputStream(file(fileName)))
-  return props;
+  return props
 } // loadProperties
 
 def manifestProperties(project) {
   def cyclestreetsDetails = project.file("cyclestreets.properties")
   if (!cyclestreetsDetails.exists()) {
     println ":${project.name}:No cyclestreets.properties"
-    return;
+    return
   } // no cyclestreets props
 
   project.android {
@@ -106,10 +109,10 @@ def versionProperties(project) {
 } // versionProperties
 
 def signingKey(project) {
-  def licenseDetails = project.file("license.properties");
+  def licenseDetails = project.file("license.properties")
   if (!licenseDetails.exists()) {
     println ":${project.name}:No license.properties"
-    return;
+    return
   } // licenseDetails.exists
 
   Properties props = loadProperties(licenseDetails)
@@ -146,3 +149,7 @@ def signingKey(project) {
     } // buildTypes
   } // android
 } // signingKey
+
+repositories {
+  google()
+}
