@@ -6,7 +6,7 @@
 
 CycleStreets is a UK-wide cycle journey planner system, which lets you plan
 routes from A to B to C by bike. It is designed by cyclists, for cyclists, and
-caters for the needs of both confident and less confident cyclists.
+caters to the needs of both confident and less confident cyclists.
 
 - Point-to-point tap-to-route cycle routing
 - Point-to-point cycle routing by address or postcode
