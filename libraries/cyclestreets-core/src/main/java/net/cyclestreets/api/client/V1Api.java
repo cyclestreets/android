@@ -15,6 +15,13 @@ public interface V1Api {
                              @Query("arriving") String arriving,
                              @Query("speed") int speed);
 
+  @GET("/api/journey.json")
+  Call<String> getJourneyJson(@Query("plan") String plan,
+                              @Query("itinerarypoints") String itineraryPoints,
+                              @Query("leaving") String leaving,
+                              @Query("arriving") String arriving,
+                              @Query("speed") int speed);
+
   @GET("/api/journey.xml")
   Call<String> retrievePreviousJourneyXml(@Query("plan") String plan,
                                           @Query("itinerary") long itineraryId);
