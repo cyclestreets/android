@@ -4,10 +4,10 @@ jdk:
 env:
   global:
     # Remember to keep this in sync with config.properties
-    - compileSdkVersion=25
+    - compileSdkVersion=26
     - minSdkVersion=23
     - targetSdkVersion=23
-    - toolsVersion=25.0.3
+    - toolsVersion=27.0.3
     - ANDROID_ABI=armeabi-v7a
     - secure: "LipL0wPv0uQrKitaeGxCpoQsx5sl/Pg/DtQv4S7Bi52DxfArgvD2hPB0TWgkgYGJPfENHLEyqg+H+/v2nON3IXY+cnsd+TW+P1T03/52D56ieSKGVtVtSYUOZUgoyxIIvRZWFh/UNg+AmZIjOCTJDLitBTUxD8kWux8NjhIqZow="
 android:
@@ -18,10 +18,10 @@ android:
     # The BuildTools version used by your project
     - tools
     - build-tools-${toolsVersion}
-    
+
     # if you need to run emulator(s) during your tests
     - sys-img-${ANDROID_ABI}-android-${targetSdkVersion}
-    
+
 before_install: ./ciLicense.sh
 
 # Emulator Management: Create, Start and Wait
