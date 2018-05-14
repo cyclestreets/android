@@ -1,34 +1,75 @@
+# Use container-based Travis, with the Trusty image.
+# See https://docs.travis-ci.com/user/reference/overview/ and https://docs.travis-ci.com/user/reference/trusty/
+sudo: false
+dist: trusty
+
 language: android
 jdk:
   - oraclejdk8
 env:
   global:
-    # Remember to keep this in sync with config.properties
+    # Remember to keep these four values in sync with config.properties
     - compileSdkVersion=26
     - minSdkVersion=23
     - targetSdkVersion=23
     - toolsVersion=27.0.3
-    - ANDROID_ABI=armeabi-v7a
+    # Emulator-specific
+    - emulatorApiVersion=23
+    - androidAbiVersion=armeabi-v7a
+    - androidTag=google_apis
+    - ADB_INSTALL_TIMEOUT=20 # minutes (2 minutes by default)
+    # For the decryption of secrets needed to sign and publish our artifacts
     - secure: "LipL0wPv0uQrKitaeGxCpoQsx5sl/Pg/DtQv4S7Bi52DxfArgvD2hPB0TWgkgYGJPfENHLEyqg+H+/v2nON3IXY+cnsd+TW+P1T03/52D56ieSKGVtVtSYUOZUgoyxIIvRZWFh/UNg+AmZIjOCTJDLitBTUxD8kWux8NjhIqZow="
 android:
   components:
-    # The SDK version used to compile your project
-    - android-${compileSdkVersion}
-
-    # The BuildTools version used by your project
-    - tools
+    # Android tools
+    - tools # to get the new `repository-11.xml`
+    - platform-tools
+    - tools # to install up-to-date Android SDK tools
     - build-tools-${toolsVersion}
 
-    # if you need to run emulator(s) during your tests
-    - sys-img-${ANDROID_ABI}-android-${targetSdkVersion}
+    # SDK versions
+    - android-${compileSdkVersion}
+    - android-${emulatorApiVersion}
 
-before_install: ./ciLicense.sh
+    # I'm not sure why these are needed
+    - addon-google_apis-google-${compileSdkVersion}
+    - addon-google_apis-google-${emulatorApiVersion}
+    - extra-android-support
 
-# Emulator Management: Create, Start and Wait
+    # Latest artifacts in local repository
+    - extra-google-m2repository
+    - extra-android-m2repository
+
+    # Emulator system image
+    - sys-img-${androidAbiVersion}-${androidTag}-${emulatorApiVersion}
+
+before_install:
+  - ./ciLicense.sh
+
+install:
+  - ./gradlew build
+
 before_script:
-  - echo no | android create avd --force -n test -t android-${targetSdkVersion} --abi ${ANDROID_ABI}
-  - emulator -avd test -no-audio -no-window &
+  # Log what we've got installed (useful in case issues occur)
+  - sdkmanager --list
+  - android list targets
+
+  # Create and start emulator
+  - echo no | android create avd --force -n test -t android-${emulatorApiVersion} --abi ${androidAbiVersion} --tag ${androidTag}
+  - export QEMU_AUDIO_DRV=none && emulator -avd test -no-window &
+
+  # Wait for emulator to be ready, then start log capture
   - android-wait-for-emulator
   - adb shell input keyevent 82 &
+  - adb wait-for-device get-serialno
+  - adb logcat > logcat.log &
 
-after_success: ./ciPublish.sh
+script:
+  - travis_wait 30 ./gradlew connectedCheck
+
+after_success:
+  - cat logcat.log
+  - ./ciPublish.sh
+
+after_failure: cat logcat.log
