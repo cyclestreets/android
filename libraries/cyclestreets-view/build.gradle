@@ -1,13 +1,12 @@
 evaluationDependsOn(':libraries:cyclestreets-core')
 
 dependencies {
-  compile project(':libraries:cyclestreets-core')
-  compile files('libs/mapsforge-map-0.3.0-jar-with-dependencies.jar')
-  compile 'com.getpebble:pebblekit:3.1.0@aar'
+  api project(':libraries:cyclestreets-core')
+  api files('libs/mapsforge-map-0.3.0-jar-with-dependencies.jar')
+  implementation 'com.getpebble:pebblekit:3.1.0@aar'
 
-  // In the main app project, we're already pulling in 23.x via the `acra` dependency.
-  compile 'com.android.support:appcompat-v7:27.0.2'
-  compile 'com.android.support:support-v4:27.0.2'
-  compile 'com.android.support:support-annotations:27.0.2'
-  compile 'com.android.support:design:27.0.2'
+  api 'com.android.support:appcompat-v7:27.0.2'
+  api 'com.android.support:support-v4:27.0.2'
+  api 'com.android.support:support-annotations:27.0.2'
+  api 'com.android.support:design:27.0.2'
 }
