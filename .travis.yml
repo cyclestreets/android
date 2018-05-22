@@ -69,7 +69,7 @@ before_script:
 script:
   # By default, Travis errors if no console output is received for >10 mins.  Since running a
   # test with an emulator can be very slow, we give ourselves a broader window.
-  - travis_wait 30 ./gradlew connectedCheck
+  - travis_wait 30 ./gradlew :cyclestreets.app:connectedCheck
 
 after_success:
   - ./ciPublish.sh
