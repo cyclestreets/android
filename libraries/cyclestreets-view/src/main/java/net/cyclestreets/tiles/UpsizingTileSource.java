@@ -41,6 +41,9 @@ public class UpsizingTileSource implements ITileSource {
   public int getTileSizePixels() { return upsize_; }
 
   @Override
+  public String getCopyrightNotice() { return base_.getCopyrightNotice(); }
+
+  @Override
   public Drawable getDrawable(String aFilePath) throws BitmapTileSourceBase.LowMemoryException {
     return scaleUp(base_.getDrawable(aFilePath));
   }

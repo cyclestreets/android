@@ -3,6 +3,7 @@ package org.mapsforge.android.maps;
 import java.io.ByteArrayInputStream;
 import java.net.UnknownHostException;
 
+import org.osmdroid.config.Configuration;
 import org.osmdroid.tileprovider.MapTile;
 import org.osmdroid.tileprovider.MapTileRequestState;
 import org.osmdroid.tileprovider.modules.MapTileModuleProviderBase;
@@ -31,7 +32,8 @@ public class MapsforgeOSMDroidTileProvider extends MapTileModuleProviderBase
   public MapsforgeOSMDroidTileProvider(final ITileSource fallbackSource,
                                        final NetworkAvailabliltyCheck networkCheck,
                                        final Interceptor interceptor) {
-    super(4, TILE_DOWNLOAD_MAXIMUM_QUEUE_SIZE);
+    super(Configuration.getInstance().getTileDownloadThreads(),
+          Configuration.getInstance().getTileDownloadMaxQueueSize());
     tileSource = null;
     fallbackTileSource = fallbackSource instanceof OnlineTileSourceBase ? (OnlineTileSourceBase)fallbackSource : null;
     this.networkCheck = networkCheck;

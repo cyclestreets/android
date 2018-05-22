@@ -36,7 +36,7 @@ public class ThereOverlay extends Overlay
   public ThereOverlay(final Context context,
                       final CycleMapView mapView)
   {
-    super(context);
+    super();
     mapView_ = mapView;
 
     final Resources res = context.getResources();

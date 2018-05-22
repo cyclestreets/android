@@ -7,13 +7,13 @@ import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.graphics.drawable.Drawable;
 import android.support.v4.app.ActionBarDrawerToggle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
+import android.app.Fragment;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
-import android.support.v7.app.ActionBarActivity;
-import android.support.v7.app.ActionBar;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.support.v4.widget.DrawerLayout;
@@ -36,7 +36,7 @@ import net.cyclestreets.routing.Route;
 import net.cyclestreets.routing.Waypoints;
 
 public abstract class MainNavDrawerActivity
-    extends ActionBarActivity
+    extends AppCompatActivity
     implements Route.Listener {
   private NavigationDrawerFragment navDrawer_;
   private List<DrawerItem> pages_;
@@ -47,7 +47,7 @@ public abstract class MainNavDrawerActivity
 
     setContentView(R.layout.mainnavdraweractivity);
 
-    navDrawer_ = (NavigationDrawerFragment)getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
+    navDrawer_ = (NavigationDrawerFragment)getFragmentManager().findFragmentById(R.id.navigation_drawer);
     navDrawer_.setUp(R.id.navigation_drawer, (DrawerLayout)findViewById(R.id.drawer_layout));
 
     pages_ = new ArrayList<>();
@@ -182,10 +182,10 @@ public abstract class MainNavDrawerActivity
 
   @Override
   public void onNewJourney(final Journey journey, final Waypoints waypoints) {
-    supportInvalidateOptionsMenu();
+    invalidateOptionsMenu();
   } // onNewJourney
   public void onResetJourney() {
-    supportInvalidateOptionsMenu();
+    invalidateOptionsMenu();
   } // onResetJourney
 
   private SharedPreferences prefs() {
@@ -281,7 +281,7 @@ public abstract class MainNavDrawerActivity
             public void onDrawerClosed(View drawerView) {
               super.onDrawerClosed(drawerView);
               if (!isAdded()) { return; }
-              getActivity().supportInvalidateOptionsMenu(); // calls onPrepareOptionsMenu()
+              getActivity().invalidateOptionsMenu(); // calls onPrepareOptionsMenu()
               if (nextSelectedPosition_ != currentSelectedPosition_)
                 selectItem(nextSelectedPosition_);
             }
@@ -290,7 +290,7 @@ public abstract class MainNavDrawerActivity
             public void onDrawerOpened(View drawerView) {
               super.onDrawerOpened(drawerView);
               if (!isAdded()) { return; }
-              getActivity().supportInvalidateOptionsMenu(); // calls onPrepareOptionsMenu()
+              getActivity().invalidateOptionsMenu(); // calls onPrepareOptionsMenu()
             }
           };
 
@@ -316,13 +316,13 @@ public abstract class MainNavDrawerActivity
       final DrawerItem di = drawerContents_.getItem(position);
       if (drawerLayout_ != null)
         drawerLayout_.closeDrawer(fragmentContainerView_);
-      getActivity().supportInvalidateOptionsMenu();
+      getActivity().invalidateOptionsMenu();
 
       if (di instanceof FragmentItem) {
         currentSelectedPosition_ = position;
         drawerListView_.setItemChecked(position, true);
 
-        final FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+        final FragmentManager fragmentManager = getActivity().getFragmentManager();
         final Fragment newFrag = ((FragmentItem)di).create();
 
         final FragmentTransaction ft = fragmentManager.beginTransaction();
@@ -400,7 +400,7 @@ public abstract class MainNavDrawerActivity
     } // showGlobalContextActionBar
 
     private ActionBar getActionBar() {
-      return ((ActionBarActivity) getActivity()).getSupportActionBar();
+      return ((AppCompatActivity)getActivity()).getSupportActionBar();
     } // getActionBar
   } // NavigationDrawerFragment
 
@@ -499,7 +499,7 @@ public abstract class MainNavDrawerActivity
 
     public String title() { return title_.title(); }
     public Drawable icon() { return icon_; }
-    public boolean enabled() { return (pageStatus_ != null) ? pageStatus_.enabled() : true; }
+    public boolean enabled() { return (pageStatus_ == null) || pageStatus_.enabled(); }
 
     @Override
     public String toString() { return title_.title(); }

@@ -20,7 +20,7 @@ public class RewriteCacheControlInterceptor implements Interceptor {
 
   private static final int SECONDS_PER_DAY = 86400;
   private final Map<String, Integer> cacheDurationMap = new HashMap<String, Integer>() {{
-    put("/blog/feed/", 1 * SECONDS_PER_DAY); // This comes from Wordpress.
+    put("/blog/feed/", SECONDS_PER_DAY); // This comes from Wordpress.
   }};
 
   @Override

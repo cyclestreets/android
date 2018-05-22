@@ -81,7 +81,6 @@ public class TapToRouteOverlay extends Overlay
   private final int offset_;
   private final float radius_;
 
-  private final OverlayButton stepBackButton_;
   private final OverlayButton restartButton_;
 
   private final CycleMapView mapView_;
@@ -99,28 +98,22 @@ public class TapToRouteOverlay extends Overlay
 
   private OverlayHelper overlays_;
 
-  public TapToRouteOverlay(final Context context,
-                           final CycleMapView mapView)
+  public TapToRouteOverlay(final CycleMapView mapView)
   {
-    super(context);
+    super();
 
-    context_ = context;
+    context_ = mapView.getContext();
     mapView_ = mapView;
 
-    final Resources res = context.getResources();
+    final Resources res = context_.getResources();
     greenWisp_ = res.getDrawable(R.drawable.greep_wisp);
     orangeWisp_ = res.getDrawable(R.drawable.orange_wisp);
     redWisp_ = res.getDrawable(R.drawable.red_wisp);
     canRoute_ = ((BitmapDrawable)res.getDrawable(R.drawable.ic_route_now)).getBitmap();
 
-    offset_ = DrawingHelper.offset(context);
-    radius_ = DrawingHelper.cornerRadius(context);
+    offset_ = DrawingHelper.offset(context_);
+    radius_ = DrawingHelper.cornerRadius(context_);
 
-    stepBackButton_ = new OverlayButton(res.getDrawable(R.drawable.ic_menu_revert),
-                          offset_,
-                          offset_*2,
-                          radius_);
-    stepBackButton_.bottomAlign();
     restartButton_ = new OverlayButton(res.getDrawable(R.drawable.ic_menu_rotate),
                            0,
                            offset_*2,
@@ -129,7 +122,7 @@ public class TapToRouteOverlay extends Overlay
     restartButton_.bottomAlign();
 
     tapStateRect_ = new Rect();
-    tapStateRect_.bottom = tapStateRect_.top + stepBackButton_.height();
+    tapStateRect_.bottom = tapStateRect_.top + restartButton_.height();
 
     textBrush_ = Brush.createTextBrush(offset_);
     highlightBrush_ = Brush.HighlightBrush(context_);
@@ -347,14 +340,9 @@ public class TapToRouteOverlay extends Overlay
 
   private void drawTheButtons(final Canvas canvas, final MapView mapView)
   {
-    stepBackButton_.enable(tapState_ == TapToRoute.WAITING_FOR_SECOND ||
-                           tapState_ == TapToRoute.WAITING_FOR_NEXT ||
-                           tapState_ == TapToRoute.WAITING_TO_ROUTE);
     restartButton_.enable(tapState_ == TapToRoute.ALL_DONE);
 
-    if(tapState_ != TapToRoute.ALL_DONE)
-      stepBackButton_.draw(canvas);
-    else
+    if(tapState_ == TapToRoute.ALL_DONE)
       restartButton_.draw(canvas);
   } // drawLocationButton
 
@@ -438,26 +426,14 @@ public class TapToRouteOverlay extends Overlay
   @Override
   public boolean onButtonTap(final MotionEvent event)
   {
-    return tapStepBack(event) ||
-           tapRestart(event);
+    return tapRestart(event);
   } // onSingleTapUp
 
   @Override
   public boolean onButtonDoubleTap(final MotionEvent event)
   {
-    return stepBackButton_.hit(event);
+    return false;
   } // onDoubleTap
-
-  private boolean tapStepBack(final MotionEvent event)
-  {
-    if(!stepBackButton_.hit(event))
-      return false;
-    if(!stepBackButton_.enabled())
-      return true;
-
-    controller().popUndo(this);
-    return stepBack(true);
-  } // tapStepBack
 
   private boolean tapRestart(final MotionEvent event)
   {
@@ -478,6 +454,7 @@ public class TapToRouteOverlay extends Overlay
     return true;
   } // tapRestart
 
+  @Override
   public boolean onBackPressed()
   {
     return stepBack(false);
@@ -503,7 +480,7 @@ public class TapToRouteOverlay extends Overlay
     } // switch ...
 
     tapState_ = tapState_.previous(waymarkersCount());
-    mapView_.invalidate();
+    mapView_.postInvalidate();
 
     return true;
   } // tapStepBack

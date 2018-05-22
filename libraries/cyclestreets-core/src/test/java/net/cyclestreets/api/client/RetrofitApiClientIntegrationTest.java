@@ -4,7 +4,6 @@ import android.content.Context;
 
 import net.cyclestreets.api.ApiClient;
 import net.cyclestreets.api.Blog;
-import net.cyclestreets.api.Feedback;
 import net.cyclestreets.api.GeoPlace;
 import net.cyclestreets.api.GeoPlaces;
 import net.cyclestreets.api.POI;
@@ -13,7 +12,6 @@ import net.cyclestreets.api.POICategory;
 import net.cyclestreets.api.Photo;
 import net.cyclestreets.api.PhotomapCategories;
 import net.cyclestreets.api.Photos;
-import net.cyclestreets.api.Registration;
 import net.cyclestreets.api.Result;
 import net.cyclestreets.api.Signin;
 import net.cyclestreets.api.Upload;

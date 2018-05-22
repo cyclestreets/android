@@ -14,12 +14,12 @@ public class ZoomButtonsOverlay extends ButtonOnlyOverlay {
   private final OverlayButton zoomIn_;
   private final OverlayButton zoomOut_;
 
-  public ZoomButtonsOverlay(final Context context,
-                            final MapView mapView) {
-    super(context);
+  public ZoomButtonsOverlay(final MapView mapView) {
+    super();
 
     mapView_ = mapView;
 
+    final Context context = mapView_.getContext();
     final int offset = DrawingHelper.offset(context);
     final float radius = DrawingHelper.cornerRadius(context);
 

@@ -3,6 +3,7 @@ package net.cyclestreets;
 import net.cyclestreets.fragments.R;
 import net.cyclestreets.util.GPS;
 import net.cyclestreets.util.MessageBox;
+import net.cyclestreets.util.Permissions;
 import net.cyclestreets.views.overlay.POIOverlay;
 import net.cyclestreets.views.overlay.RouteOverlay;
 import net.cyclestreets.views.overlay.RouteHighlightOverlay;
@@ -11,7 +12,11 @@ import net.cyclestreets.routing.Journey;
 import net.cyclestreets.routing.Route;
 import net.cyclestreets.routing.Waypoints;
 
+import android.Manifest;
+import android.app.Activity;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -33,16 +38,19 @@ public class RouteMapFragment extends CycleMapFragment
 	@Override
   public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle saved)
   {
-    final View v = super.onCreateView(inflater, container, saved);
+		Permissions.verify(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION);
+		Permissions.verify(getActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE);
+
+		final View v = super.onCreateView(inflater, container, saved);
 
 	  overlayPushBottom(new RouteHighlightOverlay(getActivity(), mapView()));
 
-    poiOverlay_ = new POIOverlay(getActivity(), mapView());
+    poiOverlay_ = new POIOverlay(mapView());
     overlayPushBottom(poiOverlay_);
 
-	  overlayPushBottom(new RouteOverlay(getActivity()));
+	  overlayPushBottom(new RouteOverlay());
 
-	  routeSetter_ = new TapToRouteOverlay(getActivity(), mapView());
+	  routeSetter_ = new TapToRouteOverlay(mapView());
 	  overlayPushTop(routeSetter_);
 
 	  hasGps_ = GPS.deviceHasGPS(getActivity());
