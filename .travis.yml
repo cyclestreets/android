@@ -13,11 +13,7 @@ env:
     - minSdkVersion=23
     - targetSdkVersion=23
     - toolsVersion=27.0.3
-    # Emulator-specific
-    - emulatorApiVersion=23
-    - androidAbiVersion=armeabi-v7a
-    - androidTag=google_apis
-    - ADB_INSTALL_TIMEOUT=20 # minutes (2 minutes by default)
+
     # For the decryption of secrets needed to sign and publish our artifacts
     - secure: "LipL0wPv0uQrKitaeGxCpoQsx5sl/Pg/DtQv4S7Bi52DxfArgvD2hPB0TWgkgYGJPfENHLEyqg+H+/v2nON3IXY+cnsd+TW+P1T03/52D56ieSKGVtVtSYUOZUgoyxIIvRZWFh/UNg+AmZIjOCTJDLitBTUxD8kWux8NjhIqZow="
 android:
@@ -30,49 +26,12 @@ android:
 
     # SDK versions
     - android-${compileSdkVersion}
-    - android-${emulatorApiVersion}
-
-    # I'm not sure why these are needed, but the emulator fails without them.  It's probably
-    # because we're using the Google APIs tag.
-    - addon-google_apis-google-${compileSdkVersion}
-    - addon-google_apis-google-${emulatorApiVersion}
-    - extra-android-support
-
-    # Ensure the latest artifacts are available in local Maven repository
-    - extra-google-m2repository
-    - extra-android-m2repository
-
-    # Emulator system image
-    - sys-img-${androidAbiVersion}-${androidTag}-${emulatorApiVersion}
 
 before_install:
   - ./ciLicense.sh
 
-install:
-  - ./gradlew build
-
-before_script:
-  # Log what we've got installed (useful in case issues occur)
-  - sdkmanager --list
-  - android list targets
-
-  # Create and start emulator
-  - echo no | android create avd --force -n test -t android-${emulatorApiVersion} --abi ${androidAbiVersion} --tag ${androidTag}
-  - export QEMU_AUDIO_DRV=none && emulator -avd test -no-window &
-
-  # Wait for emulator to be ready, then start log capture
-  - android-wait-for-emulator
-  - adb shell input keyevent 82 &
-  - adb wait-for-device get-serialno
-  - adb logcat > logcat.log &
-
 script:
-  # By default, Travis errors if no console output is received for >10 mins.  Since running a
-  # test with an emulator can be very slow, we give ourselves a broader window.
-  - travis_wait 30 ./gradlew :cyclestreets.app:connectedCheck
+  - ./gradlew build
 
 after_success:
   - ./ciPublish.sh
-
-after_failure:
-  - cat logcat.log
