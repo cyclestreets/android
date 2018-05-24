@@ -65,7 +65,6 @@ subprojects {
     // Required due to strictness of the Android developer tools.  See lint.xml for full details.
     lintOptions {
       lintConfig rootProject.file('gradle/lint.xml')
-      abortOnError false
     }
   } // android
 } // subprojects
