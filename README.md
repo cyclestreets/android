@@ -36,7 +36,7 @@ mobile@lists.cyclestreets.net
 
 ## License
 
-CycleStreets Android App Copyright 2010-2016 CycleStreets Ltd.
+CycleStreets Android App Copyright 2010-2018 CycleStreets Ltd.
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -53,7 +53,9 @@ along with this program.  If not, see http://www.gnu.org/licenses
 
 ## Contacts
 
-Written by Jez Higgins, with contributions from Oliver Lockwood, Theodore Hong, Christopher Fraser, Jonathan Gray, Farid Kurbanov, kyegupov, Shaun McDonald, Simon Nuttall, John Singleton, Colin Watson.
+Android App written by Jez Higgins and Oliver Lockwood, with contributions
+from Christopher Fraser, Jonathan Gray, Theodore Hong, Farid Kurbanov,
+kyegupov, Shaun McDonald, Simon Nuttall, John Singleton, Colin Watson.
 
 Part of the development of this App has been funded by Cycling Scotland.
 
