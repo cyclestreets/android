@@ -6,6 +6,7 @@ buildscript {
   dependencies {
     classpath 'com.android.tools.build:gradle:3.1.2'
     classpath 'com.github.triplet.gradle:play-publisher:1.2.0'
+    classpath 'org.ajoberstar:grgit:2.2.0'
   }
 }
 
@@ -92,17 +93,20 @@ def manifestProperties(project) {
 } // manifestProperties
 
 def versionProperties(project) {
-  def versionDetails = project.file("version.properties")
-  def versionConfig = [ versionCode: "-1", versionName: "unknown" ]
-  if (versionDetails.exists())
-    versionConfig = loadProperties(versionDetails)
-  else
-    println ":${project.name}:No version.properties, using placeholder defaults"
+  // Get the version name.  We increment this manually after pushing beta releases to Production.
+  def versionProperties = project.file("version.properties")
+  vName = loadProperties(versionProperties)['versionName']
+
+  // For the numerical version code, we use the number of commits on the branch.  Since we don't
+  // intend to rewrite history on `master`, this will always be a monotonically increasing number.
+  def git = org.ajoberstar.grgit.Grgit.open()
+  def vCode = git.log().size()
+  println "Version name: ${vName}, code: ${vCode}"
 
   project.android {
     defaultConfig {
-      versionCode versionConfig['versionCode'].toInteger()
-      versionName versionConfig['versionName']
+      versionCode vCode
+      versionName vName
     }
   } // android
 } // versionProperties
