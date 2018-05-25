@@ -95,7 +95,7 @@ def manifestProperties(project) {
 def versionProperties(project) {
   // Get the version name.  We increment this manually after pushing beta releases to Production.
   def versionProperties = project.file("version.properties")
-  vName = loadProperties(versionProperties)['versionName']
+  def vName = loadProperties(versionProperties)['versionName']
 
   // For the numerical version code, we use the number of commits on the branch.  Since we don't
   // intend to rewrite history on `master`, this will always be a monotonically increasing number.
