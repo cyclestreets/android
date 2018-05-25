@@ -30,8 +30,8 @@ android:
 before_install:
   - ./ciLicense.sh
 
-script:
+install:
   - ./gradlew build
 
-after_success:
+script:
   - ./ciPublish.sh
