@@ -3,6 +3,10 @@
 sudo: false
 dist: trusty
 
+# Get the full commit history (required to derive our version code, see the root build.gradle)
+git:
+  depth: false
+
 language: android
 jdk:
   - oraclejdk8
