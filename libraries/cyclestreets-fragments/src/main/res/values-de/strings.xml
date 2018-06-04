@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+  <string name="navigation_drawer_open">Öffne Navigationsanzeige</string>
+  <string name="navigation_drawer_close">Schließe Navigationsanzeige</string>
+  <string name="app_name">CycleStreets</string>
+  <string name="settings">Einstellungen</string>
+  <string name="about">Über</string>
+  <string name="blog">Blog</string>
+  <string name="go">Finde Route</string>
+  <string name="addvia">Füge Wegpunkt hinzu</string>
+  <string name="blog_cyclestreets_update">CycleStreets-Blog-Update</string>
+  <string name="blog_update">Blog-Update</string>
+  <string name="rba_start">Starte Markierung</string>
+  <string name="rba_finish">Beende Markierung</string>
+  <string name="rba_waypoint">Wegpunkt %d</string>
+  <string name="confirm_new_route">Neue Tour starten?</string>
+
+  <!-- Map menu -->
+  <string name="ic_menu_directions">Tour planen</string>
+  <string name="menu_saved_routes">Gespeicherte Touren</string>
+  <string name="menu_route_by_number">Öffne Tour nach Zahl</string>
+  <string name="menu_find_place">Ort suchen</string>
+  <string name="ic_menu_settings">Einstellungen</string>
+  <string name="ic_menu_open">Öffnen</string>
+  <string name="ic_menu_rename">Umbenennen</string>
+  <string name="ic_menu_edit">Bearbeiten</string>
+  <string name="ic_menu_delete">Entfernen</string>
+
+  <string name="ic_menu_itinerary">Reiseplan</string>
+  <string name="ic_menu_elevation">Geländeprofil</string>
+
+  <!-- find place dialog -->
+  <string name="btn_find_place">Finden</string>
+  <string name="lbl_choose_place">Ort auswählen</string>
+
+  <string name="ic_menu_addlocation">Neuer Ort</string>
+  <string name="location_list_header">Füge einen neuen Ort mit dem Knopf oben hinzu.\nTippe und halte auf einen Ort in der Liste, um ihn zu bearbeiten oder zu entfernen.</string>
+
+  <string name="elevation_co2_saved">CO₂-Ersparnis</string>
+  <string name="elevation_calories_burned">Kalorien:</string>
+  <string name="elevation_estimated_time">Zeit:</string>
+  <string name="elevation_journey_number">Reisenummer:</string>
+  <!-- Do we really need the text "Fruit", Jez? :-) -->
+  <string name="elevation_fruit">Frucht:</string>
+  <string name="elevation_route">Tour</string>
+
+  <string name="findplace_name_or_address">Füge einen Namen oder eine Adresse ein</string>
+
+  <string name="itinerary_direction">Richtung</string>
+  <string name="itinerary_street">Straße</string>
+  <string name="itinerary_segment_distance">0m</string>
+  <string name="itinerary_segment_cumulative_distance">(0km)</string>
+  <string name="itinerary_not_available">Informationen zur Routenführung werden hier angezeigt\nwenn eine Tour geplant ist.</string>
+
+  <string name="location_editor_hint">Platziere eine Markierung auf die Karte und benenne dann den Ort.</string>
+  <string name="location_editor_name">Ortsname :</string>
+  <string name="routenumber_hint">Tournummer</string>
+
+  <string name="storedroutes_title_default">Tour</string>
+  <string name="storedroutes_detail_default">Details</string>
+  <string name="storedroutes_detail_format">%1$s Tour, %2$s</string>
+
+</resources>

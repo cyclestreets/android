@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+  <string-array name="units">
+    <item>Kilometer</item>
+    <item>Meilen</item>
+  </string-array>
+  <string-array name="speed">
+    <item>gemütlich 16km/h (10mph)</item>
+    <item>entspannt 20km/h (12mph)</item>
+    <item>zügig 24 km/h (15mph)</item>
+  </string-array>
+  <string-array name="routetype">
+    <item>ruhigste</item>
+    <item>ausgewogen</item>
+    <item>schnellste</item>
+    <item>kürzeste</item>
+  </string-array>
+  <string-array name="uploadsize">
+    <item>immer auf 640 Pixel Breite skalieren</item>
+    <item>volle Größe, wenn WLAN, 3,5G oder 4G verfügbar</item>
+    <item>volle Größe</item>
+  </string-array>
+  </resources>
