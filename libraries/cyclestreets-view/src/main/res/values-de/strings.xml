@@ -43,6 +43,7 @@
   <string name="photo_describe_hint">Foto beschreiben</string>
   <string name="photo_good_or_bad_hint">Ist dies ein Problem oder ein bewährtes Verfahren ?</string>
   <string name="photo_feature_type_hint">Welche Art der Funktion wird gezeigt?</string>
+  <string name="photo_could_not_load_categories">Konnte Kategorien der Fotokarte nicht laden. Bitte Netzwerkverbindung überprüfen.</string>
   <string name="photo_location_hint">Wo wurde dieses Photo aufgenommen?</string>
   <string name="photo_not_geolocatable_hint">Dieses Foto konnte nicht lokalisiert werden. Um Fotos automatisch zu lokalisieren, schalte \"Geolocation\" in den Kameraeinstellungen an.</string>
   <string name="photo_share">Teile dieses Photo</string>

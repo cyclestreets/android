@@ -34,7 +34,12 @@
   <string name="btn_find_place">Finden</string>
   <string name="lbl_choose_place">Ort auswählen</string>
 
+  <!-- live ride -->
+  <string name="ic_menu_liveride">Starte LiveRide</string>
+  <string name="ic_menu_stopride">Beende LiveRide</string>
   <string name="ic_menu_addlocation">Neuer Ort</string>
+  <string name="hello_blank_fragment">Hallo leeres Fragment</string>
+
   <string name="location_list_header">Füge einen neuen Ort mit dem Knopf oben hinzu.\nTippe und halte auf einen Ort in der Liste, um ihn zu bearbeiten oder zu entfernen.</string>
 
   <string name="elevation_co2_saved">CO₂-Ersparnis</string>
@@ -45,10 +50,13 @@
   <string name="elevation_fruit">Frucht:</string>
   <string name="elevation_route">Tour</string>
 
+  <string name="about_version_default">net.cyclestreets</string>
+
   <string name="findplace_name_or_address">Füge einen Namen oder eine Adresse ein</string>
 
   <string name="itinerary_direction">Richtung</string>
   <string name="itinerary_street">Straße</string>
+  <string name="itinerary_segment_time">00m00</string>
   <string name="itinerary_segment_distance">0m</string>
   <string name="itinerary_segment_cumulative_distance">(0km)</string>
   <string name="itinerary_not_available">Informationen zur Routenführung werden hier angezeigt\nwenn eine Tour geplant ist.</string>
