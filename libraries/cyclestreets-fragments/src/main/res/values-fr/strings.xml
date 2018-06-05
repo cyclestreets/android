@@ -38,7 +38,6 @@
   <string name="ic_menu_liveride">Démarrer en direct Tour</string>
   <string name="ic_menu_stopride">Terminer en direct Tour</string>
   <string name="ic_menu_addlocation">Nouvel emplacement</string>
-  <string name="hello_blank_fragment">Bonjour fragment vierge</string>
 
   <string name="location_list_header">Ajouter de nouveaux emplacements en utilisant le bouton ci-dessus.\nTouchez et maintenez un emplacement dans la liste pour modifier ou supprimer.</string>
 

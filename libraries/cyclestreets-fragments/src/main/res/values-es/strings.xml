@@ -38,7 +38,6 @@
   <string name="ic_menu_liveride">Comenzar Vuelta en Directo</string>
   <string name="ic_menu_stopride">Cerrar Vuelta en Directo</string>
   <string name="ic_menu_addlocation">Nueva Localización</string>
-  <string name="hello_blank_fragment">Hola fragmento en blanco</string>
 
   <string name="location_list_header">Añade nuevas localizaciones usando el botón de arriba.\nTocar y mantener en una localización en la lista para editar o eliminar.</string>
 

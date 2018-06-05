@@ -38,7 +38,6 @@
   <string name="ic_menu_liveride">LiveRide Başlangıç</string>
   <string name="ic_menu_stopride">LiveRide Sonu</string>
   <string name="ic_menu_addlocation">Yeni Konum</string>
-  <string name="hello_blank_fragment">Merhaba boş bölüm</string>
 
   <string name="location_list_header">Yukarıdaki düğmeyi kullanarak yeni konumlar ekle. \n Düzenlemek veya silmek için listedeki bir konuma dokunun ve basılı tutun.</string>
 

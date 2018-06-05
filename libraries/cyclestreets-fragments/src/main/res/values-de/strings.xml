@@ -38,7 +38,6 @@
   <string name="ic_menu_liveride">Starte LiveRide</string>
   <string name="ic_menu_stopride">Beende LiveRide</string>
   <string name="ic_menu_addlocation">Neuer Ort</string>
-  <string name="hello_blank_fragment">Hallo leeres Fragment</string>
 
   <string name="location_list_header">Füge einen neuen Ort mit dem Knopf oben hinzu.\nTippe und halte auf einen Ort in der Liste, um ihn zu bearbeiten oder zu entfernen.</string>
 
