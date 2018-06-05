@@ -50,8 +50,6 @@
   <string name="elevation_fruit">Meyve</string>
   <string name="elevation_route">güzergâh</string>
 
-  <string name="about_version_default">net.cyclestreets</string>
-
   <string name="findplace_name_or_address">Yer adı ya da adresi</string>
 
   <string name="itinerary_direction">yön</string>

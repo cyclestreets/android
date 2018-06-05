@@ -50,8 +50,6 @@
   <string name="elevation_fruit">Fruit</string>
   <string name="elevation_route">route</string>
 
-  <string name="about_version_default">net.cyclestreets</string>
-
   <string name="findplace_name_or_address">Placez le nom ou l\'adresse</string>
 
   <string name="itinerary_direction">direction</string>

@@ -50,8 +50,6 @@
   <string name="elevation_fruit">फल</string>
   <string name="elevation_route">मार्ग</string>
 
-  <string name="about_version_default">net.cyclestreets</string>
-
   <string name="findplace_name_or_address">नाम या पते की जगह</string>
 
   <string name="itinerary_direction">दिशा</string>

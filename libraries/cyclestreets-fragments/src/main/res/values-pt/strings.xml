@@ -50,9 +50,7 @@
     <string name="elevation_fruit">Fruta</string>
     <string name="elevation_route">Rota</string>
 
-    <string name="about_version_default">net.cyclestreets</string>
-
-    <string name="findplace_name_or_address">Nome ou endereço do local</string>
+      <string name="findplace_name_or_address">Nome ou endereço do local</string>
 
     <string name="itinerary_direction">caminho</string>
     <string name="itinerary_street">Rua</string>

@@ -46,8 +46,6 @@
   <string name="elevation_fruit">Frutta</string>
   <string name="elevation_route">percorso</string>
 
-  <string name="about_version_default">net.cyclestreets</string>
-
   <string name="findplace_name_or_address">Nome del luogo o indirizzo</string>
 
   <string name="itinerary_street">Strada</string>
