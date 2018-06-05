@@ -45,8 +45,6 @@
   <string name="elevation_calories_burned">Kalori:</string>
   <string name="elevation_estimated_time">Zaman:</string>
   <string name="elevation_journey_number">Seyahat numarası:</string>
-  <!-- Do we really need the text "Fruit", Jez? :-) -->
-  <string name="elevation_fruit">Meyve</string>
   <string name="elevation_route">güzergâh</string>
 
   <string name="findplace_name_or_address">Yer adı ya da adresi</string>

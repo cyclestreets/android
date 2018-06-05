@@ -8,7 +8,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:textSize="24dip"
-    android:text="@string/elevation_fruit"
+    android:text="@string/elevation_dummy_string"
     android:textStyle="bold"/>
   <LinearLayout
       android:orientation="horizontal"
@@ -27,7 +27,7 @@
         android:layout_width="0dp"
         android:layout_weight="1.4"
         android:textSize="@dimen/abc_text_size_title_material_toolbar"
-        android:text="@string/elevation_fruit"/>
+        android:text="@string/elevation_dummy_string"/>
   </LinearLayout>
   <LinearLayout
     android:orientation="horizontal"
@@ -45,7 +45,7 @@
       android:layout_width="0dp"
       android:layout_weight="1.4"
       android:textSize="@dimen/abc_text_size_title_material_toolbar"
-      android:text="@string/elevation_fruit"/>
+      android:text="@string/elevation_dummy_string"/>
   </LinearLayout>
   <LinearLayout
     android:orientation="horizontal"
@@ -63,7 +63,7 @@
       android:layout_width="0dp"
       android:layout_weight="1.4"
       android:textSize="@dimen/abc_text_size_title_material_toolbar"
-      android:text="@string/elevation_fruit"/>
+      android:text="@string/elevation_dummy_string"/>
   </LinearLayout>
   <LinearLayout
     android:orientation="horizontal"
@@ -81,7 +81,7 @@
       android:layout_width="0dp"
       android:layout_weight="1.4"
       android:textSize="@dimen/abc_text_size_title_material_toolbar"
-      android:text="@string/elevation_fruit"/>
+      android:text="@string/elevation_dummy_string"/>
   </LinearLayout>
   <LinearLayout
       android:orientation="horizontal"
@@ -99,6 +99,6 @@
         android:layout_width="0dp"
         android:layout_weight="1.4"
         android:textSize="@dimen/abc_text_size_title_material_toolbar"
-        android:text="@string/elevation_fruit"/>
+        android:text="@string/elevation_dummy_string"/>
   </LinearLayout>
 </LinearLayout>

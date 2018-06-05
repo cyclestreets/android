@@ -45,8 +45,6 @@
   <string name="elevation_calories_burned">Калории:</string>
   <string name="elevation_estimated_time">Время:</string>
   <string name="elevation_journey_number">Количество Путешествие:</string>
-  <!-- Do we really need the text "Fruit", Jez? :-) -->
-  <string name="elevation_fruit">Фрукты</string>
   <string name="elevation_route">маршрут</string>
 
   <string name="findplace_name_or_address">Поместите имя или адрес</string>

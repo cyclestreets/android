@@ -45,8 +45,7 @@
   <string name="elevation_calories_burned">Calories:</string>
   <string name="elevation_estimated_time">Time:</string>
   <string name="elevation_journey_number">Journey number:</string>
-  <!-- Do we really need the text "Fruit", Jez? :-) -->
-  <string name="elevation_fruit">Fruit</string>
+  <string name="elevation_dummy_string" translatable="false">Fruit</string>
   <string name="elevation_route">route</string>
 
   <string name="about_version_default" translatable="false">net.cyclestreets</string>
