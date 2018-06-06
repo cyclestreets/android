@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+  <string name="journey_current_speed">Aktuelle Geschwindigkeit:</string>
+  <string name="journey_time">Fahrtdauer:</string>
+  <string name="journey_distance">Entfernung:</string>
+  <string name="journey_finish_button">Ziel</string>
+
+  <string name="completedjourney_info">Reiseinfo</string>
+  <string name="completedjourney_start_time">Abfahrtszeit</string>
+  <string name="completedjourney_purpose">Zweck der Fahrt</string>
+
+  <string name="save_choose_purpose_hint">Aufnahme beendet. Bitte wähle den Zweck der Tour:</string>
+  <string name="save_purpose_commute">Arbeitsweg</string>
+  <string name="save_purpose_school">Schule</string>
+  <string name="save_purpose_work">Arbeitsbezogen</string>
+  <string name="save_purpose_exercise">Training</string>
+  <string name="save_purpose_social">Sozial</string>
+  <string name="save_purpose_shopping">Einkaufen</string>
+  <string name="save_purpose_errand">Besorgung</string>
+  <string name="save_purpose_other">Andere</string>
+  <string name="save_trip_comments_hint">Anmerkungen zu deiner Fahrt</string>
+  <string name="save_age">Alter:</string>
+  <string name="save_gender">Geschlecht:</string>
+
+  <!-- Note to translators: These three strings form the sentence "Level of cycling experience:" -->
+  <string name="save_level_of">Level von</string>
+  <string name="save_cycling">Radfahr-</string>
+  <string name="save_experience">Erfahrung:</string>
+
+  <string name="save_submit_button">senden</string>
+  <string name="save_discard_button">verwerfen</string>
+  <string name="savetrip_discarded">Fahrt verworfen.</string>
+  <string name="savetrip_no_purpose">Du musst einen Tourzweck vor der Übermittlung angeben! Wähle einen der obigen Zwecke.</string>
+  <string name="savetrip_purpose_commute"><![CDATA[<b>Pendler:</b> Diese Fahrradtour war primär dazu gedacht, zwischen deinen Wohnort und deinem Arbeitsplatz zu pendeln.]]></string>
+  <string name="savetrip_purpose_school"><![CDATA[<b>Schule</b> Diese Tour war primär dazu gedacht, zur Schule/Universität zu kommen oder zurück.]]></string>
+  <string name="savetrip_purpose_work_related"><![CDATA[<b>Arbeitsbezogen:</b> Diese Tour war primär dazu gedacht, von oder zu einem arbeitsbezogenen Meeting, anderen Funktion zu kommen oder Besorgungen für deinen Job zu erledigen.]]></string>
+  <string name="savetrip_purpose_exercise"><![CDATA[<b>Training:</b> Diese Tour war primär dazu gedacht, zu trainieren oder um des Radfahrens-wegen radzufahren.]]></string>
+  <string name="savetrip_purpose_social"><![CDATA[<b>Sozial:</b> Diese Tour war primär dazu gedacht, um von einer sozialen Aktivität zu kommen oder sich zu entfernen, bspw. zu dem Haus eines Freundes, in einen Park, Restaurant oder in ein Kinos.]]></string>
+  <string name="savetrip_purpose_shopping"><![CDATA[<b>Shopping:</b> Diese Tour war primär dazu gedacht, um Waren oder Lebensmittel zu kaufen oder nach Hause zu bringen.]]></string>
+  <string name="savetrip_purpose_errand"><![CDATA[<b>Errand:</b>Diese Tour war primär dazu gedacht, um persönlichen Geschäften nachzugehen, wie Bankbesuch, Doktor-Besuch, Fitnessstudio-Besuch.]]></string>
+  <string name="savetrip_purpose_other"><![CDATA[<b>Anderes:</b> Wenn keiner der obigen Gründe auf die Tour zutreffen, kannst du unten einen Kommentar eingeben, um uns mehr zu erzählen.]]></string>
+  <string name="savetrip_please_select">Bitte wähle</string>
+  <string name="savetrip_gender_prompt">Bitte gebe dein Geschlecht an</string>
+  <string name="savetrip_gender_male">männlich</string>
+  <string name="savetrip_gender_female">weiblich</string>
+  <string name="savetrip_gender_private">möchte es lieber nicht angeben</string>
+  <string name="savetrip_experience_prompt">Bitte gebe die Erfahrung an</string>
+  <string name="savetrip_experience_experienced">erfahren</string>
+  <string name="savetrip_experience_infrequent">unregelmäßig</string>
+  <string name="savetrip_experience_beginner">Anfänger</string>
+  <string name="savetrip_end_info_format">%1$1.1f Meilen, %2$d Minuten.  %3$s</string>
+
+</resources>

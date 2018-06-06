@@ -34,7 +34,6 @@
   <string name="ic_menu_liveride">Inizia LiveRide</string>
   <string name="ic_menu_stopride">Termina LiveRide</string>
   <string name="ic_menu_addlocation">Nuova Destinazione</string>
-  <string name="hello_blank_fragment">Hello blank fragment</string>
 
   <string name="location_list_header">Aggiungi una nuova località usando il pulsante qui sopra.\nTocca e tieni premuto su una località nella lista per modificarla o cancellarla.</string>
 
@@ -42,11 +41,7 @@
   <string name="elevation_calories_burned">Calorie:</string>
   <string name="elevation_estimated_time">Tempo:</string>
   <string name="elevation_journey_number">Itinerario numero:</string>
-  <!-- Do we really need the text "Fruit", Jez? :-) -->
-  <string name="elevation_fruit">Frutta</string>
   <string name="elevation_route">percorso</string>
-
-  <string name="about_version_default">net.cyclestreets</string>
 
   <string name="findplace_name_or_address">Nome del luogo o indirizzo</string>
 

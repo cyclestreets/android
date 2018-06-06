@@ -38,7 +38,6 @@
   <string name="ic_menu_liveride">Start LiveRide</string>
   <string name="ic_menu_stopride">End LiveRide</string>
   <string name="ic_menu_addlocation">New Location</string>
-  <string name="hello_blank_fragment">Hello blank fragment</string>
 
   <string name="location_list_header">Add new locations using the button above.\nTouch and hold a location in the list to edit or delete.</string>
 
@@ -46,11 +45,10 @@
   <string name="elevation_calories_burned">Calories:</string>
   <string name="elevation_estimated_time">Time:</string>
   <string name="elevation_journey_number">Journey number:</string>
-  <!-- Do we really need the text "Fruit", Jez? :-) -->
-  <string name="elevation_fruit">Fruit</string>
+  <string name="elevation_dummy_string" translatable="false">Fruit</string>
   <string name="elevation_route">route</string>
 
-  <string name="about_version_default">net.cyclestreets</string>
+  <string name="about_version_default" translatable="false">net.cyclestreets</string>
 
   <string name="findplace_name_or_address">Place name or address</string>
 
