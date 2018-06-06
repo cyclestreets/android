@@ -32,13 +32,3 @@ dependencies {
   testImplementation 'org.robolectric:robolectric:3.3.2'
   testImplementation 'commons-io:commons-io:2.5'
 }
-
-def buildNumber = {
-  System.getenv("BUILD_IDENTIFIER") ?: "local-build"
-}()
-
-android {
-  defaultConfig {
-    buildConfigField 'String', 'BUILD_IDENTIFIER', "\"${buildNumber}\""
-  }
-}
