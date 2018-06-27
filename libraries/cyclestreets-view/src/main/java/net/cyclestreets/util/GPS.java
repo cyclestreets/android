@@ -10,8 +10,7 @@ public final class GPS
 {
   static private Boolean hasGps_;
 
-  static public boolean deviceHasGPS(final Context context)
-  {
+  static public boolean deviceHasGPS(final Context context)  {
     if (hasGps_ == null) {
       final PackageManager pm = context.getPackageManager();
       hasGps_ = pm.hasSystemFeature(PackageManager.FEATURE_LOCATION_GPS);
@@ -19,14 +18,12 @@ public final class GPS
     return hasGps_;
   }
 
-  static public boolean isOn(final Context context)
-  {
+  static public boolean isOn(final Context context)  {
     final LocationManager service = (LocationManager)context.getSystemService(Context.LOCATION_SERVICE);
     return service.isProviderEnabled(LocationManager.GPS_PROVIDER);
   }
 
-  static public void showSettings(final Context context)
-  {
+  static public void showSettings(final Context context)  {
     final Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
     context.startActivity(intent);
   }

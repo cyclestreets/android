@@ -8,15 +8,13 @@ import android.content.Context;
 
 final class Stopped extends LiveRideState
 {
-  Stopped(final Context context, final PebbleNotifier pebbleNotifier)
-  {
+  Stopped(final Context context, final PebbleNotifier pebbleNotifier)  {
     super(context, pebbleNotifier, null);
     cancelNotification();
   }
 
   @Override
-  public LiveRideState update(Journey journey, GeoPoint whereIam, int accuracy)
-  {
+  public LiveRideState update(Journey journey, GeoPoint whereIam, int accuracy)  {
     return this;
   }
 

@@ -16,8 +16,7 @@ import android.widget.RelativeLayout;
 
 public class LiveRideActivity extends Activity
 {
-  static public void launch(final Context context)
-  {
+  static public void launch(final Context context)  {
     if (!GPS.isOn(context)) {
       MessageBox.YesNo(context,
                        "LiveRide needs the GPS location service.\n\nWould you like to turn it on now?",
@@ -31,8 +30,7 @@ public class LiveRideActivity extends Activity
     launchActivity(context);
   }
 
-  static private void launchActivity(final Context context)
-  {
+  static private void launchActivity(final Context context)  {
     final Intent intent = new Intent(context, LiveRideActivity.class);
     context.startActivity(intent);
   }
@@ -42,8 +40,7 @@ public class LiveRideActivity extends Activity
   private PebbleNotifier notifier_;
 
   @Override
-  public void onCreate(final Bundle saved)
-  {
+  public void onCreate(final Bundle saved)  {
     super.onCreate(saved);
 
     // Map initialized in onResume
@@ -51,8 +48,7 @@ public class LiveRideActivity extends Activity
 
   //////////////////////////
   @Override
-  public void onPause()
-  {
+  public void onPause()  {
     map_.disableFollowLocation();
     map_.onPause();
 
@@ -60,8 +56,7 @@ public class LiveRideActivity extends Activity
   }
 
   @Override
-  public void onResume()
-  {
+  public void onResume()  {
     super.onResume();
 
     // Map needs to be recreated, because tile provider is shut down on CycleMapView.onPause

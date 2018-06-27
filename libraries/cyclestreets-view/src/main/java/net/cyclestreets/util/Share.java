@@ -10,24 +10,21 @@ public class Share
   static public void Url(final Activity activity,
                final String url,
                    final String caption,
-                   final String title)
-  {
+                   final String title)  {
     do_url(activity, url, caption, title);
   }
 
   static public void Url(final View view,
                final String url,
                final String caption,
-               final String title)
-  {
+               final String title)  {
     do_url(view.getContext(), url, caption, title);
   }
 
   static private void do_url(final Context context,
                  final String url,
                  final String caption,
-                 final String title)
-  {
+                 final String title)  {
     final Intent share = new Intent(Intent.ACTION_SEND);
     share.setType("text/plain");
     share.putExtra(Intent.EXTRA_TEXT, url + " - " + caption);

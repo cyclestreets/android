@@ -21,16 +21,14 @@ public abstract class LiveRideState
   private static final int NOTIFICATION_ID = 1;
   private final PebbleNotifier pebbleNotifier_;
 
-  static public LiveRideState InitialState(final Context context, final PebbleNotifier pebbleNotifier)
-  {
+  static public LiveRideState InitialState(final Context context, final PebbleNotifier pebbleNotifier)  {
     final TextToSpeech tts = new TextToSpeech(context,
           new TextToSpeech.OnInitListener() { public void onInit(int arg0) { } }
     );
     return new LiveRideStart(context, pebbleNotifier, tts);
   }
 
-  static public LiveRideState StoppedState(final Context context, PebbleNotifier pebbleNotifier)
-  {
+  static public LiveRideState StoppedState(final Context context, PebbleNotifier pebbleNotifier)  {
     return new Stopped(context, pebbleNotifier);
   }
   //////////////////////////////////////////
@@ -39,8 +37,7 @@ public abstract class LiveRideState
   private String title_;
   private TextToSpeech tts_;
 
-  protected LiveRideState(final Context context, final PebbleNotifier pebbleNotifier, final TextToSpeech tts)
-  {
+  protected LiveRideState(final Context context, final PebbleNotifier pebbleNotifier, final TextToSpeech tts)  {
     context_ = context;
     pebbleNotifier_ = pebbleNotifier;
     tts_ = tts;
@@ -48,8 +45,7 @@ public abstract class LiveRideState
     Log.d("CS_PEBBLE LRS", "New State: " + this.getClass().getSimpleName());
   }
 
-  protected LiveRideState(final LiveRideState state)
-  {
+  protected LiveRideState(final LiveRideState state)  {
     context_ = state.context();
     pebbleNotifier_ = state.getPebbleNotifier();
     tts_ = state.tts();
@@ -66,8 +62,7 @@ public abstract class LiveRideState
     return pebbleNotifier_;
   }
 
-  protected void notify(final Segment seg)
-  {
+  protected void notify(final Segment seg)  {
     notification(seg.street() + " " + seg.distance(), seg.toString());
 
     final StringBuilder instruction = new StringBuilder();
@@ -79,19 +74,16 @@ public abstract class LiveRideState
     getPebbleNotifier().notify(this, seg);
   }
 
-  protected void notify(final String text)
-  {
+  protected void notify(final String text)  {
     notify(text, text);
   }
 
-  protected void notify(final String text, final String ticker)
-  {
+  protected void notify(final String text, final String ticker)  {
     notification(text, ticker);
     speak(text);
   }
 
-  private void notification(final String text, final String ticker)
-  {
+  private void notification(final String text, final String ticker)  {
     final NotificationManager nm = nm();
     final Intent notificationIntent = new Intent(context(), LiveRideActivity.class);
     final PendingIntent contentIntent = PendingIntent.getActivity(context(), 0, notificationIntent, PendingIntent.FLAG_CANCEL_CURRENT);
@@ -110,18 +102,15 @@ public abstract class LiveRideState
     nm.notify(NOTIFICATION_ID, notification);
   }
 
-  protected void cancelNotification()
-  {
+  protected void cancelNotification()  {
     nm().cancel(NOTIFICATION_ID);
   }
 
-  private NotificationManager nm()
-  {
+  private NotificationManager nm()  {
     return (NotificationManager)context().getSystemService(Context.NOTIFICATION_SERVICE);
   }
 
-  private void speak(final String words)
-  {
+  private void speak(final String words)  {
     String toSpeak = words.replace("LiveRide", "Live Ride");
 
     if (getPebbleNotifier().isConnected()) {

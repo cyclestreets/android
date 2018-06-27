@@ -487,8 +487,7 @@ public class Base64
                      | ( numSigBytes > 1 ? ((source[ srcOffset + 1 ] << 24) >>> 16) : 0 )
                      | ( numSigBytes > 2 ? ((source[ srcOffset + 2 ] << 24) >>> 24) : 0 );
 
-        switch( numSigBytes )
-        {
+        switch( numSigBytes )  {
             case 3:
                 destination[ destOffset     ] = ALPHABET[ (inBuff >>> 18)        ];
                 destination[ destOffset + 1 ] = ALPHABET[ (inBuff >>> 12) & 0x3f ];
@@ -905,8 +904,7 @@ public class Base64
                 encode3to4( source, d+off, 3, outBuff, e, options );
 
                 lineLength += 4;
-                if ( breakLines && lineLength >= MAX_LINE_LENGTH )
-                {
+                if ( breakLines && lineLength >= MAX_LINE_LENGTH )  {
                     outBuff[e+4] = NEW_LINE;
                     e++;
                     lineLength = 0;
@@ -1393,8 +1391,7 @@ public class Base64
 
         byte[] decodedData = null;
         Base64.InputStream bis = null;
-        try
-        {
+        try  {
             // Set up some useful variables
             java.io.File file = new java.io.File( filename );
             byte[] buffer = null;
@@ -1402,8 +1399,7 @@ public class Base64
             int numBytes = 0;
 
             // Check for size of file
-            if ( file.length() > Integer.MAX_VALUE )
-            {
+            if ( file.length() > Integer.MAX_VALUE )  {
                 throw new java.io.IOException( "File is too big for this convenience method (" + file.length() + " bytes)." );
             }   // end if: file too big for int index
             buffer = new byte[ (int)file.length() ];
@@ -1452,8 +1448,7 @@ public class Base64
 
         String encodedData = null;
         Base64.InputStream bis = null;
-        try
-        {
+        try  {
             // Set up some useful variables
             java.io.File file = new java.io.File( filename );
             byte[] buffer = new byte[ Math.max((int)(file.length() * 1.4+1),40) ]; // Need max() for math on small files (v2.2.1); Need +1 for a few corner cases (v2.3.5)

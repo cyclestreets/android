@@ -19,8 +19,7 @@ public class GeoAdapter extends ArrayAdapter<GeoPlace>
 
   private final LayoutInflater inflater;
 
-  protected GeoAdapter(final Context context)
-  {
+  protected GeoAdapter(final Context context)  {
     super(context, AdapterViewId);
     inflater = LayoutInflater.from(context);
   }
@@ -28,8 +27,7 @@ public class GeoAdapter extends ArrayAdapter<GeoPlace>
   @Override
   public View getView(int position,
             final View convertView,
-            final ViewGroup parent)
-  {
+            final ViewGroup parent)  {
     final View row = inflater.inflate(AdapterViewId, parent, false);
     final GeoPlace p = getItem(position);
 
@@ -39,14 +37,12 @@ public class GeoAdapter extends ArrayAdapter<GeoPlace>
     return row;
   }
 
-  private void setText(final View parent, final int id, final String text)
-  {
+  private void setText(final View parent, final int id, final String text)  {
     ((TextView)parent.findViewById(id)).setText(text);
   }
 
   protected GeoPlaces geoCode(final String search,
-                              final BoundingBox bounds)
-  {
+                              final BoundingBox bounds)  {
     try {
       return GeoPlaces.search(search, bounds);
     }
@@ -55,8 +51,7 @@ public class GeoAdapter extends ArrayAdapter<GeoPlace>
     }
   }
 
-  protected void addAll(final List<GeoPlace> list)
-  {
+  protected void addAll(final List<GeoPlace> list)  {
     for(final GeoPlace p : list)
       add(p);
   }

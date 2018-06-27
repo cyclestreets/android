@@ -10,8 +10,7 @@ import android.provider.ContactsContract;
 
 public class Contacts
 {
-  static public List<Contact> load(final Context context)
-  {
+  static public List<Contact> load(final Context context)  {
     final List<Contact> contacts = new ArrayList<>();
 
     final String[] projection = new String[] {
@@ -73,8 +72,7 @@ public class Contacts
     return contacts;
   }
 
-  private static String displayName(final Context context, final String contactId)
-  {
+  private static String displayName(final Context context, final String contactId)  {
     final String[] projection = new String[] {
         ContactsContract.Contacts.DISPLAY_NAME
     };

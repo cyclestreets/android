@@ -19,8 +19,7 @@ public class POI
              final String notes,
              final String url,
              final double lat,
-             final double lon)
-  {
+             final double lon)  {
     id_ = id;
     name_ = name;
     notes_ = notes;

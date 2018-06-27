@@ -10,8 +10,7 @@ public class RouteData
 
   public RouteData(final String xml,
                    final Waypoints points,
-                   final String name)
-  {
+                   final String name)  {
     xml_ = xml;
     points_ = points;
     name_ = name;

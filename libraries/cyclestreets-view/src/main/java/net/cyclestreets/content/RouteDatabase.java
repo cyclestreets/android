@@ -18,14 +18,12 @@ public class RouteDatabase
 {
   private final SQLiteDatabase db_;
 
-  public RouteDatabase(final Context context)
-  {
+  public RouteDatabase(final Context context)  {
     DatabaseHelper dh = new DatabaseHelper(context);
     db_ = dh.getWritableDatabase();
   }
 
-  public int routeCount()
-  {
+  public int routeCount()  {
     final Cursor cursor = db_.query(DatabaseHelper.ROUTE_TABLE,
         new String[] { "count(" + BaseColumns._ID +")" },
                        null,
@@ -35,8 +33,7 @@ public class RouteDatabase
                        null);
     int c = 0;
     if (cursor.moveToFirst())
-      do
-      {
+      do  {
         c = cursor.getInt(0);
       }
       while (cursor.moveToNext());
@@ -48,8 +45,7 @@ public class RouteDatabase
   }
 
   public void saveRoute(final Journey journey,
-                        final String xml)
-  {
+                        final String xml)  {
     if (route(journey.itinerary(), journey.plan()) == null)
       addRoute(journey, xml);
     else
@@ -57,8 +53,7 @@ public class RouteDatabase
   }
 
   private void addRoute(final Journey journey,
-                        final String xml)
-  {
+                        final String xml)  {
     final String ROUTE_TABLE_INSERT =
           "INSERT INTO route (journey, name, plan, distance, waypoints, xml, last_used) " +
           "  VALUES(?, ?, ?, ?, ?, ?, datetime())";
@@ -73,8 +68,7 @@ public class RouteDatabase
     insertRoute.executeInsert();
   }
 
-  private void updateRoute(final Journey journey)
-  {
+  private void updateRoute(final Journey journey)  {
     final String ROUTE_TABLE_UPDATE =
       "UPDATE route SET last_used = datetime() WHERE journey = ? and plan = ?";
 
@@ -84,8 +78,7 @@ public class RouteDatabase
     update.execute();
   }
 
-  public void renameRoute(final int localId, final String newName)
-  {
+  public void renameRoute(final int localId, final String newName)  {
     final String ROUTE_TABLE_RENAME =
       "UPDATE route SET name = ? WHERE " + BaseColumns._ID + " = ?";
     final SQLiteStatement update = db_.compileStatement(ROUTE_TABLE_RENAME);
@@ -94,8 +87,7 @@ public class RouteDatabase
     update.execute();
   }
 
-  public void deleteRoute(final int localId)
-  {
+  public void deleteRoute(final int localId)  {
     final String ROUTE_TABLE_DELETE =
       "DELETE FROM route WHERE " + BaseColumns._ID + " = ?";
 
@@ -104,8 +96,7 @@ public class RouteDatabase
     delete.execute();
   }
 
-  public List<RouteSummary> savedRoutes()
-  {
+  public List<RouteSummary> savedRoutes()  {
     final List<RouteSummary> routes = new ArrayList<>();
     final Cursor cursor = db_.query(DatabaseHelper.ROUTE_TABLE,
         new String[] { BaseColumns._ID, "journey", "name", "plan", "distance" },
@@ -115,8 +106,7 @@ public class RouteDatabase
                         null,
                         "last_used desc");
     if (cursor.moveToFirst())
-      do
-      {
+      do  {
         routes.add(new RouteSummary(cursor.getInt(0),
                                     cursor.getInt(1),
                                     cursor.getString(2),
@@ -131,20 +121,17 @@ public class RouteDatabase
     return routes;
   }
 
-  public RouteData route(final int localId)
-  {
+  public RouteData route(final int localId)  {
     return fetchRoute(BaseColumns._ID + "=?",
                 new String[] { Integer.toString(localId) });
   }
 
-  public RouteData route(final int itinerary, final String plan)
-  {
+  public RouteData route(final int itinerary, final String plan)  {
     return fetchRoute("journey=? and plan=?",
                   new String[] { Integer.toString(itinerary), plan });
   }
 
-  private RouteData fetchRoute(final String filter, final String[] bindParams)
-  {
+  private RouteData fetchRoute(final String filter, final String[] bindParams)  {
     RouteData r = null;
     final Cursor cursor = db_.query(DatabaseHelper.ROUTE_TABLE,
                   new String[] { "xml",
@@ -156,8 +143,7 @@ public class RouteDatabase
                         null,
                         null);
     if (cursor.moveToFirst())
-      do
-      {
+      do  {
         r = new RouteData(cursor.getString(0),
                           expandWaypoints(cursor.getString(1)),
                           cursor.getString(2));
@@ -170,11 +156,9 @@ public class RouteDatabase
     return r;
   }
 
-  private String flattenWaypoints(final Waypoints waypoints)
-  {
+  private String flattenWaypoints(final Waypoints waypoints)  {
     final StringBuilder sb = new StringBuilder();
-    for(final IGeoPoint waypoint : waypoints)
-    {
+    for(final IGeoPoint waypoint : waypoints)  {
       if (sb.length() != 0)
         sb.append('|');
       sb.append(waypoint.getLatitudeE6())
@@ -184,11 +168,9 @@ public class RouteDatabase
     return sb.toString();
   }
 
-  private Waypoints expandWaypoints(final String str)
-  {
+  private Waypoints expandWaypoints(final String str)  {
     final Waypoints points = new Waypoints();
-    for(final String coords : str.split("\\|"))
-    {
+    for(final String coords : str.split("\\|"))  {
       final String[] latlon = coords.split(",");
       final double lat = Long.parseLong(latlon[0])/1E6;
       final double lon = Long.parseLong(latlon[1])/1E6;

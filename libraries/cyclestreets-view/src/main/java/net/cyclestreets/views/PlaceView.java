@@ -6,13 +6,11 @@ import android.util.AttributeSet;
 
 public class PlaceView extends PlaceViewBase
 {
-  public PlaceView(final Context context)
-  {
+  public PlaceView(final Context context)  {
     this(context, null);
   }
 
-  public PlaceView(final Context context, final AttributeSet attrs)
-  {
+  public PlaceView(final Context context, final AttributeSet attrs)  {
     super(context, R.layout.placetextview, attrs);
   }
 }

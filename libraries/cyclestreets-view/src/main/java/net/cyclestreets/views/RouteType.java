@@ -16,7 +16,6 @@ public class RouteType extends LinearLayout {
   private final String[] plans_;
 
   public RouteType(final Context context)
-
   {
     this(context, null);
   }

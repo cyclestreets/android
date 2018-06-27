@@ -10,15 +10,13 @@ final class HuntForSegment extends LiveRideState
 {
   private int waitToSettle_;
 
-  HuntForSegment(final LiveRideState state)
-  {
+  HuntForSegment(final LiveRideState state)  {
     super(state);
     waitToSettle_ = 5;
   }
 
   @Override
-  public LiveRideState update(Journey journey, GeoPoint whereIam, int accuracy)
-  {
+  public LiveRideState update(Journey journey, GeoPoint whereIam, int accuracy)  {
     if (waitToSettle_ > 0) {
       --waitToSettle_;
       return this;
@@ -27,11 +25,9 @@ final class HuntForSegment extends LiveRideState
     Segment nearestSeg = null;
     int distance = Integer.MAX_VALUE;
 
-    for(final Segment seg : journey.segments())
-    {
+    for(final Segment seg : journey.segments())  {
       int from = seg.distanceFrom(whereIam);
-      if (from < distance)
-      {
+      if (from < distance)  {
         distance = from;
         nearestSeg = seg;
       }

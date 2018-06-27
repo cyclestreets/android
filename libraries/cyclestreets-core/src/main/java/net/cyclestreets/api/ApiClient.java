@@ -151,8 +151,7 @@ public class ApiClient
 
   /////////////////////////////////////////////////////
   /////////////////////////////////////////////////////
-  private static String itineraryPoints(final double... lonLat)
-  {
+  private static String itineraryPoints(final double... lonLat)  {
     final StringBuilder sb = new StringBuilder();
     for(int i = 0; i != lonLat.length; i += 2) {
       if (i != 0)

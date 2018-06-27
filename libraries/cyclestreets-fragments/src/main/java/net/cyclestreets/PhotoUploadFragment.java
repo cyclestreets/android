@@ -62,8 +62,7 @@ import static net.cyclestreets.util.MenuHelper.enableMenuItem;
 public class PhotoUploadFragment extends Fragment
                 implements View.OnClickListener, LocationListener, Undoable
 {
-  public enum AddStep
-  {
+  public enum AddStep  {
     PHOTO(null),
     CAPTION(PHOTO),
     CATEGORY(CAPTION),
@@ -71,8 +70,7 @@ public class PhotoUploadFragment extends Fragment
     VIEW(LOCATION),
     DONE(VIEW);
 
-    AddStep(AddStep p)
-    {
+    AddStep(AddStep p)  {
       prev_ = p;
       if (prev_ != null)
         prev_.next_ = this;
@@ -87,16 +85,14 @@ public class PhotoUploadFragment extends Fragment
     private AddStep prev_;
     private AddStep next_;
 
-    public static AddStep fromInt(int a)
-    {
+    public static AddStep fromInt(int a)  {
       for(AddStep s : Value_.keySet())
         if (s.value() == a)
           return s;
       return null;
     }
 
-    private static void save(AddStep a)
-    {
+    private static void save(AddStep a)  {
       if (Value_ == null)
         Value_ = new HashMap<>();
       Value_.put(a, Value_.size());
@@ -141,8 +137,7 @@ public class PhotoUploadFragment extends Fragment
   @Override
   public View onCreateView(final LayoutInflater inflater,
                            final ViewGroup container,
-                           final Bundle savedInstanceState)
-  {
+                           final Bundle savedInstanceState)  {
     super.onCreate(savedInstanceState);
 
     final String metaData = photoUploadMetaData();
@@ -161,16 +156,14 @@ public class PhotoUploadFragment extends Fragment
     metaCatId_ = -1;
     catId_ = -1;
 
-    photoView_ = inflater_.inflate(R.layout.addphotostart, null);
-    {
+    photoView_ = inflater_.inflate(R.layout.addphotostart, null);  {
       final Button takePhoto = (Button)photoView_.findViewById(R.id.takephoto_button);
       if (getActivity().getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA))
         takePhoto.setOnClickListener(this);
       else
         takePhoto.setEnabled(false);
     }
-    photoView_.findViewById(R.id.chooseexisting_button).setOnClickListener(this);
-    {
+    photoView_.findViewById(R.id.chooseexisting_button).setOnClickListener(this);  {
       final Button textOnly = (Button)photoView_.findViewById(R.id.textonly_button);
       if (allowTextOnly_)
         textOnly.setOnClickListener(this);
@@ -226,14 +219,12 @@ public class PhotoUploadFragment extends Fragment
     }
   }
 
-  private void setContentView(final View child)
-  {
+  private void setContentView(final View child)  {
     photoRoot_.removeAllViewsInLayout();
     photoRoot_.addView(child);
   }
 
-  private void store()
-  {
+  private void store()  {
     final SharedPreferences.Editor edit = prefs().edit();
     edit.putInt("STEP", step_.value());
     edit.putString("PHOTOFILE", photoFile_);
@@ -244,15 +235,13 @@ public class PhotoUploadFragment extends Fragment
   }
 
   @Override
-  public void onPause()
-  {
+  public void onPause()  {
     final SharedPreferences.Editor edit = prefs().edit();
     edit.putString("CAPTION", captionText());
     edit.putInt("METACAT", metaCategoryId());
     edit.putInt("CATEGORY", categoryId());
     final IGeoPoint p = there_.there();
-    if (p != null)
-    {
+    if (p != null)  {
       edit.putInt("THERE-LAT", p.getLatitudeE6());
       edit.putInt("THERE-LON", p.getLongitudeE6());
     }
@@ -270,8 +259,7 @@ public class PhotoUploadFragment extends Fragment
   private final long fiveMinutes = 5 * 60 * 1000;
 
   @Override
-  public void onResume()
-  {
+  public void onResume()  {
     try {
       doOnResume();
     }
@@ -283,8 +271,7 @@ public class PhotoUploadFragment extends Fragment
     setupView();
   }
 
-  private void doOnResume()
-  {
+  private void doOnResume()  {
     final SharedPreferences prefs = prefs();
 
     step_ = AddStep.fromInt(prefs.getInt("STEP", 0));
@@ -313,29 +300,25 @@ public class PhotoUploadFragment extends Fragment
       step_ = AddStep.fromInt(0);
   }
 
-  private SharedPreferences prefs()
-  {
+  private SharedPreferences prefs()  {
     return getActivity().getSharedPreferences("net.cyclestreets.AddPhotoActivity", Context.MODE_PRIVATE);
   }
 
   ///////////////////////////////////////////////////////////////////
   @Override
-  public void onCreateOptionsMenu(final Menu menu, final MenuInflater inflater)
-  {
+  public void onCreateOptionsMenu(final Menu menu, final MenuInflater inflater)  {
     createMenuItem(menu, R.string.all_menu_restart, Menu.NONE, R.drawable.ic_menu_rotate);
     createMenuItem(menu, R.string.all_menu_back, Menu.NONE, R.drawable.ic_menu_revert);
   }
 
   @Override
-  public void onPrepareOptionsMenu(final Menu menu)
-  {
+  public void onPrepareOptionsMenu(final Menu menu)  {
     enableMenuItem(menu, R.string.all_menu_restart, step_ != AddStep.PHOTO);
     enableMenuItem(menu, R.string.all_menu_back, step_ != AddStep.PHOTO && step_ != AddStep.VIEW);
   }
 
   @Override
-  public boolean onOptionsItemSelected(final MenuItem item)
-  {
+  public boolean onOptionsItemSelected(final MenuItem item)  {
     final int menuItem = item.getItemId();
 
     if (R.string.all_menu_restart == menuItem) {
@@ -354,10 +337,8 @@ public class PhotoUploadFragment extends Fragment
 
   ///////////////////////////////////////////////////////////////////
   @Override
-  public boolean onBackPressed()
-  {
-    if (step_ == AddStep.PHOTO || step_ == AddStep.VIEW)
-    {
+  public boolean onBackPressed()  {
+    if (step_ == AddStep.PHOTO || step_ == AddStep.VIEW)  {
       step_ = AddStep.PHOTO;
       store();
 
@@ -371,10 +352,8 @@ public class PhotoUploadFragment extends Fragment
     return true;
   }
 
-  private void nextStep()
-  {
-    if ((step_ == AddStep.LOCATION) && (there_.there() == null))
-    {
+  private void nextStep()  {
+    if ((step_ == AddStep.LOCATION) && (there_.there() == null))  {
       Toast.makeText(getActivity(), "Please set photo location", Toast.LENGTH_LONG).show();
       return;
     }
@@ -385,10 +364,8 @@ public class PhotoUploadFragment extends Fragment
     setupView();
   }
 
-  private void setupView()
-  {
-    switch(step_)
-    {
+  private void setupView()  {
+    switch(step_)  {
     case PHOTO:
       metaCategorySpinner().setSelection(0);
       categorySpinner().setSelection(0);
@@ -431,8 +408,7 @@ public class PhotoUploadFragment extends Fragment
       }
       break;
     case VIEW:
-      setContentView(photoWebView_);
-      {
+      setContentView(photoWebView_);  {
         final TextView text = (TextView)photoWebView_.findViewById(R.id.photo_text);
         text.setText(caption_);
         final TextView url = (TextView)photoWebView_.findViewById(R.id.photo_url);
@@ -456,8 +432,7 @@ public class PhotoUploadFragment extends Fragment
     hookUpNext();
   }
 
-  private void previewPhoto()
-  {
+  private void previewPhoto()  {
     final ImageView iv = (ImageView)photoRoot_.findViewById(R.id.photo);
     if (iv == null)
       return;
@@ -475,8 +450,7 @@ public class PhotoUploadFragment extends Fragment
     iv.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
   }
 
-  private void hookUpNext()
-  {
+  private void hookUpNext()  {
     final Button b = (Button)photoRoot_.findViewById(R.id.back);
     if (b != null)
       b.setOnClickListener(this);
@@ -490,8 +464,7 @@ public class PhotoUploadFragment extends Fragment
   }
 
   private EditText captionEditor() { return (EditText)photoCaption_.findViewById(R.id.caption); }
-  private String captionText()
-  {
+  private String captionText()  {
     if (photoCaption_ == null)
       return caption_;
     imm_.hideSoftInputFromWindow(captionEditor().getWindowToken(), 0);
@@ -502,16 +475,14 @@ public class PhotoUploadFragment extends Fragment
   private Spinner metaCategorySpinner() { return (Spinner)photoCategory_.findViewById(R.id.metacat); }
   private Spinner categorySpinner() { return (Spinner)photoCategory_.findViewById(R.id.category); }
 
-  private void setupSpinners()
-  {
+  private void setupSpinners()  {
     metaCategorySpinner().setAdapter(new CategoryAdapter(getActivity(), photomapCategories.metaCategories()));
     categorySpinner().setAdapter(new CategoryAdapter(getActivity(), photomapCategories.categories()));
 
     setSpinnerSelections();
   }
 
-  private void setSpinnerSelections()
-  {
+  private void setSpinnerSelections()  {
     // ids == position
     if (metaCatId_ != -1)
       metaCategorySpinner().setSelection(metaCatId_);
@@ -519,16 +490,14 @@ public class PhotoUploadFragment extends Fragment
       categorySpinner().setSelection(catId_);
   }
 
-  private void setupMap()
-  {
+  private void setupMap()  {
     final RelativeLayout v = (RelativeLayout)(photoLocation_.findViewById(R.id.mapholder));
 
     if (map_ != null) {
       map_.onPause();
       ((RelativeLayout)map_.getParent()).removeView(map_);
     }
-    else
-    {
+    else  {
       map_ = new CycleMapView(getActivity(), this.getClass().getName());
       map_.overlayPushTop(there_);
     }
@@ -540,8 +509,7 @@ public class PhotoUploadFragment extends Fragment
   }
 
   @Override
-  public void onClick(final View v)
-  {
+  public void onClick(final View v)  {
     int clicked = v.getId();
 
     if (R.id.takephoto_button == clicked)
@@ -587,8 +555,7 @@ public class PhotoUploadFragment extends Fragment
   }
 
   @Override
-  public void onSetLocation(IGeoPoint point)
-  {
+  public void onSetLocation(IGeoPoint point)  {
     final Button u = (Button)photoLocation_.findViewById(R.id.next);
     u.setEnabled(point != null);
   }
@@ -596,13 +563,11 @@ public class PhotoUploadFragment extends Fragment
   @Override
   public void onActivityResult(final int requestCode,
                                final int resultCode,
-                               final Intent data)
-  {
+                               final Intent data)  {
     if (resultCode != Activity.RESULT_OK)
       return;
 
-    try
-    {
+    try  {
       /*
       String url = intent.getData().toString();
 Bitmap bitmap = null;
@@ -627,8 +592,7 @@ if (url.startsWith("content://com.google.android.apps.photos.content")){
 
       nextStep();
     }
-    catch (Exception e)
-    {
+    catch (Exception e)  {
       Toast.makeText(getActivity(), "There was a problem grabbing the photo : " + e.getMessage(), Toast.LENGTH_LONG).show();
       if (requestCode == TakePhoto)
         startActivityForResult(new Intent(Intent.ACTION_PICK,
@@ -637,38 +601,31 @@ if (url.startsWith("content://com.google.android.apps.photos.content")){
     }
   }
 
-  private String getImageFilePath(final Intent data)
-  {
+  private String getImageFilePath(final Intent data)  {
     final Uri selectedImage = data.getData();
     final String[] filePathColumn = { MediaStore.Images.Media.DATA };
 
     final Cursor cursor = getActivity().getContentResolver().query(selectedImage, filePathColumn, null, null, null);
-    try
-    {
+    try  {
       cursor.moveToFirst();
       return cursor.getString(cursor.getColumnIndex(filePathColumn[0]));
     }
-    finally
-    {
+    finally  {
       cursor.close();
     }
   }
 
-  private void upload()
-  {
-    try
-    {
+  private void upload()  {
+    try  {
       doUpload();
     }
-    catch (Exception e)
-    {
+    catch (Exception e)  {
       Toast.makeText(getActivity(), R.string.photo_could_not_upload, Toast.LENGTH_LONG).show();
       step_ = AddStep.LOCATION;
     }
   }
 
-  private void doUpload() throws Exception
-  {
+  private void doUpload() throws Exception  {
     final String filename = photoFile_;
     final String username = CycleStreetsPreferences.username();
     final String password = CycleStreetsPreferences.password();
@@ -690,14 +647,12 @@ if (url.startsWith("content://com.google.android.apps.photos.content")){
     uploader.execute();
   }
 
-  private void uploadComplete(final String photo_url)
-  {
+  private void uploadComplete(final String photo_url)  {
     uploadedUrl_ = photo_url;
     nextStep();
   }
 
-  private void uploadFailed(final String msg)
-  {
+  private void uploadFailed(final String msg)  {
     MessageBox.OK(photoLocation_,
         msg,
         new DialogInterface.OnClickListener() {
@@ -709,8 +664,7 @@ if (url.startsWith("content://com.google.android.apps.photos.content")){
         });
   }
 
-  private GeoPoint photoLocation(final ExifInterface photoExif)
-  {
+  private GeoPoint photoLocation(final ExifInterface photoExif)  {
     final float[] coords = new float[2];
     if (!photoExif.getLatLong(coords))
       return null;
@@ -719,19 +673,16 @@ if (url.startsWith("content://com.google.android.apps.photos.content")){
     return new GeoPoint(lat, lon);
   }
 
-  private String photoTimestamp(final ExifInterface photoExif)
-  {
+  private String photoTimestamp(final ExifInterface photoExif)  {
     Date date = new Date();
 
-    try
-    {
+    try  {
       final DateFormat df = new SimpleDateFormat("yyyy:MM:dd HH:mm:ss");
       final String dateString = photoExif.getAttribute(ExifInterface.TAG_DATETIME);
       if (dateString != null && dateString.length() > 0)
         date = df.parse(dateString);
     }
-    catch (Exception e)
-    {
+    catch (Exception e)  {
       // ah well
     }
 
@@ -739,10 +690,8 @@ if (url.startsWith("content://com.google.android.apps.photos.content")){
   }
 
   ///////////////////////////////////////////////////////////////////////////
-  private class GetPhotomapCategoriesTask extends AsyncTask<Object, Void, PhotomapCategories>
-  {
-    protected PhotomapCategories doInBackground(Object... params)
-    {
+  private class GetPhotomapCategoriesTask extends AsyncTask<Object, Void, PhotomapCategories>  {
+    protected PhotomapCategories doInBackground(Object... params)  {
       PhotomapCategories photomapCategories = null;
       try {
         photomapCategories = PhotomapCategories.get();
@@ -753,10 +702,8 @@ if (url.startsWith("content://com.google.android.apps.photos.content")){
     }
 
     @Override
-    protected void onPostExecute(PhotomapCategories photomapCategories)
-    {
-      if (photomapCategories == null)
-      {
+    protected void onPostExecute(PhotomapCategories photomapCategories)  {
+      if (photomapCategories == null)  {
         Toast.makeText(getActivity(), R.string.photo_could_not_load_categories, Toast.LENGTH_LONG).show();
         return;
       }
@@ -766,8 +713,7 @@ if (url.startsWith("content://com.google.android.apps.photos.content")){
   }
 
   //////////////////////////////////////////////////////////////////////////
-  private class UploadPhotoTask extends AsyncTask<Object, Void, Upload.Result>
-  {
+  private class UploadPhotoTask extends AsyncTask<Object, Void, Upload.Result>  {
     private final String filename_;
     private final String username_;
     private final String password_;
@@ -787,8 +733,7 @@ if (url.startsWith("content://com.google.android.apps.photos.content")){
                     final String metaCat,
                     final String category,
                     final String dateTime,
-                    final String caption)
-    {
+                    final String caption)  {
       smallImage_ = CycleStreetsPreferences.uploadSmallImages();
       filename_ = smallImage_ ? Bitmaps.resizePhoto(filename) : filename;
       username_ = username;
@@ -803,14 +748,12 @@ if (url.startsWith("content://com.google.android.apps.photos.content")){
     }
 
     @Override
-    protected void onPreExecute()
-    {
+    protected void onPreExecute()  {
       super.onPreExecute();
       progress_.show();
     }
 
-    protected Upload.Result doInBackground(Object... params)
-    {
+    protected Upload.Result doInBackground(Object... params)  {
       try {
         return Upload.photo(filename_,
                             username_,
@@ -838,40 +781,34 @@ if (url.startsWith("content://com.google.android.apps.photos.content")){
   }
 
   //////////////////////////////////////////////////////////
-  static private class CategoryAdapter extends BaseAdapter
-  {
+  static private class CategoryAdapter extends BaseAdapter  {
     private final LayoutInflater inflater_;
     private final List<PhotomapCategory> list_;
 
     public CategoryAdapter(final Context context,
-                           final List<PhotomapCategory> list)
-    {
+                           final List<PhotomapCategory> list)  {
       inflater_ = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
       list_ = list;
     }
 
     @Override
-    public int getCount()
-    {
+    public int getCount()  {
       return list_.size();
     }
 
     @Override
-    public String getItem(final int position)
-    {
+    public String getItem(final int position)  {
       final PhotomapCategory c = list_.get(position);
       return c.getName();
     }
 
     @Override
-    public long getItemId(final int position)
-    {
+    public long getItemId(final int position)  {
       return position;
     }
 
     @Override
-    public View getView(final int position, final View convertView, final ViewGroup parent)
-    {
+    public View getView(final int position, final View convertView, final ViewGroup parent)  {
       final int id = (parent instanceof Spinner) ? android.R.layout.simple_spinner_item : android.R.layout.simple_spinner_dropdown_item;
       final TextView tv = (TextView)inflater_.inflate(id, parent, false);
       tv.setText(getItem(position));

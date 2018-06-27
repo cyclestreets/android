@@ -11,21 +11,18 @@ import android.graphics.Matrix;
 
 public class Bitmaps
 {
-  static private BitmapFactory.Options decodeOptions()
-  {
+  static private BitmapFactory.Options decodeOptions()  {
     final BitmapFactory.Options decodeOptions = new BitmapFactory.Options();
     decodeOptions.inPurgeable = true;
     decodeOptions.inSampleSize = 4;
     return decodeOptions;
   }
 
-  static public Bitmap loadFile(final String fileName)
-  {
+  static public Bitmap loadFile(final String fileName)  {
     return BitmapFactory.decodeFile(fileName, decodeOptions());
   }
 
-  static public Bitmap loadStream(final InputStream stream)
-  {
+  static public Bitmap loadStream(final InputStream stream)  {
     Bitmap bm = null;
     try {
       // return BitmapFactory.decodeStream(inputStream);
@@ -46,8 +43,7 @@ public class Bitmaps
     return bm;
   }
 
-  static public String resizePhoto(final String fileName)
-  {
+  static public String resizePhoto(final String fileName)  {
     if (fileName == null)
       return null;
 
@@ -98,30 +94,24 @@ public class Bitmaps
     }
   }
 
-  static private BitmapFactory.Options bitmapBounds(final String fileName)
-  {
+  static private BitmapFactory.Options bitmapBounds(final String fileName)  {
     final BitmapFactory.Options o = new BitmapFactory.Options();
     o.inJustDecodeBounds = true;
     BitmapFactory.decodeFile(fileName, o);
     return o;
   }
 
-  static private class FlushedInputStream extends FilterInputStream
-  {
-    public FlushedInputStream(final InputStream inputStream)
-    {
+  static private class FlushedInputStream extends FilterInputStream  {
+    public FlushedInputStream(final InputStream inputStream)  {
       super(inputStream);
     }
 
     @Override
-    public long skip(long n) throws IOException
-    {
+    public long skip(long n) throws IOException  {
       long totalBytesSkipped = 0L;
-      while (totalBytesSkipped < n)
-      {
+      while (totalBytesSkipped < n)  {
         long bytesSkipped = in.skip(n - totalBytesSkipped);
-        if (bytesSkipped == 0L)
-        {
+        if (bytesSkipped == 0L)  {
           int b = read();
           if (b < 0)
             break;  // we reached EOF

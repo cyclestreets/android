@@ -17,37 +17,32 @@ public abstract class RoutingTask<Params> extends AsyncTask<Params, Integer, Rou
   private String error_;
 
   protected RoutingTask(final int progressMessageId,
-                        final Context context)
-  {
+                        final Context context)  {
     this(context.getString(progressMessageId), context);
   }
 
   protected RoutingTask(final String progressMessage,
-                        final Context context)
-  {
+                        final Context context)  {
     context_ = context;
     initialMsg_ = progressMessage;
   }
 
   protected RouteData fetchRoute(final String routeType,
                                  final int speed,
-                                 final Waypoints waypoints)
-  {
+                                 final Waypoints waypoints)  {
     return fetchRoute(routeType, -1, speed, waypoints);
   }
 
   protected RouteData fetchRoute(final String routeType,
                                  final long itinerary,
-                                 final int speed)
-  {
+                                 final int speed)  {
     return fetchRoute(routeType, itinerary, speed, null);
   }
 
   protected RouteData fetchRoute(final String routeType,
                                  final long itinerary,
                                  final int speed,
-                                 final Waypoints waypoints)
-  {
+                                 final Waypoints waypoints)  {
     try {
       final String xml = doFetchRoute(routeType, itinerary, speed, waypoints);
       return new RouteData(xml, waypoints, null);
@@ -62,16 +57,14 @@ public abstract class RoutingTask<Params> extends AsyncTask<Params, Integer, Rou
                               final long itinerary,
                               final int speed,
                               final Waypoints waypoints)
-    throws Exception
-  {
+    throws Exception  {
     if (itinerary != -1)
       return JourneyPlanner.getJourneyXml(routeType, itinerary);
     return JourneyPlanner.getJourneyXml(routeType, speed, waypoints);
   }
 
   @Override
-  protected void onPreExecute()
-  {
+  protected void onPreExecute()  {
     super.onPreExecute();
     try {
       progress_ = Dialog.createProgressDialog(context_, initialMsg_);
@@ -83,16 +76,14 @@ public abstract class RoutingTask<Params> extends AsyncTask<Params, Integer, Rou
   }
 
   @Override
-  protected void onProgressUpdate(final Integer... p)
-  {
+  protected void onProgressUpdate(final Integer... p)  {
     if (progress_ == null)
       return;
     progress_.setMessage(context_.getString(p[0]));
   }
 
   @Override
-  protected void onPostExecute(final RouteData route)
-  {
+  protected void onPostExecute(final RouteData route)  {
     if (route != null)
       Route.onNewJourney(route);
     progressDismiss();
@@ -100,8 +91,7 @@ public abstract class RoutingTask<Params> extends AsyncTask<Params, Integer, Rou
       Toast.makeText(context_, error_, Toast.LENGTH_LONG).show();
   }
 
-  private void progressDismiss()
-  {
+  private void progressDismiss()  {
     if (progress_ == null)
       return;
     try {

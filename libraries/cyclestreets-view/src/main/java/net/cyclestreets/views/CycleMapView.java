@@ -67,14 +67,12 @@ public class CycleMapView extends FrameLayout
     getOverlays().add(controllerOverlay_);
   }
 
-  public Overlay overlayPushBottom(final Overlay overlay)
-  {
+  public Overlay overlayPushBottom(final Overlay overlay)  {
     getOverlays().add(overlayBottomIndex_, overlay);
     return overlay;
   }
 
-  public Overlay overlayPushTop(final Overlay overlay)
-  {
+  public Overlay overlayPushTop(final Overlay overlay)  {
     // keep TapOverlay on top
     int front = getOverlays().size()-1;
     getOverlays().add(front, overlay);
@@ -98,8 +96,7 @@ public class CycleMapView extends FrameLayout
 
   /////////////////////////////////////////
   // save/restore
-  public void onPause()
-  {
+  public void onPause()  {
     if (paused_)
       return;
     paused_ = true;
@@ -126,8 +123,7 @@ public class CycleMapView extends FrameLayout
     BitmapPool.getInstance().clearBitmapPool();
   }
 
-  public void onResume()
-  {
+  public void onResume()  {
     final ITileSource tileSource = mapRenderer();
     if (!tileSource.equals(renderer_)) {
       renderer_ = tileSource;
@@ -160,29 +156,24 @@ public class CycleMapView extends FrameLayout
 
   ////////////////////////////////////////////////////////////
   ////////////////////////////////////////////////////////////
-  public void onCreateOptionsMenu(final Menu menu)
-  {
+  public void onCreateOptionsMenu(final Menu menu)  {
     controllerOverlay_.onCreateOptionsMenu(menu);
   }
 
-  public void onPrepareOptionsMenu(final Menu menu)
-  {
+  public void onPrepareOptionsMenu(final Menu menu)  {
     controllerOverlay_.onPrepareOptionsMenu(menu);
   }
 
-  public boolean onMenuItemSelected(final int featureId, final MenuItem item)
-  {
+  public boolean onMenuItemSelected(final int featureId, final MenuItem item)  {
     return controllerOverlay_.onMenuItemSelected(featureId, item);
   }
 
   @Override
-  public void onCreateContextMenu(final ContextMenu menu)
-  {
+  public void onCreateContextMenu(final ContextMenu menu)  {
     controllerOverlay_.onCreateContextMenu(menu);
   }
 
-  public boolean onBackPressed()
-  {
+  public boolean onBackPressed()  {
     return controllerOverlay_.onBackPressed();
   }
 
@@ -199,17 +190,14 @@ public class CycleMapView extends FrameLayout
   public void hideLocationButton() { location_.hideButton(); }
 
   ///////////////////////////////////////////////////////
-  public void centreOn(final IGeoPoint place)
-  {
+  public void centreOn(final IGeoPoint place)  {
     centreOn_ = place;
     postInvalidate();
   }
 
   @Override
-  protected void dispatchDraw(final Canvas canvas)
-  {
-    if (centreOn_ != null)
-    {
+  protected void dispatchDraw(final Canvas canvas)  {
+    if (centreOn_ != null)  {
       getController().animateTo(new GeoPoint(centreOn_.getLatitude(), centreOn_.getLongitude()));
       centreOn_ = null;
       return;
@@ -225,12 +213,10 @@ public class CycleMapView extends FrameLayout
   }
 
   ///////////////////////////////////////////////////////
-  private int pref(final String key, int defValue)
-  {
+  private int pref(final String key, int defValue)  {
     return prefs_.getInt(key, defValue);
   }
-  private boolean pref(final String key, boolean defValue)
-  {
+  private boolean pref(final String key, boolean defValue)  {
     return prefs_.getBoolean(key, defValue);
   }
 

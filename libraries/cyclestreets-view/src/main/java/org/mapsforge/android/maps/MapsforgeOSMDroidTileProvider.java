@@ -73,8 +73,7 @@ public class MapsforgeOSMDroidTileProvider extends MapTileModuleProviderBase
   }
 
   /////////////////////////////////////////////////
-  private class TileLoader extends MapTileModuleProviderBase.TileLoader
-  {
+  private class TileLoader extends MapTileModuleProviderBase.TileLoader  {
     @Override
     public Drawable loadTile(final MapTileRequestState aState) throws CantContinueException {
       if (tileSource == null)

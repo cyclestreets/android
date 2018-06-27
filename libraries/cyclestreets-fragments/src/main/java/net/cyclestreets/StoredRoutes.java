@@ -153,8 +153,7 @@ public class StoredRoutes {
       closeDialog();
     }
 
-    private void renameRoute(final int localId)
-    {
+    private void renameRoute(final int localId)  {
       final RouteSummary route = getRouteSummary(localId);
       Dialog.editTextDialog(context_, route.title(), "Rename",
           new Dialog.UpdatedTextListener() {

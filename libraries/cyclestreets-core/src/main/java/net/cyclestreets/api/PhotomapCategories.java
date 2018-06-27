@@ -29,8 +29,7 @@ public class PhotomapCategories
 
   public static boolean loaded() { return loaded_ != null; }
 
-  public static PhotomapCategories load()
-  {
+  public static PhotomapCategories load()  {
     try {
       return ApiClient.getPhotomapCategories();
     } catch (Exception e) {

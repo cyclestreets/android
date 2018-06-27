@@ -28,8 +28,7 @@ public abstract class Segment {
           final int distance,
           final int running_distance,
           final List<IGeoPoint> points,
-          final boolean terminal)
-  {
+          final boolean terminal)  {
     this(name,
          turn,
          walk,
@@ -47,8 +46,7 @@ public abstract class Segment {
           final int distance,
           final int running_distance,
           final List<IGeoPoint> points,
-          final boolean terminal)
-  {
+          final boolean terminal)  {
     name_ = name;
     turn_ = initCap(turn);
     walk_ = walk;
@@ -58,13 +56,11 @@ public abstract class Segment {
     points_ = points;
   }
 
-  static protected String initCap(final String s)
-  {
+  static protected String initCap(final String s)  {
     return s.length() != 0 ? s.substring(0,1).toUpperCase() + s.substring(1) : s;
   }
 
-  static private String formatTime(int time, boolean terminal)
-  {
+  static private String formatTime(int time, boolean terminal)  {
     if (time == 0)
       return "";
 
@@ -82,8 +78,7 @@ public abstract class Segment {
     return String.format("%d:%02d:%02d", hours, minutes, seconds);
   }
 
-  static private String formatTerminalTime(int hours, int minutes)
-  {
+  static private String formatTerminalTime(int hours, int minutes)  {
     if (hours == 0)
       return String.format("%d minutes", minutes);
     String fraction = "";
@@ -98,8 +93,7 @@ public abstract class Segment {
     return String.format("%d%s hours", hours, fraction);
   }
 
-  public String toString()
-  {
+  public String toString()  {
     String s = name_;
     if (turn_.length() != 0)
       s = turn_ + " into " + name_;
@@ -111,16 +105,14 @@ public abstract class Segment {
   public IGeoPoint start() { return points_.get(0); }
   public IGeoPoint finish() { return points_.get(points_.size()-1); }
 
-  public int distanceFrom(final GeoPoint location)
-  {
+  public int distanceFrom(final GeoPoint location)  {
     int ct = crossTrackError(location);
     int at = alongTrackError(location);
 
     return Math.max(Math.abs(at), ct);
   }
 
-  public int crossTrackError(final GeoPoint location)
-  {
+  public int crossTrackError(final GeoPoint location)  {
     int minIndex = closestPoint(location);
 
     int ct0 = (minIndex != 0) ? crossTrack(minIndex - 1, location) : Integer.MAX_VALUE;
@@ -129,8 +121,7 @@ public abstract class Segment {
     return Math.min(ct0,  ct1);
   }
 
-  private int crossTrack(final int index, final GeoPoint location)
-  {
+  private int crossTrack(final int index, final GeoPoint location)  {
     final IGeoPoint p1 = points_.get(index);
     final IGeoPoint p2 = points_.get(index+1);
 
@@ -139,8 +130,7 @@ public abstract class Segment {
     return Math.abs((int)crossTrack);
   }
 
-  public int alongTrackError(final GeoPoint location)
-  {
+  public int alongTrackError(final GeoPoint location)  {
     int minIndex = closestPoint(location);
     final int lastIndex = points_.size() - 1;
 
@@ -151,8 +141,7 @@ public abstract class Segment {
     return at.onTrack() ? 0 : at.offset();
   }
 
-  public int alongTrack(final GeoPoint location)
-  {
+  public int alongTrack(final GeoPoint location)  {
     int minIndex = closestPoint(location);
     final int lastIndex = points_.size() - 1;
 
@@ -183,8 +172,7 @@ public abstract class Segment {
     return at.onTrack() ? cumulative : -cumulative;
   }
 
-  private GeoHelper.AlongTrack alongTrack(final int index, final GeoPoint location)
-  {
+  private GeoHelper.AlongTrack alongTrack(final int index, final GeoPoint location)  {
     final IGeoPoint p1 = points_.get(index);
     final IGeoPoint p2 = points_.get(index+1);
 
@@ -193,13 +181,11 @@ public abstract class Segment {
     return alongTrack;
   }
 
-  private int closestPoint(final GeoPoint location)
-  {
+  private int closestPoint(final GeoPoint location)  {
     int minIndex = -1;
     int minDistance = Integer.MAX_VALUE;
 
-    for(int p = 0; p != points_.size(); ++p)
-    {
+    for(int p = 0; p != points_.size(); ++p)  {
       int distance = GeoHelper.distanceBetween(points_.get(p), (location));
       if (distance > minDistance)
         continue;
@@ -211,8 +197,7 @@ public abstract class Segment {
     return minIndex;
   }// closestPoint
 
-  public int distanceFromEnd(final GeoPoint location)
-  {
+  public int distanceFromEnd(final GeoPoint location)  {
     return GeoHelper.distanceBetween(finish(), location);
   }
 
@@ -225,8 +210,7 @@ public abstract class Segment {
   public String extraInfo() { return ""; }
   public IterableIterator<IGeoPoint> points() { return new IterableIterator<>(points_.iterator()); }
 
-  static public class Start extends Segment
-  {
+  static public class Start extends Segment  {
     private final int itinerary_;
     private final String plan_;
     private final int speed_;
@@ -241,8 +225,7 @@ public abstract class Segment {
           final int total_distance,
           final int calories,
           final int co2,
-          final List<IGeoPoint> points)
-    {
+          final List<IGeoPoint> points)  {
       super(journey, "", false, total_time, 0, total_distance, points, true);
       itinerary_ = itinerary;
       plan_ = plan;
@@ -256,8 +239,7 @@ public abstract class Segment {
     public String plan() { return plan_; }
     public int speed() { return speed_; }
 
-    public String toString()
-    {
+    public String toString()  {
       return street();
     }
 
@@ -275,8 +257,7 @@ public abstract class Segment {
       return String.format("%d.%02dkg", kg, g);
     }
 
-    public String extraInfo()
-    {
+    public String extraInfo()  {
       if (co2_ == 0 && calories_ == 0)
         return "";
       int kg = co2_ / 1000;
@@ -288,15 +269,13 @@ public abstract class Segment {
     public int crossTrackError(final GeoPoint location) { return Integer.MAX_VALUE; }
   }
 
-  static public class End extends Segment
-  {
+  static public class End extends Segment  {
     final int total_distance_;
 
     public End(final String destination,
       final int total_time,
       final int total_distance,
-      final List<IGeoPoint> points)
-    {
+      final List<IGeoPoint> points)  {
       super("Destination " + destination, "", false, total_time, 0, total_distance, points, true);
       total_distance_ = total_distance;
     }
@@ -306,16 +285,14 @@ public abstract class Segment {
     public int total_distance() { return total_distance_; }
   }
 
-  static public class Step extends Segment
-  {
+  static public class Step extends Segment  {
     public Step(final String name,
        final String turn,
        final boolean walk,
        final int time,
        final int distance,
        final int running_distance,
-       final List<IGeoPoint> points)
-    {
+       final List<IGeoPoint> points)  {
       super(name,
           turn.length() != 0 ? turn.substring(0,1).toUpperCase() + turn.substring(1) : turn,
           walk,
@@ -326,8 +303,7 @@ public abstract class Segment {
           false);
     }
 
-    public Step(final Segment s1, final Segment s2)
-    {
+    public Step(final Segment s1, final Segment s2)  {
       super(s2.name_,
             s2.turn_,
             s1.walk_ || s2.walk_,
@@ -339,12 +315,10 @@ public abstract class Segment {
     }
   }
 
-  static public class Waymark extends Segment
-  {
+  static public class Waymark extends Segment  {
     public Waymark(final int count,
                    final int running_distance,
-                   final IGeoPoint gp)
-    {
+                   final IGeoPoint gp)  {
       super("Waypoint " + count,
             "Waymark",
             false,

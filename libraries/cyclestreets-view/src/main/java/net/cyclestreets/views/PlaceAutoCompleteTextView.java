@@ -26,26 +26,22 @@ public class PlaceAutoCompleteTextView extends AppCompatAutoCompleteTextView
   private Contact contact_;
   private Set<GeoPlace> localHistory_ = new HashSet<>();
 
-  public PlaceAutoCompleteTextView(final Context context)
-  {
+  public PlaceAutoCompleteTextView(final Context context)  {
     super(context);
     init();
   }
 
-  public PlaceAutoCompleteTextView(final Context context, final AttributeSet attrs)
-  {
+  public PlaceAutoCompleteTextView(final Context context, final AttributeSet attrs)  {
     super(context, attrs);
     init();
   }
 
-  public PlaceAutoCompleteTextView(final Context context, final AttributeSet attrs, final int defStyle)
-  {
+  public PlaceAutoCompleteTextView(final Context context, final AttributeSet attrs, final int defStyle)  {
     super(context, attrs, defStyle);
     init();
   }
 
-  private void init()
-  {
+  private void init()  {
     setThreshold(0);
     setOnClickListener(this);
     setOnItemClickListener(this);
@@ -53,16 +49,13 @@ public class PlaceAutoCompleteTextView extends AppCompatAutoCompleteTextView
 
   /////////////////////////////////////
   public BoundingBox bounds() {  return adapter_.bounds(); }
-  public void setBounds(final BoundingBox bounds)
-  {
+  public void setBounds(final BoundingBox bounds)  {
     adapter_ = new GeoLiveAdapter(getContext(), bounds);
     setAdapter(adapter_);
   }
 
-  public GeoPlace geoPlace()
-  {
-    if (place_ == null)
-    {
+  public GeoPlace geoPlace()  {
+    if (place_ == null)  {
       final String t = getEditableText().toString();
       for(final GeoPlace gp : localHistory_)
         if (t.equals(gp.toString()))
@@ -70,16 +63,14 @@ public class PlaceAutoCompleteTextView extends AppCompatAutoCompleteTextView
     }
     return place_;
   }
-  public void setGeoPlace(final GeoPlace place)
-  {
+  public void setGeoPlace(final GeoPlace place)  {
     // set text first because we clear place_ in the callback
     // then set place_
     setText(place.toString());
     place_ = place;
     localHistory_.add(place);
   }
-  public void setGeoPlaceHint(final GeoPlace place)
-  {
+  public void setGeoPlaceHint(final GeoPlace place)  {
     setText("");
     setHint(place.toString());
     place_ = place;
@@ -87,14 +78,12 @@ public class PlaceAutoCompleteTextView extends AppCompatAutoCompleteTextView
   }
 
   public Contact contact() { return contact_; }
-  public void setContact(final Contact contact)
-  {
+  public void setContact(final Contact contact)  {
     setText(contact.address());
     contact_ = contact;
   }
 
-  public void addHistory(final GeoPlace place)
-  {
+  public void addHistory(final GeoPlace place)  {
     if (adapter_ == null)
       return;
     adapter_.addHistory(place);
@@ -102,8 +91,7 @@ public class PlaceAutoCompleteTextView extends AppCompatAutoCompleteTextView
 
   /////////////////////////////////////
   @Override
-  public void onItemClick(AdapterView<?> arg0, View arg1, int position, long id)
-  {
+  public void onItemClick(AdapterView<?> arg0, View arg1, int position, long id)  {
     if (adapter_ == null)
       return;
     setGeoPlace(adapter_.getItem(position));
@@ -113,8 +101,7 @@ public class PlaceAutoCompleteTextView extends AppCompatAutoCompleteTextView
   public boolean enoughToFilter() { return true; }
 
   @Override
-  public void onFilterComplete(int count)
-  {
+  public void onFilterComplete(int count)  {
     if (hasFocus() && hasWindowFocus() && (place_ == null))
       showDropDown();
     else
@@ -122,15 +109,13 @@ public class PlaceAutoCompleteTextView extends AppCompatAutoCompleteTextView
   }
 
   @Override
-  public void onClick(View v)
-  {
+  public void onClick(View v)  {
     performFiltering(null, KeyEvent.KEYCODE_FOCUS);
     showDropDown();
   }
 
   @Override
-  public void onEditorAction(int actionCode)
-  {
+  public void onEditorAction(int actionCode)  {
     super.onEditorAction(actionCode);
     dismissDropDown();
   }
@@ -139,8 +124,7 @@ public class PlaceAutoCompleteTextView extends AppCompatAutoCompleteTextView
   public void onTextChanged(final CharSequence s,
                             int start,
                             int before,
-                            int after)
-  {
+                            int after)  {
     place_ = null;
     contact_ = null;
     setHint("");

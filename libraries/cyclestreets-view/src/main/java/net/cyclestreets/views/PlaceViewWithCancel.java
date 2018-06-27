@@ -9,13 +9,11 @@ public class PlaceViewWithCancel extends PlaceViewBase
 {
   final private ImageButton cancel_;
 
-  public PlaceViewWithCancel(final Context context)
-  {
+  public PlaceViewWithCancel(final Context context)  {
     this(context, null);
   }
 
-  public PlaceViewWithCancel(final Context context, final AttributeSet attrs)
-  {
+  public PlaceViewWithCancel(final Context context, final AttributeSet attrs)  {
     super(context, R.layout.placetextviewcancel, attrs);
 
     cancel_ = (ImageButton)findViewById(R.id.cancelBtn);

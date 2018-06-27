@@ -10,8 +10,7 @@ public class Segments implements Iterable<Segment>
 {
   private final List<Segment> segments_;
 
-  public Segments()
-  {
+  public Segments()  {
     segments_ = new ArrayList<>();
   }
 
@@ -23,19 +22,15 @@ public class Segments implements Iterable<Segment>
   public Segment.Start first() { return (Segment.Start)segments_.get(0); }
   public Segment.End last() { return (Segment.End)segments_.get(count()-1); }
 
-  public void add(final Segment seg)
-  {
-    if (seg instanceof Segment.Start)
-    {
+  public void add(final Segment seg)  {
+    if (seg instanceof Segment.Start)  {
       segments_.add(0, seg);
       return;
     }
 
-    if (count() != 0)
-    {
+    if (count() != 0)  {
       final Segment previous = segments_.get(count()-1);
-      if ("join roundabout".equals(previous.turn().toLowerCase()))
-      {
+      if ("join roundabout".equals(previous.turn().toLowerCase()))  {
         segments_.remove(previous);
         segments_.add(new Segment.Step(previous, seg));
         return;
@@ -52,13 +47,11 @@ public class Segments implements Iterable<Segment>
 
   public Iterator<IGeoPoint> pointsIterator() { return new PointsIterator(this); }
 
-  static private class PointsIterator implements Iterator<IGeoPoint>
-  {
+  static private class PointsIterator implements Iterator<IGeoPoint>  {
     private final Iterator<Segment> segments_;
     private Iterator<IGeoPoint> points_;
 
-    PointsIterator(final Segments segments)
-    {
+    PointsIterator(final Segments segments)  {
       segments_ = segments.iterator();
       if (!segments_.hasNext())
         return;
@@ -67,21 +60,18 @@ public class Segments implements Iterable<Segment>
     }
 
     @Override
-    public boolean hasNext()
-    {
+    public boolean hasNext()  {
       return points_ != null && points_.hasNext();
     }
 
     @Override
-    public IGeoPoint next()
-    {
+    public IGeoPoint next()  {
       if (!hasNext())
         throw new IllegalStateException();
 
       final IGeoPoint p = points_.next();
 
-      if (!hasNext())
-      {
+      if (!hasNext())  {
         if (segments_.hasNext())
           points_ = segments_.next().points();
         else
@@ -92,8 +82,7 @@ public class Segments implements Iterable<Segment>
     }
 
     @Override
-    public void remove()
-    {
+    public void remove()  {
       throw new UnsupportedOperationException();
     }
   }

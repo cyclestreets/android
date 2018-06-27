@@ -15,8 +15,7 @@ public class Contact
            final String street,
            final String neighbourhood,
            final String city,
-           final String postcode)
-  {
+           final String postcode)  {
     name_ = name;
     address_ = address;
     neighbourhood_ = neighbourhood;
@@ -32,24 +31,20 @@ public class Contact
 
   public String toString() { return name_; }
 
-  static public Comparator<Contact> comparator()
-  {
+  static public Comparator<Contact> comparator()  {
     return ContactsComparator.instance();
   }
 
-  static private class ContactsComparator implements Comparator<Contact>
-  {
+  static private class ContactsComparator implements Comparator<Contact>  {
     static private ContactsComparator instance_;
-    static public ContactsComparator instance()
-    {
+    static public ContactsComparator instance()  {
       if (instance_ == null)
         instance_ = new ContactsComparator();
       return instance_;
     }
 
     @Override
-    public int compare(final Contact lhs, final Contact rhs)
-    {
+    public int compare(final Contact lhs, final Contact rhs)  {
       return lhs.name().compareToIgnoreCase(rhs.name());
     }
   }

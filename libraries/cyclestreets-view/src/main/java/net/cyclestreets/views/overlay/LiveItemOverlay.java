@@ -39,8 +39,7 @@ public abstract class LiveItemOverlay<T extends OverlayItem>
   static private final String LOADING = "Loading ...";
 
   public LiveItemOverlay(final CycleMapView mapView,
-                         final boolean showLoading)
-  {
+                         final boolean showLoading)  {
     super(mapView.mapView(),
           new ArrayList<T>());
 
@@ -62,8 +61,7 @@ public abstract class LiveItemOverlay<T extends OverlayItem>
   protected float cornerRadius() { return radius_; }
 
   @Override
-  public void draw(final Canvas canvas, final MapView mapView, final boolean shadow)
-  {
+  public void draw(final Canvas canvas, final MapView mapView, final boolean shadow)  {
     super.draw(canvas, mapView, shadow);
 
     if ((!loading_) || (!showLoading_))
@@ -90,15 +88,13 @@ public abstract class LiveItemOverlay<T extends OverlayItem>
   }
 
   @Override
-  public boolean onScroll(final ScrollEvent event)
-  {
+  public boolean onScroll(final ScrollEvent event)  {
     refreshItems();
     return true;
   }
 
   @Override
-  public boolean onZoom(final ZoomEvent event)
-  {
+  public boolean onZoom(final ZoomEvent event)  {
     if (event.getZoomLevel() < zoomLevel_)
       items().clear();
     zoomLevel_ = event.getZoomLevel();
@@ -106,13 +102,11 @@ public abstract class LiveItemOverlay<T extends OverlayItem>
     return true;
   }
 
-  protected void redraw()
-  {
+  protected void redraw()  {
     mapView_.postInvalidate();
   }
 
-  protected void refreshItems()
-  {
+  protected void refreshItems()  {
     final IGeoPoint centre = mapView_.getMapCenter();
     final int zoom = mapView_.getZoomLevel();
     final BoundingBox bounds = mapView_.getBoundingBox();
@@ -128,8 +122,7 @@ public abstract class LiveItemOverlay<T extends OverlayItem>
                                                     final int zoom,
                                                     final BoundingBox boundingBox);
 
-  protected void setItems(final List<T> items)
-  {
+  protected void setItems(final List<T> items)  {
     for(final T item : items)
       if (!items().contains(item))
         items().add(item);

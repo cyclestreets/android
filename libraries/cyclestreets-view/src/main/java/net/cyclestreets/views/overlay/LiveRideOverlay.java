@@ -44,8 +44,7 @@ public class LiveRideOverlay extends Overlay implements ServiceConnection
   private final TurnIcons.Mapping iconMappings_;
   private final DistanceFormatter formatter_;
 
-  public LiveRideOverlay(final Activity context, final View view)
-  {
+  public LiveRideOverlay(final Activity context, final View view)  {
     super();
 
     activity_ = context;
@@ -75,8 +74,7 @@ public class LiveRideOverlay extends Overlay implements ServiceConnection
   }
 
   @Override
-  public void onDetach(final MapView mapView)
-  {
+  public void onDetach(final MapView mapView)  {
     if (binding_ != null)
       binding_.stopRiding();
 
@@ -84,8 +82,7 @@ public class LiveRideOverlay extends Overlay implements ServiceConnection
   }
 
   @Override
-  public void draw(final Canvas canvas, final MapView mapView, final boolean shadow)
-  {
+  public void draw(final Canvas canvas, final MapView mapView, final boolean shadow)  {
     final Matrix unscaled = mapView.getProjection().getInvertedScaleRotateCanvasMatrix();
 
     canvas.save();
@@ -100,8 +97,7 @@ public class LiveRideOverlay extends Overlay implements ServiceConnection
     canvas.restore();
   }
 
-  private void drawNextTurn(final Canvas canvas)
-  {
+  private void drawNextTurn(final Canvas canvas)  {
     final Rect box = canvas.getClipBounds();
     int eighth = box.width() / 8;
 
@@ -144,8 +140,7 @@ public class LiveRideOverlay extends Overlay implements ServiceConnection
     turnIcon.draw(canvas);
   }
 
-  private void drawThenShrink(final Canvas canvas, final Rect box, final Paint brush)
-  {
+  private void drawThenShrink(final Canvas canvas, final Rect box, final Paint brush)  {
     DrawingHelper.drawRoundRect(canvas, box, radius_, brush);
 
     box.left += offset_;
@@ -154,8 +149,7 @@ public class LiveRideOverlay extends Overlay implements ServiceConnection
     box.bottom -= offset_;
   }
 
-  private void drawSpeed(final Canvas canvas)
-  {
+  private void drawSpeed(final Canvas canvas)  {
     final String speed = speed();
 
     final int fullWidth_ = speedWidth_ + kmWidth_;
@@ -176,8 +170,7 @@ public class LiveRideOverlay extends Overlay implements ServiceConnection
 
   ///////////////////////////
   @Override
-  public void onServiceConnected(final ComponentName className, final IBinder binder)
-  {
+  public void onServiceConnected(final ComponentName className, final IBinder binder)  {
     binding_ = (LiveRideService.Binding)binder;
 
     if (!binding_.areRiding())
@@ -185,12 +178,10 @@ public class LiveRideOverlay extends Overlay implements ServiceConnection
   }
 
   @Override
-  public void onServiceDisconnected(final ComponentName className)
-  {
+  public void onServiceDisconnected(final ComponentName className)  {
   }
 
-  private Location lastLocation()
-  {
+  private Location lastLocation()  {
     if (!Route.available())
       return null;
 
@@ -204,8 +195,7 @@ public class LiveRideOverlay extends Overlay implements ServiceConnection
     return location;
   }
 
-  private String speed()
-  {
+  private String speed()  {
     final Location location = lastLocation();
     if (location == null)
       return "0.0";
@@ -213,8 +203,7 @@ public class LiveRideOverlay extends Overlay implements ServiceConnection
     return formatter_.speed(location.getSpeed());
   }
 
-  private String distanceUntilTurn()
-  {
+  private String distanceUntilTurn()  {
     final Location location = lastLocation();
     if (location == null)
       return "";

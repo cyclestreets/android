@@ -35,8 +35,7 @@ public class RouteMapFragment extends CycleMapFragment implements Route.Listener
   private boolean hasGps_;
 
   @Override
-  public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle saved)
-  {
+  public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle saved)  {
     Permissions.verify(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION);
     Permissions.verify(getActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE);
 
@@ -58,23 +57,20 @@ public class RouteMapFragment extends CycleMapFragment implements Route.Listener
   }
 
   @Override
-  public void onResume()
-  {
+  public void onResume()  {
     super.onResume();
     Route.registerListener(this);
     Route.onResume();
   }
 
   @Override
-  public void onPause()
-  {
+  public void onPause()  {
     Route.setWaypoints(routeSetter_.waypoints());
     Route.unregisterListener(this);
     super.onPause();
   }
 
-  public void onRouteNow(int itinerary)
-  {
+  public void onRouteNow(int itinerary)  {
     Route.FetchRoute(CycleStreetsPreferences.routeType(),
         itinerary,
         CycleStreetsPreferences.speed(),
@@ -82,15 +78,13 @@ public class RouteMapFragment extends CycleMapFragment implements Route.Listener
   }
 
   @Override
-  public void onCreateOptionsMenu(final Menu menu, final MenuInflater inflater)
-  {
+  public void onCreateOptionsMenu(final Menu menu, final MenuInflater inflater)  {
     inflater.inflate(R.menu.route_map, menu);
     super.onCreateOptionsMenu(menu, inflater);
   }
 
   @Override
-  public void onPrepareOptionsMenu(final Menu menu)
-  {
+  public void onPrepareOptionsMenu(final Menu menu)  {
     showMenuItem(menu, R.id.ic_menu_liveride, Route.available() && hasGps_);
     enableMenuItem(menu, R.id.ic_menu_directions, true);
     showMenuItem(menu, R.id.ic_menu_saved_routes, Route.storedCount() != 0);
@@ -99,8 +93,7 @@ public class RouteMapFragment extends CycleMapFragment implements Route.Listener
   }
 
   @Override
-  public boolean onOptionsItemSelected(final MenuItem item)
-  {
+  public boolean onOptionsItemSelected(final MenuItem item)  {
     if (super.onOptionsItemSelected(item))
       return true;
 
@@ -125,13 +118,11 @@ public class RouteMapFragment extends CycleMapFragment implements Route.Listener
     return false;
   }
 
-  private void startLiveRide()
-  {
+  private void startLiveRide()  {
     LiveRideActivity.launch(getActivity());
   }
 
-  private void launchRouteDialog()
-  {
+  private void launchRouteDialog()  {
     startNewRoute(new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface arg0, int arg1) {
                       doLaunchRouteDialog();
@@ -146,8 +137,7 @@ public class RouteMapFragment extends CycleMapFragment implements Route.Listener
         routeSetter_.waypoints());
   }
 
-  private void launchFetchRouteDialog()
-  {
+  private void launchFetchRouteDialog()  {
     startNewRoute(new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface arg0, int arg1) {
                       doLaunchFetchRouteDialog();
@@ -155,8 +145,7 @@ public class RouteMapFragment extends CycleMapFragment implements Route.Listener
                   });
   }
 
-  private void doLaunchFetchRouteDialog()
-  {
+  private void doLaunchFetchRouteDialog()  {
     RouteByNumber.launch(getActivity());
   }
 
@@ -164,8 +153,7 @@ public class RouteMapFragment extends CycleMapFragment implements Route.Listener
     StoredRoutes.launch(getActivity());
   }
 
-  private void startNewRoute(final DialogInterface.OnClickListener listener)
-  {
+  private void startNewRoute(final DialogInterface.OnClickListener listener)  {
     if (Route.available() && CycleStreetsPreferences.confirmNewRoute())
       MessageBox.YesNo(mapView(),
                        R.string.confirm_new_route,
@@ -175,16 +163,14 @@ public class RouteMapFragment extends CycleMapFragment implements Route.Listener
   }
 
   @Override
-  public void onNewJourney(final Journey journey, final Waypoints waypoints)
-  {
+  public void onNewJourney(final Journey journey, final Waypoints waypoints)  {
     if (!waypoints.isEmpty())
       mapView().getController().setCenter(waypoints.first());
     mapView().postInvalidate();
   }
 
   @Override
-  public void onResetJourney()
-  {
+  public void onResetJourney()  {
     mapView().invalidate();
   }
 }
