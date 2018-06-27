@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.widget.ShareActionProvider;
 import android.widget.Toast;
 
 import net.cyclestreets.CycleStreetsPreferences;
@@ -21,7 +23,7 @@ public class Route
   }
 
   private static class Listeners {
-    private List<Listener> listeners_ = new ArrayList<>();
+    private List<Listener> listeners = new ArrayList<>();
 
     public void register(final Listener listener) {
       if (!doRegister(listener))
@@ -38,31 +40,31 @@ public class Route
     }
 
     private boolean doRegister(final Listener listener) {
-      if (listeners_.contains(listener))
+      if (listeners.contains(listener))
         return false;
-      listeners_.add(listener);
+      listeners.add(listener);
       return true;
     }
     public void unregister(final Listener listener) {
-      listeners_.remove(listener);
+      listeners.remove(listener);
     }
 
     public void onNewJourney(final Journey journey, final Waypoints waypoints) {
-      for(final Listener l : listeners_)
+      for(final Listener l : listeners)
         l.onNewJourney(journey, waypoints);
     }
 
     public void onReset() {
-      for(final Listener l : listeners_)
+      for(final Listener l : listeners)
         l.onResetJourney();
     }
   }
 
-  private static final Listeners listeners_ = new Listeners();
+  private static final Listeners listeners = new Listeners();
 
-  public static void registerListener(final Listener l) { listeners_.register(l); }
-  public static void softRegisterListener(final Listener l) { listeners_.softRegister(l); }
-  public static void unregisterListener(final Listener l) { listeners_.unregister(l); }
+  public static void registerListener(final Listener l) { listeners.register(l); }
+  public static void softRegisterListener(final Listener l) { listeners.softRegister(l); }
+  public static void unregisterListener(final Listener l) { listeners.unregister(l); }
 
   public static void PlotRoute(final String plan,
                                final int speed,
@@ -82,40 +84,45 @@ public class Route
 
   public static void RePlotRoute(final String plan,
                                  final Context context) {
-    final ReplanRoutingTask query = new ReplanRoutingTask(plan, db_, context);
-    query.execute(plannedRoute_);
+    final ReplanRoutingTask query = new ReplanRoutingTask(plan, db, context);
+    query.execute(plannedRoute);
   }
 
   public static void PlotStoredRoute(final int localId,
                                      final Context context) {
-    final StoredRoutingTask query = new StoredRoutingTask(db_, context);
+    final StoredRoutingTask query = new StoredRoutingTask(db, context);
     query.execute(localId);
   }
 
   public static void RenameRoute(final int localId, final String newName) {
-    db_.renameRoute(localId, newName);
+    db.renameRoute(localId, newName);
   }
 
   public static void DeleteRoute(final int localId) {
-    db_.deleteRoute(localId);
+    db.deleteRoute(localId);
   }
 
   /////////////////////////////////////////
-  private static Journey plannedRoute_ = Journey.NULL_JOURNEY;
-  private static Waypoints waypoints_ = plannedRoute_.waypoints();
-  private static RouteDatabase db_;
-  private static Context context_;
+  private static ShareActionProvider shareRouteActionProvider;
+  private static Journey plannedRoute = Journey.NULL_JOURNEY;
+  private static Waypoints waypoints = plannedRoute.waypoints();
+  private static RouteDatabase db;
+  private static Context context;
 
   public static void initialise(final Context context) {
-    context_ = context;
-    db_ = new RouteDatabase(context);
+    Route.context = context;
+    db = new RouteDatabase(context);
 
     if (isLoaded())
       loadLastJourney();
   }
 
+  public static void setShareRouteActionProvider(ShareActionProvider shareRouteActionProvider) {
+    Route.shareRouteActionProvider = shareRouteActionProvider;
+  }
+
   public static void setWaypoints(final Waypoints waypoints) {
-    waypoints_ = waypoints;
+    Route.waypoints = waypoints;
   }
 
   public static void resetJourney() {
@@ -128,11 +135,11 @@ public class Route
 
   /////////////////////////////////////
   public static int storedCount() {
-    return db_.routeCount();
+    return db.routeCount();
   }
 
   public static List<RouteSummary> storedRoutes() {
-    return db_.savedRoutes();
+    return db.savedRoutes();
   }
 
   /////////////////////////////////////
@@ -142,37 +149,44 @@ public class Route
       return true;
     }
     catch (Exception e) {
-      Toast.makeText(context_, R.string.route_finding_failed, Toast.LENGTH_LONG).show();
+      Toast.makeText(context, R.string.route_finding_failed, Toast.LENGTH_LONG).show();
     }
     return false;
   }
 
-  private static void doOnNewJourney(final RouteData route)
-      throws Exception {
+  private static void doOnNewJourney(final RouteData route) {
     if (route == null) {
-      plannedRoute_ = Journey.NULL_JOURNEY;
-      waypoints_ = Waypoints.NULL_WAYPOINTS;
-      listeners_.onReset();
+      plannedRoute = Journey.NULL_JOURNEY;
+      waypoints = Waypoints.NULL_WAYPOINTS;
+      shareRouteActionProvider.setShareIntent(null);
+      listeners.onReset();
       clearRoutePref();
       return;
     }
 
-    plannedRoute_ = Journey.loadFromXml(route.xml(), route.points(), route.name());
+    String uri = "https://www.cyclestreets.net/journey/" + String.valueOf(route.itinerary());
+    Intent shareIntent = new Intent(Intent.ACTION_SEND);
+    shareIntent.setType("text/plain");
+    shareIntent.putExtra(Intent.EXTRA_TEXT, uri);
 
-    db_.saveRoute(plannedRoute_, route.xml());
-    waypoints_ = plannedRoute_.waypoints();
-    listeners_.onNewJourney(plannedRoute_, waypoints_);
+    plannedRoute = Journey.loadFromXml(route.xml(), route.points(), route.name());
+
+    db.saveRoute(plannedRoute, route.xml());
+    waypoints = plannedRoute.waypoints();
+    shareRouteActionProvider.setShareIntent(shareIntent);
+
+    listeners.onNewJourney(plannedRoute, waypoints);
     setRoutePref();
   }
 
-  public static Waypoints waypoints() { return waypoints_; }
+  public static Waypoints waypoints() { return waypoints; }
 
-  public static boolean available() { return plannedRoute_ != Journey.NULL_JOURNEY; }
-  public static Journey journey() { return plannedRoute_; }
+  public static boolean available() { return plannedRoute != Journey.NULL_JOURNEY; }
+  public static Journey journey() { return plannedRoute; }
 
   private static void loadLastJourney() {
     RouteSummary lastRoute = storedRoutes().get(0);
-    RouteData route = db_.route(lastRoute.localId());
+    RouteData route = db.route(lastRoute.localId());
     Route.onNewJourney(route);
   }
 
@@ -190,7 +204,7 @@ public class Route
   private static final String routePref = "route";
 
   private static SharedPreferences prefs() {
-    return context_.getSharedPreferences("net.cyclestreets.CycleStreets", Context.MODE_PRIVATE);
+    return context.getSharedPreferences("net.cyclestreets.CycleStreets", Context.MODE_PRIVATE);
   }
 
   private Route() { }

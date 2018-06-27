@@ -9,6 +9,11 @@
         android:icon="@drawable/ic_menu_directions"
         android:title="@string/ic_menu_directions"
         app:showAsAction="ifRoom|withText"/>
+  <item android:id="@+id/ic_menu_share_route"
+        android:title="@string/menu_share_route"
+        android:icon="@android:drawable/ic_menu_share"
+        app:showAsAction="ifRoom"
+        app:actionProviderClass="android.widget.ShareActionProvider"/>
   <item android:id="@+id/ic_menu_saved_routes"
         android:icon="@drawable/ic_menu_places"
         android:title="@string/menu_saved_routes"

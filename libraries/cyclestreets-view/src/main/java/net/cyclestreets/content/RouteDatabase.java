@@ -133,20 +133,20 @@ public class RouteDatabase
 
   private RouteData fetchRoute(final String filter, final String[] bindParams) {
     RouteData r = null;
-    final Cursor cursor = db_.query(DatabaseHelper.ROUTE_TABLE,
-                  new String[] { "xml",
-                        "waypoints",
-                        "name"},
-                        filter,
-                        bindParams,
-                        null,
-                        null,
-                        null);
+    final Cursor cursor = db_.query(
+            DatabaseHelper.ROUTE_TABLE,
+            new String[] { "itinerary", "xml", "waypoints", "name" },
+            filter,
+            bindParams,
+            null,
+            null,
+            null);
     if (cursor.moveToFirst())
-      do  {
-        r = new RouteData(cursor.getString(0),
-                          expandWaypoints(cursor.getString(1)),
-                          cursor.getString(2));
+      do {
+        r = new RouteData(cursor.getLong(0),
+                          cursor.getString(1),
+                          expandWaypoints(cursor.getString(2)),
+                          cursor.getString(3));
       }
       while (cursor.moveToNext());
 

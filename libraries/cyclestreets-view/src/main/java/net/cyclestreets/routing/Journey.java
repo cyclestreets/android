@@ -102,8 +102,7 @@ public class Journey
 
   static Journey loadFromXml(final String xml,
                              final Waypoints points,
-                             final String name)
-    throws Exception  {
+                             final String name) {
     final JourneyFactory factory = factory(points, name);
 
     try {

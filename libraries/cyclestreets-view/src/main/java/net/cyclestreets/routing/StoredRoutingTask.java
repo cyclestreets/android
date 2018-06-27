@@ -18,6 +18,7 @@ public class StoredRoutingTask extends RoutingTask<Integer>
 
   @Override
   protected RouteData doInBackground(Integer... params) {
-    return db_.route(params[0]);
+    Integer routeId = params[0];
+    return db_.route(routeId);
   }
 }
