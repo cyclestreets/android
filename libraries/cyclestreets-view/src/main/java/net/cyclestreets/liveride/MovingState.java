@@ -15,7 +15,7 @@ abstract class MovingState extends LiveRideState
   {
     super(previous);
     transition_ = transitionThreshold;
-  } // OnTheMove
+  }
 
   @Override
   public final LiveRideState update(final Journey journey, final GeoPoint whereIam, final int accuracy)
@@ -30,7 +30,7 @@ abstract class MovingState extends LiveRideState
       return transitionState(journey);
 
     return checkCourse(journey, whereIam, accuracy);
-  } // update
+  }
 
   protected abstract LiveRideState transitionState(final Journey journey);
 
@@ -46,10 +46,10 @@ abstract class MovingState extends LiveRideState
       return new GoingOffCourse(this);
 
     return this;
-  } // update
+  }
 
   @Override
   public boolean isStopped() { return false; }
   @Override
   public boolean arePedalling() { return true; }
-} // class OnTheMove
+}

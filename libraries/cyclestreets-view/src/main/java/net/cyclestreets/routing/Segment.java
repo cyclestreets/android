@@ -38,7 +38,7 @@ public abstract class Segment {
          running_distance,
          points,
          terminal);
-  } // Segment
+  }
 
   Segment(final String name, 
           final String turn,
@@ -56,12 +56,12 @@ public abstract class Segment {
     distance_ = distance;
     running_distance_ = running_distance;
     points_ = points;
-  } // Segment
+  }
 
   static protected String initCap(final String s)
   {
     return s.length() != 0 ? s.substring(0,1).toUpperCase() + s.substring(1) : s;
-  } // initCap
+  }
 
   static private String formatTime(int time, boolean terminal)
   {
@@ -80,7 +80,7 @@ public abstract class Segment {
       return String.format("%d:%02d", minutes, seconds);
 
     return String.format("%d:%02d:%02d", hours, minutes, seconds);
-  } // formatTime
+  }
 
   static private String formatTerminalTime(int hours, int minutes)
   {
@@ -96,7 +96,7 @@ public abstract class Segment {
     else if (minutes > 7)
       fraction = "\u00BC";
     return String.format("%d%s hours", hours, fraction);
-  } // formatTerminalTime
+  }
 
   public String toString() 
   {
@@ -106,7 +106,7 @@ public abstract class Segment {
     if (walk())
       s += "\nPlease dismount and walk.";
     return s;
-  } // toString
+  }
 
   public IGeoPoint start() { return points_.get(0); }
   public IGeoPoint finish() { return points_.get(points_.size()-1); }
@@ -117,7 +117,7 @@ public abstract class Segment {
     int at = alongTrackError(location);
 
     return Math.max(Math.abs(at), ct);
-  } // distanceFrom
+  }
 
   public int crossTrackError(final GeoPoint location) 
   {
@@ -127,7 +127,7 @@ public abstract class Segment {
     int ct1 = (minIndex+1 != points_.size()) ? crossTrack(minIndex, location) : Integer.MAX_VALUE;
 
     return Math.min(ct0,  ct1);
-  } // crossTrack
+  }
 
   private int crossTrack(final int index, final GeoPoint location)
   {
@@ -137,7 +137,7 @@ public abstract class Segment {
     double crossTrack = GeoHelper.crossTrack(p1, p2, location);
 
     return Math.abs((int)crossTrack); 
-  } // crossTrack
+  }
 
   public int alongTrackError(final GeoPoint location) 
   {
@@ -149,7 +149,7 @@ public abstract class Segment {
 
     final GeoHelper.AlongTrack at = alongTrack(minIndex == 0 ? minIndex : minIndex-1, location);
     return at.onTrack() ? 0 : at.offset();
-  } // alongTrackError
+  }
 
   public int alongTrack(final GeoPoint location) 
   {
@@ -181,7 +181,7 @@ public abstract class Segment {
     cumulative += at.offset();
 
     return at.onTrack() ? cumulative : -cumulative;
-  } // alongTrack
+  }
 
   private GeoHelper.AlongTrack alongTrack(final int index, final GeoPoint location)
   {
@@ -191,7 +191,7 @@ public abstract class Segment {
     GeoHelper.AlongTrack alongTrack = GeoHelper.alongTrackOffset(p1, p2, location);
 
     return alongTrack; 
-  } // alongTrack
+  }
 
   private int closestPoint(final GeoPoint location) 
   {
@@ -206,7 +206,7 @@ public abstract class Segment {
 
       minDistance = distance;
       minIndex = p;
-    } // for ...
+    }
 
     return minIndex;
   }// closestPoint
@@ -214,7 +214,7 @@ public abstract class Segment {
   public int distanceFromEnd(final GeoPoint location)
   {
     return GeoHelper.distanceBetween(finish(), location);
-  } // distanceFromEnd
+  }
 
   public String street() { return name_; }
   public String turn() { return turn_; }
@@ -249,7 +249,7 @@ public abstract class Segment {
       speed_ = speed;
       calories_ = calories;
       co2_ = co2;
-    } // Start
+    }
 
     public String name() { return super.street(); }
     public int itinerary() { return itinerary_; }
@@ -259,11 +259,11 @@ public abstract class Segment {
     public String toString() 
     {
       return street();
-    } // toString
+    }
 
     public String street() {
       return String.format("%s\n%s route : %s\nJourney time : %s", super.street(), initCap(plan_), super.runningDistance(), super.runningTime());
-    } // street
+    }
     public String distance() { return ""; }
     public String runningDistance() { return ""; }
     public String runningTime() { return ""; }
@@ -273,7 +273,7 @@ public abstract class Segment {
       int kg = co2_ / 1000;
       int g = (int)((co2_ % 1000) / 10.0);
       return String.format("%d.%02dkg", kg, g);
-    } // co2
+    }
 
     public String extraInfo() 
     { 
@@ -283,10 +283,10 @@ public abstract class Segment {
       int g = (int)((co2_ % 1000) / 10.0);
       return String.format("Journey number : #%d\nCalories : %dkcal\nCO\u2082 saved : %d.%02dkg", 
                            itinerary_, calories_, kg, g); 
-    } // extraInfo
+    }
 
     public int crossTrackError(final GeoPoint location) { return Integer.MAX_VALUE; } 
-  } // class Start
+  }
 
   static public class End extends Segment
   {
@@ -299,12 +299,12 @@ public abstract class Segment {
     {
       super("Destination " + destination, "", false, total_time, 0, total_distance, points, true);
       total_distance_ = total_distance;
-    } // End
+    }
 
     public String toString() { return street(); }
     public String distance() { return ""; }
     public int total_distance() { return total_distance_; }
-  } // End
+  }
 
   static public class Step extends Segment
   {
@@ -324,7 +324,7 @@ public abstract class Segment {
           running_distance,
           points,
           false);
-    } // Step
+    }
 
     public Step(final Segment s1, final Segment s2) 
     {
@@ -336,8 +336,8 @@ public abstract class Segment {
             s2.running_distance_,
             Collections.concatenate(s1.points_, s2.points_),
             false);
-    } // Step
-  } // class Step
+    }
+  }
 
   static public class Waymark extends Segment
   {
@@ -353,9 +353,9 @@ public abstract class Segment {
             running_distance,
             Collections.list(gp, gp),
             false);
-    } // Waymark
+    }
 
     public String distance() { return ""; }
     public String toString() { return street(); } 
-  } // class Waymark
-} // class Segment
+  }
+}

@@ -17,12 +17,12 @@ public class Bitmaps
     decodeOptions.inPurgeable = true;
     decodeOptions.inSampleSize = 4;
     return decodeOptions;
-  } // decodeOptions
+  }
 
   static public Bitmap loadFile(final String fileName)
   {
     return BitmapFactory.decodeFile(fileName, decodeOptions());
-  } // loadFile
+  }
 
   static public Bitmap loadStream(final InputStream stream)
   {
@@ -31,20 +31,20 @@ public class Bitmaps
       // return BitmapFactory.decodeStream(inputStream);
       // Bug on slow connections, fixed in future release.
       bm = BitmapFactory.decodeStream(new FlushedInputStream(stream));
-    } // try
+    }
     catch (Exception e) {
       // no matter
-    } // catch
+    }
     finally {
       try {
         stream.close();
-      } // try
+      }
       catch (IOException e) {
         // ah, well
-      } // catch
-    } // finally
+      }
+    }
     return bm;
-  } // loadStream
+  }
 
   static public String resizePhoto(final String fileName)
   {
@@ -64,7 +64,7 @@ public class Bitmaps
     while(srcWidth / 2 > desiredWidth) {
         srcWidth /= 2;
         inSampleSize *= 2;
-    } // while
+    }
 
     float desiredScale = (float)desiredWidth/srcWidth;
 
@@ -92,11 +92,11 @@ public class Bitmaps
       scaledBitmap.recycle();
       scaledBitmap = null;
       return smallFileName;
-    } // try
+    }
     catch (IOException e) {
       return null;
-    } // catch
-  } // resizePhoto
+    }
+  }
 
   static private BitmapFactory.Options bitmapBounds(final String fileName)
   {
@@ -104,14 +104,14 @@ public class Bitmaps
     o.inJustDecodeBounds = true;
     BitmapFactory.decodeFile(fileName, o);
     return o;
-  } // bitmapBounds
+  }
 
   static private class FlushedInputStream extends FilterInputStream
   {
     public FlushedInputStream(final InputStream inputStream)
     {
       super(inputStream);
-    } // FlushedInputStream
+    }
 
     @Override
     public long skip(long n) throws IOException
@@ -127,10 +127,10 @@ public class Bitmaps
             break;  // we reached EOF
           else
             bytesSkipped = 1; // we read one byte
-        } // if ...
+        }
         totalBytesSkipped += bytesSkipped;
-      } // while ...
+      }
       return totalBytesSkipped;
-    } // skip
-  } // FlushedInputStream
-} // class Bitmaps
+    }
+  }
+}

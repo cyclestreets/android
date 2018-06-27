@@ -30,26 +30,26 @@ public class PlaceAutoCompleteTextView extends AppCompatAutoCompleteTextView
   {
     super(context);
     init();
-  } // PlaceAutoCompleteTextView
+  }
 
   public PlaceAutoCompleteTextView(final Context context, final AttributeSet attrs)
   {
     super(context, attrs);
     init();
-  } // PlaceAutoCompleteTextView
+  }
 
   public PlaceAutoCompleteTextView(final Context context, final AttributeSet attrs, final int defStyle)
   {
     super(context, attrs, defStyle);
     init();
-  } // PlaceAutoCompleteTextView
+  }
 
   private void init() 
   {
     setThreshold(0);
     setOnClickListener(this);
     setOnItemClickListener(this);
-  } // init
+  }
 
   /////////////////////////////////////
   public BoundingBox bounds() {  return adapter_.bounds(); }
@@ -57,7 +57,7 @@ public class PlaceAutoCompleteTextView extends AppCompatAutoCompleteTextView
   {
     adapter_ = new GeoLiveAdapter(getContext(), bounds);
     setAdapter(adapter_);  
-  } // setBounds
+  }
 
   public GeoPlace geoPlace() 
   { 
@@ -67,9 +67,9 @@ public class PlaceAutoCompleteTextView extends AppCompatAutoCompleteTextView
       for(final GeoPlace gp : localHistory_)
         if (t.equals(gp.toString()))
           place_ = gp;
-    } // if ...
+    }
     return place_; 
-  } // geoPlace
+  }
   public void setGeoPlace(final GeoPlace place)
   {
     // set text first because we clear place_ in the callback
@@ -77,28 +77,28 @@ public class PlaceAutoCompleteTextView extends AppCompatAutoCompleteTextView
     setText(place.toString());
     place_ = place;
     localHistory_.add(place);
-  } // setGeoPlace
+  }
   public void setGeoPlaceHint(final GeoPlace place)
   {
     setText("");
     setHint(place.toString());
     place_ = place;
     localHistory_.add(place);
-  } // setGeoPlaceHint
+  }
 
   public Contact contact() { return contact_; }
   public void setContact(final Contact contact)
   {
     setText(contact.address());
     contact_ = contact;
-  } // setContact
+  }
 
   public void addHistory(final GeoPlace place)
   {
     if (adapter_ == null)
       return;
     adapter_.addHistory(place);
-  } // addHistory
+  }
 
   /////////////////////////////////////
   @Override
@@ -107,7 +107,7 @@ public class PlaceAutoCompleteTextView extends AppCompatAutoCompleteTextView
     if (adapter_ == null)
       return;
     setGeoPlace(adapter_.getItem(position));
-  } // GeoPlace
+  }
 
   @Override
   public boolean enoughToFilter() { return true; }
@@ -119,21 +119,21 @@ public class PlaceAutoCompleteTextView extends AppCompatAutoCompleteTextView
       showDropDown();
     else
       dismissDropDown();
-  } // onFilterComplete
+  }
 
   @Override
   public void onClick(View v)
   {
     performFiltering(null, KeyEvent.KEYCODE_FOCUS);
     showDropDown();
-  } // onClick
+  }
 
   @Override
   public void onEditorAction(int actionCode)
   {
     super.onEditorAction(actionCode);
     dismissDropDown();
-  } // onEditorAction
+  }
 
   @Override
   public void onTextChanged(final CharSequence s, 
@@ -145,5 +145,5 @@ public class PlaceAutoCompleteTextView extends AppCompatAutoCompleteTextView
     contact_ = null;
     setHint("");
     super.onTextChanged(s, start, before, after);   
-  } // onTextChanged
-} // PlaceAutoCompleteTextView
+  }
+}

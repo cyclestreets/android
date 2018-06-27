@@ -11,11 +11,11 @@ public class StopActivityOverlay extends SingleButtonOverlay {
     super(context, R.drawable.btn_stop);
 
     activity_ = context;
-  } // StopActivityOverlay
+  }
 
   //////////////////////////////////////////////
   @Override
   protected void buttonTapped() {
     activity_.finish();
-  } // onSingleTapUp
-} // StopActivityOverlay
+  }
+}

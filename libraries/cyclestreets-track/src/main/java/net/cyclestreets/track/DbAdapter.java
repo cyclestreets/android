@@ -69,8 +69,8 @@ public class DbAdapter {
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
       if (oldVersion < 22)
         db.execSQL("alter table " + DATA_TABLE_TRIPS + " add column experience text");
-    } // onUpgrade
-  } // DatabaseHelper
+    }
+  }
 
   public static int unfinishedTrip(final Context context) {
     final DbAdapter db = new DbAdapter(context.getApplicationContext());
@@ -85,14 +85,14 @@ public class DbAdapter {
       if (c.getCount() != 0) {
         c.moveToFirst();
         return c.getInt(c.getColumnIndex(K_TRIP_ROWID));
-      } // if ...
+      }
     } finally {
       c.close();
       db.close();
     }
 
     return -1;
-  } // availableForUpload
+  }
 
   public static List<TripData> unUploadedTrips(final Context context) {
     final List<Integer> tripIds = unUploadedTripIds(context);
@@ -102,7 +102,7 @@ public class DbAdapter {
       tripData.add(TripData.fetchTrip(context, id));
 
     return tripData;
-  } // unUploadedTrips
+  }
 
   public static List<Integer> unUploadedTripIds(final Context context) {
     final DbAdapter db = new DbAdapter(context.getApplicationContext());
@@ -121,14 +121,14 @@ public class DbAdapter {
         int id = c.getInt(c.getColumnIndex(K_TRIP_ROWID));
         result.add(id);
         c.moveToNext();
-      } // while
+      }
     } finally {
       c.close();
       db.close();
     }
 
     return result;
-  } // unUploadedTrips
+  }
 
   public DbAdapter(final Context ctx) {
     context_ = ctx;
@@ -253,7 +253,7 @@ public class DbAdapter {
       String s = e.getMessage();
       throw new RuntimeException(e);
     }
-  } // totalDistance
+  }
 
   /**
    * Return a Cursor over the list of all notes in the database

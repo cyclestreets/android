@@ -18,7 +18,7 @@ public class ReplanRoutingTask
     super(R.string.route_loading, context);
     db_ = db;
     newPlan_ = newPlan;
-  } // ReplanRouteTask
+  }
 
   @Override
   protected RouteData doInBackground(Journey... params)
@@ -30,5 +30,5 @@ public class ReplanRoutingTask
 
     publishProgress(R.string.route_finding_new);
     return fetchRoute(newPlan_, pr.itinerary(), 0, pr.waypoints());
-  } // doInBackground
-} // class ReplanRoutingTask
+  }
+}

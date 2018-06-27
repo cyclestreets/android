@@ -39,7 +39,7 @@ public class RouteByAddress {
     ad.getButton(AlertDialog.BUTTON_POSITIVE).setTextAppearance(context, android.R.style.TextAppearance_Large);
 
     rbac.setDialog(ad);
-  } // launch
+  }
 
   private static class RouteByAddressCallbacks implements View.OnClickListener {
     private final Context context_;
@@ -90,28 +90,28 @@ public class RouteByAddress {
 
       if (currentLoc_ == null)
         from.requestFocus();
-    } // RouteActivity
+    }
 
     public void setDialog(final AlertDialog ad) {
       ad_ = ad;
       View button = ad_.getButton(AlertDialog.BUTTON_POSITIVE);
       button.setOnClickListener(this);
       findId_ = button.getId();
-    } // setDialog
+    }
 
     private void findRoute(final List<GeoPlace> places) {
       for (final GeoPlace wp : places)
         for (int i = 0; i != placeHolder_.getChildCount(); ++i) {
           final PlaceViewWithCancel p = (PlaceViewWithCancel) placeHolder_.getChildAt(i);
           p.addHistory(wp);
-        } // for ...
+        }
 
       final String routeType = routeType_.selectedType();
       final int speed = CycleStreetsPreferences.speed();
       Route.PlotRoute(routeType, speed, context_, asWaypoints(places));
 
       ad_.dismiss();
-    } // findRoute
+    }
 
     private View addWaypointBox() {
       final PlaceViewWithCancel pv = new PlaceViewWithCancel(context_);
@@ -129,7 +129,7 @@ public class RouteByAddress {
           label = FINISH_MARKER_LABEL;
 
         pv.allowLocation(waypoints_.get(w), label);
-      } // for ...
+      }
 
       pv.setCancelOnClick(new OnRemove(pv));
 
@@ -139,12 +139,12 @@ public class RouteByAddress {
       enableRemoveButtons();
 
       return pv;
-    } // addWaypointBox
+    }
 
     private void removeWaypointBox(final PlaceViewWithCancel pv) {
       placeHolder_.removeView(pv);
       enableRemoveButtons();
-    } // removeWaypointBox
+    }
 
     private void enableRemoveButtons() {
       final boolean enable = placeHolder_.getChildCount() > 2;
@@ -152,17 +152,17 @@ public class RouteByAddress {
       for (int i = 0; i != placeHolder_.getChildCount(); ++i) {
         final PlaceViewWithCancel p = (PlaceViewWithCancel) placeHolder_.getChildAt(i);
         p.enableCancel(enable);
-      } // for ...
+      }
 
       addWaypoint_.setEnabled(placeHolder_.getChildCount() < 12);
-    } // enableRemoveButtons
+    }
 
     private Waypoints asWaypoints(final List<GeoPlace> places) {
       final Waypoints points = new Waypoints();
       for (GeoPlace place : places)
         points.add(place.coord());
       return points;
-    } // asWaypoints
+    }
 
     @Override
     public void onClick(final View view) {
@@ -172,11 +172,11 @@ public class RouteByAddress {
         resolvePlaces();
       if (R.id.addVia == viewId)
         addWaypointBox();
-    } // onClick
+    }
 
     private void resolvePlaces() {
       resolveNextPlace(new ArrayList<GeoPlace>(), 0);
-    } // resolvePlaces
+    }
 
     private void resolveNextPlace(final List<GeoPlace> resolvedPlaces, final int index) {
       if (index != placeHolder_.getChildCount()) {
@@ -190,19 +190,19 @@ public class RouteByAddress {
         });
       } else
         findRoute(resolvedPlaces);
-    } // resolveNextPlace
+    }
 
     private class OnRemove implements OnClickListener {
       private final PlaceViewWithCancel pv_;
 
       public OnRemove(final PlaceViewWithCancel pv) {
         pv_ = pv;
-      } // OnRemove
+      }
 
       @Override
       public void onClick(final View view) {
         removeWaypointBox(pv_);
-      } // onClick
-    } // class OnRemove
-  } // RouteByAddressCallbacks
-} // RouteByAddress
+      }
+    }
+  }
+}

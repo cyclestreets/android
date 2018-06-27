@@ -65,13 +65,13 @@ public class RecordingService
     soundpool_ = new SoundPool(1,AudioManager.STREAM_NOTIFICATION,0);
     bikebell_ = soundpool_.load(this.getBaseContext(), R.raw.bikebell,1);
     locationManager_ = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-  } // onCreate
+  }
 
   @Override
   public void onDestroy() {
     super.onDestroy();
     stopTimers();
-  } // onDestroy
+  }
 
   @Override
   public IBinder onBind(
@@ -84,14 +84,14 @@ public class RecordingService
       final int flags,
       final int startId) {
     return Service.START_STICKY;
-  } // onStartCommand
+  }
 
   private static class ServiceBinder extends Binder implements IRecordService {
     private final RecordingService rs_;
 
     public ServiceBinder(final RecordingService rs) {
       rs_ = rs;
-    } // MyServiceBinder
+    }
 
     public int getState() {
       return rs_.state_;
@@ -101,7 +101,7 @@ public class RecordingService
     }
     public TripData stopRecording() {
       return rs_.stopRecording();
-    } // stopRecording
+    }
 
     public void setListener(
         final TrackListener ra) {
@@ -111,7 +111,7 @@ public class RecordingService
         final Class<Activity> activityClass) {
       rs_.activityClass_ = activityClass;
     }
-  } // class MyServiceBinder
+  }
 
   // ---end SERVICE methods -------------------------
 
@@ -149,7 +149,7 @@ public class RecordingService
     else
       cancelRecording();
     return trip_;
-  } // stopRecording
+  }
 
   private void finishRecording() {
     state_ = STATE_FULL;
@@ -166,7 +166,7 @@ public class RecordingService
     clearUp();
 
     state_ = STATE_IDLE;
-  } // cancelRecording
+  }
 
   private void clearUp() {
     locationManager_.removeUpdates(this);
@@ -176,7 +176,7 @@ public class RecordingService
     stopTimers();
 
     stopForeground(true);
-  } // clearUp
+  }
 
   private void startTimers() {
     bellTimer_ = new Timer();
@@ -194,7 +194,7 @@ public class RecordingService
         handler_.post(tick_);
       }
     }, 0, 1000);  // every second
-  } // startTimers
+  }
 
   private void stopTimers() {
     if (bellTimer_ != null) {
@@ -207,7 +207,7 @@ public class RecordingService
       tickTimer_.purge();
       tickTimer_ = null;
     }
-  } // stopTimers
+  }
 
   // LocationListener implementation:
   @Override
@@ -216,7 +216,7 @@ public class RecordingService
     updateTripStats(loc);
     trip_.addPointNow(loc);
     notifyUpdate();
-  } // onLocationChanged
+  }
 
   private void updateTripStats(
       final Location newLocation) {
@@ -228,7 +228,7 @@ public class RecordingService
 
     // Speed data is sometimes awful, too:
     curSpeedMph_ = newLocation.getSpeed() * spdConvert;
-  } // updateTripStats
+  }
 
   @Override
   public void onProviderDisabled(String arg0) {
@@ -245,7 +245,7 @@ public class RecordingService
 
   private NotificationManager nm() {
     return (NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);
-  } // nm
+  }
 
   private Notification createNotification(final String tickerText, final int flags) {
     final Intent notificationIntent = new Intent(this, activityClass_);
@@ -261,14 +261,14 @@ public class RecordingService
             .getNotification();
     notification.flags = flags;
     return notification;
-  } // createNotification
+  }
 
   private void showNotification(
       final String tickerText,
       final int flags) {
     final Notification notification = createNotification(tickerText, flags);
     nm().notify(NOTIFICATION_ID, notification);
-  } // showNotification
+  }
 
   private void remindUser() {
     soundpool_.play(bikebell_, 1.0f, 1.0f, 1, 0, 1.0f);
@@ -277,11 +277,11 @@ public class RecordingService
     String tickerText = String.format("Still recording (%d min)", minutes);
 
     showNotification(tickerText, Notification.FLAG_ONGOING_EVENT);
-  } // remindUser
+  }
 
   private void clearNotifications() {
     nm().cancel(NOTIFICATION_ID);
-  } // clearNotifications
+  }
 
   private boolean hasRiderStopped() {
     if (trip_.secondsElapsed() < BAIL_TIME)
@@ -301,10 +301,10 @@ public class RecordingService
 
       if ((end.time - cur.time) > BAIL_TIME)
         break;
-    } // for ...
+    }
 
     return true;
-  } // checkForAutoStop
+  }
 
   private void notifyUpdate() {
     if (trackListener_ == null)
@@ -314,5 +314,5 @@ public class RecordingService
 
     if (hasRiderStopped())
       trackListener_.riderHasStopped(trip_);
-  } // notifyStatusUpdate
-} // RecordingService
+  }
+}

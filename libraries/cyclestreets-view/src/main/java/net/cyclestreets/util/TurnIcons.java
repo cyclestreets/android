@@ -18,19 +18,19 @@ public final class TurnIcons
     private Mapping(final Map<String, Drawable> mapping) 
     {
       mapping_ = mapping;
-    } // Mapping
+    }
 
     public Drawable icon(final String turn) 
     {
       final Drawable i = mapping_.get(turn.toLowerCase());
       return i != null ? i : mapping_.get("default");
-    } // icon
-  } // class Mapping
+    }
+  }
 
   static public Mapping LoadMapping(final Context context)
   {
     return new Mapping(loadIconMappings(context));
-  } // LoadMapping
+  }
 
   static private Map<String, Drawable> loadIconMappings(final Context context)
   {
@@ -50,5 +50,5 @@ public final class TurnIcons
                      .map("third exit", res.getDrawable(R.drawable.third_exit))
                      .map("waymark", res.getDrawable(R.drawable.waymark))
                      .map("default", res.getDrawable(R.drawable.ic_launcher));
-  } // loadIconMappings
-} // TurnIcons
+  }
+}

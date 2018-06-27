@@ -26,7 +26,7 @@ public class POI
     notes_ = notes;
     url_ = url;
     pos_ = new GeoPoint(lat, lon);
-  } // POI
+  }
 
   void setCategory(final POICategory category) { category_ = category; }
 
@@ -38,8 +38,8 @@ public class POI
 
   private String sOrNull(final String s) {
     return s != null ? s : "";
-  } // sOrNull
+  }
 
   public POICategory category() { return category_; }
   public Drawable icon() { return category_.icon(); }
-} // class POI
+}

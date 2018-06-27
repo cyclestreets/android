@@ -51,8 +51,8 @@ public class ItemizedOverlay<Item extends OverlayItem> extends Overlay
       final Item item = items_.get(i);
       pj.toPixels(item.getPoint(), screenCoords);
       onDrawItem(canvas, item, screenCoords, scale, orientation);
-    } // for ...
-  } // draw
+    }
+  }
 
   private void onDrawItem(final Canvas canvas,
                           final Item item,
@@ -86,13 +86,13 @@ public class ItemizedOverlay<Item extends OverlayItem> extends Overlay
     marker.setBounds(rect_);
 
     canvas.restore();
-  } // onDrawItem
+  }
 
   private boolean hitTest(final Drawable marker,
                           final int hitX,
                           final int hitY) {
     return marker.getBounds().contains(hitX, hitY);
-  } // hitTest
+  }
 
   private Drawable boundToHotspot(final Drawable marker,
                                   HotspotPlace hotspot,
@@ -139,7 +139,7 @@ public class ItemizedOverlay<Item extends OverlayItem> extends Overlay
     }
     marker.setBounds(rect_);
     return marker;
-  } // boundToHotSpot
+  }
 
   /////////////////////////////////////////////////
   @Override
@@ -150,7 +150,7 @@ public class ItemizedOverlay<Item extends OverlayItem> extends Overlay
         return onItemSingleTap(item);
       }
     }));
-  } // onSingleTap
+  }
 
   @Override
   public boolean onDoubleTap(final MotionEvent event) {
@@ -160,15 +160,15 @@ public class ItemizedOverlay<Item extends OverlayItem> extends Overlay
         return onItemDoubleTap(item);
       }
     }));
-  } // onDoubleTap
+  }
 
   protected boolean onItemSingleTap(final Item item) {
     return false;
-  } // onItemSingleTap
+  }
 
   protected boolean onItemDoubleTap(final Item item) {
     return false;
-  } // onItemDoubleTap
+  }
 
   /////////////////////////////////////
   private boolean activateSelectedItems(final MotionEvent event,
@@ -189,11 +189,11 @@ public class ItemizedOverlay<Item extends OverlayItem> extends Overlay
         if (task.run(item))
           return true;
       }
-    } // for ...
+    }
     return false;
-  } // activateSelectedItems
+  }
 
   private interface ActiveItem<Item> {
     boolean run(final Item aIndex);
-  } // interface ActiveItem
-} // class ItemizedOverlay
+  }
+}

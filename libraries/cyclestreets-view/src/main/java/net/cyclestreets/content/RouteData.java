@@ -15,9 +15,9 @@ public class RouteData
     xml_ = xml;
     points_ = points;
     name_ = name;
-  } // RouteData
+  }
 
   public String name() { return name_; }
   public String xml() { return xml_; }
   public Waypoints points() { return points_; }
-} // class RouteData
+}

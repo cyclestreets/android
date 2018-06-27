@@ -55,7 +55,7 @@ public abstract class LiveItemOverlay<T extends OverlayItem>
     textBrush_ = Brush.createTextBrush(offset_);
 
     mapView_.setMapListener(new DelayedMapListener(this));
-  } // PhotoItemOverlay
+  }
 
   protected Paint textBrush() { return textBrush_; }
   protected int offset() { return offset_; }
@@ -87,14 +87,14 @@ public abstract class LiveItemOverlay<T extends OverlayItem>
     canvas.drawText(LOADING, screen.centerX(), screen.centerY() + bounds.bottom, textBrush());
 
     canvas.restore();
-  } // drawButtons
+  }
 
   @Override
   public boolean onScroll(final ScrollEvent event)
   {
     refreshItems();
     return true;
-  } // onScroll
+  }
 
   @Override
   public boolean onZoom(final ZoomEvent event)
@@ -104,12 +104,12 @@ public abstract class LiveItemOverlay<T extends OverlayItem>
     zoomLevel_ = event.getZoomLevel();
     refreshItems();
     return true;
-  } // onZoom
+  }
 
   protected void redraw()
   {
     mapView_.postInvalidate();
-  } // redraw
+  }
 
   protected void refreshItems()
   {
@@ -122,7 +122,7 @@ public abstract class LiveItemOverlay<T extends OverlayItem>
 
     loading_ = true;
     redraw();
-  } // refreshPhotos
+  }
 
   protected abstract boolean fetchItemsInBackground(final IGeoPoint mapCentre,
                                                     final int zoom,
@@ -137,5 +137,5 @@ public abstract class LiveItemOverlay<T extends OverlayItem>
       items().remove(items().subList(0, 100));
     loading_ = false;
     redraw();
-  } // setItems
-} // class CycleStreetsItemOverlay
+  }
+}

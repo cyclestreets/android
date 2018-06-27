@@ -34,7 +34,7 @@ public class LocationsFragment extends ListFragment {
     super.onCreate(savedInstanceState);
     locDb_ = new LocationDatabase(getActivity());
     setListAdapter(new LocationsAdapter(getActivity(), locDb_));
-  } // onCreate
+  }
 
   @Override
   public View onCreateView(final LayoutInflater inflater,
@@ -47,14 +47,14 @@ public class LocationsFragment extends ListFragment {
     addButton.setOnClickListener(view -> editLocation(-1));
 
     return layout;
-  } // onCreateView
+  }
 
   @Override
   public void onActivityCreated(Bundle savedInstanceState) {
     super.onActivityCreated(savedInstanceState);
     setHasOptionsMenu(true);
     registerForContextMenu(getListView());
-  } // onActivityCreated
+  }
 
   @Override
   public void onCreateContextMenu(final ContextMenu menu,
@@ -79,43 +79,43 @@ public class LocationsFragment extends ListFragment {
         deleteLocation(localId);
 
       return true;
-    } // try
+    }
     catch (final ClassCastException e) {
       return false;
-    } // catch
-  } // onContextItemSelected
+    }
+  }
 
   @Override
   public void onListItemClick(ListView l, View v, int position, long id) {
     editLocation((int) id);
-  } // onListItemClick
+  }
 
   private void editLocation(int localId) {
     Intent edit = new Intent(getActivity(), LocationEditorActivity.class);
     edit.putExtra("localId", localId);
     startActivityForResult(edit, 0);
-  } // addNewLocation
+  }
 
   @Override
   public void onActivityResult(int requestCode, int resultCode, Intent data) {
     super.onActivityResult(requestCode, resultCode, data);
 
     refresh();
-  } // onActivity
+  }
 
   private void deleteLocation(int localId) {
     locDb_.deleteLocation(localId);
     refresh();
-  } // deleteLocation
+  }
 
   private void refresh() {
     getListAdapter().refresh();
-  } // refresh
+  }
 
   @Override
   public LocationsAdapter getListAdapter() {
     return (LocationsAdapter)super.getListAdapter();
-  } // getListAdapter
+  }
 
   //////////////////////////////////
   static class LocationsAdapter extends BaseAdapter {
@@ -127,12 +127,12 @@ public class LocationsFragment extends ListFragment {
       inflater_ = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
       locDb_ = locDb;
       locs_ = locDb_.savedLocations();
-    } // SegmentAdaptor
+    }
 
     public void refresh() {
       locs_ = locDb_.savedLocations();
       notifyDataSetChanged();
-    } // refresh
+    }
 
     @Override
     public int getCount() { return locs_.size(); }
@@ -152,7 +152,7 @@ public class LocationsFragment extends ListFragment {
       n.setText(location.name());
 
       return v;
-    } // getView
-  } // class LocationsAdaptor
+    }
+  }
 
-} // LocationsFragment
+}

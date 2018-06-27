@@ -18,7 +18,7 @@ public class MessageBox
                            final DialogInterface.OnClickListener yesAction)
   {
     YesNo(parent.getContext(), msg, yesAction);
-  } // YesNo
+  }
 
   static public void YesNo(final View parent,
                            final String msg,
@@ -32,14 +32,14 @@ public class MessageBox
                            final DialogInterface.OnClickListener yesAction)
   {
     YesNo(context, context.getString(msg), yesAction, NoAction);
-  } // YesNo
+  }
 
   static public void YesNo(final Context context,
                            final String msg,
                            final DialogInterface.OnClickListener yesAction)
   {
     YesNo(context, msg, yesAction, NoAction);
-  } // YesNo
+  }
 
   static public void YesNo(final View parent, 
                            final String msg, 
@@ -59,12 +59,12 @@ public class MessageBox
             .setPositiveButton("Yes", yesAction)
             .setNegativeButton("No", noAction);
     Dialog.show(alertbox);
-  } // YesNo
+  }
 
   static public void OK(final View parent, final int msg)
   {
     OK(parent.getContext(), parent.getContext().getString(msg));
-  } // OK
+  }
 
   static public void OK(final View parent, final String msg) { OK(parent.getContext(), msg); } 
   static public void OK(final Context context, final String msg) { OK(context, msg, NoAction); }
@@ -82,7 +82,7 @@ public class MessageBox
     alertbox.setMessage(msg)
             .setPositiveButton("OK", okAction);
     Dialog.show(alertbox);
-  } // OK
+  }
 
   static public void OKAndFinish(final View view,
                                  final String msg,
@@ -97,5 +97,5 @@ public class MessageBox
                         activity.finish();
                     }
                   });
-  } // OKAndFinish  
-} // class MessageBox
+  }
+}

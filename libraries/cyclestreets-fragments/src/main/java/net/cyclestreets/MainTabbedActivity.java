@@ -46,24 +46,24 @@ public abstract class MainTabbedActivity extends Activity implements OnTabChange
       final ViewGroup.LayoutParams layout = tabHost_.getTabWidget().getChildAt(i).getLayoutParams();
       layout.height = (int)(layout.height*0.66);
       tabHost_.getTabWidget().getChildAt(i).setLayoutParams(layout);
-    } // for ...
+    }
 
     // start with route tab
     showMap();
 
     showWhatsNew();
-  } // onCreate
+  }
 
   protected abstract void addTabs(final TabHost tabHost);
 
   protected void setCurrentTab(final int tab) {
     tabHost_.setCurrentTab(tab);
-  } // setCurrentTab
+  }
 
   public void showMap()
   {
     tabHost_.setCurrentTab(0);
-  } // showMap
+  }
 
   public void showWhatsNew()
   {
@@ -82,11 +82,11 @@ public abstract class MainTabbedActivity extends Activity implements OnTabChange
             })
            .setView(whatsnewView)
            .show();
-  } // showWhatsNew
+  }
 
   protected SharedPreferences prefs() {
     return getSharedPreferences("net.cyclestreets.CycleStreets", Context.MODE_PRIVATE);
-  } // prefs()
+  }
 
   //////////////////////////////////////////////////////////////////////////////////////////////////
   // Tab handling
@@ -118,8 +118,8 @@ public abstract class MainTabbedActivity extends Activity implements OnTabChange
         final FragmentTransaction ft = fm.beginTransaction();
         ft.detach(fragment_);
         ft.commit();
-      } // if
-    } // TabInfo
+      }
+    }
 
     void attach(final FragmentTransaction ft)
     {
@@ -132,14 +132,14 @@ public abstract class MainTabbedActivity extends Activity implements OnTabChange
       }
       else
         ft.attach(fragment_);
-    } // attach
+    }
 
     void detach(final FragmentTransaction ft)
     {
       if (fragment_ == null)
         return;
       ft.detach(fragment_);
-    } // detach
+    }
 
     void onPrepareOptionsMenu(final Menu menu, final MenuInflater inflater)
     {
@@ -147,26 +147,26 @@ public abstract class MainTabbedActivity extends Activity implements OnTabChange
       {
         fragment_.onCreateOptionsMenu(menu, inflater);
         menuCreated_ = true;
-      } // if ...
+      }
       fragment_.onPrepareOptionsMenu(menu);
-    } // onPrepareOptionsMenu
+    }
 
     boolean onOptionsItemSelected(final MenuItem item)
     {
       return fragment_.onOptionsItemSelected(item);
-    } // onOptionsItemSelected
+    }
 
     boolean onContextItemSelected(final MenuItem item)
     {
       return fragment_.onContextItemSelected(item);
-    } // onContextItemSelected
+    }
 
     boolean onBackPressed()
     {
       if (!(fragment_ instanceof Undoable))
         return false;
       return ((Undoable)fragment_).onBackPressed();
-    } // onBackPressed
+    }
   }  // class TabInfo
 
   @Override
@@ -176,7 +176,7 @@ public abstract class MainTabbedActivity extends Activity implements OnTabChange
     v.setMinimumWidth(0);
     v.setMinimumHeight(0);
     return v;
-  } // createTabContent
+  }
 
   protected void addTab(final String tabId,
                         final int iconId,
@@ -191,7 +191,7 @@ public abstract class MainTabbedActivity extends Activity implements OnTabChange
 
     tabs_.put(tabId, info);
     tabHost_.addTab(tabSpec);
-  } // addTab
+  }
 
   @Override
   public void onTabChanged(String tabId)
@@ -212,12 +212,12 @@ public abstract class MainTabbedActivity extends Activity implements OnTabChange
     getFragmentManager().executePendingTransactions();
 
     setTitle(applicationName() + " : " + tabId);
-  } // onTabChanged
+  }
 
   public String applicationName() {
     int stringId = getApplicationInfo().labelRes;
     return getString(stringId);
-  } // applicationName
+  }
 
   // pause/resume
   @Override
@@ -228,7 +228,7 @@ public abstract class MainTabbedActivity extends Activity implements OnTabChange
     final SharedPreferences.Editor edit = prefs().edit();
     edit.putString("TAB", tabHost_.getCurrentTabTag());
     edit.commit();
-  } // onPause
+  }
 
   @Override
   protected void onResume()
@@ -237,7 +237,7 @@ public abstract class MainTabbedActivity extends Activity implements OnTabChange
     tabHost_.setCurrentTabByTag(tab);
 
     super.onResume();
-  } // onResume
+  }
 
   // menus
   @Override
@@ -246,7 +246,7 @@ public abstract class MainTabbedActivity extends Activity implements OnTabChange
     // fragments all share the same menu
     super.onCreateOptionsMenu(menu);
     return true;
-  } // onCreateOptionsMenu
+  }
 
   @Override
   public boolean onPrepareOptionsMenu(final Menu menu)
@@ -256,12 +256,12 @@ public abstract class MainTabbedActivity extends Activity implements OnTabChange
     {
       final MenuItem mi = menu.getItem(i);
       mi.setVisible(false);
-    } // for ...
+    }
 
     // then let each fragment reenable
     lastTab_.onPrepareOptionsMenu(menu, getMenuInflater());
     return super.onPrepareOptionsMenu(menu);
-  } // onPrepareOptionsMenu
+  }
 
   @Override
   public boolean onOptionsItemSelected(final MenuItem item)
@@ -270,7 +270,7 @@ public abstract class MainTabbedActivity extends Activity implements OnTabChange
       return true;
 
     return super.onOptionsItemSelected(item);
-  } // onOptionsItemSelected
+  }
 
   @Override
   public boolean onContextItemSelected(final MenuItem item)
@@ -278,7 +278,7 @@ public abstract class MainTabbedActivity extends Activity implements OnTabChange
     if (lastTab_.onContextItemSelected(item))
       return true;
     return super.onContextItemSelected(item);
-  } // onContextItemSelected
+  }
 
   // touch and buttons
   @Override
@@ -288,4 +288,4 @@ public abstract class MainTabbedActivity extends Activity implements OnTabChange
       return;
     super.onBackPressed();
   }
-} // class CycleStreets
+}

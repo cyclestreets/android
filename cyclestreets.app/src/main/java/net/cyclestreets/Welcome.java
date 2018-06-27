@@ -11,13 +11,13 @@ public class Welcome {
     launch(context,
         "CycleStreets",
         "file:///android_asset/welcome.html");
-  } // welcome
+  }
 
   public static void whatsNew(final Context context) {
     launch(context,
         "CycleStreets - What's New",
         "file:///android_asset/whatsnew.html");
-  } // whatsNew
+  }
 
   private static void launch(
       final Context context,
@@ -34,5 +34,5 @@ public class Welcome {
     final AlertDialog ad = builder.create();
     ad.show();
     ad.getButton(AlertDialog.BUTTON_POSITIVE).setTextAppearance(context, android.R.style.TextAppearance_Large);
-  } // launch
-} // Welcome
+  }
+}

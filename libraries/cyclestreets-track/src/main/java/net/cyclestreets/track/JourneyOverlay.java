@@ -22,7 +22,7 @@ public class JourneyOverlay extends Overlay {
                                                        final CycleMapView mapView,
                                                        final TripData tripData) {
     return new JourneyOverlay(context, mapView, tripData);
-  } // CompletedJourneyOverlay
+  }
 
   public static JourneyOverlay InProgressJourneyOverlay(final Context context,
                                                         final CycleMapView mapView,
@@ -30,7 +30,7 @@ public class JourneyOverlay extends Overlay {
     JourneyOverlay jo = new JourneyOverlay(context, mapView, tripData);
     jo.inProgress();
     return jo;
-  } // InProgressJourneyOverlay
+  }
 
   static private int ROUTE_COLOUR = 0x80ff00ff;
 
@@ -64,16 +64,16 @@ public class JourneyOverlay extends Overlay {
     final Resources res = context.getResources();
     greenWisp_ = (BitmapDrawable)res.getDrawable(R.drawable.greep_wisp);
     redWisp_ = (BitmapDrawable)res.getDrawable(R.drawable.red_wisp);
-  } // JourneyOverlay
+  }
 
   private void inProgress() {
     inProgress_ = true;
-  } // inProgress
+  }
 
   public void update(final TripData trip) {
     trip_ = trip;
     mapView_.invalidate();
-  } // update
+  }
 
   @Override
   public void draw(final Canvas canvas, final MapView mapView, final boolean shadow) {
@@ -90,7 +90,7 @@ public class JourneyOverlay extends Overlay {
       ridePath_ = null;
       zoomLevel_ = mapView.getProjection().getZoomLevel();
       mapCentre_ = centre;
-    } // if ...
+    }
 
     if (ridePath_ == null || inProgress_)
       ridePath_ = journeyPath(mapView.getProjection());
@@ -103,8 +103,8 @@ public class JourneyOverlay extends Overlay {
     if (initial_ && !inProgress_) {
       mapView_.zoomToBoundingBox(trip_.boundingBox());
       initial_ = false;
-    } // if ...
-  } // draw
+    }
+  }
 
   private Path journeyPath(final IProjection projection) {
     Path ridePath = newPath();
@@ -120,10 +120,10 @@ public class JourneyOverlay extends Overlay {
         first = false;
       } else
         ridePath.lineTo(screenPoint.x, screenPoint.y);
-    } // for ...
+    }
 
     return ridePath;
-  } // drawJourney
+  }
 
   private void drawMarker(final Canvas canvas,
                           final IProjection projection,
@@ -141,7 +141,7 @@ public class JourneyOverlay extends Overlay {
     bitmapTransform_.postScale(1/transformValues_[Matrix.MSCALE_X], 1/transformValues_[Matrix.MSCALE_Y]);
     bitmapTransform_.postTranslate(screenPoint.x, screenPoint.y);
     canvas.drawBitmap(marker.getBitmap(), bitmapTransform_, bitmapPaint_);
-  } // drawMarker
+  }
 
   private Paint createBrush(int colour) {
     final Paint brush = new Paint();
@@ -152,13 +152,13 @@ public class JourneyOverlay extends Overlay {
     brush.setStrokeWidth(10.0f);
 
     return brush;
-  } // createBrush
+  }
 
   private Path newPath() {
     final Path path = new Path();
     path.rewind();
     return path;
-  } // newPath
+  }
 
-} // JourneyOverlay
+}
 

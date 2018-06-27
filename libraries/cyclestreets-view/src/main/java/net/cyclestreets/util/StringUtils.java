@@ -8,4 +8,4 @@ public class StringUtils {
   }
 
   private StringUtils() { }
-} // class StringUtils
+}

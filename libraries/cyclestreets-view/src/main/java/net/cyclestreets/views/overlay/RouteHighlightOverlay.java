@@ -67,7 +67,7 @@ public class RouteHighlightOverlay extends Overlay
     fillBrush_ = Brush.HighlightBrush(context);
 
     hasGps_ = GPS.deviceHasGPS(context);
-  } // MapActivityPathOverlay
+  }
 
   @Override
   public void draw(final Canvas canvas, final MapView mapView, final boolean shadow)
@@ -80,7 +80,7 @@ public class RouteHighlightOverlay extends Overlay
       return;
 
     mapView_.getController().animateTo(current_.start());
-  } // onDraw
+  }
 
   @Override
   public void drawButtons(final Canvas canvas, final MapView mapView)
@@ -94,7 +94,7 @@ public class RouteHighlightOverlay extends Overlay
     prevButton_.draw(canvas);
     nextButton_.enable(!Route.journey().atEnd());
     nextButton_.draw(canvas);
-  } // drawButtons
+  }
 
   private void drawSegmentInfo(final Canvas canvas)
   {
@@ -115,7 +115,7 @@ public class RouteHighlightOverlay extends Overlay
 
     DrawingHelper.drawRoundRect(canvas, box, radius_, fillBrush_);
     Draw.drawTextInRect(canvas, textBrush_, textBox, seg.toString());
-  } // drawSegmentInfo
+  }
 
   //////////////////////////////////////////////
   @Override
@@ -135,7 +135,7 @@ public class RouteHighlightOverlay extends Overlay
 
     mapView_.invalidate();
     return true;
-  } // onSingleTapUp
+  }
 
   public boolean onButtonDoubleTap(final MotionEvent event)
   {
@@ -155,5 +155,5 @@ public class RouteHighlightOverlay extends Overlay
 
     mapView_.invalidate();
     return true;
-  } // onDoubleTap
-} // RouteHighlightOverlay
+  }
+}

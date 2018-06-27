@@ -39,10 +39,10 @@ public class GeoIntent
             intent.getIntExtra(EXTRA_EAST, 0),
             intent.getIntExtra(EXTRA_SOUTH, 0),
             intent.getIntExtra(EXTRA_WEST, 0));
-    } // if ...
+    }
 
     return null;
-  } // getBoundingBox
+  }
 
   static public void setBoundingBox(final Intent intent,
                                     final BoundingBoxE6 bounds)
@@ -51,13 +51,13 @@ public class GeoIntent
     intent.putExtra(EXTRA_EAST, bounds.getLonEastE6());
     intent.putExtra(EXTRA_SOUTH, bounds.getLatSouthE6());
     intent.putExtra(EXTRA_WEST, bounds.getLonWestE6());
-  } // setBoundingBox
+  }
 
   //////////////////////////////////////////////
   static public GeoPoint getGeoPoint(final Intent intent)
   {
     return getGeoPoint(intent, "");
-  } // getGeoPoint
+  }
 
   static public GeoPoint getGeoPoint(final Intent intent, final String prefix)
   {
@@ -68,15 +68,15 @@ public class GeoIntent
       int lon = intent.getIntExtra(prefix+GEO_LONGITUDE, 0);
 
       return new GeoPoint(lat, lon);
-    } // if ...
+    }
 
     return null;
-  } // getLocation
+  }
 
   static public void setGeoPoint(final Intent intent, final IGeoPoint point)
   {
     setGeoPoint(intent, "", point);
-  } // setGeoPoint
+  }
   static public void setGeoPoint(final Intent intent,
                                  final String prefix,
                                  final IGeoPoint point)
@@ -85,7 +85,7 @@ public class GeoIntent
       return;
     intent.putExtra(prefix+GEO_LATITUDE, point.getLatitudeE6());
     intent.putExtra(prefix+GEO_LONGITUDE, point.getLongitudeE6());
-  } // setGeoPoint
+  }
 
   static public void setLocation(final Intent intent, 
                                  final Location location)
@@ -94,7 +94,7 @@ public class GeoIntent
       return;
     intent.putExtra(GEO_LATITUDE, (int)(location.getLatitude() * 1E6));
      intent.putExtra(GEO_LONGITUDE, (int)(location.getLongitude() * 1E6));
-  } // setLocation
+  }
 
   static public Waypoints getWaypoints(final Intent intent)
   {
@@ -105,33 +105,33 @@ public class GeoIntent
       if (wp == null)
         break;
       points.add(wp);
-    } // for ...
+    }
     return points;
-  } // getWaypoints
+  }
 
   static public void setWaypoints(final Intent intent, final Waypoints points)
   {
     for(int i = 0; i != points.count(); ++i)
       setWaypoint(intent, i, points.get(i));
-  } // setWaypoints
+  }
 
   static public void setWaypointsFromPlaces(final Intent intent, final List<GeoPlace> places)
   {
     for(int i = 0; i != places.size(); ++i)
       setWaypoint(intent, i, places.get(i).coord());
-  } // setWaypoints
+  }
 
   static private GeoPoint getWaypoint(final Intent intent, final int index)
   {
     return getGeoPoint(intent, WAYPOINT + index);
-  } // getWaypoint
+  }
 
   static private void setWaypoint(final Intent intent,
                                  final int index,
                                  final IGeoPoint point)
   {
     setGeoPoint(intent, WAYPOINT + index, point);
-  } // setWaypoint
+  }
 
   //////////////////////////////////////////////
   static public GeoPlace getGeoPlace(final Intent intent)
@@ -143,12 +143,12 @@ public class GeoIntent
      if ((point == null) || (name == null) || (near == null))
        return null;
      return new GeoPlace(point, name, near);
-  } // getGeoPlace
+  }
 
   static public void setGeoPlace(final Intent intent, final GeoPlace place)
   {
      setGeoPoint(intent, place.coord());
      intent.putExtra(GEO_NAME, place.name());
      intent.putExtra(GEO_NEAR, place.near());
-  } // setGeoPlace
-} // GeoIntent
+  }
+}

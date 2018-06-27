@@ -39,14 +39,14 @@ public class AccountDetailsActivity extends Activity
       prev_ = p;
       if (prev_ != null)
         prev_.next_ = this;
-    } // AddStep
+    }
 
     public RegisterStep prev() { return prev_; }
     public RegisterStep next() { return next_; }
 
     private RegisterStep prev_;
     private RegisterStep next_;
-  } // RegisterStep  
+  }
 
   private RegisterStep step_;
 
@@ -78,7 +78,7 @@ public class AccountDetailsActivity extends Activity
     step_ = (CycleStreetsPreferences.accountOK()) ? RegisterStep.EXISTING_SIGNIN_DETAILS : RegisterStep.ACCOUNT;
 
     setupView();
-  } // onCreate
+  }
 
   @Override 
   public void onBackPressed()
@@ -89,7 +89,7 @@ public class AccountDetailsActivity extends Activity
       setupView();
     else
       super.onBackPressed();
-  } // onBackPressed    
+  }
 
   private void setupView()
   {
@@ -119,8 +119,8 @@ public class AccountDetailsActivity extends Activity
       hookUpButton(signinDetails_, R.id.signin_button);
       hookUpButton(signinDetails_, R.id.cleardetails_button);
       break;
-    } // switch
-  } // setupView
+    }
+  }
 
   private String signinMessage() {
     if (CycleStreetsPreferences.accountOK())
@@ -142,12 +142,12 @@ public class AccountDetailsActivity extends Activity
     if (b == null)
       return;
     b.setOnClickListener(this);    
-  } // hookUpNext
+  }
 
   private TextView textView(final View v, final int id)
   {
     return (TextView)v.findViewById(id);
-  } // textView
+  }
 
   private void setText(final View v, final int id, final String value)
   {
@@ -155,13 +155,13 @@ public class AccountDetailsActivity extends Activity
     if (tv == null)
       return;
     tv.setText(value);
-  } // setText
+  }
 
   private String getText(final View v, final int id)
   {
     final TextView tv = textView(v, id);
     return tv.getText().toString();
-  } // getText
+  }
 
   @Override
   public void onClick(final View v) 
@@ -184,7 +184,7 @@ public class AccountDetailsActivity extends Activity
     }
 
     setupView();
-  } // onClick
+  }
   ///////////////////////////////////////////////////////
 
   @Override
@@ -197,7 +197,7 @@ public class AccountDetailsActivity extends Activity
     final String username = getText(signinDetails_, R.id.username);
     final String password = getText(signinDetails_, R.id.password);
     signinButton_.setEnabled((username.length() != 0) && (password.length() != 0));
-  } // onTextChanged
+  }
 
   ///////////////////////////////////////////////////////
   private void confirmClear()
@@ -210,13 +210,13 @@ public class AccountDetailsActivity extends Activity
                       setupView();
                     }
                   });
-  } // confirmClear
+  }
 
   ////////////////////////////////////////////////////////
   private void MessageBox(final String message, final boolean finishOnOK)
   {
     MessageBox.OKAndFinish(signinDetails_, message, this, finishOnOK);
-  } // MessageBox
+  }
 
   ////////////////////////////////////////////////////////
   private void signin()
@@ -228,10 +228,10 @@ public class AccountDetailsActivity extends Activity
     {
       MessageBox("Please enter username and password.", false);
       return;
-    } // if ...
+    }
     final SignInTask task = new SignInTask(this, username, password);
     task.execute();
-  } // signin
+  }
 
   private class SignInTask extends AsyncTask<Object, Void, Signin.Result>
   {
@@ -247,19 +247,19 @@ public class AccountDetailsActivity extends Activity
       password_ = password;
 
       progress_ = Dialog.createProgressDialog(context, R.string.account_signing_in);
-    } // SigninTask
+    }
 
     @Override
     protected void onPreExecute() 
     {
       super.onPreExecute();
       progress_.show();
-    } // onPreExecute
+    }
 
     protected Signin.Result doInBackground(Object... params)
     {
       return Signin.signin(username_, password_);
-    } // doInBackground
+    }
 
     @Override
     protected void onPostExecute(final Signin.Result result) 
@@ -274,8 +274,8 @@ public class AccountDetailsActivity extends Activity
       setText(signinDetails_, R.id.signin_message, signinMessage());
 
       MessageBox(result.message(), result.ok());
-    } // onPostExecute
-  } // class SignInTask
+    }
+  }
 
   ////////////////////////////////////////////////////////
   private void register()
@@ -308,7 +308,7 @@ public class AccountDetailsActivity extends Activity
                                                name,
                                                email);
     task.execute();
-  } // register
+  }
 
   private class RegisterTask extends AsyncTask<Object, Void, Result>
   {
@@ -329,14 +329,14 @@ public class AccountDetailsActivity extends Activity
       email_ = email;
 
       progress_ = Dialog.createProgressDialog(context, R.string.account_registering);
-    } // RegisterTask
+    }
 
     @Override
     protected void onPreExecute() 
     {
       super.onPreExecute();
       progress_.show();
-    } // onPreExecute
+    }
 
     protected Result doInBackground(Object... params)
     {
@@ -344,7 +344,7 @@ public class AccountDetailsActivity extends Activity
                                    password_,
                                    name_,
                                    email_);
-    } // doInBackground
+    }
 
     @Override
     protected void onPostExecute(final Result result)
@@ -352,8 +352,8 @@ public class AccountDetailsActivity extends Activity
       progress_.dismiss();
       CycleStreetsPreferences.setPendingUsernamePassword(username_, password_, name_, email_, result.ok());
       MessageBox(result.message(), result.ok());
-    } // onPostExecute
-  } // class RegisterTask  
+    }
+  }
 
   private class WhitespaceInputFilter extends LoginFilter.UsernameFilterGeneric {
     public WhitespaceInputFilter() {
@@ -364,5 +364,5 @@ public class AccountDetailsActivity extends Activity
     public boolean isAllowed(char c) {
       return !Character.isWhitespace(c);
     }
-  } // class WhitespaceInputFilter
-} // class AccountDetailsActivity
+  }
+}

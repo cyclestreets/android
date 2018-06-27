@@ -12,7 +12,7 @@ import java.util.List;
 public class Tracker {
   public static TrackerControl create(final Activity context, final TrackListener listener) {
     return Controller.create(context, listener);
-  } // create
+  }
 
   public static void checkStatus(final Context context, final StatusCallback callback) {
     // check to see if already recording here
@@ -28,7 +28,7 @@ public class Tracker {
           if (unfinishedTrip != -1) {
             callback.unsavedTrip();
           }
-        } // if ...
+        }
 
         context.unbindService(this); // race?  this says we no longer care
       }
@@ -37,7 +37,7 @@ public class Tracker {
     // This needs to block until the onServiceConnected (above) completes.
     // Thus, we can check the recording status before continuing on.
     context.bindService(rService, sc, Context.BIND_AUTO_CREATE);
-  } // checkStatus
+  }
 
   public static int uploadLeftOverTrips(final Context context) {
     final List<TripData> trips = DbAdapter.unUploadedTrips(context);
@@ -47,7 +47,7 @@ public class Tracker {
     TripDataUploader.upload(context, trips);
 
     return trips.size();
-  } // uploadLeftOverTrips
+  }
 
   private Tracker() { }
-} // class Tracker
+}

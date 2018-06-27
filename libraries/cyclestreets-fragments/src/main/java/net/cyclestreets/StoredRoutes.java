@@ -33,7 +33,7 @@ public class StoredRoutes {
         null);
     ad.getButton(AlertDialog.BUTTON_POSITIVE).setTextAppearance(context, android.R.style.TextAppearance_Large);
     rsa.setDialog(ad);
-  } // launch
+  }
 
   //////////////////////////////////
   private static class RouteSummaryAdapter extends BaseAdapter
@@ -51,7 +51,7 @@ public class StoredRoutes {
       inflater_ = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
       routes_ = Route.storedRoutes();
       viewRoute_ = new HashMap<>();
-    } // SegmentAdaptor
+    }
 
     public void setDialog(final AlertDialog ad) { ad_ = ad; }
 
@@ -60,19 +60,19 @@ public class StoredRoutes {
       notifyDataSetChanged();
       if (routes_.size() == 0)
         closeDialog();
-    } // refresh
+    }
 
     private void closeDialog() {
       if (ad_ != null)
         ad_.cancel();
-    } // closeDialog
+    }
 
     public RouteSummary getRouteSummary(int localId) {
       for(final RouteSummary r : routes_)
         if (r.localId() == localId)
           return r;
       return null;
-    } // getRouteSummary
+    }
 
     @Override
     public int getCount() { return routes_.size(); }
@@ -105,19 +105,19 @@ public class StoredRoutes {
       view.setOnCreateContextMenuListener(this);
 
       return view;
-    } // getView
+    }
 
     @Override
     public void onClick(final View view) {
       final int localId = viewRoute_.get(view);
       openRoute(localId);
-    } // onClick
+    }
 
     @Override
     public boolean onLongClick(final View view) {
       view.showContextMenu();
       return true;
-    } // onClick
+    }
 
     @Override
     public void onCreateContextMenu(final ContextMenu menu,
@@ -127,12 +127,12 @@ public class StoredRoutes {
         public boolean onMenuItemClick(final MenuItem item) {
           RouteSummaryAdapter.this.onViewMenuClick(view, item);
           return true;
-        } // onMenuItemClick
+        }
       };
       createMenuItem(menu, R.string.ic_menu_open).setOnMenuItemClickListener(listener);
       createMenuItem(menu, R.string.ic_menu_rename).setOnMenuItemClickListener(listener);
       createMenuItem(menu, R.string.ic_menu_delete).setOnMenuItemClickListener(listener);
-    } // onCreateContextMenu
+    }
 
     private void onViewMenuClick(final View view, final MenuItem item) {
       final int localId = viewRoute_.get(view);
@@ -144,14 +144,14 @@ public class StoredRoutes {
         renameRoute(localId);
       if (R.string.ic_menu_delete == menuId)
         deleteRoute(localId);
-    } // onMenuItemClick
+    }
 
     //////////////////////////////////////////////
     /////////////////////////////////////////////
     private void openRoute(final int localId) {
       Route.PlotStoredRoute(localId, context_);
       closeDialog();
-    } // routeSelected
+    }
 
     private void renameRoute(final int localId)
     {
@@ -162,15 +162,15 @@ public class StoredRoutes {
             public void updatedText(final String updated) {
               Route.RenameRoute(localId, updated);
               refresh();
-            } // updatedText
+            }
           });
-    } // renameRoute
+    }
 
     private void deleteRoute(final int localId) {
       Route.DeleteRoute(localId);
       refresh();
-    } // deleteRoute
-  } // class RouteSummaryAdaptor
+    }
+  }
 
   private StoredRoutes() { }
-} // StoredRoutes
+}

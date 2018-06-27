@@ -32,20 +32,20 @@ public class ItineraryFragment extends ListFragment
   public void onCreate(final Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setListAdapter(new SegmentAdapter(getActivity(), this));
-  } // onCreate
+  }
 
   @Override
   public void onResume() {
     super.onResume();
     Route.onResume();
     Route.registerListener(this);
-  } // onResume
+  }
 
   @Override
   public void onPause() {
     Route.unregisterListener(this);
     super.onPause();
-  } // onPause
+  }
 
   @Override
   public void onListItemClick(ListView l, View v, int position, long id) {
@@ -57,18 +57,18 @@ public class ItineraryFragment extends ListFragment
       ((RouteMapActivity)getActivity()).showMap();
     } catch (Exception e) {
     }
-  } // onListItemClick
+  }
 
   @Override
   public void onNewJourney(final Journey journey, final Waypoints waypoints) {
     journey_ = journey;
     setSelection(journey_.activeSegmentIndex());
-  } // onNewJourney
+  }
 
   @Override
   public void onResetJourney() {
     journey_ = Journey.NULL_JOURNEY;
-  } // onResetJourney
+  }
 
   //////////////////////////////////
   static class SegmentAdapter extends BaseAdapter {
@@ -87,30 +87,30 @@ public class ItineraryFragment extends ListFragment
       inflater_ = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
       themeColor_ = context.getResources().getDrawable(R.color.apptheme_color);
       backgroundColor_ = Theme.backgroundColor(context);
-    } // SegmentAdaptor
+    }
 
     private Journey journey() { return itinerary_.journey_; }
 
     private boolean hasSegments() {
       return !journey().isEmpty();
-    } // hasSegments
+    }
 
     @Override
     public int getCount() {
       return hasSegments() ? journey().segments().count() : 1;
-    } // getCount
+    }
 
     @Override
     public Object getItem(int position) {
       if (!hasSegments())
         return null;
       return journey().segments().get(position);
-    } // getItem
+    }
 
     @Override
     public long getItemId(int position) {
       return position;
-    } // getItemId
+    }
 
     @Override
     public View getView(final int position, final View convertView, final ViewGroup parent) {
@@ -134,7 +134,7 @@ public class ItineraryFragment extends ListFragment
         setText(v, R.id.journeytime, start.totalTime(), false);
         setText(v, R.id.calories, start.calories(), false);
         setText(v, R.id.carbondioxide, start.co2(), false);
-      } // if ...
+      }
       setText(v, R.id.segment_distance, seg.distance(), highlight);
       setText(v, R.id.segment_cumulative_distance, seg.runningDistance(), highlight);
       setText(v, R.id.segment_time, seg.runningTime(), highlight);
@@ -146,7 +146,7 @@ public class ItineraryFragment extends ListFragment
         v.setBackgroundDrawable(themeColor_);
 
       return v;
-    } // getView
+    }
 
     private void setText(final View v, final int id, final String t, final boolean highlight) {
       final TextView n = (TextView)v.findViewById(id);
@@ -155,14 +155,14 @@ public class ItineraryFragment extends ListFragment
       n.setText(t);
       if (highlight)
         n.setTextColor(Color.BLACK);
-    } // setText
+    }
 
     private void setMainText(final View v, final int id, final String turn, final String street, final boolean highlight) {
       String t = street;
       if (turn.length() != 0)
         t = turn + " into " + street;
       setText(v, id, t, highlight);
-    } // setMainText
+    }
 
     private void setTurnIcon(final View v, final int id, final String turn, final boolean walk) {
       final ImageView iv = (ImageView)v.findViewById(id);
@@ -174,12 +174,12 @@ public class ItineraryFragment extends ListFragment
       iv.setBackgroundColor(backgroundColor_);
       if (walk)
         iv.setBackgroundDrawable(footprints_);
-    } // setTurnIcon
+    }
 
     private Drawable turnIcon(final String turn) {
       return iconMappings_.icon(turn);
-    } // turnIcon
+    }
 
     private String distance(final int metres) { return DistanceFormatter.formatter(CycleStreetsPreferences.units()).total_distance(metres); }
-  } // class SegmentAdaptor
-} // ItineraryActivity
+  }
+}

@@ -26,7 +26,7 @@ public class ImageDownloader {
                          final ImageView imageView) {
     final BitmapDownloaderTask task = new BitmapDownloaderTask(imageView);
     task.execute(url);
-  } // get
+  }
 
   //////////////////////////
   private static class BitmapDownloaderTask extends AsyncTask<String, Void, Bitmap> {

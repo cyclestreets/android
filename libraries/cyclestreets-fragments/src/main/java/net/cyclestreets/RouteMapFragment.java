@@ -56,7 +56,7 @@ public class RouteMapFragment extends CycleMapFragment
     hasGps_ = GPS.deviceHasGPS(getActivity());
 
     return v;
-  } // onCreate
+  }
 
   @Override
   public void onResume()
@@ -64,7 +64,7 @@ public class RouteMapFragment extends CycleMapFragment
     super.onResume();
     Route.registerListener(this);
     Route.onResume();
-  } // onResume
+  }
 
   @Override
   public void onPause()
@@ -72,7 +72,7 @@ public class RouteMapFragment extends CycleMapFragment
     Route.setWaypoints(routeSetter_.waypoints());
     Route.unregisterListener(this);
     super.onPause();
-  } // onPause
+  }
 
   public void onRouteNow(int itinerary)
   {
@@ -80,14 +80,14 @@ public class RouteMapFragment extends CycleMapFragment
         itinerary,
         CycleStreetsPreferences.speed(),
         getActivity());
-  } // onRouteNow
+  }
 
   @Override
   public void onCreateOptionsMenu(final Menu menu, final MenuInflater inflater)
   {
     inflater.inflate(R.menu.route_map, menu);
     super.onCreateOptionsMenu(menu, inflater);
-  } // onCreateOptionsMenu
+  }
 
   @Override
   public void onPrepareOptionsMenu(final Menu menu)
@@ -97,7 +97,7 @@ public class RouteMapFragment extends CycleMapFragment
     showMenuItem(menu, R.id.ic_menu_saved_routes, Route.storedCount() != 0);
     enableMenuItem(menu, R.id.ic_menu_route_number, true);
     super.onPrepareOptionsMenu(menu);
-  } // onPrepareOptionsMenu
+  }
 
   @Override
   public boolean onOptionsItemSelected(final MenuItem item)
@@ -124,12 +124,12 @@ public class RouteMapFragment extends CycleMapFragment
     }
 
     return false;
-  } // onMenuItemSelected
+  }
 
   private void startLiveRide()
   {
     LiveRideActivity.launch(getActivity());
-  } // startLiveRide
+  }
 
   private void launchRouteDialog()
   {
@@ -138,14 +138,14 @@ public class RouteMapFragment extends CycleMapFragment
                       doLaunchRouteDialog();
                     }
                   });
-  } // launchRouteDialog
+  }
 
   private void doLaunchRouteDialog() {
     RouteByAddress.launch(getActivity(),
         mapView().getBoundingBox(),
         mapView().getLastFix(),
         routeSetter_.waypoints());
-  } // doLaunchRouteDialog
+  }
 
   private void launchFetchRouteDialog()
   {
@@ -154,16 +154,16 @@ public class RouteMapFragment extends CycleMapFragment
                       doLaunchFetchRouteDialog();
                     }
                   });
-  } // launchFetchRouteDialog
+  }
 
   private void doLaunchFetchRouteDialog()
   {
     RouteByNumber.launch(getActivity());
-  } // doLaunchFetchRouteDialog
+  }
 
   private void launchStoredRoutes()  {
     StoredRoutes.launch(getActivity());
-  } // launchStoredRoutes
+  }
 
   private void startNewRoute(final DialogInterface.OnClickListener listener)
   {
@@ -173,7 +173,7 @@ public class RouteMapFragment extends CycleMapFragment
                        listener);
     else
       listener.onClick(null, 0);
-  } // startNewRoute
+  }
 
   @Override
   public void onNewJourney(final Journey journey, final Waypoints waypoints)
@@ -181,11 +181,11 @@ public class RouteMapFragment extends CycleMapFragment
     if (!waypoints.isEmpty())
       mapView().getController().setCenter(waypoints.first());
     mapView().postInvalidate();
-  } // onNewJourney
+  }
 
   @Override
   public void onResetJourney()
   {
     mapView().invalidate();
-  } // onReset
-} // class MapActivity
+  }
+}

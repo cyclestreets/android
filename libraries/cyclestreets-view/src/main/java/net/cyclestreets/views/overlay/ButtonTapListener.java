@@ -11,4 +11,4 @@ public interface ButtonTapListener
   boolean onButtonDoubleTap(MotionEvent event);
 
   void drawButtons(final Canvas canvas, final MapView mapView);
-} // ButtonTapListener
+}

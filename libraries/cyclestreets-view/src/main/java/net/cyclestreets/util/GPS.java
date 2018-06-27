@@ -17,17 +17,17 @@ public final class GPS
       hasGps_ = pm.hasSystemFeature(PackageManager.FEATURE_LOCATION_GPS);
     }
     return hasGps_;
-  } // deviceHasGPS
+  }
 
   static public boolean isOn(final Context context)
   {
     final LocationManager service = (LocationManager)context.getSystemService(Context.LOCATION_SERVICE);
     return service.isProviderEnabled(LocationManager.GPS_PROVIDER);
-  } // isOn
+  }
 
   static public void showSettings(final Context context)
   {
     final Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
     context.startActivity(intent);
-  } // showSettings
-} // GPS
+  }
+}

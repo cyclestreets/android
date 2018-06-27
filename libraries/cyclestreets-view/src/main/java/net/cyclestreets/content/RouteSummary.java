@@ -19,11 +19,11 @@ public class RouteSummary
     title_ = title;
     plan_ = plan;
     distance_ = distance;
-  } // RouteSummary
+  }
 
   public int localId() { return localId_; }
   public int itinerary() { return itinerary_; }
   public String title() { return title_; }
   public String plan() { return plan_; }
   public int distance() { return distance_; }
-} // class RouteSummary
+}

@@ -17,24 +17,24 @@ public class OverlayIterator<T> implements Iterator<T>
     targetClass_ = cl;
     iter_ = mapView.getOverlays().iterator();
     current_ = advance();
-  } // OverlayIterator
+  }
 
   public boolean hasNext()
   {
     return current_ != null;
-  } // hasNext
+  }
 
   public T next()
   {
     T c = current_;
     current_ = advance();
     return c;
-  } // next
+  }
 
   public void remove()
   {
     throw new UnsupportedOperationException();
-  } // remove
+  }
 
   ////////////////////////////
     @SuppressWarnings("unchecked")
@@ -47,8 +47,8 @@ public class OverlayIterator<T> implements Iterator<T>
       Overlay o = iter_.next();
       if (targetClass_.isInstance(o))
         n = (T)o;
-    } // while
+    }
 
     return n;
-  } // advance
-} // class OverlayIterator
+  }
+}

@@ -22,7 +22,7 @@ public class RouteDatabase
   { 
     DatabaseHelper dh = new DatabaseHelper(context);
     db_ = dh.getWritableDatabase();
-  } // RouteDatabase
+  }
 
   public int routeCount()
   {
@@ -45,7 +45,7 @@ public class RouteDatabase
       cursor.close();
 
     return c;
-  } // count
+  }
 
   public void saveRoute(final Journey journey,
                         final String xml)
@@ -54,7 +54,7 @@ public class RouteDatabase
       addRoute(journey, xml);
     else
       updateRoute(journey);
-  } // saveRoute
+  }
 
   private void addRoute(final Journey journey,
                         final String xml)
@@ -71,7 +71,7 @@ public class RouteDatabase
     insertRoute.bindString(5, flattenWaypoints(journey.waypoints()));
     insertRoute.bindString(6, xml);
     insertRoute.executeInsert();
-  } // addRoute
+  }
 
   private void updateRoute(final Journey journey)
   {
@@ -82,7 +82,7 @@ public class RouteDatabase
     update.bindLong(1, journey.itinerary());
     update.bindString(2, journey.plan());
     update.execute();
-  } // updateRoute
+  }
 
   public void renameRoute(final int localId, final String newName)
   {
@@ -92,7 +92,7 @@ public class RouteDatabase
     update.bindString(1, newName);
     update.bindLong(2, localId);
     update.execute();    
-  } // renameRoute
+  }
 
   public void deleteRoute(final int localId)
   {
@@ -102,7 +102,7 @@ public class RouteDatabase
     final SQLiteStatement delete = db_.compileStatement(ROUTE_TABLE_DELETE);
     delete.bindLong(1, localId);
     delete.execute();
-  } // deleteRoute
+  }
 
   public List<RouteSummary> savedRoutes()
   {
@@ -129,19 +129,19 @@ public class RouteDatabase
       cursor.close();
 
     return routes;
-  } // savedRoutes
+  }
 
   public RouteData route(final int localId)
   {
     return fetchRoute(BaseColumns._ID + "=?", 
                 new String[] { Integer.toString(localId) });
-  } // route    
+  }
 
   public RouteData route(final int itinerary, final String plan)
   {
     return fetchRoute("journey=? and plan=?", 
                   new String[] { Integer.toString(itinerary), plan });
-  } // route
+  }
 
   private RouteData fetchRoute(final String filter, final String[] bindParams)
   {
@@ -168,7 +168,7 @@ public class RouteDatabase
       cursor.close();
 
     return r;
-  } // fetchRoute
+  }
 
   private String flattenWaypoints(final Waypoints waypoints)
   {
@@ -180,9 +180,9 @@ public class RouteDatabase
       sb.append(waypoint.getLatitudeE6())
         .append(',')
         .append(waypoint.getLongitudeE6());
-    } // for ...
+    }
     return sb.toString();
-  } // flattenWaypoints
+  }
 
   private Waypoints expandWaypoints(final String str)
   {
@@ -194,7 +194,7 @@ public class RouteDatabase
       final double lon = Long.parseLong(latlon[1])/1E6;
 
       points.add(lat, lon);
-    } // for ... 
+    }
     return points;
-  } // expandWaypoints
-} // class RouteDatabase
+  }
+}

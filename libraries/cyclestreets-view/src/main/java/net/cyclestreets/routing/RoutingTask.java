@@ -21,28 +21,28 @@ public abstract class RoutingTask<Params>
                         final Context context)
   {
     this(context.getString(progressMessageId), context);
-  } // RoutingTask
+  }
 
   protected RoutingTask(final String progressMessage,
                         final Context context)
   {
     context_ = context;
     initialMsg_ = progressMessage;
-  } // Routing Task
+  }
 
   protected RouteData fetchRoute(final String routeType,
                                  final int speed,
                                  final Waypoints waypoints) 
   {
     return fetchRoute(routeType, -1, speed, waypoints);
-  } // fetchRoute
+  }
 
   protected RouteData fetchRoute(final String routeType,
                                  final long itinerary,
                                  final int speed)
   { 
     return fetchRoute(routeType, itinerary, speed, null);
-  } // fetchRoute
+  }
 
   protected RouteData fetchRoute(final String routeType, 
                                  final long itinerary,
@@ -52,12 +52,12 @@ public abstract class RoutingTask<Params>
     try {
       final String xml = doFetchRoute(routeType, itinerary, speed, waypoints);
       return new RouteData(xml, waypoints, null);
-    } // try
+    }
     catch (Exception e) {
       error_ = "Could not contact CycleStreets.net : " + e.getMessage();
       return null;
-    } // catch
-  } // fetchRoute
+    }
+  }
 
   private String doFetchRoute(final String routeType, 
                               final long itinerary,
@@ -68,7 +68,7 @@ public abstract class RoutingTask<Params>
     if (itinerary != -1)
       return JourneyPlanner.getJourneyXml(routeType, itinerary);
     return JourneyPlanner.getJourneyXml(routeType, speed, waypoints);
-  } // doFetchRoute
+  }
 
   @Override
   protected void onPreExecute() 
@@ -81,7 +81,7 @@ public abstract class RoutingTask<Params>
     catch (Exception e) {
       progress_ = null;
     }
-  } // onPreExecute
+  }
 
   @Override
   protected void onProgressUpdate(final Integer... p)
@@ -89,7 +89,7 @@ public abstract class RoutingTask<Params>
     if (progress_ == null)
       return;
     progress_.setMessage(context_.getString(p[0]));
-  } // onProgressUpdate
+  }
 
   @Override
   protected void onPostExecute(final RouteData route) 
@@ -99,7 +99,7 @@ public abstract class RoutingTask<Params>
     progressDismiss();
     if (error_ != null)
       Toast.makeText(context_, error_, Toast.LENGTH_LONG).show();
-  } // onPostExecute  
+  }
 
   private void progressDismiss()
   {
@@ -110,6 +110,6 @@ public abstract class RoutingTask<Params>
       progress_.dismiss();
     }
     catch (Exception e) {
-    } // catch
-  } // progressDismiss
-} // class RoutingTask
+    }
+  }
+}

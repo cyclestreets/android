@@ -17,7 +17,7 @@ class Controller
     context.bindService(rService, control, Context.BIND_AUTO_CREATE);
 
     return control;
-  } // create
+  }
 
   private final Activity context_;
   private final TrackListener listener_;
@@ -30,7 +30,7 @@ class Controller
       final TrackListener listener) {
     context_ = context;
     listener_ = listener;
-  } // Controller
+  }
 
   @Override
   public void onServiceConnected(
@@ -42,7 +42,7 @@ class Controller
 
     if (shouldStart_)
       rs_.startRecording();
-  } // onServiceConnected
+  }
 
   @Override
   public void onServiceDisconnected(ComponentName name) {}
@@ -53,7 +53,7 @@ class Controller
       shouldStart_ = true;
     else
       rs_.startRecording();
-  } // start
+  }
 
   @Override
   public void stop() {
@@ -71,5 +71,5 @@ class Controller
       else
         listener_.abandoned(trip);
     }
-  } // stop
-} // Controller
+  }
+}

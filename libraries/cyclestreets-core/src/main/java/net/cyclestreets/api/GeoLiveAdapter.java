@@ -38,13 +38,13 @@ public class GeoLiveAdapter extends GeoAdapter
 
     prefs = context.getSharedPreferences(PREFS_GEO_KEY, Application.MODE_PRIVATE);
     filter = new GeocodeFilter(prefs);
-  } // GeoAdapter
+  }
 
   @Override
   public Filter getFilter()
   {
     return filter;
-  } // getFilter
+  }
 
   public BoundingBox bounds() { return bounds_; }
 
@@ -55,9 +55,9 @@ public class GeoLiveAdapter extends GeoAdapter
       final GeoPlace gp = getItem(i);
       if (p.equals(gp.toString()))
         return gp;
-    } // for ...
+    }
     return null;
-  } // exactMatch
+  }
 
   /*
    * Add to geocoding history
@@ -75,7 +75,7 @@ public class GeoLiveAdapter extends GeoAdapter
     edit.putInt(PREFS_GEO_LATITUDE_PREFIX + key, p.coord().getLatitudeE6());
     edit.putInt(PREFS_GEO_LONGITUDE_PREFIX + key, p.coord().getLongitudeE6());
     edit.apply();
-  } // addHistory
+  }
 
   /////////////////////////////////////////////////////////////////////
   /////////////////////////////////////////////////////////////////////
@@ -86,7 +86,7 @@ public class GeoLiveAdapter extends GeoAdapter
     public GeocodeFilter(final SharedPreferences prefs)
     {
       prefs_ = prefs;
-    } // GeocodeFilter
+    }
 
     @Override
     protected FilterResults performFiltering(CharSequence cs)
@@ -112,7 +112,7 @@ public class GeoLiveAdapter extends GeoAdapter
       results.values = list;
       results.count = list.size();
       return results;
-    } // performFiltering
+    }
 
     @SuppressWarnings("unchecked")
     @Override
@@ -124,7 +124,7 @@ public class GeoLiveAdapter extends GeoAdapter
         addAll((List<GeoPlace>)fr.values);
 
       notifyDataSetChanged();
-    } // publishResults
+    }
 
     /*
      * Add any matching entries from prefs
@@ -149,7 +149,7 @@ public class GeoLiveAdapter extends GeoAdapter
                               prefs.getInt(PREFS_GEO_LONGITUDE_PREFIX + key, 0),
                               prefs.getString(PREFS_GEO_NAME_PREFIX + key, ""),
                               prefs.getString(PREFS_GEO_NEAR_PREFIX + key, "")));
-      } // for ...
-    } // filterPrefs
-  } // class GeocodeFilter
-} // class GeoAdapter
+      }
+    }
+  }
+}

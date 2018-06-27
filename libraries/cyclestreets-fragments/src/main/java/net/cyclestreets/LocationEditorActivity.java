@@ -43,7 +43,7 @@ public class LocationEditorActivity extends Activity
     setupEditBox();
 
     firstTime_ = true;
-  } // onCreate
+  }
 
   private void setupMap() {
     final RelativeLayout v = (RelativeLayout)(findViewById(R.id.mapholder));
@@ -59,7 +59,7 @@ public class LocationEditorActivity extends Activity
     map_.enableAndFollowLocation();
     map_.onResume();
     there_.setMapView(map_);
-  } // setupMap
+  }
 
   private void setupButtons() {
     save_ = (Button)findViewById(R.id.save);
@@ -70,12 +70,12 @@ public class LocationEditorActivity extends Activity
     cancel_ = (Button)findViewById(R.id.cancel);
     cancel_.setCompoundDrawablesWithIntrinsicBounds(android.R.drawable.ic_menu_close_clear_cancel, 0, 0, 0);
     cancel_.setOnClickListener(this);
-  } // setupButtons
+  }
 
   private void setupEditBox() {
     nameBox_ = (EditText)findViewById(R.id.name);
     nameBox_.addTextChangedListener(this);
-  } // setupEditBox
+  }
 
   private void setupLocation() {
     if (localId_ == -1) {
@@ -89,7 +89,7 @@ public class LocationEditorActivity extends Activity
     map_.centreOn(location.where());
 
     checkAllowSave();
-  } // setupLocation
+  }
 
   @Override
   public void onResume() {
@@ -100,20 +100,20 @@ public class LocationEditorActivity extends Activity
     if (firstTime_) {
       setupLocation();
       firstTime_ = false;
-    } // if ...
-  } // onResume
+    }
+  }
 
   @Override
   public void onPause() {
     super.onPause();
     map_.onPause();
     ldb_.close();
-  } // onPause
+  }
 
   @Override
   public void onSetLocation(IGeoPoint point) {
     checkAllowSave();
-  } // onSetLocation
+  }
 
   @Override
   public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) { }
@@ -123,24 +123,24 @@ public class LocationEditorActivity extends Activity
   @Override
   public void afterTextChanged(Editable editable) {
     checkAllowSave();
-  } // afterTextChanged
+  }
 
   private void checkAllowSave() {
     boolean allow =  (there_.there() != null) && (nameBox_.getText().length() > 0);
     save_.setEnabled(allow);
-  } // checkAllowSave
+  }
 
   @Override
   public void onClick(View view) {
     if (save_ == view)
       saveLocation();
     finish();
-  } // onClick
+  }
 
   private void saveLocation() {
     if (localId_ == -1)
       ldb_.addLocation(nameBox_.getText().toString(), there_.there());
     else
       ldb_.updateLocation(localId_, nameBox_.getText().toString(), there_.there());
-  } // saveLocation
-} // LocationEditorFragment
+  }
+}

@@ -26,7 +26,7 @@ public class PhotosOverlay extends LiveItemOverlay<PhotosOverlay.PhotoItem> {
       super(photo.id() + "", photo.caption(), photo.position());
       photo_ = photo;
       photoMarkers_ = photoMarkers;
-    } // PhotoItem
+    }
 
     public Photo photo() { return photo_; }
 
@@ -34,7 +34,7 @@ public class PhotosOverlay extends LiveItemOverlay<PhotosOverlay.PhotoItem> {
     @Override
     public Drawable getMarker(int stateBitset) {
       return photoMarkers_.getMarker(photo_);
-    } // getMarker
+    }
 
     // Equality testing
     @Override
@@ -56,13 +56,13 @@ public class PhotosOverlay extends LiveItemOverlay<PhotosOverlay.PhotoItem> {
         return (other.photo_ == null);
 
       return (photo_.id() == other.photo_.id());
-    } // equals
+    }
 
     @Override
     public String toString() {
       return "PhotoItem [photo=" + photo_ + "]";
-    } // toString  
-  } // class PhotoItem
+    }
+  }
 
   /////////////////////////////////////////////////////
   private final Context context_;
@@ -74,24 +74,24 @@ public class PhotosOverlay extends LiveItemOverlay<PhotosOverlay.PhotoItem> {
 
     context_ = mapView.getContext();
     photoMarkers_ = new PhotoMarkers(context_.getResources());
-  } // PhotoItemOverlay
+  }
 
   ///////////////////////////////////////////////////
   @Override
   protected boolean onItemSingleTap(final PhotoItem item) {
     showPhoto(item);
     return true;
-  } // onItemSingleTap
+  }
 
   @Override
   protected boolean onItemDoubleTap(final PhotoItem item) {
     showPhoto(item);
     return true;
-  } // onItemDoubleTap
+  }
 
   private void showPhoto(final PhotoItem item) {
     DisplayPhoto.launch(item.photo(), context_);
-  } // showPhoto
+  }
 
   ///////////////////////////////////////////////////
   protected boolean fetchItemsInBackground(final IGeoPoint mapCentre,
@@ -99,7 +99,7 @@ public class PhotosOverlay extends LiveItemOverlay<PhotosOverlay.PhotoItem> {
                                            final BoundingBox boundingBox) {
     GetPhotosTask.fetch(this, boundingBox);
     return true;
-  } // refreshPhotos
+  }
 
   /////////////////////////////////////////////////////
   /////////////////////////////////////////////////////
@@ -107,14 +107,14 @@ public class PhotosOverlay extends LiveItemOverlay<PhotosOverlay.PhotoItem> {
     static void fetch(final PhotosOverlay overlay, 
                       final Object... params) {
       new GetPhotosTask(overlay).execute(params);
-    } // fetch
+    }
 
     //////////////////////////////////////////////////////
     private final PhotosOverlay overlay_;
 
     private  GetPhotosTask(final PhotosOverlay overlay) {
       overlay_ = overlay;
-    } // GetPhotosTask
+    }
 
     protected Photos doInBackground(Object... params) {
       final BoundingBox boundingBox = (BoundingBox)params[0];
@@ -125,7 +125,7 @@ public class PhotosOverlay extends LiveItemOverlay<PhotosOverlay.PhotoItem> {
         // never mind, eh?
       }
       return null;
-    } // doInBackground
+    }
 
     @Override
     protected void onPostExecute(final Photos photos) {
@@ -136,6 +136,6 @@ public class PhotosOverlay extends LiveItemOverlay<PhotosOverlay.PhotoItem> {
           items.add(new PhotosOverlay.PhotoItem(photo, overlay_.photoMarkers_));
 
       overlay_.setItems(items);
-    } // onPostExecute
-  } // GetPhotosTask
-} // class PhotoItemOverlay
+    }
+  }
+}

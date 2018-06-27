@@ -12,16 +12,16 @@ final class Stopped extends LiveRideState
   {
     super(context, pebbleNotifier, null);
     cancelNotification();
-  } // Stopped
+  }
 
   @Override
   public LiveRideState update(Journey journey, GeoPoint whereIam, int accuracy) 
   { 
     return this; 
-  } // update
+  }
 
   @Override
   public boolean isStopped() { return true; }
   @Override
   public boolean arePedalling() { return false; }
-} // class Stopped
+}

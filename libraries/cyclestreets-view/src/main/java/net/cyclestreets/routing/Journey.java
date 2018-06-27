@@ -37,14 +37,14 @@ public class Journey
     segments_ = new Segments();
     activeSegment_ = 0;
     elevations_ = new ElevationProfile();
-  } // PlannedRoute
+  }
 
   private Journey(final Waypoints waypoints)
   {
     this();
     if (waypoints != null)
       waypoints_ = waypoints;
-  } // Journey
+  }
 
   public boolean isEmpty() { return segments_.isEmpty(); }
   public Segments segments() { return segments_; }
@@ -72,7 +72,7 @@ public class Journey
         setActiveSegmentIndex(i);
         break;
       }
-  } // setActiveSegment
+  }
   public int activeSegmentIndex() { return activeSegment_; }
 
   public Segment activeSegment() { return activeSegment_ >= 0 ? segments_.get(activeSegment_) : null; }
@@ -81,7 +81,7 @@ public class Journey
     if (atEnd())
       return activeSegment();
     return segments_.get(activeSegment_+1);
-  } // nextSegment
+  }
 
   public boolean atStart() { return activeSegment_ <= 0; }
   public boolean atWaypoint() { return activeSegment() instanceof Segment.Waymark; }
@@ -91,23 +91,23 @@ public class Journey
   { 
     if (!atStart())
       --activeSegment_; 
-  } // regressActiveSegment
+  }
   public void advanceActiveSegment() 
   { 
     if (!atEnd())
       ++activeSegment_; 
-  } // advanceActiveSegment
+  }
 
   public Iterator<IGeoPoint> points()
   {
     return segments_.pointsIterator();
-  } // points
+  }
 
   ////////////////////////////////////////////////////////////////
   static private IGeoPoint pD(final IGeoPoint a1, final IGeoPoint a2)
   {
     return a1 != null ? a1 : a2;
-  } // pD
+  }
 
   static Journey loadFromXml(final String xml, 
                              final Waypoints points,
@@ -118,13 +118,13 @@ public class Journey
 
     try {
       Xml.parse(xml, factory.contentHandler());
-    } // try
+    }
     catch (final Exception e) {
       throw new RuntimeException(e);
-    } // catch
+    }
 
     return factory.get();
-  } // loadFromXml
+  }
 
   ////////////////////////////////////////////////////////////////////////////////
   /*
@@ -156,7 +156,7 @@ As at 16 October 2012
                                          final String name) 
   { 
     return new JourneyFactory(waypoints, name);
-  } // factory
+  }
 
   static private class JourneyFactory 
   {    
@@ -178,7 +178,7 @@ As at 16 October 2012
     {
       journey_ = new Journey(waypoints);
       name_ = name;
-    } // JourneyFactory
+    }
 
     private ContentHandler contentHandler()
     {
@@ -210,7 +210,7 @@ As at 16 October 2012
             {
               journey_.segments_.add(new Segment.Waymark(leg_, total_distance, points.get(0)));
               leg_ = currentLeg;
-            } // if ...              
+            }
 
             total_time += time;
             total_distance += distance;
@@ -228,7 +228,7 @@ As at 16 October 2012
 
             List<Elevation> segmentProfile = elevationsList(distances, elevations);
             journey_.elevations_.add(segmentProfile);
-          } // if ...
+          }
           if (type.equals("route"))
           {
             grammesCO2saved_ = i(attr, "grammesCO2saved");
@@ -238,15 +238,15 @@ As at 16 October 2012
             itinerary_ = i(attr, "itinerary");
             start_ = s(attr, "name");
             finish_ = s(attr, "finish");
-          } // if ...
-        } // start
+          }
+        }
 
         private String s(final Attributes attr, final String name) { return attr.getValue(name); }
         private int i(final Attributes attr, final String name) 
         { 
           final String v = s(attr, name);
           return v != null ? Integer.parseInt(v) : 0; 
-        } // i
+        }
       });
 
       if (journey_.waypoints().count() == 0)
@@ -258,13 +258,13 @@ As at 16 October 2012
             final double lon = d(attr, "longitude");
 
             journey_.waypoints().add(lat, lon);
-          } // start
+          }
 
           private double d(final Attributes attr, final String name) 
           { 
             final String v = attr.getValue(name);
             return v != null ? Double.parseDouble(v) : 0; 
-          } // i
+          }
         });
 
       root.setEndElementListener(new EndElementListener() {
@@ -291,16 +291,16 @@ As at 16 October 2012
                                Collections.list(pend, pD(to, pend)));
           journey_.segments_.add(startSeg);
           journey_.segments_.add(endSeg);
-        } // end
+        }
       });
 
       return root.getContentHandler();
-    } // contentHandler
+    }
 
     public Journey get()
     {
       return journey_;
-    } // get
+    }
 
     private List<IGeoPoint> pointsList(final String points)
     {
@@ -311,9 +311,9 @@ As at 16 October 2012
         final String[] yx = coord.split(",");
         final GeoPoint p = new GeoPoint(Double.parseDouble(yx[1]), Double.parseDouble(yx[0]));
         pl.add(p);
-      } // for ...
+      }
       return pl;
-    } // points
+    }
 
     private List<Elevation> elevationsList(final String distances,
                                 final String elevations) {
@@ -327,9 +327,9 @@ As at 16 October 2012
 
         cumulativeDistance += distance;
         list.add(new Elevation(cumulativeDistance, elevation));
-      } // for ...
+      }
       return list;
-    } // elevationsList
-  } // class JourneyFactory
+    }
+  }
 
-} // class Journey
+}

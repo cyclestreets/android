@@ -31,7 +31,7 @@ public class ThereOverlay extends Overlay
   public ThereOverlay(final Context context)
   {
     this(context, null);
-  } // ThereOverlay
+  }
 
   public ThereOverlay(final Context context,
                       final CycleMapView mapView)
@@ -41,18 +41,18 @@ public class ThereOverlay extends Overlay
 
     final Resources res = context.getResources();
     thereMarker_  = res.getDrawable(R.drawable.x_marks_spot);
-  } // ThereOverlay
+  }
 
   public void setMapView(final CycleMapView mapView)
   {
     mapView_ = mapView;
     recentre();
-  } // setMapView
+  }
 
   public void setLocationListener(final LocationListener listener)
   {
     listener_ = listener;
-  } // setLocationListener
+  }
 
   public IGeoPoint there() { return there_; }
   public void noOverThere(final IGeoPoint there)
@@ -63,7 +63,7 @@ public class ThereOverlay extends Overlay
 
     if (listener_ != null)
       listener_.onSetLocation(there);
-  } // noOverThere
+  }
 
   public void recentre()
   {
@@ -73,7 +73,7 @@ public class ThereOverlay extends Overlay
     mapView_.disableFollowLocation();
     mapView_.getController().animateTo(there_);
     mapView_.invalidate();
-  } // recentre
+  }
 
   @Override
   public void draw(final Canvas canvas, final MapView mapView, final boolean shadow)
@@ -92,13 +92,13 @@ public class ThereOverlay extends Overlay
                                     screenPos.x + halfWidth,
                                     screenPos.y + halfHeight));
     thereMarker_.draw(canvas);
-  } // onDrawFinished
+  }
 
   @Override
   public boolean onDoubleTap(MotionEvent event)
   {
     return false;
-  } // onDoubleTap
+  }
 
   @Override
   public boolean onSingleTap(final MotionEvent event)
@@ -106,5 +106,5 @@ public class ThereOverlay extends Overlay
     final IGeoPoint p = mapView_.getProjection().fromPixels((int)event.getX(), (int)event.getY());
     noOverThere(p);
     return true;
-  } // onSingleTap
-} // class ThereOverlay
+  }
+}

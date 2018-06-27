@@ -32,17 +32,17 @@ class DatabaseHelper extends SQLiteOpenHelper {
 
   DatabaseHelper(final Context context) {
     super(context, DATABASE_NAME, null, DATABASE_VERSION);
-  } // DatabaseHelper
+  }
 
   @Override
   public void onCreate(final SQLiteDatabase db) {
     db.execSQL(ROUTE_TABLE_CREATE);
     db.execSQL(LOCATIONS_TABLE_CREATE);
-  } // onCreate
+  }
 
   @Override
   public void onOpen(final SQLiteDatabase db)  {
-  } // onOpen
+  }
 
   @Override
   public void onUpgrade(final SQLiteDatabase db, final int oldVersion, final int newVersion) {
@@ -50,7 +50,7 @@ class DatabaseHelper extends SQLiteOpenHelper {
       upgradeTo2(db);
     if (oldVersion < 3)
       upgradeTo3(db);
-  } // onUpgrade
+  }
 
   private void upgradeTo2(final SQLiteDatabase db) {
     try {
@@ -85,9 +85,9 @@ class DatabaseHelper extends SQLiteOpenHelper {
     } catch (Exception e) {
       System.out.println(e.getMessage());
     }
-  } // upgradeTo2
+  }
 
   private void upgradeTo3(final SQLiteDatabase db) {
     db.execSQL(LOCATIONS_TABLE_CREATE);
-  } // upgradeTo3
-} // class DatabaseHelper
+  }
+}

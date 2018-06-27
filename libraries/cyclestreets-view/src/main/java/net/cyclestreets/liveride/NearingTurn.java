@@ -13,11 +13,11 @@ final class NearingTurn extends MovingState
 
     final Segment segment = journey.segments().get(journey.activeSegmentIndex()+1);
     notify("Get ready to " + segment.turn());
-  } // NearingEnd
+  }
 
   @Override
   protected LiveRideState transitionState(final Journey journey)
   {
     return new AdvanceToSegment(this, journey);
-  } // transitionStatue
-} // class NearingTurn
+  }
+}

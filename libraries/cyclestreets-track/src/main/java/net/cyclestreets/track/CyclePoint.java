@@ -54,4 +54,4 @@ public class CyclePoint extends GeoPoint {
     out.writeFloat(this.speed);
   }
 
-} // class CyclePoint
+}

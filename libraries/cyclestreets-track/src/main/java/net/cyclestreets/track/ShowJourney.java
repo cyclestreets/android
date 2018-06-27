@@ -34,10 +34,10 @@ public class ShowJourney extends Activity {
     // zoomToBoundingBox works better if setZoom first
     mapView_.getController().setZoom(14);
     mapView_.overlayPushTop(JourneyOverlay.CompletedJourneyOverlay(this, mapView_, trip));
-  } // onCreate
+  }
 
   private void setText(final int id, final String text) {
     final TextView tv = (TextView)findViewById(id);
     tv.setText(text);
-  } // setText
-} // ShowJourney
+  }
+}

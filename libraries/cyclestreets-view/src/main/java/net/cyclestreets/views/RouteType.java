@@ -19,7 +19,7 @@ public class RouteType extends LinearLayout {
 
   {
     this(context, null);
-  } // RouteType
+  }
 
   public RouteType(final Context context, final AttributeSet attrs) {
     super(context, attrs);
@@ -38,11 +38,11 @@ public class RouteType extends LinearLayout {
       if (plans_[i].equals(defaultType))
         routeTypeSpinner_.setSelection(i);
 
-  } // RouteType
+  }
 
   public String selectedType() {
     final int sel = routeTypeSpinner_.getSelectedItemPosition();
     final String routeType = plans_[sel];
     return routeType;
-  } // selectedType
-} // RouteType
+  }
+}

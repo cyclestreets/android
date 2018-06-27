@@ -27,12 +27,12 @@ public abstract class LiveRideState
           new TextToSpeech.OnInitListener() { public void onInit(int arg0) { } }
     );
     return new LiveRideStart(context, pebbleNotifier, tts);
-  } // InitialState
+  }
 
   static public LiveRideState StoppedState(final Context context, PebbleNotifier pebbleNotifier)
   { 
     return new Stopped(context, pebbleNotifier);
-  } // StoppedState
+  }
   //////////////////////////////////////////
 
   private Context context_;
@@ -46,7 +46,7 @@ public abstract class LiveRideState
     tts_ = tts;
     title_ = context.getString(context.getApplicationInfo().labelRes);
     Log.d("CS_PEBBLE LRS", "New State: " + this.getClass().getSimpleName());
-  } // LiveRideState
+  }
 
   protected LiveRideState(final LiveRideState state) 
   {
@@ -54,7 +54,7 @@ public abstract class LiveRideState
     pebbleNotifier_ = state.getPebbleNotifier();
     tts_ = state.tts();
     Log.d("CS_PEBBLE LRS", "State: " + this.getClass().getSimpleName());
-  } // LiveRideState
+  }
 
   public abstract LiveRideState update(Journey journey, GeoPoint whereIam, int accuracy);
   public abstract boolean isStopped();
@@ -77,18 +77,18 @@ public abstract class LiveRideState
     instruction.append(". Continue ").append(seg.distance());
     speak(instruction.toString());
     getPebbleNotifier().notify(this, seg);
-  } // notify
+  }
 
   protected void notify(final String text)
   {
     notify(text, text);
-  } // notify
+  }
 
   protected void notify(final String text, final String ticker) 
   {
     notification(text, ticker);
     speak(text);
-  } // notify
+  }
 
   private void notification(final String text, final String ticker)
   {
@@ -108,17 +108,17 @@ public abstract class LiveRideState
             .getNotification();
 
     nm.notify(NOTIFICATION_ID, notification);
-  } // notify
+  }
 
   protected void cancelNotification()
   {
     nm().cancel(NOTIFICATION_ID);
-  } // cancelNotification
+  }
 
   private NotificationManager nm()
   {
     return (NotificationManager)context().getSystemService(Context.NOTIFICATION_SERVICE);
-  } // nm
+  }
 
   private void speak(final String words)
   {
@@ -129,6 +129,6 @@ public abstract class LiveRideState
         tts().speak(toSpeak, TextToSpeech.QUEUE_ADD, null);
     } else
       tts().speak(toSpeak, TextToSpeech.QUEUE_ADD, null);
-  } // speak
-} // interface LiveRideState
+  }
+}
 

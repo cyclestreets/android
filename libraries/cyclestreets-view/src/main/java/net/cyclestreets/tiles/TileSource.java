@@ -25,9 +25,9 @@ public class TileSource {
     }
     catch (Exception e) {
       // sigh
-    } // catch
+    }
     return source(DEFAULT_RENDERER).attribution();
-  } // mapAttribution
+  }
 
   public static ITileSource mapRenderer(final Context context) {
     try {
@@ -45,7 +45,7 @@ public class TileSource {
               new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface arg0, int arg1) {
                   MapPack.searchGooglePlay(context);
-                } // onClick
+                }
               });
           CycleStreetsPreferences.resetMapstyle();
           return source(DEFAULT_RENDERER).renderer();
@@ -53,12 +53,12 @@ public class TileSource {
       }
 
       return renderer;
-    } // try
+    }
     catch (Exception e) {
       // oh dear
-    } // catch
+    }
     return source(DEFAULT_RENDERER).renderer();
-  } // mapRenderer
+  }
 
   public static void configurePreference(final ListPreference mapStyle) {
     if (CycleStreetsPreferences.mapstyle().equals(CycleStreetsPreferences.NOT_SET))
@@ -71,16 +71,16 @@ public class TileSource {
     for (int i = 0; i != styleCount; ++i) {
       entries[i] = availableSources_.get(i).friendlyName();
       entryValues[i] = availableSources_.get(i).tileSourceName();
-    } // for ...
+    }
 
     mapStyle.setEntries(entries);
     mapStyle.setEntryValues(entryValues);
-  } // configurePreferences
+  }
 
   public static void addTileSource(final String friendlyName,
                                    final ITileSource source) {
     addTileSource(friendlyName, source, false);
-  } // addTileSource
+  }
   public static void addTileSource(final String friendlyName,
                                    final ITileSource tileSource,
                                    final boolean setAsDefault) {
@@ -92,13 +92,13 @@ public class TileSource {
 
       if (CycleStreetsPreferences.mapstyle().equals(CycleStreetsPreferences.NOT_SET))
         CycleStreetsPreferences.setMapstyle(tileSource.name());
-    } // if ...
+    }
 
     if (setAsDefault)
       addDefaultSource(source);
     else
       addSource(source);
-  } // addTileSource
+  }
 
   public static ITileSource createDensityAwareTileSource(final Context context,
                                                          final String name,
@@ -108,7 +108,7 @@ public class TileSource {
     final int tileSize = highDensity ? 512 : 256;
     final String tileSuffix = highDensity ? "@2x.png" : ".png";
     return createXYTileSource(name, attribution, tileSize, tileSuffix, baseUrls);
-  } // createDensityAwareTileSource
+  }
 
   private static ITileSource createXYTileSource(final String name,
                                                 final String attribution,
@@ -122,7 +122,7 @@ public class TileSource {
                             extension,
                             baseUrls,
                             attribution);
-  } // createXYTileSource
+  }
 
   private static String DEFAULT_RENDERER = CycleStreetsPreferences.MAPSTYLE_OCM;
   private static String DEFAULT_ATTRIBUTION = "\u00a9 OpenStreetMap contributors";
@@ -137,11 +137,11 @@ public class TileSource {
       if (s.tileSourceName().equals(tileSourceName))
         return s;
     return null;
-  } // source
+  }
 
   public static void preloadStandardTileSources(final Context context) {
     addBuiltInSources(context);
-  } // preloadStandardTileSources
+  }
 
   private static void addBuiltInSources(final Context context) {
     if (builtInsAdded_)
@@ -181,12 +181,12 @@ public class TileSource {
     addTileSource("Offline Vector Maps", MAPSFORGE);
 
     builtInsAdded_ = true;
-  } // addBuiltInSources
+  }
 
   public static MapTileProviderBase mapTileProvider(final Context context) {
     addBuiltInSources(context);
     return new CycleMapTileProvider(context, TileSource.source(TileSource.DEFAULT_RENDERER).renderer());
-  } // MapTileProviderBase
+  }
 
   private static class Source {
     private final String friendlyName_;
@@ -196,11 +196,11 @@ public class TileSource {
                   final ITileSource tileSource) {
       friendlyName_ = friendlyName;
       tileSource_ = tileSource;
-    } // Source
+    }
 
     public String friendlyName() { return friendlyName_; }
     public String attribution() { return tileSource_.getCopyrightNotice(); }
     public String tileSourceName() { return tileSource_.name(); }
     public ITileSource renderer() { return tileSource_; }
-  } // TS
-} // TileSource
+  }
+}

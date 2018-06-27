@@ -18,7 +18,7 @@ public class POICategory {
     key_ = key;
     name_ = name;
     icon_ = icon;
-  } // POICategory
+  }
 
   public String name() { return name_; }
   public Drawable icon() { return icon_; }
@@ -28,7 +28,7 @@ public class POICategory {
       return false;
 
     return name_.equals(((POICategory)rhs).name_);
-  } // equals
+  }
 
   public List<POI> pois(final IGeoPoint centre,
                         final int radius)
@@ -43,6 +43,6 @@ public class POICategory {
       return pois;
     } catch (Exception e) {
       return Collections.emptyList();
-    } // catch
-  } // pois
-} // class POICategory
+    }
+  }
+}

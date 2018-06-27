@@ -66,7 +66,7 @@ public class MapsforgeOSMTileSource implements ITileSource {
     debugSettings_ = new DebugSettings(false, false, false);
 
     tileSize_ = upSize ? 512 : 256;
-  } // MapsforgeOSMTileSource
+  }
 
   public void setMapFile(final String mapFile) {
     if ((mapFile == null) || (mapFile.equals(mapFile_)))
@@ -77,7 +77,7 @@ public class MapsforgeOSMTileSource implements ITileSource {
     mapDatabase_.openFile(new File(mapFile));
     mapBounds_ = mapDatabase_.getMapFileInfo().boundingBox;
     zoomBounds_ = -1;
-  } // setMapFile
+  }
 
   @Override
   public String name() { return name_; }
@@ -110,7 +110,7 @@ public class MapsforgeOSMTileSource implements ITileSource {
       tileBitmap = Bitmap.createScaledBitmap(tileBitmap, tileSize_, tileSize_, false);
 
     return success ? new ExpirableBitmapDrawable(tileBitmap) : null;
-  } // getDrawable
+  }
 
   private boolean tileOutOfBounds(int tileX, int tileY, int zoom) {
     if (zoom != zoomBounds_)
@@ -119,7 +119,7 @@ public class MapsforgeOSMTileSource implements ITileSource {
     final boolean oob = (tileX < westTileBounds_) || (tileX > eastTileBounds_) ||
                         (tileY < northTileBounds_) || (tileY > southTileBounds_);
     return oob;
-  } // tileOutOfBounds
+  }
 
   /* convert lon/lat to tile x,y from http://wiki.openstreetmap.org/wiki/Slippy_map_tilenames */
   private void recalculateTileBounds(final int zoom) {
@@ -128,7 +128,7 @@ public class MapsforgeOSMTileSource implements ITileSource {
     eastTileBounds_ = lon2XTile(mapBounds_.getMaxLongitude(), zoomBounds_);
     southTileBounds_ = lat2YTile(mapBounds_.getMinLatitude(), zoomBounds_);
     northTileBounds_ = lat2YTile(mapBounds_.getMaxLatitude(), zoomBounds_);
-  } // recalculateTileBounds
+  }
 
   @Override
   public Drawable getDrawable(String arg0) throws LowMemoryException { return null; }
@@ -139,9 +139,9 @@ public class MapsforgeOSMTileSource implements ITileSource {
 
   private static int lon2XTile(final double lon, final int zoom) {
     return (int)Math.floor((lon + 180) / 360 * (1<<zoom)) ;
-  } // lon2XTile
+  }
 
   private static int lat2YTile(final double lat, final int zoom) {
     return (int)Math.floor((1 - Math.log(Math.tan(Math.toRadians(lat)) + 1 / Math.cos(Math.toRadians(lat))) / Math.PI) / 2 * (1<<zoom)) ;
-  } // lat2YTile
-} // MapsforgeOSMTileSource
+  }
+}

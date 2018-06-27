@@ -19,31 +19,31 @@ public class LockScreenOnOverlay extends SingleButtonOverlay
     super(context, R.drawable.ic_action_lock);
 
     view_ = view;
-  } // LockScreenOnOverlay
+  }
 
   @Override
   protected void layout(final OverlayButton theButton) {
     theButton.rightAlign();
-  } // layout
+  }
 
   @Override
   protected void setState(OverlayButton theButton, MapView mapView) {
     theButton.pressed(view_.getKeepScreenOn());
-  } // setState
+  }
 
   @Override
   protected void buttonTapped() {
     view_.setKeepScreenOn(!view_.getKeepScreenOn());
-  } // buttonTapped
+  }
 
   /////////////////////////////////////////
   @Override
   public void onResume(final SharedPreferences prefs) {
     view_.setKeepScreenOn(prefs.getBoolean(LOCK_PREF, false));
-  } // onResume
+  }
 
   @Override
   public void onPause(final Editor prefs) {
     prefs.putBoolean(LOCK_PREF, view_.getKeepScreenOn());
-  } // onPause
-} // LockScreenOnOverlay
+  }
+}

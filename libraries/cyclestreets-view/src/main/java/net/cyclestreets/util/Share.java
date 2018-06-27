@@ -13,7 +13,7 @@ public class Share
                    final String title)
   {
     do_url(activity, url, caption, title);
-  } // Url
+  }
 
   static public void Url(final View view,
                final String url,
@@ -21,7 +21,7 @@ public class Share
                final String title)
   {
     do_url(view.getContext(), url, caption, title);
-  } // Url
+  }
 
   static private void do_url(final Context context,
                  final String url,
@@ -33,5 +33,5 @@ public class Share
     share.putExtra(Intent.EXTRA_TEXT, url + " - " + caption);
     share.putExtra(Intent.EXTRA_SUBJECT, title);
     context.startActivity(Intent.createChooser(share, "Share"));
-  } // Url
-} // class Share
+  }
+}

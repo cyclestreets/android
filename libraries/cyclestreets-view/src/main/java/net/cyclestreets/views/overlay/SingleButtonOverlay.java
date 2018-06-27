@@ -26,7 +26,7 @@ public abstract class SingleButtonOverlay extends ButtonOnlyOverlay {
         radius_);
 
     layout(theButton_);
-  } // SingleButtonOverlay
+  }
 
   //////////////////////////////////////////////
   //////////////////////////////////////////////
@@ -44,7 +44,7 @@ public abstract class SingleButtonOverlay extends ButtonOnlyOverlay {
   public final void drawButtons(final Canvas canvas, final MapView mapView)  {
     setState(theButton_, mapView);
     theButton_.draw(canvas);
-  } // drawLocationButton
+  }
 
   @Override
   public final boolean onButtonTap(final MotionEvent event) {
@@ -54,7 +54,7 @@ public abstract class SingleButtonOverlay extends ButtonOnlyOverlay {
     buttonTapped();
 
     return true;
-  } // onSingleTapUp
+  }
 
   @Override
   public final boolean onButtonDoubleTap(final MotionEvent event) {
@@ -64,5 +64,5 @@ public abstract class SingleButtonOverlay extends ButtonOnlyOverlay {
     buttonDoubleTapped();
 
     return true;
-  } // onDoubleTap
-} // StopActivityOverlay
+  }
+}

@@ -26,7 +26,7 @@ public class Draw
       brush.getTextBounds(line, 0, line.length(), lineBounds);
       if (lineBounds.width() > bounds.width())
         bounds = lineBounds;
-    } // for ...
+    }
 
     final FontMetricsInt fm = brush.getFontMetricsInt();
 
@@ -50,7 +50,7 @@ public class Draw
     {
       canvas.drawText(line, bounds.centerX(), lineY, brush);
       lineY += lineHeight;
-    } // for ...
+    }
 
     // draw the little triangle
     final Path path = new Path();
@@ -65,7 +65,7 @@ public class Draw
     canvas.drawLine(pos.x - offset, bounds.bottom, pos.x + offset, bounds.bottom, Brush.Grey);
 
     return bounds;
-  } // drawBubble
+  }
 
   static public int measureTextInRect(final Canvas canvas,
                                       final Paint brush,
@@ -73,7 +73,7 @@ public class Draw
                                       final String text)
   {
     return textInRect(false, canvas, brush, r, text);
-  } // measureTextInRect
+  }
 
   static public int drawTextInRect(final Canvas canvas,
                                    final Paint brush,
@@ -81,7 +81,7 @@ public class Draw
                                    final String text)
   {
     return textInRect(true, canvas, brush, r, text);
-  } // drawTextInRect
+  }
 
   // got this from
   // http://groups.google.com/group/android-developers/browse_thread/thread/820fb7ddbfd1ca99
@@ -132,7 +132,7 @@ public class Draw
         {
           charactersToRenderThisPass--;   // good bye character that would have fit!
         }
-      } // if ...
+      }
 
       // Now wouldn't it be nice to be able to put in line breaks?
       for(int i=0; i < charactersToRenderThisPass; i++ )
@@ -144,7 +144,7 @@ public class Draw
           extraSkip = 1;  // so we don't start next line with the lineBreak character
           break;
         }
-      } // for ...
+      }
 
       if (charactersToRenderThisPass < 1 && (extraSkip == 0))
       {
@@ -171,7 +171,7 @@ public class Draw
     // write google a letter asking why I couldn't find this as an  existing function
     // after doing a LOT of googling.  Is my phone going to explode?
     return (int)y;
-  } // textInRect
+  }
 
   private Draw() { }
-} // class Draw
+}

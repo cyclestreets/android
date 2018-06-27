@@ -62,7 +62,7 @@ public class POIOverlay
       poi_ = poi;
       setMarker(poi_.icon());
       setMarkerHotspot(HotspotPlace.CENTER);
-    } // PhotoItem
+    }
 
     public POI poi() { return poi_; }
     public String getUrl() { return poi_.url(); }
@@ -85,13 +85,13 @@ public class POIOverlay
         return (other.poi_ == null);
 
       return (poi_.id() == other.poi_.id());
-    } // equals
+    }
 
     @Override
     public String toString() {
       return "POIItem [poi=" + poi_ + "]";
-    } // toString
-  } // class POIItem
+    }
+  }
 
   /////////////////////////////////////////////////////
   /////////////////////////////////////////////////////
@@ -113,26 +113,26 @@ public class POIOverlay
     activeCategories_ = new ArrayList<>();
     overlays_ = new OverlayHelper(mapView);
     chooserShowing_ = false;
-  } // POIOverlay
+  }
 
   private POICategories allCategories() {
     return POICategories.get();
-  } // allCategories
+  }
 
   private TapToRouteOverlay routeOverlay() {
     return overlays_.get(TapToRouteOverlay.class);
-  } // routeOverlay
+  }
 
   private ControllerOverlay controller() {
     return overlays_.controller();
-  } // controller
+  }
 
   /////////////////////////////////////////////////////
   public void onPause(final SharedPreferences.Editor prefs) {
     prefs.putInt("category-count", activeCategories_.size());
     for(int i = 0; i != activeCategories_.size(); ++i)
       prefs.putString("category-" + i, activeCategories_.get(i).name());
-  } // onPause
+  }
 
   public void onResume(final SharedPreferences prefs) {
     activeCategories_.clear();
@@ -146,15 +146,15 @@ public class POIOverlay
       // I've been able to replicate :(
       // Let's just carry on
       activeCategories_.clear();
-    } // catch
+    }
 
     if (firstTime) {
       items().clear();
       clearLastFix();
       active_ = null;
       refreshItems();
-    } // if ...
-  } // onResume
+    }
+  }
 
   private void reloadActiveCategories(final SharedPreferences prefs) {
     int count = prefs.getInt("category-count", 0);
@@ -164,16 +164,16 @@ public class POIOverlay
         if (name.equals(cat.name())) {
           activeCategories_.add(cat);
           break;
-        } // if...
-    } // for ...
-  } // reloadActiveCategories
+        }
+    }
+  }
 
   ///////////////////////////////////////////////////////
   @Override
   public boolean onZoom(final ZoomEvent event) {
     clearLastFix();
     return super.onZoom(event);
-  } // onZoom
+  }
 
   ///////////////////////////////////////////////////
   @Override
@@ -182,7 +182,7 @@ public class POIOverlay
       return true;
 
     return super.onSingleTap(event);
-  } // onSingleTap
+  }
 
   private boolean tappedInBubble(final MotionEvent event) {
     final Projection pj = mapView().getProjection();
@@ -194,7 +194,7 @@ public class POIOverlay
       return false;
 
     return routeMarkerAtItem(active_);
-  } // tappedInBubble
+  }
 
   @Override
   protected boolean onItemSingleTap(final POIItem item) {
@@ -205,23 +205,23 @@ public class POIOverlay
     redraw();
 
     return true;
-  } // onItemSingleTap
+  }
 
   private void showBubble(final POIItem item) {
     hideBubble();
     active_ = item;
     controller().pushUndo(this);
-  } // showBubble
+  }
 
   private void hideBubble() {
     active_ = null;
     controller().flushUndo(this);
-  } // hideBubble
+  }
 
   @Override
   protected boolean onItemDoubleTap(final POIItem item) {
     return routeMarkerAtItem(item);
-  } // onItemDoubleTap
+  }
 
   private boolean routeMarkerAtItem(final POIItem item) {
     hideBubble();
@@ -233,7 +233,7 @@ public class POIOverlay
     o.setNextMarker(item.getPoint());
 
     return true;
-  } // routeMarkerAtItem
+  }
 
   /////////////////////////////////////////////////////
   public void draw(final Canvas canvas, final MapView mapView, final boolean shadow) {
@@ -246,7 +246,7 @@ public class POIOverlay
       return;
 
     drawBubble(canvas, mapView);
-  } // draw
+  }
 
   private void drawBubble(final Canvas canvas, final MapView mapView) {
     final String bubbleText = active_.getTitle() +
@@ -284,7 +284,7 @@ public class POIOverlay
     items().clear();
     active_ = null;
     redraw();
-  } // clear
+  }
 
   private void updateCategories(final List<POICategory> newCategories) {
     final List<POICategory> removed = notIn(activeCategories_, newCategories);
@@ -294,15 +294,15 @@ public class POIOverlay
       for(final POICategory r : removed)
         hide(r);
       redraw();
-    } // if ...
+    }
 
     if (added.size() != 0) {
       for(final POICategory a : added)
         activeCategories_.add(a);
       clearLastFix();
       refreshItems();
-    } // if ...
-  } // updateCategories
+    }
+  }
 
   private void hide(final POICategory cat) {
     if (!activeCategories_.contains(cat))
@@ -315,7 +315,7 @@ public class POIOverlay
 
     if ((active_ != null) && (cat.equals(active_.category())))
       active_ = null;
-  } // hide
+  }
 
   private List<POICategory> notIn(final List<POICategory> c1,
                                   final List<POICategory> c2) {
@@ -326,11 +326,11 @@ public class POIOverlay
         n.add(c);
 
     return n;
-  } // notIn
+  }
 
   public boolean showing(final POICategory cat) {
     return activeCategories_.contains(cat);
-  } // showing
+  }
 
   protected boolean fetchItemsInBackground(final IGeoPoint mapCentre,
                                            final int zoom,
@@ -351,22 +351,22 @@ public class POIOverlay
     lastFix_ = mapCentre;
     GetPOIsTask.fetch(this, mapCentre, (diagonalWidth * 3) + 1);
     return true;
-  } // refreshItemsInBackground
+  }
 
   protected void clearLastFix() {
     lastFix_ = null;
-  } // clearLastFix
+  }
 
   /////////////////////////////////////////////////////
   ////////////////////////////////////////////////
   public void onCreateOptionsMenu(final Menu menu) {
     createMenuItem(menu, R.string.poi_menu_title, Menu.NONE, R.drawable.ic_menu_poi);
     enableMenuItem(menu, R.string.poi_menu_title, true);
-  } // onCreateOptionsMenu
+  }
 
   public void onPrepareOptionsMenu(final Menu menu) {
     enableMenuItem(menu, R.string.poi_menu_title, true);
-  } // onPrepareOptionsMenu
+  }
 
   public boolean onMenuItemSelected(final int featureId, final MenuItem item) {
     if (item.getItemId() != R.string.poi_menu_title)
@@ -400,14 +400,14 @@ public class POIOverlay
                           });
 
     return true;
-  } // onMenuItemSelected
+  }
 
   @Override
   public boolean onBackPressed() {
     hideBubble();
     redraw();
     return true;
-  } // onBackPressed
+  }
 
   /////////////////////////////////////////////////////
   static private class GetPOIsTask extends AsyncTask<Object,Void,List<POI>> {
@@ -415,7 +415,7 @@ public class POIOverlay
                       final IGeoPoint centre,
                       final int radius) {
       new GetPOIsTask(overlay).execute(centre, radius);
-    } // fetch
+    }
 
     //////////////////////////////////////////////////////
     private final POIOverlay overlay_;
@@ -425,7 +425,7 @@ public class POIOverlay
       overlay_ = overlay;
       // take snapshot of categories to avoid later contention
       activeCategories_ = new ArrayList<>(overlay.activeCategories_);
-    } // GetPhotosTask
+    }
 
     protected List<POI> doInBackground(Object... params) {
       final IGeoPoint centre = (IGeoPoint)params[0];
@@ -436,12 +436,12 @@ public class POIOverlay
       for(final POICategory cat : activeCategories_)
         try {
           pois.addAll(cat.pois(centre, radius));
-        } // try
+        }
         catch (final Exception ex) {
           // never mind, eh?
-        } // catch
+        }
       return pois;
-    } // doInBackground
+    }
 
     @Override
     protected void onPostExecute(final List<POI> pois) {
@@ -451,11 +451,11 @@ public class POIOverlay
         if (items.contains(poi))
           continue;
         items.add(new POIOverlay.POIItem(poi));
-      } // for ...
+      }
 
       overlay_.setItems(items);
-    } // onPostExecute
-  } // GetPhotosTask
+    }
+  }
 
   //////////////////////////////////
   static class POICategoryAdapter
@@ -473,11 +473,11 @@ public class POIOverlay
       cats_ = allCategories;
       selected_ = new ArrayList<>();
       selected_.addAll(initialCategories);
-    } // POICategoryAdaptor
+    }
 
     public List<POICategory> chosenCategories() {
       return selected_;
-    } // chosenCategories
+    }
 
     @Override
     public int getCount() { return cats_.count(); }
@@ -520,18 +520,18 @@ public class POIOverlay
             selected_.add(cat);
           else
             selected_.remove(cat);
-        } // onCheckedChanged
+        }
       });
 
       return v;
-    } // getView
+    }
 
     @Override
     public void onClick(
         final View view) {
       final CheckBox chk = (CheckBox)view.findViewById(R.id.checkbox);
       chk.setChecked(!chk.isChecked());
-    } // onClick
+    }
 
     private boolean isSelected(
         final POICategory cat) {
@@ -539,6 +539,6 @@ public class POIOverlay
         if (cat.name().equals(c.name()))
           return true;
       return false;
-    } // isSelected
-  } // class RouteSummaryAdapter
-} // class PhotoItemOverlay
+    }
+  }
+}

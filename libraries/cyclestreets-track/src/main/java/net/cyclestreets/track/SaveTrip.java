@@ -35,12 +35,12 @@ public class SaveTrip extends Activity
     final Intent fi = new Intent(context, SaveTrip.class);
     fi.putExtra("showtrip", tripid);
     context.startActivity(fi);
-  } // start
+  }
 
   public static void startWithUnsaved(final Context context) {
     final int unfinishedTrip = DbAdapter.unfinishedTrip(context);
     start(context, unfinishedTrip);
-  } // startWithUnsaved
+  }
 
   private final Map<Integer, ToggleButton> purpButtons = new HashMap<>();
   private final Map <Integer, String> purpDescriptions = new HashMap<>();
@@ -86,7 +86,7 @@ public class SaveTrip extends Activity
 
     // Don't pop up the soft keyboard until user clicks!
     getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
-  } // onCreate
+  }
 
   private <T> T viewById(final int id) { return (T)findViewById(id); }
 
@@ -96,7 +96,7 @@ public class SaveTrip extends Activity
 
     if (v.getId() == R.id.ButtonSubmit)
       uploadTrip();
-  } // onClick
+  }
 
   private void discardTrip() {
     Toast.makeText(getBaseContext(), R.string.savetrip_discarded, Toast.LENGTH_SHORT).show();
@@ -105,7 +105,7 @@ public class SaveTrip extends Activity
 
     //CycleHackney.start(this);
     finish();
-  } // discardTrip
+  }
 
   private void uploadTrip() {
     if (purpose_.equals("")) {
@@ -145,7 +145,7 @@ public class SaveTrip extends Activity
 
     //CycleHackney.start(this);
     finish();
-  } // uploadTrip
+  }
 
   private void setupAge(final Spinner age) {
     final List<String> ages = ListFactory.list(getString(R.string.savetrip_please_select),
@@ -161,7 +161,7 @@ public class SaveTrip extends Activity
     int index = prefs_.getInt("age", 0);
     age.setSelection(index);
     age.setOnItemSelectedListener(this);
-  } // setupAge
+  }
 
   private void setupGender(final Spinner gender) {
     final List<String> genders = ListFactory.list(getString(R.string.savetrip_please_select),
@@ -173,7 +173,7 @@ public class SaveTrip extends Activity
     int index = prefs_.getInt("gender", 0);
     gender.setSelection(index);
     gender.setOnItemSelectedListener(this);
-  } // setupGender
+  }
 
   private void setupExperience(final Spinner experience) {
     final List<String> experienceLevels = ListFactory.list(getString(R.string.savetrip_please_select),
@@ -185,7 +185,7 @@ public class SaveTrip extends Activity
     int index = prefs_.getInt("experience", 0);
     experience.setSelection(index);
     experience.setOnItemSelectedListener(this);
-  } // setupExperience
+  }
 
   private void setupPurposeButtons() {
     purpButtons.put(R.id.ToggleCommute, (ToggleButton)findViewById(R.id.ToggleCommute));
@@ -208,7 +208,7 @@ public class SaveTrip extends Activity
 
     for (Entry<Integer, ToggleButton> e: purpButtons.entrySet())
       e.getValue().setOnCheckedChangeListener(this);
-  } // preparePurposeButtons
+  }
 
   @Override
   public void onCheckedChanged(CompoundButton v, boolean isChecked) {
@@ -224,16 +224,16 @@ public class SaveTrip extends Activity
        Html.fromHtml(purpDescriptions.get(v.getId())));
 
     enableSubmit();
-  } // onCheckedChanged
+  }
 
   @Override
   public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
     enableSubmit();
-  } // onItemClick
+  }
   @Override
   public void onNothingSelected(AdapterView<?> adapterView) {
     enableSubmit();
-  } // onItemClick
+  }
 
   private void enableSubmit() {
     boolean enabled = false;
@@ -247,7 +247,7 @@ public class SaveTrip extends Activity
     btnSubmit.setEnabled((age_.getSelectedItemPosition() != 0 &&
                           gender_.getSelectedItemPosition() != 0 &&
                           experience_.getSelectedItemPosition() != 0));
-  } // enabledSubmit
+  }
 
   ///////////////////////
   static private class SpinnerList extends BaseAdapter {
@@ -257,14 +257,14 @@ public class SaveTrip extends Activity
     public SpinnerList(final Context context, final List<String> list) {
       inflater_ = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
       list_ = list;
-    } // CategoryAdapter
+    }
 
     @Override
     public int getCount() { return list_.size(); }
     @Override
-    public String getItem(final int position) { return list_.get(position); } // getItem
+    public String getItem(final int position) { return list_.get(position); }
     @Override
-    public long getItemId(final int position) { return position; } // getItemId
+    public long getItemId(final int position) { return position; }
 
     @Override
     public View getView(final int position, final View convertView, final ViewGroup parent) {
@@ -272,7 +272,7 @@ public class SaveTrip extends Activity
       final TextView tv = (TextView)inflater_.inflate(id, parent, false);
       tv.setText(getItem(position));
       return tv;
-    } // getView
-  } // SpinnerList
+    }
+  }
 
-} // SaveTrip
+}

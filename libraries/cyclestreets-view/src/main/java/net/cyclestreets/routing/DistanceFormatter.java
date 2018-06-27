@@ -12,7 +12,7 @@ public abstract class DistanceFormatter
     if ("miles".equals(name))
       return milesFormatter;      
     return kmFormatter;
-  } // formatter
+  }
 
   static private DistanceFormatter kmFormatter = new KmFormatter();
   static private DistanceFormatter milesFormatter = new MilesFormatter();
@@ -24,14 +24,14 @@ public abstract class DistanceFormatter
       if (metres < 2000)
         return String.format("%dm", round_distance(metres));
       return total_distance(metres);
-    } // distance
+    }
 
     public String total_distance(int metres)
     {
       int km = metres / 1000;
       int frackm = (int)((metres % 1000) / 10.0);
       return String.format("%d.%02dkm", km, frackm);
-    } // total_distance
+    }
 
     public String speed(float metresPerSec) 
     {
@@ -39,13 +39,13 @@ public abstract class DistanceFormatter
       if (kph < 10)
         return String.format("%.1f", kph);
       return String.format("%d", (int)kph);
-    } // speed
+    }
 
     public String speedUnit() 
     {
       return "km/h";
-    } // speedUnit
-  } // class KmFormatter
+    }
+  }
 
   static private class MilesFormatter extends DistanceFormatter
   {
@@ -57,7 +57,7 @@ public abstract class DistanceFormatter
       if (yards <= 750)
         return String.format("%d yards", round_distance(yards));
       return total_distance(metres);
-    } // distance
+    }
 
     public String total_distance(int metres)
     {
@@ -65,7 +65,7 @@ public abstract class DistanceFormatter
       int miles = yards / 1760;
       int frackm = (int)((yards % 1760) / 17.6);
       return String.format("%d.%02d miles", miles, frackm);
-    } // total_distance
+    }
 
     public String speed(float metresPerSec)
     {
@@ -75,13 +75,13 @@ public abstract class DistanceFormatter
       if (mph < 10)
         return String.format("%.1f", mph);
       return String.format("%d", (int)mph);
-    } // speed
+    }
 
     public String speedUnit()
     {
       return "mph";
     }
-  } // class MilesFormatter
+  }
 
   static protected int round_distance(int units) 
   {
@@ -89,5 +89,5 @@ public abstract class DistanceFormatter
       return (int)
           (units/5.0) * 5;
     return (int)(units/10.0) * 10;
-  } // round_distance
-} // DistanceFormatter
+  }
+}

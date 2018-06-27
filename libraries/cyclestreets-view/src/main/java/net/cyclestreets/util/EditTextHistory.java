@@ -25,15 +25,15 @@ public class EditTextHistory extends ArrayAdapter<String> {
     prefs_ = context.getSharedPreferences(PREFS_KEY + "-" + name, Application.MODE_PRIVATE);
 
     loadHistory();
-  } // EditTextHistory
+  }
 
   private void loadHistory() {
     for(int c = 0; c != MAX_HISTORY; ++c) {
       final String e = prefs_.getString(Integer.toString(c), "");
       if (e.length() != 0)
         add(e);
-    } // for ...
-  } // loadHistory
+    }
+  }
 
   public void addHistory(final String n) {
     if (n == null || n.length() == 0)
@@ -48,7 +48,7 @@ public class EditTextHistory extends ArrayAdapter<String> {
     edit.putString(Integer.toString(lastWritten), n);
     edit.putInt(LAST_WRITTEN, lastWritten);
     edit.commit();
-  } // addHistory
+  }
 
   @Override
   public View getView(final int position, 
@@ -60,5 +60,5 @@ public class EditTextHistory extends ArrayAdapter<String> {
     row.setText(s);
 
     return row;
-  } // getView
-} // EditTextHistory 
+  }
+}

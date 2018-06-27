@@ -36,7 +36,7 @@ public class PlaceViewBase extends LinearLayout
   public interface OnResolveListener
   {
     void onResolve(final GeoPlace place);
-  } // interface ResolveListener
+  }
 
   ////////////////////////////////
   private static String CURRENT_LOCATION;
@@ -80,7 +80,7 @@ public class PlaceViewBase extends LinearLayout
     allowedPlaces_ = new ArrayList<>();
 
     loadStrings(context);
-  } // PlaceViewBase
+  }
 
   private void loadStrings(final Context context)
   {
@@ -94,7 +94,7 @@ public class PlaceViewBase extends LinearLayout
     NO_CONTACTS_WITH_ADDRESSES = res.getString(R.string.placeview_no_contacts_with_addresses);
     CONTACTS_LOADING = res.getString(R.string.placeview_contacts_loading);
     SAVED_LOCATIONS = res.getString(R.string.placeview_saved_locations);
-  } // loadStrings
+  }
 
   ////////////////////////////////////
   public void allowCurrentLocation(final IGeoPoint loc, final boolean hint)
@@ -105,14 +105,14 @@ public class PlaceViewBase extends LinearLayout
     allowedPlaces_.add(gp);
     if (hint)
       setPlaceHint(gp);
-  } // allowCurrentLocation
+  }
 
   public void allowLocation(final IGeoPoint loc, final String label)
   {
     if (loc == null)
       return;
     allowedPlaces_.add(new GeoPlace(loc, label, ""));
-  } // allowMapLocation
+  }
 
   public String getText() { return textView_.getText().toString(); }
   public void setText(final String text) { textView_.setText(text); }
@@ -125,13 +125,13 @@ public class PlaceViewBase extends LinearLayout
     {
       listener.onResolve(textView_.geoPlace());
       return;
-    } // if ...
+    }
 
     if (textView_.contact() != null)
       lookup(textView_.contact(), listener);
     else if (getText() != null)
       lookup(getText(), listener);
-  } // geoPlace
+  }
 
   public void addHistory(final GeoPlace place)
   {
@@ -139,7 +139,7 @@ public class PlaceViewBase extends LinearLayout
       if (gp == place)
         return;
     textView_.addHistory(place);
-  } // addHistory
+  }
 
   private BoundingBox bounds() { return textView_.bounds(); }
   public void setBounds(final BoundingBox bounds) { textView_.setBounds(bounds); }
@@ -156,7 +156,7 @@ public class PlaceViewBase extends LinearLayout
 
     set(po, to, ho);
     other.set(p, t, h);
-  } // other
+  }
 
   //////////////////////////////////////////
   private void set(final GeoPlace gp, final String t, final String h)
@@ -170,19 +170,19 @@ public class PlaceViewBase extends LinearLayout
       else
         setText("");
       return;
-    } // if ...
+    }
     if (notEmpty(t))
       setPlace(gp);
     else
       setPlaceHint(gp);
-  } // set
+  }
   private void setPlace(final GeoPlace geoPlace) { textView_.setGeoPlace(geoPlace); }
   private void setPlaceHint(final GeoPlace geoPlace) { textView_.setGeoPlaceHint(geoPlace); }
   private void setContact(final Contact contact) { textView_.setContact(contact); }
   private void setSavedLocation(final SavedLocation location) {
     GeoPlace gp = new GeoPlace(location.where(), location.name(), null);
     setPlace(gp);
-  } // setSavedLocations
+  }
 
   private boolean notEmpty(final String s) { return s != null && s.length() != 0; }
 
@@ -201,7 +201,7 @@ public class PlaceViewBase extends LinearLayout
         R.string.placeview_choose_location,
         options_,
         this);
-  } // onClick
+  }
 
   private boolean contactsAvailable() {
     final PackageManager pm = context_.getPackageManager();
@@ -209,11 +209,11 @@ public class PlaceViewBase extends LinearLayout
     int hasPerm = pm.checkPermission(Manifest.permission.READ_CONTACTS,
                                      context_.getPackageName());
     return (hasPerm == PackageManager.PERMISSION_GRANTED);
-  } // contactsAvailable
+  }
 
   private boolean savedLocationsAvailable() {
     return savedLocations_.size() != 0;
-  } // savedLocationsAvailable
+  }
 
   @Override
   public void onClick(final DialogInterface dialog, final int whichButton)
@@ -229,7 +229,7 @@ public class PlaceViewBase extends LinearLayout
 
     if (SAVED_LOCATIONS.equals(option))
       pickSavedLocation();
-  } // onClick
+  }
 
   private void pickContact()
   {
@@ -237,19 +237,19 @@ public class PlaceViewBase extends LinearLayout
     {
       loadContacts();
       return;
-    } // if ...
+    }
 
     if (contacts_.size() == 0)
     {
       MessageBox.OK(this, NO_CONTACTS_WITH_ADDRESSES);
       return;
-    } // if ...
+    }
 
     Dialog.listViewDialog(context_,
                           R.string.placeview_contacts,
                           contacts_,
                           new ContactsListener());
-  } // pickContact
+  }
 
   private class ContactsListener implements DialogInterface.OnClickListener
   {
@@ -258,43 +258,43 @@ public class PlaceViewBase extends LinearLayout
     {
       final Contact c = contacts_.get(whichButton);
       setContact(c);
-    } // onClick
-  } // class ContactsListener
+    }
+  }
 
   private void pickSavedLocation() {
     Dialog.listViewDialog(context_,
                           R.string.placeview_saved_locations,
                           savedLocations_,
                           new SavedLocationListener());
-  } // pickSavedLocation
+  }
 
   private class SavedLocationListener implements DialogInterface.OnClickListener {
     @Override
     public void onClick(final DialogInterface dialog, final int whichButton) {
       final SavedLocation l = savedLocations_.get(whichButton);
       setSavedLocation(l);
-    } // onClick
-  } // class SavedLocationListener
+    }
+  }
 
   ///////////////////////////////////////////////////////////
   private void loadContacts()
   {
     final AsyncContactLoad acl = new AsyncContactLoad(this);
     acl.execute();
-  } // loadContacts
+  }
 
   private void onContactsLoaded(final List<Contact> contacts)
   {
     contacts_ = contacts;
     pickContact();
-  } // onContactsLoaded
+  }
 
   ///////////////////////////////////////////////////////////
   private void lookup(final Object what, final OnResolveListener listener)
   {
     final AsyncContactLookup asc = new AsyncContactLookup(this, listener);
     asc.execute(what, bounds());
-  } // lookup
+  }
 
   private void resolvedContacts(final GeoPlaces results,
                                 final OnResolveListener listener)
@@ -303,20 +303,20 @@ public class PlaceViewBase extends LinearLayout
     {
       MessageBox.OK(this, LOCATION_NOT_FOUND);
       return;
-    } // if ...
+    }
 
     if (results.size() == 1)
     {
       textView_.setGeoPlace(results.get(0));
       listener.onResolve(results.get(0));
       return;
-    } // if ...
+    }
 
     Dialog.listViewDialog(context_,
                           R.string.placeview_choose_location,
                           results.asList(),
                           new PlaceListener(results, listener));
-  } // resolvedContacts
+  }
 
   private class PlaceListener implements DialogInterface.OnClickListener
   {
@@ -328,15 +328,15 @@ public class PlaceViewBase extends LinearLayout
     {
       results_ = results;
       listener_ = listener;
-    } // PlaceListener
+    }
 
     @Override
     public void onClick(final DialogInterface dialog, final int whichButton)
     {
       textView_.setGeoPlace(results_.get(whichButton));
       listener_.onResolve(results_.get(whichButton));
-    } // onClick
-  } // PlaceListener
+    }
+  }
 
   ///////////////////////////////////////////////////////////
   private static class AsyncContactLoad extends AsyncTask<Void, Void, List<Contact>>
@@ -348,7 +348,7 @@ public class PlaceViewBase extends LinearLayout
     {
       progress_ = Dialog.createProgressDialog(view.getContext(), CONTACTS_LOADING);
       view_ = view;
-    } // AsyncContactLoad
+    }
 
     @Override
     protected void onPreExecute() { progress_.show(); }
@@ -357,15 +357,15 @@ public class PlaceViewBase extends LinearLayout
     protected List<Contact> doInBackground(Void... params)
     {
       return Contacts.load(view_.getContext());
-    } // doInBackground
+    }
 
     @Override
     protected void onPostExecute(final List<Contact> results)
     {
       progress_.dismiss();
       view_.onContactsLoaded(results);
-    } // onPostExecute
-  } // class AsyncContactLoad
+    }
+  }
 
   ////////////////////////////////
   private static class AsyncContactLookup extends AsyncTask<Object, Void, GeoPlaces>
@@ -380,7 +380,7 @@ public class PlaceViewBase extends LinearLayout
       progress_ = Dialog.createProgressDialog(view.getContext(), LOCATION_SEARCH);
       view_ = view;
       listener_ = listener;
-    } // AsyncLookup
+    }
 
     @Override
     protected void onPreExecute() {  progress_.show(); }
@@ -394,14 +394,14 @@ public class PlaceViewBase extends LinearLayout
         return doSearch((String)params[0], bounds);
 
       return doContactSearch((Contact)params[0], bounds);
-    } // doInBackground
+    }
 
     @Override
     protected void onPostExecute(final GeoPlaces result)
     {
       progress_.dismiss();
       view_.resolvedContacts(result, listener_);
-    } // onPostExecute
+    }
 
     private GeoPlaces doContactSearch(final Contact contact,
                                       final BoundingBox bounds)
@@ -416,7 +416,7 @@ public class PlaceViewBase extends LinearLayout
 
       r = doSearch(contact.city(), bounds);
       return r;
-    } // doContactSearch
+    }
 
     private GeoPlaces doSearch(final String search,
                     final BoundingBox bounds)
@@ -426,7 +426,7 @@ public class PlaceViewBase extends LinearLayout
       }
       catch (Exception e) {
         return GeoPlaces.EMPTY;
-      } // catch
-    } // doSearch
-  } // AsyncContactLookup
-} // class PlaceView
+      }
+    }
+  }
+}

@@ -65,13 +65,13 @@ public class CycleMapView extends FrameLayout
 
     controllerOverlay_ = new ControllerOverlay(this);
     getOverlays().add(controllerOverlay_);
-  } // CycleMapView
+  }
 
   public Overlay overlayPushBottom(final Overlay overlay)
   {
     getOverlays().add(overlayBottomIndex_, overlay);
     return overlay;
-  } // overlayPushBottom
+  }
 
   public Overlay overlayPushTop(final Overlay overlay)
   {
@@ -79,7 +79,7 @@ public class CycleMapView extends FrameLayout
     int front = getOverlays().size()-1;
     getOverlays().add(front, overlay);
     return overlay;
-  } // overlayPushFront
+  }
 
   /////////////////////////////////////////
   public MapView mapView() { return mapView_; }
@@ -124,7 +124,7 @@ public class CycleMapView extends FrameLayout
     getTileProvider().detach();
     getTileProvider().clearTileCache();
     BitmapPool.getInstance().clearBitmapPool();
-  } // onPause
+  }
 
   public void onResume()
   {
@@ -132,7 +132,7 @@ public class CycleMapView extends FrameLayout
     if (!tileSource.equals(renderer_)) {
       renderer_ = tileSource;
       setTileSource(renderer_);
-    } // if ...
+    }
 
     boolean locationEnabled = pref(PREFS_APP_MY_LOCATION, CycleMapDefaults.gps());
     boolean locationFollow = pref(PREFS_APP_FOLLOW_LOCATION, CycleMapDefaults.gps());
@@ -156,35 +156,35 @@ public class CycleMapView extends FrameLayout
       public void onTick(long unfinished) { }
       public void onFinish() { postInvalidate(); }
     }.start();
-  } // onResume
+  }
 
   ////////////////////////////////////////////////////////////
   ////////////////////////////////////////////////////////////
   public void onCreateOptionsMenu(final Menu menu)
   {
     controllerOverlay_.onCreateOptionsMenu(menu);
-  } // onCreateOptionsMenu
+  }
 
   public void onPrepareOptionsMenu(final Menu menu)
   {
     controllerOverlay_.onPrepareOptionsMenu(menu);
-  } // onPrepareOptionsMenu
+  }
 
   public boolean onMenuItemSelected(final int featureId, final MenuItem item)
   {
     return controllerOverlay_.onMenuItemSelected(featureId, item);
-  } // onMenuItemSelected
+  }
 
   @Override
   public void onCreateContextMenu(final ContextMenu menu)
   {
     controllerOverlay_.onCreateContextMenu(menu);
-  } //  onCreateContextMenu
+  }
 
   public boolean onBackPressed()
   {
     return controllerOverlay_.onBackPressed();
-  } // onBackPressed
+  }
 
   /////////////////////////////////////////
   // location
@@ -203,7 +203,7 @@ public class CycleMapView extends FrameLayout
   {
     centreOn_ = place;
     postInvalidate();
-  } // centreOn
+  }
 
   @Override
   protected void dispatchDraw(final Canvas canvas)
@@ -213,32 +213,32 @@ public class CycleMapView extends FrameLayout
       getController().animateTo(new GeoPoint(centreOn_.getLatitude(), centreOn_.getLongitude()));
       centreOn_ = null;
       return;
-    } // if ..
+    }
 
     super.dispatchDraw(canvas);
-  } // dispatchDraw
+  }
 
   @Override
   public void invalidate() {
     mapView_.invalidate();
     super.invalidate();
-  } // invalidate
+  }
 
   ///////////////////////////////////////////////////////
   private int pref(final String key, int defValue)
   {
     return prefs_.getInt(key, defValue);
-  } // pref
+  }
   private boolean pref(final String key, boolean defValue)
   {
     return prefs_.getBoolean(key, defValue);
-  } // pref
+  }
 
   public String mapAttribution() {
     return TileSource.mapAttribution();
-  } // mapAttribution
+  }
 
   private ITileSource mapRenderer() {
     return TileSource.mapRenderer(getContext());
-  } // mapRenderer
-} // CycleMapView
+  }
+}

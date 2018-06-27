@@ -13,7 +13,7 @@ public class MapFactory<K, V>
   {
   final Builder<K, V> builder = new Builder<>();
   return builder.map(key, value);
-  } // map
+  }
 
   static public class Builder<K, V> implements MapBuilder<K, V>
   {
@@ -22,13 +22,13 @@ public class MapFactory<K, V>
   private Builder()
   {
     backing_ = new HashMap<>();
-  } // Builder
+  }
 
   public MapBuilder<K, V> map(K key, V value)
   {
     backing_.put(key, value);
     return this;
-  } // map
+  }
 
   public void clear() { backing_.clear(); }
   public boolean containsKey(Object key) { return backing_.containsKey(key); }
@@ -44,5 +44,5 @@ public class MapFactory<K, V>
   public V remove(Object key) { return backing_.remove(key); }
   public int size() { return backing_.size(); }
   public Collection<V> values() { return backing_.values(); }
-  } // class Builder
-} // MapFactory
+  }
+}

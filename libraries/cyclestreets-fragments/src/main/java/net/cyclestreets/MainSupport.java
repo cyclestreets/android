@@ -17,7 +17,7 @@ public class MainSupport {
       return false;
     CycleStreetsPreferences.enableMapFile(pack.path());
     return true;
-  } // switchMapFile
+  }
 
   public static boolean loadRoute(final Intent launchIntent,
                                   final Context context) {
@@ -34,7 +34,7 @@ public class MainSupport {
         CycleStreetsPreferences.speed(),
         context);
     return true;
-  } // loadRoute
+  }
 
   private static int findItinerary(final Uri launchUri) {
     try {
@@ -42,8 +42,8 @@ public class MainSupport {
       return Integer.parseInt(itinerary);
     } catch (Exception whatever) {
       return -1;
-    } // catch
-  } // findItinerary
+    }
+  }
 
   private static String extractItinerary(final Uri launchUri) {
     final String host = launchUri.getHost();
@@ -58,7 +58,7 @@ public class MainSupport {
 
     final String path = launchUri.getPath().substring(8);
     return path.replace("/", "");
-  } // extractItinerary
+  }
 
   private MainSupport() { }
-} // MainSupport
+}

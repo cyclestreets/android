@@ -28,8 +28,8 @@ final class GoingOffCourse extends LiveRideState
       {
         distance = from;
         nearestSeg = seg;
-      } // if ...
-    } // for ...
+      }
+    }
 
     distance -= accuracy;
 
@@ -45,11 +45,11 @@ final class GoingOffCourse extends LiveRideState
     }
 
     return this;
-  } // update
+  }
 
   @Override
   public boolean isStopped() { return false; }
 
   @Override
   public boolean arePedalling() { return true; }
-} // class GoingOffCourse
+}

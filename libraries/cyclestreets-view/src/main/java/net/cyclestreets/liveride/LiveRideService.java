@@ -33,25 +33,25 @@ public class LiveRideService extends Service
     locationManager_ = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
     pebbleNotifier_ = new PebbleNotifier(this);
     stage_ = LiveRideState.StoppedState(this, pebbleNotifier_);
-  } // onCreate
+  }
 
   @Override
   public int onStartCommand(final Intent intent, final int flags, final int startId)
   {
     return Service.START_NOT_STICKY;
-  } // onStartCommand
+  }
 
   @Override
   public void onDestroy()
   {
     super.onDestroy();
-  } // onDestroy
+  }
 
   @Override
   public IBinder onBind(final Intent intent)
   {
     return binder_;
-  } // onBind
+  }
 
   public void startRiding()
   {
@@ -59,24 +59,24 @@ public class LiveRideService extends Service
       return;
     stage_ = LiveRideState.InitialState(this, pebbleNotifier_);
     locationManager_.requestLocationUpdates(LocationManager.GPS_PROVIDER, updateTime, updateDistance, this);
-  } // startRiding
+  }
 
   public void stopRiding()
   {
     stage_ = LiveRideState.StoppedState(this, pebbleNotifier_);
     locationManager_.removeUpdates(this);
     pebbleNotifier_.notifyStopped();
-  } // stopRiding
+  }
 
   public boolean areRiding()
   {
     return stage_.arePedalling();
-  } // onRide
+  }
 
   public Location lastLocation()
   {
     return lastLocation_;
-  } // lastLocation
+  }
 
   public class Binding extends Binder
   {
@@ -86,7 +86,7 @@ public class LiveRideService extends Service
     public boolean areRiding() { return service().areRiding(); }
     public String stage() { return stage_.getClass().getSimpleName(); }
     public Location lastLocation() { return service().lastLocation(); }
-  } // class LocalBinder
+  }
 
   // ///////////////////////////////////////////////
   // location listener
@@ -97,7 +97,7 @@ public class LiveRideService extends Service
     {
       stopRiding();
       return;
-    } // if ...
+    }
 
     lastLocation_ = location;
 
@@ -107,7 +107,7 @@ public class LiveRideService extends Service
     final Journey journey = Route.journey();
 
     stage_ = stage_.update(journey, whereIam, (int)accuracy);
-  } // onLocationChanged
+  }
 
   @Override
   public void onProviderDisabled(String arg0) { }
@@ -115,4 +115,4 @@ public class LiveRideService extends Service
   public void onProviderEnabled(String arg0) { }
   @Override
   public void onStatusChanged(String arg0, int arg1, Bundle arg2) { }
-} // class LiveRideService
+}

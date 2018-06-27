@@ -6,4 +6,4 @@ public interface TapListener
 {
   boolean onSingleTap(MotionEvent event);
   boolean onDoubleTap(MotionEvent event);
-} // SingletapListener
+}

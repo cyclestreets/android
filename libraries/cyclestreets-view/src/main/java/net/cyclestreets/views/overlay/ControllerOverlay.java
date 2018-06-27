@@ -48,37 +48,37 @@ public class ControllerOverlay extends Overlay implements OnDoubleTapListener,
     gestureDetector_.setOnDoubleTapListener(this);
 
     undoStack_ = new ArrayList<>();
-  } // SingleTapOverlay
+  }
 
   public void onPause(final SharedPreferences.Editor prefEditor)
   {
     for(final Iterator<PauseResumeListener> overlays = pauseResumeOverlays(); overlays.hasNext(); )
       overlays.next().onPause(prefEditor);
-  } // onPause
+  }
 
   public void onResume(final SharedPreferences prefs)
   {
     for(final Iterator<PauseResumeListener> overlays = pauseResumeOverlays(); overlays.hasNext(); )
       overlays.next().onResume(prefs);
-  } // onResume
+  }
 
   public void onCreateOptionsMenu(final Menu menu)
   {
     for(final Iterator<MenuListener> overlays = menuOverlays(); overlays.hasNext(); )
       overlays.next().onCreateOptionsMenu(menu);
-  } // onCreateOptionsMenu
+  }
 
   public void onPrepareOptionsMenu(final Menu menu)
   {
     for(final Iterator<MenuListener> overlays = menuOverlays(); overlays.hasNext(); )
       overlays.next().onPrepareOptionsMenu(menu);
-  } // onPrepareOptionsMenu
+  }
 
   public void onCreateContextMenu(final ContextMenu menu)
   {
     for(final Iterator<ContextMenuListener> overlays = contextMenuOverlays(); overlays.hasNext(); )
       overlays.next().onCreateContextMenu(menu);
-  } // onPrepareContextMenu
+  }
 
   public boolean onMenuItemSelected(final int featureId, final MenuItem item)
   {
@@ -86,7 +86,7 @@ public class ControllerOverlay extends Overlay implements OnDoubleTapListener,
       if (overlays.next().onMenuItemSelected(featureId, item))
         return true;
     return false;
-  } // onMenuItemSelected
+  }
 
   //////////////////////////////////////////////
   public boolean onBackPressed()
@@ -99,19 +99,19 @@ public class ControllerOverlay extends Overlay implements OnDoubleTapListener,
     undoStack_.remove(last);
     undo.onBackPressed();
     return true;
-  } // onBackPressed
+  }
 
   public void pushUndo(final Undoable undo)
   {
     undoStack_.add(undo);
-  } // pushUndo
+  }
 
   public void flushUndo(final Undoable undo)
   {
     for(int i = undoStack_.size() - 1; i >= 0; --i)
       if (undoStack_.get(i).equals(undo))
         undoStack_.remove(i);
-  } // flushUndo
+  }
 
   public void popUndo(final Undoable undo)
   {
@@ -120,14 +120,14 @@ public class ControllerOverlay extends Overlay implements OnDoubleTapListener,
       {
         undoStack_.remove(i);
         return;
-      } // if ...
-  } // flushUndo
+      }
+  }
 
   ////////////////////////////////////////////////////////////////
   private boolean redraw() {
     mapView_.mapView().postInvalidate();
     return true;
-  } // redraw
+  }
 
   @Override
   public boolean onTouchEvent(final MotionEvent event, final MapView mapView)
@@ -135,7 +135,7 @@ public class ControllerOverlay extends Overlay implements OnDoubleTapListener,
     if (gestureDetector_.onTouchEvent(event))
       return redraw();
     return super.onTouchEvent(event, mapView);
-  } // onTouchEvent
+  }
 
   @Override
   public boolean onSingleTapConfirmed(final MotionEvent e)
@@ -147,7 +147,7 @@ public class ControllerOverlay extends Overlay implements OnDoubleTapListener,
       if (overlays.next().onSingleTap(e))
         return redraw();
     return false;
-  } // onSingleTapConfirmed
+  }
 
   @Override
   public boolean onDoubleTap(final MotionEvent e)
@@ -159,7 +159,7 @@ public class ControllerOverlay extends Overlay implements OnDoubleTapListener,
       if (overlays.next().onDoubleTap(e))
         return redraw();
     return false;
-  } // onDoubleTap
+  }
 
   @Override
   public void draw(final Canvas canvas, final MapView mapView, final boolean shadow) {
@@ -171,7 +171,7 @@ public class ControllerOverlay extends Overlay implements OnDoubleTapListener,
     drawUnskewed(canvas, mapView);
 
     canvas.restore();
-  } // draw
+  }
 
   protected void drawUnskewed(final Canvas canvas, final MapView mapView) {
     for(final Iterator<ButtonTapListener> overlays = buttonTapOverlays(); overlays.hasNext(); )
@@ -182,7 +182,7 @@ public class ControllerOverlay extends Overlay implements OnDoubleTapListener,
         screen.centerX(),
         screen.bottom-(textBrush_.descent()+2),
         textBrush_);
-  } // drawReverted
+  }
 
   @Override
   public boolean onDoubleTapEvent(MotionEvent e) { return false; }
@@ -193,7 +193,7 @@ public class ControllerOverlay extends Overlay implements OnDoubleTapListener,
   @Override
   public void onLongPress(final MotionEvent e) {
     mapView_.showContextMenu();
-  } // onLongPress
+  }
   @Override
   public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) { return false; }
   @Override
@@ -205,21 +205,21 @@ public class ControllerOverlay extends Overlay implements OnDoubleTapListener,
   private Iterator<TapListener> tapOverlays()
   {
     return new OverlayIterator<>(mapView_, TapListener.class);
-  } // tapOverlays
+  }
   private Iterator<ButtonTapListener> buttonTapOverlays()
   {
     return new OverlayIterator<>(mapView_, ButtonTapListener.class);
-  } // buttonTapOverlays
+  }
   private Iterator<MenuListener> menuOverlays()
   {
     return new OverlayIterator<>(mapView_, MenuListener.class);
-  } // menuOverlays
+  }
   private Iterator<ContextMenuListener> contextMenuOverlays()
   {
     return new OverlayIterator<>(mapView_, ContextMenuListener.class);
-  } // contextMenuOverlays
+  }
   private Iterator<PauseResumeListener> pauseResumeOverlays()
   {
     return new OverlayIterator<>(mapView_, PauseResumeListener.class);
-  } // pauseResumeOverlays
-} // class ControllerOverlay
+  }
+}

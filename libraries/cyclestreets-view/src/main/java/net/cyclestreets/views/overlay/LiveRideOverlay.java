@@ -72,7 +72,7 @@ public class LiveRideOverlay extends Overlay implements ServiceConnection
     final Rect bounds = new Rect();
     largeTextBrush_.getTextBounds("0.0", 0, 3, bounds); // Measure the text
     lineHeight_ = bounds.height();
-  } // LiveRideOverlay
+  }
 
   @Override
   public void onDetach(final MapView mapView)
@@ -81,7 +81,7 @@ public class LiveRideOverlay extends Overlay implements ServiceConnection
       binding_.stopRiding();
 
     super.onDetach(mapView);
-  } // onDetach
+  }
 
   @Override
   public void draw(final Canvas canvas, final MapView mapView, final boolean shadow)
@@ -95,10 +95,10 @@ public class LiveRideOverlay extends Overlay implements ServiceConnection
       drawNextTurn(canvas);
       drawSpeed(canvas);
     } catch (Exception e) {
-    } // catch
+    }
 
     canvas.restore();
-  } // draw
+  }
 
   private void drawNextTurn(final Canvas canvas) 
   {
@@ -142,7 +142,7 @@ public class LiveRideOverlay extends Overlay implements ServiceConnection
     Draw.drawTextInRect(canvas, smallTextBrush_, nextBox, nextStreet);
 
     turnIcon.draw(canvas);
-  } // drawNextTurn
+  }
 
   private void drawThenShrink(final Canvas canvas, final Rect box, final Paint brush)
   {
@@ -152,7 +152,7 @@ public class LiveRideOverlay extends Overlay implements ServiceConnection
     box.right -= offset_;
     box.top += offset_;
     box.bottom -= offset_;   
-  } // shrinkBox
+  }
 
   private void drawSpeed(final Canvas canvas) 
   {
@@ -172,7 +172,7 @@ public class LiveRideOverlay extends Overlay implements ServiceConnection
     canvas.drawText(speed, box.left, box.bottom, largeTextBrush_);
     box.left += speedWidth_;
     canvas.drawText(formatter_.speedUnit(), box.left, box.bottom, midTextBrush_);
-  } // drawSpeed
+  }
 
   ///////////////////////////
   @Override
@@ -182,12 +182,12 @@ public class LiveRideOverlay extends Overlay implements ServiceConnection
 
     if (!binding_.areRiding())
       binding_.startRiding();
-  } // onServiceConnected
+  }
 
   @Override
   public void onServiceDisconnected(final ComponentName className)
   {
-  } // onServiceDisconnected
+  }
 
   private Location lastLocation() 
   {
@@ -202,7 +202,7 @@ public class LiveRideOverlay extends Overlay implements ServiceConnection
       return null;
 
     return location;
-  } // lastLocation
+  }
 
   private String speed() 
   {
@@ -211,7 +211,7 @@ public class LiveRideOverlay extends Overlay implements ServiceConnection
       return "0.0";
 
     return formatter_.speed(location.getSpeed());
-  } // speed
+  }
 
   private String distanceUntilTurn()
   {
@@ -224,5 +224,5 @@ public class LiveRideOverlay extends Overlay implements ServiceConnection
     final int fromEnd = activeSeg.distanceFromEnd(whereIam);
 
     return formatter_.distance(fromEnd); 
-  } // distanceUntilTurn
-} // class LiveRideOverlay
+  }
+}

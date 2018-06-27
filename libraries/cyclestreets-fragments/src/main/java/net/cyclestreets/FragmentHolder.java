@@ -11,7 +11,7 @@ public abstract class FragmentHolder extends Activity {
     if (savedInstanceState == null)
       getFragmentManager().beginTransaction().add(android.R.id.content,
                                                          fragment()).commit();
-  } // onCreate
+  }
 
   protected abstract Fragment fragment();
-} // FragmentHolder
+}

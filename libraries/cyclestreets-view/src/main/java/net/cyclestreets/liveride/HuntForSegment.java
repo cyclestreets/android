@@ -14,7 +14,7 @@ final class HuntForSegment extends LiveRideState
   {
     super(state);
     waitToSettle_ = 5;
-  } // HuntForSegment
+  }
 
   @Override
   public LiveRideState update(Journey journey, GeoPoint whereIam, int accuracy)
@@ -34,8 +34,8 @@ final class HuntForSegment extends LiveRideState
       {
         distance = from;
         nearestSeg = seg;
-      } // if ...
-    } // for ...
+      }
+    }
 
     distance -= accuracy;
 
@@ -46,7 +46,7 @@ final class HuntForSegment extends LiveRideState
       return new OnTheMove(this);
 
     return new AdvanceToSegment(this, journey, nearestSeg);
-  } // update
+  }
 
   @Override
   public boolean isStopped() { return false; }

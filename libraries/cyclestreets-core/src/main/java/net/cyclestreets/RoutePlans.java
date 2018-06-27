@@ -13,5 +13,5 @@ public class RoutePlans {
 
   public static String[] allPlans() {
     return Plans;
-  } // plans
-} // RoutePlans
+  }
+}

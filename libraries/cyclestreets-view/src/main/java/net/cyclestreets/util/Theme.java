@@ -13,7 +13,7 @@ public final class Theme {
     int c = array.getColor(0, 0xFF00FF);
     array.recycle();
     return c;
-  } // color
+  }
 
   private Theme() { }
-} // Theme
+}

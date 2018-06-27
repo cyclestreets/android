@@ -11,4 +11,4 @@ public class CycleMapDefaults {
 
   private static GeoPoint centre_ = new GeoPoint(51477841, 0); /* Greenwich! */
   private static boolean gps_ = true;
-} // class CycleMapDefaults
+}

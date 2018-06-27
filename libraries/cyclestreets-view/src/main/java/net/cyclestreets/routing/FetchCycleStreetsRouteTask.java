@@ -16,11 +16,11 @@ public class FetchCycleStreetsRouteTask extends RoutingTask<Long>
     super(R.string.route_fetching_existing, context);
     routeType_ = routeType;
     speed_ = speed;
-  } // FetchCycleStreetsRouteTask
+  }
 
   @Override
   protected RouteData doInBackground(Long... params)
   {
     return fetchRoute(routeType_, params[0], speed_);
-  } // doInBackground
-} // class FetchCycleStreetsRouteTask
+  }
+}

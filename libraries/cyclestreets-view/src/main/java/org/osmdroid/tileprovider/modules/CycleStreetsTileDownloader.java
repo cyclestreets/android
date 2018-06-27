@@ -136,7 +136,7 @@ public class CycleStreetsTileDownloader extends MapTileModuleProviderBase {
   public ITileSource getTileSource() {
     IOnlineTileSource ots = mTileSource.get();
     return ots != null ? ots.unwrap() : null;
-  } // getTileSource
+  }
 
   // ===========================================================
   // Methods from SuperClass/Interfaces

@@ -13,7 +13,7 @@ public class ListFactory<T>
     Collections.addAll(l, values);
 
     return l;
-  } // list
+  }
 
   static public <T> List<T> list(final Iterator<T> values)
   {
@@ -23,5 +23,5 @@ public class ListFactory<T>
       l.add(values.next());
 
     return l;
-  } // list
+  }
 } // ListFactory

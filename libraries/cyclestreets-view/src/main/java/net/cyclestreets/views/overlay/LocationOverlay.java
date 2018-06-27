@@ -63,14 +63,14 @@ public class LocationOverlay extends MyLocationNewOverlay {
     mapView_.addView(overlayView);
 
     lockedOn_ = false;
-  } // LocationOverlay
+  }
 
   public void enableLocation(final boolean enable) {
     if (enable)
       enableMyLocation();
     else
       disableMyLocation();
-  } // enableLocation
+  }
 
   public void enableAndFollowLocation(final boolean enable) {
     if (enable) {
@@ -82,22 +82,22 @@ public class LocationOverlay extends MyLocationNewOverlay {
           mapView_.getController().setCenter(new GeoPoint(lastFix));
       } catch (RuntimeException e) {
         // might not have location service
-      } // catch
+      }
     } else {
       disableFollowLocation();
       disableMyLocation();
-    } // if ...
+    }
 
     mapView_.invalidate();
-  } // enableAndFollowLocation
+  }
 
   public void lockOnLocation() {
     lockedOn_ = true;
-  } // lockOnLocation
+  }
 
   public void hideButton() {
     button_.setVisibility(View.INVISIBLE);
-  } // hideButton
+  }
 
   @Override
   public boolean onTouchEvent(final MotionEvent event, final MapView mapView) {
@@ -107,7 +107,7 @@ public class LocationOverlay extends MyLocationNewOverlay {
       enableFollowLocation();
 
     return handled;
-  } // onTouchEvent
+  }
 
   ////////////////////////////////////////////
   @Override
@@ -123,5 +123,5 @@ public class LocationOverlay extends MyLocationNewOverlay {
       return;
 
     super.draw(canvas, mapView, shadow);
-  } // onDraw
-} // LocationOverlay
+  }
+}

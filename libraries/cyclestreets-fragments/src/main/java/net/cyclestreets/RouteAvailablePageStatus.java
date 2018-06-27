@@ -13,30 +13,30 @@ public class RouteAvailablePageStatus
 
   public RouteAvailablePageStatus() {
     Route.registerListener(this);
-  } // RouteAvailablePageStatus
+  }
 
   @Override
   public void setAdapter(final BaseAdapter adapter) {
     adapter_ = adapter;
-  } // setAdapter
+  }
 
   @Override
   public boolean enabled() {
     return Route.available();
-  } // enabled
+  }
 
   @Override
   public void onNewJourney(final Journey journey, final Waypoints waypoints) {
     ping();
-  } // onNewJourney
+  }
 
   public void onResetJourney() {
     ping();
-  } // onResetJourney
+  }
 
   private void ping() {
     if (adapter_ != null)
       adapter_.notifyDataSetChanged();
-  } // ping
+  }
 
-} // RouteAvailablePageStatus
+}

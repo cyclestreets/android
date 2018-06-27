@@ -16,5 +16,5 @@ public class PhotoMapFragment extends CycleMapFragment
     overlayPushBottom(new PhotosOverlay(mapView()));
 
     return v;
-  } // onCreate
-} // PhotomapActivity
+  }
+}

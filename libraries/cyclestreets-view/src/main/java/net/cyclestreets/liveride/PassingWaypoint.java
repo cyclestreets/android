@@ -10,16 +10,16 @@ final class PassingWaypoint extends LiveRideState
   {
     super(previous);
     notify("Passing waypoint");
-  } // PassingWaypoint
+  }
 
   @Override
   public LiveRideState update(Journey journey, GeoPoint whereIam, int accuracy)
   {
     return new AdvanceToSegment(this, journey);
-  } // update
+  }
 
   @Override
   public boolean isStopped() { return false; }
   @Override
   public boolean arePedalling() { return true; }
-} // class PassingWaypoint
+}

@@ -10,7 +10,7 @@ public abstract class DistanceFormatter
     if ("miles".equals(name))
       return milesFormatter;
     return kmFormatter;
-  } // formatter
+  }
 
   static private DistanceFormatter kmFormatter = new KmFormatter();
   static private DistanceFormatter milesFormatter = new MilesFormatter();
@@ -22,15 +22,15 @@ public abstract class DistanceFormatter
       if (metres < 2000)
         return String.format("%dm", metres);
       return total_distance(metres);
-    } // distance
+    }
 
     public String total_distance(int metres)
     {
       int km = metres / 1000;
       int frackm = (int)((metres % 1000) / 10.0);
       return String.format("%d.%02dkm", km, frackm);
-    } // total_distance
-  } // class KmFormatter
+    }
+  }
 
   static private class MilesFormatter extends DistanceFormatter
   {
@@ -42,7 +42,7 @@ public abstract class DistanceFormatter
       if (yards <= 750)
         return String.format("%dyds", yards);
       return total_distance(metres);
-    } // distance
+    }
 
     public String total_distance(int metres)
     {
@@ -50,6 +50,6 @@ public abstract class DistanceFormatter
       int miles = yards / 1760;
       int frackm = (int)((yards % 1760) / 17.6);
       return String.format("%d.%02d miles", miles, frackm);
-    } // total_distance
-  } // class MilesFormatter
-} // DistanceFormatter
+    }
+  }
+}

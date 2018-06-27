@@ -18,12 +18,12 @@ class CycleStreetsRoutingTask extends RoutingTask<Waypoints>
     super(R.string.route_finding_new, context);
     routeType_ = routeType;
     speed_ = speed;
-  } // NewRouteTask
+  }
 
   @Override
   protected RouteData doInBackground(final Waypoints... waypoints)
   {
     final Waypoints wp = waypoints[0];
     return fetchRoute(routeType_, speed_, wp);
-  } // doInBackgroud
-} // NewRouteTask
+  }
+}

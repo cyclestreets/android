@@ -29,13 +29,13 @@ public class LiveRideActivity extends Activity
       return;
     }
     launchActivity(context);
-  } // launch
+  }
 
   static private void launchActivity(final Context context) 
   {
     final Intent intent = new Intent(context, LiveRideActivity.class);
     context.startActivity(intent);
-  } // launchActivity
+  }
 
   private CycleMapView map_;
 
@@ -47,7 +47,7 @@ public class LiveRideActivity extends Activity
     super.onCreate(saved);
 
     // Map initialized in onResume
-  } // onCreate
+  }
 
   //////////////////////////
   @Override
@@ -57,7 +57,7 @@ public class LiveRideActivity extends Activity
     map_.onPause();
 
     super.onPause();
-  } // onPause
+  }
 
   @Override
   public void onResume()
@@ -68,7 +68,7 @@ public class LiveRideActivity extends Activity
     initializeMapView();
     map_.onResume();
     map_.enableAndFollowLocation();
-  } // onResume
+  }
 
   private void initializeMapView() {
     map_ = new CycleMapView(this, this.getClass().getName());
@@ -83,4 +83,4 @@ public class LiveRideActivity extends Activity
     setContentView(rl);
   }
 
-} // class LiveRideActivity
+}

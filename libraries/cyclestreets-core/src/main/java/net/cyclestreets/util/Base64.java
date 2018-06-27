@@ -1734,7 +1734,7 @@ public class Base64
                 }
                 else {
                     break; // Out of 'for' loop
-                } // Out of 'for' loop
+                }
             }   // end for: each byte read
             return i;
         }   // end read

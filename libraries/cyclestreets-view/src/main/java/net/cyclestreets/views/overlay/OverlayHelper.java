@@ -16,17 +16,17 @@ public class OverlayHelper
       if (type.isInstance(o))
         return (T)o;
     return null;
-  } // findOverlay
+  }
 
   public static ControllerOverlay findController(final CycleMapView view)
   {
     return findOverlay(view, ControllerOverlay.class);
-  } // controller
+  }
 
   public OverlayHelper(final CycleMapView view)
   {
     view_ = view;
-  } // OverlayHelper
+  }
 
   @SuppressWarnings("unchecked")
   public <T extends Overlay> T get(final Class<T> type) 
@@ -38,11 +38,11 @@ public class OverlayHelper
     o = findOverlay(view_, type);
     memo_.put(type, o);
     return o;
-  } // get 
+  }
 
   public ControllerOverlay controller() { return get(ControllerOverlay.class); }
 
   private CycleMapView view_;
   @SuppressWarnings("rawtypes")
   private Map<Class, Overlay> memo_ = new HashMap<>();
-} // OverlayHelper
+}

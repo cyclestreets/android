@@ -13,7 +13,7 @@ final class LiveRideStart extends LiveRideState
   {
     super(context, pebbleNotifier, tts);
     notify("Starting LiveRide", "Starting LiveRide");
-  } // LiveRideStart
+  }
 
   @Override
   public LiveRideState update(Journey journey, GeoPoint whereIam, int accuracy)
@@ -23,10 +23,10 @@ final class LiveRideStart extends LiveRideState
     notify(journey.activeSegment());
     getPebbleNotifier().notifyStart(this, journey.activeSegment());
     return new HuntForSegment(this);
-  } // update
+  }
 
   @Override
   public boolean isStopped() { return false; }
   @Override
   public boolean arePedalling() { return false; }
-} // class LiveRideStart
+}

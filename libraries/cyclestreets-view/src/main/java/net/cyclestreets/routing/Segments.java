@@ -13,7 +13,7 @@ public class Segments implements Iterable<Segment>
   public Segments() 
   {
     segments_ = new ArrayList<>();
-  } // Segments
+  }
 
   public int count() { return segments_.size(); }
   public boolean isEmpty() { return count() == 0; }
@@ -29,7 +29,7 @@ public class Segments implements Iterable<Segment>
     {
       segments_.add(0, seg);
       return;
-    } // if ...
+    }
 
     if (count() != 0)
     {
@@ -39,11 +39,11 @@ public class Segments implements Iterable<Segment>
         segments_.remove(previous);
         segments_.add(new Segment.Step(previous, seg));
         return;
-      } // if ...
+      }
     }
 
     segments_.add(seg); 
-  } // add
+  }
 
   public Segment get(final int i) { return segments_.get(i); }
 
@@ -64,13 +64,13 @@ public class Segments implements Iterable<Segment>
         return;
 
       points_ = segments_.next().points();
-    } // PointsIterator
+    }
 
     @Override
     public boolean hasNext() 
     {
       return points_ != null && points_.hasNext();
-    } // hasNext
+    }
 
     @Override
     public IGeoPoint next()
@@ -86,16 +86,16 @@ public class Segments implements Iterable<Segment>
           points_ = segments_.next().points();
         else
           points_ = null;
-      } // if ...
+      }
 
       return p;
-    } // next
+    }
 
     @Override
     public void remove() 
     {
       throw new UnsupportedOperationException();
-    } // remove
-  } // class PointsIterator
+    }
+  }
 
-} // class Segments
+}

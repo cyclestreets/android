@@ -26,13 +26,13 @@ final class ReplanFromHere extends LiveRideState
                     CycleStreetsPreferences.speed(),
                     context(),
                     Waypoints.fromTo(whereIam, finish));
-  } // ReplanFromHere
+  }
 
   @Override
   public LiveRideState update(Journey journey, GeoPoint whereIam, int accuracy)
   {
     return next_;
-  } // update
+  }
 
   @Override
   public boolean isStopped() { return false; }
@@ -45,10 +45,10 @@ final class ReplanFromHere extends LiveRideState
   {
     next_ = new HuntForSegment(this);
     Route.unregisterListener(this);
-  } // onNewJourney
+  }
 
   @Override
   public void onResetJourney()
   {
-  } // onResetJourney
-} // class ReplanFromHere
+  }
+}

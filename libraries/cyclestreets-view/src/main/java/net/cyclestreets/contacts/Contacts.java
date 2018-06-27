@@ -61,17 +61,17 @@ public class Contacts
                          postcode));
 
           addrCur.moveToNext();        // move to the next entry
-        } // while ...
-      } // if ...
-    } // try
+        }
+      }
+    }
     finally {
       addrCur.close();
-    } // finally
+    }
 
     Collections.sort(contacts, Contact.comparator());
 
     return contacts;
-  } // queryContacts
+  }
 
   private static String displayName(final Context context, final String contactId)
   {
@@ -91,8 +91,8 @@ public class Contacts
     }
     finally {
       contact.close();
-    } // finally
+    }
 
     return null;
-  } // displayName
-} // class Contacts
+  }
+}

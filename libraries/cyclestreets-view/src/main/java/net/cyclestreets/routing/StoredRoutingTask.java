@@ -15,11 +15,11 @@ public class StoredRoutingTask extends RoutingTask<Integer>
   {
     super(R.string.route_loading, context);
     db_ = db;
-  } // StoredRoutingTask
+  }
 
   @Override
   protected RouteData doInBackground(Integer... params)
   {
     return db_.route(params[0]);
-  } // doInBackground
-} // StoredRoutingTask
+  }
+}

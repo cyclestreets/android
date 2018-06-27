@@ -60,7 +60,7 @@ public class RouteOverlay extends Overlay implements PauseResumeListener, Listen
     highlight_ = null;
 
     reset();
-  } // PathOverlay
+  }
 
   private Paint createBrush(int colour)
   {
@@ -72,19 +72,19 @@ public class RouteOverlay extends Overlay implements PauseResumeListener, Listen
     brush.setStrokeWidth(10.0f);
 
     return brush;
-  } // createBrush
+  }
 
   private void setRoute(final Segments routeSegments)
   {
     reset();
     route_ = routeSegments;
-  } // setRoute
+  }
 
   private void reset() 
   {
     ridePath_ = null;
     route_ = null;
-  } // clearPath
+  }
 
   @Override
   public void draw(final Canvas canvas, final MapView mapView, final boolean shadow) 
@@ -105,7 +105,7 @@ public class RouteOverlay extends Overlay implements PauseResumeListener, Listen
       zoomLevel_ = mapView.getProjection().getZoomLevel();
       highlight_ = Route.journey().activeSegment();
       mapCentre_ = centre;
-    } // if ...
+    }
 
     if (ridePath_ == null)
       drawSegments(mapView.getProjection());
@@ -116,14 +116,14 @@ public class RouteOverlay extends Overlay implements PauseResumeListener, Listen
       canvas.drawPath(path, walkBrush_);
     for(Path path : highlightPath_)
       canvas.drawPath(path, Route.journey().activeSegment().walk() ? hiWalkBrush_ : hiRideBrush_);
-  } // draw
+  }
 
   private Path newPath()
   {
     final Path path = new Path();
     path.rewind();
     return path;
-  } // newPath
+  }
 
   private void drawSegments(final IProjection projection)
   {
@@ -148,7 +148,7 @@ public class RouteOverlay extends Overlay implements PauseResumeListener, Listen
         } 
         else
           path.lineTo(screenPoint.x, screenPoint.y);
-      } // for ...
+      }
 
       if (Route.journey().activeSegment() == s)
         highlightPath_.add(path);
@@ -156,31 +156,31 @@ public class RouteOverlay extends Overlay implements PauseResumeListener, Listen
         walkPath_.add(path);
       else
         ridePath_.add(path);
-    } // for ...
-  } // drawSegments
+    }
+  }
 
   // pause/resume
   @Override
   public void onResume(SharedPreferences prefs)
   {
     Route.registerListener(this);
-  } // onResume
+  }
 
   @Override
   public void onPause(Editor prefs)
   {
     Route.unregisterListener(this);
-  } // onPause
+  }
 
   @Override
   public void onNewJourney(final Journey journey, final Waypoints waypoints)
   {
     setRoute(journey.segments());
-  } // onNewJourney
+  }
 
   @Override
   public void onResetJourney()
   {
     reset();
-  } // onReset
-} // Path
+  }
+}

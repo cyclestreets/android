@@ -60,7 +60,7 @@ public abstract class MainNavDrawerActivity
       onFirstRun();
     else if (CycleStreetsAppSupport.isNewVersion())
       onNewVersion();
-  } // onCreate
+  }
 
   protected void onFirstRun() { }
   protected void onNewVersion() { }
@@ -71,27 +71,27 @@ public abstract class MainNavDrawerActivity
                                    final int iconId,
                                    final Class<? extends Fragment> fragClass) {
     addDrawerFragment(titleId, iconId, fragClass, null, null);
-  } // addDrawerFragment
+  }
 
   protected void addDrawerFragment(final PageTitle title,
                                    final int iconId,
                                    final Class<? extends Fragment> fragClass) {
     addDrawerFragment(title, iconId, fragClass, null, null);
-  } // addDrawerFragment
+  }
 
   protected void addDrawerFragment(final int titleId,
                                    final int iconId,
                                    final Class<? extends Fragment> fragClass,
                                    final PageStatus pageStatus) {
     addDrawerFragment(titleId, iconId, fragClass, null, pageStatus);
-  } // addDrawerFragment
+  }
 
   protected void addDrawerFragment(final int titleId,
                                    final int iconId,
                                    final Class<? extends Fragment> fragClass,
                                    final PageInitialiser initialiser) {
     addDrawerFragment(titleId, iconId, fragClass, initialiser, null);
-  } // addDrawerFragment
+  }
 
   protected void addDrawerFragment(final int titleId,
                                    final int iconId,
@@ -100,7 +100,7 @@ public abstract class MainNavDrawerActivity
                                    final PageStatus pageStatus) {
     final String title = getResources().getString(titleId);
     addDrawerFragment(new FixedTitle(title), iconId, fragClass, initialiser, pageStatus);
-  } // addDrawerFragment
+  }
 
   protected void addDrawerFragment(final PageTitle title,
                                    final int iconId,
@@ -110,13 +110,13 @@ public abstract class MainNavDrawerActivity
     final Drawable icon = iconId != -1 ? getResources().getDrawable(iconId) : null;
 
     pages_.add(new FragmentItem(title, icon, fragClass, initialiser, pageStatus));
-  } // addDrawerFragment
+  }
 
   protected void addDrawerActivity(int titleId,
                                    final int iconId,
                                    final Class<? extends Activity> fragClass) {
     addDrawerActivity(titleId, iconId, fragClass, null);
-  } // addDrawerActivity
+  }
 
   protected void addDrawerActivity(final int titleId,
                                    final int iconId,
@@ -126,7 +126,7 @@ public abstract class MainNavDrawerActivity
     final Drawable icon = iconId != -1 ? getResources().getDrawable(iconId) : null;
 
     pages_.add(new ActivityItem(new FixedTitle(title), icon, fragClass, pageStatus));
-  } // addDrawerActivity
+  }
 
   @Override
   public boolean onCreateOptionsMenu(final Menu menu) {
@@ -135,25 +135,25 @@ public abstract class MainNavDrawerActivity
       return true;
     }
     return super.onCreateOptionsMenu(menu);
-  } // onCreateOptionsMenu
+  }
 
   @Override
   public void onBackPressed() {
     if (navDrawer_.onBackPressed())
       return;
     super.onBackPressed();
-  } // onBackPressed
+  }
 
   private void restoreActionBar() {
     ActionBar actionBar = getSupportActionBar();
     actionBar.setDisplayShowTitleEnabled(true);
     actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
     actionBar.setTitle(navDrawer_.title());
-  } // restoreActionBar
+  }
 
   public void showPage(int page) {
     navDrawer_.selectItem(page);
-  } // showPage
+  }
 
   private final String Drawer = "DRAWER";
   @Override
@@ -164,7 +164,7 @@ public abstract class MainNavDrawerActivity
 
     super.onResume();
     Route.registerListener(this);
-  } // onResume
+  }
 
   @Override
   public void onPause() {
@@ -177,19 +177,19 @@ public abstract class MainNavDrawerActivity
     navDrawer_.fragment().onPause();
 
     super.onPause();
-  } // onPause
+  }
 
   @Override
   public void onNewJourney(final Journey journey, final Waypoints waypoints) {
     invalidateOptionsMenu();
-  } // onNewJourney
+  }
   public void onResetJourney() {
     invalidateOptionsMenu();
-  } // onResetJourney
+  }
 
   private SharedPreferences prefs() {
     return getSharedPreferences("net.cyclestreets.CycleStreets", Context.MODE_PRIVATE);
-  } // prefs()
+  }
 
   //////////////////////////////////////////
   //////////////////////////////////////////
@@ -216,7 +216,7 @@ public abstract class MainNavDrawerActivity
 
       if (savedInstanceState != null)
         currentSelectedPosition_ = savedInstanceState.getInt(STATE_SELECTED_POSITION);
-    } // onCreate
+    }
 
     void addPages(final List<DrawerItem> pages) {
       drawerContents_ = new PageInfoAdapter(this, pages, getActionBar().getThemedContext());
@@ -224,7 +224,7 @@ public abstract class MainNavDrawerActivity
 
       selectItem(currentSelectedPosition_);
       drawerListView_.setItemChecked(currentSelectedPosition_, true);
-    } // addDrawerItems
+    }
 
     public String title() { return drawerContents_.getItem(currentSelectedPosition_).title(); }
     public Fragment fragment() { return ((FragmentItem)drawerContents_.getItem(currentSelectedPosition_)).fragment(); }
@@ -234,7 +234,7 @@ public abstract class MainNavDrawerActivity
       super.onActivityCreated(savedInstanceState);
       // Indicate that this fragment would like to influence the set of actions in the action bar.
       setHasOptionsMenu(true);
-    } // onActivityCreated
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -245,15 +245,15 @@ public abstract class MainNavDrawerActivity
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
           nextSelectedPosition_ = position;
           drawerLayout_.closeDrawer(fragmentContainerView_);
-        } // onItemClick
+        }
       });
 
       return drawerListView_;
-    } // onCreateView
+    }
 
     public boolean isDrawerOpen() {
       return drawerLayout_ != null && drawerLayout_.isDrawerOpen(fragmentContainerView_);
-    } // isDrawerOpen
+    }
 
     public void setUp(int fragmentId, DrawerLayout drawerLayout) {
       fragmentContainerView_ = getActivity().findViewById(fragmentId);
@@ -296,7 +296,7 @@ public abstract class MainNavDrawerActivity
       if (firstRun_) {
         drawerLayout_.openDrawer(fragmentContainerView_);
         firstRun_ = false;
-      } // if ...
+      }
 
       // Defer code dependent on restoration of previous instance state.
       drawerLayout_.post(new Runnable() {
@@ -306,7 +306,7 @@ public abstract class MainNavDrawerActivity
         }
       });
       drawerLayout_.setDrawerListener(drawerToggle_);
-    } // setUp
+    }
 
     public void selectItem(int position) {
       if (position >= drawerContents_.getCount())
@@ -332,7 +332,7 @@ public abstract class MainNavDrawerActivity
         final Intent intent = new Intent(getActivity(), ((ActivityItem)di).activityClass());
         startActivity(intent);
       } //
-    } // selectItem
+    }
 
     public int selectedItem() { return currentSelectedPosition_; }
 
@@ -340,13 +340,13 @@ public abstract class MainNavDrawerActivity
     public void onSaveInstanceState(Bundle outState) {
       super.onSaveInstanceState(outState);
       outState.putInt(STATE_SELECTED_POSITION, currentSelectedPosition_);
-    } // onSaveInstanceState
+    }
 
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
       super.onConfigurationChanged(newConfig);
       drawerToggle_.onConfigurationChanged(newConfig);
-    } // onConfigurationChanged
+    }
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
@@ -358,7 +358,7 @@ public abstract class MainNavDrawerActivity
         fragment().onCreateOptionsMenu(menu, inflater);
 
       super.onCreateOptionsMenu(menu, inflater);
-    } // onCreateOptionsMenu
+    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -369,7 +369,7 @@ public abstract class MainNavDrawerActivity
         return true;
 
       return super.onOptionsItemSelected(item);
-    } // onOptionsItemSelected
+    }
 
     @Override
     public void onPrepareOptionsMenu(Menu menu) {
@@ -379,29 +379,29 @@ public abstract class MainNavDrawerActivity
         fragment().onPrepareOptionsMenu(menu);
 
       super.onPrepareOptionsMenu(menu);
-    } // onPrepareOptionsMenu
+    }
 
     public boolean onBackPressed() {
       if (isDrawerOpen()) {
         drawerLayout_.closeDrawers();
         return true;
-      } // if ...
+      }
       if (!(fragment() instanceof Undoable))
         return false;
       return ((Undoable)fragment()).onBackPressed();
-    } // onBackPressed
+    }
 
     private void showGlobalContextActionBar() {
       ActionBar actionBar = getActionBar();
       actionBar.setDisplayShowTitleEnabled(true);
       actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
       actionBar.setTitle(R.string.app_name);
-    } // showGlobalContextActionBar
+    }
 
     private ActionBar getActionBar() {
       return ((AppCompatActivity)getActivity()).getSupportActionBar();
-    } // getActionBar
-  } // NavigationDrawerFragment
+    }
+  }
 
   //////////////////////////////////////////
   //////////////////////////////////////////
@@ -426,20 +426,20 @@ public abstract class MainNavDrawerActivity
       themeColor_ = context.getResources().getDrawable(R.color.apptheme_color);
 
       buildActiveList();
-    } // PageInfoAdaptor
+    }
 
     private void buildActiveList() {
       activePages_.clear();
       for (DrawerItem di : pageInfo_)
         if (di.enabled())
           activePages_.add(di);
-    } // buildActiveList
+    }
 
     @Override
     public void notifyDataSetChanged() {
       buildActiveList();
       super.notifyDataSetChanged();
-    } // notifyDataSetChanged
+    }
 
     @Override
     public int getCount() { return activePages_.size(); }
@@ -460,7 +460,7 @@ public abstract class MainNavDrawerActivity
       setIcon(v, getItem(position).icon());
 
       return v;
-    } // getView
+    }
 
     private void setText(final View v, final String t, boolean highlight) {
       final TextView n = (TextView)v.findViewById(R.id.menu_name);
@@ -469,16 +469,16 @@ public abstract class MainNavDrawerActivity
       if (highlight) {
         v.setBackgroundDrawable(themeColor_);
         n.setTextAppearance(context_, android.R.style.TextAppearance);
-      } // if ...
-    } // setText
+      }
+    }
 
     private void setIcon(final View v, final Drawable icon) {
       if (icon == null)
         return;
       final ImageView iv = (ImageView)v.findViewById(R.id.menu_icon);
       iv.setImageDrawable(icon);
-    } // setIcon
-  } // class PageInfoAdaptor
+    }
+  }
 
   //////////////////////////////////////////
   //////////////////////////////////////////
@@ -493,7 +493,7 @@ public abstract class MainNavDrawerActivity
       title_ = title;
       icon_ = icon;
       pageStatus_ = pageStatus;
-    } // DrawerItem
+    }
 
     public String title() { return title_.title(); }
     public Drawable icon() { return icon_; }
@@ -505,8 +505,8 @@ public abstract class MainNavDrawerActivity
     public void setAdapter(final BaseAdapter adapter) {
       if (pageStatus_ != null)
         pageStatus_.setAdapter(adapter);
-    } // setAdapter
-  } // DrawerItem
+    }
+  }
 
   private static class FragmentItem extends DrawerItem {
     private Class<? extends Fragment> fragClass_;
@@ -521,7 +521,7 @@ public abstract class MainNavDrawerActivity
       super(title, icon, pageStatus);
       fragClass_ = fragClass;
       initialiser_ = initialiser;
-    } // FragmentItem
+    }
 
     public Fragment create() {
       try {
@@ -530,13 +530,13 @@ public abstract class MainNavDrawerActivity
           initialiser_.initialise(fragment_);
       } catch (Exception e) {
         throw new RuntimeException(e);
-      } // try
+      }
 
       return fragment_;
-    } // attach
+    }
 
     public Fragment fragment() { return fragment_; }
-  } // FragmentInfo
+  }
 
   private static class ActivityItem extends DrawerItem {
     private Class<? extends Activity> activityClass_;
@@ -548,29 +548,29 @@ public abstract class MainNavDrawerActivity
 
       super(title, icon, pageStatus);
       activityClass_ = activityClass;
-    } // ActivityItem
+    }
 
     public Class<? extends Activity> activityClass() {
       return activityClass_;
-    } // activityClass
-  } // ActivityItem
+    }
+  }
 
   public interface PageTitle {
     String title();
-  } // PageTitle
+  }
 
   public class FixedTitle implements PageTitle {
     private final String title_;
     public FixedTitle(String t) { title_ = t; }
     public String title() { return title_; }
-  } // FixedTitle
+  }
 
   public interface PageInitialiser {
     void initialise(final Fragment page);
-  } // PageInitialiser
+  }
 
   public interface PageStatus {
     void setAdapter(BaseAdapter adapter);
     boolean enabled();
-  } // PageStatus
-} // class Main
+  }
+}

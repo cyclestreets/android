@@ -22,7 +22,7 @@ public class MapPack
     final Intent play = new Intent(Intent.ACTION_VIEW);
     play.setData(Uri.parse("market://search?q=net.cyclestreets"));
     context.startActivity(play);
-  } // searchGooglePlay
+  }
 
   static public List<MapPack> availableMapPacks()
   {
@@ -42,10 +42,10 @@ public class MapPack
         continue;
 
       packs.add(new MapPack(name, version, map));
-    } // for
+    }
 
     return packs;
-  } // availableMapPacks
+  }
 
   static public MapPack findByPackage(final String packageName)
   {
@@ -53,7 +53,7 @@ public class MapPack
       if (pack.path().contains(packageName))
         return pack;
     return null;
-  } // findByPackage
+  }
 
   static private File findMapFile(final File mapDir, final String prefix)
   {
@@ -61,7 +61,7 @@ public class MapPack
       if (c.getName().startsWith(prefix))
         return c;
     return null;
-  } // findMapFile
+  }
 
   static private Properties mapProperties(final File mapDir)
   {
@@ -69,19 +69,19 @@ public class MapPack
     try {
       final File detailsFile = findMapFile(mapDir, "patch.");
       details.load(new FileInputStream(detailsFile));
-    } // try
+    }
     catch (IOException | RuntimeException e) {
-    } // catch
+    }
     return details;
-  } // mapName
+  }
 
   static private class CycleStreetsMapFilter implements FilenameFilter
   {
     public boolean accept(final File dir, final String name)
     {
       return name.contains("net.cyclestreets.maps");
-    } // accept
-  } // class CycleStreetsMapFilter
+    }
+  }
 
   //////////////////////////////////////////////////////
   private final String name_;
@@ -95,9 +95,9 @@ public class MapPack
     name_ = n;
     path_ = p.getAbsolutePath();
     version_ = v;
-  } // MapPack
+  }
 
   public String name() { return name_; }
   public String path() { return path_; }
   public boolean current() { return MAPSFORGE_VERSION.equals(version_); }
-} // class MapPack
+}

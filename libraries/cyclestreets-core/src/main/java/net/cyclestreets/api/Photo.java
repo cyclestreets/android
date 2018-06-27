@@ -34,7 +34,7 @@ public class Photo implements Parcelable {
     thumbnailUrl_ = thumbnailUrl;
     position_ = position;
     videos_ = videos;
-  } // Photo
+  }
 
   public int id() { return id_; }
   public boolean isPlaceholder() { return thumbnailUrl_ == null && !hasVideos(); }
@@ -51,7 +51,7 @@ public class Photo implements Parcelable {
       if (v.format().equals(format))
         return v;
     return null;
-  } // video
+  }
 
   @Override
   public int hashCode() { return id_; }
@@ -69,7 +69,7 @@ public class Photo implements Parcelable {
       return false;
     Photo other = (Photo)obj;
     return (id_ == other.id_);
-  } // equals
+  }
 
   @Override
   public String toString() { return id_ + ":" + caption_; }
@@ -81,11 +81,11 @@ public class Photo implements Parcelable {
     public Video(final String format, final String url) {
       format_ = format;
       url_ = url;
-    } // Video;
+    }
 
     public String format() { return format_; }
     public String url() { return url_; }
-  } // Video
+  }
 
   ////////////////////////////////////////////////
   // parcelable
@@ -106,8 +106,8 @@ public class Photo implements Parcelable {
     for (Video v : videos_) {
       dest.writeString(v.format());
       dest.writeString(v.url());
-    } // for ...
-  } // writeToParcel
+    }
+  }
 
   public static final Parcelable.Creator<Photo> CREATOR = new Parcelable.Creator<Photo>() {
     @Override
@@ -128,7 +128,7 @@ public class Photo implements Parcelable {
         final String format = source.readString();
         final String vurl = source.readString();
         videos.add(new Video(format, vurl));
-      } // for ...
+      }
 
       return new Photo(
           id,
@@ -139,11 +139,11 @@ public class Photo implements Parcelable {
           thumbnailUrl,
           new GeoPoint(latE6, lonE6),
           videos);
-    } // createFromParcel
+    }
 
     @Override
     public Photo[] newArray(int size) {
       return new Photo[size];
-    } // newArray
+    }
   }; // CREATOR
-} // class Photo
+}

@@ -17,7 +17,7 @@ public class GeoHelper
     final double d = Radius * c;
 
     return d;
-  } // boxWidthKm
+  }
 
   static public int distanceBetween(final IGeoPoint p1, final IGeoPoint p2)
   {
@@ -39,7 +39,7 @@ public class GeoHelper
     final double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
     final double d = RadiusInMetres * c;
     return (int)d;
-  } // distanceBetween
+  }
 
   static public double bearingTo(final IGeoPoint p1, final IGeoPoint p2)
   {
@@ -56,7 +56,7 @@ public class GeoHelper
     final double bearing = Math.atan2(y, x);
     final double normalised = (Math.toDegrees(bearing)+360) % 360;
     return Math.toRadians(normalised);
-  } // bearingTo
+  }
 
   static public double crossTrack(final IGeoPoint p1, final IGeoPoint p2, final IGeoPoint location)
   {
@@ -71,7 +71,7 @@ public class GeoHelper
       ) * RadiusInMetres;
 
     return ct;
-  } // crossTrack
+  }
 
   public static class AlongTrack
   {
@@ -91,7 +91,7 @@ public class GeoHelper
     public int offset() { return offset_; }
     public boolean onTrack() { return position_ == Position.ON_TRACK; }
     public Position position() { return position_; }
-  } // AlongTrack
+  }
 
   static public AlongTrack alongTrackOffset(final IGeoPoint p1, final IGeoPoint p2, final IGeoPoint location)
   {
@@ -118,5 +118,5 @@ public class GeoHelper
       at.position((Math.abs(p1l) > Math.PI/2) ? AlongTrack.Position.BEFORE_START : AlongTrack.Position.OFF_END); 
 
     return at;
-  } // alongTrackOffset
-} // class GeoHelpers
+  }
+}

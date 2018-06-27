@@ -25,7 +25,7 @@ public class PhotoMarkers {
 
     bfo_ = new BitmapFactory.Options();
     bfo_.inTargetDensity = 240;
-  } // PhotoMarkers
+  }
 
   public Drawable getMarker(final Photo photo) {
     final String key = String.format("photomarkers/%s_%s.png", photo.category(), mapMetaCat(photo.metacategory()));
@@ -44,11 +44,11 @@ public class PhotoMarkers {
     }
 
     return markers_.get(key);
-  } // getMarker
+  }
 
   private String mapMetaCat(final String mc) {
     if ("good".equals(mc) || "bad".equals(mc))
       return mc;
     return "neutral";
-  } // mapMetaCat
-} // class PhotoMarkers
+  }
+}

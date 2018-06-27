@@ -37,21 +37,21 @@ public class SettingsFragment extends PreferenceFragment
     setSummary(CycleStreetsPreferences.PREF_NEARING_TURN);
     setSummary(CycleStreetsPreferences.PREF_OFFTRACK_DISTANCE);
     setSummary(CycleStreetsPreferences.PREF_REPLAN_DISTANCE);
-  } // onCreate
+  }
 
   private void setupMapStyles() {
     final ListPreference mapstylePref= (ListPreference)findPreference(CycleStreetsPreferences.PREF_MAPSTYLE_KEY);
     if (mapstylePref == null)
       return;
     TileSource.configurePreference(mapstylePref);
-  } // setupMapStyles
+  }
 
   private void setupMapFileList() {
     final ListPreference mapfilePref= (ListPreference)findPreference(CycleStreetsPreferences.PREF_MAPFILE_KEY);
     if (mapfilePref == null)
       return;
     populateMapFileList(mapfilePref);
-  } // setupMapFileList
+  }
 
   private void populateMapFileList(final ListPreference mapfilePref) {
     final List<String> names = new ArrayList<>();
@@ -60,11 +60,11 @@ public class SettingsFragment extends PreferenceFragment
     for(final MapPack pack : MapPack.availableMapPacks()) {
       names.add(pack.name());
       files.add(pack.path());
-    } // for
+    }
 
     mapfilePref.setEntries(names.toArray(new String[] { }));
     mapfilePref.setEntryValues(files.toArray(new String[] { }));
-  } // populateMapFileList
+  }
 
   @Override
   public void onResume() {
@@ -73,7 +73,7 @@ public class SettingsFragment extends PreferenceFragment
     getPreferenceScreen().getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
 
     setAccountSummary();
-  } // onResume
+  }
 
   @Override
   public void onPause() {
@@ -81,11 +81,11 @@ public class SettingsFragment extends PreferenceFragment
 
     // stop listening while paused
     getPreferenceScreen().getSharedPreferences().unregisterOnSharedPreferenceChangeListener(this);
-  } // onPause
+  }
 
   public void onSharedPreferenceChanged(final SharedPreferences prefs, final String key) {
     setSummary(key);
-  } // onSharedPreferencesChanged
+  }
 
   private void setSummary(final String key) {
     final Preference prefUI = findPreference(key);
@@ -96,7 +96,7 @@ public class SettingsFragment extends PreferenceFragment
 
     if (CycleStreetsPreferences.PREF_MAPSTYLE_KEY.equals(key))
       setMapFileSummary(((ListPreference)prefUI).getValue());
-  } // setSummary
+  }
 
   private void setMapFileSummary(final String style) {
     final ListPreference mapfilePref= (ListPreference)findPreference(CycleStreetsPreferences.PREF_MAPFILE_KEY);
@@ -116,7 +116,7 @@ public class SettingsFragment extends PreferenceFragment
           (DialogInterface di, int i) -> MapPack.searchGooglePlay(getContext())
       );
       return;
-    } // if ...
+    }
 
     final String mapfile = CycleStreetsPreferences.mapfile();
     int index = mapfilePref.findIndexOfValue(mapfile);
@@ -125,7 +125,7 @@ public class SettingsFragment extends PreferenceFragment
 
     mapfilePref.setValueIndex(index);
     mapfilePref.setSummary(mapfilePref.getEntries()[index]);
-  } // setMapFileSummary
+  }
 
   private void setAccountSummary() {
     final PreferenceScreen account = (PreferenceScreen)findPreference(CycleStreetsPreferences.PREF_ACCOUNT_KEY);
@@ -138,5 +138,5 @@ public class SettingsFragment extends PreferenceFragment
       account.setSummary(R.string.settings_awaiting);
     else
       account.setSummary("");
-  } // setAccountSummary
-} // class SettingsFragment
+  }
+}
