@@ -36,11 +36,11 @@ public class RouteOverlay extends Overlay implements PauseResumeListener, Listen
   private final Paint walkBrush_;
   private final Paint hiRideBrush_;
   private final Paint hiWalkBrush_;
-   
+
   private List<Path> ridePath_;
   private List<Path> walkPath_;
   private List<Path> highlightPath_;
-  
+
   private int zoomLevel_ = -1;
   private Segment highlight_;
   private IGeoPoint mapCentre_;
@@ -48,7 +48,7 @@ public class RouteOverlay extends Overlay implements PauseResumeListener, Listen
   public RouteOverlay()
   {
     super();
-    
+
     rideBrush_ = createBrush(ROUTE_COLOUR);
     walkBrush_ = createBrush(ROUTE_COLOUR);
     walkBrush_.setPathEffect(new DashPathEffect(new float[] {5, 5}, 0));
@@ -58,21 +58,21 @@ public class RouteOverlay extends Overlay implements PauseResumeListener, Listen
     hiWalkBrush_.setPathEffect(new DashPathEffect(new float[] {5, 5}, 0));
 
     highlight_ = null;
-    
+
     reset();
   } // PathOverlay
-	
+
   private Paint createBrush(int colour)
   {
     final Paint brush = new Paint();
-    
+
     brush.setColor(colour);
     brush.setStrokeWidth(2.0f);
     brush.setStyle(Paint.Style.STROKE);
     brush.setStrokeWidth(10.0f);
-    
+
     return brush;
-  } // createBrush	
+  } // createBrush
 
   private void setRoute(final Segments routeSegments)
   {
@@ -91,7 +91,7 @@ public class RouteOverlay extends Overlay implements PauseResumeListener, Listen
   {
     if (shadow) 
       return;
- 
+
     if (route_ == null || route_.count() < 2) 
       return;
 
@@ -106,7 +106,7 @@ public class RouteOverlay extends Overlay implements PauseResumeListener, Listen
       highlight_ = Route.journey().activeSegment();
       mapCentre_ = centre;
     } // if ...
-  
+
     if(ridePath_ == null)
       drawSegments(mapView.getProjection());
 
@@ -124,7 +124,7 @@ public class RouteOverlay extends Overlay implements PauseResumeListener, Listen
     path.rewind();
     return path;
   } // newPath
-  
+
   private void drawSegments(final IProjection projection)
   {
     ridePath_ = new ArrayList<>();
@@ -140,7 +140,7 @@ public class RouteOverlay extends Overlay implements PauseResumeListener, Listen
       {
         final IGeoPoint gp = i.next();
         screenPoint = projection.toPixels(gp, screenPoint);
-        
+
         if(first)
         {
           path.moveTo(screenPoint.x, screenPoint.y);
@@ -177,7 +177,7 @@ public class RouteOverlay extends Overlay implements PauseResumeListener, Listen
   {
     setRoute(journey.segments());
   } // onNewJourney
-  
+
   @Override
   public void onResetJourney()
   {

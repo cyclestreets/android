@@ -6,7 +6,6 @@ public class CycleMapDefaults {
   public static GeoPoint centre() { return centre_; }
   public static boolean gps() { return gps_; }
 
-
   public static void setCentre(GeoPoint gp) { centre_ = new GeoPoint(gp); }
   public static void setGps(boolean gps) { gps_ = gps; }
 

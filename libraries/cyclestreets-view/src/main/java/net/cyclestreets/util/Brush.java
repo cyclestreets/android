@@ -27,7 +27,7 @@ public class Brush {
   private static Paint createFillBrush(final int r, final int g, final int b) {
     return createBrush(255, r, g, b, Style.FILL_AND_STROKE);
   } // createFillBrush
-  
+
   private static Paint createOutlineBrush(final int r, final int g, final int b) {
     final Paint brush = createBrush(255, r, g, b, Style.STROKE);
     brush.setStrokeWidth(0);
@@ -41,20 +41,20 @@ public class Brush {
     paint.setARGB(a, r, g, b);
     return paint;
   } // createBrush
-  
+
   public static Paint createTextBrush(final int size) {
     return createTextBrush(size, 255, 255, 255);
   } // createTextBrush
-  
+
   public static Paint createTextBrush(final int size, final int r, final int g, final int b)  {
     final Paint paint = createFillBrush(r, g, b);
 
     paint.setTextAlign(Paint.Align.CENTER);
     paint.setTypeface(Typeface.DEFAULT);
     paint.setTextSize(size * 2);
-    
+
     return paint;
   } // createTextBrush
-  
+
   private Brush() { }
 } // Brushes

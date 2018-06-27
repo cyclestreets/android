@@ -6,13 +6,13 @@ import java.io.IOException;
 
 public class JourneyPlanner {
   private static final int DEFAULT_SPEED = 20;
-  
+
   /////////////////////////////////////////////////////////////////
   public static String getJourneyXml(final String plan,
                                      final Waypoints waypoints) throws IOException {
     return getJourneyXml(plan, DEFAULT_SPEED, waypoints);
   }
-  
+
   public static String getJourneyXml(final String plan,
                                      final int speed,
                                      final Waypoints waypoints) throws IOException {
@@ -28,11 +28,11 @@ public class JourneyPlanner {
                                    speed,
                                    lonLat);
   }
-  
+
   public static String getJourneyXml(final String plan,
                                      final long itinerary) throws IOException {
     return ApiClient.getJourneyXml(plan, itinerary);
   }
-    
+
   private JourneyPlanner() {}
 }

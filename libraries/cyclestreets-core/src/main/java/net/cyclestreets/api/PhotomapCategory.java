@@ -11,11 +11,11 @@ public class PhotomapCategory
     this.name = name;
     this.description = description;
   }
-  
+
   public String getName() { return name; }
   public String getTag() { return tag; }
   public String getDescription() { return description; }
-  
+
   @Override
   public String toString() { return tag; }
 }

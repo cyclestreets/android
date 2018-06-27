@@ -12,7 +12,7 @@ final class AdvanceToSegment extends LiveRideState
   {
     this(previous, journey, journey.segments().get(journey.activeSegmentIndex()+1));
   } // AdvanceToSegment    
-  
+
   AdvanceToSegment(final LiveRideState previous,
                    final Journey journey,
                    final Segment segment) 
@@ -21,7 +21,7 @@ final class AdvanceToSegment extends LiveRideState
     journey.setActiveSegment(segment);
     notify(segment);
   } // AdvanceToSegment
-  
+
   @Override
   public LiveRideState update(Journey journey, GeoPoint whereIam, int accuracy)
   {
@@ -29,7 +29,7 @@ final class AdvanceToSegment extends LiveRideState
       return new PassingWaypoint(this);
     if(journey.atEnd())
       return new Arrivee(this);
-    
+
     return new OnTheMove(this);
   } // update
 

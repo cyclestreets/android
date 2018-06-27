@@ -31,8 +31,8 @@ public abstract class MainTabbedActivity extends Activity implements OnTabChange
   private final Map<String, TabInfo> tabs_ = new HashMap<>();
   private TabInfo lastTab_;
 
-	public void onCreate(final Bundle savedInstanceState)
-	{
+  public void onCreate(final Bundle savedInstanceState)
+  {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.maintabbedactivity);
     tabHost_ = (TabHost)findViewById(android.R.id.tabhost);
@@ -48,11 +48,11 @@ public abstract class MainTabbedActivity extends Activity implements OnTabChange
       tabHost_.getTabWidget().getChildAt(i).setLayoutParams(layout);
     } // for ...
 
-	  // start with route tab
+    // start with route tab
     showMap();
 
     showWhatsNew();
-	} // onCreate
+  } // onCreate
 
   protected abstract void addTabs(final TabHost tabHost);
 
@@ -60,13 +60,13 @@ public abstract class MainTabbedActivity extends Activity implements OnTabChange
     tabHost_.setCurrentTab(tab);
   } // setCurrentTab
 
-	public void showMap()
-	{
-		tabHost_.setCurrentTab(0);
-	} // showMap
+  public void showMap()
+  {
+    tabHost_.setCurrentTab(0);
+  } // showMap
 
-	public void showWhatsNew()
-	{
+  public void showWhatsNew()
+  {
     if(!CycleStreetsAppSupport.isNewVersion())
       return;
 
@@ -82,7 +82,7 @@ public abstract class MainTabbedActivity extends Activity implements OnTabChange
             })
            .setView(whatsnewView)
            .show();
-	} // showWhatsNew
+  } // showWhatsNew
 
   protected SharedPreferences prefs() {
     return getSharedPreferences("net.cyclestreets.CycleStreets", Context.MODE_PRIVATE);

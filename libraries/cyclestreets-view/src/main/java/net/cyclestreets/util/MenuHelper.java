@@ -26,7 +26,7 @@ public class MenuHelper
       return item;
     return menu.add(0, itemId, Menu.NONE, itemId);
   } // createMenuItem
-  
+
   static public MenuItem enableMenuItem(final Menu menu, final int itemId, final boolean enabled)
   {
     final MenuItem mi = menu.findItem(itemId);
@@ -36,7 +36,7 @@ public class MenuHelper
     } // if ...
     return mi;
   } // enableMenuItem
-  
+
   static public MenuItem showMenuItem(final Menu menu, final int itemId, final boolean show)
   {
     final MenuItem mi = menu.findItem(itemId);

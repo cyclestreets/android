@@ -22,7 +22,7 @@ public class LiveRideService extends Service
   private Location lastLocation_;
   private LiveRideState stage_;
   private PebbleNotifier pebbleNotifier_;
-  
+
   private static int updateDistance = 5;  // metres
   private static int updateTime = 500;    // milliseconds
 
@@ -72,12 +72,12 @@ public class LiveRideService extends Service
   {
     return stage_.arePedalling();
   } // onRide
-  
+
   public Location lastLocation()
   {
     return lastLocation_;
   } // lastLocation
-  
+
   public class Binding extends Binder
   {
     private LiveRideService service() { return LiveRideService.this; }
@@ -100,12 +100,12 @@ public class LiveRideService extends Service
     } // if ...
 
     lastLocation_ = location;
-    
+
     final GeoPoint whereIam = new GeoPoint(location);
     final float accuracy = location.hasAccuracy() ? location.getAccuracy() : 2;
 
     final Journey journey = Route.journey();
- 
+
     stage_ = stage_.update(journey, whereIam, (int)accuracy);
   } // onLocationChanged
 

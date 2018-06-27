@@ -20,7 +20,7 @@ public class Dialog {
       setIndeterminate(true);
       setCancelable(false);
     } // CycleStreetsProgressDialog
-    
+
     @Override
     public void dismiss() {
       try {
@@ -31,22 +31,22 @@ public class Dialog {
       } // catch
     } // dismiss
   } // class CycleStreetsProgressDialog
-  
+
   static public ProgressDialog createProgressDialog(final Context context,
                                                     final int messageId) {
     return createProgressDialog(context, context.getString(messageId));
   } // createProgressDialog
-  
+
   static public ProgressDialog createProgressDialog(final Context context,
                                                     final String message) {
     final ProgressDialog progress = new CycleStreetsProgressDialog(context, message);
     return progress;
   } // createProgressDialog
-  
+
   public interface UpdatedTextListener {
     void updatedText(final String updated);
   } // interface UpdatedTextListener
-  
+
   static public void editTextDialog(final Context context, 
                                     final String initialText,
                                     final String buttonText,
@@ -92,7 +92,7 @@ public class Dialog {
     final View layout = View.inflate(context, R.layout.listdialog, null);
     final ListView listView = ((ListView)layout.findViewById(R.id.list_view));
     listView.setAdapter(adapter);
-    
+
     final AlertDialog.Builder builder = newBuilder(context);
     if (titleResId != -1)
       builder.setTitle(titleResId);
@@ -109,14 +109,14 @@ public class Dialog {
     });
 
     builder.setView(layout);
-    
+
     return show(builder);
   } // listViewDialog
-  
+
   static AlertDialog.Builder newBuilder(final View parent) {
     return newBuilder(parent.getContext());
   } // newBuilder
-  
+
   static AlertDialog.Builder newBuilder(final Context context) {
     final AlertDialog.Builder builder = new AlertDialog.Builder(context);
     builder.setTitle(applicationName(context));

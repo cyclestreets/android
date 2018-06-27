@@ -27,13 +27,13 @@ public class AccountDetailsActivity extends Activity
   public enum RegisterStep
   {
     ACCOUNT(null),
-    
+
     REGISTER_DETAILS(ACCOUNT),
 
     SIGNIN_DETAILS(ACCOUNT),
-    
+
     EXISTING_SIGNIN_DETAILS(null);
-    
+
     RegisterStep(final RegisterStep p)
     {
       prev_ = p;
@@ -43,27 +43,27 @@ public class AccountDetailsActivity extends Activity
 
     public RegisterStep prev() { return prev_; }
     public RegisterStep next() { return next_; }
-    
+
     private RegisterStep prev_;
     private RegisterStep next_;
   } // RegisterStep  
-  
+
   private RegisterStep step_;
-  
+
   private View registerView_;
   private View registerDetails_;
   private View signinDetails_;
   private Button signinButton_;
-  
+
   @Override
   public void onCreate(final Bundle saved)
   {
     super.onCreate(saved);
-    
+
     final LayoutInflater inflater = (LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
     final InputFilter[] usernameFilters = new InputFilter[]{ new WhitespaceInputFilter() };
-    
+
     registerView_ = inflater.inflate(R.layout.accountdetails, null);
     registerDetails_ = inflater.inflate(R.layout.accountregister, null);
     textView(registerDetails_, R.id.username).setFilters(usernameFilters);
@@ -76,7 +76,7 @@ public class AccountDetailsActivity extends Activity
     signinButton_.setEnabled(false);
 
     step_ = (CycleStreetsPreferences.accountOK()) ? RegisterStep.EXISTING_SIGNIN_DETAILS : RegisterStep.ACCOUNT;
-    
+
     setupView();
   } // onCreate
 
@@ -90,7 +90,7 @@ public class AccountDetailsActivity extends Activity
     else
       super.onBackPressed();
   } // onBackPressed    
-    
+
   private void setupView()
   {
     switch(step_)
@@ -115,13 +115,13 @@ public class AccountDetailsActivity extends Activity
       setText(signinDetails_, R.id.username, CycleStreetsPreferences.username());
       setText(signinDetails_, R.id.password, CycleStreetsPreferences.password());
       setText(signinDetails_, R.id.signin_message, signinMessage());
-      
+
       hookUpButton(signinDetails_, R.id.signin_button);
       hookUpButton(signinDetails_, R.id.cleardetails_button);
       break;
     } // switch
   } // setupView
-  
+
   private String signinMessage() {
     if (CycleStreetsPreferences.accountOK())
       return getString(R.string.account_already_signed_in_format,
@@ -129,13 +129,13 @@ public class AccountDetailsActivity extends Activity
                        CycleStreetsPreferences.email());
     return getString(R.string.account_signin_message);
   }
-  
+
   private String registrationMessage() {
     if (CycleStreetsPreferences.accountPending())
       return getString(R.string.account_pending);
     return getString(R.string.account_registration_is_free_long);
   }
-  
+
   private void hookUpButton(final View v, final int id)
   {
     final Button b = (Button)v.findViewById(id);
@@ -143,12 +143,12 @@ public class AccountDetailsActivity extends Activity
       return;
     b.setOnClickListener(this);    
   } // hookUpNext
-  
+
   private TextView textView(final View v, final int id)
   {
     return (TextView)v.findViewById(id);
   } // textView
-  
+
   private void setText(final View v, final int id, final String value)
   {
     final TextView tv = textView(v, id);
@@ -156,13 +156,13 @@ public class AccountDetailsActivity extends Activity
       return;
     tv.setText(value);
   } // setText
-  
+
   private String getText(final View v, final int id)
   {
     final TextView tv = textView(v, id);
     return tv.getText().toString();
   } // getText
-  
+
   @Override
   public void onClick(final View v) 
   {
@@ -182,7 +182,7 @@ public class AccountDetailsActivity extends Activity
         register();
         return;
     }
-    
+
     setupView();
   } // onClick
   ///////////////////////////////////////////////////////
@@ -217,13 +217,13 @@ public class AccountDetailsActivity extends Activity
   {
     MessageBox.OKAndFinish(signinDetails_, message, this, finishOnOK);
   } // MessageBox
-  
+
   ////////////////////////////////////////////////////////
   private void signin()
   {
     final String username = getText(signinDetails_, R.id.username);
     final String password = getText(signinDetails_, R.id.password);
-    
+
     if((username.length() == 0) || (password.length() == 0))
     {
       MessageBox("Please enter username and password.", false);
@@ -232,76 +232,76 @@ public class AccountDetailsActivity extends Activity
     final SignInTask task = new SignInTask(this, username, password);
     task.execute();
   } // signin
-    
+
   private class SignInTask extends AsyncTask<Object, Void, Signin.Result>
   {
     private final String username_;
     private final String password_;
     private final ProgressDialog progress_;
-    
+
     SignInTask(final Context context,
                 final String username,
                 final String password) 
     {
       username_ = username;
       password_ = password;
-      
+
       progress_ = Dialog.createProgressDialog(context, R.string.account_signing_in);
     } // SigninTask
-    
+
     @Override
     protected void onPreExecute() 
     {
       super.onPreExecute();
       progress_.show();
     } // onPreExecute
-    
+
     protected Signin.Result doInBackground(Object... params)
     {
       return Signin.signin(username_, password_);
     } // doInBackground
-    
+
     @Override
     protected void onPostExecute(final Signin.Result result) 
     {
       progress_.dismiss();
-           
+
       CycleStreetsPreferences.setUsernamePassword(username_, 
                             password_,
                             result.name(),
                             result.email(),
                             result.ok());
       setText(signinDetails_, R.id.signin_message, signinMessage());
-      
+
       MessageBox(result.message(), result.ok());
     } // onPostExecute
   } // class SignInTask
-  
+
   ////////////////////////////////////////////////////////
   private void register()
   {
     final String emailRegex = "^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$";
-    
+
     final String username = getText(registerDetails_, R.id.username);
     final String password = getText(registerDetails_, R.id.password);
     final String password2 = getText(registerDetails_, R.id.confirm_password);
     final String name = getText(registerDetails_, R.id.name);
     final String email = getText(registerDetails_, R.id.email);
-      
+
     String oops = null;
-    
+
     if (!email.toLowerCase().matches(emailRegex))
       oops = getString(R.string.account_email_format);
     if (!password.equals(password2))
       oops = getString(R.string.account_password_mismatch);
     if (username.length() < 5)
       oops = getString(R.string.account_username_too_short);
-    
+
     if (oops != null) {
       MessageBox(oops, false);
       return;
     }
-    
+
     final RegisterTask task = new RegisterTask(this,
                                                username,
                                                password,
@@ -309,7 +309,7 @@ public class AccountDetailsActivity extends Activity
                                                email);
     task.execute();
   } // register
-  
+
   private class RegisterTask extends AsyncTask<Object, Void, Result>
   {
     private final String username_;
@@ -317,7 +317,7 @@ public class AccountDetailsActivity extends Activity
     private final String name_;
     private final String email_;
     private final ProgressDialog progress_;
-    
+
     RegisterTask(final Context context,
                  final String username,
                  final String password,
@@ -327,17 +327,17 @@ public class AccountDetailsActivity extends Activity
       password_ = password;
       name_ = name;
       email_ = email;
-      
+
       progress_ = Dialog.createProgressDialog(context, R.string.account_registering);
     } // RegisterTask
-    
+
     @Override
     protected void onPreExecute() 
     {
       super.onPreExecute();
       progress_.show();
     } // onPreExecute
-    
+
     protected Result doInBackground(Object... params)
     {
       return Registration.register(username_, 
@@ -345,7 +345,7 @@ public class AccountDetailsActivity extends Activity
                                    name_,
                                    email_);
     } // doInBackground
-    
+
     @Override
     protected void onPostExecute(final Result result)
     {
@@ -354,7 +354,7 @@ public class AccountDetailsActivity extends Activity
       MessageBox(result.message(), result.ok());
     } // onPostExecute
   } // class RegisterTask  
-  
+
   private class WhitespaceInputFilter extends LoginFilter.UsernameFilterGeneric {
     public WhitespaceInputFilter() {
       super(false);

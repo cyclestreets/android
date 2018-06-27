@@ -12,24 +12,24 @@ public class Blog
     }});
   }
   private List<BlogEntry> entries = new ArrayList<>();
-  
+
   public Blog(List<BlogEntry> entries) {
     // Add up to the 5 most recent blog entries
     this.entries.addAll(entries.subList(0, Math.min(5, entries.size())));
   }
-  
+
   public boolean isNull() {
     return this == NULL_BLOG;
   }
-  
+
   public String mostRecent() {
     return (entries.size() != 0) ? entries.get(0).date() : null;
   }
-  
+
   public String mostRecentTitle() {
     return (entries.size() != 0) ? entries.get(0).title() : null;
   }
-  
+
   public String toHtml() {
     final StringBuilder sb = new StringBuilder();
     for (final BlogEntry be : entries) {

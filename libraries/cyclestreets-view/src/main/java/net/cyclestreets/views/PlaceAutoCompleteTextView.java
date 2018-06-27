@@ -25,7 +25,7 @@ public class PlaceAutoCompleteTextView extends AppCompatAutoCompleteTextView
   private GeoPlace place_;
   private Contact contact_;
   private Set<GeoPlace> localHistory_ = new HashSet<>();
-  
+
   public PlaceAutoCompleteTextView(final Context context)
   {
     super(context);
@@ -43,14 +43,14 @@ public class PlaceAutoCompleteTextView extends AppCompatAutoCompleteTextView
     super(context, attrs, defStyle);
     init();
   } // PlaceAutoCompleteTextView
-  
+
   private void init() 
   {
     setThreshold(0);
     setOnClickListener(this);
     setOnItemClickListener(this);
   } // init
-  
+
   /////////////////////////////////////
   public BoundingBox bounds() {  return adapter_.bounds(); }
   public void setBounds(final BoundingBox bounds)
@@ -58,7 +58,7 @@ public class PlaceAutoCompleteTextView extends AppCompatAutoCompleteTextView
     adapter_ = new GeoLiveAdapter(getContext(), bounds);
     setAdapter(adapter_);  
   } // setBounds
-  
+
   public GeoPlace geoPlace() 
   { 
     if(place_ == null)
@@ -85,14 +85,14 @@ public class PlaceAutoCompleteTextView extends AppCompatAutoCompleteTextView
     place_ = place;
     localHistory_.add(place);
   } // setGeoPlaceHint
-  
+
   public Contact contact() { return contact_; }
   public void setContact(final Contact contact)
   {
     setText(contact.address());
     contact_ = contact;
   } // setContact
-  
+
   public void addHistory(final GeoPlace place)
   {
     if(adapter_ == null)
@@ -108,10 +108,10 @@ public class PlaceAutoCompleteTextView extends AppCompatAutoCompleteTextView
       return;
     setGeoPlace(adapter_.getItem(position));
   } // GeoPlace
-  
+
   @Override
   public boolean enoughToFilter() { return true; }
-  
+
   @Override
   public void onFilterComplete(int count)
   {

@@ -17,7 +17,7 @@ public class Photo implements Parcelable {
   private final String thumbnailUrl_;
   private final GeoPoint position_;
   private final List<Video> videos_;
-  
+
   public Photo(int id,
         String feature,
         String metaCategory,
@@ -35,7 +35,7 @@ public class Photo implements Parcelable {
     position_ = position;
     videos_ = videos;
   } // Photo
-  
+
   public int id() { return id_; }
   public boolean isPlaceholder() { return thumbnailUrl_ == null && !hasVideos(); }
   public String category() { return category_; }

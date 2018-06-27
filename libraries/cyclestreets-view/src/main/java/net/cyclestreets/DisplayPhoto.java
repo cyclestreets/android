@@ -253,7 +253,7 @@ public final class DisplayPhoto {
     protected abstract String title();
     protected abstract String caption();
     protected abstract View loadLayout();
-    
+
     protected void preShowSetup(AlertDialog.Builder builder) { }
     protected void postShowSetup(AlertDialog dialog) { }
 
@@ -475,5 +475,4 @@ public final class DisplayPhoto {
     } // class MessageHandler
   } // class VideoViewController
 } // DisplayPhoto
-
 

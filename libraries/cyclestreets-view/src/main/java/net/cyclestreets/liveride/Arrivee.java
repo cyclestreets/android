@@ -11,7 +11,7 @@ final class Arrivee extends LiveRideState
     super(previous);
     notify("Arreeve eh", "Arriv\u00e9e");
   } // Arrivee
-  
+
   @Override
   public LiveRideState update(Journey journey, GeoPoint whereIam, int accuracy)
   {

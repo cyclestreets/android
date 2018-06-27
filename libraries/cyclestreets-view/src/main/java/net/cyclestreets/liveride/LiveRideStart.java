@@ -14,7 +14,7 @@ final class LiveRideStart extends LiveRideState
     super(context, pebbleNotifier, tts);
     notify("Starting LiveRide", "Starting LiveRide");
   } // LiveRideStart
-  
+
   @Override
   public LiveRideState update(Journey journey, GeoPoint whereIam, int accuracy)
   {

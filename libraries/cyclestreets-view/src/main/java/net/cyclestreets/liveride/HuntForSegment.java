@@ -9,13 +9,13 @@ import org.osmdroid.util.GeoPoint;
 final class HuntForSegment extends LiveRideState
 {
   private int waitToSettle_;
-  
+
   HuntForSegment(final LiveRideState state) 
   {
     super(state);
     waitToSettle_ = 5;
   } // HuntForSegment
-  
+
   @Override
   public LiveRideState update(Journey journey, GeoPoint whereIam, int accuracy)
   {
@@ -23,10 +23,10 @@ final class HuntForSegment extends LiveRideState
       --waitToSettle_;
       return this;
     }
-    
+
     Segment nearestSeg = null;
     int distance = Integer.MAX_VALUE;
-    
+
     for(final Segment seg : journey.segments())
     {
       int from = seg.distanceFrom(whereIam);
@@ -36,7 +36,7 @@ final class HuntForSegment extends LiveRideState
         nearestSeg = seg;
       } // if ...
     } // for ...
-    
+
     distance -= accuracy;
 
     if(distance > CycleStreetsPreferences.replanDistance())
@@ -44,7 +44,7 @@ final class HuntForSegment extends LiveRideState
 
     if(nearestSeg == journey.activeSegment())
       return new OnTheMove(this);
-    
+
     return new AdvanceToSegment(this, journey, nearestSeg);
   } // update
 

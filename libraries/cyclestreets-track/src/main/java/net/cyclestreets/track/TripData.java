@@ -152,7 +152,7 @@ public class TripData {
 
     return new BoundingBox(lathigh, lgtlow, latlow, lgthigh);
   }
-	public List<CyclePoint> journey() { return gpspoints;	}
+  public List<CyclePoint> journey() { return gpspoints;  }
   public long startTime() { return startTime_; }
   public long endTime() { return endTime_; }
   public long secondsElapsed() {
@@ -200,7 +200,6 @@ public class TripData {
     } // if ...
 
     gpspoints.add(pt);
-
 
     mDb.open();
     mDb.addCoordToTrip(tripid, pt);

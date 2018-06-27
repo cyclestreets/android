@@ -22,7 +22,7 @@ public class GeoLiveAdapter extends GeoAdapter
 
   // Magic string
   public static final String MY_LOCATION = "My Location";
-	
+
   private final GeocodeFilter filter;
   private final BoundingBox bounds_;
   private final SharedPreferences prefs;
@@ -35,7 +35,7 @@ public class GeoLiveAdapter extends GeoAdapter
   {
     super(context);
     bounds_ = bounds;
-    
+
     prefs = context.getSharedPreferences(PREFS_GEO_KEY, Application.MODE_PRIVATE);
     filter = new GeocodeFilter(prefs);
   } // GeoAdapter
@@ -45,9 +45,9 @@ public class GeoLiveAdapter extends GeoAdapter
   {
     return filter;
   } // getFilter
-	
+
   public BoundingBox bounds() { return bounds_; }
-  
+
   public GeoPlace exactMatch(final String p)
   {
     for(int i = 0; i != getCount(); ++i)
@@ -58,7 +58,7 @@ public class GeoLiveAdapter extends GeoAdapter
     } // for ...
     return null;
   } // exactMatch
-	
+
   /*
    * Add to geocoding history
    */
@@ -66,9 +66,9 @@ public class GeoLiveAdapter extends GeoAdapter
   {
     if (p.name().equals(MY_LOCATION))
       return;
-		
+
     final String key = p.name().toLowerCase();
-    
+
     final SharedPreferences.Editor edit = prefs.edit();
     edit.putString(PREFS_GEO_NAME_PREFIX + key, p.name());
     edit.putString(PREFS_GEO_NEAR_PREFIX + key, p.near());
@@ -76,28 +76,28 @@ public class GeoLiveAdapter extends GeoAdapter
     edit.putInt(PREFS_GEO_LONGITUDE_PREFIX + key, p.coord().getLongitudeE6());
     edit.apply();
   } // addHistory
-	
+
   /////////////////////////////////////////////////////////////////////
   /////////////////////////////////////////////////////////////////////
   private class GeocodeFilter extends Filter
   {
     private SharedPreferences prefs_;
-    
+
     public GeocodeFilter(final SharedPreferences prefs)
     {
       prefs_ = prefs;
     } // GeocodeFilter
-		
+
     @Override
     protected FilterResults performFiltering(CharSequence cs)
     {
       final List<GeoPlace> list = new ArrayList<>();
-      
+
       if (cs != null)
       {
         // Add history hits first
         filterPrefs(list, cs);
-        
+
         // Only geocode if more than two characters
         if (cs.length() > 2)
           list.addAll(geoCode(cs.toString(), bounds_).asList());
@@ -107,13 +107,13 @@ public class GeoLiveAdapter extends GeoAdapter
         // Add all prefs
         filterPrefs(list, "");
       }
-      
+
       final FilterResults results = new FilterResults();
       results.values = list;
       results.count = list.size();
       return results;
     } // performFiltering
-		
+
     @SuppressWarnings("unchecked")
     @Override
     protected void publishResults(CharSequence cs, FilterResults fr)
@@ -122,10 +122,10 @@ public class GeoLiveAdapter extends GeoAdapter
 
       if (fr != null && fr.values != null)
         addAll((List<GeoPlace>)fr.values);
-      
+
       notifyDataSetChanged();
     } // publishResults
-    
+
     /*
      * Add any matching entries from prefs
      */
@@ -134,17 +134,17 @@ public class GeoLiveAdapter extends GeoAdapter
     {
       if (prefs_ == null)
         return;
-			
+
       final String match = (PREFS_GEO_NAME_PREFIX + cs).toLowerCase();
       final Set<String> sortedKeys = new TreeSet<>(prefs.getAll().keySet());
-		
+
       for (final String s: sortedKeys)
-      {		
+      {
         if (!s.startsWith(match))
           continue;
-        
+
         final String key = prefs.getString(s, "").toLowerCase();
-        
+
         list.add(new GeoPlace(prefs.getInt(PREFS_GEO_LATITUDE_PREFIX + key, 0),
                               prefs.getInt(PREFS_GEO_LONGITUDE_PREFIX + key, 0),
                               prefs.getString(PREFS_GEO_NAME_PREFIX + key, ""),

@@ -28,7 +28,7 @@ public class ItemizedOverlay<Item extends OverlayItem> extends Overlay
   private final Point screenCoords = new Point();
 
   protected MapView mapView() { return mapView_; }
-  
+
   public ItemizedOverlay(final MapView mapView,
                          final List<Item> items) {
     super();
@@ -37,7 +37,7 @@ public class ItemizedOverlay<Item extends OverlayItem> extends Overlay
   }
 
   protected List<Item> items() { return items_; }
-  
+
   @Override
   public void draw(final Canvas canvas, final MapView mapView, final boolean shadow) {
     if(shadow)
@@ -45,7 +45,7 @@ public class ItemizedOverlay<Item extends OverlayItem> extends Overlay
 
     final float scale = mapView.getContext().getResources().getDisplayMetrics().density;
     final float orientation = mapView.getMapOrientation();
-    
+
     final Projection pj = mapView.getProjection();
     for (int i = items_.size() -1; i >= 0; --i) {
       final Item item = items_.get(i);
@@ -140,7 +140,7 @@ public class ItemizedOverlay<Item extends OverlayItem> extends Overlay
     marker.setBounds(rect_);
     return marker;
   } // boundToHotSpot
-  
+
   /////////////////////////////////////////////////
   @Override
   public boolean onSingleTap(final MotionEvent event) {

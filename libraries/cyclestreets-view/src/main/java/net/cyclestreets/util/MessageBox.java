@@ -12,14 +12,14 @@ public class MessageBox
       new DialogInterface.OnClickListener() {
         public void onClick(DialogInterface arg0, int arg1) {  }
       };
-        
+
   static public void YesNo(final View parent,
                            final int msg,
                            final DialogInterface.OnClickListener yesAction)
   {
     YesNo(parent.getContext(), msg, yesAction);
   } // YesNo
-  
+
   static public void YesNo(final View parent,
                            final String msg,
                            final DialogInterface.OnClickListener yesAction)
@@ -40,7 +40,7 @@ public class MessageBox
   {
     YesNo(context, msg, yesAction, NoAction);
   } // YesNo
-  
+
   static public void YesNo(final View parent, 
                            final String msg, 
                            final DialogInterface.OnClickListener yesAction,
@@ -60,20 +60,20 @@ public class MessageBox
             .setNegativeButton("No", noAction);
     Dialog.show(alertbox);
   } // YesNo
-  
+
   static public void OK(final View parent, final int msg)
   {
     OK(parent.getContext(), parent.getContext().getString(msg));
   } // OK
-  
+
   static public void OK(final View parent, final String msg) { OK(parent.getContext(), msg); } 
   static public void OK(final Context context, final String msg) { OK(context, msg, NoAction); }
-  
+
   static public void OK(final View parent,
                         final String msg,
                         final DialogInterface.OnClickListener okAction) 
   { OK(parent.getContext(), msg, okAction); }
-  
+
   static public void OK(final Context context,
                         final String msg,
                         final DialogInterface.OnClickListener okAction)
@@ -83,9 +83,7 @@ public class MessageBox
             .setPositiveButton("OK", okAction);
     Dialog.show(alertbox);
   } // OK
-  
-  
-  
+
   static public void OKAndFinish(final View view,
                                  final String msg,
                                  final Activity activity,

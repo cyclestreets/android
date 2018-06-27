@@ -8,11 +8,11 @@ import android.widget.TextView;
 import net.cyclestreets.views.CycleMapView;
 
 public class ShowJourney extends Activity {
-	private CycleMapView mapView_;
+  private CycleMapView mapView_;
 
-	@Override
-	public void onCreate(final Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
+  @Override
+  public void onCreate(final Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
 
     setContentView(R.layout.completed_journey);
 

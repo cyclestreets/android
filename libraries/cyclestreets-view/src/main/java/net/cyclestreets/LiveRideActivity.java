@@ -30,13 +30,13 @@ public class LiveRideActivity extends Activity
     }
     launchActivity(context);
   } // launch
-  
+
   static private void launchActivity(final Context context) 
   {
     final Intent intent = new Intent(context, LiveRideActivity.class);
     context.startActivity(intent);
   } // launchActivity
-  
+
   private CycleMapView map_;
 
   private PebbleNotifier notifier_;
@@ -58,7 +58,7 @@ public class LiveRideActivity extends Activity
 
     super.onPause();
   } // onPause
-  
+
   @Override
   public void onResume()
   {

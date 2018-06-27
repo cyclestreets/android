@@ -144,7 +144,6 @@ public abstract class MainNavDrawerActivity
     super.onBackPressed();
   } // onBackPressed
 
-
   private void restoreActionBar() {
     ActionBar actionBar = getSupportActionBar();
     actionBar.setDisplayShowTitleEnabled(true);
@@ -403,7 +402,6 @@ public abstract class MainNavDrawerActivity
       return ((AppCompatActivity)getActivity()).getSupportActionBar();
     } // getActionBar
   } // NavigationDrawerFragment
-
 
   //////////////////////////////////////////
   //////////////////////////////////////////

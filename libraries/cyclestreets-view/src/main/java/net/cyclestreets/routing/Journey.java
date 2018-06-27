@@ -24,7 +24,7 @@ public class Journey
   private Segments segments_;
   private ElevationProfile elevations_;
   private int activeSegment_;
-    
+
   static public final Journey NULL_JOURNEY;
   static {
     NULL_JOURNEY = new Journey();
@@ -38,7 +38,7 @@ public class Journey
     activeSegment_ = 0;
     elevations_ = new ElevationProfile();
   } // PlannedRoute
-  
+
   private Journey(final Waypoints waypoints)
   {
     this();
@@ -54,7 +54,7 @@ public class Journey
   private Segment.End e() { return segments_.last(); }
 
   public Waypoints waypoints() { return waypoints_; }
-    
+
   public String url() { return "http://cycle.st/j" + itinerary(); }
   public int itinerary() { return s().itinerary(); }
   public String name() { return s().name(); }
@@ -74,7 +74,7 @@ public class Journey
       }
   } // setActiveSegment
   public int activeSegmentIndex() { return activeSegment_; }
-  
+
   public Segment activeSegment() { return activeSegment_ >= 0 ? segments_.get(activeSegment_) : null; }
   public Segment nextSegment() 
   {
@@ -82,11 +82,11 @@ public class Journey
       return activeSegment();
     return segments_.get(activeSegment_+1);
   } // nextSegment
-  
+
   public boolean atStart() { return activeSegment_ <= 0; }
   public boolean atWaypoint() { return activeSegment() instanceof Segment.Waymark; }
   public boolean atEnd() { return activeSegment_ == segments_.count()-1; }
-  
+
   public void regressActiveSegment() 
   { 
     if(!atStart()) 
@@ -97,35 +97,35 @@ public class Journey
     if(!atEnd()) 
       ++activeSegment_; 
   } // advanceActiveSegment
-  
+
   public Iterator<IGeoPoint> points()
   {
     return segments_.pointsIterator();
   } // points
-  
+
   ////////////////////////////////////////////////////////////////
   static private IGeoPoint pD(final IGeoPoint a1, final IGeoPoint a2)
   {
     return a1 != null ? a1 : a2;
   } // pD
-    
+
   static Journey loadFromXml(final String xml, 
                              final Waypoints points,
                              final String name) 
     throws Exception
   {
     final JourneyFactory factory = factory(points, name);
-    
+
     try {
       Xml.parse(xml, factory.contentHandler());
     } // try
     catch(final Exception e) {
       throw new RuntimeException(e);
     } // catch
-      
+
     return factory.get();
   } // loadFromXml
-  
+
   ////////////////////////////////////////////////////////////////////////////////
   /*
 As at 16 October 2012
@@ -151,13 +151,13 @@ As at 16 October 2012
   <marker name="Wake Green Road, B4217" legNumber="2" distance="69" time="9" busynance="146" flow="with" walk="0" provisionName="Main road" signalledJunctions="0" signalledCrossings="0" turn="bear left" startBearing="107" color="#0000ff" points="-1.881184,52.444214 -1.88020920753479,52.444034576416" distances="0,69" elevations="153,152" type="segment" />
 </markers>
    */
-  
+
   static private JourneyFactory factory(final Waypoints waypoints,
                                          final String name) 
   { 
     return new JourneyFactory(waypoints, name);
   } // factory
-  
+
   static private class JourneyFactory 
   {    
     private final Journey journey_;
@@ -179,7 +179,7 @@ As at 16 October 2012
       journey_ = new Journey(waypoints);
       name_ = name;
     } // JourneyFactory
-    
+
     private ContentHandler contentHandler()
     {
       Segment.formatter = DistanceFormatter.formatter(CycleStreetsPreferences.units());
@@ -192,20 +192,20 @@ As at 16 October 2012
         {
           final String type = s(attr, "type");
           final String name = s(attr, "name");
-          
+
           if(type.equals("segment"))
           {
             final String packedPoints = s(attr, "points");
-            
+
             final String turn = s(attr, "turn");
-             
+
             final int distance = i(attr, "distance");
             final int time = i(attr, "time");
             final boolean shouldWalk = "1".equals(s(attr, "walk"));
             final int currentLeg = i(attr, "legNumber");
-            
+
             final List<IGeoPoint> points = pointsList(packedPoints);
-            
+
             if(currentLeg != leg_) 
             {
               journey_.segments_.add(new Segment.Waymark(leg_, total_distance, points.get(0)));
@@ -248,7 +248,7 @@ As at 16 October 2012
           return v != null ? Integer.parseInt(v) : 0; 
         } // i
       });
-      
+
       if(journey_.waypoints().count() == 0)
         root.getChild("waypoint").setStartElementListener(new StartElementListener() {
           @Override
@@ -256,17 +256,17 @@ As at 16 October 2012
           {
             final double lat = d(attr, "latitude");
             final double lon = d(attr, "longitude");
-            
+
             journey_.waypoints().add(lat, lon);
           } // start
-          
+
           private double d(final Attributes attr, final String name) 
           { 
             final String v = attr.getValue(name);
             return v != null ? Double.parseDouble(v) : 0; 
           } // i
         });
-      
+
       root.setEndElementListener(new EndElementListener() {
         @Override
         public void end()
@@ -296,12 +296,12 @@ As at 16 October 2012
 
       return root.getContentHandler();
     } // contentHandler
-    
+
     public Journey get()
     {
       return journey_;
     } // get
-    
+
     private List<IGeoPoint> pointsList(final String points)
     {
       final List<IGeoPoint> pl = new ArrayList<>();
@@ -331,5 +331,5 @@ As at 16 October 2012
       return list;
     } // elevationsList
   } // class JourneyFactory
-  
+
 } // class Journey

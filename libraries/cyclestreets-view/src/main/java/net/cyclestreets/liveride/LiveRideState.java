@@ -28,17 +28,17 @@ public abstract class LiveRideState
     );
     return new LiveRideStart(context, pebbleNotifier, tts);
   } // InitialState
-  
+
   static public LiveRideState StoppedState(final Context context, PebbleNotifier pebbleNotifier)
   { 
     return new Stopped(context, pebbleNotifier);
   } // StoppedState
   //////////////////////////////////////////
-  
+
   private Context context_;
   private String title_;
   private TextToSpeech tts_;
-  
+
   protected LiveRideState(final Context context, final PebbleNotifier pebbleNotifier, final TextToSpeech tts)
   {
     context_ = context;
@@ -47,7 +47,7 @@ public abstract class LiveRideState
     title_ = context.getString(context.getApplicationInfo().labelRes);
     Log.d("CS_PEBBLE LRS", "New State: " + this.getClass().getSimpleName());
   } // LiveRideState
-  
+
   protected LiveRideState(final LiveRideState state) 
   {
     context_ = state.context();
@@ -56,11 +56,10 @@ public abstract class LiveRideState
     Log.d("CS_PEBBLE LRS", "State: " + this.getClass().getSimpleName());
   } // LiveRideState
 
-
   public abstract LiveRideState update(Journey journey, GeoPoint whereIam, int accuracy);
   public abstract boolean isStopped();
   public abstract boolean arePedalling();
-  
+
   protected Context context() { return context_; }
   protected TextToSpeech tts() { return tts_; }
   protected PebbleNotifier getPebbleNotifier() {
@@ -70,7 +69,7 @@ public abstract class LiveRideState
   protected void notify(final Segment seg) 
   {
     notification(seg.street() + " " + seg.distance(), seg.toString());
-    
+
     final StringBuilder instruction = new StringBuilder();
     if(seg.turn().length() != 0)
       instruction.append(seg.turn()).append(" into ");
@@ -79,18 +78,18 @@ public abstract class LiveRideState
     speak(instruction.toString());
     getPebbleNotifier().notify(this, seg);
   } // notify
-  
+
   protected void notify(final String text)
   {
     notify(text, text);
   } // notify
-  
+
   protected void notify(final String text, final String ticker) 
   {
     notification(text, ticker);
     speak(text);
   } // notify
-  
+
   private void notification(final String text, final String ticker)
   {
     final NotificationManager nm = nm();

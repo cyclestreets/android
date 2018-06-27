@@ -6,7 +6,7 @@ public abstract class DistanceFormatter
   public abstract String total_distance(int metres);
   public abstract String speed(float metresPerSec);
   public abstract String speedUnit();
-  
+
   static public DistanceFormatter formatter(final String name)
   {
     if("miles".equals(name))
@@ -25,14 +25,14 @@ public abstract class DistanceFormatter
         return String.format("%dm", round_distance(metres));
       return total_distance(metres);
     } // distance
-    
+
     public String total_distance(int metres)
     {
       int km = metres / 1000;
       int frackm = (int)((metres % 1000) / 10.0);
       return String.format("%d.%02dkm", km, frackm);
     } // total_distance
-    
+
     public String speed(float metresPerSec) 
     {
       final double kph = metresPerSec * 60.0 * 60.0 / 1000.0;
@@ -40,17 +40,17 @@ public abstract class DistanceFormatter
         return String.format("%.1f", kph);
       return String.format("%d", (int)kph);
     } // speed
-    
+
     public String speedUnit() 
     {
       return "km/h";
     } // speedUnit
   } // class KmFormatter
-  
+
   static private class MilesFormatter extends DistanceFormatter
   {
     private int metresToYards(int metres) { return (int)(metres * 1.0936133); }
-    
+
     public String distance(int metres)
     {
       int yards = metresToYards(metres);
@@ -58,7 +58,7 @@ public abstract class DistanceFormatter
         return String.format("%d yards", round_distance(yards));
       return total_distance(metres);
     } // distance
-    
+
     public String total_distance(int metres)
     {
       int yards = metresToYards(metres);
@@ -66,7 +66,7 @@ public abstract class DistanceFormatter
       int frackm = (int)((yards % 1760) / 17.6);
       return String.format("%d.%02d miles", miles, frackm);
     } // total_distance
-    
+
     public String speed(float metresPerSec)
     {
       final double metresPerHour = metresPerSec * 60.0 * 60.0;
@@ -76,13 +76,13 @@ public abstract class DistanceFormatter
         return String.format("%.1f", mph);
       return String.format("%d", (int)mph);
     } // speed
-    
+
     public String speedUnit()
     {
       return "mph";
     }
   } // class MilesFormatter
-  
+
   static protected int round_distance(int units) 
   {
     if(units < 500)

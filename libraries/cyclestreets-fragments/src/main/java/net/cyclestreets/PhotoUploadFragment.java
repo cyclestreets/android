@@ -70,7 +70,7 @@ public class PhotoUploadFragment extends Fragment
     LOCATION(CATEGORY),
     VIEW(LOCATION),
     DONE(VIEW);
-    
+
     AddStep(AddStep p)
     {
       prev_ = p;
@@ -78,15 +78,15 @@ public class PhotoUploadFragment extends Fragment
         prev_.next_ = this;
       save(this);
     } // AddStep
-    
+
     public AddStep prev() { return prev_; }
     public AddStep next() { return next_; }
-    
+
     public int value() { return Value_.get(this); }
-    
+
     private AddStep prev_;
     private AddStep next_;
-    
+
     public static AddStep fromInt(int a) 
     {
       for(AddStep s : Value_.keySet())
@@ -94,7 +94,7 @@ public class PhotoUploadFragment extends Fragment
           return s;
       return null;
     } // AddStep
-    
+
     private static void save(AddStep a)
     {
       if(Value_ == null)
@@ -115,14 +115,14 @@ public class PhotoUploadFragment extends Fragment
   private View photoCategory_;
   private View photoLocation_;
   private View photoWebView_;
-  
+
   private CycleMapView map_;
   private ThereOverlay there_;
   private boolean geolocated_;
   private static PhotomapCategories photomapCategories;
-  
+
   private AddStep step_;
-  
+
   private String photoFile_ = null;
   private Bitmap photo_ = null;
   private String caption_;
@@ -134,10 +134,10 @@ public class PhotoUploadFragment extends Fragment
   private boolean allowUploadByKey_;
   private boolean allowTextOnly_;
   private boolean noShare_;
-  
+
   private LayoutInflater inflater_;
   private InputMethodManager imm_;
-  
+
   @Override
   public View onCreateView(final LayoutInflater inflater, 
                            final ViewGroup container,
@@ -152,7 +152,7 @@ public class PhotoUploadFragment extends Fragment
 
     inflater_ = LayoutInflater.from(getActivity());
     imm_ = (InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-    
+
     photoRoot_ = (LinearLayout)inflater_.inflate(R.layout.addphoto, null);
 
     step_ = AddStep.PHOTO;
@@ -177,7 +177,7 @@ public class PhotoUploadFragment extends Fragment
       else
         textOnly.setVisibility(View.GONE);
     }
-    
+
     photoCategory_ = inflater_.inflate(R.layout.addphotocategory, null);
     backNextButtons(photoCategory_, "Back", android.R.drawable.ic_media_rew, "Next", android.R.drawable.ic_media_ff);
 
@@ -190,18 +190,17 @@ public class PhotoUploadFragment extends Fragment
     closeButton.setEnabled(false);
     closeButton.setVisibility(View.GONE);
 
-
     // start reading categories
     if(photomapCategories == null)
       new GetPhotomapCategoriesTask().execute();
     else
       setupSpinners();
-    
+
     there_ = new ThereOverlay(getActivity());
     there_.setLocationListener(this);
-  
+
     setupView();
-    
+
     return photoRoot_;
   } // PhotoUploadFragment
 
@@ -226,7 +225,7 @@ public class PhotoUploadFragment extends Fragment
       return "";
     } // catch
   } // photoUploadMetaData
-  
+
   private void setContentView(final View child)
   {
     photoRoot_.removeAllViewsInLayout();
@@ -243,7 +242,7 @@ public class PhotoUploadFragment extends Fragment
     edit.putBoolean("GEOLOC", geolocated_);
     edit.commit();
   } // store
-  
+
   @Override
   public void onPause()
   {
@@ -267,9 +266,9 @@ public class PhotoUploadFragment extends Fragment
       map_.onPause();        
     super.onPause();
   } // onPause
-  
+
   private final long fiveMinutes = 5 * 60 * 1000;
-  
+
   @Override
   public void onResume()
   {
@@ -279,11 +278,11 @@ public class PhotoUploadFragment extends Fragment
     catch(RuntimeException e) {
       step_ = AddStep.fromInt(0);
     } // catch
-    
+
     super.onResume();
     setupView();
   } // onResume
-  
+
   private void doOnResume()
   {
     final SharedPreferences prefs = prefs();
@@ -298,7 +297,7 @@ public class PhotoUploadFragment extends Fragment
     metaCatId_ = prefs.getInt("METACAT", -1);
     catId_ = prefs.getInt("CATEGORY", -1);
     setSpinnerSelections();
-      
+
     final int tlat = prefs.getInt("THERE-LAT", -1);
     final int tlon = prefs.getInt("THERE-LON", -1);
     if((tlat != -1) && (tlon != -1))
@@ -313,12 +312,12 @@ public class PhotoUploadFragment extends Fragment
     if((now - when) > fiveMinutes)
       step_ = AddStep.fromInt(0);
   } // doOnResume
-  
+
   private SharedPreferences prefs()
   {
     return getActivity().getSharedPreferences("net.cyclestreets.AddPhotoActivity", Context.MODE_PRIVATE);
   } // prefs()
-   
+
   ///////////////////////////////////////////////////////////////////
   @Override
   public void onCreateOptionsMenu(final Menu menu, final MenuInflater inflater) 
@@ -326,14 +325,14 @@ public class PhotoUploadFragment extends Fragment
     createMenuItem(menu, R.string.all_menu_restart, Menu.NONE, R.drawable.ic_menu_rotate);
     createMenuItem(menu, R.string.all_menu_back, Menu.NONE, R.drawable.ic_menu_revert);
   } // onCreateOptionsMenu
-  
+
   @Override
   public void onPrepareOptionsMenu(final Menu menu)
   {
     enableMenuItem(menu, R.string.all_menu_restart, step_ != AddStep.PHOTO);
     enableMenuItem(menu, R.string.all_menu_back, step_ != AddStep.PHOTO && step_ != AddStep.VIEW);
   } // onPrepareOptionsMenu
-    
+
   @Override
   public boolean onOptionsItemSelected(final MenuItem item)
   {
@@ -352,7 +351,7 @@ public class PhotoUploadFragment extends Fragment
 
     return false;
   } // onMenuItemSelected
-  
+
   ///////////////////////////////////////////////////////////////////
   @Override
   public boolean onBackPressed()
@@ -361,17 +360,17 @@ public class PhotoUploadFragment extends Fragment
     {
       step_ = AddStep.PHOTO;
       store();
-      
+
       return false;
     } // if ...
-    
+
     step_ = step_.prev();
     store();
     setupView();
-    
+
     return true;
   } // onBackPressed
-  
+
   private void nextStep()
   {
     if((step_ == AddStep.LOCATION) && (there_.there() == null))
@@ -379,13 +378,13 @@ public class PhotoUploadFragment extends Fragment
       Toast.makeText(getActivity(), "Please set photo location", Toast.LENGTH_LONG).show();
       return;
     } // if ...
-      
+
     step_ = step_.next();
 
     store();
     setupView();
   } // nextStep
-  
+
   private void setupView()
   {
     switch(step_)
@@ -452,11 +451,11 @@ public class PhotoUploadFragment extends Fragment
       setupView();
       break;
     } // switch ...
-    
+
     previewPhoto();
     hookUpNext();
   } // setupView
-  
+
   private void previewPhoto()
   {
     final ImageView iv = (ImageView)photoRoot_.findViewById(R.id.photo);
@@ -475,7 +474,7 @@ public class PhotoUploadFragment extends Fragment
     iv.setLayoutParams(new LinearLayout.LayoutParams(newWidth, newHeight));
     iv.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
   } // previewPhoto
-  
+
   private void hookUpNext()
   {
     final Button b = (Button)photoRoot_.findViewById(R.id.back);
@@ -485,11 +484,11 @@ public class PhotoUploadFragment extends Fragment
     final Button n = (Button)photoRoot_.findViewById(R.id.next);
     if(n != null)
       n.setOnClickListener(this);
-    
+
     if(step_ == AddStep.LOCATION)
       n.setEnabled(there_.there() != null);
   } // hookUpNext
-  
+
   private EditText captionEditor() { return (EditText)photoCaption_.findViewById(R.id.caption); }
   private String captionText() 
   { 
@@ -507,10 +506,10 @@ public class PhotoUploadFragment extends Fragment
   {
     metaCategorySpinner().setAdapter(new CategoryAdapter(getActivity(), photomapCategories.metaCategories()));
     categorySpinner().setAdapter(new CategoryAdapter(getActivity(), photomapCategories.categories()));
-    
+
     setSpinnerSelections();
   } // setupSpinners
-  
+
   private void setSpinnerSelections()
   {
     // ids == position
@@ -519,7 +518,7 @@ public class PhotoUploadFragment extends Fragment
     if(catId_ != -1)
       categorySpinner().setSelection(catId_);
   } // setSpinnerSelections
-  
+
   private void setupMap()
   {
     final RelativeLayout v = (RelativeLayout)(photoLocation_.findViewById(R.id.mapholder));
@@ -533,13 +532,13 @@ public class PhotoUploadFragment extends Fragment
       map_ = new CycleMapView(getActivity(), this.getClass().getName());
       map_.overlayPushTop(there_);
     } 
-      
+
     v.addView(map_, new RelativeLayout.LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT));
     map_.enableAndFollowLocation();
     map_.onResume();
     there_.setMapView(map_);
   } // setupMap
-  
+
   @Override
   public void onClick(final View v) 
   {
@@ -593,7 +592,7 @@ public class PhotoUploadFragment extends Fragment
     final Button u = (Button)photoLocation_.findViewById(R.id.next);
     u.setEnabled(point != null);
   } // onSetLocation
-  
+
   @Override
   public void onActivityResult(final int requestCode, 
                                final int resultCode, 
@@ -618,14 +617,14 @@ if (url.startsWith("content://com.google.android.apps.photos.content")){
       if(photo_ != null)
         photo_.recycle();
       photo_ = Bitmaps.loadFile(photoFile_);
-          
+
       final ExifInterface exif = new ExifInterface(photoFile_);
 
       dateTime_ = photoTimestamp(exif);
       final GeoPoint photoLoc = photoLocation(exif);
       geolocated_ = (photoLoc != null);
       there_.noOverThere(photoLocation(exif));
-          
+
       nextStep();
     }
     catch(Exception e)
@@ -637,7 +636,7 @@ if (url.startsWith("content://com.google.android.apps.photos.content")){
                                           ChoosePhoto);
     }
   } // onActivityResult
-  
+
   private String getImageFilePath(final Intent data)
   {
     final Uri selectedImage = data.getData();
@@ -654,7 +653,7 @@ if (url.startsWith("content://com.google.android.apps.photos.content")){
       cursor.close();
     } // finally
   } // getImageFilePath
-  
+
   private void upload() 
   {
     try 
@@ -667,7 +666,7 @@ if (url.startsWith("content://com.google.android.apps.photos.content")){
       step_ = AddStep.LOCATION;
     }
   } // upload
-  
+
   private void doUpload() throws Exception
   {
     final String filename = photoFile_;
@@ -690,13 +689,13 @@ if (url.startsWith("content://com.google.android.apps.photos.content")){
                                caption);
     uploader.execute();
   } // upload
-  
+
   private void uploadComplete(final String photo_url)
   {
     uploadedUrl_ = photo_url;
     nextStep();
   } // uploadComplete
-  
+
   private void uploadFailed(final String msg)
   {
     MessageBox.OK(photoLocation_,
@@ -709,7 +708,7 @@ if (url.startsWith("content://com.google.android.apps.photos.content")){
           }
         });
   } // uploadFailed
-  
+
   private GeoPoint photoLocation(final ExifInterface photoExif)
   {
     final float[] coords = new float[2];
@@ -719,11 +718,11 @@ if (url.startsWith("content://com.google.android.apps.photos.content")){
     int lon = (int)(((double)coords[1]) * 1E6);
     return new GeoPoint(lat, lon);
   } // photoLocation
-  
+
   private String photoTimestamp(final ExifInterface photoExif)
   {
     Date date = new Date();
-    
+
     try 
     {
       final DateFormat df = new SimpleDateFormat("yyyy:MM:dd HH:mm:ss");
@@ -752,7 +751,7 @@ if (url.startsWith("content://com.google.android.apps.photos.content")){
       }
       return photomapCategories;
     } // PhotomapCategories
-    
+
     @Override
     protected void onPostExecute(PhotomapCategories photomapCategories) 
     {
@@ -765,7 +764,7 @@ if (url.startsWith("content://com.google.android.apps.photos.content")){
       setupSpinners();
     } // onPostExecute
   } // class GetPhotomapCategoriesTask
-  
+
   //////////////////////////////////////////////////////////////////////////
   private class UploadPhotoTask extends AsyncTask<Object, Void, Upload.Result>
   {
@@ -779,7 +778,7 @@ if (url.startsWith("content://com.google.android.apps.photos.content")){
     private final String caption_;
     private final ProgressDialog progress_;
     private final boolean smallImage_;
-    
+
     UploadPhotoTask(final Context context,
                     final String filename,
                     final String username,
@@ -799,17 +798,17 @@ if (url.startsWith("content://com.google.android.apps.photos.content")){
       category_ = category;
       dateTime_ = dateTime;
       caption_ = caption;
-      
+
       progress_ = Dialog.createProgressDialog(context, R.string.photo_uploading);
     } // UploadPhotoTask
-    
+
     @Override
     protected void onPreExecute() 
     {
       super.onPreExecute();
       progress_.show();
     } // onPreExecute
-    
+
     protected Upload.Result doInBackground(Object... params)
     {
       try {
@@ -825,7 +824,7 @@ if (url.startsWith("content://com.google.android.apps.photos.content")){
         return Upload.Result.error(e.getMessage());
       }
     } // doInBackground
-    
+
     @Override
     protected void onPostExecute(final Upload.Result result) {
       if(smallImage_)
@@ -837,39 +836,39 @@ if (url.startsWith("content://com.google.android.apps.photos.content")){
         uploadFailed(result.message());
     } // onPostExecute
   } // class UploadPhotoTask
-  
+
   //////////////////////////////////////////////////////////
   static private class CategoryAdapter extends BaseAdapter
   {
     private final LayoutInflater inflater_;
     private final List<PhotomapCategory> list_;
-    
+
     public CategoryAdapter(final Context context,
                            final List<PhotomapCategory> list)
     {
       inflater_ = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
       list_ = list;
     } // CategoryAdapter
-    
+
     @Override
     public int getCount()
     {
       return list_.size();
     } // getCount
-    
+
     @Override
     public String getItem(final int position)
     {
       final PhotomapCategory c = list_.get(position);
       return c.getName();
     } // getItem
-    
+
     @Override
     public long getItemId(final int position)
     {
       return position;
     } // getItemId
-    
+
     @Override
     public View getView(final int position, final View convertView, final ViewGroup parent)
     {

@@ -16,22 +16,22 @@ import android.os.Environment;
 public class MapPack
 {
   private static String MAPSFORGE_VERSION = "0.3.0";
-	
+
   static public void searchGooglePlay(final Context context)
   {
     final Intent play = new Intent(Intent.ACTION_VIEW);
     play.setData(Uri.parse("market://search?q=net.cyclestreets"));
     context.startActivity(play);
   } // searchGooglePlay
-  
+
   static public List<MapPack> availableMapPacks()
   {
     final List<MapPack> packs = new ArrayList<>();
-    
+
     final File obbDir = new File(Environment.getExternalStorageDirectory(), "Android/obb");
     if(!obbDir.exists())
       return packs;
-    
+
     for(final File mapDir : obbDir.listFiles(new CycleStreetsMapFilter()))
     {
       final File map = findMapFile(mapDir, "main.");
@@ -43,10 +43,10 @@ public class MapPack
 
       packs.add(new MapPack(name, version, map));
     } // for
-    
+
     return packs;
   } // availableMapPacks
-  
+
   static public MapPack findByPackage(final String packageName)
   {
     for(final MapPack pack : availableMapPacks())
@@ -62,7 +62,7 @@ public class MapPack
         return c;
     return null;
   } // findMapFile
-  
+
   static private Properties mapProperties(final File mapDir)
   {
     final Properties details = new Properties();
@@ -74,7 +74,7 @@ public class MapPack
     } // catch
     return details;
   } // mapName
-  
+
   static private class CycleStreetsMapFilter implements FilenameFilter
   {
     public boolean accept(final File dir, final String name)
@@ -87,16 +87,16 @@ public class MapPack
   private final String name_;
   private final String path_;
   private final String version_;
-  
+
   private MapPack(final String n,
-		  		  final String v,
-		  		  final File p) 
+            final String v,
+            final File p)
   { 
     name_ = n;
     path_ = p.getAbsolutePath();
     version_ = v;
   } // MapPack
-  
+
   public String name() { return name_; }
   public String path() { return path_; }
   public boolean current() { return MAPSFORGE_VERSION.equals(version_); }

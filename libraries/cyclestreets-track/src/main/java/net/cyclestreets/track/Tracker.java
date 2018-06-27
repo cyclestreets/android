@@ -49,6 +49,5 @@ public class Tracker {
     return trips.size();
   } // uploadLeftOverTrips
 
-
   private Tracker() { }
 } // class Tracker

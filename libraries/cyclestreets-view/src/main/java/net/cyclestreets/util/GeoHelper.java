@@ -18,7 +18,7 @@ public class GeoHelper
 
     return d;
   } // boxWidthKm
-  
+
   static public int distanceBetween(final IGeoPoint p1, final IGeoPoint p2)
   {
     // uses the Haversine formula, which I only know about because 
@@ -40,7 +40,7 @@ public class GeoHelper
     final double d = RadiusInMetres * c;
     return (int)d;
   } // distanceBetween
-  
+
   static public double bearingTo(final IGeoPoint p1, final IGeoPoint p2)
   {
     final double rlat1 = Math.toRadians(p1.getLatitudeE6() / 1E6);
@@ -57,7 +57,7 @@ public class GeoHelper
     final double normalised = (Math.toDegrees(bearing)+360) % 360;
     return Math.toRadians(normalised);
   } // bearingTo
-  
+
   static public double crossTrack(final IGeoPoint p1, final IGeoPoint p2, final IGeoPoint location)
   {
     // how far from the line defined by p1p2 is location
@@ -69,7 +69,7 @@ public class GeoHelper
         Math.sin(distanceToLoc/RadiusInMetres) *
         Math.sin(bp1l - bp1p2)
       ) * RadiusInMetres;
-    
+
     return ct;
   } // crossTrack
 
@@ -82,17 +82,17 @@ public class GeoHelper
     }
     private final int offset_;
     private Position position_ = Position.ON_TRACK;
-    
+
     AlongTrack(final int offset) {
       offset_ = offset;
     }
     void position(final Position newPos) { position_ = newPos; }
-    
+
     public int offset() { return offset_; }
     public boolean onTrack() { return position_ == Position.ON_TRACK; }
     public Position position() { return position_; }
   } // AlongTrack
-  
+
   static public AlongTrack alongTrackOffset(final IGeoPoint p1, final IGeoPoint p2, final IGeoPoint location)
   {
     final double distanceToLoc = distanceBetween(p1, location);
@@ -103,14 +103,14 @@ public class GeoHelper
       ) * RadiusInMetres;
 
     final AlongTrack at = new AlongTrack((int)offset); 
-    
+
     final double p1p2 = bearingTo(p1, p2);
     double p1l = bearingTo(p1, location);
     double p2l = bearingTo(p2, location);
-    
+
     p1l -= p1p2;
     p2l -= p1p2;
-    
+
     double angle = Math.abs(p2l - p1l);
     if(angle > Math.PI)
       angle = (Math.PI*2) - angle;

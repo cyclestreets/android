@@ -21,7 +21,7 @@ public class PhotosOverlay extends LiveItemOverlay<PhotosOverlay.PhotoItem> {
   public static class PhotoItem extends OverlayItem {
     private final Photo photo_;
     private final PhotoMarkers photoMarkers_;
-    
+
     public PhotoItem(final Photo photo, final PhotoMarkers photoMarkers) {
       super(photo.id() + "", photo.caption(), photo.position());
       photo_ = photo;
@@ -29,7 +29,7 @@ public class PhotosOverlay extends LiveItemOverlay<PhotosOverlay.PhotoItem> {
     } // PhotoItem
 
     public Photo photo() { return photo_; }
-    
+
     // Markers
     @Override
     public Drawable getMarker(int stateBitset) {
@@ -39,7 +39,7 @@ public class PhotosOverlay extends LiveItemOverlay<PhotosOverlay.PhotoItem> {
     // Equality testing
     @Override
     public int hashCode() { return ((photo_ == null) ? 0 : photo_.id()); }
-    
+
     /*
      * PhotoItems are equal if underlying Photos have the same id
      */
@@ -71,7 +71,7 @@ public class PhotosOverlay extends LiveItemOverlay<PhotosOverlay.PhotoItem> {
   public PhotosOverlay(final CycleMapView mapView) {
     super(mapView,
           true);
-  
+
     context_ = mapView.getContext();
     photoMarkers_ = new PhotoMarkers(context_.getResources());
   } // PhotoItemOverlay
@@ -82,7 +82,7 @@ public class PhotosOverlay extends LiveItemOverlay<PhotosOverlay.PhotoItem> {
     showPhoto(item);
     return true;
   } // onItemSingleTap
-  
+
   @Override
   protected boolean onItemDoubleTap(final PhotoItem item) {
     showPhoto(item);
@@ -100,7 +100,7 @@ public class PhotosOverlay extends LiveItemOverlay<PhotosOverlay.PhotoItem> {
     GetPhotosTask.fetch(this, boundingBox);
     return true;
   } // refreshPhotos
-  
+
   /////////////////////////////////////////////////////
   /////////////////////////////////////////////////////
   private static class GetPhotosTask extends AsyncTask<Object,Void,Photos> {
@@ -108,14 +108,14 @@ public class PhotosOverlay extends LiveItemOverlay<PhotosOverlay.PhotoItem> {
                       final Object... params) {
       new GetPhotosTask(overlay).execute(params);
     } // fetch
-    
+
     //////////////////////////////////////////////////////
     private final PhotosOverlay overlay_;
-    
+
     private  GetPhotosTask(final PhotosOverlay overlay) {
       overlay_ = overlay;
     } // GetPhotosTask
-    
+
     protected Photos doInBackground(Object... params) {
       final BoundingBox boundingBox = (BoundingBox)params[0];
 
@@ -126,15 +126,15 @@ public class PhotosOverlay extends LiveItemOverlay<PhotosOverlay.PhotoItem> {
       }
       return null;
     } // doInBackground
-    
+
     @Override
     protected void onPostExecute(final Photos photos) {
       final List<PhotosOverlay.PhotoItem> items = new ArrayList<>();
-      
+
       if(photos != null)
         for (final Photo photo: photos) 
           items.add(new PhotosOverlay.PhotoItem(photo, overlay_.photoMarkers_));
-      
+
       overlay_.setItems(items);
     } // onPostExecute
   } // GetPhotosTask

@@ -15,7 +15,7 @@ public class EditTextHistory extends ArrayAdapter<String> {
   private static final String LAST_WRITTEN = "lastWritten";
   private static final int MAX_HISTORY = 20;
   private static final int AdapterViewId = R.layout.texthistory;
-  
+
   private final LayoutInflater inflater_;
   private final SharedPreferences prefs_;
 
@@ -23,10 +23,10 @@ public class EditTextHistory extends ArrayAdapter<String> {
     super(context, AdapterViewId);
     inflater_ = LayoutInflater.from(context);
     prefs_ = context.getSharedPreferences(PREFS_KEY + "-" + name, Application.MODE_PRIVATE);
-    
+
     loadHistory();
   } // EditTextHistory
-  
+
   private void loadHistory() {
     for(int c = 0; c != MAX_HISTORY; ++c) {
       final String e = prefs_.getString(Integer.toString(c), "");
@@ -34,16 +34,16 @@ public class EditTextHistory extends ArrayAdapter<String> {
         add(e);
     } // for ...
   } // loadHistory
-  
+
   public void addHistory(final String n) {
     if(n == null || n.length() == 0)
       return;
-    
+
     int lastWritten = prefs_.getInt(LAST_WRITTEN, -1);    
     ++lastWritten;
     if(lastWritten == MAX_HISTORY)
       lastWritten = 0;
-    
+
     final SharedPreferences.Editor edit = prefs_.edit();
     edit.putString(Integer.toString(lastWritten), n);
     edit.putInt(LAST_WRITTEN, lastWritten);
@@ -56,7 +56,7 @@ public class EditTextHistory extends ArrayAdapter<String> {
                       final ViewGroup parent) {
     final TextView row = (TextView)inflater_.inflate(AdapterViewId, parent, false);
     final String s = getItem(position);
-  
+
     row.setText(s);
 
     return row;

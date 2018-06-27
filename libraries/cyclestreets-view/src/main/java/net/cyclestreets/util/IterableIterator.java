@@ -5,12 +5,12 @@ import java.util.Iterator;
 public class IterableIterator<T> implements Iterable<T>, Iterator<T>
 {
   private final Iterator<T> iter_;
-  
+
   public IterableIterator(final Iterator<T> iter) 
   {
     iter_ = iter;
   } // IterableIterator
-  
+
   @Override
   public boolean hasNext()
   {

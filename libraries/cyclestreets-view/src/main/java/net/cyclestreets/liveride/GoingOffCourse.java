@@ -20,7 +20,7 @@ final class GoingOffCourse extends LiveRideState
   {
     Segment nearestSeg = null;
     int distance = Integer.MAX_VALUE;
-    
+
     for(final Segment seg : journey.segments())
     {
       int from = seg.distanceFrom(whereIam);
@@ -30,12 +30,12 @@ final class GoingOffCourse extends LiveRideState
         nearestSeg = seg;
       } // if ...
     } // for ...
-    
+
     distance -= accuracy;
-    
+
     if(distance > CycleStreetsPreferences.replanDistance())
       return new ReplanFromHere(this, whereIam);
-    
+
     if(nearestSeg != journey.activeSegment())
       return new AdvanceToSegment(this, journey, nearestSeg);
 

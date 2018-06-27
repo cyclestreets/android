@@ -26,7 +26,7 @@ public class PhotomapCategories
       loaded_ = load();
     return loaded_;
   }
-  
+
   public static boolean loaded() { return loaded_ != null; }
 
   public static PhotomapCategories load()
@@ -38,16 +38,16 @@ public class PhotomapCategories
     }
     return null;
   }
-  
+
   public static void backgroundLoad() {
     new GetPhotomapCategoriesTask().execute();
   }
-  
+
   private static class GetPhotomapCategoriesTask extends AsyncTask<Void,Void,PhotomapCategories> {
     protected PhotomapCategories doInBackground(Void... params) {
       return PhotomapCategories.load();
     }
-    
+
     @Override
     protected void onPostExecute(final PhotomapCategories cats) {
       PhotomapCategories.loaded_ = cats;

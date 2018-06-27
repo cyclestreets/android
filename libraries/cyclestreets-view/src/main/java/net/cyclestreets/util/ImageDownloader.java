@@ -51,7 +51,7 @@ public class ImageDownloader {
 
       if (imageViewReference == null)
         return;
-      
+
       final ImageView imageView = imageViewReference.get();
       if (imageView == null) 
         return;

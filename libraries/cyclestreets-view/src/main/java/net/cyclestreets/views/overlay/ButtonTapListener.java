@@ -7,8 +7,8 @@ import android.view.MotionEvent;
 
 public interface ButtonTapListener 
 {
-	boolean onButtonTap(MotionEvent event);
-	boolean onButtonDoubleTap(MotionEvent event);
-	
-	void drawButtons(final Canvas canvas, final MapView mapView);
+  boolean onButtonTap(MotionEvent event);
+  boolean onButtonDoubleTap(MotionEvent event);
+
+  void drawButtons(final Canvas canvas, final MapView mapView);
 } // ButtonTapListener

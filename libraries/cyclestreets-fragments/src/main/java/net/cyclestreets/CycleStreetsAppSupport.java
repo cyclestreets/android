@@ -62,6 +62,5 @@ public final class CycleStreetsAppSupport {
   private static final String VERSION_KEY = "previous-version";
   private static final String UNKNOWN = "unknown";
 
-
   private CycleStreetsAppSupport() { }
 } // CycleStreetsAppSupport

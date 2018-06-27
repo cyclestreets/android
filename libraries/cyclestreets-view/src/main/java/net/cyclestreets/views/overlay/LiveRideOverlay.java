@@ -47,12 +47,12 @@ public class LiveRideOverlay extends Overlay implements ServiceConnection
   public LiveRideOverlay(final Activity context, final View view) 
   {
     super();
-    
+
     activity_ = context;
 
     final Intent intent = new Intent(activity_, LiveRideService.class);
     activity_.bindService(intent, this, Context.BIND_AUTO_CREATE);
-    
+
     offset_ = DrawingHelper.offset(context);
     radius_ = DrawingHelper.cornerRadius(context);
     largeTextBrush_ = Brush.createTextBrush(offset_*4);
@@ -62,10 +62,10 @@ public class LiveRideOverlay extends Overlay implements ServiceConnection
     smallTextBrush_ = Brush.createTextBrush(offset_);
     smallTextBrush_.setTextAlign(Align.LEFT);
     fillBrush_ = Brush.HighlightBrush(context);
-    
+
     iconMappings_ = TurnIcons.LoadMapping(context);
     formatter_ = DistanceFormatter.formatter(CycleStreetsPreferences.units());
-    
+
     speedWidth_ = (int)largeTextBrush_.measureText("0.0");
     kmWidth_ = (int)midTextBrush_.measureText(formatter_.speedUnit());
 
@@ -99,7 +99,7 @@ public class LiveRideOverlay extends Overlay implements ServiceConnection
 
     canvas.restore();
   } // draw
-  
+
   private void drawNextTurn(final Canvas canvas) 
   {
     final Rect box = canvas.getClipBounds();
@@ -107,10 +107,10 @@ public class LiveRideOverlay extends Overlay implements ServiceConnection
 
     box.right = box.left + (eighth * 2);
     box.bottom = box.top + (eighth * 2);
-    
+
     drawThenShrink(canvas, box, fillBrush_);
     drawThenShrink(canvas, box, Brush.White);
-    
+
     final Segment nextSeg = Route.journey().nextSegment();
     final Drawable turnIcon = iconMappings_.icon(nextSeg.turn());
     turnIcon.setBounds(box);
@@ -118,32 +118,32 @@ public class LiveRideOverlay extends Overlay implements ServiceConnection
 
     if(Route.journey().atStart())
       return;
-    
+
     final String distanceTo = distanceUntilTurn();
     final String nextStreet = nextSeg.street();
-    
+
     final Rect distanceToBox = canvas.getClipBounds();
     distanceToBox.left = box.right + (offset_*2);
     distanceToBox.bottom = distanceToBox.top + offset_;
     int bottom = Draw.measureTextInRect(canvas, midTextBrush_, distanceToBox, distanceTo);
     distanceToBox.bottom = bottom + offset_;
-    
+
     final Rect nextBox = new Rect(distanceToBox);
     nextBox.top = distanceToBox.bottom;
     nextBox.bottom = nextBox.top + offset_;
     bottom = Draw.measureTextInRect(canvas, smallTextBrush_, nextBox, nextStreet);
     nextBox.bottom = bottom + offset_;
-    
+
     final Rect wrapperBox = new Rect(distanceToBox);
     wrapperBox.bottom = nextBox.bottom;
-    
+
     DrawingHelper.drawRoundRect(canvas, wrapperBox, radius_, fillBrush_);
     Draw.drawTextInRect(canvas, midTextBrush_, distanceToBox, distanceTo);
     Draw.drawTextInRect(canvas, smallTextBrush_, nextBox, nextStreet);
 
     turnIcon.draw(canvas);
   } // drawNextTurn
-  
+
   private void drawThenShrink(final Canvas canvas, final Rect box, final Paint brush)
   {
     DrawingHelper.drawRoundRect(canvas, box, radius_, brush);
@@ -153,33 +153,33 @@ public class LiveRideOverlay extends Overlay implements ServiceConnection
     box.top += offset_;
     box.bottom -= offset_;   
   } // shrinkBox
-  
+
   private void drawSpeed(final Canvas canvas) 
   {
     final String speed = speed();
 
     final int fullWidth_ = speedWidth_ + kmWidth_;
-    
+
     final Rect box = canvas.getClipBounds();
     box.right = box.left + fullWidth_ + (offset_*2);
     box.top = box.bottom - (lineHeight_ + offset_*2);
 
     DrawingHelper.drawRoundRect(canvas, box, radius_, fillBrush_);
-    
+
     box.left += offset_;
     box.bottom -= offset_;
-    
+
     canvas.drawText(speed, box.left, box.bottom, largeTextBrush_);
     box.left += speedWidth_;
     canvas.drawText(formatter_.speedUnit(), box.left, box.bottom, midTextBrush_);
   } // drawSpeed
-  
+
   ///////////////////////////
   @Override
   public void onServiceConnected(final ComponentName className, final IBinder binder)
   {
     binding_ = (LiveRideService.Binding)binder;
-    
+
     if(!binding_.areRiding())
       binding_.startRiding();
   } // onServiceConnected
@@ -196,7 +196,7 @@ public class LiveRideOverlay extends Overlay implements ServiceConnection
 
     if(binding_ == null)
       return null;
-    
+
     final Location location = binding_.lastLocation();
     if(location == null)
       return null;
@@ -209,20 +209,20 @@ public class LiveRideOverlay extends Overlay implements ServiceConnection
     final Location location = lastLocation();
     if(location == null)
       return "0.0";
-    
+
     return formatter_.speed(location.getSpeed());
   } // speed
-  
+
   private String distanceUntilTurn()
   {
     final Location location = lastLocation();
     if(location == null)
       return "";
-    
+
     final GeoPoint whereIam = new GeoPoint(location);
     final Segment activeSeg = Route.journey().activeSegment();
     final int fromEnd = activeSeg.distanceFromEnd(whereIam);
-    
+
     return formatter_.distance(fromEnd); 
   } // distanceUntilTurn
 } // class LiveRideOverlay

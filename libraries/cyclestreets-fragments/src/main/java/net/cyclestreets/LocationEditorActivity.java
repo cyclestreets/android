@@ -30,7 +30,6 @@ public class LocationEditorActivity extends Activity
   private int localId_;
   private boolean firstTime_;
 
-
   @Override
   public void onCreate(final Bundle saved) {
     super.onCreate(saved);

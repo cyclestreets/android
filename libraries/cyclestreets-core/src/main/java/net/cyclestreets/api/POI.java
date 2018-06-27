@@ -11,9 +11,9 @@ public class POI
   private final String notes_;
   private final String url_;
   private final GeoPoint pos_;
-  
+
   private POICategory category_;
-  
+
   public POI(final int id,
              final String name,
              final String notes,
@@ -27,9 +27,9 @@ public class POI
     url_ = url;
     pos_ = new GeoPoint(lat, lon);
   } // POI
-  
+
   void setCategory(final POICategory category) { category_ = category; }
-  
+
   public int id() { return id_; }
   public String name() { return sOrNull(name_); }
   public String notes() { return sOrNull(notes_); }
@@ -39,7 +39,7 @@ public class POI
   private String sOrNull(final String s) {
     return s != null ? s : "";
   } // sOrNull
-  
+
   public POICategory category() { return category_; }
   public Drawable icon() { return category_.icon(); }
 } // class POI

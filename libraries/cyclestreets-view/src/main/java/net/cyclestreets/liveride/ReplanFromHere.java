@@ -27,7 +27,7 @@ final class ReplanFromHere extends LiveRideState
                     context(),
                     Waypoints.fromTo(whereIam, finish));
   } // ReplanFromHere
-  
+
   @Override
   public LiveRideState update(Journey journey, GeoPoint whereIam, int accuracy)
   {

@@ -82,7 +82,6 @@ public class ItineraryAndElevationFragment extends Fragment {
     super.onPrepareOptionsMenu(menu);
   } // onPrepareOptionsMenu
 
-
   @Override
   public boolean onOptionsItemSelected(final MenuItem item) {
     if (super.onOptionsItemSelected(item))
