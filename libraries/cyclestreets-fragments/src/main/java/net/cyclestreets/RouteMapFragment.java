@@ -102,23 +102,23 @@ public class RouteMapFragment extends CycleMapFragment
   @Override
   public boolean onOptionsItemSelected(final MenuItem item)
   {
-    if(super.onOptionsItemSelected(item))
+    if (super.onOptionsItemSelected(item))
       return true;
 
     final int menuId = item.getItemId();
-    if(R.id.ic_menu_liveride == menuId) {
+    if (R.id.ic_menu_liveride == menuId) {
       startLiveRide();
       return true;
     }
-    if(R.id.ic_menu_directions == menuId) {
+    if (R.id.ic_menu_directions == menuId) {
       launchRouteDialog();
       return true;
     }
-    if(R.id.ic_menu_saved_routes == menuId) {
+    if (R.id.ic_menu_saved_routes == menuId) {
       launchStoredRoutes();
       return true;
     }
-    if(R.id.ic_menu_route_number == menuId) {
+    if (R.id.ic_menu_route_number == menuId) {
       launchFetchRouteDialog();
       return true;
     }
@@ -167,7 +167,7 @@ public class RouteMapFragment extends CycleMapFragment
 
   private void startNewRoute(final DialogInterface.OnClickListener listener)
   {
-    if(Route.available() && CycleStreetsPreferences.confirmNewRoute())
+    if (Route.available() && CycleStreetsPreferences.confirmNewRoute())
       MessageBox.YesNo(mapView(),
                        R.string.confirm_new_route,
                        listener);
@@ -178,7 +178,7 @@ public class RouteMapFragment extends CycleMapFragment
   @Override
   public void onNewJourney(final Journey journey, final Waypoints waypoints)
   {
-    if(!waypoints.isEmpty())
+    if (!waypoints.isEmpty())
       mapView().getController().setCenter(waypoints.first());
     mapView().postInvalidate();
   } // onNewJourney

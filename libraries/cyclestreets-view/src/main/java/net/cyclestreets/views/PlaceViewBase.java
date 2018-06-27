@@ -84,7 +84,7 @@ public class PlaceViewBase extends LinearLayout
 
   private void loadStrings(final Context context)
   {
-    if(CURRENT_LOCATION != null)
+    if (CURRENT_LOCATION != null)
       return;
     final Resources res = context.getResources();
     CURRENT_LOCATION = res.getString(R.string.placeview_current_location);
@@ -99,17 +99,17 @@ public class PlaceViewBase extends LinearLayout
   ////////////////////////////////////
   public void allowCurrentLocation(final IGeoPoint loc, final boolean hint)
   {
-    if(loc == null)
+    if (loc == null)
       return;
     final GeoPlace gp = new GeoPlace(loc, CURRENT_LOCATION, "");
     allowedPlaces_.add(gp);
-    if(hint)
+    if (hint)
       setPlaceHint(gp);
   } // allowCurrentLocation
 
   public void allowLocation(final IGeoPoint loc, final String label)
   {
-    if(loc == null)
+    if (loc == null)
       return;
     allowedPlaces_.add(new GeoPlace(loc, label, ""));
   } // allowMapLocation
@@ -121,22 +121,22 @@ public class PlaceViewBase extends LinearLayout
 
   public void geoPlace(final OnResolveListener listener)
   {
-    if(textView_.geoPlace() != null)
+    if (textView_.geoPlace() != null)
     {
       listener.onResolve(textView_.geoPlace());
       return;
     } // if ...
 
-    if(textView_.contact() != null)
+    if (textView_.contact() != null)
       lookup(textView_.contact(), listener);
-    else if(getText() != null)
+    else if (getText() != null)
       lookup(getText(), listener);
   } // geoPlace
 
   public void addHistory(final GeoPlace place)
   {
     for(final GeoPlace gp : allowedPlaces_)
-      if(gp == place)
+      if (gp == place)
         return;
     textView_.addHistory(place);
   } // addHistory
@@ -161,17 +161,17 @@ public class PlaceViewBase extends LinearLayout
   //////////////////////////////////////////
   private void set(final GeoPlace gp, final String t, final String h)
   {
-    if(gp == null)
+    if (gp == null)
     {
-      if(notEmpty(t))
+      if (notEmpty(t))
         setText(t);
-      else if(notEmpty(h))
+      else if (notEmpty(h))
         setHint(h);
       else
         setText("");
       return;
     } // if ...
-    if(notEmpty(t))
+    if (notEmpty(t))
       setPlace(gp);
     else
       setPlaceHint(gp);
@@ -221,7 +221,7 @@ public class PlaceViewBase extends LinearLayout
     final String option = options_.get(whichButton);
 
     for(final GeoPlace gp : allowedPlaces_)
-      if(gp.name().equals(option))
+      if (gp.name().equals(option))
         setPlaceHint(gp);
 
     if (CONTACTS.equals(option))
@@ -233,13 +233,13 @@ public class PlaceViewBase extends LinearLayout
 
   private void pickContact()
   {
-    if(contacts_ == null)
+    if (contacts_ == null)
     {
       loadContacts();
       return;
     } // if ...
 
-    if(contacts_.size() == 0)
+    if (contacts_.size() == 0)
     {
       MessageBox.OK(this, NO_CONTACTS_WITH_ADDRESSES);
       return;
@@ -299,13 +299,13 @@ public class PlaceViewBase extends LinearLayout
   private void resolvedContacts(final GeoPlaces results,
                                 final OnResolveListener listener)
   {
-    if(results.isEmpty())
+    if (results.isEmpty())
     {
       MessageBox.OK(this, LOCATION_NOT_FOUND);
       return;
     } // if ...
 
-    if(results.size() == 1)
+    if (results.size() == 1)
     {
       textView_.setGeoPlace(results.get(0));
       listener.onResolve(results.get(0));
@@ -390,7 +390,7 @@ public class PlaceViewBase extends LinearLayout
     {
       final BoundingBox bounds = (BoundingBox)params[1];
 
-      if(params[0] instanceof String)
+      if (params[0] instanceof String)
         return doSearch((String)params[0], bounds);
 
       return doContactSearch((Contact)params[0], bounds);
@@ -407,11 +407,11 @@ public class PlaceViewBase extends LinearLayout
                                       final BoundingBox bounds)
     {
       GeoPlaces r = doSearch(contact.address(), bounds);
-      if(!r.isEmpty())
+      if (!r.isEmpty())
         return r;
 
       r = doSearch(contact.postcode(), bounds);
-      if(!r.isEmpty())
+      if (!r.isEmpty())
         return r;
 
       r = doSearch(contact.city(), bounds);
@@ -424,7 +424,7 @@ public class PlaceViewBase extends LinearLayout
       try {
         return GeoPlaces.search(search, bounds);
       }
-      catch(Exception e) {
+      catch (Exception e) {
         return GeoPlaces.EMPTY;
       } // catch
     } // doSearch

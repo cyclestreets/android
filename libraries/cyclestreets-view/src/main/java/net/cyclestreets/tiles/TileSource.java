@@ -23,7 +23,7 @@ public class TileSource {
     try {
       return source(CycleStreetsPreferences.mapstyle()).attribution();
     }
-    catch(Exception e) {
+    catch (Exception e) {
       // sigh
     } // catch
     return source(DEFAULT_RENDERER).attribution();
@@ -34,10 +34,10 @@ public class TileSource {
       final Source source = source(CycleStreetsPreferences.mapstyle());
       final ITileSource renderer = source.renderer();
 
-      if(renderer instanceof MapsforgeOSMTileSource) {
+      if (renderer instanceof MapsforgeOSMTileSource) {
         final String mapFile = CycleStreetsPreferences.mapfile();
         final MapPack pack = MapPack.findByPackage(mapFile);
-        if(pack.current())
+        if (pack.current())
           ((MapsforgeOSMTileSource)renderer).setMapFile(mapFile);
         else {
           MessageBox.YesNo(context,
@@ -54,7 +54,7 @@ public class TileSource {
 
       return renderer;
     } // try
-    catch(Exception e) {
+    catch (Exception e) {
       // oh dear
     } // catch
     return source(DEFAULT_RENDERER).renderer();

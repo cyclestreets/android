@@ -12,7 +12,7 @@ public final class GPS
 
   static public boolean deviceHasGPS(final Context context)
   {
-    if(hasGps_ == null) {    
+    if (hasGps_ == null) {
       final PackageManager pm = context.getPackageManager();
       hasGps_ = pm.hasSystemFeature(PackageManager.FEATURE_LOCATION_GPS);
     }

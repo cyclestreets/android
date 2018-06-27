@@ -156,7 +156,7 @@ public class TripData {
   public long startTime() { return startTime_; }
   public long endTime() { return endTime_; }
   public long secondsElapsed() {
-    if(status == STATUS_RECORDING)
+    if (status == STATUS_RECORDING)
       return now() - startTime_;
     return endTime_ - startTime_;
   } // secondsElapsed

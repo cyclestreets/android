@@ -72,11 +72,11 @@ public class RouteHighlightOverlay extends Overlay
   @Override
   public void draw(final Canvas canvas, final MapView mapView, final boolean shadow)
   {
-    if(current_ == Route.journey().activeSegment())
+    if (current_ == Route.journey().activeSegment())
       return;
 
     current_ = Route.journey().activeSegment();
-    if(current_ == null)
+    if (current_ == null)
       return;
 
     mapView_.getController().animateTo(current_.start());
@@ -85,7 +85,7 @@ public class RouteHighlightOverlay extends Overlay
   @Override
   public void drawButtons(final Canvas canvas, final MapView mapView)
   {
-    if(!Route.available())
+    if (!Route.available())
       return;
 
     drawSegmentInfo(canvas);
@@ -99,7 +99,7 @@ public class RouteHighlightOverlay extends Overlay
   private void drawSegmentInfo(final Canvas canvas)
   {
     final Segment seg = Route.journey().activeSegment();
-    if(seg == null)
+    if (seg == null)
       return;
 
     final Rect box = canvas.getClipBounds();
@@ -110,7 +110,7 @@ public class RouteHighlightOverlay extends Overlay
     textBox.right -= offset_;
     int bottom = Draw.measureTextInRect(canvas, textBrush_, textBox, seg.toString());
 
-    if(bottom >= box.bottom)
+    if (bottom >= box.bottom)
       box.bottom = bottom + offset_;
 
     DrawingHelper.drawRoundRect(canvas, box, radius_, fillBrush_);
@@ -121,16 +121,16 @@ public class RouteHighlightOverlay extends Overlay
   @Override
   public boolean onButtonTap(final MotionEvent event)
   {
-    if(!Route.available())
+    if (!Route.available())
       return false;
 
-    if(!prevButton_.hit(event) && !nextButton_.hit(event))
+    if (!prevButton_.hit(event) && !nextButton_.hit(event))
       return false;
 
-    if(prevButton_.hit(event))
+    if (prevButton_.hit(event))
       Route.journey().regressActiveSegment();
 
-    if(nextButton_.hit(event))
+    if (nextButton_.hit(event))
       Route.journey().advanceActiveSegment();
 
     mapView_.invalidate();
@@ -139,17 +139,17 @@ public class RouteHighlightOverlay extends Overlay
 
   public boolean onButtonDoubleTap(final MotionEvent event)
   {
-    if(!Route.available())
+    if (!Route.available())
       return false;
 
-    if(!prevButton_.hit(event) && !nextButton_.hit(event))
+    if (!prevButton_.hit(event) && !nextButton_.hit(event))
       return false;
 
-    if(prevButton_.hit(event))
+    if (prevButton_.hit(event))
       while(!Route.journey().atStart())
         Route.journey().regressActiveSegment();
 
-    if(nextButton_.hit(event))
+    if (nextButton_.hit(event))
       while(!Route.journey().atEnd())
         Route.journey().advanceActiveSegment();
 

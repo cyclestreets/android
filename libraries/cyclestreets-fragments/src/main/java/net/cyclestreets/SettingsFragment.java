@@ -94,7 +94,7 @@ public class SettingsFragment extends PreferenceFragment
     if (prefUI instanceof EditTextPreference)
       prefUI.setSummary(((EditTextPreference)prefUI).getText());
 
-    if(CycleStreetsPreferences.PREF_MAPSTYLE_KEY.equals(key))
+    if (CycleStreetsPreferences.PREF_MAPSTYLE_KEY.equals(key))
       setMapFileSummary(((ListPreference)prefUI).getValue());
   } // setSummary
 
@@ -106,10 +106,10 @@ public class SettingsFragment extends PreferenceFragment
     final boolean enabled = style.equals(CycleStreetsPreferences.MAPSTYLE_MAPSFORGE);
     mapfilePref.setEnabled(enabled);
 
-    if(!enabled)
+    if (!enabled)
       return;
 
-    if(mapfilePref.getEntryValues().length == 0) {
+    if (mapfilePref.getEntryValues().length == 0) {
       mapfilePref.setEnabled(false);
       MessageBox.YesNo(getView(),
           R.string.settings_no_map_packs,
@@ -120,7 +120,7 @@ public class SettingsFragment extends PreferenceFragment
 
     final String mapfile = CycleStreetsPreferences.mapfile();
     int index = mapfilePref.findIndexOfValue(mapfile);
-    if(index == -1)
+    if (index == -1)
       index = 0; // default to something
 
     mapfilePref.setValueIndex(index);
@@ -132,9 +132,9 @@ public class SettingsFragment extends PreferenceFragment
     if (account == null)
       return;
 
-    if(CycleStreetsPreferences.accountOK())
+    if (CycleStreetsPreferences.accountOK())
       account.setSummary(R.string.settings_signed_in);
-    else if(CycleStreetsPreferences.accountPending())
+    else if (CycleStreetsPreferences.accountPending())
       account.setSummary(R.string.settings_awaiting);
     else
       account.setSummary("");

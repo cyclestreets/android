@@ -109,10 +109,10 @@ public class BlogFragment
       final Blog blog = Blog.load();
 
       // check for new blog entries
-      if(blog.isNull())
+      if (blog.isNull())
         return;
 
-      if(blog.mostRecent().equals(lastBlogUpdate(context_)))
+      if (blog.mostRecent().equals(lastBlogUpdate(context_)))
         return;
 
       setLastBlogUpdate(context_, blog.mostRecent());

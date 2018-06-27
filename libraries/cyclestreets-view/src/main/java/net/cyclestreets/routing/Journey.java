@@ -42,7 +42,7 @@ public class Journey
   private Journey(final Waypoints waypoints)
   {
     this();
-    if(waypoints != null)
+    if (waypoints != null)
       waypoints_ = waypoints;
   } // Journey
 
@@ -67,7 +67,7 @@ public class Journey
   public void setActiveSegment(final Segment seg) 
   {
     for(int i = 0; i != segments_.count(); ++i)
-      if(seg == segments_.get(i))
+      if (seg == segments_.get(i))
       {
         setActiveSegmentIndex(i);
         break;
@@ -78,7 +78,7 @@ public class Journey
   public Segment activeSegment() { return activeSegment_ >= 0 ? segments_.get(activeSegment_) : null; }
   public Segment nextSegment() 
   {
-    if(atEnd())
+    if (atEnd())
       return activeSegment();
     return segments_.get(activeSegment_+1);
   } // nextSegment
@@ -89,12 +89,12 @@ public class Journey
 
   public void regressActiveSegment() 
   { 
-    if(!atStart()) 
+    if (!atStart())
       --activeSegment_; 
   } // regressActiveSegment
   public void advanceActiveSegment() 
   { 
-    if(!atEnd()) 
+    if (!atEnd())
       ++activeSegment_; 
   } // advanceActiveSegment
 
@@ -119,7 +119,7 @@ public class Journey
     try {
       Xml.parse(xml, factory.contentHandler());
     } // try
-    catch(final Exception e) {
+    catch (final Exception e) {
       throw new RuntimeException(e);
     } // catch
 
@@ -193,7 +193,7 @@ As at 16 October 2012
           final String type = s(attr, "type");
           final String name = s(attr, "name");
 
-          if(type.equals("segment"))
+          if (type.equals("segment"))
           {
             final String packedPoints = s(attr, "points");
 
@@ -206,7 +206,7 @@ As at 16 October 2012
 
             final List<IGeoPoint> points = pointsList(packedPoints);
 
-            if(currentLeg != leg_) 
+            if (currentLeg != leg_)
             {
               journey_.segments_.add(new Segment.Waymark(leg_, total_distance, points.get(0)));
               leg_ = currentLeg;
@@ -229,7 +229,7 @@ As at 16 October 2012
             List<Elevation> segmentProfile = elevationsList(distances, elevations);
             journey_.elevations_.add(segmentProfile);
           } // if ...
-          if(type.equals("route"))
+          if (type.equals("route"))
           {
             grammesCO2saved_ = i(attr, "grammesCO2saved");
             calories_ = i(attr, "calories");
@@ -249,7 +249,7 @@ As at 16 October 2012
         } // i
       });
 
-      if(journey_.waypoints().count() == 0)
+      if (journey_.waypoints().count() == 0)
         root.getChild("waypoint").setStartElementListener(new StartElementListener() {
           @Override
           public void start(final Attributes attr)

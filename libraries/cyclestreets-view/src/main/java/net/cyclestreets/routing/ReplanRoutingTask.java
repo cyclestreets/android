@@ -25,7 +25,7 @@ public class ReplanRoutingTask
   {
     final Journey pr = params[0];
     final RouteData rd = db_.route(pr.itinerary(), newPlan_);
-    if(rd != null)
+    if (rd != null)
       return rd;
 
     publishProgress(R.string.route_finding_new);

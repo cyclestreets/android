@@ -73,9 +73,9 @@ public class LocationsFragment extends ListFragment {
       final int localId = (int)getListAdapter().getItemId(info.position);
       final int menuId = item.getItemId();
 
-      if(R.string.ic_menu_edit == menuId)
+      if (R.string.ic_menu_edit == menuId)
         editLocation(localId);
-      if(R.string.ic_menu_delete == menuId)
+      if (R.string.ic_menu_delete == menuId)
         deleteLocation(localId);
 
       return true;

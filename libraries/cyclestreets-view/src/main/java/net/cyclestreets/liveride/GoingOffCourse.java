@@ -24,7 +24,7 @@ final class GoingOffCourse extends LiveRideState
     for(final Segment seg : journey.segments())
     {
       int from = seg.distanceFrom(whereIam);
-      if(from < distance) 
+      if (from < distance)
       {
         distance = from;
         nearestSeg = seg;
@@ -33,13 +33,13 @@ final class GoingOffCourse extends LiveRideState
 
     distance -= accuracy;
 
-    if(distance > CycleStreetsPreferences.replanDistance())
+    if (distance > CycleStreetsPreferences.replanDistance())
       return new ReplanFromHere(this, whereIam);
 
-    if(nearestSeg != journey.activeSegment())
+    if (nearestSeg != journey.activeSegment())
       return new AdvanceToSegment(this, journey, nearestSeg);
 
-    if(distance <= CycleStreetsPreferences.offtrackDistance() - 5) {
+    if (distance <= CycleStreetsPreferences.offtrackDistance() - 5) {
       notify("Getting back on track");
       return new OnTheMove(this);
     }

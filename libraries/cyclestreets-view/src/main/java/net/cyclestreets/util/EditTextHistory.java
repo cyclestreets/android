@@ -30,18 +30,18 @@ public class EditTextHistory extends ArrayAdapter<String> {
   private void loadHistory() {
     for(int c = 0; c != MAX_HISTORY; ++c) {
       final String e = prefs_.getString(Integer.toString(c), "");
-      if(e.length() != 0)
+      if (e.length() != 0)
         add(e);
     } // for ...
   } // loadHistory
 
   public void addHistory(final String n) {
-    if(n == null || n.length() == 0)
+    if (n == null || n.length() == 0)
       return;
 
     int lastWritten = prefs_.getInt(LAST_WRITTEN, -1);    
     ++lastWritten;
-    if(lastWritten == MAX_HISTORY)
+    if (lastWritten == MAX_HISTORY)
       lastWritten = 0;
 
     final SharedPreferences.Editor edit = prefs_.edit();

@@ -62,7 +62,7 @@ class DatabaseHelper extends SQLiteOpenHelper {
           null, 
           null, 
           null);
-      if(cursor.moveToFirst()) 
+      if (cursor.moveToFirst())
         do {
           final StringBuilder sb = new StringBuilder();
           sb.append("UPDATE route SET waypoints='")
@@ -80,9 +80,9 @@ class DatabaseHelper extends SQLiteOpenHelper {
           db.compileStatement(updateStmt).execute();
         } while (cursor.moveToNext());
 
-      if(!cursor.isClosed()) 
+      if (!cursor.isClosed())
         cursor.close();
-    } catch(Exception e) {
+    } catch (Exception e) {
       System.out.println(e.getMessage());
     }
   } // upgradeTo2

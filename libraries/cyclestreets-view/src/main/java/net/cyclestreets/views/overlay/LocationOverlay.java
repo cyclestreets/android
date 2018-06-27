@@ -66,21 +66,21 @@ public class LocationOverlay extends MyLocationNewOverlay {
   } // LocationOverlay
 
   public void enableLocation(final boolean enable) {
-    if(enable)
+    if (enable)
       enableMyLocation();
     else
       disableMyLocation();
   } // enableLocation
 
   public void enableAndFollowLocation(final boolean enable) {
-    if(enable) {
+    if (enable) {
       try {
         enableMyLocation();
         enableFollowLocation();
         final Location lastFix = getLastFix();
         if (lastFix != null)
           mapView_.getController().setCenter(new GeoPoint(lastFix));
-      } catch(RuntimeException e) {
+      } catch (RuntimeException e) {
         // might not have location service
       } // catch
     } else {
@@ -103,7 +103,7 @@ public class LocationOverlay extends MyLocationNewOverlay {
   public boolean onTouchEvent(final MotionEvent event, final MapView mapView) {
     final boolean handled = super.onTouchEvent(event, mapView);
 
-    if(lockedOn_ && isMyLocationEnabled() && (event.getAction() == MotionEvent.ACTION_MOVE))
+    if (lockedOn_ && isMyLocationEnabled() && (event.getAction() == MotionEvent.ACTION_MOVE))
       enableFollowLocation();
 
     return handled;
@@ -119,7 +119,7 @@ public class LocationOverlay extends MyLocationNewOverlay {
 
     // I'm not thrilled about this but there isn't any other way (short of killing
     // and recreating the overlay) of turning off the little here-you-are man
-    if(!isMyLocationEnabled())
+    if (!isMyLocationEnabled())
       return;
 
     super.draw(canvas, mapView, shadow);

@@ -69,7 +69,7 @@ public class MapsforgeOSMTileSource implements ITileSource {
   } // MapsforgeOSMTileSource
 
   public void setMapFile(final String mapFile) {
-    if((mapFile == null) || (mapFile.equals(mapFile_)))
+    if ((mapFile == null) || (mapFile.equals(mapFile_)))
         return;
 
     mapFile_ = mapFile;
@@ -94,7 +94,7 @@ public class MapsforgeOSMTileSource implements ITileSource {
   public String getCopyrightNotice() { return attribution_; }
 
   public synchronized Drawable getDrawable(int tileX, int tileY, int zoom) throws LowMemoryException {
-    if(tileOutOfBounds(tileX, tileY, zoom))
+    if (tileOutOfBounds(tileX, tileY, zoom))
       return null;
 
     final Tile tile = new Tile(tileX, tileY, (byte)zoom);
@@ -113,7 +113,7 @@ public class MapsforgeOSMTileSource implements ITileSource {
   } // getDrawable
 
   private boolean tileOutOfBounds(int tileX, int tileY, int zoom) {
-    if(zoom != zoomBounds_)
+    if (zoom != zoomBounds_)
       recalculateTileBounds(zoom);
 
     final boolean oob = (tileX < westTileBounds_) || (tileX > eastTileBounds_) ||

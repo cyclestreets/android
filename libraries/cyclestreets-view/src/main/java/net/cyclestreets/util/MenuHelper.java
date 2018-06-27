@@ -11,10 +11,10 @@ public class MenuHelper
                                         final int iconId)
   {
     final MenuItem item = menu.findItem(itemId);
-    if(item != null)
+    if (item != null)
       return item;
     final MenuItem newItem = menu.add(0, itemId, order, itemId);
-    if(iconId != 0)
+    if (iconId != 0)
       newItem.setIcon(iconId);
     return newItem;
   } // createMenuItem
@@ -22,7 +22,7 @@ public class MenuHelper
   static public MenuItem createMenuItem(final Menu menu, final int itemId)
   {
     final MenuItem item = menu.findItem(itemId);
-    if(item != null)
+    if (item != null)
       return item;
     return menu.add(0, itemId, Menu.NONE, itemId);
   } // createMenuItem

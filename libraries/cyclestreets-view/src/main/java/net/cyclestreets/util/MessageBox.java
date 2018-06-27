@@ -93,7 +93,7 @@ public class MessageBox
                   msg, 
                   new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface arg0, int arg1) {
-                      if(finishOnOK)
+                      if (finishOnOK)
                         activity.finish();
                     }
                   });

@@ -80,24 +80,24 @@ public class JourneyOverlay extends Overlay {
     if (shadow)
       return;
 
-    if(!trip_.dataAvailable())
+    if (!trip_.dataAvailable())
       return;
 
     final IGeoPoint centre = mapView.getMapCenter();
 
-    if(zoomLevel_ != mapView.getZoomLevel() ||
+    if (zoomLevel_ != mapView.getZoomLevel() ||
        !centre.equals(mapCentre_)) {
       ridePath_ = null;
       zoomLevel_ = mapView.getProjection().getZoomLevel();
       mapCentre_ = centre;
     } // if ...
 
-    if(ridePath_ == null || inProgress_)
+    if (ridePath_ == null || inProgress_)
       ridePath_ = journeyPath(mapView.getProjection());
 
     canvas.drawPath(ridePath_, rideBrush_);
     drawMarker(canvas, mapView.getProjection(), trip_.startLocation(), greenWisp_);
-    if(!inProgress_)
+    if (!inProgress_)
       drawMarker(canvas, mapView.getProjection(), trip_.endLocation(), redWisp_);
 
     if (initial_ && !inProgress_) {
@@ -115,7 +115,7 @@ public class JourneyOverlay extends Overlay {
     for(final GeoPoint gp : trip_.journey()) {
       screenPoint = projection.toPixels(gp, screenPoint);
 
-      if(first) {
+      if (first) {
         ridePath.moveTo(screenPoint.x, screenPoint.y);
         first = false;
       } else

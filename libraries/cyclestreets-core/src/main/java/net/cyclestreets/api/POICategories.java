@@ -38,7 +38,7 @@ public class POICategories implements Iterable<POICategory> {
   public static POICategories load() {
     try {
       return ApiClient.getPOICategories(IconSize);
-    } catch(Exception e) {
+    } catch (Exception e) {
       // ah
     }
     return null;

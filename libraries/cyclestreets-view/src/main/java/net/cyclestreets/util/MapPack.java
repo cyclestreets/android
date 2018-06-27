@@ -29,7 +29,7 @@ public class MapPack
     final List<MapPack> packs = new ArrayList<>();
 
     final File obbDir = new File(Environment.getExternalStorageDirectory(), "Android/obb");
-    if(!obbDir.exists())
+    if (!obbDir.exists())
       return packs;
 
     for(final File mapDir : obbDir.listFiles(new CycleStreetsMapFilter()))
@@ -38,7 +38,7 @@ public class MapPack
       final Properties props = mapProperties(mapDir);
       final String name = props.getProperty("title");
       final String version = props.getProperty("version");
-      if(map == null || name == null)
+      if (map == null || name == null)
         continue;
 
       packs.add(new MapPack(name, version, map));
@@ -50,7 +50,7 @@ public class MapPack
   static public MapPack findByPackage(final String packageName)
   {
     for(final MapPack pack : availableMapPacks())
-      if(pack.path().contains(packageName))
+      if (pack.path().contains(packageName))
         return pack;
     return null;
   } // findByPackage
@@ -58,7 +58,7 @@ public class MapPack
   static private File findMapFile(final File mapDir, final String prefix)
   {
     for(final File c : mapDir.listFiles())
-      if(c.getName().startsWith(prefix))
+      if (c.getName().startsWith(prefix))
         return c;
     return null;
   } // findMapFile
@@ -70,7 +70,7 @@ public class MapPack
       final File detailsFile = findMapFile(mapDir, "patch.");
       details.load(new FileInputStream(detailsFile));
     } // try
-    catch(IOException | RuntimeException e) {
+    catch (IOException | RuntimeException e) {
     } // catch
     return details;
   } // mapName

@@ -49,13 +49,13 @@ public class ItineraryFragment extends ListFragment
 
   @Override
   public void onListItemClick(ListView l, View v, int position, long id) {
-    if(journey_.isEmpty())
+    if (journey_.isEmpty())
       return;
 
     journey_.setActiveSegmentIndex(position);
     try {
       ((RouteMapActivity)getActivity()).showMap();
-    } catch(Exception e) {
+    } catch (Exception e) {
     }
   } // onListItemClick
 
@@ -102,7 +102,7 @@ public class ItineraryFragment extends ListFragment
 
     @Override
     public Object getItem(int position) {
-      if(!hasSegments())
+      if (!hasSegments())
         return null;
       return journey().segments().get(position);
     } // getItem
@@ -114,7 +114,7 @@ public class ItineraryFragment extends ListFragment
 
     @Override
     public View getView(final int position, final View convertView, final ViewGroup parent) {
-      if(!hasSegments())
+      if (!hasSegments())
         return inflater_.inflate(R.layout.itinerary_not_available, parent, false);
 
       final Segment seg = Route.journey().segments().get(position);
@@ -123,7 +123,7 @@ public class ItineraryFragment extends ListFragment
 
       final boolean highlight = (position == Route.journey().activeSegmentIndex());
 
-      if(position == 0) {
+      if (position == 0) {
         Journey journey = Route.journey();
         Segment.Start start = journey.segments().first();
 
@@ -150,16 +150,16 @@ public class ItineraryFragment extends ListFragment
 
     private void setText(final View v, final int id, final String t, final boolean highlight) {
       final TextView n = (TextView)v.findViewById(id);
-      if(n == null)
+      if (n == null)
         return;
       n.setText(t);
-      if(highlight)
+      if (highlight)
         n.setTextColor(Color.BLACK);
     } // setText
 
     private void setMainText(final View v, final int id, final String turn, final String street, final boolean highlight) {
       String t = street;
-      if(turn.length() != 0)
+      if (turn.length() != 0)
         t = turn + " into " + street;
       setText(v, id, t, highlight);
     } // setMainText
@@ -172,7 +172,7 @@ public class ItineraryFragment extends ListFragment
       final Drawable icon = turnIcon(turn);
       iv.setImageDrawable(icon);
       iv.setBackgroundColor(backgroundColor_);
-      if(walk)
+      if (walk)
         iv.setBackgroundDrawable(footprints_);
     } // setTurnIcon
 

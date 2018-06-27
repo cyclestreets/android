@@ -40,7 +40,7 @@ public class ItemizedOverlay<Item extends OverlayItem> extends Overlay
 
   @Override
   public void draw(final Canvas canvas, final MapView mapView, final boolean shadow) {
-    if(shadow)
+    if (shadow)
       return;
 
     final float scale = mapView.getContext().getResources().getDisplayMetrics().density;

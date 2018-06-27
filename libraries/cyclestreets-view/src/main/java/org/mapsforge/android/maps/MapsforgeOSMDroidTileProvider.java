@@ -95,7 +95,7 @@ public class MapsforgeOSMDroidTileProvider extends MapTileModuleProviderBase
       try {
         return tileSource.getDrawable(tile.getX(), tile.getY(), tile.getZoomLevel());
       }
-      catch(Exception e) {
+      catch (Exception e) {
         return null;
       }
     }

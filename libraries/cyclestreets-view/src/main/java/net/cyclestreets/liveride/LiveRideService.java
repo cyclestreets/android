@@ -55,7 +55,7 @@ public class LiveRideService extends Service
 
   public void startRiding()
   {
-    if(!stage_.isStopped())
+    if (!stage_.isStopped())
       return;
     stage_ = LiveRideState.InitialState(this, pebbleNotifier_);
     locationManager_.requestLocationUpdates(LocationManager.GPS_PROVIDER, updateTime, updateDistance, this);
@@ -93,7 +93,7 @@ public class LiveRideService extends Service
   @Override
   public void onLocationChanged(final Location location)
   {
-    if(!Route.available())
+    if (!Route.available())
     {
       stopRiding();
       return;

@@ -41,7 +41,7 @@ public class Contacts
       final int cityIndex = addrCur.getColumnIndex(ContactsContract.CommonDataKinds.StructuredPostal.CITY);
       final int postcodeIndex = addrCur.getColumnIndex(ContactsContract.CommonDataKinds.StructuredPostal.POSTCODE);
 
-      if(addrCur.moveToFirst()) {          // move the cursor to the first entry
+      if (addrCur.moveToFirst()) {          // move the cursor to the first entry
         while(!addrCur.isAfterLast()) {      // still a valid entry left?
           final String id = addrCur.getString(idIndex);
           final String address = addrCur.getString(addressIndex);
@@ -52,7 +52,7 @@ public class Contacts
 
           final String name = displayName(context, id);
 
-          if(name != null && address != null)
+          if (name != null && address != null)
             contacts.add(new Contact(name,
                          address,
                          street,
@@ -86,7 +86,7 @@ public class Contacts
           new String[] { contactId },
           null);
     try {
-      if(contact.moveToFirst())
+      if (contact.moveToFirst())
         return contact.getString(contact.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME));
     }
     finally {

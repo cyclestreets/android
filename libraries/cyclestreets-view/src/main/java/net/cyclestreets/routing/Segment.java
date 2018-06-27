@@ -65,7 +65,7 @@ public abstract class Segment {
 
   static private String formatTime(int time, boolean terminal)
   {
-    if(time == 0)
+    if (time == 0)
       return "";
 
     int hours = time/3600;
@@ -73,10 +73,10 @@ public abstract class Segment {
     int minutes = remainder/60;
     int seconds = time%60;
 
-    if(terminal)
+    if (terminal)
       return formatTerminalTime(hours, minutes);
 
-    if(hours == 0)
+    if (hours == 0)
       return String.format("%d:%02d", minutes, seconds);
 
     return String.format("%d:%02d:%02d", hours, minutes, seconds);
@@ -84,16 +84,16 @@ public abstract class Segment {
 
   static private String formatTerminalTime(int hours, int minutes)
   {
-    if(hours == 0)
+    if (hours == 0)
       return String.format("%d minutes", minutes);
     String fraction = "";
-    if(minutes > 52)
+    if (minutes > 52)
       ++hours;
-    else if(minutes > 37)
+    else if (minutes > 37)
       fraction = "\u00BE";
-    else if(minutes > 22)
+    else if (minutes > 22)
       fraction = "\u00BD";
-    else if(minutes > 7)
+    else if (minutes > 7)
       fraction = "\u00BC";
     return String.format("%d%s hours", hours, fraction);
   } // formatTerminalTime
@@ -101,9 +101,9 @@ public abstract class Segment {
   public String toString() 
   {
     String s = name_;
-    if(turn_.length() != 0)
+    if (turn_.length() != 0)
       s = turn_ + " into " + name_;
-    if(walk())
+    if (walk())
       s += "\nPlease dismount and walk.";
     return s;
   } // toString
@@ -144,7 +144,7 @@ public abstract class Segment {
     int minIndex = closestPoint(location);
     final int lastIndex = points_.size() - 1;
 
-    if(minIndex != 0 && minIndex != lastIndex)
+    if (minIndex != 0 && minIndex != lastIndex)
       return 0;
 
     final GeoHelper.AlongTrack at = alongTrack(minIndex == 0 ? minIndex : minIndex-1, location);
@@ -156,18 +156,18 @@ public abstract class Segment {
     int minIndex = closestPoint(location);
     final int lastIndex = points_.size() - 1;
 
-    if(minIndex == lastIndex)
+    if (minIndex == lastIndex)
       --minIndex;
 
-    if(minIndex == 0) {
+    if (minIndex == 0) {
       final GeoHelper.AlongTrack at = alongTrack(minIndex, location);
       return at.onTrack() ? at.offset() : -at.offset();
     }
 
     GeoHelper.AlongTrack at = alongTrack(minIndex, location);
-    if(at.position() == GeoHelper.AlongTrack.Position.BEFORE_START) 
+    if (at.position() == GeoHelper.AlongTrack.Position.BEFORE_START)
       --minIndex;
-    if(at.position() == GeoHelper.AlongTrack.Position.OFF_END)
+    if (at.position() == GeoHelper.AlongTrack.Position.OFF_END)
       ++minIndex;
     at = alongTrack(minIndex, location);
 
@@ -201,7 +201,7 @@ public abstract class Segment {
     for(int p = 0; p != points_.size(); ++p) 
     {
       int distance = GeoHelper.distanceBetween(points_.get(p), (location));
-      if(distance > minDistance)
+      if (distance > minDistance)
         continue;
 
       minDistance = distance;
@@ -277,7 +277,7 @@ public abstract class Segment {
 
     public String extraInfo() 
     { 
-      if(co2_ == 0 && calories_ == 0)
+      if (co2_ == 0 && calories_ == 0)
         return "";
       int kg = co2_ / 1000;
       int g = (int)((co2_ % 1000) / 10.0);

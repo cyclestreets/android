@@ -61,11 +61,11 @@ public class PlaceAutoCompleteTextView extends AppCompatAutoCompleteTextView
 
   public GeoPlace geoPlace() 
   { 
-    if(place_ == null)
+    if (place_ == null)
     {
       final String t = getEditableText().toString();
       for(final GeoPlace gp : localHistory_)
-        if(t.equals(gp.toString()))
+        if (t.equals(gp.toString()))
           place_ = gp;
     } // if ...
     return place_; 
@@ -95,7 +95,7 @@ public class PlaceAutoCompleteTextView extends AppCompatAutoCompleteTextView
 
   public void addHistory(final GeoPlace place)
   {
-    if(adapter_ == null)
+    if (adapter_ == null)
       return;
     adapter_.addHistory(place);
   } // addHistory
@@ -104,7 +104,7 @@ public class PlaceAutoCompleteTextView extends AppCompatAutoCompleteTextView
   @Override
   public void onItemClick(AdapterView<?> arg0, View arg1, int position, long id)
   {
-    if(adapter_ == null)
+    if (adapter_ == null)
       return;
     setGeoPlace(adapter_.getItem(position));
   } // GeoPlace

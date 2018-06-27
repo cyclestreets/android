@@ -44,7 +44,7 @@ public class Blog
     try {
       return ApiClient.getBlogEntries();      
     }
-    catch(Exception e) {
+    catch (Exception e) {
       // ah
     }
     return NULL_BLOG;

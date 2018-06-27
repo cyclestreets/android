@@ -67,7 +67,7 @@ public abstract class MainTabbedActivity extends Activity implements OnTabChange
 
   public void showWhatsNew()
   {
-    if(!CycleStreetsAppSupport.isNewVersion())
+    if (!CycleStreetsAppSupport.isNewVersion())
       return;
 
     final LayoutInflater layoutInflater = (LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -123,7 +123,7 @@ public abstract class MainTabbedActivity extends Activity implements OnTabChange
 
     void attach(final FragmentTransaction ft)
     {
-      if(fragment_ == null)
+      if (fragment_ == null)
       {
         fragment_ = Fragment.instantiate(MainTabbedActivity.this,
                                          clss_.getName(),
@@ -136,14 +136,14 @@ public abstract class MainTabbedActivity extends Activity implements OnTabChange
 
     void detach(final FragmentTransaction ft)
     {
-      if(fragment_ == null)
+      if (fragment_ == null)
         return;
       ft.detach(fragment_);
     } // detach
 
     void onPrepareOptionsMenu(final Menu menu, final MenuInflater inflater)
     {
-      if(!menuCreated_)
+      if (!menuCreated_)
       {
         fragment_.onCreateOptionsMenu(menu, inflater);
         menuCreated_ = true;
@@ -163,7 +163,7 @@ public abstract class MainTabbedActivity extends Activity implements OnTabChange
 
     boolean onBackPressed()
     {
-      if(!(fragment_ instanceof Undoable))
+      if (!(fragment_ instanceof Undoable))
         return false;
       return ((Undoable)fragment_).onBackPressed();
     } // onBackPressed
@@ -197,14 +197,14 @@ public abstract class MainTabbedActivity extends Activity implements OnTabChange
   public void onTabChanged(String tabId)
   {
     final TabInfo newTab = tabs_.get(tabId);
-    if(lastTab_ == newTab)
+    if (lastTab_ == newTab)
       return;
 
     final FragmentTransaction ft = getFragmentManager().beginTransaction();
-    if(lastTab_ != null)
+    if (lastTab_ != null)
       lastTab_.detach(ft);
 
-    if(newTab != null)
+    if (newTab != null)
       newTab.attach(ft);
 
     lastTab_ = newTab;
@@ -266,7 +266,7 @@ public abstract class MainTabbedActivity extends Activity implements OnTabChange
   @Override
   public boolean onOptionsItemSelected(final MenuItem item)
   {
-    if(lastTab_.onOptionsItemSelected(item))
+    if (lastTab_.onOptionsItemSelected(item))
       return true;
 
     return super.onOptionsItemSelected(item);
@@ -275,7 +275,7 @@ public abstract class MainTabbedActivity extends Activity implements OnTabChange
   @Override
   public boolean onContextItemSelected(final MenuItem item)
   {
-    if(lastTab_.onContextItemSelected(item))
+    if (lastTab_.onContextItemSelected(item))
       return true;
     return super.onContextItemSelected(item);
   } // onContextItemSelected
@@ -284,7 +284,7 @@ public abstract class MainTabbedActivity extends Activity implements OnTabChange
   @Override
   public void onBackPressed()
   {
-    if(lastTab_.onBackPressed())
+    if (lastTab_.onBackPressed())
       return;
     super.onBackPressed();
   }

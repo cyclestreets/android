@@ -82,10 +82,10 @@ public class CycleMapFragment extends Fragment implements Undoable
   @Override
   public boolean onOptionsItemSelected(final MenuItem item)
   {
-    if(map_.onMenuItemSelected(item.getItemId(), item))
+    if (map_.onMenuItemSelected(item.getItemId(), item))
       return true;
 
-    if(item.getItemId() == R.string.menu_find_place)
+    if (item.getItemId() == R.string.menu_find_place)
     {
       launchFindDialog();
       return true;

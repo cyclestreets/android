@@ -129,7 +129,7 @@ public class CycleMapView extends FrameLayout
   public void onResume()
   {
     final ITileSource tileSource = mapRenderer();
-    if(!tileSource.equals(renderer_)) {
+    if (!tileSource.equals(renderer_)) {
       renderer_ = tileSource;
       setTileSource(renderer_);
     } // if ...
@@ -138,7 +138,7 @@ public class CycleMapView extends FrameLayout
     boolean locationFollow = pref(PREFS_APP_FOLLOW_LOCATION, CycleMapDefaults.gps());
     location_.disableFollowLocation();
     location_.enableLocation(locationEnabled);
-    if(locationFollow)
+    if (locationFollow)
       location_.enableAndFollowLocation(true);
 
     GeoPoint defCentre = CycleMapDefaults.centre();
@@ -208,7 +208,7 @@ public class CycleMapView extends FrameLayout
   @Override
   protected void dispatchDraw(final Canvas canvas)
   {
-    if(centreOn_ != null)
+    if (centreOn_ != null)
     {
       getController().animateTo(new GeoPoint(centreOn_.getLatitude(), centreOn_.getLongitude()));
       centreOn_ = null;

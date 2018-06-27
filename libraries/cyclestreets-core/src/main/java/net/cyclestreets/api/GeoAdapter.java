@@ -50,7 +50,7 @@ public class GeoAdapter extends ArrayAdapter<GeoPlace>
     try {
       return GeoPlaces.search(search, bounds);
     }
-    catch(Exception e) {
+    catch (Exception e) {
       return GeoPlaces.EMPTY;
     } // catch
   } // geoCode

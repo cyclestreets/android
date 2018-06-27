@@ -7,7 +7,7 @@ public abstract class DistanceFormatter
 
   static public DistanceFormatter formatter(final String name)
   {
-    if("miles".equals(name))
+    if ("miles".equals(name))
       return milesFormatter;
     return kmFormatter;
   } // formatter
@@ -19,7 +19,7 @@ public abstract class DistanceFormatter
   {
     public String distance(int metres)
     {
-      if(metres < 2000)
+      if (metres < 2000)
         return String.format("%dm", metres);
       return total_distance(metres);
     } // distance
@@ -39,7 +39,7 @@ public abstract class DistanceFormatter
     public String distance(int metres)
     {
       int yards = metresToYards(metres);
-      if(yards <= 750)
+      if (yards <= 750)
         return String.format("%dyds", yards);
       return total_distance(metres);
     } // distance

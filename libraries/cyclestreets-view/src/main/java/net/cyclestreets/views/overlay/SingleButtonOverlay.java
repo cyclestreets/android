@@ -48,7 +48,7 @@ public abstract class SingleButtonOverlay extends ButtonOnlyOverlay {
 
   @Override
   public final boolean onButtonTap(final MotionEvent event) {
-    if(!theButton_.hit(event))
+    if (!theButton_.hit(event))
       return false;
 
     buttonTapped();
@@ -58,7 +58,7 @@ public abstract class SingleButtonOverlay extends ButtonOnlyOverlay {
 
   @Override
   public final boolean onButtonDoubleTap(final MotionEvent event) {
-    if(!theButton_.hit(event))
+    if (!theButton_.hit(event))
       return false;
 
     buttonDoubleTapped();

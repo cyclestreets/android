@@ -71,7 +71,7 @@ public abstract class LiveRideState
     notification(seg.street() + " " + seg.distance(), seg.toString());
 
     final StringBuilder instruction = new StringBuilder();
-    if(seg.turn().length() != 0)
+    if (seg.turn().length() != 0)
       instruction.append(seg.turn()).append(" into ");
     instruction.append(seg.street().replace("un-", "un").replace("Un-", "un"));
     instruction.append(". Continue ").append(seg.distance());

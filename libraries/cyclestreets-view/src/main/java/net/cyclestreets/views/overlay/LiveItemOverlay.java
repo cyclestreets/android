@@ -66,7 +66,7 @@ public abstract class LiveItemOverlay<T extends OverlayItem>
   {
     super.draw(canvas, mapView, shadow);
 
-    if((!loading_) || (!showLoading_))
+    if ((!loading_) || (!showLoading_))
       return;
 
     final Rect bounds = new Rect();
@@ -99,7 +99,7 @@ public abstract class LiveItemOverlay<T extends OverlayItem>
   @Override
   public boolean onZoom(final ZoomEvent event)
   {
-    if(event.getZoomLevel() < zoomLevel_)
+    if (event.getZoomLevel() < zoomLevel_)
       items().clear();
     zoomLevel_ = event.getZoomLevel();
     refreshItems();
@@ -117,7 +117,7 @@ public abstract class LiveItemOverlay<T extends OverlayItem>
     final int zoom = mapView_.getZoomLevel();
     final BoundingBox bounds = mapView_.getBoundingBox();
 
-    if(!fetchItemsInBackground(centre, zoom, bounds))
+    if (!fetchItemsInBackground(centre, zoom, bounds))
       return;
 
     loading_ = true;
@@ -131,9 +131,9 @@ public abstract class LiveItemOverlay<T extends OverlayItem>
   protected void setItems(final List<T> items)
   {
     for(final T item : items)
-      if(!items().contains(item))
+      if (!items().contains(item))
         items().add(item);
-    if(items().size() > 500)  // arbitrary figure
+    if (items().size() > 500)  // arbitrary figure
       items().remove(items().subList(0, 100));
     loading_ = false;
     redraw();

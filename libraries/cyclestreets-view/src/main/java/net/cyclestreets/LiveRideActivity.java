@@ -18,7 +18,7 @@ public class LiveRideActivity extends Activity
 {
   static public void launch(final Context context)
   {
-    if(!GPS.isOn(context)) {
+    if (!GPS.isOn(context)) {
       MessageBox.YesNo(context, 
                        "LiveRide needs the GPS location service.\n\nWould you like to turn it on now?",
                        new DialogInterface.OnClickListener() {

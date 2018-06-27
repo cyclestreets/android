@@ -29,7 +29,7 @@ public class GeoIntent
 
   static public BoundingBoxE6 getBoundingBox(final Intent intent)
   {
-    if(intent.hasExtra(EXTRA_NORTH)  &&
+    if (intent.hasExtra(EXTRA_NORTH)  &&
        intent.hasExtra(EXTRA_EAST) &&
        intent.hasExtra(EXTRA_SOUTH) &&
        intent.hasExtra(EXTRA_WEST))
@@ -61,7 +61,7 @@ public class GeoIntent
 
   static public GeoPoint getGeoPoint(final Intent intent, final String prefix)
   {
-    if(intent.hasExtra(prefix+GEO_LATITUDE) &&
+    if (intent.hasExtra(prefix+GEO_LATITUDE) &&
        intent.hasExtra(prefix+GEO_LONGITUDE))
     {
       int lat = intent.getIntExtra(prefix+GEO_LATITUDE, 0);
@@ -81,7 +81,7 @@ public class GeoIntent
                                  final String prefix,
                                  final IGeoPoint point)
   {
-    if(point == null)
+    if (point == null)
       return;
     intent.putExtra(prefix+GEO_LATITUDE, point.getLatitudeE6());
     intent.putExtra(prefix+GEO_LONGITUDE, point.getLongitudeE6());
@@ -90,7 +90,7 @@ public class GeoIntent
   static public void setLocation(final Intent intent, 
                                  final Location location)
   {
-    if(location == null)
+    if (location == null)
       return;
     intent.putExtra(GEO_LATITUDE, (int)(location.getLatitude() * 1E6));
      intent.putExtra(GEO_LONGITUDE, (int)(location.getLongitude() * 1E6));
@@ -102,7 +102,7 @@ public class GeoIntent
     for(int waypoints = 0; ; ++waypoints)
     {
       final GeoPoint wp = getWaypoint(intent, waypoints);
-      if(wp == null)
+      if (wp == null)
         break;
       points.add(wp);
     } // for ...
@@ -140,7 +140,7 @@ public class GeoIntent
      final String name = intent.getStringExtra(GEO_NAME);
      final String near = intent.getStringExtra(GEO_NEAR);
 
-     if((point == null) || (name == null) || (near == null))
+     if ((point == null) || (name == null) || (near == null))
        return null;
      return new GeoPlace(point, name, near);
   } // getGeoPlace

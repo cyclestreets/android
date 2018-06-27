@@ -42,7 +42,7 @@ public class Contact
     static private ContactsComparator instance_;
     static public ContactsComparator instance()
     {
-      if(instance_ == null)
+      if (instance_ == null)
         instance_ = new ContactsComparator();
       return instance_;
     } // instance

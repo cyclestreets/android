@@ -5,7 +5,7 @@ public abstract class ElevationFormatter {
   public abstract String distance(int metres);
 
   static public ElevationFormatter formatter(final String name) {
-    if("miles".equals(name))
+    if ("miles".equals(name))
       return imperialFormatter;
     return metricFormatter;
   } // formatter
@@ -21,7 +21,7 @@ public abstract class ElevationFormatter {
 
     @Override
     public String distance(int metres) {
-      if(metres < 2000)
+      if (metres < 2000)
         return String.format("%dm", round_distance(metres));
 
       int km = metres / 1000;
@@ -39,7 +39,7 @@ public abstract class ElevationFormatter {
     @Override
     public String distance(int metres) {
       int yards = metresToYards(metres);
-      if(yards <= 750)
+      if (yards <= 750)
         return String.format("%d yards", round_distance(yards));
       int miles = yards / 1760;
       return String.format("%d miles", miles);

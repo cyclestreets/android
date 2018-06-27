@@ -24,10 +24,10 @@ public class Route
     private List<Listener> listeners_ = new ArrayList<>();
 
     public void register(final Listener listener) {
-      if(!doRegister(listener))
+      if (!doRegister(listener))
         return;
 
-      if((Route.journey() != Journey.NULL_JOURNEY) || (Route.waypoints() != Waypoints.NULL_WAYPOINTS))
+      if ((Route.journey() != Journey.NULL_JOURNEY) || (Route.waypoints() != Waypoints.NULL_WAYPOINTS))
         listener.onNewJourney(Route.journey(), Route.waypoints());
       else
         listener.onResetJourney();
@@ -39,7 +39,7 @@ public class Route
     } // softRegister
 
     private boolean doRegister(final Listener listener) {
-      if(listeners_.contains(listener))
+      if (listeners_.contains(listener))
         return false;
       listeners_.add(listener);
       return true;
@@ -142,7 +142,7 @@ public class Route
       doOnNewJourney(route);
       return true;
     } // try
-    catch(Exception e) {
+    catch (Exception e) {
       Toast.makeText(context_, R.string.route_finding_failed, Toast.LENGTH_LONG).show();
     }
     return false;
@@ -150,7 +150,7 @@ public class Route
 
   private static void doOnNewJourney(final RouteData route)
       throws Exception {
-    if(route == null) {
+    if (route == null) {
       plannedRoute_ = Journey.NULL_JOURNEY;
       waypoints_ = Waypoints.NULL_WAYPOINTS;
       listeners_.onReset();

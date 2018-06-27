@@ -9,7 +9,7 @@ public abstract class DistanceFormatter
 
   static public DistanceFormatter formatter(final String name)
   {
-    if("miles".equals(name))
+    if ("miles".equals(name))
       return milesFormatter;      
     return kmFormatter;
   } // formatter
@@ -21,7 +21,7 @@ public abstract class DistanceFormatter
   {
     public String distance(int metres)
     {    
-      if(metres < 2000)
+      if (metres < 2000)
         return String.format("%dm", round_distance(metres));
       return total_distance(metres);
     } // distance
@@ -36,7 +36,7 @@ public abstract class DistanceFormatter
     public String speed(float metresPerSec) 
     {
       final double kph = metresPerSec * 60.0 * 60.0 / 1000.0;
-      if(kph < 10)
+      if (kph < 10)
         return String.format("%.1f", kph);
       return String.format("%d", (int)kph);
     } // speed
@@ -54,7 +54,7 @@ public abstract class DistanceFormatter
     public String distance(int metres)
     {
       int yards = metresToYards(metres);
-      if(yards <= 750)
+      if (yards <= 750)
         return String.format("%d yards", round_distance(yards));
       return total_distance(metres);
     } // distance
@@ -72,7 +72,7 @@ public abstract class DistanceFormatter
       final double metresPerHour = metresPerSec * 60.0 * 60.0;
       final int yardsPerHour = metresToYards((int)metresPerHour);
       final double mph = yardsPerHour / 1760.0;
-      if(mph < 10)
+      if (mph < 10)
         return String.format("%.1f", mph);
       return String.format("%d", (int)mph);
     } // speed
@@ -85,7 +85,7 @@ public abstract class DistanceFormatter
 
   static protected int round_distance(int units) 
   {
-    if(units < 500)
+    if (units < 500)
       return (int)
           (units/5.0) * 5;
     return (int)(units/10.0) * 10;

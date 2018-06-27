@@ -24,7 +24,7 @@ public class Draw
     {      
       final Rect lineBounds = new Rect();
       brush.getTextBounds(line, 0, line.length(), lineBounds);
-      if(lineBounds.width() > bounds.width())
+      if (lineBounds.width() > bounds.width())
         bounds = lineBounds;
     } // for ...
 
@@ -97,7 +97,7 @@ public class Draw
     float x = r.left;
     float y = r.top;
     int allowedWidth = r.width();   // constrain text block within this width in pixels
-    if(allowedWidth < 30) {
+    if (allowedWidth < 30) {
       return -1;  // you have got to be kidding me!  I can't work with this!  You deserve worse!
     }
 
@@ -125,7 +125,7 @@ public class Draw
 
       // charactersToRenderThisPass would definitely fit, but could be in the middle of a word
       int thisManyWouldDefinitelyFit = charactersToRenderThisPass;
-      if( charactersToRenderThisPass < charactersRemaining )
+      if ( charactersToRenderThisPass < charactersRemaining )
       {
         while( charactersToRenderThisPass > 0 &&
             !Character.isWhitespace( text.charAt( start+charactersToRenderThisPass-1) ) )
@@ -137,7 +137,7 @@ public class Draw
       // Now wouldn't it be nice to be able to put in line breaks?
       for(int i=0; i < charactersToRenderThisPass; i++ )
       {
-        if(text.charAt(start+i) == '\n')
+        if (text.charAt(start+i) == '\n')
         {  // um, what's unicode for isLineBreak' or '\n'?
            // cool, lets stop this line early
           charactersToRenderThisPass = i;
@@ -146,7 +146,7 @@ public class Draw
         }
       } // for ...
 
-      if(charactersToRenderThisPass < 1 && (extraSkip == 0))
+      if (charactersToRenderThisPass < 1 && (extraSkip == 0))
       {
         // no spaces found, must be a really long word.
         // Panic and show as much as would fit, breaking the word in the middle
@@ -154,15 +154,15 @@ public class Draw
       }
 
       // Emit this line of characters and advance our offsets for the next line
-      if( charactersToRenderThisPass > 0 )
+      if ( charactersToRenderThisPass > 0 )
       {
-        if(draw)
+        if (draw)
           canvas.drawText( text, start, start+charactersToRenderThisPass, x, y, brush );
       }
       start += charactersToRenderThisPass + extraSkip;
 
       // start had better advance each time through the while, or we've invented an infinite loop
-      if( (charactersToRenderThisPass + extraSkip) < 1 )
+      if ( (charactersToRenderThisPass + extraSkip) < 1 )
       {
         return (int)y; // better than freezing, I guess.  I am a coward.
       }

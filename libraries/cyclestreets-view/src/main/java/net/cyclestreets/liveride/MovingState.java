@@ -26,7 +26,7 @@ abstract class MovingState extends LiveRideState
     }
     int distanceFromEnd = journey.activeSegment().distanceFromEnd(whereIam);
     distanceFromEnd -= accuracy;
-    if(distanceFromEnd < transition_)
+    if (distanceFromEnd < transition_)
       return transitionState(journey);
 
     return checkCourse(journey, whereIam, accuracy);
@@ -39,10 +39,10 @@ abstract class MovingState extends LiveRideState
     int distance = journey.activeSegment().distanceFrom(whereIam);
     distance -= accuracy;
 
-    if(distance > CycleStreetsPreferences.replanDistance())
+    if (distance > CycleStreetsPreferences.replanDistance())
       return new ReplanFromHere(this, whereIam);
 
-    if(distance > CycleStreetsPreferences.offtrackDistance())
+    if (distance > CycleStreetsPreferences.offtrackDistance())
       return new GoingOffCourse(this);
 
     return this;

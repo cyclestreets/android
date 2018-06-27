@@ -47,7 +47,7 @@ public class CycleStreetsPreferences
       PreferenceManager.setDefaultValues(context_, defaults, false);
 
     // upgrades
-    if(uploadSize().equals("320px"))
+    if (uploadSize().equals("320px"))
       putString(PREF_UPLOAD_SIZE, "640px");
   } // initialise
 
@@ -141,16 +141,16 @@ public class CycleStreetsPreferences
 
   static public boolean uploadSmallImages() {
     final String resize = uploadSize();
-    if("640px".equals(resize))
+    if ("640px".equals(resize))
       return true;
-    if("big".equals(resize))
+    if ("big".equals(resize))
       return false;
 
     final ConnectivityManager connMgr = (ConnectivityManager)context_.getSystemService(Context.CONNECTIVITY_SERVICE);
     final NetworkInfo ni = connMgr.getActiveNetworkInfo();
 
     final int type = ni.getType();
-    if((type == ConnectivityManager.TYPE_WIFI) || (type == ConnectivityManager.TYPE_WIMAX))
+    if ((type == ConnectivityManager.TYPE_WIFI) || (type == ConnectivityManager.TYPE_WIMAX))
       return false;
 
     // so it's mobile, but is it still quick?
@@ -192,7 +192,7 @@ public class CycleStreetsPreferences
     editor.putString(PREF_USERNAME_KEY, username);
     editor.putString(PREF_PASSWORD_KEY, password);
     editor.putBoolean(PREF_VALIDATED_KEY, signedin);
-    if(signedin)
+    if (signedin)
     {
       editor.putString(PREF_NAME_KEY, name);
       editor.putString(PREF_EMAIL_KEY, email);

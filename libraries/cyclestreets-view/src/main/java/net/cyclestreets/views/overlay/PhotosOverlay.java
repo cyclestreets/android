@@ -131,7 +131,7 @@ public class PhotosOverlay extends LiveItemOverlay<PhotosOverlay.PhotoItem> {
     protected void onPostExecute(final Photos photos) {
       final List<PhotosOverlay.PhotoItem> items = new ArrayList<>();
 
-      if(photos != null)
+      if (photos != null)
         for (final Photo photo: photos) 
           items.add(new PhotosOverlay.PhotoItem(photo, overlay_.photoMarkers_));
 

@@ -97,7 +97,7 @@ public class RouteOverlay extends Overlay implements PauseResumeListener, Listen
 
     final IGeoPoint centre = mapView.getMapCenter();
 
-    if(zoomLevel_ != mapView.getZoomLevel() ||
+    if (zoomLevel_ != mapView.getZoomLevel() ||
        highlight_ != Route.journey().activeSegment() ||
        !centre.equals(mapCentre_))
     {
@@ -107,7 +107,7 @@ public class RouteOverlay extends Overlay implements PauseResumeListener, Listen
       mapCentre_ = centre;
     } // if ...
 
-    if(ridePath_ == null)
+    if (ridePath_ == null)
       drawSegments(mapView.getProjection());
 
     for(Path path : ridePath_)
@@ -141,7 +141,7 @@ public class RouteOverlay extends Overlay implements PauseResumeListener, Listen
         final IGeoPoint gp = i.next();
         screenPoint = projection.toPixels(gp, screenPoint);
 
-        if(first)
+        if (first)
         {
           path.moveTo(screenPoint.x, screenPoint.y);
           first = false;

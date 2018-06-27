@@ -57,13 +57,13 @@ public class ZoomButtonsOverlay extends ButtonOnlyOverlay {
   } // onDoubleTap
 
   private boolean tapZoom(final MotionEvent event) {
-    if(zoomIn_.hit(event)) {
-      if(zoomIn_.enabled())
+    if (zoomIn_.hit(event)) {
+      if (zoomIn_.enabled())
         mapView_.getController().zoomIn();
       return true;
     } // if ...
-    if(zoomOut_.hit(event)) {
-      if(zoomOut_.enabled())
+    if (zoomOut_.hit(event)) {
+      if (zoomOut_.enabled())
         mapView_.getController().zoomOut();
       return true;
     } // if ...

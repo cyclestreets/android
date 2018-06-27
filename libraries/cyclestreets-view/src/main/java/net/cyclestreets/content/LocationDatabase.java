@@ -32,12 +32,12 @@ public class LocationDatabase {
         null,
         null);
     int c = 0;
-    if(cursor.moveToFirst())
+    if (cursor.moveToFirst())
       do {
         c = cursor.getInt(0);
       } while (cursor.moveToNext());
 
-    if(!cursor.isClosed())
+    if (!cursor.isClosed())
       cursor.close();
 
     return c;
@@ -94,7 +94,7 @@ public class LocationDatabase {
         null,
         null,
         "name");
-    if(cursor.moveToFirst())
+    if (cursor.moveToFirst())
       do {
         locations.add(new SavedLocation(
             cursor.getInt(0),
@@ -103,7 +103,7 @@ public class LocationDatabase {
             cursor.getInt(3)));
       } while (cursor.moveToNext());
 
-    if(!cursor.isClosed())
+    if (!cursor.isClosed())
       cursor.close();
 
     return locations;

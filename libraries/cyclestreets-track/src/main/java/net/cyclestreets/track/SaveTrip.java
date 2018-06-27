@@ -91,10 +91,10 @@ public class SaveTrip extends Activity
   private <T> T viewById(final int id) { return (T)findViewById(id); }
 
   public void onClick(final View v) {
-    if(v.getId() == R.id.ButtonDiscard)
+    if (v.getId() == R.id.ButtonDiscard)
       discardTrip();
 
-    if(v.getId() == R.id.ButtonSubmit)
+    if (v.getId() == R.id.ButtonSubmit)
       uploadTrip();
   } // onClick
 

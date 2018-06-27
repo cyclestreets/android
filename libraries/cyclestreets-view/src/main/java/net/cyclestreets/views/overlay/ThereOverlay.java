@@ -61,13 +61,13 @@ public class ThereOverlay extends Overlay
 
     recentre();
 
-    if(listener_ != null)
+    if (listener_ != null)
       listener_.onSetLocation(there);
   } // noOverThere
 
   public void recentre()
   {
-    if((there_ == null) || (mapView_ == null))
+    if ((there_ == null) || (mapView_ == null))
       return;
 
     mapView_.disableFollowLocation();
@@ -78,7 +78,7 @@ public class ThereOverlay extends Overlay
   @Override
   public void draw(final Canvas canvas, final MapView mapView, final boolean shadow)
   {
-    if(there_ == null)
+    if (there_ == null)
       return;
 
     final Point screenPos = new Point();

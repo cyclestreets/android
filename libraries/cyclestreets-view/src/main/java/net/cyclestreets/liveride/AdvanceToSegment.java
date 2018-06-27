@@ -25,9 +25,9 @@ final class AdvanceToSegment extends LiveRideState
   @Override
   public LiveRideState update(Journey journey, GeoPoint whereIam, int accuracy)
   {
-    if(journey.atWaypoint())
+    if (journey.atWaypoint())
       return new PassingWaypoint(this);
-    if(journey.atEnd())
+    if (journey.atEnd())
       return new Arrivee(this);
 
     return new OnTheMove(this);

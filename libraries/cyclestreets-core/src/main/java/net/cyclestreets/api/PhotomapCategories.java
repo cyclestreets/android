@@ -33,7 +33,7 @@ public class PhotomapCategories
   {
     try {
       return ApiClient.getPhotomapCategories();      
-    } catch(Exception e) {
+    } catch (Exception e) {
       // ah
     }
     return null;

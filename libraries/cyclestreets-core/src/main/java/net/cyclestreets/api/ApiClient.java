@@ -49,7 +49,7 @@ public class ApiClient
       final ApplicationInfo ai = context.getPackageManager().getApplicationInfo(context.getPackageName(), PackageManager.GET_META_DATA);
       final Bundle bundle = ai.metaData;
       return bundle.getString("CycleStreetsAPIKey");
-    } catch(final Exception e) {
+    } catch (final Exception e) {
       throw new RuntimeException(e);
     }
   }

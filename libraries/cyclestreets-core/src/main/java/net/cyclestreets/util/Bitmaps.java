@@ -32,14 +32,14 @@ public class Bitmaps
       // Bug on slow connections, fixed in future release.
       bm = BitmapFactory.decodeStream(new FlushedInputStream(stream));
     } // try
-    catch(Exception e) {
+    catch (Exception e) {
       // no matter
     } // catch
     finally {
       try {
         stream.close();
       } // try
-      catch(IOException e) {
+      catch (IOException e) {
         // ah, well
       } // catch
     } // finally
@@ -93,7 +93,7 @@ public class Bitmaps
       scaledBitmap = null;
       return smallFileName;
     } // try
-    catch(IOException e) {
+    catch (IOException e) {
       return null;
     } // catch
   } // resizePhoto

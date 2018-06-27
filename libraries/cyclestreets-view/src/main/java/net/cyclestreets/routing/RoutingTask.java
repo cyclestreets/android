@@ -65,7 +65,7 @@ public abstract class RoutingTask<Params>
                               final Waypoints waypoints)
     throws Exception
   {
-    if(itinerary != -1)
+    if (itinerary != -1)
       return JourneyPlanner.getJourneyXml(routeType, itinerary);
     return JourneyPlanner.getJourneyXml(routeType, speed, waypoints);
   } // doFetchRoute
@@ -78,7 +78,7 @@ public abstract class RoutingTask<Params>
       progress_ = Dialog.createProgressDialog(context_, initialMsg_);
       progress_.show();
     }
-    catch(Exception e) {
+    catch (Exception e) {
       progress_ = null;
     }
   } // onPreExecute
@@ -86,7 +86,7 @@ public abstract class RoutingTask<Params>
   @Override
   protected void onProgressUpdate(final Integer... p)
   {
-    if(progress_ == null)
+    if (progress_ == null)
       return;
     progress_.setMessage(context_.getString(p[0]));
   } // onProgressUpdate
@@ -94,22 +94,22 @@ public abstract class RoutingTask<Params>
   @Override
   protected void onPostExecute(final RouteData route) 
   {
-    if(route != null)
+    if (route != null)
       Route.onNewJourney(route);
     progressDismiss();
-    if(error_ != null)
+    if (error_ != null)
       Toast.makeText(context_, error_, Toast.LENGTH_LONG).show();
   } // onPostExecute  
 
   private void progressDismiss()
   {
-    if(progress_ == null)
+    if (progress_ == null)
       return;
     try {
       // some devices, in rare situations, can throw here so just catch and swallow
       progress_.dismiss();
     }
-    catch(Exception e) {
+    catch (Exception e) {
     } // catch
   } // progressDismiss
 } // class RoutingTask

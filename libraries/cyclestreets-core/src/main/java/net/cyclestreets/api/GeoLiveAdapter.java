@@ -53,7 +53,7 @@ public class GeoLiveAdapter extends GeoAdapter
     for(int i = 0; i != getCount(); ++i)
     {
       final GeoPlace gp = getItem(i);
-      if(p.equals(gp.toString()))
+      if (p.equals(gp.toString()))
         return gp;
     } // for ...
     return null;

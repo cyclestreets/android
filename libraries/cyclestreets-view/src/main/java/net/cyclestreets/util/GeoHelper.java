@@ -112,9 +112,9 @@ public class GeoHelper
     p2l -= p1p2;
 
     double angle = Math.abs(p2l - p1l);
-    if(angle > Math.PI)
+    if (angle > Math.PI)
       angle = (Math.PI*2) - angle;
-    if(angle < (Math.PI/2)) 
+    if (angle < (Math.PI/2))
       at.position((Math.abs(p1l) > Math.PI/2) ? AlongTrack.Position.BEFORE_START : AlongTrack.Position.OFF_END); 
 
     return at;

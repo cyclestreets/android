@@ -139,7 +139,7 @@ public abstract class MainNavDrawerActivity
 
   @Override
   public void onBackPressed() {
-    if(navDrawer_.onBackPressed())
+    if (navDrawer_.onBackPressed())
       return;
     super.onBackPressed();
   } // onBackPressed
@@ -386,7 +386,7 @@ public abstract class MainNavDrawerActivity
         drawerLayout_.closeDrawers();
         return true;
       } // if ...
-      if(!(fragment() instanceof Undoable))
+      if (!(fragment() instanceof Undoable))
         return false;
       return ((Undoable)fragment()).onBackPressed();
     } // onBackPressed

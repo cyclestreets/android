@@ -26,7 +26,7 @@ public class Dialog {
       try {
         super.dismiss();
       } // try
-      catch(final IllegalArgumentException e) {
+      catch (final IllegalArgumentException e) {
         // suppress
       } // catch
     } // dismiss

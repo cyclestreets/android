@@ -25,16 +25,16 @@ public class Segments implements Iterable<Segment>
 
   public void add(final Segment seg) 
   { 
-    if(seg instanceof Segment.Start) 
+    if (seg instanceof Segment.Start)
     {
       segments_.add(0, seg);
       return;
     } // if ...
 
-    if(count() != 0)
+    if (count() != 0)
     {
       final Segment previous = segments_.get(count()-1);
-      if("join roundabout".equals(previous.turn().toLowerCase()))
+      if ("join roundabout".equals(previous.turn().toLowerCase()))
       {
         segments_.remove(previous);
         segments_.add(new Segment.Step(previous, seg));
@@ -60,7 +60,7 @@ public class Segments implements Iterable<Segment>
     PointsIterator(final Segments segments)
     {
       segments_ = segments.iterator();
-      if(!segments_.hasNext())
+      if (!segments_.hasNext())
         return;
 
       points_ = segments_.next().points();
@@ -75,14 +75,14 @@ public class Segments implements Iterable<Segment>
     @Override
     public IGeoPoint next()
     {
-      if(!hasNext())
+      if (!hasNext())
         throw new IllegalStateException();
 
       final IGeoPoint p = points_.next();
 
-      if(!hasNext())
+      if (!hasNext())
       {
-        if(segments_.hasNext())
+        if (segments_.hasNext())
           points_ = segments_.next().points();
         else
           points_ = null;

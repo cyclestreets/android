@@ -69,7 +69,7 @@ public class StoredRoutes {
 
     public RouteSummary getRouteSummary(int localId) {
       for(final RouteSummary r : routes_)
-        if(r.localId() == localId)
+        if (r.localId() == localId)
           return r;
       return null;
     } // getRouteSummary
@@ -138,11 +138,11 @@ public class StoredRoutes {
       final int localId = viewRoute_.get(view);
       final int menuId = item.getItemId();
 
-      if(R.string.ic_menu_open == menuId)
+      if (R.string.ic_menu_open == menuId)
         openRoute(localId);
-      if(R.string.ic_menu_rename == menuId)
+      if (R.string.ic_menu_rename == menuId)
         renameRoute(localId);
-      if(R.string.ic_menu_delete == menuId)
+      if (R.string.ic_menu_delete == menuId)
         deleteRoute(localId);
     } // onMenuItemClick
 

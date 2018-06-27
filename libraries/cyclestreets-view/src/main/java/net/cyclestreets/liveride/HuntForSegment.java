@@ -19,7 +19,7 @@ final class HuntForSegment extends LiveRideState
   @Override
   public LiveRideState update(Journey journey, GeoPoint whereIam, int accuracy)
   {
-    if(waitToSettle_ > 0) {
+    if (waitToSettle_ > 0) {
       --waitToSettle_;
       return this;
     }
@@ -30,7 +30,7 @@ final class HuntForSegment extends LiveRideState
     for(final Segment seg : journey.segments())
     {
       int from = seg.distanceFrom(whereIam);
-      if(from < distance) 
+      if (from < distance)
       {
         distance = from;
         nearestSeg = seg;
@@ -39,10 +39,10 @@ final class HuntForSegment extends LiveRideState
 
     distance -= accuracy;
 
-    if(distance > CycleStreetsPreferences.replanDistance())
+    if (distance > CycleStreetsPreferences.replanDistance())
       return new ReplanFromHere(this, whereIam);
 
-    if(nearestSeg == journey.activeSegment())
+    if (nearestSeg == journey.activeSegment())
       return new OnTheMove(this);
 
     return new AdvanceToSegment(this, journey, nearestSeg);

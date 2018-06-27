@@ -77,7 +77,7 @@ public class LiveRideOverlay extends Overlay implements ServiceConnection
   @Override
   public void onDetach(final MapView mapView)
   {
-    if(binding_ != null)
+    if (binding_ != null)
       binding_.stopRiding();
 
     super.onDetach(mapView);
@@ -94,7 +94,7 @@ public class LiveRideOverlay extends Overlay implements ServiceConnection
     try {
       drawNextTurn(canvas);
       drawSpeed(canvas);
-    } catch(Exception e) {
+    } catch (Exception e) {
     } // catch
 
     canvas.restore();
@@ -116,7 +116,7 @@ public class LiveRideOverlay extends Overlay implements ServiceConnection
     turnIcon.setBounds(box);
     turnIcon.draw(canvas);
 
-    if(Route.journey().atStart())
+    if (Route.journey().atStart())
       return;
 
     final String distanceTo = distanceUntilTurn();
@@ -180,7 +180,7 @@ public class LiveRideOverlay extends Overlay implements ServiceConnection
   {
     binding_ = (LiveRideService.Binding)binder;
 
-    if(!binding_.areRiding())
+    if (!binding_.areRiding())
       binding_.startRiding();
   } // onServiceConnected
 
@@ -191,14 +191,14 @@ public class LiveRideOverlay extends Overlay implements ServiceConnection
 
   private Location lastLocation() 
   {
-    if(!Route.available())
+    if (!Route.available())
       return null;
 
-    if(binding_ == null)
+    if (binding_ == null)
       return null;
 
     final Location location = binding_.lastLocation();
-    if(location == null)
+    if (location == null)
       return null;
 
     return location;
@@ -207,7 +207,7 @@ public class LiveRideOverlay extends Overlay implements ServiceConnection
   private String speed() 
   {
     final Location location = lastLocation();
-    if(location == null)
+    if (location == null)
       return "0.0";
 
     return formatter_.speed(location.getSpeed());
@@ -216,7 +216,7 @@ public class LiveRideOverlay extends Overlay implements ServiceConnection
   private String distanceUntilTurn()
   {
     final Location location = lastLocation();
-    if(location == null)
+    if (location == null)
       return "";
 
     final GeoPoint whereIam = new GeoPoint(location);

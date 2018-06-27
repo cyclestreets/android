@@ -37,7 +37,7 @@ public class AccountDetailsActivity extends Activity
     RegisterStep(final RegisterStep p)
     {
       prev_ = p;
-      if(prev_ != null)
+      if (prev_ != null)
         prev_.next_ = this;
     } // AddStep
 
@@ -85,7 +85,7 @@ public class AccountDetailsActivity extends Activity
   {
     step_ = step_.prev();
 
-    if(step_ != null)
+    if (step_ != null)
       setupView();
     else
       super.onBackPressed();
@@ -139,7 +139,7 @@ public class AccountDetailsActivity extends Activity
   private void hookUpButton(final View v, final int id)
   {
     final Button b = (Button)v.findViewById(id);
-    if(b == null)
+    if (b == null)
       return;
     b.setOnClickListener(this);    
   } // hookUpNext
@@ -152,7 +152,7 @@ public class AccountDetailsActivity extends Activity
   private void setText(final View v, final int id, final String value)
   {
     final TextView tv = textView(v, id);
-    if(tv == null)
+    if (tv == null)
       return;
     tv.setText(value);
   } // setText
@@ -168,17 +168,17 @@ public class AccountDetailsActivity extends Activity
   {
     final int clicked  = v.getId();
 
-    if(R.id.newaccount_button == clicked)
+    if (R.id.newaccount_button == clicked)
         step_ = RegisterStep.REGISTER_DETAILS;
-    if(R.id.existingaccount_button == clicked)
+    if (R.id.existingaccount_button == clicked)
         step_ = RegisterStep.SIGNIN_DETAILS;
-    if(R.id.cleardetails_button == clicked)
+    if (R.id.cleardetails_button == clicked)
         confirmClear();
-    if(R.id.signin_button == clicked) {
+    if (R.id.signin_button == clicked) {
         signin();
         return;
     }
-    if(R.id.register_button == clicked) {
+    if (R.id.register_button == clicked) {
         register();
         return;
     }
@@ -224,7 +224,7 @@ public class AccountDetailsActivity extends Activity
     final String username = getText(signinDetails_, R.id.username);
     final String password = getText(signinDetails_, R.id.password);
 
-    if((username.length() == 0) || (password.length() == 0))
+    if ((username.length() == 0) || (password.length() == 0))
     {
       MessageBox("Please enter username and password.", false);
       return;

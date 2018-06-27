@@ -13,7 +13,7 @@ public class OverlayHelper
   public static <T extends Overlay> T findOverlay(final CycleMapView view, final Class<T> type)
   {
     for(Overlay o : view.getOverlays())
-      if(type.isInstance(o))
+      if (type.isInstance(o))
         return (T)o;
     return null;
   } // findOverlay
@@ -32,7 +32,7 @@ public class OverlayHelper
   public <T extends Overlay> T get(final Class<T> type) 
   {
     T o = (T)memo_.get(type);
-    if(o != null)
+    if (o != null)
       return o;
 
     o = findOverlay(view_, type);

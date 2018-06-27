@@ -34,14 +34,14 @@ public class RouteDatabase
                        null,
                        null);
     int c = 0;
-    if(cursor.moveToFirst()) 
+    if (cursor.moveToFirst())
       do 
       {
         c = cursor.getInt(0);
       } 
       while (cursor.moveToNext());
 
-    if(!cursor.isClosed()) 
+    if (!cursor.isClosed())
       cursor.close();
 
     return c;
@@ -50,7 +50,7 @@ public class RouteDatabase
   public void saveRoute(final Journey journey,
                         final String xml)
   {
-    if(route(journey.itinerary(), journey.plan()) == null)
+    if (route(journey.itinerary(), journey.plan()) == null)
       addRoute(journey, xml);
     else
       updateRoute(journey);
@@ -114,7 +114,7 @@ public class RouteDatabase
                         null, 
                         null, 
                         "last_used desc");       
-    if(cursor.moveToFirst()) 
+    if (cursor.moveToFirst())
       do 
       {
         routes.add(new RouteSummary(cursor.getInt(0),
@@ -125,7 +125,7 @@ public class RouteDatabase
       } 
       while (cursor.moveToNext());
 
-    if(!cursor.isClosed()) 
+    if (!cursor.isClosed())
       cursor.close();
 
     return routes;
@@ -155,7 +155,7 @@ public class RouteDatabase
                         null, 
                         null, 
                         null);
-    if(cursor.moveToFirst()) 
+    if (cursor.moveToFirst())
       do 
       {
         r = new RouteData(cursor.getString(0),
@@ -164,7 +164,7 @@ public class RouteDatabase
       } 
       while (cursor.moveToNext());
 
-    if(!cursor.isClosed()) 
+    if (!cursor.isClosed())
       cursor.close();
 
     return r;
@@ -175,7 +175,7 @@ public class RouteDatabase
     final StringBuilder sb = new StringBuilder();
     for(final IGeoPoint waypoint : waypoints)
     {
-      if(sb.length() != 0)
+      if (sb.length() != 0)
         sb.append('|');
       sb.append(waypoint.getLatitudeE6())
         .append(',')

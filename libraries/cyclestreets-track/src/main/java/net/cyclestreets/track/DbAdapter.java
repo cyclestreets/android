@@ -249,7 +249,7 @@ public class DbAdapter {
 
       return distance;
     }
-    catch(RuntimeException e) {
+    catch (RuntimeException e) {
       String s = e.getMessage();
       throw new RuntimeException(e);
     }

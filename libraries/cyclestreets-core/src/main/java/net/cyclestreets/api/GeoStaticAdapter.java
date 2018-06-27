@@ -30,7 +30,7 @@ public class GeoStaticAdapter extends GeoAdapter
   {
     addAll(places.asList());
 
-    if(listener_ != null)
+    if (listener_ != null)
       listener_.onPopulated();
   } // addAll
 

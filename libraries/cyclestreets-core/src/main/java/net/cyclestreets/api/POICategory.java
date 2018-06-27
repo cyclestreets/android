@@ -24,7 +24,7 @@ public class POICategory {
   public Drawable icon() { return icon_; }
 
   public boolean equals(final Object rhs) {
-    if(!(rhs instanceof POICategory))
+    if (!(rhs instanceof POICategory))
       return false;
 
     return name_.equals(((POICategory)rhs).name_);
@@ -41,7 +41,7 @@ public class POICategory {
       for(final POI poi : pois)
         poi.setCategory(this);
       return pois;
-    } catch(Exception e) {
+    } catch (Exception e) {
       return Collections.emptyList();
     } // catch
   } // pois

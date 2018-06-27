@@ -8,7 +8,7 @@ public abstract class FragmentHolder extends Activity {
   @Override
   protected void onCreate(final Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    if(savedInstanceState == null)
+    if (savedInstanceState == null)
       getFragmentManager().beginTransaction().add(android.R.id.content,
                                                          fragment()).commit();
   } // onCreate

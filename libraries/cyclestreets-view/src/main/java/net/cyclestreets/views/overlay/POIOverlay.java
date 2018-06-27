@@ -141,14 +141,14 @@ public class POIOverlay
 
     try {
       reloadActiveCategories(prefs);
-    } catch(Exception e) {
+    } catch (Exception e) {
       // very occasionally this throws a NullException, although it's not something
       // I've been able to replicate :(
       // Let's just carry on
       activeCategories_.clear();
     } // catch
 
-    if(firstTime) {
+    if (firstTime) {
       items().clear();
       clearLastFix();
       active_ = null;
@@ -161,7 +161,7 @@ public class POIOverlay
     for(int i = 0; i != count; ++i) {
       final String name = prefs.getString("category-" + i, "");
       for(final POICategory cat : allCategories())
-        if(name.equals(cat.name())) {
+        if (name.equals(cat.name())) {
           activeCategories_.add(cat);
           break;
         } // if...
@@ -178,7 +178,7 @@ public class POIOverlay
   ///////////////////////////////////////////////////
   @Override
   public boolean onSingleTap(final MotionEvent event) {
-    if((active_ != null) && (tappedInBubble(event)))
+    if ((active_ != null) && (tappedInBubble(event)))
       return true;
 
     return super.onSingleTap(event);
@@ -190,7 +190,7 @@ public class POIOverlay
     final int eventX = screenRect.left + (int)event.getX();
     final int eventY = screenRect.top + (int)event.getY();
 
-    if(!bubble_.contains(eventX, eventY))
+    if (!bubble_.contains(eventX, eventY))
       return false;
 
     return routeMarkerAtItem(active_);
@@ -198,7 +198,7 @@ public class POIOverlay
 
   @Override
   protected boolean onItemSingleTap(final POIItem item) {
-    if(active_ == item)
+    if (active_ == item)
       hideBubble();
     else
       showBubble(item);
@@ -227,7 +227,7 @@ public class POIOverlay
     hideBubble();
 
     final TapToRouteOverlay o = routeOverlay();
-    if(o == null)
+    if (o == null)
       return false;
 
     o.setNextMarker(item.getPoint());
@@ -237,12 +237,12 @@ public class POIOverlay
 
   /////////////////////////////////////////////////////
   public void draw(final Canvas canvas, final MapView mapView, final boolean shadow) {
-    if(activeCategories_.isEmpty())
+    if (activeCategories_.isEmpty())
       return;
 
     super.draw(canvas, mapView, shadow);
 
-    if(active_ == null)
+    if (active_ == null)
       return;
 
     drawBubble(canvas, mapView);
@@ -290,13 +290,13 @@ public class POIOverlay
     final List<POICategory> removed = notIn(activeCategories_, newCategories);
     final List<POICategory> added = notIn(newCategories, activeCategories_);
 
-    if(removed.size() != 0) {
+    if (removed.size() != 0) {
       for(final POICategory r : removed)
         hide(r);
       redraw();
     } // if ...
 
-    if(added.size() != 0) {
+    if (added.size() != 0) {
       for(final POICategory a : added)
         activeCategories_.add(a);
       clearLastFix();
@@ -305,15 +305,15 @@ public class POIOverlay
   } // updateCategories
 
   private void hide(final POICategory cat) {
-    if(!activeCategories_.contains(cat))
+    if (!activeCategories_.contains(cat))
       return;
     activeCategories_.remove(cat);
 
     for(int i = items().size() - 1; i >= 0; --i)
-      if(cat.equals(items().get(i).category()))
+      if (cat.equals(items().get(i).category()))
         items().remove(i);
 
-    if((active_ != null) && (cat.equals(active_.category())))
+    if ((active_ != null) && (cat.equals(active_.category())))
       active_ = null;
   } // hide
 
@@ -322,7 +322,7 @@ public class POIOverlay
     final List<POICategory> n = new ArrayList<>();
 
     for(final POICategory c : c1)
-      if(!c2.contains(c))
+      if (!c2.contains(c))
         n.add(c);
 
     return n;
@@ -335,17 +335,17 @@ public class POIOverlay
   protected boolean fetchItemsInBackground(final IGeoPoint mapCentre,
                                            final int zoom,
                                            final BoundingBox boundingBox) {
-    if(activeCategories_.isEmpty())
+    if (activeCategories_.isEmpty())
       return false;
 
     final int moved = lastFix_ != null ? GeoHelper.distanceBetween(mapCentre, lastFix_) : Integer.MAX_VALUE;
     final int diagonalWidth = (int)(boundingBox.getDiagonalLengthInMeters() / 1000);
 
     // first time through width can be zero
-    if(diagonalWidth == 0)
+    if (diagonalWidth == 0)
       return false;
 
-    if(moved < (diagonalWidth/2))
+    if (moved < (diagonalWidth/2))
       return false;
 
     lastFix_ = mapCentre;
@@ -369,10 +369,10 @@ public class POIOverlay
   } // onPrepareOptionsMenu
 
   public boolean onMenuItemSelected(final int featureId, final MenuItem item) {
-    if(item.getItemId() != R.string.poi_menu_title)
+    if (item.getItemId() != R.string.poi_menu_title)
       return false;
 
-    if(chooserShowing_)
+    if (chooserShowing_)
       return true;
 
     chooserShowing_  = true;
@@ -448,7 +448,7 @@ public class POIOverlay
       final List<POIOverlay.POIItem> items = new ArrayList<>();
 
       for (final POI poi : pois) {
-        if(items.contains(poi))
+        if (items.contains(poi))
           continue;
         items.add(new POIOverlay.POIItem(poi));
       } // for ...
@@ -516,7 +516,7 @@ public class POIOverlay
         public void onCheckedChanged(
             final CompoundButton buttonView,
             final boolean isChecked) {
-          if(isChecked)
+          if (isChecked)
             selected_.add(cat);
           else
             selected_.remove(cat);
@@ -536,7 +536,7 @@ public class POIOverlay
     private boolean isSelected(
         final POICategory cat) {
       for(POICategory c : selected_)
-        if(cat.name().equals(c.name()))
+        if (cat.name().equals(c.name()))
           return true;
       return false;
     } // isSelected
