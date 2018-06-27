@@ -16,59 +16,54 @@ import android.widget.RelativeLayout;
 
 public class LiveRideActivity extends Activity
 {
-  static public void launch(final Context context)
-  {
-    if(!GPS.isOn(context)) {
-      MessageBox.YesNo(context, 
+  static public void launch(final Context context)  {
+    if (!GPS.isOn(context)) {
+      MessageBox.YesNo(context,
                        "LiveRide needs the GPS location service.\n\nWould you like to turn it on now?",
                        new DialogInterface.OnClickListener() {
-                          public void onClick(DialogInterface arg0, int arg1) { 
+                          public void onClick(DialogInterface arg0, int arg1) {
                             GPS.showSettings(context);
                           }
                        });
       return;
     }
     launchActivity(context);
-  } // launch
-  
-  static private void launchActivity(final Context context) 
-  {
+  }
+
+  static private void launchActivity(final Context context)  {
     final Intent intent = new Intent(context, LiveRideActivity.class);
     context.startActivity(intent);
-  } // launchActivity
-  
+  }
+
   private CycleMapView map_;
 
   private PebbleNotifier notifier_;
 
   @Override
-  public void onCreate(final Bundle saved)
-  {
+  public void onCreate(final Bundle saved)  {
     super.onCreate(saved);
 
     // Map initialized in onResume
-  } // onCreate
+  }
 
   //////////////////////////
   @Override
-  public void onPause()
-  {
+  public void onPause()  {
     map_.disableFollowLocation();
     map_.onPause();
 
     super.onPause();
-  } // onPause
-  
+  }
+
   @Override
-  public void onResume()
-  {
+  public void onResume()  {
     super.onResume();
 
     // Map needs to be recreated, because tile provider is shut down on CycleMapView.onPause
     initializeMapView();
     map_.onResume();
     map_.enableAndFollowLocation();
-  } // onResume
+  }
 
   private void initializeMapView() {
     map_ = new CycleMapView(this, this.getClass().getName());
@@ -83,4 +78,4 @@ public class LiveRideActivity extends Activity
     setContentView(rl);
   }
 
-} // class LiveRideActivity
+}

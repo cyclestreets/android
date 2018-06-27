@@ -15,8 +15,7 @@ import org.osmdroid.views.overlay.OverlayItem.HotspotPlace;
 
 import java.util.List;
 
-public class ItemizedOverlay<Item extends OverlayItem> extends Overlay
-                                                       implements TapListener {
+public class ItemizedOverlay<Item extends OverlayItem> extends Overlay implements TapListener {
   private final MapView mapView_;
   private final List<Item> items_;
 
@@ -28,7 +27,7 @@ public class ItemizedOverlay<Item extends OverlayItem> extends Overlay
   private final Point screenCoords = new Point();
 
   protected MapView mapView() { return mapView_; }
-  
+
   public ItemizedOverlay(final MapView mapView,
                          final List<Item> items) {
     super();
@@ -37,22 +36,22 @@ public class ItemizedOverlay<Item extends OverlayItem> extends Overlay
   }
 
   protected List<Item> items() { return items_; }
-  
+
   @Override
   public void draw(final Canvas canvas, final MapView mapView, final boolean shadow) {
-    if(shadow)
+    if (shadow)
       return;
 
     final float scale = mapView.getContext().getResources().getDisplayMetrics().density;
     final float orientation = mapView.getMapOrientation();
-    
+
     final Projection pj = mapView.getProjection();
     for (int i = items_.size() -1; i >= 0; --i) {
       final Item item = items_.get(i);
       pj.toPixels(item.getPoint(), screenCoords);
       onDrawItem(canvas, item, screenCoords, scale, orientation);
-    } // for ...
-  } // draw
+    }
+  }
 
   private void onDrawItem(final Canvas canvas,
                           final Item item,
@@ -86,13 +85,13 @@ public class ItemizedOverlay<Item extends OverlayItem> extends Overlay
     marker.setBounds(rect_);
 
     canvas.restore();
-  } // onDrawItem
+  }
 
   private boolean hitTest(final Drawable marker,
                           final int hitX,
                           final int hitY) {
     return marker.getBounds().contains(hitX, hitY);
-  } // hitTest
+  }
 
   private Drawable boundToHotspot(final Drawable marker,
                                   HotspotPlace hotspot,
@@ -139,8 +138,8 @@ public class ItemizedOverlay<Item extends OverlayItem> extends Overlay
     }
     marker.setBounds(rect_);
     return marker;
-  } // boundToHotSpot
-  
+  }
+
   /////////////////////////////////////////////////
   @Override
   public boolean onSingleTap(final MotionEvent event) {
@@ -150,7 +149,7 @@ public class ItemizedOverlay<Item extends OverlayItem> extends Overlay
         return onItemSingleTap(item);
       }
     }));
-  } // onSingleTap
+  }
 
   @Override
   public boolean onDoubleTap(final MotionEvent event) {
@@ -160,15 +159,15 @@ public class ItemizedOverlay<Item extends OverlayItem> extends Overlay
         return onItemDoubleTap(item);
       }
     }));
-  } // onDoubleTap
+  }
 
   protected boolean onItemSingleTap(final Item item) {
     return false;
-  } // onItemSingleTap
+  }
 
   protected boolean onItemDoubleTap(final Item item) {
     return false;
-  } // onItemDoubleTap
+  }
 
   /////////////////////////////////////
   private boolean activateSelectedItems(final MotionEvent event,
@@ -189,11 +188,11 @@ public class ItemizedOverlay<Item extends OverlayItem> extends Overlay
         if (task.run(item))
           return true;
       }
-    } // for ...
+    }
     return false;
-  } // activateSelectedItems
+  }
 
   private interface ActiveItem<Item> {
     boolean run(final Item aIndex);
-  } // interface ActiveItem
-} // class ItemizedOverlay
+  }
+}

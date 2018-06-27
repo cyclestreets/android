@@ -11,7 +11,7 @@ import net.cyclestreets.fragments.R;
 public class AboutFragment extends WebPageFragment {
   public AboutFragment() {
     super("file:///android_asset/credits.html", R.layout.about);
-  } // AboutFragment
+  }
 
   @Override
   public View onCreateView(final LayoutInflater inflater,
@@ -23,5 +23,5 @@ public class AboutFragment extends WebPageFragment {
     versionView.setText(CycleStreetsAppSupport.version());
 
     return about;
-  } // onCreateView
-} // AboutFragment
+  }
+}

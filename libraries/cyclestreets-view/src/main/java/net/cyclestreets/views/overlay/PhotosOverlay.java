@@ -21,25 +21,25 @@ public class PhotosOverlay extends LiveItemOverlay<PhotosOverlay.PhotoItem> {
   public static class PhotoItem extends OverlayItem {
     private final Photo photo_;
     private final PhotoMarkers photoMarkers_;
-    
+
     public PhotoItem(final Photo photo, final PhotoMarkers photoMarkers) {
       super(photo.id() + "", photo.caption(), photo.position());
       photo_ = photo;
       photoMarkers_ = photoMarkers;
-    } // PhotoItem
+    }
 
     public Photo photo() { return photo_; }
-    
+
     // Markers
     @Override
     public Drawable getMarker(int stateBitset) {
       return photoMarkers_.getMarker(photo_);
-    } // getMarker
+    }
 
     // Equality testing
     @Override
     public int hashCode() { return ((photo_ == null) ? 0 : photo_.id()); }
-    
+
     /*
      * PhotoItems are equal if underlying Photos have the same id
      */
@@ -52,17 +52,17 @@ public class PhotosOverlay extends LiveItemOverlay<PhotosOverlay.PhotoItem> {
       if (getClass() != obj.getClass())
         return false;
       final PhotoItem other = (PhotoItem) obj;
-      if (photo_ == null) 
+      if (photo_ == null)
         return (other.photo_ == null);
 
       return (photo_.id() == other.photo_.id());
-    } // equals
+    }
 
     @Override
     public String toString() {
       return "PhotoItem [photo=" + photo_ + "]";
-    } // toString  
-  } // class PhotoItem
+    }
+  }
 
   /////////////////////////////////////////////////////
   private final Context context_;
@@ -71,27 +71,27 @@ public class PhotosOverlay extends LiveItemOverlay<PhotosOverlay.PhotoItem> {
   public PhotosOverlay(final CycleMapView mapView) {
     super(mapView,
           true);
-  
+
     context_ = mapView.getContext();
     photoMarkers_ = new PhotoMarkers(context_.getResources());
-  } // PhotoItemOverlay
+  }
 
   ///////////////////////////////////////////////////
   @Override
   protected boolean onItemSingleTap(final PhotoItem item) {
     showPhoto(item);
     return true;
-  } // onItemSingleTap
-  
+  }
+
   @Override
   protected boolean onItemDoubleTap(final PhotoItem item) {
     showPhoto(item);
     return true;
-  } // onItemDoubleTap
+  }
 
   private void showPhoto(final PhotoItem item) {
     DisplayPhoto.launch(item.photo(), context_);
-  } // showPhoto
+  }
 
   ///////////////////////////////////////////////////
   protected boolean fetchItemsInBackground(final IGeoPoint mapCentre,
@@ -99,23 +99,23 @@ public class PhotosOverlay extends LiveItemOverlay<PhotosOverlay.PhotoItem> {
                                            final BoundingBox boundingBox) {
     GetPhotosTask.fetch(this, boundingBox);
     return true;
-  } // refreshPhotos
-  
+  }
+
   /////////////////////////////////////////////////////
   /////////////////////////////////////////////////////
   private static class GetPhotosTask extends AsyncTask<Object,Void,Photos> {
-    static void fetch(final PhotosOverlay overlay, 
+    static void fetch(final PhotosOverlay overlay,
                       final Object... params) {
       new GetPhotosTask(overlay).execute(params);
-    } // fetch
-    
+    }
+
     //////////////////////////////////////////////////////
     private final PhotosOverlay overlay_;
-    
+
     private  GetPhotosTask(final PhotosOverlay overlay) {
       overlay_ = overlay;
-    } // GetPhotosTask
-    
+    }
+
     protected Photos doInBackground(Object... params) {
       final BoundingBox boundingBox = (BoundingBox)params[0];
 
@@ -125,17 +125,17 @@ public class PhotosOverlay extends LiveItemOverlay<PhotosOverlay.PhotoItem> {
         // never mind, eh?
       }
       return null;
-    } // doInBackground
-    
+    }
+
     @Override
     protected void onPostExecute(final Photos photos) {
       final List<PhotosOverlay.PhotoItem> items = new ArrayList<>();
-      
-      if(photos != null)
-        for (final Photo photo: photos) 
+
+      if (photos != null)
+        for (final Photo photo: photos)
           items.add(new PhotosOverlay.PhotoItem(photo, overlay_.photoMarkers_));
-      
+
       overlay_.setItems(items);
-    } // onPostExecute
-  } // GetPhotosTask
-} // class PhotoItemOverlay
+    }
+  }
+}

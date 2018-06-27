@@ -24,10 +24,9 @@ public class RouteByNumber {
     ad.getButton(AlertDialog.BUTTON_POSITIVE).setTextAppearance(context, android.R.style.TextAppearance_Large);
 
     rbnc.setDialog(ad);
-  } // launch
+  }
 
-  private static class RouteByNumberCallbacks
-      implements View.OnClickListener {
+  private static class RouteByNumberCallbacks implements View.OnClickListener {
     private final Context context_;
     private final AutoCompleteTextView numberText_;
     private final RouteType routeType_;
@@ -48,18 +47,18 @@ public class RouteByNumber {
       numberText_.setAdapter(history_);
 
       routeType_ = (RouteType)layout.findViewById(R.id.routeType);
-    } // RouteByNumberCallbacks
+    }
 
     private void findRoute(long routeNumber) {
       final String routeType = routeType_.selectedType();
       final int speed = CycleStreetsPreferences.speed();
       Route.FetchRoute(routeType, routeNumber, speed, context_);
-    } // findRoute
+    }
 
     public void setDialog(final AlertDialog ad) {
       ad_ = ad;
       ad_.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(this);
-    } // setDialog
+    }
 
     @Override
     public void onClick(final View view) {
@@ -72,10 +71,10 @@ public class RouteByNumber {
         long number = Long.parseLong(entered);
         findRoute(number);
         ad_.dismiss();
-      } //try
+      }
       catch (final NumberFormatException e) {
         // let's just swallow this, because hopefully it won't happen
-      } // catch
-    } // onClick
-  } // class RouteByNumberCallbacks
-} // RouteByNumber
+      }
+    }
+  }
+}

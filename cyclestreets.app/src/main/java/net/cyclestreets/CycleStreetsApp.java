@@ -25,5 +25,5 @@ public class CycleStreetsApp extends Application {
     super.onCreate();
 
     CycleStreetsAppSupport.initialise(this, R.xml.prefs);
-  } // onCreate
-} // CycleStreetsApp
+  }
+}

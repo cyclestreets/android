@@ -7,9 +7,7 @@ import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.IBinder;
 
-class Controller
-    implements TrackerControl,
-               ServiceConnection {
+class Controller implements TrackerControl, ServiceConnection {
   public static TrackerControl create(final Activity context, final TrackListener listener) {
     Controller control = new Controller(context, listener);
 
@@ -17,7 +15,7 @@ class Controller
     context.bindService(rService, control, Context.BIND_AUTO_CREATE);
 
     return control;
-  } // create
+  }
 
   private final Activity context_;
   private final TrackListener listener_;
@@ -30,7 +28,7 @@ class Controller
       final TrackListener listener) {
     context_ = context;
     listener_ = listener;
-  } // Controller
+  }
 
   @Override
   public void onServiceConnected(
@@ -42,7 +40,7 @@ class Controller
 
     if (shouldStart_)
       rs_.startRecording();
-  } // onServiceConnected
+  }
 
   @Override
   public void onServiceDisconnected(ComponentName name) {}
@@ -53,7 +51,7 @@ class Controller
       shouldStart_ = true;
     else
       rs_.startRecording();
-  } // start
+  }
 
   @Override
   public void stop() {
@@ -71,5 +69,5 @@ class Controller
       else
         listener_.abandoned(trip);
     }
-  } // stop
-} // Controller
+  }
+}

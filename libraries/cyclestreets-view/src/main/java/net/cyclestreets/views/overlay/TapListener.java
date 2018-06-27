@@ -2,8 +2,8 @@ package net.cyclestreets.views.overlay;
 
 import android.view.MotionEvent;
 
-public interface TapListener 
+public interface TapListener
 {
-	boolean onSingleTap(MotionEvent event);
-	boolean onDoubleTap(MotionEvent event);
-} // SingletapListener
+  boolean onSingleTap(MotionEvent event);
+  boolean onDoubleTap(MotionEvent event);
+}

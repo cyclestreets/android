@@ -38,7 +38,7 @@ public final class DisplayPhoto {
       photoDisplay(photo, context);
 
     dd.show();
-  } // launch
+  }
 
   private DisplayPhoto() { }
 
@@ -49,18 +49,16 @@ public final class DisplayPhoto {
     if (Screen.isSmall(context))
       return new ExternalVideoPlayer(photo, context);
     return new VideoDisplay(photo, context);
-  } // VideoDisplay
+  }
 
-  private static class VideoDisplay
-      extends DisplayDialog
-      implements MediaPlayer.OnPreparedListener {
+  private static class VideoDisplay extends DisplayDialog implements MediaPlayer.OnPreparedListener {
     private VideoView vv_;
     private VideoControllerView controller_;
     private ProgressDialog pd_;
 
     VideoDisplay(final Photo photo, final Context context) {
       super(photo, context);
-    } // VideoDisplay
+    }
 
     @Override
     protected String title() { return String.format("Video #%d", photo_.id()); }
@@ -72,7 +70,7 @@ public final class DisplayPhoto {
       controller_ = new VideoControllerView(layout.findViewById(R.id.videocontroller));
       vv_ = (VideoView)layout.findViewById(R.id.video);
       return layout;
-    } // loadLayout
+    }
 
     @Override
     protected void postShowSetup(AlertDialog dialog) {
@@ -91,7 +89,7 @@ public final class DisplayPhoto {
       pd_.show();
 
       vv_.setOnPreparedListener(this);
-    } // postShowSetup
+    }
 
     @Override
     public void onPrepared(final MediaPlayer mediaPlayer) {
@@ -111,17 +109,17 @@ public final class DisplayPhoto {
 
         vv_.setLayoutParams(new LinearLayout.LayoutParams(newwidth, newheight));
       }
-    } // onPrepared
+    }
 
     private static String videoUrl(final Photo photo) {
       for (String format : new String[]{ "mp4", "mov", "3gp" }) {
         Photo.Video v = photo.video(format);
         if (v != null)
           return v.url();
-      } // for ...
+      }
       return null;
-    } // videoUrl
-  } // VideoDisplay
+    }
+  }
 
   private static class ExternalVideoPlayer implements ImageDisplay {
     protected final Photo photo_;
@@ -130,7 +128,7 @@ public final class DisplayPhoto {
     ExternalVideoPlayer(final Photo photo, final Context context) {
       photo_ = photo;
       context_ = context;
-    } // VideoDisplay
+    }
 
     public void show() {
       final String videoUrl = videoUrl(photo_);
@@ -140,31 +138,31 @@ public final class DisplayPhoto {
       final Intent player = new Intent(Intent.ACTION_VIEW);
       player.setDataAndType(Uri.parse(videoUrl), "video/*");
       context_.startActivity(player);
-    } // show
+    }
 
     private static String videoUrl(final Photo photo) {
       for (String format : new String[]{ "mp4", "mov", "3gp" }) {
         Photo.Video v = photo.video(format);
         if (v != null)
           return v.url();
-      } // for ...
+      }
       return null;
-    } // videoUrl
-  } // class ExternalVideoPlayer
+    }
+  }
 
   /////////////////////////////////////////////////////////////////////
   private static ImageDisplay photoDisplay(
       final Photo photo,
       final Context context) {
   return new PhotoDisplay(photo, context);
-  } // photoDisplay
+  }
 
   private static class PhotoDisplay extends DisplayDialog {
     private ImageView iv_;
 
     PhotoDisplay(final Photo photo, final Context context) {
       super(photo, context);
-    } // PhotoDisplay
+    }
 
     @Override
     protected String title() { return String.format("Photo #%d", photo_.id()); }
@@ -182,7 +180,7 @@ public final class DisplayPhoto {
       ImageDownloader.get(thumbnailUrl, iv_);
 
       return layout;
-    } // loadLayout
+    }
 
     @Override
     protected void preShowSetup(AlertDialog.Builder builder) {
@@ -191,10 +189,10 @@ public final class DisplayPhoto {
         public void onCancel(DialogInterface dialogInterface) {
           final Bitmap photo = ((BitmapDrawable)iv_.getDrawable()).getBitmap();
           photo.recycle();
-        } // onCancel
+        }
       });
-    } // preShowSetup
-  } // class PhotoDisplay
+    }
+  }
 
   ///////////////////////////////////////////////////////////
   private interface ImageDisplay {
@@ -211,7 +209,7 @@ public final class DisplayPhoto {
       photo_ = photo;
       context_ = context;
       gd_ = new GestureDetector(context_, this);
-    } // Display
+    }
 
     public void show() {
       final AlertDialog.Builder builder = new AlertDialog.Builder(context_);
@@ -231,12 +229,12 @@ public final class DisplayPhoto {
       postShowSetup(ad_);
 
       layout.setOnTouchListener(this);
-    } // show
+    }
 
     @Override
     public boolean onTouch(View view, MotionEvent event) {
       return gd_.onTouchEvent(event);
-    } // onTouch
+    }
 
     @Override public boolean onDown(MotionEvent motionEvent) { return false; }
     @Override public void onShowPress(MotionEvent motionEvent) { }
@@ -248,12 +246,12 @@ public final class DisplayPhoto {
     public boolean onFling(MotionEvent motionEvent, MotionEvent motionEvent1, float v, float v1) {
       ad_.cancel();
       return true;
-    } // onFling
+    }
 
     protected abstract String title();
     protected abstract String caption();
     protected abstract View loadLayout();
-    
+
     protected void preShowSetup(AlertDialog.Builder builder) { }
     protected void postShowSetup(AlertDialog dialog) { }
 
@@ -266,8 +264,8 @@ public final class DisplayPhoto {
           : device_height / 10 * 6;
       final int width = device_width;
       v.setLayoutParams(new LinearLayout.LayoutParams(width, height));
-    } // sizeView
-  } // DisplayDialog
+    }
+  }
 
   /////////////////////////////////////////////////////////////////////////////////////
   private static class VideoControllerView {
@@ -286,14 +284,14 @@ public final class DisplayPhoto {
     public VideoControllerView(final View controllerView) {
       controllerView_ = controllerView;
       initControllerView(controllerView_);
-    } // VideoControllerView
+    }
 
     public int getWidth() { return  controllerView_.getWidth(); }
 
     public void setMediaPlayer(MediaController.MediaPlayerControl player) {
       videoPlayer_ = player;
       updatePausePlay();
-    } // setMediaPlayer
+    }
 
     private void initControllerView(View v) {
       pauseBtn_ = (ImageButton)v.findViewById(R.id.pause);
@@ -311,7 +309,7 @@ public final class DisplayPhoto {
 
       timeElapsed_ = (TextView)v.findViewById(R.id.time_current);
       endTime_ = (TextView)v.findViewById(R.id.time);
-    } // initControllerView
+    }
 
     private void disableUnsupportedButtons() {
       if (videoPlayer_ == null)
@@ -336,20 +334,20 @@ public final class DisplayPhoto {
         setProgress();
         pauseBtn_.requestFocus();
         disableUnsupportedButtons();
-      } // if ...
+      }
 
       controllerView_.setVisibility(View.VISIBLE);
       updatePausePlay();
       msgHandler_.sendEmptyMessage(SHOW_PROGRESS);
-    } // show
+    }
 
     private boolean isShowing() {
       return (controllerView_.getVisibility() == View.VISIBLE);
-    } // isShowing
+    }
 
     public void hide() {
       controllerView_.setVisibility(View.GONE);
-    } // hide
+    }
 
     private String formatTime(int timeMs) {
       int totalSeconds = timeMs / 1000;
@@ -362,7 +360,7 @@ public final class DisplayPhoto {
         return String.format("%d:%02d:%02d", hours, minutes, seconds);
       else
         return String.format("%02d:%02d", minutes, seconds);
-    } // formatTime
+    }
 
     private int setProgress() {
       if (videoPlayer_ == null || isDragging_)
@@ -373,7 +371,7 @@ public final class DisplayPhoto {
       if (duration > 0) {
         long pos = 1000L * position / duration;
         seekBar_.setProgress((int)pos);
-      } // if ...
+      }
       int percent = videoPlayer_.getBufferPercentage();
       seekBar_.setSecondaryProgress(percent * 10);
 
@@ -381,7 +379,7 @@ public final class DisplayPhoto {
       endTime_.setText(formatTime(duration));
 
       return position;
-    } // setProgress
+    }
 
     private View.OnClickListener pauseListener_ = new View.OnClickListener() {
       public void onClick(View v) { doPauseResume(); }
@@ -389,7 +387,7 @@ public final class DisplayPhoto {
 
     public void updatePausePlay() {
       pauseBtn_.setImageResource(videoPlayer_.isPlaying() ? R.drawable.ic_media_pause : R.drawable.ic_media_play);
-    } // updatePausePlay
+    }
 
     private void doPauseResume() {
       if (videoPlayer_.isPlaying())
@@ -397,7 +395,7 @@ public final class DisplayPhoto {
       else
         videoPlayer_.start();
       updatePausePlay();
-    } // doPauseResume
+    }
 
     private SeekBar.OnSeekBarChangeListener seekListener_ = new SeekBar.OnSeekBarChangeListener() {
       public void onStartTrackingTouch(SeekBar bar) {
@@ -409,7 +407,7 @@ public final class DisplayPhoto {
         // we will post one of these messages to the queue again and
         // this ensures that there will be exactly one message queued up.
         msgHandler_.removeMessages(SHOW_PROGRESS);
-      } // onStartTrackingTouch
+      }
 
       public void onProgressChanged(SeekBar bar, int progress, boolean fromuser) {
         if (!fromuser)
@@ -419,7 +417,7 @@ public final class DisplayPhoto {
         long newposition = (duration * progress) / 1000L;
         videoPlayer_.seekTo((int)newposition);
         timeElapsed_.setText(formatTime((int) newposition));
-      } // onProgressChanged
+      }
 
       public void onStopTrackingTouch(SeekBar bar) {
         isDragging_ = false;
@@ -429,7 +427,7 @@ public final class DisplayPhoto {
         // the call to show() does not guarantee this because it is a
         // no-op if we are already showing.
         msgHandler_.sendEmptyMessage(SHOW_PROGRESS);
-      } // onStopTrackingTouch
+      }
     };
 
     private View.OnClickListener rewListener_ = new View.OnClickListener() {
@@ -470,10 +468,9 @@ public final class DisplayPhoto {
               sendMessageDelayed(msg, 1000 - (pos % 1000));
             }
             view.updatePausePlay();
-        } // if ...
-      } // handleMessage
-    } // class MessageHandler
-  } // class VideoViewController
-} // DisplayPhoto
-
+        }
+      }
+    }
+  }
+}
 

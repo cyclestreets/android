@@ -15,11 +15,11 @@ public class SavedLocation {
     id_ = id;
     name_ = name;
     where_ = new GeoPoint(whereLat, whereLon);
-  } // SavedLocation
+  }
 
   public int localId() { return id_; }
   public String name() { return name_; }
   public IGeoPoint where() { return where_; }
 
   public String toString() { return name_; }
-} // SavedLocation
+}

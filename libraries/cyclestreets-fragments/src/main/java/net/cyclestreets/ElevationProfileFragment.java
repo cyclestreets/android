@@ -28,8 +28,7 @@ import java.util.List;
 
 import static net.cyclestreets.util.StringUtils.initCap;
 
-public class ElevationProfileFragment extends Fragment
-                                      implements Route.Listener {
+public class ElevationProfileFragment extends Fragment implements Route.Listener {
   private LinearLayout graphHolder_;
 
   @Override
@@ -39,30 +38,30 @@ public class ElevationProfileFragment extends Fragment
     final View elevation = inflater.inflate(R.layout.elevation, container, false);
     graphHolder_ = (LinearLayout)elevation.findViewById(R.id.graphview);
     return elevation;
-  } // onCreateView
+  }
 
   @Override
   public void onResume() {
     super.onResume();
     Route.onResume();
     Route.registerListener(this);
-  } // onResume
+  }
 
   @Override
   public void onPause() {
     Route.unregisterListener(this);
     super.onPause();
-  } // onPause
+  }
 
   @Override
   public void onNewJourney(final Journey journey, final Waypoints waypoints) {
     drawGraph(journey);
     drawText(journey);
-  } // onNewJourney
+  }
 
   @Override
   public void onResetJourney() {
-  } // onResetJourney
+  }
 
   private void drawGraph(final Journey journey) {
     final LineGraphView graph = new LineGraphView(getActivity(), "");
@@ -91,7 +90,7 @@ public class ElevationProfileFragment extends Fragment
 
     graphHolder_.removeAllViews();
     graphHolder_.addView(graph);
-  } // drawGraph
+  }
 
   private void drawText(final Journey journey) {
     Segment.Start start = journey.segments().first();
@@ -103,7 +102,7 @@ public class ElevationProfileFragment extends Fragment
     setText(R.id.journeytime, start.totalTime());
     setText(R.id.calories, start.calories());
     setText(R.id.carbondioxide, start.co2());
-  } // drawText
+  }
 
   private void setText(int id, String text) { ((TextView)getView().findViewById(id)).setText(text); }
   private String distance(final int metres) {

@@ -19,35 +19,35 @@ public class Dialog {
       setMessage(message);
       setIndeterminate(true);
       setCancelable(false);
-    } // CycleStreetsProgressDialog
-    
+    }
+
     @Override
     public void dismiss() {
       try {
         super.dismiss();
-      } // try
-      catch(final IllegalArgumentException e) {
+      }
+      catch (final IllegalArgumentException e) {
         // suppress
-      } // catch
-    } // dismiss
-  } // class CycleStreetsProgressDialog
-  
+      }
+    }
+  }
+
   static public ProgressDialog createProgressDialog(final Context context,
                                                     final int messageId) {
     return createProgressDialog(context, context.getString(messageId));
-  } // createProgressDialog
-  
+  }
+
   static public ProgressDialog createProgressDialog(final Context context,
                                                     final String message) {
     final ProgressDialog progress = new CycleStreetsProgressDialog(context, message);
     return progress;
-  } // createProgressDialog
-  
+  }
+
   public interface UpdatedTextListener {
     void updatedText(final String updated);
-  } // interface UpdatedTextListener
-  
-  static public void editTextDialog(final Context context, 
+  }
+
+  static public void editTextDialog(final Context context,
                                     final String initialText,
                                     final String buttonText,
                                     final UpdatedTextListener listener) {
@@ -61,12 +61,12 @@ public class Dialog {
       public void onClick(DialogInterface dialog, int which) {
         final String t = textBox.getText().toString().trim();
         listener.updatedText(t);
-      } // onClick
+      }
     });
     builder.setView(layout);
 
     show(builder);
-  } // editTextDialog
+  }
 
   public static AlertDialog listViewDialog(final Context context,
                                            final int titleResId,
@@ -82,7 +82,7 @@ public class Dialog {
     builder.setItems(itemArray, itemListener);
 
     return show(builder);
-  } // listViewDialog
+  }
 
   public static AlertDialog listViewDialog(final Context context,
                                            final int titleResId,
@@ -92,7 +92,7 @@ public class Dialog {
     final View layout = View.inflate(context, R.layout.listdialog, null);
     final ListView listView = ((ListView)layout.findViewById(R.id.list_view));
     listView.setAdapter(adapter);
-    
+
     final AlertDialog.Builder builder = newBuilder(context);
     if (titleResId != -1)
       builder.setTitle(titleResId);
@@ -105,32 +105,32 @@ public class Dialog {
       @Override
       public void onCancel(DialogInterface dialog) {
         noActionListener.onClick(dialog, -1);
-      } // onCancel
+      }
     });
 
     builder.setView(layout);
-    
+
     return show(builder);
-  } // listViewDialog
-  
+  }
+
   static AlertDialog.Builder newBuilder(final View parent) {
     return newBuilder(parent.getContext());
-  } // newBuilder
-  
+  }
+
   static AlertDialog.Builder newBuilder(final Context context) {
     final AlertDialog.Builder builder = new AlertDialog.Builder(context);
     builder.setTitle(applicationName(context));
     return builder;
-  } // newBuilder
+  }
 
   private static String applicationName(final Context context) {
     int stringId = context.getApplicationInfo().labelRes;
     return context.getString(stringId);
-  } // applicationName
+  }
 
   static AlertDialog show(final AlertDialog.Builder builder) {
     final AlertDialog ad = builder.create();
     ad.show();
     return ad;
-  } // show
-} // class Dialog
+  }
+}

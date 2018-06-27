@@ -5,7 +5,7 @@ import android.os.AsyncTask;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PhotomapCategories 
+public class PhotomapCategories
 {
   private static PhotomapCategories loaded_;
 
@@ -26,28 +26,27 @@ public class PhotomapCategories
       loaded_ = load();
     return loaded_;
   }
-  
+
   public static boolean loaded() { return loaded_ != null; }
 
-  public static PhotomapCategories load()
-  {
+  public static PhotomapCategories load()  {
     try {
-      return ApiClient.getPhotomapCategories();      
-    } catch(Exception e) {
+      return ApiClient.getPhotomapCategories();
+    } catch (Exception e) {
       // ah
     }
     return null;
   }
-  
+
   public static void backgroundLoad() {
     new GetPhotomapCategoriesTask().execute();
   }
-  
+
   private static class GetPhotomapCategoriesTask extends AsyncTask<Void,Void,PhotomapCategories> {
     protected PhotomapCategories doInBackground(Void... params) {
       return PhotomapCategories.load();
     }
-    
+
     @Override
     protected void onPostExecute(final PhotomapCategories cats) {
       PhotomapCategories.loaded_ = cats;

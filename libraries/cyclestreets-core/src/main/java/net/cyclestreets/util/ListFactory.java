@@ -7,21 +7,19 @@ import java.util.ArrayList;
 
 public class ListFactory<T>
 {
-  static public <T> List<T> list(final T... values)
-  {
+  static public <T> List<T> list(final T... values)  {
     final List<T> l = new ArrayList<>();
     Collections.addAll(l, values);
 
     return l;
-  } // list
+  }
 
-  static public <T> List<T> list(final Iterator<T> values)
-  {
+  static public <T> List<T> list(final Iterator<T> values)  {
     final List<T> l = new ArrayList<>();
-    
+
     while(values.hasNext())
       l.add(values.next());
 
     return l;
-  } // list
+  }
 } // ListFactory

@@ -35,7 +35,7 @@ public class ZoomButtonsOverlay extends ButtonOnlyOverlay {
                                  offset*2,
                                  radius);
     zoomOut_.rightAlign().bottomAlign();
-  } // ZoomButtonsOverlay
+  }
 
   @Override
   public void drawButtons(final Canvas canvas, final MapView mapView) {
@@ -43,31 +43,31 @@ public class ZoomButtonsOverlay extends ButtonOnlyOverlay {
     zoomIn_.draw(canvas);
     zoomOut_.enable(mapView.canZoomOut());
     zoomOut_.draw(canvas);
-  } // drawButtons
+  }
 
   //////////////////////////////////////////////
   @Override
   public boolean onButtonTap(final MotionEvent event) {
     return tapZoom(event);
-  } // onSingleTapUp
+  }
 
   @Override
   public boolean onButtonDoubleTap(final MotionEvent event) {
     return zoomIn_.hit(event) || zoomOut_.hit(event);
-  } // onDoubleTap
+  }
 
   private boolean tapZoom(final MotionEvent event) {
-    if(zoomIn_.hit(event)) {
-      if(zoomIn_.enabled())
+    if (zoomIn_.hit(event)) {
+      if (zoomIn_.enabled())
         mapView_.getController().zoomIn();
       return true;
-    } // if ...
-    if(zoomOut_.hit(event)) {
-      if(zoomOut_.enabled())
+    }
+    if (zoomOut_.hit(event)) {
+      if (zoomOut_.enabled())
         mapView_.getController().zoomOut();
       return true;
-    } // if ...
+    }
 
     return false;
-  } // tapPrevNext
-} // class ZoomButtonsOverlay
+  }
+}

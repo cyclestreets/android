@@ -115,10 +115,10 @@ public class TripData {
       gpspoints.add(new CyclePoint(lat, lgt, time, acc, altitude, speed));
 
       points.moveToNext();
-    } // while
+    }
     points.close();
     mDb.close();
-  } // loadJourney
+  }
 
   private void createTripInDatabase(Context c) {
     mDb.open();
@@ -152,22 +152,22 @@ public class TripData {
 
     return new BoundingBox(lathigh, lgtlow, latlow, lgthigh);
   }
-	public List<CyclePoint> journey() { return gpspoints;	}
+  public List<CyclePoint> journey() { return gpspoints;  }
   public long startTime() { return startTime_; }
   public long endTime() { return endTime_; }
   public long secondsElapsed() {
-    if(status == STATUS_RECORDING)
+    if (status == STATUS_RECORDING)
       return now() - startTime_;
     return endTime_ - startTime_;
-  } // secondsElapsed
+  }
   public long lastPointElapsed() {
     if (!dataAvailable())
       return secondsElapsed();
     return now() - endTime_;
-  } // lastPointElapsed
+  }
   public float distanceTravelled() {
     return (0.0006212f * distance);
-  } // distanceTravelled
+  }
   public String notes() { return note_; }
   public String purpose() { return purp_; }
   public String info() { return info_; }
@@ -197,16 +197,15 @@ public class TripData {
         return; // we haven't gone anywhere
 
       distance += segmentDistance;
-    } // if ...
+    }
 
     gpspoints.add(pt);
-
 
     mDb.open();
     mDb.addCoordToTrip(tripid, pt);
     mDb.setDistance(tripid, distance);
     mDb.close();
-  } // addPointNow
+  }
 
   public void recordingStopped() {
     endTime_ = now();
@@ -242,6 +241,6 @@ public class TripData {
     age_ = age;
     gender_ = gender;
     experience_ = experience;
-  } // updateTrip
+  }
 
-} // TripData
+}

@@ -27,10 +27,7 @@ public class PebbleNotifier {
   private final Context context;
   private int transactionId = 1;
 
-
-
   private boolean isSending = false;
-
 
   private Queue<PebbleDictionary> messageQueue = new LinkedList<>();
   private BroadcastReceiver pebbleMessageReceiver;
@@ -117,7 +114,6 @@ public class PebbleNotifier {
   private synchronized void addMessage(PebbleDictionary dictionary) {
     messageQueue.add(dictionary);
   }
-
 
   public boolean isConnected() {
     return PebbleKit.isWatchConnected(context);

@@ -12,7 +12,7 @@ public class ElevationProfile {
     profile_ = new ArrayList<>();
     min_ = Integer.MAX_VALUE;
     max_ = Integer.MIN_VALUE;
-  } // ElevationProfile
+  }
 
   void add(List<Elevation> segmentProfile) {
     int cumulativeDistance = profile_.size() != 0 ? profile_.get(profile_.size() - 1).distance() : 0;
@@ -24,13 +24,13 @@ public class ElevationProfile {
 
       min_ = Math.min(min_, e.elevation());
       max_ = Math.max(max_, e.elevation());
-    } // append
-  } // add
+    }
+  }
 
   public Iterable<Elevation> profile() {
     return profile_;
-  } // profile
+  }
 
   public int minimum() { return min_; }
   public int maximum() { return max_; }
-} // Elevationprofile
+}

@@ -33,7 +33,7 @@ public class TripDataUploader extends AsyncTask<Void, Void, Boolean> {
   private TripDataUploader(final Context context, final List<TripData> tripData) {
     context_ = context;
     tripData_ = tripData;
-  } // UploadDataTask
+  }
 
   protected Boolean doInBackground(Void... p) {
     for (final TripData td : tripData_) {
@@ -64,9 +64,9 @@ public class TripDataUploader extends AsyncTask<Void, Void, Boolean> {
         td.uploadFailed();
         warning("Upload failed.");
       }
-    } // for ...
+    }
     return true;
-  } // doInBackground
+  }
 
   private String deviceId() {
     String androidId = System.getString(context_.getContentResolver(), System.ANDROID_ID);
@@ -78,12 +78,12 @@ public class TripDataUploader extends AsyncTask<Void, Void, Boolean> {
     }
     String deviceId = androidBase.concat(androidId);
     return deviceId;
-  } // deviceId
+  }
 
   private JSONObject parse(final byte[] result) throws Exception {
     final String s = new String(result, "UTF-8");
     return new JSONObject(s);
-  } // parse
+  }
 
   private static final String TRIP_COORDS_TIME = "r"; // "rec";
   private static final String TRIP_COORDS_LAT = "l"; // "lat";
@@ -118,7 +118,7 @@ public class TripDataUploader extends AsyncTask<Void, Void, Boolean> {
     tripCoords.append("}");
 
     return tripCoords.toString();
-  } // coordsAsJSON
+  }
 
   private String userAsJSON(final TripData tripData) throws JSONException {
     JSONObject user = new JSONObject();
@@ -130,7 +130,7 @@ public class TripDataUploader extends AsyncTask<Void, Void, Boolean> {
 
   private void notification(final String text) {
     showNotification(text, Notification.FLAG_NO_CLEAR | Notification.FLAG_ONGOING_EVENT);
-  } // notification
+  }
 
   private void warning(final String text) {
     showNotification(text, Notification.FLAG_AUTO_CANCEL);
@@ -160,9 +160,9 @@ public class TripDataUploader extends AsyncTask<Void, Void, Boolean> {
 
   private void cancelNotification() {
     nm().cancel(NOTIFICATION_ID);
-  } // cancelNotification
+  }
 
   private NotificationManager nm() {
     return (NotificationManager)context_.getSystemService(Context.NOTIFICATION_SERVICE);
-  } // nm
-} // UploadDataTask
+  }
+}

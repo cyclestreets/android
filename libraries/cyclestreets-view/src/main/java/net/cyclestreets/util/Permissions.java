@@ -8,9 +8,9 @@ public class Permissions {
     if (!hasPermission(activity, permission))
       activity.requestPermissions(new String[]{ permission }, 1);
     return hasPermission(activity, permission);
-  } // verify
+  }
 
   private static boolean hasPermission(final Activity activity, final String permission) {
     return activity.checkSelfPermission(permission) == PackageManager.PERMISSION_GRANTED;
-  } // hasPermission
-} // class Permissions
+  }
+}

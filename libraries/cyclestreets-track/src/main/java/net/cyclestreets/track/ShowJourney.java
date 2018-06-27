@@ -8,11 +8,11 @@ import android.widget.TextView;
 import net.cyclestreets.views.CycleMapView;
 
 public class ShowJourney extends Activity {
-	private CycleMapView mapView_;
+  private CycleMapView mapView_;
 
-	@Override
-	public void onCreate(final Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
+  @Override
+  public void onCreate(final Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
 
     setContentView(R.layout.completed_journey);
 
@@ -34,10 +34,10 @@ public class ShowJourney extends Activity {
     // zoomToBoundingBox works better if setZoom first
     mapView_.getController().setZoom(14);
     mapView_.overlayPushTop(JourneyOverlay.CompletedJourneyOverlay(this, mapView_, trip));
-  } // onCreate
+  }
 
   private void setText(final int id, final String text) {
     final TextView tv = (TextView)findViewById(id);
     tv.setText(text);
-  } // setText
-} // ShowJourney
+  }
+}

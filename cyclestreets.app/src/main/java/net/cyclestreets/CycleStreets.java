@@ -2,16 +2,15 @@ package net.cyclestreets;
 
 import android.os.Bundle;
 
-public class CycleStreets extends MainNavDrawerActivity
-                          implements RouteMapActivity {
+public class CycleStreets extends MainNavDrawerActivity implements RouteMapActivity {
   @Override
-  public void onCreate(final Bundle savedInstanceState)	{
+  public void onCreate(final Bundle savedInstanceState)  {
     MainSupport.switchMapFile(getIntent());
 
     super.onCreate(savedInstanceState);
 
     MainSupport.loadRoute(getIntent(), this);
-  } // onCreate
+  }
 
   @Override
   protected void onFirstRun() {
@@ -21,12 +20,12 @@ public class CycleStreets extends MainNavDrawerActivity
   @Override
   protected void onNewVersion() {
     Welcome.whatsNew(this);
-  } // onFirstRun
+  }
 
   @Override
   public void showMap() {
     showPage(0);
-  } // showMap
+  }
 
   @Override
   protected void addDrawerItems() {
@@ -49,5 +48,5 @@ public class CycleStreets extends MainNavDrawerActivity
     addDrawerFragment(R.string.settings,
         android.R.drawable.ic_menu_preferences,
         SettingsFragment.class);
-  } // addDrawerItems
-} // CycleStreets
+  }
+}

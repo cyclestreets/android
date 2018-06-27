@@ -25,11 +25,11 @@ public class Signin {
       super(ApiClient.context().getString(R.string.signin_error_prefix),
             error != null ? error : ApiClient.context().getString(R.string.signin_default_error));
     }
-    
+
     public String email() { return email; }
     public String name() { return name; }
   }
-  
+
   public static Result signin(final String username,
                               final String password) {
     try {

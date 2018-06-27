@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
-public class GeoLiveAdapter extends GeoAdapter 
+public class GeoLiveAdapter extends GeoAdapter
 {
   private static final String PREFS_GEO_KEY = "net.cyclestreets.api.GeoLiveAdapter";
   private static final String PREFS_GEO_NAME_PREFIX = "name/";
@@ -22,7 +22,7 @@ public class GeoLiveAdapter extends GeoAdapter
 
   // Magic string
   public static final String MY_LOCATION = "My Location";
-	
+
   private final GeocodeFilter filter;
   private final BoundingBox bounds_;
   private final SharedPreferences prefs;
@@ -31,125 +31,112 @@ public class GeoLiveAdapter extends GeoAdapter
    * Constructor when used with an AutoCompleteTextView
    */
   public GeoLiveAdapter(final Context context,
-                        final BoundingBox bounds)
-  {
+                        final BoundingBox bounds)  {
     super(context);
     bounds_ = bounds;
-    
+
     prefs = context.getSharedPreferences(PREFS_GEO_KEY, Application.MODE_PRIVATE);
     filter = new GeocodeFilter(prefs);
-  } // GeoAdapter
+  }
 
   @Override
-  public Filter getFilter()
-  {
+  public Filter getFilter()  {
     return filter;
-  } // getFilter
-	
+  }
+
   public BoundingBox bounds() { return bounds_; }
-  
-  public GeoPlace exactMatch(final String p)
-  {
-    for(int i = 0; i != getCount(); ++i)
-    {
+
+  public GeoPlace exactMatch(final String p)  {
+    for(int i = 0; i != getCount(); ++i)  {
       final GeoPlace gp = getItem(i);
-      if(p.equals(gp.toString()))
+      if (p.equals(gp.toString()))
         return gp;
-    } // for ...
+    }
     return null;
-  } // exactMatch
-	
+  }
+
   /*
    * Add to geocoding history
    */
-  public void addHistory(final GeoPlace p)
-  {
+  public void addHistory(final GeoPlace p)  {
     if (p.name().equals(MY_LOCATION))
       return;
-		
+
     final String key = p.name().toLowerCase();
-    
+
     final SharedPreferences.Editor edit = prefs.edit();
     edit.putString(PREFS_GEO_NAME_PREFIX + key, p.name());
     edit.putString(PREFS_GEO_NEAR_PREFIX + key, p.near());
     edit.putInt(PREFS_GEO_LATITUDE_PREFIX + key, p.coord().getLatitudeE6());
     edit.putInt(PREFS_GEO_LONGITUDE_PREFIX + key, p.coord().getLongitudeE6());
     edit.apply();
-  } // addHistory
-	
+  }
+
   /////////////////////////////////////////////////////////////////////
   /////////////////////////////////////////////////////////////////////
-  private class GeocodeFilter extends Filter
-  {
+  private class GeocodeFilter extends Filter  {
     private SharedPreferences prefs_;
-    
-    public GeocodeFilter(final SharedPreferences prefs)
-    {
+
+    public GeocodeFilter(final SharedPreferences prefs)  {
       prefs_ = prefs;
-    } // GeocodeFilter
-		
+    }
+
     @Override
-    protected FilterResults performFiltering(CharSequence cs)
-    {
+    protected FilterResults performFiltering(CharSequence cs)  {
       final List<GeoPlace> list = new ArrayList<>();
-      
-      if (cs != null)
-      {
+
+      if (cs != null)  {
         // Add history hits first
         filterPrefs(list, cs);
-        
+
         // Only geocode if more than two characters
         if (cs.length() > 2)
           list.addAll(geoCode(cs.toString(), bounds_).asList());
       }
-      else
-      {
+      else  {
         // Add all prefs
         filterPrefs(list, "");
       }
-      
+
       final FilterResults results = new FilterResults();
       results.values = list;
       results.count = list.size();
       return results;
-    } // performFiltering
-		
+    }
+
     @SuppressWarnings("unchecked")
     @Override
-    protected void publishResults(CharSequence cs, FilterResults fr)
-    {
+    protected void publishResults(CharSequence cs, FilterResults fr)  {
       clear();
 
       if (fr != null && fr.values != null)
         addAll((List<GeoPlace>)fr.values);
-      
+
       notifyDataSetChanged();
-    } // publishResults
-    
+    }
+
     /*
      * Add any matching entries from prefs
      */
-    private void filterPrefs(final List<GeoPlace> list, 
-                             final CharSequence cs)
-    {
+    private void filterPrefs(final List<GeoPlace> list,
+                             final CharSequence cs)  {
       if (prefs_ == null)
         return;
-			
+
       final String match = (PREFS_GEO_NAME_PREFIX + cs).toLowerCase();
       final Set<String> sortedKeys = new TreeSet<>(prefs.getAll().keySet());
-		
-      for (final String s: sortedKeys)
-      {		
+
+      for (final String s: sortedKeys)  {
         if (!s.startsWith(match))
           continue;
-        
+
         final String key = prefs.getString(s, "").toLowerCase();
-        
+
         list.add(new GeoPlace(prefs.getInt(PREFS_GEO_LATITUDE_PREFIX + key, 0),
                               prefs.getInt(PREFS_GEO_LONGITUDE_PREFIX + key, 0),
                               prefs.getString(PREFS_GEO_NAME_PREFIX + key, ""),
                               prefs.getString(PREFS_GEO_NEAR_PREFIX + key, "")));
-      } // for ...
-    } // filterPrefs
-  } // class GeocodeFilter
-} // class GeoAdapter
+      }
+    }
+  }
+}

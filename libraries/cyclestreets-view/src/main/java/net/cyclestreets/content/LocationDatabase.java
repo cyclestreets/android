@@ -17,11 +17,11 @@ public class LocationDatabase {
   public LocationDatabase(final Context context) {
     DatabaseHelper dh = new DatabaseHelper(context);
     db_ = dh.getWritableDatabase();
-  } // LocationDatabase
+  }
 
   public void close() {
     db_.close();
-  } // close
+  }
 
   public int locationCount() {
     final Cursor cursor = db_.query(DatabaseHelper.LOCATION_TABLE,
@@ -32,16 +32,16 @@ public class LocationDatabase {
         null,
         null);
     int c = 0;
-    if(cursor.moveToFirst())
+    if (cursor.moveToFirst())
       do {
         c = cursor.getInt(0);
       } while (cursor.moveToNext());
 
-    if(!cursor.isClosed())
+    if (!cursor.isClosed())
       cursor.close();
 
     return c;
-  } // count
+  }
 
   public void addLocation(final String name, final IGeoPoint where) {
     final String LOCATION_TABLE_INSERT =
@@ -53,7 +53,7 @@ public class LocationDatabase {
     insert.bindLong(2, where.getLatitudeE6());
     insert.bindLong(3, where.getLongitudeE6());
     insert.executeInsert();
-  } // addLocation
+  }
 
   public void updateLocation(final int localId, final String name, final IGeoPoint where) {
     final String LOCATION_TABLE_UPDATE =
@@ -65,7 +65,7 @@ public class LocationDatabase {
     update.bindLong(3, where.getLongitudeE6());
     update.bindLong(4, localId);
     update.execute();
-  } // updateLocation
+  }
 
   public void deleteLocation(final int localId) {
     final String LOCATION_TABLE_DELETE =
@@ -74,16 +74,16 @@ public class LocationDatabase {
     final SQLiteStatement delete = db_.compileStatement(LOCATION_TABLE_DELETE);
     delete.bindLong(1, localId);
     delete.execute();
-  } // deleteRoute
+  }
 
   public SavedLocation savedLocation(int localId) {
     List<SavedLocation> locs = locations(BaseColumns._ID + " = ?", new String[] { Integer.toString(localId)});
     return locs.size() != 0 ? locs.get(0) : null;
-  } // savedLocation
+  }
 
   public List<SavedLocation> savedLocations() {
     return locations(null, null);
-  } // savedLocations
+  }
 
   private List<SavedLocation> locations(String where, String[] whereArgs) {
     final List<SavedLocation> locations = new ArrayList<>();
@@ -94,7 +94,7 @@ public class LocationDatabase {
         null,
         null,
         "name");
-    if(cursor.moveToFirst())
+    if (cursor.moveToFirst())
       do {
         locations.add(new SavedLocation(
             cursor.getInt(0),
@@ -103,9 +103,9 @@ public class LocationDatabase {
             cursor.getInt(3)));
       } while (cursor.moveToNext());
 
-    if(!cursor.isClosed())
+    if (!cursor.isClosed())
       cursor.close();
 
     return locations;
-  } // locations
-} // class LocationDatabase
+  }
+}

@@ -8,18 +8,16 @@ import android.content.Context;
 
 public class StoredRoutingTask extends RoutingTask<Integer>
 {
-	private final RouteDatabase db_;
+  private final RouteDatabase db_;
 
-	StoredRoutingTask(final RouteDatabase db,
-	                  final Context context)
-	{
-		super(R.string.route_loading, context);
-		db_ = db;
-	} // StoredRoutingTask
+  StoredRoutingTask(final RouteDatabase db,
+                    final Context context)  {
+    super(R.string.route_loading, context);
+    db_ = db;
+  }
 
-	@Override
-	protected RouteData doInBackground(Integer... params)
-	{
-		return db_.route(params[0]);
-	} // doInBackground
-} // StoredRoutingTask
+  @Override
+  protected RouteData doInBackground(Integer... params)  {
+    return db_.route(params[0]);
+  }
+}

@@ -38,14 +38,14 @@ public class Upload {
                                     final String category,
                                     final String dateTime,
                                     final String caption) throws IOException {
-    return ApiClient.uploadPhoto(filename, 
-                                 username, 
-                                 password, 
+    return ApiClient.uploadPhoto(filename,
+                                 username,
+                                 password,
                                  location.getLongitudeE6() / 1E6,
                                  location.getLatitudeE6() / 1E6,
-                                 metaCat, 
-                                 category, 
-                                 dateTime, 
+                                 metaCat,
+                                 category,
+                                 dateTime,
                                  caption);
   }
 }

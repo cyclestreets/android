@@ -12,12 +12,12 @@ public class Photos implements Iterable<Photo> {
 
   public Photos(List<Photo> photos) {
     this.photos.addAll(photos);
-  } // Photos
+  }
 
   @Override
   public Iterator<Photo> iterator() {
     return photos.iterator();
-  } // iterator
+  }
 
   /////////////////////////////////////////////////////////////
   public static Photos load(final BoundingBox boundingBox)
@@ -26,5 +26,5 @@ public class Photos implements Iterable<Photo> {
                                boundingBox.getLonWest(),
                                boundingBox.getLatNorth(),
                                boundingBox.getLatSouth());
-  } // load
+  }
 }

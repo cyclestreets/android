@@ -26,7 +26,7 @@ public class ImageDownloader {
                          final ImageView imageView) {
     final BitmapDownloaderTask task = new BitmapDownloaderTask(imageView);
     task.execute(url);
-  } // get
+  }
 
   //////////////////////////
   private static class BitmapDownloaderTask extends AsyncTask<String, Void, Bitmap> {
@@ -51,9 +51,9 @@ public class ImageDownloader {
 
       if (imageViewReference == null)
         return;
-      
+
       final ImageView imageView = imageViewReference.get();
-      if (imageView == null) 
+      if (imageView == null)
         return;
 
       final WindowManager wm = (WindowManager)imageView.getContext().getSystemService(Context.WINDOW_SERVICE);
