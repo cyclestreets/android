@@ -16,8 +16,7 @@ import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.view.MotionEvent;
 
-public class ThereOverlay extends Overlay
-                          implements TapListener
+public class ThereOverlay extends Overlay implements TapListener
 {
   public interface LocationListener {
     void onSetLocation(final IGeoPoint point);

@@ -9,8 +9,7 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.widget.Toast;
 
-public abstract class RoutingTask<Params>
-    extends AsyncTask<Params, Integer, RouteData>
+public abstract class RoutingTask<Params> extends AsyncTask<Params, Integer, RouteData>
 {
   private final String initialMsg_;
   private ProgressDialog progress_;

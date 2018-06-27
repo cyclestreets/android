@@ -21,9 +21,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
 
-public class RecordingService
-    extends Service
-    implements LocationListener {
+public class RecordingService extends Service implements LocationListener {
   private static int updateDistance = 5;  // metres
   private static int updateTime = 5000;    // milliseconds
   private static final int NOTIFICATION_ID = 1;

@@ -35,9 +35,7 @@ import net.cyclestreets.routing.Journey;
 import net.cyclestreets.routing.Route;
 import net.cyclestreets.routing.Waypoints;
 
-public abstract class MainNavDrawerActivity
-    extends AppCompatActivity
-    implements Route.Listener {
+public abstract class MainNavDrawerActivity extends AppCompatActivity implements Route.Listener {
   private NavigationDrawerFragment navDrawer_;
   private List<DrawerItem> pages_;
 

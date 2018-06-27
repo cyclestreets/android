@@ -7,9 +7,7 @@ import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.IBinder;
 
-class Controller
-    implements TrackerControl,
-               ServiceConnection {
+class Controller implements TrackerControl, ServiceConnection {
   public static TrackerControl create(final Activity context, final TrackListener listener) {
     Controller control = new Controller(context, listener);
 

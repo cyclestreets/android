@@ -51,9 +51,7 @@ public final class DisplayPhoto {
     return new VideoDisplay(photo, context);
   }
 
-  private static class VideoDisplay
-      extends DisplayDialog
-      implements MediaPlayer.OnPreparedListener {
+  private static class VideoDisplay extends DisplayDialog implements MediaPlayer.OnPreparedListener {
     private VideoView vv_;
     private VideoControllerView controller_;
     private ProgressDialog pd_;

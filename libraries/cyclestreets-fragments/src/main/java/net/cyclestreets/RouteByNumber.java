@@ -26,8 +26,7 @@ public class RouteByNumber {
     rbnc.setDialog(ad);
   }
 
-  private static class RouteByNumberCallbacks
-      implements View.OnClickListener {
+  private static class RouteByNumberCallbacks implements View.OnClickListener {
     private final Context context_;
     private final AutoCompleteTextView numberText_;
     private final RouteType routeType_;

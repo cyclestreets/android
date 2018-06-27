@@ -5,8 +5,7 @@ import net.cyclestreets.view.R;
 import net.cyclestreets.content.RouteData;
 import net.cyclestreets.content.RouteDatabase;
 
-public class ReplanRoutingTask
-  extends RoutingTask<Journey>
+public class ReplanRoutingTask extends RoutingTask<Journey>
 {
   private final RouteDatabase db_;
   private final String newPlan_;

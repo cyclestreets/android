@@ -9,8 +9,7 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.view.View;
 
-public class LockScreenOnOverlay extends SingleButtonOverlay
-    implements PauseResumeListener {
+public class LockScreenOnOverlay extends SingleButtonOverlay implements PauseResumeListener {
   private static String LOCK_PREF = "lockScreen";
 
   private final View view_;

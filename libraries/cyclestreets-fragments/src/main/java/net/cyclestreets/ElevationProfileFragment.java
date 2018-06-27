@@ -28,8 +28,7 @@ import java.util.List;
 
 import static net.cyclestreets.util.StringUtils.initCap;
 
-public class ElevationProfileFragment extends Fragment
-                                      implements Route.Listener {
+public class ElevationProfileFragment extends Fragment implements Route.Listener {
   private LinearLayout graphHolder_;
 
   @Override

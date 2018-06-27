@@ -12,8 +12,7 @@ import net.cyclestreets.api.Blog;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class BlogFragment
-    extends WebPageFragment {
+public class BlogFragment extends WebPageFragment {
   private static final String CycleStreetsBlogUrl = "https://www.cyclestreets.net/blog/";
 
   public BlogFragment() {

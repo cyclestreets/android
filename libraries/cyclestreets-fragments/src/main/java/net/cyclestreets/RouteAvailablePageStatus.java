@@ -6,9 +6,7 @@ import net.cyclestreets.routing.Journey;
 import net.cyclestreets.routing.Route;
 import net.cyclestreets.routing.Waypoints;
 
-public class RouteAvailablePageStatus
-    implements MainNavDrawerActivity.PageStatus,
-               Route.Listener {
+public class RouteAvailablePageStatus implements MainNavDrawerActivity.PageStatus, Route.Listener {
   private BaseAdapter adapter_;
 
   public RouteAvailablePageStatus() {

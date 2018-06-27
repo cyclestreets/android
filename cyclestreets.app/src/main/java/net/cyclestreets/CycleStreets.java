@@ -2,8 +2,7 @@ package net.cyclestreets;
 
 import android.os.Bundle;
 
-public class CycleStreets extends MainNavDrawerActivity
-                          implements RouteMapActivity {
+public class CycleStreets extends MainNavDrawerActivity implements RouteMapActivity {
   @Override
   public void onCreate(final Bundle savedInstanceState)  {
     MainSupport.switchMapFile(getIntent());

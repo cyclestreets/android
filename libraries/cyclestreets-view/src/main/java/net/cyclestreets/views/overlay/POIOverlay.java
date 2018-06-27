@@ -53,8 +53,7 @@ public class POIOverlay
                MenuListener,
                PauseResumeListener,
                Undoable {
-  static public class POIItem
-      extends OverlayItem {
+  static public class POIItem extends OverlayItem {
     private final POI poi_;
 
     public POIItem(final POI poi) {
@@ -458,9 +457,7 @@ public class POIOverlay
   }
 
   //////////////////////////////////
-  static class POICategoryAdapter
-      extends BaseAdapter
-      implements OnClickListener {
+  static class POICategoryAdapter extends BaseAdapter implements OnClickListener {
     private final LayoutInflater inflater_;
     private POICategories cats_;
     private List<POICategory> selected_;

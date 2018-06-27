@@ -17,8 +17,7 @@ import net.cyclestreets.util.MessageBox;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SettingsFragment extends PreferenceFragment
-    implements SharedPreferences.OnSharedPreferenceChangeListener
+public class SettingsFragment extends PreferenceFragment implements SharedPreferences.OnSharedPreferenceChangeListener
 {
   @Override
   public void onCreate(final Bundle savedInstance) {

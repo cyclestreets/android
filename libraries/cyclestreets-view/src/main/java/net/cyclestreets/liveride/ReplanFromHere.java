@@ -8,8 +8,7 @@ import net.cyclestreets.routing.Waypoints;
 import org.osmdroid.api.IGeoPoint;
 import org.osmdroid.util.GeoPoint;
 
-final class ReplanFromHere extends LiveRideState
-      implements Route.Listener
+final class ReplanFromHere extends LiveRideState implements Route.Listener
 {
   private LiveRideState next_;
 

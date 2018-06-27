@@ -24,8 +24,7 @@ import net.cyclestreets.util.TurnIcons;
 
 import static net.cyclestreets.util.StringUtils.initCap;
 
-public class ItineraryFragment extends ListFragment
-                               implements Route.Listener {
+public class ItineraryFragment extends ListFragment implements Route.Listener {
   private Journey journey_ = Journey.NULL_JOURNEY;
 
   @Override

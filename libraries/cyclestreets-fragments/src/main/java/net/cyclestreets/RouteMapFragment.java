@@ -28,8 +28,7 @@ import android.view.ViewGroup;
 import static net.cyclestreets.util.MenuHelper.enableMenuItem;
 import static net.cyclestreets.util.MenuHelper.showMenuItem;
 
-public class RouteMapFragment extends CycleMapFragment
-                              implements Route.Listener
+public class RouteMapFragment extends CycleMapFragment implements Route.Listener
 {
   private TapToRouteOverlay routeSetter_;
   private POIOverlay poiOverlay_;

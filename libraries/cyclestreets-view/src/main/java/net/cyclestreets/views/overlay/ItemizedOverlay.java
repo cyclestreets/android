@@ -15,8 +15,7 @@ import org.osmdroid.views.overlay.OverlayItem.HotspotPlace;
 
 import java.util.List;
 
-public class ItemizedOverlay<Item extends OverlayItem> extends Overlay
-                                                       implements TapListener {
+public class ItemizedOverlay<Item extends OverlayItem> extends Overlay implements TapListener {
   private final MapView mapView_;
   private final List<Item> items_;
 

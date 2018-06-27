@@ -14,8 +14,7 @@ import android.os.Binder;
 import android.os.Bundle;
 import android.os.IBinder;
 
-public class LiveRideService extends Service
-  implements LocationListener
+public class LiveRideService extends Service implements LocationListener
 {
   private IBinder binder_;
   private LocationManager locationManager_;

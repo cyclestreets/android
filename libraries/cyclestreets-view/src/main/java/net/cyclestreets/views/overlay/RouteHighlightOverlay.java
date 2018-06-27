@@ -19,8 +19,7 @@ import android.graphics.Rect;
 import android.graphics.Paint.Align;
 import android.view.MotionEvent;
 
-public class RouteHighlightOverlay extends Overlay
-                       implements ButtonTapListener
+public class RouteHighlightOverlay extends Overlay implements ButtonTapListener
 {
   private final CycleMapView mapView_;
 
