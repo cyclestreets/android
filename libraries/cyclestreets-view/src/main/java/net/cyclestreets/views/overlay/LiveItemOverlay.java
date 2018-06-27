@@ -21,7 +21,7 @@ import android.graphics.Rect;
 import net.cyclestreets.util.Brush;
 import net.cyclestreets.views.CycleMapView;
 
-public abstract class LiveItemOverlay<T extends OverlayItem> 
+public abstract class LiveItemOverlay<T extends OverlayItem>
           extends ItemizedOverlay<T>
           implements MapListener
 {

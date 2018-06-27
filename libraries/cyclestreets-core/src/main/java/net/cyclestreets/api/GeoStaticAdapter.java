@@ -5,7 +5,7 @@ import android.os.AsyncTask;
 
 import org.osmdroid.util.BoundingBox;
 
-public class GeoStaticAdapter extends GeoAdapter 
+public class GeoStaticAdapter extends GeoAdapter
 {
   public interface OnPopulatedListener
   {
@@ -51,7 +51,7 @@ public class GeoStaticAdapter extends GeoAdapter
     }
 
     @Override
-    protected GeoPlaces doInBackground(Object... params) 
+    protected GeoPlaces doInBackground(Object... params)
     {
       final String search = (String)params[0];
       final BoundingBox box = (BoundingBox)params[1];
@@ -59,7 +59,7 @@ public class GeoStaticAdapter extends GeoAdapter
     }
 
     @Override
-    protected void onPostExecute(final GeoPlaces photos) 
+    protected void onPostExecute(final GeoPlaces photos)
     {
       owner_.populate(photos);
     }

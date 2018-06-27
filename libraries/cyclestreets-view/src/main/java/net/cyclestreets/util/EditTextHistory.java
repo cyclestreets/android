@@ -39,7 +39,7 @@ public class EditTextHistory extends ArrayAdapter<String> {
     if (n == null || n.length() == 0)
       return;
 
-    int lastWritten = prefs_.getInt(LAST_WRITTEN, -1);    
+    int lastWritten = prefs_.getInt(LAST_WRITTEN, -1);
     ++lastWritten;
     if (lastWritten == MAX_HISTORY)
       lastWritten = 0;
@@ -51,8 +51,8 @@ public class EditTextHistory extends ArrayAdapter<String> {
   }
 
   @Override
-  public View getView(final int position, 
-                      final View convertView, 
+  public View getView(final int position,
+                      final View convertView,
                       final ViewGroup parent) {
     final TextView row = (TextView)inflater_.inflate(AdapterViewId, parent, false);
     final String s = getItem(position);

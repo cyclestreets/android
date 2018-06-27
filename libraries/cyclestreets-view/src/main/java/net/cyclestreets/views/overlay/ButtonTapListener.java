@@ -5,7 +5,7 @@ import org.osmdroid.views.MapView;
 import android.graphics.Canvas;
 import android.view.MotionEvent;
 
-public interface ButtonTapListener 
+public interface ButtonTapListener
 {
   boolean onButtonTap(MotionEvent event);
   boolean onButtonDoubleTap(MotionEvent event);

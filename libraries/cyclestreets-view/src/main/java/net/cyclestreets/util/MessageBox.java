@@ -6,7 +6,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.view.View;
 
-public class MessageBox 
+public class MessageBox
 {
   public static final DialogInterface.OnClickListener NoAction =
       new DialogInterface.OnClickListener() {
@@ -41,16 +41,16 @@ public class MessageBox
     YesNo(context, msg, yesAction, NoAction);
   }
 
-  static public void YesNo(final View parent, 
-                           final String msg, 
+  static public void YesNo(final View parent,
+                           final String msg,
                            final DialogInterface.OnClickListener yesAction,
                            final DialogInterface.OnClickListener noAction)
   {
     YesNo(parent.getContext(), msg, yesAction, noAction);
   }
 
-  static public void YesNo(final Context context, 
-      final String msg, 
+  static public void YesNo(final Context context,
+      final String msg,
       final DialogInterface.OnClickListener yesAction,
       final DialogInterface.OnClickListener noAction)
 {
@@ -66,12 +66,12 @@ public class MessageBox
     OK(parent.getContext(), parent.getContext().getString(msg));
   }
 
-  static public void OK(final View parent, final String msg) { OK(parent.getContext(), msg); } 
+  static public void OK(final View parent, final String msg) { OK(parent.getContext(), msg); }
   static public void OK(final Context context, final String msg) { OK(context, msg, NoAction); }
 
   static public void OK(final View parent,
                         final String msg,
-                        final DialogInterface.OnClickListener okAction) 
+                        final DialogInterface.OnClickListener okAction)
   { OK(parent.getContext(), msg, okAction); }
 
   static public void OK(final Context context,
@@ -89,8 +89,8 @@ public class MessageBox
                                  final Activity activity,
                                  final boolean finishOnOK)
   {
-    MessageBox.OK(view, 
-                  msg, 
+    MessageBox.OK(view,
+                  msg,
                   new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface arg0, int arg1) {
                       if (finishOnOK)

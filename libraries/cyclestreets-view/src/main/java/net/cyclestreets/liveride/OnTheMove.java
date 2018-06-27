@@ -5,7 +5,7 @@ import net.cyclestreets.routing.Journey;
 
 final class OnTheMove extends MovingState
 {
-  OnTheMove(final LiveRideState previous) 
+  OnTheMove(final LiveRideState previous)
   {
     super(previous, CycleStreetsPreferences.nearingTurnDistance());
   }

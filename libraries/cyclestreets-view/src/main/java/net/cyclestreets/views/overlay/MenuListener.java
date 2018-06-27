@@ -3,7 +3,7 @@ package net.cyclestreets.views.overlay;
 import android.view.Menu;
 import android.view.MenuItem;
 
-public interface MenuListener 
+public interface MenuListener
 {
   void onCreateOptionsMenu(final Menu menu);
   void onPrepareOptionsMenu(final Menu menu);

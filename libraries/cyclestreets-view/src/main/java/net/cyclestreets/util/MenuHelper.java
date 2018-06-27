@@ -5,7 +5,7 @@ import android.view.MenuItem;
 
 public class MenuHelper
 {
-  static public MenuItem createMenuItem(final Menu menu, 
+  static public MenuItem createMenuItem(final Menu menu,
                                         final int itemId,
                                         final int order,
                                         final int iconId)

@@ -12,8 +12,8 @@ public class GeoHelper
     final int Radius = 6371; // mean radius of Earth km
     final double dLat = Math.toRadians(boundingBox.getLatitudeSpanE6() / 1E6);
 
-    final double a = Math.pow(Math.sin(dLat/2.0), 2); 
-    final double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
+    final double a = Math.pow(Math.sin(dLat/2.0), 2);
+    final double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
     final double d = Radius * c;
 
     return d;
@@ -21,7 +21,7 @@ public class GeoHelper
 
   static public int distanceBetween(final IGeoPoint p1, final IGeoPoint p2)
   {
-    // uses the Haversine formula, which I only know about because 
+    // uses the Haversine formula, which I only know about because
     // http://www.movable-type.co.uk/scripts/latlong.html was the
     // first hit on my Google search
     final double lat1 = p1.getLatitudeE6() / 1E6;
@@ -35,8 +35,8 @@ public class GeoHelper
     final double rLat2 = Math.toRadians(lat2);
 
     final double a = Math.sin(dLat/2) * Math.sin(dLat/2) +
-            Math.sin(dLon/2) * Math.sin(dLon/2) * Math.cos(rLat1) * Math.cos(rLat2); 
-    final double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
+            Math.sin(dLon/2) * Math.sin(dLon/2) * Math.cos(rLat1) * Math.cos(rLat2);
+    final double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
     final double d = RadiusInMetres * c;
     return (int)d;
   }
@@ -102,7 +102,7 @@ public class GeoHelper
         Math.cos(crossTrack/RadiusInMetres)
       ) * RadiusInMetres;
 
-    final AlongTrack at = new AlongTrack((int)offset); 
+    final AlongTrack at = new AlongTrack((int)offset);
 
     final double p1p2 = bearingTo(p1, p2);
     double p1l = bearingTo(p1, location);
@@ -115,7 +115,7 @@ public class GeoHelper
     if (angle > Math.PI)
       angle = (Math.PI*2) - angle;
     if (angle < (Math.PI/2))
-      at.position((Math.abs(p1l) > Math.PI/2) ? AlongTrack.Position.BEFORE_START : AlongTrack.Position.OFF_END); 
+      at.position((Math.abs(p1l) > Math.PI/2) ? AlongTrack.Position.BEFORE_START : AlongTrack.Position.OFF_END);
 
     return at;
   }

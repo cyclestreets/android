@@ -53,7 +53,7 @@ public class ImageDownloader {
         return;
 
       final ImageView imageView = imageViewReference.get();
-      if (imageView == null) 
+      if (imageView == null)
         return;
 
       final WindowManager wm = (WindowManager)imageView.getContext().getSystemService(Context.WINDOW_SERVICE);

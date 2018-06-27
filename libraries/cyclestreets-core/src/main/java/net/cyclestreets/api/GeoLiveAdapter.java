@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
-public class GeoLiveAdapter extends GeoAdapter 
+public class GeoLiveAdapter extends GeoAdapter
 {
   private static final String PREFS_GEO_KEY = "net.cyclestreets.api.GeoLiveAdapter";
   private static final String PREFS_GEO_NAME_PREFIX = "name/";
@@ -129,7 +129,7 @@ public class GeoLiveAdapter extends GeoAdapter
     /*
      * Add any matching entries from prefs
      */
-    private void filterPrefs(final List<GeoPlace> list, 
+    private void filterPrefs(final List<GeoPlace> list,
                              final CharSequence cs)
     {
       if (prefs_ == null)

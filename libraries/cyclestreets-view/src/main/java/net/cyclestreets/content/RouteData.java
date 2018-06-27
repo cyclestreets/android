@@ -2,7 +2,7 @@ package net.cyclestreets.content;
 
 import net.cyclestreets.routing.Waypoints;
 
-public class RouteData 
+public class RouteData
 {
   final String name_;
   final String xml_;

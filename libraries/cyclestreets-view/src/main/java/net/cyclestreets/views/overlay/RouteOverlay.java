@@ -80,19 +80,19 @@ public class RouteOverlay extends Overlay implements PauseResumeListener, Listen
     route_ = routeSegments;
   }
 
-  private void reset() 
+  private void reset()
   {
     ridePath_ = null;
     route_ = null;
   }
 
   @Override
-  public void draw(final Canvas canvas, final MapView mapView, final boolean shadow) 
+  public void draw(final Canvas canvas, final MapView mapView, final boolean shadow)
   {
-    if (shadow) 
+    if (shadow)
       return;
 
-    if (route_ == null || route_.count() < 2) 
+    if (route_ == null || route_.count() < 2)
       return;
 
     final IGeoPoint centre = mapView.getMapCenter();
@@ -145,7 +145,7 @@ public class RouteOverlay extends Overlay implements PauseResumeListener, Listen
         {
           path.moveTo(screenPoint.x, screenPoint.y);
           first = false;
-        } 
+        }
         else
           path.lineTo(screenPoint.x, screenPoint.y);
       }

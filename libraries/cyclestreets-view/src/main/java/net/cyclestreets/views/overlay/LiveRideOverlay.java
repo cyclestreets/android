@@ -44,7 +44,7 @@ public class LiveRideOverlay extends Overlay implements ServiceConnection
   private final TurnIcons.Mapping iconMappings_;
   private final DistanceFormatter formatter_;
 
-  public LiveRideOverlay(final Activity context, final View view) 
+  public LiveRideOverlay(final Activity context, final View view)
   {
     super();
 
@@ -100,7 +100,7 @@ public class LiveRideOverlay extends Overlay implements ServiceConnection
     canvas.restore();
   }
 
-  private void drawNextTurn(final Canvas canvas) 
+  private void drawNextTurn(final Canvas canvas)
   {
     final Rect box = canvas.getClipBounds();
     int eighth = box.width() / 8;
@@ -151,10 +151,10 @@ public class LiveRideOverlay extends Overlay implements ServiceConnection
     box.left += offset_;
     box.right -= offset_;
     box.top += offset_;
-    box.bottom -= offset_;   
+    box.bottom -= offset_;
   }
 
-  private void drawSpeed(final Canvas canvas) 
+  private void drawSpeed(final Canvas canvas)
   {
     final String speed = speed();
 
@@ -189,7 +189,7 @@ public class LiveRideOverlay extends Overlay implements ServiceConnection
   {
   }
 
-  private Location lastLocation() 
+  private Location lastLocation()
   {
     if (!Route.available())
       return null;
@@ -204,7 +204,7 @@ public class LiveRideOverlay extends Overlay implements ServiceConnection
     return location;
   }
 
-  private String speed() 
+  private String speed()
   {
     final Location location = lastLocation();
     if (location == null)
@@ -223,6 +223,6 @@ public class LiveRideOverlay extends Overlay implements ServiceConnection
     final Segment activeSeg = Route.journey().activeSegment();
     final int fromEnd = activeSeg.distanceFromEnd(whereIam);
 
-    return formatter_.distance(fromEnd); 
+    return formatter_.distance(fromEnd);
   }
 }

@@ -6,7 +6,7 @@ public class IterableIterator<T> implements Iterable<T>, Iterator<T>
 {
   private final Iterator<T> iter_;
 
-  public IterableIterator(final Iterator<T> iter) 
+  public IterableIterator(final Iterator<T> iter)
   {
     iter_ = iter;
   }

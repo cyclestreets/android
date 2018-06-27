@@ -6,7 +6,7 @@ import net.cyclestreets.views.CycleMapView;
 
 import org.osmdroid.views.overlay.Overlay;
 
-public class OverlayIterator<T> implements Iterator<T> 
+public class OverlayIterator<T> implements Iterator<T>
 {
   private Iterator<Overlay> iter_;
   private Class<T> targetClass_;

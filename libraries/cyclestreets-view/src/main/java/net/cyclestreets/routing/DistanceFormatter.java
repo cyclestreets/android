@@ -1,6 +1,6 @@
 package net.cyclestreets.routing;
 
-public abstract class DistanceFormatter 
+public abstract class DistanceFormatter
 {
   public abstract String distance(int metres);
   public abstract String total_distance(int metres);
@@ -10,7 +10,7 @@ public abstract class DistanceFormatter
   static public DistanceFormatter formatter(final String name)
   {
     if ("miles".equals(name))
-      return milesFormatter;      
+      return milesFormatter;
     return kmFormatter;
   }
 
@@ -20,7 +20,7 @@ public abstract class DistanceFormatter
   static private class KmFormatter extends DistanceFormatter
   {
     public String distance(int metres)
-    {    
+    {
       if (metres < 2000)
         return String.format("%dm", round_distance(metres));
       return total_distance(metres);
@@ -33,7 +33,7 @@ public abstract class DistanceFormatter
       return String.format("%d.%02dkm", km, frackm);
     }
 
-    public String speed(float metresPerSec) 
+    public String speed(float metresPerSec)
     {
       final double kph = metresPerSec * 60.0 * 60.0 / 1000.0;
       if (kph < 10)
@@ -41,7 +41,7 @@ public abstract class DistanceFormatter
       return String.format("%d", (int)kph);
     }
 
-    public String speedUnit() 
+    public String speedUnit()
     {
       return "km/h";
     }
@@ -83,7 +83,7 @@ public abstract class DistanceFormatter
     }
   }
 
-  static protected int round_distance(int units) 
+  static protected int round_distance(int units)
   {
     if (units < 500)
       return (int)

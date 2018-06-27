@@ -87,7 +87,7 @@ public class GeoIntent
     intent.putExtra(prefix+GEO_LONGITUDE, point.getLongitudeE6());
   }
 
-  static public void setLocation(final Intent intent, 
+  static public void setLocation(final Intent intent,
                                  final Location location)
   {
     if (location == null)
@@ -98,7 +98,7 @@ public class GeoIntent
 
   static public Waypoints getWaypoints(final Intent intent)
   {
-    final Waypoints points = new Waypoints();    
+    final Waypoints points = new Waypoints();
     for(int waypoints = 0; ; ++waypoints)
     {
       final GeoPoint wp = getWaypoint(intent, waypoints);

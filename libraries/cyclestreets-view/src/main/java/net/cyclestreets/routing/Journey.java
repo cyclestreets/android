@@ -18,7 +18,7 @@ import android.sax.RootElement;
 import android.sax.StartElementListener;
 import android.util.Xml;
 
-public class Journey 
+public class Journey
 {
   private Waypoints waypoints_;
   private Segments segments_;
@@ -31,7 +31,7 @@ public class Journey
     NULL_JOURNEY.activeSegment_ = -1;
   }
 
-  private Journey() 
+  private Journey()
   {
     waypoints_ = new Waypoints();
     segments_ = new Segments();
@@ -64,7 +64,7 @@ public class Journey
 
   /////////////////////////////////////////
   public void setActiveSegmentIndex(int index) { activeSegment_ = index; }
-  public void setActiveSegment(final Segment seg) 
+  public void setActiveSegment(final Segment seg)
   {
     for(int i = 0; i != segments_.count(); ++i)
       if (seg == segments_.get(i))
@@ -76,7 +76,7 @@ public class Journey
   public int activeSegmentIndex() { return activeSegment_; }
 
   public Segment activeSegment() { return activeSegment_ >= 0 ? segments_.get(activeSegment_) : null; }
-  public Segment nextSegment() 
+  public Segment nextSegment()
   {
     if (atEnd())
       return activeSegment();
@@ -87,15 +87,15 @@ public class Journey
   public boolean atWaypoint() { return activeSegment() instanceof Segment.Waymark; }
   public boolean atEnd() { return activeSegment_ == segments_.count()-1; }
 
-  public void regressActiveSegment() 
-  { 
+  public void regressActiveSegment()
+  {
     if (!atStart())
-      --activeSegment_; 
+      --activeSegment_;
   }
-  public void advanceActiveSegment() 
-  { 
+  public void advanceActiveSegment()
+  {
     if (!atEnd())
-      ++activeSegment_; 
+      ++activeSegment_;
   }
 
   public Iterator<IGeoPoint> points()
@@ -109,9 +109,9 @@ public class Journey
     return a1 != null ? a1 : a2;
   }
 
-  static Journey loadFromXml(final String xml, 
+  static Journey loadFromXml(final String xml,
                              final Waypoints points,
-                             final String name) 
+                             final String name)
     throws Exception
   {
     final JourneyFactory factory = factory(points, name);
@@ -131,15 +131,15 @@ public class Journey
 As at 16 October 2012
 <?xml version="1.0" encoding="UTF-8"?>
 <markers xmlns:cs="http://www.cyclestreets.net/schema/xml/">
-  <marker start="Forest Road" finish="Wake Green Road, B4217" startBearing="0" startSpeed="0" 
-          start_longitude="-1.878426" start_latitude="52.445953" 
-          finish_longitude="-1.880228" finish_latitude="52.443996" crow_fly_distance="315" 
-          event="depart" whence="2012-10-16 20:05:15" speed="24" clientRouteId="0" plan="balanced" 
-          note="" length="456" time="99" busynance="1203" quietness="38" 
-          signalledJunctions="0" signalledCrossings="0" south="52.444034576416" west="-1.88161" 
-          north="52.446396" east="-1.87845826148987" name="Forest Road to Wake Green Road, B4217" 
-          walk="0" leaving="2012-10-16 20:05:15" arriving="2012-10-16 20:06:54" 
-          coordinates="-1.87845826148987,52.4459228515625 -1.879563,52.446396 -1.88050925731659,52.4455528259277 -1.88161,52.444572 -1.881184,52.444214 -1.88020920753479,52.444034576416" 
+  <marker start="Forest Road" finish="Wake Green Road, B4217" startBearing="0" startSpeed="0"
+          start_longitude="-1.878426" start_latitude="52.445953"
+          finish_longitude="-1.880228" finish_latitude="52.443996" crow_fly_distance="315"
+          event="depart" whence="2012-10-16 20:05:15" speed="24" clientRouteId="0" plan="balanced"
+          note="" length="456" time="99" busynance="1203" quietness="38"
+          signalledJunctions="0" signalledCrossings="0" south="52.444034576416" west="-1.88161"
+          north="52.446396" east="-1.87845826148987" name="Forest Road to Wake Green Road, B4217"
+          walk="0" leaving="2012-10-16 20:05:15" arriving="2012-10-16 20:06:54"
+          coordinates="-1.87845826148987,52.4459228515625 -1.879563,52.446396 -1.88050925731659,52.4455528259277 -1.88161,52.444572 -1.881184,52.444214 -1.88020920753479,52.444034576416"
           grammesCO2saved="85" calories="11" itinerary="5268412" type="route" />
   <waypoint longitude="-1.878426" latitude="52.445953" sequenceId="1" />
   <waypoint longitude="-1.880539" latitude="52.445568" sequenceId="2" />
@@ -153,13 +153,13 @@ As at 16 October 2012
    */
 
   static private JourneyFactory factory(final Waypoints waypoints,
-                                         final String name) 
-  { 
+                                         final String name)
+  {
     return new JourneyFactory(waypoints, name);
   }
 
-  static private class JourneyFactory 
-  {    
+  static private class JourneyFactory
+  {
     private final Journey journey_;
     private final String name_;
     private int total_time = 0;
@@ -174,7 +174,7 @@ As at 16 October 2012
     private int leg_ = 1;
 
     public JourneyFactory(final Waypoints waypoints,
-                          final String name) 
+                          final String name)
     {
       journey_ = new Journey(waypoints);
       name_ = name;
@@ -242,10 +242,10 @@ As at 16 October 2012
         }
 
         private String s(final Attributes attr, final String name) { return attr.getValue(name); }
-        private int i(final Attributes attr, final String name) 
-        { 
+        private int i(final Attributes attr, final String name)
+        {
           final String v = s(attr, name);
-          return v != null ? Integer.parseInt(v) : 0; 
+          return v != null ? Integer.parseInt(v) : 0;
         }
       });
 
@@ -260,10 +260,10 @@ As at 16 October 2012
             journey_.waypoints().add(lat, lon);
           }
 
-          private double d(final Attributes attr, final String name) 
-          { 
+          private double d(final Attributes attr, final String name)
+          {
             final String v = attr.getValue(name);
-            return v != null ? Double.parseDouble(v) : 0; 
+            return v != null ? Double.parseDouble(v) : 0;
           }
         });
 
@@ -278,16 +278,16 @@ As at 16 October 2012
           final IGeoPoint pend = journey_.segments_.finishPoint();
           final Segment startSeg = new Segment.Start(itinerary_,
                                  name_ != null ? name_ : start_,
-                                 plan_, 
+                                 plan_,
                                  speed_,
-                                 total_time, 
-                                 total_distance, 
+                                 total_time,
+                                 total_distance,
                                  calories_,
                                  grammesCO2saved_,
                                  Collections.list(pD(from, pstart), pstart));
-          final Segment endSeg = new Segment.End(finish_, 
-                               total_time, 
-                               total_distance, 
+          final Segment endSeg = new Segment.End(finish_,
+                               total_time,
+                               total_distance,
                                Collections.list(pend, pD(to, pend)));
           journey_.segments_.add(startSeg);
           journey_.segments_.add(endSeg);
@@ -306,7 +306,7 @@ As at 16 October 2012
     {
       final List<IGeoPoint> pl = new ArrayList<>();
       final String[] coords = points.split(" ");
-      for (final String coord : coords) 
+      for (final String coord : coords)
       {
         final String[] yx = coord.split(",");
         final GeoPoint p = new GeoPoint(Double.parseDouble(yx[1]), Double.parseDouble(yx[0]));

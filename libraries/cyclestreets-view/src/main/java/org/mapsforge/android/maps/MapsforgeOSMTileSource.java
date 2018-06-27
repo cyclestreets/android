@@ -35,7 +35,7 @@ public class MapsforgeOSMTileSource implements ITileSource {
       final InputStream is = getClass().getResourceAsStream(path+file);
       return is;
     }
-  }          
+  }
 
   private static final float DEFAULT_TEXT_SCALE = 1;
   private final String name_;
@@ -98,8 +98,8 @@ public class MapsforgeOSMTileSource implements ITileSource {
       return null;
 
     final Tile tile = new Tile(tileX, tileY, (byte)zoom);
-    MapGeneratorJob mapGeneratorJob = new MapGeneratorJob(tile, 
-                                                          "ooot",                                                           
+    MapGeneratorJob mapGeneratorJob = new MapGeneratorJob(tile,
+                                                          "ooot",
                                                           jobParameters_,
                                                           debugSettings_);
 

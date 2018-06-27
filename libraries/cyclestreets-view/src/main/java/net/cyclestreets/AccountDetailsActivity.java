@@ -71,7 +71,7 @@ public class AccountDetailsActivity extends Activity
     signinButton_ = (Button)signinDetails_.findViewById(R.id.signin_button);
     TextView usernameTV = textView(signinDetails_, R.id.username);
     usernameTV.addTextChangedListener(this);
-    usernameTV.setFilters(usernameFilters); 
+    usernameTV.setFilters(usernameFilters);
     textView(signinDetails_, R.id.password).addTextChangedListener(this);
     signinButton_.setEnabled(false);
 
@@ -80,7 +80,7 @@ public class AccountDetailsActivity extends Activity
     setupView();
   }
 
-  @Override 
+  @Override
   public void onBackPressed()
   {
     step_ = step_.prev();
@@ -141,7 +141,7 @@ public class AccountDetailsActivity extends Activity
     final Button b = (Button)v.findViewById(id);
     if (b == null)
       return;
-    b.setOnClickListener(this);    
+    b.setOnClickListener(this);
   }
 
   private TextView textView(final View v, final int id)
@@ -164,7 +164,7 @@ public class AccountDetailsActivity extends Activity
   }
 
   @Override
-  public void onClick(final View v) 
+  public void onClick(final View v)
   {
     final int clicked  = v.getId();
 
@@ -192,7 +192,7 @@ public class AccountDetailsActivity extends Activity
   @Override
   public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
   @Override
-  public void onTextChanged(CharSequence s, int start, int before, int count) 
+  public void onTextChanged(CharSequence s, int start, int before, int count)
   {
     final String username = getText(signinDetails_, R.id.username);
     final String password = getText(signinDetails_, R.id.password);
@@ -202,7 +202,7 @@ public class AccountDetailsActivity extends Activity
   ///////////////////////////////////////////////////////
   private void confirmClear()
   {
-    MessageBox.YesNo(signinDetails_, 
+    MessageBox.YesNo(signinDetails_,
              getString(R.string.account_clear_details_confirm),
              new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface arg0, int arg1) {
@@ -241,7 +241,7 @@ public class AccountDetailsActivity extends Activity
 
     SignInTask(final Context context,
                 final String username,
-                final String password) 
+                final String password)
     {
       username_ = username;
       password_ = password;
@@ -250,7 +250,7 @@ public class AccountDetailsActivity extends Activity
     }
 
     @Override
-    protected void onPreExecute() 
+    protected void onPreExecute()
     {
       super.onPreExecute();
       progress_.show();
@@ -262,11 +262,11 @@ public class AccountDetailsActivity extends Activity
     }
 
     @Override
-    protected void onPostExecute(final Signin.Result result) 
+    protected void onPostExecute(final Signin.Result result)
     {
       progress_.dismiss();
 
-      CycleStreetsPreferences.setUsernamePassword(username_, 
+      CycleStreetsPreferences.setUsernamePassword(username_,
                             password_,
                             result.name(),
                             result.email(),
@@ -332,7 +332,7 @@ public class AccountDetailsActivity extends Activity
     }
 
     @Override
-    protected void onPreExecute() 
+    protected void onPreExecute()
     {
       super.onPreExecute();
       progress_.show();
@@ -340,7 +340,7 @@ public class AccountDetailsActivity extends Activity
 
     protected Result doInBackground(Object... params)
     {
-      return Registration.register(username_, 
+      return Registration.register(username_,
                                    password_,
                                    name_,
                                    email_);

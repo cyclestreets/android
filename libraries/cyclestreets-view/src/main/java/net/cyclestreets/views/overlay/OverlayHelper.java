@@ -29,7 +29,7 @@ public class OverlayHelper
   }
 
   @SuppressWarnings("unchecked")
-  public <T extends Overlay> T get(final Class<T> type) 
+  public <T extends Overlay> T get(final Class<T> type)
   {
     T o = (T)memo_.get(type);
     if (o != null)

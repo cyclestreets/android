@@ -34,7 +34,7 @@ public class POICategory {
                         final int radius)
     throws Exception {
     try {
-      final List<POI> pois = ApiClient.getPOIs(key_, 
+      final List<POI> pois = ApiClient.getPOIs(key_,
                                                centre.getLongitudeE6() / 1E6,
                                                centre.getLatitudeE6() / 1E6,
                                                radius);

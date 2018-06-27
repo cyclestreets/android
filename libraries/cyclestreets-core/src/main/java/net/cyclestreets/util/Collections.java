@@ -32,7 +32,7 @@ public class Collections
     return list(values.iterator());
   }
 
-  static public <T> List<T> concatenate(final Collection<T> v1, final Collection<T> v2) 
+  static public <T> List<T> concatenate(final Collection<T> v1, final Collection<T> v2)
   {
     final List<T> l = list(v1);
     l.addAll(v2);

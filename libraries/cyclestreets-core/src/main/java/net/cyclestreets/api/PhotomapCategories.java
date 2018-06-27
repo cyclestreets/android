@@ -5,7 +5,7 @@ import android.os.AsyncTask;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PhotomapCategories 
+public class PhotomapCategories
 {
   private static PhotomapCategories loaded_;
 
@@ -32,7 +32,7 @@ public class PhotomapCategories
   public static PhotomapCategories load()
   {
     try {
-      return ApiClient.getPhotomapCategories();      
+      return ApiClient.getPhotomapCategories();
     } catch (Exception e) {
       // ah
     }

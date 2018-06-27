@@ -19,10 +19,10 @@ public class LiveRideActivity extends Activity
   static public void launch(final Context context)
   {
     if (!GPS.isOn(context)) {
-      MessageBox.YesNo(context, 
+      MessageBox.YesNo(context,
                        "LiveRide needs the GPS location service.\n\nWould you like to turn it on now?",
                        new DialogInterface.OnClickListener() {
-                          public void onClick(DialogInterface arg0, int arg1) { 
+                          public void onClick(DialogInterface arg0, int arg1) {
                             GPS.showSettings(context);
                           }
                        });
@@ -31,7 +31,7 @@ public class LiveRideActivity extends Activity
     launchActivity(context);
   }
 
-  static private void launchActivity(final Context context) 
+  static private void launchActivity(final Context context)
   {
     final Intent intent = new Intent(context, LiveRideActivity.class);
     context.startActivity(intent);

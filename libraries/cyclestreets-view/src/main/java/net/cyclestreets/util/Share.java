@@ -5,7 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.view.View;
 
-public class Share 
+public class Share
 {
   static public void Url(final Activity activity,
                final String url,

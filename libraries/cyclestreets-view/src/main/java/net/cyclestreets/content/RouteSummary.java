@@ -1,6 +1,6 @@
 package net.cyclestreets.content;
 
-public class RouteSummary 
+public class RouteSummary
 {
   private int localId_;
   private int itinerary_;

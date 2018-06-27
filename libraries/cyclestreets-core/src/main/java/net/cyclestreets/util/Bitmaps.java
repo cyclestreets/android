@@ -9,7 +9,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 
-public class Bitmaps 
+public class Bitmaps
 {
   static private BitmapFactory.Options decodeOptions()
   {

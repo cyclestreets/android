@@ -8,20 +8,20 @@ import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.Paint.FontMetricsInt;
 
-public class Draw 
+public class Draw
 {
   static public Rect drawBubble(final Canvas canvas,
                                 final Paint brush,
                                 final int offset,
                                 final float cornerRadius,
-                                final Point pos, 
+                                final Point pos,
                                 final String text)
   {
     final String[] lines = text.split("\n");
     Rect bounds = new Rect();
 
     for(final String line : lines)
-    {      
+    {
       final Rect lineBounds = new Rect();
       brush.getTextBounds(line, 0, line.length(), lineBounds);
       if (lineBounds.width() > bounds.width())

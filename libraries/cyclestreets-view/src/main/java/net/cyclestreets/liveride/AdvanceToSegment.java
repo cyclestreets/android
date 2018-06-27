@@ -15,7 +15,7 @@ final class AdvanceToSegment extends LiveRideState
 
   AdvanceToSegment(final LiveRideState previous,
                    final Journey journey,
-                   final Segment segment) 
+                   final Segment segment)
   {
     super(previous);
     journey.setActiveSegment(segment);

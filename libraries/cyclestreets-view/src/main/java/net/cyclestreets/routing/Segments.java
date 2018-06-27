@@ -10,7 +10,7 @@ public class Segments implements Iterable<Segment>
 {
   private final List<Segment> segments_;
 
-  public Segments() 
+  public Segments()
   {
     segments_ = new ArrayList<>();
   }
@@ -23,8 +23,8 @@ public class Segments implements Iterable<Segment>
   public Segment.Start first() { return (Segment.Start)segments_.get(0); }
   public Segment.End last() { return (Segment.End)segments_.get(count()-1); }
 
-  public void add(final Segment seg) 
-  { 
+  public void add(final Segment seg)
+  {
     if (seg instanceof Segment.Start)
     {
       segments_.add(0, seg);
@@ -42,7 +42,7 @@ public class Segments implements Iterable<Segment>
       }
     }
 
-    segments_.add(seg); 
+    segments_.add(seg);
   }
 
   public Segment get(final int i) { return segments_.get(i); }
@@ -67,7 +67,7 @@ public class Segments implements Iterable<Segment>
     }
 
     @Override
-    public boolean hasNext() 
+    public boolean hasNext()
     {
       return points_ != null && points_.hasNext();
     }
@@ -92,7 +92,7 @@ public class Segments implements Iterable<Segment>
     }
 
     @Override
-    public void remove() 
+    public void remove()
     {
       throw new UnsupportedOperationException();
     }

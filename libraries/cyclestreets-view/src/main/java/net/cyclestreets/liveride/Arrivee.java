@@ -6,7 +6,7 @@ import org.osmdroid.util.GeoPoint;
 
 final class Arrivee extends LiveRideState
 {
-  Arrivee(final LiveRideState previous) 
+  Arrivee(final LiveRideState previous)
   {
     super(previous);
     notify("Arreeve eh", "Arriv\u00e9e");

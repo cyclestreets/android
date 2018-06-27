@@ -23,8 +23,8 @@ public class Contacts
         ContactsContract.CommonDataKinds.StructuredPostal.POSTCODE
     };
 
-        final String where = ContactsContract.Data.MIMETYPE + " = ?"; 
-        final String[] whereParameters = new String[] { ContactsContract.CommonDataKinds.StructuredPostal.CONTENT_ITEM_TYPE }; 
+        final String where = ContactsContract.Data.MIMETYPE + " = ?";
+        final String[] whereParameters = new String[] { ContactsContract.CommonDataKinds.StructuredPostal.CONTENT_ITEM_TYPE };
 
     final Cursor addrCur = context.getContentResolver().query(
         ContactsContract.Data.CONTENT_URI,

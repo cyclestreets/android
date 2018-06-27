@@ -10,7 +10,7 @@ final class HuntForSegment extends LiveRideState
 {
   private int waitToSettle_;
 
-  HuntForSegment(final LiveRideState state) 
+  HuntForSegment(final LiveRideState state)
   {
     super(state);
     waitToSettle_ = 5;

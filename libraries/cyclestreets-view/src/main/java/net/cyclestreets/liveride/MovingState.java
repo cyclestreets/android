@@ -11,7 +11,7 @@ abstract class MovingState extends LiveRideState
 
   private boolean notifiedPebble_ = false;
 
-  MovingState(final LiveRideState previous, final int transitionThreshold) 
+  MovingState(final LiveRideState previous, final int transitionThreshold)
   {
     super(previous);
     transition_ = transitionThreshold;

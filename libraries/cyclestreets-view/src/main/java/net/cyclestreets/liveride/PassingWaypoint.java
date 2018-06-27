@@ -6,7 +6,7 @@ import org.osmdroid.util.GeoPoint;
 
 final class PassingWaypoint extends LiveRideState
 {
-  PassingWaypoint(final LiveRideState previous) 
+  PassingWaypoint(final LiveRideState previous)
   {
     super(previous);
     notify("Passing waypoint");

@@ -52,7 +52,7 @@ public class PhotosOverlay extends LiveItemOverlay<PhotosOverlay.PhotoItem> {
       if (getClass() != obj.getClass())
         return false;
       final PhotoItem other = (PhotoItem) obj;
-      if (photo_ == null) 
+      if (photo_ == null)
         return (other.photo_ == null);
 
       return (photo_.id() == other.photo_.id());
@@ -104,7 +104,7 @@ public class PhotosOverlay extends LiveItemOverlay<PhotosOverlay.PhotoItem> {
   /////////////////////////////////////////////////////
   /////////////////////////////////////////////////////
   private static class GetPhotosTask extends AsyncTask<Object,Void,Photos> {
-    static void fetch(final PhotosOverlay overlay, 
+    static void fetch(final PhotosOverlay overlay,
                       final Object... params) {
       new GetPhotosTask(overlay).execute(params);
     }
@@ -132,7 +132,7 @@ public class PhotosOverlay extends LiveItemOverlay<PhotosOverlay.PhotoItem> {
       final List<PhotosOverlay.PhotoItem> items = new ArrayList<>();
 
       if (photos != null)
-        for (final Photo photo: photos) 
+        for (final Photo photo: photos)
           items.add(new PhotosOverlay.PhotoItem(photo, overlay_.photoMarkers_));
 
       overlay_.setItems(items);

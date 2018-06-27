@@ -2,7 +2,7 @@ package net.cyclestreets.contacts;
 
 import java.util.Comparator;
 
-public class Contact 
+public class Contact
 {
   private final String name_;
   private final String address_;

@@ -1,6 +1,6 @@
 package net.cyclestreets.api;
 
-public abstract class DistanceFormatter 
+public abstract class DistanceFormatter
 {
   public abstract String distance(int metres);
   public abstract String total_distance(int metres);

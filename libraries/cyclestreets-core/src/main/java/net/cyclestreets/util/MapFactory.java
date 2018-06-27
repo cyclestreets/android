@@ -7,7 +7,7 @@ import java.util.Collection;
 
 import net.cyclestreets.util.Collections.MapBuilder;
 
-public class MapFactory<K, V> 
+public class MapFactory<K, V>
 {
   static public <K, V> MapBuilder<K, V> map(K key, V value)
   {

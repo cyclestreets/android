@@ -59,7 +59,7 @@ import org.osmdroid.util.GeoPoint;
 import static net.cyclestreets.util.MenuHelper.createMenuItem;
 import static net.cyclestreets.util.MenuHelper.enableMenuItem;
 
-public class PhotoUploadFragment extends Fragment 
+public class PhotoUploadFragment extends Fragment
                 implements View.OnClickListener, LocationListener, Undoable
 {
   public enum AddStep
@@ -87,7 +87,7 @@ public class PhotoUploadFragment extends Fragment
     private AddStep prev_;
     private AddStep next_;
 
-    public static AddStep fromInt(int a) 
+    public static AddStep fromInt(int a)
     {
       for(AddStep s : Value_.keySet())
         if (s.value() == a)
@@ -139,9 +139,9 @@ public class PhotoUploadFragment extends Fragment
   private InputMethodManager imm_;
 
   @Override
-  public View onCreateView(final LayoutInflater inflater, 
+  public View onCreateView(final LayoutInflater inflater,
                            final ViewGroup container,
-                           final Bundle savedInstanceState) 
+                           final Bundle savedInstanceState)
   {
     super.onCreate(savedInstanceState);
 
@@ -249,13 +249,13 @@ public class PhotoUploadFragment extends Fragment
     final SharedPreferences.Editor edit = prefs().edit();
     edit.putString("CAPTION", captionText());
     edit.putInt("METACAT", metaCategoryId());
-    edit.putInt("CATEGORY", categoryId());        
+    edit.putInt("CATEGORY", categoryId());
     final IGeoPoint p = there_.there();
     if (p != null)
     {
       edit.putInt("THERE-LAT", p.getLatitudeE6());
       edit.putInt("THERE-LON", p.getLongitudeE6());
-    } 
+    }
     else
       edit.putInt("THERE-LAT", -1);
     edit.putLong("WHEN", new Date().getTime());
@@ -263,7 +263,7 @@ public class PhotoUploadFragment extends Fragment
     edit.commit();
 
     if (map_ != null)
-      map_.onPause();        
+      map_.onPause();
     super.onPause();
   }
 
@@ -320,7 +320,7 @@ public class PhotoUploadFragment extends Fragment
 
   ///////////////////////////////////////////////////////////////////
   @Override
-  public void onCreateOptionsMenu(final Menu menu, final MenuInflater inflater) 
+  public void onCreateOptionsMenu(final Menu menu, final MenuInflater inflater)
   {
     createMenuItem(menu, R.string.all_menu_restart, Menu.NONE, R.drawable.ic_menu_rotate);
     createMenuItem(menu, R.string.all_menu_back, Menu.NONE, R.drawable.ic_menu_revert);
@@ -355,7 +355,7 @@ public class PhotoUploadFragment extends Fragment
   ///////////////////////////////////////////////////////////////////
   @Override
   public boolean onBackPressed()
-  { 
+  {
     if (step_ == AddStep.PHOTO || step_ == AddStep.VIEW)
     {
       step_ = AddStep.PHOTO;
@@ -398,8 +398,8 @@ public class PhotoUploadFragment extends Fragment
       setContentView(photoView_);
       break;
     case CAPTION:
-      // why recreate this view each time - well *sigh* because we have to force the 
-      // keyboard to hide, if we don't recreate the view afresh, Android won't redisplay 
+      // why recreate this view each time - well *sigh* because we have to force the
+      // keyboard to hide, if we don't recreate the view afresh, Android won't redisplay
       // the keyboard if we come back to this view
       photoCaption_ = inflater_.inflate(R.layout.addphotocaption, null);
       backNextButtons(photoCaption_, getString(R.string.all_button_back), android.R.drawable.ic_media_rew, getString(R.string.all_button_next), android.R.drawable.ic_media_ff);
@@ -490,12 +490,12 @@ public class PhotoUploadFragment extends Fragment
   }
 
   private EditText captionEditor() { return (EditText)photoCaption_.findViewById(R.id.caption); }
-  private String captionText() 
-  { 
+  private String captionText()
+  {
     if (photoCaption_ == null)
-      return caption_; 
+      return caption_;
     imm_.hideSoftInputFromWindow(captionEditor().getWindowToken(), 0);
-    return captionEditor().getText().toString(); 
+    return captionEditor().getText().toString();
   }
   private int metaCategoryId() { return (int)metaCategorySpinner().getSelectedItemId(); }
   private int categoryId() { return (int)categorySpinner().getSelectedItemId(); }
@@ -531,7 +531,7 @@ public class PhotoUploadFragment extends Fragment
     {
       map_ = new CycleMapView(getActivity(), this.getClass().getName());
       map_.overlayPushTop(there_);
-    } 
+    }
 
     v.addView(map_, new RelativeLayout.LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT));
     map_.enableAndFollowLocation();
@@ -540,7 +540,7 @@ public class PhotoUploadFragment extends Fragment
   }
 
   @Override
-  public void onClick(final View v) 
+  public void onClick(final View v)
   {
     int clicked = v.getId();
 
@@ -594,9 +594,9 @@ public class PhotoUploadFragment extends Fragment
   }
 
   @Override
-  public void onActivityResult(final int requestCode, 
-                               final int resultCode, 
-                               final Intent data) 
+  public void onActivityResult(final int requestCode,
+                               final int resultCode,
+                               final Intent data)
   {
     if (resultCode != Activity.RESULT_OK)
       return;
@@ -648,20 +648,20 @@ if (url.startsWith("content://com.google.android.apps.photos.content")){
       cursor.moveToFirst();
       return cursor.getString(cursor.getColumnIndex(filePathColumn[0]));
     }
-    finally 
+    finally
     {
       cursor.close();
     }
   }
 
-  private void upload() 
+  private void upload()
   {
-    try 
+    try
     {
       doUpload();
     }
     catch (Exception e)
-    { 
+    {
       Toast.makeText(getActivity(), R.string.photo_could_not_upload, Toast.LENGTH_LONG).show();
       step_ = AddStep.LOCATION;
     }
@@ -723,7 +723,7 @@ if (url.startsWith("content://com.google.android.apps.photos.content")){
   {
     Date date = new Date();
 
-    try 
+    try
     {
       final DateFormat df = new SimpleDateFormat("yyyy:MM:dd HH:mm:ss");
       final String dateString = photoExif.getAttribute(ExifInterface.TAG_DATETIME);
@@ -739,9 +739,9 @@ if (url.startsWith("content://com.google.android.apps.photos.content")){
   }
 
   ///////////////////////////////////////////////////////////////////////////
-  private class GetPhotomapCategoriesTask extends AsyncTask<Object, Void, PhotomapCategories> 
+  private class GetPhotomapCategoriesTask extends AsyncTask<Object, Void, PhotomapCategories>
   {
-    protected PhotomapCategories doInBackground(Object... params) 
+    protected PhotomapCategories doInBackground(Object... params)
     {
       PhotomapCategories photomapCategories = null;
       try {
@@ -753,7 +753,7 @@ if (url.startsWith("content://com.google.android.apps.photos.content")){
     }
 
     @Override
-    protected void onPostExecute(PhotomapCategories photomapCategories) 
+    protected void onPostExecute(PhotomapCategories photomapCategories)
     {
       if (photomapCategories == null)
       {
@@ -787,7 +787,7 @@ if (url.startsWith("content://com.google.android.apps.photos.content")){
                     final String metaCat,
                     final String category,
                     final String dateTime,
-                    final String caption) 
+                    final String caption)
     {
       smallImage_ = CycleStreetsPreferences.uploadSmallImages();
       filename_ = smallImage_ ? Bitmaps.resizePhoto(filename) : filename;
@@ -803,7 +803,7 @@ if (url.startsWith("content://com.google.android.apps.photos.content")){
     }
 
     @Override
-    protected void onPreExecute() 
+    protected void onPreExecute()
     {
       super.onPreExecute();
       progress_.show();
@@ -812,13 +812,13 @@ if (url.startsWith("content://com.google.android.apps.photos.content")){
     protected Upload.Result doInBackground(Object... params)
     {
       try {
-        return Upload.photo(filename_, 
-                            username_, 
-                            password_, 
-                            location_, 
-                            metaCat_, 
-                            category_, 
-                            dateTime_, 
+        return Upload.photo(filename_,
+                            username_,
+                            password_,
+                            location_,
+                            metaCat_,
+                            category_,
+                            dateTime_,
                             caption_);
       } catch (Exception e) {
         return Upload.Result.error(e.getMessage());

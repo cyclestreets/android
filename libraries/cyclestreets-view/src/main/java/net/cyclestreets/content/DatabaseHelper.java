@@ -57,10 +57,10 @@ class DatabaseHelper extends SQLiteOpenHelper {
       db.execSQL("ALTER TABLE route ADD COLUMN waypoints TEXT");
       final Cursor cursor = db.query(ROUTE_TABLE,
           new String[] { BaseColumns._ID, "start_lat", "start_long", "end_lat", "end_long" },
-          null, 
-          null, 
-          null, 
-          null, 
+          null,
+          null,
+          null,
+          null,
           null);
       if (cursor.moveToFirst())
         do {

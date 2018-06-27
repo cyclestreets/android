@@ -91,7 +91,7 @@ public class MapPack
   private MapPack(final String n,
             final String v,
             final File p)
-  { 
+  {
     name_ = n;
     path_ = p.getAbsolutePath();
     version_ = v;

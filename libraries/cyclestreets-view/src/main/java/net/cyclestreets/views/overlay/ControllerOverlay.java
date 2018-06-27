@@ -26,7 +26,7 @@ import android.view.MotionEvent;
 import android.view.GestureDetector.OnDoubleTapListener;
 import android.view.GestureDetector.OnGestureListener;
 
-public class ControllerOverlay extends Overlay implements OnDoubleTapListener, 
+public class ControllerOverlay extends Overlay implements OnDoubleTapListener,
                               OnGestureListener
 {
   private final GestureDetector gestureDetector_;

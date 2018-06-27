@@ -10,7 +10,7 @@ import android.os.AsyncTask;
 import android.widget.Toast;
 
 public abstract class RoutingTask<Params>
-    extends AsyncTask<Params, Integer, RouteData> 
+    extends AsyncTask<Params, Integer, RouteData>
 {
   private final String initialMsg_;
   private ProgressDialog progress_;
@@ -32,7 +32,7 @@ public abstract class RoutingTask<Params>
 
   protected RouteData fetchRoute(final String routeType,
                                  final int speed,
-                                 final Waypoints waypoints) 
+                                 final Waypoints waypoints)
   {
     return fetchRoute(routeType, -1, speed, waypoints);
   }
@@ -40,14 +40,14 @@ public abstract class RoutingTask<Params>
   protected RouteData fetchRoute(final String routeType,
                                  final long itinerary,
                                  final int speed)
-  { 
+  {
     return fetchRoute(routeType, itinerary, speed, null);
   }
 
-  protected RouteData fetchRoute(final String routeType, 
+  protected RouteData fetchRoute(final String routeType,
                                  final long itinerary,
                                  final int speed,
-                                 final Waypoints waypoints) 
+                                 final Waypoints waypoints)
   {
     try {
       final String xml = doFetchRoute(routeType, itinerary, speed, waypoints);
@@ -59,7 +59,7 @@ public abstract class RoutingTask<Params>
     }
   }
 
-  private String doFetchRoute(final String routeType, 
+  private String doFetchRoute(final String routeType,
                               final long itinerary,
                               final int speed,
                               final Waypoints waypoints)
@@ -71,7 +71,7 @@ public abstract class RoutingTask<Params>
   }
 
   @Override
-  protected void onPreExecute() 
+  protected void onPreExecute()
   {
     super.onPreExecute();
     try {
@@ -92,7 +92,7 @@ public abstract class RoutingTask<Params>
   }
 
   @Override
-  protected void onPostExecute(final RouteData route) 
+  protected void onPostExecute(final RouteData route)
   {
     if (route != null)
       Route.onNewJourney(route);

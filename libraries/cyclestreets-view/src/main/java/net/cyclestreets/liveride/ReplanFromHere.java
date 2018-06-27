@@ -22,7 +22,7 @@ final class ReplanFromHere extends LiveRideState
 
     final IGeoPoint finish = Route.waypoints().last();
     Route.softRegisterListener(this);
-    Route.PlotRoute(CycleStreetsPreferences.routeType(), 
+    Route.PlotRoute(CycleStreetsPreferences.routeType(),
                     CycleStreetsPreferences.speed(),
                     context(),
                     Waypoints.fromTo(whereIam, finish));

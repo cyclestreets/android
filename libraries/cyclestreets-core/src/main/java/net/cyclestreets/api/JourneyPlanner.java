@@ -23,8 +23,8 @@ public class JourneyPlanner {
       lonLat[l+1] = waypoints.get(i).getLatitudeE6() / 1E6;
     }
     return ApiClient.getJourneyXml(plan,
-                                   null, 
-                                   null, 
+                                   null,
+                                   null,
                                    speed,
                                    lonLat);
   }

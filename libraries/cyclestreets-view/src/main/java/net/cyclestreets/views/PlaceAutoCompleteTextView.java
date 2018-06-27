@@ -44,7 +44,7 @@ public class PlaceAutoCompleteTextView extends AppCompatAutoCompleteTextView
     init();
   }
 
-  private void init() 
+  private void init()
   {
     setThreshold(0);
     setOnClickListener(this);
@@ -56,11 +56,11 @@ public class PlaceAutoCompleteTextView extends AppCompatAutoCompleteTextView
   public void setBounds(final BoundingBox bounds)
   {
     adapter_ = new GeoLiveAdapter(getContext(), bounds);
-    setAdapter(adapter_);  
+    setAdapter(adapter_);
   }
 
-  public GeoPlace geoPlace() 
-  { 
+  public GeoPlace geoPlace()
+  {
     if (place_ == null)
     {
       final String t = getEditableText().toString();
@@ -68,7 +68,7 @@ public class PlaceAutoCompleteTextView extends AppCompatAutoCompleteTextView
         if (t.equals(gp.toString()))
           place_ = gp;
     }
-    return place_; 
+    return place_;
   }
   public void setGeoPlace(final GeoPlace place)
   {
@@ -136,14 +136,14 @@ public class PlaceAutoCompleteTextView extends AppCompatAutoCompleteTextView
   }
 
   @Override
-  public void onTextChanged(final CharSequence s, 
-                            int start, 
+  public void onTextChanged(final CharSequence s,
+                            int start,
                             int before,
-                            int after) 
-  { 
+                            int after)
+  {
     place_ = null;
     contact_ = null;
     setHint("");
-    super.onTextChanged(s, start, before, after);   
+    super.onTextChanged(s, start, before, after);
   }
 }

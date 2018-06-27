@@ -47,7 +47,7 @@ public class Dialog {
     void updatedText(final String updated);
   }
 
-  static public void editTextDialog(final Context context, 
+  static public void editTextDialog(final Context context,
                                     final String initialText,
                                     final String buttonText,
                                     final UpdatedTextListener listener) {
