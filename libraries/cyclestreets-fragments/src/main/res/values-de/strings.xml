@@ -18,6 +18,7 @@
 
   <!-- Map menu -->
   <string name="ic_menu_directions">Tour planen</string>
+  <string name="menu_share_route">Share route</string>
   <string name="menu_saved_routes">Gespeicherte Touren</string>
   <string name="menu_route_by_number">Öffne Tour nach Zahl</string>
   <string name="menu_find_place">Ort suchen</string>

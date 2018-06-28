@@ -18,6 +18,7 @@
 
   <!-- Map menu -->
   <string name="ic_menu_directions">Planifier un itinéraire</string>
+  <string name="menu_share_route">Share route</string>
   <string name="menu_saved_routes">Les routes enregistrées</string>
   <string name="menu_route_by_number">Ouvrir la route par numéro</string>
   <string name="menu_find_place">Chercher un lieu</string>

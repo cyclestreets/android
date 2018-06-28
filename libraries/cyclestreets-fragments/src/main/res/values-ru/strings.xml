@@ -18,6 +18,7 @@
 
   <!-- Map menu -->
   <string name="ic_menu_directions">Планирование маршрута</string>
+  <string name="menu_share_route">Share route</string>
   <string name="menu_saved_routes">Сохраненные маршруты</string>
   <string name="menu_route_by_number">Открыть маршрут по номеру</string>
   <string name="menu_find_place">Найти место</string>
