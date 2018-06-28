@@ -12,14 +12,14 @@ public class ReplanRoutingTask extends RoutingTask<Journey>
 
   ReplanRoutingTask(final String newPlan,
                     final RouteDatabase db,
-                    final Context context)  {
+                    final Context context) {
     super(R.string.route_loading, context);
     db_ = db;
     newPlan_ = newPlan;
   }
 
   @Override
-  protected RouteData doInBackground(Journey... params)  {
+  protected RouteData doInBackground(Journey... params) {
     final Journey pr = params[0];
     final RouteData rd = db_.route(pr.itinerary(), newPlan_);
     if (rd != null)

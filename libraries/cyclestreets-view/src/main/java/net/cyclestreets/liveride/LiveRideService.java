@@ -26,7 +26,7 @@ public class LiveRideService extends Service implements LocationListener
   private static int updateTime = 500;    // milliseconds
 
   @Override
-  public void onCreate()  {
+  public void onCreate() {
     binder_ = new Binding();
     locationManager_ = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
     pebbleNotifier_ = new PebbleNotifier(this);
@@ -34,38 +34,38 @@ public class LiveRideService extends Service implements LocationListener
   }
 
   @Override
-  public int onStartCommand(final Intent intent, final int flags, final int startId)  {
+  public int onStartCommand(final Intent intent, final int flags, final int startId) {
     return Service.START_NOT_STICKY;
   }
 
   @Override
-  public void onDestroy()  {
+  public void onDestroy() {
     super.onDestroy();
   }
 
   @Override
-  public IBinder onBind(final Intent intent)  {
+  public IBinder onBind(final Intent intent) {
     return binder_;
   }
 
-  public void startRiding()  {
+  public void startRiding() {
     if (!stage_.isStopped())
       return;
     stage_ = LiveRideState.InitialState(this, pebbleNotifier_);
     locationManager_.requestLocationUpdates(LocationManager.GPS_PROVIDER, updateTime, updateDistance, this);
   }
 
-  public void stopRiding()  {
+  public void stopRiding() {
     stage_ = LiveRideState.StoppedState(this, pebbleNotifier_);
     locationManager_.removeUpdates(this);
     pebbleNotifier_.notifyStopped();
   }
 
-  public boolean areRiding()  {
+  public boolean areRiding() {
     return stage_.arePedalling();
   }
 
-  public Location lastLocation()  {
+  public Location lastLocation() {
     return lastLocation_;
   }
 
@@ -81,8 +81,8 @@ public class LiveRideService extends Service implements LocationListener
   // ///////////////////////////////////////////////
   // location listener
   @Override
-  public void onLocationChanged(final Location location)  {
-    if (!Route.available())  {
+  public void onLocationChanged(final Location location) {
+    if (!Route.available()) {
       stopRiding();
       return;
     }

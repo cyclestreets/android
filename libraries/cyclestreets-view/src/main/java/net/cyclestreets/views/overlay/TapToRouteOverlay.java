@@ -98,7 +98,7 @@ public class TapToRouteOverlay extends Overlay
 
   private OverlayHelper overlays_;
 
-  public TapToRouteOverlay(final CycleMapView mapView)  {
+  public TapToRouteOverlay(final CycleMapView mapView) {
     super();
 
     context_ = mapView.getContext();
@@ -134,14 +134,14 @@ public class TapToRouteOverlay extends Overlay
     overlays_ = new OverlayHelper(mapView);
   }
 
-  private ControllerOverlay controller()  {
+  private ControllerOverlay controller() {
     return overlays_.controller();
   }
 
-  public void setRoute(final Waypoints waypoints, final boolean complete)  {
+  public void setRoute(final Waypoints waypoints, final boolean complete) {
     resetRoute();
 
-    for(final IGeoPoint waypoint : waypoints)  {
+    for(final IGeoPoint waypoint : waypoints) {
       addWaypoint(waypoint);
       tapState_ = tapState_.next(waymarkersCount());
     }
@@ -152,31 +152,31 @@ public class TapToRouteOverlay extends Overlay
     tapState_ = TapToRoute.ALL_DONE;
   }
 
-  private void resetRoute()  {
+  private void resetRoute() {
     waymarkers_.clear();
     tapState_ = tapState_.reset();
     controller().flushUndo(this);
   }
 
-  private int waymarkersCount()  {
+  private int waymarkersCount() {
     return waymarkers_.size();
   }
 
-  public Waypoints waypoints()  {
+  public Waypoints waypoints() {
     final Waypoints p = new Waypoints();
     for(final OverlayItem o : waymarkers_)
       p.add(o.getPoint());
     return p;
   }
 
-  private IGeoPoint finish()  {
+  private IGeoPoint finish() {
     return waymarkersCount() > 1 ? waymarkers_.get(waymarkersCount()-1).getPoint() : null;
   }
 
-  private void addWaypoint(final IGeoPoint point)  {
+  private void addWaypoint(final IGeoPoint point) {
     if (point == null)
       return;
-    switch(waymarkersCount())  {
+    switch(waymarkersCount()) {
     case 0:
       waymarkers_.add(addMarker(point, "start", greenWisp_));
       break;
@@ -192,8 +192,8 @@ public class TapToRouteOverlay extends Overlay
     }
   }
 
-  private void removeWaypoint()  {
-    switch(waymarkersCount())  {
+  private void removeWaypoint() {
+    switch(waymarkersCount()) {
     case 0:
         break;
     case 1:
@@ -209,7 +209,7 @@ public class TapToRouteOverlay extends Overlay
     }
   }
 
-  private OverlayItem addMarker(final IGeoPoint point, final String label, final Drawable icon)  {
+  private OverlayItem addMarker(final IGeoPoint point, final String label, final Drawable icon) {
     if (point == null)
       return null;
     controller().pushUndo(this);
@@ -219,7 +219,7 @@ public class TapToRouteOverlay extends Overlay
     return marker;
   }
 
-  private void onRouteNow(final Waypoints waypoints)  {
+  private void onRouteNow(final Waypoints waypoints) {
     Route.PlotRoute(CycleStreetsPreferences.routeType(),
                     CycleStreetsPreferences.speed(),
                     context_,
@@ -228,17 +228,17 @@ public class TapToRouteOverlay extends Overlay
 
   ////////////////////////////////////////////
   @Override
-  public void onCreateOptionsMenu(final Menu menu)  {
+  public void onCreateOptionsMenu(final Menu menu) {
     createMenuItem(menu, R.string.route_menu_change, Menu.FIRST, R.drawable.ic_menu_more);
   }
 
   @Override
-  public void onPrepareOptionsMenu(final Menu menu)  {
+  public void onPrepareOptionsMenu(final Menu menu) {
     showMenuItem(menu, R.string.route_menu_change, tapState_ == TapToRoute.ALL_DONE);
   }
 
   @Override
-  public void onCreateContextMenu(final ContextMenu menu)  {
+  public void onCreateContextMenu(final ContextMenu menu) {
     if (tapState_ != TapToRoute.ALL_DONE)
       return;
 
@@ -254,22 +254,22 @@ public class TapToRouteOverlay extends Overlay
   }
 
   @Override
-  public boolean onMenuItemSelected(int featureId, final MenuItem item)  {
+  public boolean onMenuItemSelected(int featureId, final MenuItem item) {
     final int menuId = item.getItemId();
 
-    if (menuId == R.string.route_menu_change)  {
+    if (menuId == R.string.route_menu_change) {
       mapView_.showContextMenu();
       return true;
     }
 
-    if (Replan_Menu_Plans.containsKey(menuId))  {
+    if (Replan_Menu_Plans.containsKey(menuId)) {
       Route.RePlotRoute(Replan_Menu_Plans.get(menuId), context_);
       return true;
     }
 
-    if (R.string.route_menu_change_reroute_from_here == menuId)  {
+    if (R.string.route_menu_change_reroute_from_here == menuId) {
       final Location lastFix = mapView_.getLastFix();
-      if (lastFix == null)  {
+      if (lastFix == null) {
         Toast.makeText(mapView_.getContext(), R.string.route_no_location, Toast.LENGTH_LONG).show();
         return true;
       }
@@ -300,26 +300,26 @@ public class TapToRouteOverlay extends Overlay
 
   ////////////////////////////////////////////
   @Override
-  public void draw(final Canvas canvas, final MapView mapView, final boolean shadow)  {
+  public void draw(final Canvas canvas, final MapView mapView, final boolean shadow) {
     final IProjection projection = mapView.getProjection();
     for(final OverlayItem waypoint : waymarkers_)
       drawMarker(canvas, projection, waypoint);
   }
 
   @Override
-  public void drawButtons(final Canvas canvas, final MapView mapView)  {
+  public void drawButtons(final Canvas canvas, final MapView mapView) {
     drawTheButtons(canvas, mapView);
     drawTapState(canvas);
   }
 
-  private void drawTheButtons(final Canvas canvas, final MapView mapView)  {
+  private void drawTheButtons(final Canvas canvas, final MapView mapView) {
     restartButton_.enable(tapState_ == TapToRoute.ALL_DONE);
 
     if (tapState_ == TapToRoute.ALL_DONE)
       restartButton_.draw(canvas);
   }
 
-  private void drawTapState(final Canvas canvas)  {
+  private void drawTapState(final Canvas canvas) {
     final String msg = tapState_.toString();
     if (msg.length() == 0)
       return;
@@ -334,7 +334,7 @@ public class TapToRouteOverlay extends Overlay
     DrawingHelper.drawRoundRect(canvas, screen, radius_, fillBrush());
 
     if (tapState_ == TapToRoute.WAITING_FOR_NEXT ||
-       tapState_ == TapToRoute.WAITING_TO_ROUTE)  {
+       tapState_ == TapToRoute.WAITING_TO_ROUTE) {
       final Rect btn = new Rect(screen);
       btn.left = btn.right - canRoute_.getWidth();
       DrawingHelper.drawBitmap(canvas, canRoute_, btn);
@@ -343,7 +343,7 @@ public class TapToRouteOverlay extends Overlay
 
     screen.offset(screen.width()/2, 0);
 
-    if (msg.indexOf('\n') == -1)  {
+    if (msg.indexOf('\n') == -1) {
       final Rect bounds = new Rect();
       textBrush_.getTextBounds(msg, 0, 1, bounds);
       screen.offset(0, bounds.height());
@@ -354,7 +354,7 @@ public class TapToRouteOverlay extends Overlay
 
   private void drawMarker(final Canvas canvas,
                           final IProjection projection,
-                          final OverlayItem marker)  {
+                          final OverlayItem marker) {
     if (marker == null)
       return;
 
@@ -381,26 +381,26 @@ public class TapToRouteOverlay extends Overlay
 
   //////////////////////////////////////////////
   @Override
-  public boolean onSingleTap(final MotionEvent event)  {
+  public boolean onSingleTap(final MotionEvent event) {
     return tapMarker(event);
   }
 
   @Override
-  public boolean onDoubleTap(final MotionEvent event)  {
+  public boolean onDoubleTap(final MotionEvent event) {
     return false;
   }
 
   @Override
-  public boolean onButtonTap(final MotionEvent event)  {
+  public boolean onButtonTap(final MotionEvent event) {
     return tapRestart(event);
   }
 
   @Override
-  public boolean onButtonDoubleTap(final MotionEvent event)  {
+  public boolean onButtonDoubleTap(final MotionEvent event) {
     return false;
   }
 
-  private boolean tapRestart(final MotionEvent event)  {
+  private boolean tapRestart(final MotionEvent event) {
     if (!restartButton_.enabled() || !restartButton_.hit(event))
       return false;
 
@@ -419,15 +419,15 @@ public class TapToRouteOverlay extends Overlay
   }
 
   @Override
-  public boolean onBackPressed()  {
+  public boolean onBackPressed() {
     return stepBack(false);
   }
 
-  private boolean stepBack(final boolean tap)  {
+  private boolean stepBack(final boolean tap) {
     if (!tap && tapState_.isAtEnd())
       return false;
 
-    switch(tapState_)  {
+    switch(tapState_) {
       case WAITING_FOR_START:
       case WAITING_TO_ROUTE:
         return true;
@@ -446,7 +446,7 @@ public class TapToRouteOverlay extends Overlay
     return true;
   }
 
-  private boolean tapMarker(final MotionEvent event)  {
+  private boolean tapMarker(final MotionEvent event) {
     final int x = (int)event.getX();
     final int y = (int)event.getY();
     final IGeoPoint p = mapView_.getProjection().fromPixels(x, y);
@@ -454,12 +454,12 @@ public class TapToRouteOverlay extends Overlay
     return true;
   }
 
-  public void setNextMarker(final IGeoPoint point)  {
+  public void setNextMarker(final IGeoPoint point) {
     tapAction(Integer.MIN_VALUE, Integer.MIN_VALUE, point, false);
   }
 
-  private void tapAction(final int x, final int y, final IGeoPoint point, boolean tap)  {
-    switch(tapState_)  {
+  private void tapAction(final int x, final int y, final IGeoPoint point, boolean tap) {
+    switch(tapState_) {
       case WAITING_FOR_START:
       case WAITING_FOR_SECOND:
         if (tapStateRect_.contains(x, y))
@@ -467,7 +467,7 @@ public class TapToRouteOverlay extends Overlay
         addWaypoint(point);
         break;
       case WAITING_FOR_NEXT:
-        if (tapStateRect_.contains(x, y))  {
+        if (tapStateRect_.contains(x, y)) {
           onRouteNow(waypoints());
           return;
         }
@@ -496,21 +496,21 @@ public class TapToRouteOverlay extends Overlay
     WAITING_TO_ROUTE,
     ALL_DONE;
 
-    static public TapToRoute start()  {
+    static public TapToRoute start() {
       return WAITING_FOR_START;
     }
 
-    public TapToRoute reset()  {
+    public TapToRoute reset() {
       return WAITING_FOR_START;
     }
 
-    public boolean isAtEnd()  {
+    public boolean isAtEnd() {
       return (this == WAITING_FOR_START) ||
              (this == ALL_DONE);
     }
 
-    public TapToRoute previous(final int count)  {
-      switch(this)  {
+    public TapToRoute previous(final int count) {
+      switch(this) {
         case WAITING_FOR_START:
           break;
         case WAITING_FOR_SECOND:
@@ -525,8 +525,8 @@ public class TapToRouteOverlay extends Overlay
       return WAITING_FOR_START;
     }
 
-    public TapToRoute next(final int count)  {
-      switch(this)  {
+    public TapToRoute next(final int count) {
+      switch(this) {
         case WAITING_FOR_START:
           return WAITING_FOR_SECOND;
         case WAITING_FOR_SECOND:
@@ -541,8 +541,8 @@ public class TapToRouteOverlay extends Overlay
       return ALL_DONE;
     }
 
-    public String toString()  {
-      switch(this)  {
+    public String toString() {
+      switch(this) {
         case WAITING_FOR_START:
           return "Tap map to set Start";
         case WAITING_FOR_SECOND:
@@ -559,22 +559,22 @@ public class TapToRouteOverlay extends Overlay
   }
 
   @Override
-  public void onResume(SharedPreferences prefs)  {
+  public void onResume(SharedPreferences prefs) {
     Route.registerListener(this);
   }
 
   @Override
-  public void onPause(Editor prefs)  {
+  public void onPause(Editor prefs) {
     Route.unregisterListener(this);
   }
 
   @Override
-  public void onNewJourney(final Journey journey, final Waypoints waypoints)  {
+  public void onNewJourney(final Journey journey, final Waypoints waypoints) {
     setRoute(waypoints, !journey.isEmpty());
   }
 
   @Override
-  public void onResetJourney()  {
+  public void onResetJourney() {
     resetRoute();
   }
 }

@@ -33,7 +33,7 @@ public class Route
         listener.onResetJourney();
     }
 
-    public void softRegister(final Listener listener)  {
+    public void softRegister(final Listener listener) {
       doRegister(listener);
     }
 

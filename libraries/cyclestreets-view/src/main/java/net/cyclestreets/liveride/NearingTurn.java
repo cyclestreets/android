@@ -7,7 +7,7 @@ import net.cyclestreets.routing.Journey;
 
 final class NearingTurn extends MovingState
 {
-  NearingTurn(final LiveRideState previous, final Journey journey)  {
+  NearingTurn(final LiveRideState previous, final Journey journey) {
     super(previous, CycleStreetsPreferences.turnNowDistance());
 
     final Segment segment = journey.segments().get(journey.activeSegmentIndex()+1);
@@ -15,7 +15,7 @@ final class NearingTurn extends MovingState
   }
 
   @Override
-  protected LiveRideState transitionState(final Journey journey)  {
+  protected LiveRideState transitionState(final Journey journey) {
     return new AdvanceToSegment(this, journey);
   }
 }

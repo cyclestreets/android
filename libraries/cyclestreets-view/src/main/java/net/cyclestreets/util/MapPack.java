@@ -17,20 +17,20 @@ public class MapPack
 {
   private static String MAPSFORGE_VERSION = "0.3.0";
 
-  static public void searchGooglePlay(final Context context)  {
+  static public void searchGooglePlay(final Context context) {
     final Intent play = new Intent(Intent.ACTION_VIEW);
     play.setData(Uri.parse("market://search?q=net.cyclestreets"));
     context.startActivity(play);
   }
 
-  static public List<MapPack> availableMapPacks()  {
+  static public List<MapPack> availableMapPacks() {
     final List<MapPack> packs = new ArrayList<>();
 
     final File obbDir = new File(Environment.getExternalStorageDirectory(), "Android/obb");
     if (!obbDir.exists())
       return packs;
 
-    for(final File mapDir : obbDir.listFiles(new CycleStreetsMapFilter()))  {
+    for(final File mapDir : obbDir.listFiles(new CycleStreetsMapFilter())) {
       final File map = findMapFile(mapDir, "main.");
       final Properties props = mapProperties(mapDir);
       final String name = props.getProperty("title");
@@ -44,21 +44,21 @@ public class MapPack
     return packs;
   }
 
-  static public MapPack findByPackage(final String packageName)  {
+  static public MapPack findByPackage(final String packageName) {
     for(final MapPack pack : availableMapPacks())
       if (pack.path().contains(packageName))
         return pack;
     return null;
   }
 
-  static private File findMapFile(final File mapDir, final String prefix)  {
+  static private File findMapFile(final File mapDir, final String prefix) {
     for(final File c : mapDir.listFiles())
       if (c.getName().startsWith(prefix))
         return c;
     return null;
   }
 
-  static private Properties mapProperties(final File mapDir)  {
+  static private Properties mapProperties(final File mapDir) {
     final Properties details = new Properties();
     try {
       final File detailsFile = findMapFile(mapDir, "patch.");
@@ -70,7 +70,7 @@ public class MapPack
   }
 
   static private class CycleStreetsMapFilter implements FilenameFilter  {
-    public boolean accept(final File dir, final String name)  {
+    public boolean accept(final File dir, final String name) {
       return name.contains("net.cyclestreets.maps");
     }
   }
@@ -82,7 +82,7 @@ public class MapPack
 
   private MapPack(final String n,
             final String v,
-            final File p)  {
+            final File p) {
     name_ = n;
     path_ = p.getAbsolutePath();
     version_ = v;

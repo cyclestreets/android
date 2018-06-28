@@ -25,7 +25,7 @@ public class CycleMapFragment extends Fragment implements Undoable
   private boolean forceMenuRebuild_;
 
   @Override
-  public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle saved)  {
+  public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle saved) {
     super.onCreate(saved);
 
     forceMenuRebuild_ = true;
@@ -42,26 +42,26 @@ public class CycleMapFragment extends Fragment implements Undoable
   protected void findPlace() { launchFindDialog(); }
 
   @Override
-  public void onPause()  {
+  public void onPause() {
     map_.onPause();
     super.onPause();
   }
 
   @Override
-  public void onResume()  {
+  public void onResume() {
     super.onResume();
     map_.onResume();
   }
 
   @Override
-  public void onCreateOptionsMenu(final Menu menu, final MenuInflater inflater)  {
+  public void onCreateOptionsMenu(final Menu menu, final MenuInflater inflater) {
     if (map_ != null)
       map_.onCreateOptionsMenu(menu);
     createMenuItem(menu, R.string.menu_find_place, Menu.NONE, R.drawable.ic_menu_search);
   }
 
   @Override
-  public void onPrepareOptionsMenu(final Menu menu)  {
+  public void onPrepareOptionsMenu(final Menu menu) {
     if (forceMenuRebuild_) {
       forceMenuRebuild_ = false;
       menu.clear();
@@ -75,11 +75,11 @@ public class CycleMapFragment extends Fragment implements Undoable
   }
 
   @Override
-  public boolean onOptionsItemSelected(final MenuItem item)  {
+  public boolean onOptionsItemSelected(final MenuItem item) {
     if (map_.onMenuItemSelected(item.getItemId(), item))
       return true;
 
-    if (item.getItemId() == R.string.menu_find_place)  {
+    if (item.getItemId() == R.string.menu_find_place) {
       launchFindDialog();
       return true;
     }
@@ -88,7 +88,7 @@ public class CycleMapFragment extends Fragment implements Undoable
   }
 
   @Override
-  public boolean onContextItemSelected(final MenuItem item)  {
+  public boolean onContextItemSelected(final MenuItem item) {
     return map_.onMenuItemSelected(item.getItemId(), item);
   }
 
@@ -102,7 +102,7 @@ public class CycleMapFragment extends Fragment implements Undoable
   }
 
   @Override
-  public boolean onBackPressed()  {
+  public boolean onBackPressed() {
     return map_.onBackPressed();
   }
 }

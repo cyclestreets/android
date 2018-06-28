@@ -12,7 +12,7 @@ public class RouteSummary
                final int itinerary,
                final String title,
                final String plan,
-               final int distance)  {
+               final int distance) {
     localId_ = localId;
     itinerary_ = itinerary;
     title_ = title;

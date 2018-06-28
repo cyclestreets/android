@@ -41,7 +41,7 @@ public abstract class SingleButtonOverlay extends ButtonOnlyOverlay {
   //////////////////////////////////////////////
   //////////////////////////////////////////////
   @Override
-  public final void drawButtons(final Canvas canvas, final MapView mapView)  {
+  public final void drawButtons(final Canvas canvas, final MapView mapView) {
     setState(theButton_, mapView);
     theButton_.draw(canvas);
   }

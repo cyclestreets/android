@@ -31,7 +31,7 @@ public class GeoLiveAdapter extends GeoAdapter
    * Constructor when used with an AutoCompleteTextView
    */
   public GeoLiveAdapter(final Context context,
-                        final BoundingBox bounds)  {
+                        final BoundingBox bounds) {
     super(context);
     bounds_ = bounds;
 
@@ -40,14 +40,14 @@ public class GeoLiveAdapter extends GeoAdapter
   }
 
   @Override
-  public Filter getFilter()  {
+  public Filter getFilter() {
     return filter;
   }
 
   public BoundingBox bounds() { return bounds_; }
 
-  public GeoPlace exactMatch(final String p)  {
-    for(int i = 0; i != getCount(); ++i)  {
+  public GeoPlace exactMatch(final String p) {
+    for(int i = 0; i != getCount(); ++i) {
       final GeoPlace gp = getItem(i);
       if (p.equals(gp.toString()))
         return gp;
@@ -58,7 +58,7 @@ public class GeoLiveAdapter extends GeoAdapter
   /*
    * Add to geocoding history
    */
-  public void addHistory(final GeoPlace p)  {
+  public void addHistory(final GeoPlace p) {
     if (p.name().equals(MY_LOCATION))
       return;
 
@@ -77,15 +77,15 @@ public class GeoLiveAdapter extends GeoAdapter
   private class GeocodeFilter extends Filter  {
     private SharedPreferences prefs_;
 
-    public GeocodeFilter(final SharedPreferences prefs)  {
+    public GeocodeFilter(final SharedPreferences prefs) {
       prefs_ = prefs;
     }
 
     @Override
-    protected FilterResults performFiltering(CharSequence cs)  {
+    protected FilterResults performFiltering(CharSequence cs) {
       final List<GeoPlace> list = new ArrayList<>();
 
-      if (cs != null)  {
+      if (cs != null) {
         // Add history hits first
         filterPrefs(list, cs);
 
@@ -106,7 +106,7 @@ public class GeoLiveAdapter extends GeoAdapter
 
     @SuppressWarnings("unchecked")
     @Override
-    protected void publishResults(CharSequence cs, FilterResults fr)  {
+    protected void publishResults(CharSequence cs, FilterResults fr) {
       clear();
 
       if (fr != null && fr.values != null)
@@ -119,14 +119,14 @@ public class GeoLiveAdapter extends GeoAdapter
      * Add any matching entries from prefs
      */
     private void filterPrefs(final List<GeoPlace> list,
-                             final CharSequence cs)  {
+                             final CharSequence cs) {
       if (prefs_ == null)
         return;
 
       final String match = (PREFS_GEO_NAME_PREFIX + cs).toLowerCase();
       final Set<String> sortedKeys = new TreeSet<>(prefs.getAll().keySet());
 
-      for (final String s: sortedKeys)  {
+      for (final String s: sortedKeys) {
         if (!s.startsWith(match))
           continue;
 

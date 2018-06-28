@@ -10,23 +10,23 @@ import org.osmdroid.views.overlay.Overlay;
 public class OverlayHelper
 {
   @SuppressWarnings("unchecked")
-  public static <T extends Overlay> T findOverlay(final CycleMapView view, final Class<T> type)  {
+  public static <T extends Overlay> T findOverlay(final CycleMapView view, final Class<T> type) {
     for(Overlay o : view.getOverlays())
       if (type.isInstance(o))
         return (T)o;
     return null;
   }
 
-  public static ControllerOverlay findController(final CycleMapView view)  {
+  public static ControllerOverlay findController(final CycleMapView view) {
     return findOverlay(view, ControllerOverlay.class);
   }
 
-  public OverlayHelper(final CycleMapView view)  {
+  public OverlayHelper(final CycleMapView view) {
     view_ = view;
   }
 
   @SuppressWarnings("unchecked")
-  public <T extends Overlay> T get(final Class<T> type)  {
+  public <T extends Overlay> T get(final Class<T> type) {
     T o = (T)memo_.get(type);
     if (o != null)
       return o;

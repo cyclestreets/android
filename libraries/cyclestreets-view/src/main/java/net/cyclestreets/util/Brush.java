@@ -46,7 +46,7 @@ public class Brush {
     return createTextBrush(size, 255, 255, 255);
   }
 
-  public static Paint createTextBrush(final int size, final int r, final int g, final int b)  {
+  public static Paint createTextBrush(final int size, final int r, final int g, final int b) {
     final Paint paint = createFillBrush(r, g, b);
 
     paint.setTextAlign(Paint.Align.CENTER);

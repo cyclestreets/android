@@ -41,7 +41,7 @@ class DatabaseHelper extends SQLiteOpenHelper {
   }
 
   @Override
-  public void onOpen(final SQLiteDatabase db)  {
+  public void onOpen(final SQLiteDatabase db) {
   }
 
   @Override

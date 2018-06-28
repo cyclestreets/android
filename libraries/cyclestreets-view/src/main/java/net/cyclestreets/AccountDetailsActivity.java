@@ -33,7 +33,7 @@ public class AccountDetailsActivity extends Activity
 
     EXISTING_SIGNIN_DETAILS(null);
 
-    RegisterStep(final RegisterStep p)  {
+    RegisterStep(final RegisterStep p) {
       prev_ = p;
       if (prev_ != null)
         prev_.next_ = this;
@@ -54,7 +54,7 @@ public class AccountDetailsActivity extends Activity
   private Button signinButton_;
 
   @Override
-  public void onCreate(final Bundle saved)  {
+  public void onCreate(final Bundle saved) {
     super.onCreate(saved);
 
     final LayoutInflater inflater = (LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -78,7 +78,7 @@ public class AccountDetailsActivity extends Activity
   }
 
   @Override
-  public void onBackPressed()  {
+  public void onBackPressed() {
     step_ = step_.prev();
 
     if (step_ != null)
@@ -87,8 +87,8 @@ public class AccountDetailsActivity extends Activity
       super.onBackPressed();
   }
 
-  private void setupView()  {
-    switch(step_)  {
+  private void setupView() {
+    switch(step_) {
     case ACCOUNT:
       setContentView(registerView_);
       hookUpButton(registerView_, R.id.newaccount_button);
@@ -130,31 +130,31 @@ public class AccountDetailsActivity extends Activity
     return getString(R.string.account_registration_is_free_long);
   }
 
-  private void hookUpButton(final View v, final int id)  {
+  private void hookUpButton(final View v, final int id) {
     final Button b = (Button)v.findViewById(id);
     if (b == null)
       return;
     b.setOnClickListener(this);
   }
 
-  private TextView textView(final View v, final int id)  {
+  private TextView textView(final View v, final int id) {
     return (TextView)v.findViewById(id);
   }
 
-  private void setText(final View v, final int id, final String value)  {
+  private void setText(final View v, final int id, final String value) {
     final TextView tv = textView(v, id);
     if (tv == null)
       return;
     tv.setText(value);
   }
 
-  private String getText(final View v, final int id)  {
+  private String getText(final View v, final int id) {
     final TextView tv = textView(v, id);
     return tv.getText().toString();
   }
 
   @Override
-  public void onClick(final View v)  {
+  public void onClick(final View v) {
     final int clicked  = v.getId();
 
     if (R.id.newaccount_button == clicked)
@@ -181,14 +181,14 @@ public class AccountDetailsActivity extends Activity
   @Override
   public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
   @Override
-  public void onTextChanged(CharSequence s, int start, int before, int count)  {
+  public void onTextChanged(CharSequence s, int start, int before, int count) {
     final String username = getText(signinDetails_, R.id.username);
     final String password = getText(signinDetails_, R.id.password);
     signinButton_.setEnabled((username.length() != 0) && (password.length() != 0));
   }
 
   ///////////////////////////////////////////////////////
-  private void confirmClear()  {
+  private void confirmClear() {
     MessageBox.YesNo(signinDetails_,
              getString(R.string.account_clear_details_confirm),
              new DialogInterface.OnClickListener() {
@@ -200,16 +200,16 @@ public class AccountDetailsActivity extends Activity
   }
 
   ////////////////////////////////////////////////////////
-  private void MessageBox(final String message, final boolean finishOnOK)  {
+  private void MessageBox(final String message, final boolean finishOnOK) {
     MessageBox.OKAndFinish(signinDetails_, message, this, finishOnOK);
   }
 
   ////////////////////////////////////////////////////////
-  private void signin()  {
+  private void signin() {
     final String username = getText(signinDetails_, R.id.username);
     final String password = getText(signinDetails_, R.id.password);
 
-    if ((username.length() == 0) || (password.length() == 0))  {
+    if ((username.length() == 0) || (password.length() == 0)) {
       MessageBox("Please enter username and password.", false);
       return;
     }
@@ -224,7 +224,7 @@ public class AccountDetailsActivity extends Activity
 
     SignInTask(final Context context,
                 final String username,
-                final String password)  {
+                final String password) {
       username_ = username;
       password_ = password;
 
@@ -232,17 +232,17 @@ public class AccountDetailsActivity extends Activity
     }
 
     @Override
-    protected void onPreExecute()  {
+    protected void onPreExecute() {
       super.onPreExecute();
       progress_.show();
     }
 
-    protected Signin.Result doInBackground(Object... params)  {
+    protected Signin.Result doInBackground(Object... params) {
       return Signin.signin(username_, password_);
     }
 
     @Override
-    protected void onPostExecute(final Signin.Result result)  {
+    protected void onPostExecute(final Signin.Result result) {
       progress_.dismiss();
 
       CycleStreetsPreferences.setUsernamePassword(username_,
@@ -257,7 +257,7 @@ public class AccountDetailsActivity extends Activity
   }
 
   ////////////////////////////////////////////////////////
-  private void register()  {
+  private void register() {
     final String emailRegex = "^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$";
 
     final String username = getText(registerDetails_, R.id.username);
@@ -309,12 +309,12 @@ public class AccountDetailsActivity extends Activity
     }
 
     @Override
-    protected void onPreExecute()  {
+    protected void onPreExecute() {
       super.onPreExecute();
       progress_.show();
     }
 
-    protected Result doInBackground(Object... params)  {
+    protected Result doInBackground(Object... params) {
       return Registration.register(username_,
                                    password_,
                                    name_,
@@ -322,7 +322,7 @@ public class AccountDetailsActivity extends Activity
     }
 
     @Override
-    protected void onPostExecute(final Result result)  {
+    protected void onPostExecute(final Result result) {
       progress_.dismiss();
       CycleStreetsPreferences.setPendingUsernamePassword(username_, password_, name_, email_, result.ok());
       MessageBox(result.message(), result.ok());

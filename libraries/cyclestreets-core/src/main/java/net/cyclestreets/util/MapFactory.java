@@ -9,7 +9,7 @@ import net.cyclestreets.util.Collections.MapBuilder;
 
 public class MapFactory<K, V>
 {
-  static public <K, V> MapBuilder<K, V> map(K key, V value)  {
+  static public <K, V> MapBuilder<K, V> map(K key, V value) {
   final Builder<K, V> builder = new Builder<>();
   return builder.map(key, value);
   }
@@ -17,11 +17,11 @@ public class MapFactory<K, V>
   static public class Builder<K, V> implements MapBuilder<K, V>  {
   private final Map<K, V> backing_;
 
-  private Builder()  {
+  private Builder() {
     backing_ = new HashMap<>();
   }
 
-  public MapBuilder<K, V> map(K key, V value)  {
+  public MapBuilder<K, V> map(K key, V value) {
     backing_.put(key, value);
     return this;
   }

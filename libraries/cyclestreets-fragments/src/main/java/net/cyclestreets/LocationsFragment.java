@@ -65,7 +65,7 @@ public class LocationsFragment extends ListFragment {
   }  // onCreateContextMenu
 
   @Override
-  public boolean onContextItemSelected(final MenuItem item)  {
+  public boolean onContextItemSelected(final MenuItem item) {
     try {
       final AdapterView.AdapterContextMenuInfo info
           = (AdapterView.AdapterContextMenuInfo)item.getMenuInfo();

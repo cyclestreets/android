@@ -14,21 +14,21 @@ public final class TurnIcons
   public final static class Mapping  {
     private final Map<String, Drawable> mapping_;
 
-    private Mapping(final Map<String, Drawable> mapping)  {
+    private Mapping(final Map<String, Drawable> mapping) {
       mapping_ = mapping;
     }
 
-    public Drawable icon(final String turn)  {
+    public Drawable icon(final String turn) {
       final Drawable i = mapping_.get(turn.toLowerCase());
       return i != null ? i : mapping_.get("default");
     }
   }
 
-  static public Mapping LoadMapping(final Context context)  {
+  static public Mapping LoadMapping(final Context context) {
     return new Mapping(loadIconMappings(context));
   }
 
-  static private Map<String, Drawable> loadIconMappings(final Context context)  {
+  static private Map<String, Drawable> loadIconMappings(final Context context) {
     final Resources res = context.getResources();
 
     return MapFactory.map("straight on", res.getDrawable(R.drawable.straight_on))

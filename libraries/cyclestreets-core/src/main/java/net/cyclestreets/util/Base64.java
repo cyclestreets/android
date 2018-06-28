@@ -487,7 +487,7 @@ public class Base64
                      | ( numSigBytes > 1 ? ((source[ srcOffset + 1 ] << 24) >>> 16) : 0 )
                      | ( numSigBytes > 2 ? ((source[ srcOffset + 2 ] << 24) >>> 24) : 0 );
 
-        switch( numSigBytes )  {
+        switch( numSigBytes ) {
             case 3:
                 destination[ destOffset     ] = ALPHABET[ (inBuff >>> 18)        ];
                 destination[ destOffset + 1 ] = ALPHABET[ (inBuff >>> 12) & 0x3f ];
@@ -904,7 +904,7 @@ public class Base64
                 encode3to4( source, d+off, 3, outBuff, e, options );
 
                 lineLength += 4;
-                if ( breakLines && lineLength >= MAX_LINE_LENGTH )  {
+                if ( breakLines && lineLength >= MAX_LINE_LENGTH ) {
                     outBuff[e+4] = NEW_LINE;
                     e++;
                     lineLength = 0;
@@ -1112,7 +1112,7 @@ public class Base64
             // White space, Equals sign, or legit Base64 character
             // Note the values such as -5 and -9 in the
             // DECODABETs at the top of the file.
-            if ( sbiDecode >= WHITE_SPACE_ENC )  {
+            if ( sbiDecode >= WHITE_SPACE_ENC ) {
                 if ( sbiDecode >= EQUALS_SIGN_ENC ) {
                     b4[ b4Posn++ ] = source[i];         // Save non-whitespace
                     if ( b4Posn > 3 ) {                  // Time to decode?
@@ -1186,7 +1186,7 @@ public class Base64
         if ( (bytes != null) && (bytes.length >= 4) && (!dontGunzip) ) {
 
             int head = ((int)bytes[0] & 0xff) | ((bytes[1] << 8) & 0xff00);
-            if ( java.util.zip.GZIPInputStream.GZIP_MAGIC == head )  {
+            if ( java.util.zip.GZIPInputStream.GZIP_MAGIC == head ) {
                 java.io.ByteArrayInputStream  bais = null;
                 java.util.zip.GZIPInputStream gzis = null;
                 java.io.ByteArrayOutputStream baos = null;
@@ -1399,7 +1399,7 @@ public class Base64
             int numBytes = 0;
 
             // Check for size of file
-            if ( file.length() > Integer.MAX_VALUE )  {
+            if ( file.length() > Integer.MAX_VALUE ) {
                 throw new java.io.IOException( "File is too big for this convenience method (" + file.length() + " bytes)." );
             }   // end if: file too big for int index
             buffer = new byte[ (int)file.length() ];

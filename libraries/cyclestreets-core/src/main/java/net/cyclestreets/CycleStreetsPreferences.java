@@ -186,12 +186,12 @@ public class CycleStreetsPreferences
                                          final String password,
                                          final String name,
                                          final String email,
-                                         final boolean signedin)  {
+                                         final boolean signedin) {
     final Editor editor = editor();
     editor.putString(PREF_USERNAME_KEY, username);
     editor.putString(PREF_PASSWORD_KEY, password);
     editor.putBoolean(PREF_VALIDATED_KEY, signedin);
-    if (signedin)  {
+    if (signedin) {
       editor.putString(PREF_NAME_KEY, name);
       editor.putString(PREF_EMAIL_KEY, email);
       editor.putBoolean(PREF_PENDING_KEY, false);
@@ -203,7 +203,7 @@ public class CycleStreetsPreferences
                                                 final String password,
                                                 final String name,
                                                 final String email,
-                                                final boolean pending)  {
+                                                final boolean pending) {
     final Editor editor = editor();
     editor.putString(PREF_USERNAME_KEY, username);
     editor.putString(PREF_PASSWORD_KEY, password);
@@ -214,7 +214,7 @@ public class CycleStreetsPreferences
     editor.commit();
   }
 
-  static public void clearUsernamePassword()  {
+  static public void clearUsernamePassword() {
     final Editor editor = editor();
     editor.putString(PREF_USERNAME_KEY, "");
     editor.putString(PREF_PASSWORD_KEY, "");
@@ -225,7 +225,7 @@ public class CycleStreetsPreferences
     editor.commit();
   }
 
-  static public void enableMapFile(final String filename)  {
+  static public void enableMapFile(final String filename) {
     final Editor editor = editor();
     editor.putString(PREF_MAPSTYLE_KEY, MAPSTYLE_MAPSFORGE);
     editor.putString(PREF_MAPFILE_KEY, filename);

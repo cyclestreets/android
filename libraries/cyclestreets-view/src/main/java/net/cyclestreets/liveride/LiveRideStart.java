@@ -9,13 +9,13 @@ import android.speech.tts.TextToSpeech;
 
 final class LiveRideStart extends LiveRideState
 {
-  LiveRideStart(final Context context, final PebbleNotifier pebbleNotifier, final TextToSpeech tts)  {
+  LiveRideStart(final Context context, final PebbleNotifier pebbleNotifier, final TextToSpeech tts) {
     super(context, pebbleNotifier, tts);
     notify("Starting LiveRide", "Starting LiveRide");
   }
 
   @Override
-  public LiveRideState update(Journey journey, GeoPoint whereIam, int accuracy)  {
+  public LiveRideState update(Journey journey, GeoPoint whereIam, int accuracy) {
     notify("LiveRide", "LiveRide");
     journey.setActiveSegmentIndex(0);
     notify(journey.activeSegment());

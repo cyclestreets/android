@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 
 public class PhotoMapFragment extends CycleMapFragment
 {
-  public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle saved)  {
+  public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle saved) {
     final View v = super.onCreateView(inflater, container, saved);
 
     overlayPushBottom(new PhotosOverlay(mapView()));

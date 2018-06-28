@@ -37,7 +37,7 @@ public class RouteHighlightOverlay extends Overlay implements ButtonTapListener
 
   private final Context context_;
 
-  public RouteHighlightOverlay(final Context context, final CycleMapView map)  {
+  public RouteHighlightOverlay(final Context context, final CycleMapView map) {
     super();
 
     context_ = context;
@@ -68,7 +68,7 @@ public class RouteHighlightOverlay extends Overlay implements ButtonTapListener
   }
 
   @Override
-  public void draw(final Canvas canvas, final MapView mapView, final boolean shadow)  {
+  public void draw(final Canvas canvas, final MapView mapView, final boolean shadow) {
     if (current_ == Route.journey().activeSegment())
       return;
 
@@ -80,7 +80,7 @@ public class RouteHighlightOverlay extends Overlay implements ButtonTapListener
   }
 
   @Override
-  public void drawButtons(final Canvas canvas, final MapView mapView)  {
+  public void drawButtons(final Canvas canvas, final MapView mapView) {
     if (!Route.available())
       return;
 
@@ -92,7 +92,7 @@ public class RouteHighlightOverlay extends Overlay implements ButtonTapListener
     nextButton_.draw(canvas);
   }
 
-  private void drawSegmentInfo(final Canvas canvas)  {
+  private void drawSegmentInfo(final Canvas canvas) {
     final Segment seg = Route.journey().activeSegment();
     if (seg == null)
       return;
@@ -114,7 +114,7 @@ public class RouteHighlightOverlay extends Overlay implements ButtonTapListener
 
   //////////////////////////////////////////////
   @Override
-  public boolean onButtonTap(final MotionEvent event)  {
+  public boolean onButtonTap(final MotionEvent event) {
     if (!Route.available())
       return false;
 
@@ -131,7 +131,7 @@ public class RouteHighlightOverlay extends Overlay implements ButtonTapListener
     return true;
   }
 
-  public boolean onButtonDoubleTap(final MotionEvent event)  {
+  public boolean onButtonDoubleTap(final MotionEvent event) {
     if (!Route.available())
       return false;
 

@@ -7,7 +7,7 @@ public class GeoHelper
 {
   private static final int RadiusInMetres = 6378137; // mean radius of Earth km
 
-  static public double boxWidthKm(final BoundingBoxE6 boundingBox)  {
+  static public double boxWidthKm(final BoundingBoxE6 boundingBox) {
     final int Radius = 6371; // mean radius of Earth km
     final double dLat = Math.toRadians(boundingBox.getLatitudeSpanE6() / 1E6);
 
@@ -18,7 +18,7 @@ public class GeoHelper
     return d;
   }
 
-  static public int distanceBetween(final IGeoPoint p1, final IGeoPoint p2)  {
+  static public int distanceBetween(final IGeoPoint p1, final IGeoPoint p2) {
     // uses the Haversine formula, which I only know about because
     // http://www.movable-type.co.uk/scripts/latlong.html was the
     // first hit on my Google search
@@ -39,7 +39,7 @@ public class GeoHelper
     return (int)d;
   }
 
-  static public double bearingTo(final IGeoPoint p1, final IGeoPoint p2)  {
+  static public double bearingTo(final IGeoPoint p1, final IGeoPoint p2) {
     final double rlat1 = Math.toRadians(p1.getLatitudeE6() / 1E6);
     final double rlon1 = Math.toRadians(p1.getLongitudeE6() / 1E6);
     final double rlat2 = Math.toRadians(p2.getLatitudeE6() / 1E6);
@@ -55,7 +55,7 @@ public class GeoHelper
     return Math.toRadians(normalised);
   }
 
-  static public double crossTrack(final IGeoPoint p1, final IGeoPoint p2, final IGeoPoint location)  {
+  static public double crossTrack(final IGeoPoint p1, final IGeoPoint p2, final IGeoPoint location) {
     // how far from the line defined by p1p2 is location
     // http://www.movable-type.co.uk/scripts/latlong.html
     double distanceToLoc = distanceBetween(p1, location);
@@ -88,7 +88,7 @@ public class GeoHelper
     public Position position() { return position_; }
   }
 
-  static public AlongTrack alongTrackOffset(final IGeoPoint p1, final IGeoPoint p2, final IGeoPoint location)  {
+  static public AlongTrack alongTrackOffset(final IGeoPoint p1, final IGeoPoint p2, final IGeoPoint location) {
     final double distanceToLoc = distanceBetween(p1, location);
     final double crossTrack = crossTrack(p1, p2, location);
     double offset = Math.acos(

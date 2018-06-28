@@ -31,14 +31,14 @@ public class Journey
     NULL_JOURNEY.activeSegment_ = -1;
   }
 
-  private Journey()  {
+  private Journey() {
     waypoints_ = new Waypoints();
     segments_ = new Segments();
     activeSegment_ = 0;
     elevations_ = new ElevationProfile();
   }
 
-  private Journey(final Waypoints waypoints)  {
+  private Journey(final Waypoints waypoints) {
     this();
     if (waypoints != null)
       waypoints_ = waypoints;
@@ -62,9 +62,9 @@ public class Journey
 
   /////////////////////////////////////////
   public void setActiveSegmentIndex(int index) { activeSegment_ = index; }
-  public void setActiveSegment(final Segment seg)  {
+  public void setActiveSegment(final Segment seg) {
     for(int i = 0; i != segments_.count(); ++i)
-      if (seg == segments_.get(i))  {
+      if (seg == segments_.get(i)) {
         setActiveSegmentIndex(i);
         break;
       }
@@ -72,7 +72,7 @@ public class Journey
   public int activeSegmentIndex() { return activeSegment_; }
 
   public Segment activeSegment() { return activeSegment_ >= 0 ? segments_.get(activeSegment_) : null; }
-  public Segment nextSegment()  {
+  public Segment nextSegment() {
     if (atEnd())
       return activeSegment();
     return segments_.get(activeSegment_+1);
@@ -82,21 +82,21 @@ public class Journey
   public boolean atWaypoint() { return activeSegment() instanceof Segment.Waymark; }
   public boolean atEnd() { return activeSegment_ == segments_.count()-1; }
 
-  public void regressActiveSegment()  {
+  public void regressActiveSegment() {
     if (!atStart())
       --activeSegment_;
   }
-  public void advanceActiveSegment()  {
+  public void advanceActiveSegment() {
     if (!atEnd())
       ++activeSegment_;
   }
 
-  public Iterator<IGeoPoint> points()  {
+  public Iterator<IGeoPoint> points() {
     return segments_.pointsIterator();
   }
 
   ////////////////////////////////////////////////////////////////
-  static private IGeoPoint pD(final IGeoPoint a1, final IGeoPoint a2)  {
+  static private IGeoPoint pD(final IGeoPoint a1, final IGeoPoint a2) {
     return a1 != null ? a1 : a2;
   }
 
@@ -143,7 +143,7 @@ As at 16 October 2012
    */
 
   static private JourneyFactory factory(final Waypoints waypoints,
-                                         final String name)  {
+                                         final String name) {
     return new JourneyFactory(waypoints, name);
   }
 
@@ -162,23 +162,23 @@ As at 16 October 2012
     private int leg_ = 1;
 
     public JourneyFactory(final Waypoints waypoints,
-                          final String name)  {
+                          final String name) {
       journey_ = new Journey(waypoints);
       name_ = name;
     }
 
-    private ContentHandler contentHandler()  {
+    private ContentHandler contentHandler() {
       Segment.formatter = DistanceFormatter.formatter(CycleStreetsPreferences.units());
 
       final RootElement root = new RootElement("markers");
       final Element marker = root.getChild("marker");
       marker.setStartElementListener(new StartElementListener() {
         @Override
-        public void start(final Attributes attr)  {
+        public void start(final Attributes attr) {
           final String type = s(attr, "type");
           final String name = s(attr, "name");
 
-          if (type.equals("segment"))  {
+          if (type.equals("segment")) {
             final String packedPoints = s(attr, "points");
 
             final String turn = s(attr, "turn");
@@ -190,7 +190,7 @@ As at 16 October 2012
 
             final List<IGeoPoint> points = pointsList(packedPoints);
 
-            if (currentLeg != leg_)  {
+            if (currentLeg != leg_) {
               journey_.segments_.add(new Segment.Waymark(leg_, total_distance, points.get(0)));
               leg_ = currentLeg;
             }
@@ -212,7 +212,7 @@ As at 16 October 2012
             List<Elevation> segmentProfile = elevationsList(distances, elevations);
             journey_.elevations_.add(segmentProfile);
           }
-          if (type.equals("route"))  {
+          if (type.equals("route")) {
             grammesCO2saved_ = i(attr, "grammesCO2saved");
             calories_ = i(attr, "calories");
             plan_ = s(attr, "plan");
@@ -224,7 +224,7 @@ As at 16 October 2012
         }
 
         private String s(final Attributes attr, final String name) { return attr.getValue(name); }
-        private int i(final Attributes attr, final String name)  {
+        private int i(final Attributes attr, final String name) {
           final String v = s(attr, name);
           return v != null ? Integer.parseInt(v) : 0;
         }
@@ -233,14 +233,14 @@ As at 16 October 2012
       if (journey_.waypoints().count() == 0)
         root.getChild("waypoint").setStartElementListener(new StartElementListener() {
           @Override
-          public void start(final Attributes attr)  {
+          public void start(final Attributes attr) {
             final double lat = d(attr, "latitude");
             final double lon = d(attr, "longitude");
 
             journey_.waypoints().add(lat, lon);
           }
 
-          private double d(final Attributes attr, final String name)  {
+          private double d(final Attributes attr, final String name) {
             final String v = attr.getValue(name);
             return v != null ? Double.parseDouble(v) : 0;
           }
@@ -248,7 +248,7 @@ As at 16 October 2012
 
       root.setEndElementListener(new EndElementListener() {
         @Override
-        public void end()  {
+        public void end() {
           final IGeoPoint from = journey_.waypoints().first();
           final IGeoPoint to = journey_.waypoints().last();
 
@@ -275,14 +275,14 @@ As at 16 October 2012
       return root.getContentHandler();
     }
 
-    public Journey get()  {
+    public Journey get() {
       return journey_;
     }
 
-    private List<IGeoPoint> pointsList(final String points)  {
+    private List<IGeoPoint> pointsList(final String points) {
       final List<IGeoPoint> pl = new ArrayList<>();
       final String[] coords = points.split(" ");
-      for (final String coord : coords)  {
+      for (final String coord : coords) {
         final String[] yx = coord.split(",");
         final GeoPoint p = new GeoPoint(Double.parseDouble(yx[1]), Double.parseDouble(yx[0]));
         pl.add(p);

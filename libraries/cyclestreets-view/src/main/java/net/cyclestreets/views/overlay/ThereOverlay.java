@@ -27,12 +27,12 @@ public class ThereOverlay extends Overlay implements TapListener
   private IGeoPoint there_ = null;
   private LocationListener listener_;
 
-  public ThereOverlay(final Context context)  {
+  public ThereOverlay(final Context context) {
     this(context, null);
   }
 
   public ThereOverlay(final Context context,
-                      final CycleMapView mapView)  {
+                      final CycleMapView mapView) {
     super();
     mapView_ = mapView;
 
@@ -40,17 +40,17 @@ public class ThereOverlay extends Overlay implements TapListener
     thereMarker_  = res.getDrawable(R.drawable.x_marks_spot);
   }
 
-  public void setMapView(final CycleMapView mapView)  {
+  public void setMapView(final CycleMapView mapView) {
     mapView_ = mapView;
     recentre();
   }
 
-  public void setLocationListener(final LocationListener listener)  {
+  public void setLocationListener(final LocationListener listener) {
     listener_ = listener;
   }
 
   public IGeoPoint there() { return there_; }
-  public void noOverThere(final IGeoPoint there)  {
+  public void noOverThere(final IGeoPoint there) {
     there_ = there;
 
     recentre();
@@ -59,7 +59,7 @@ public class ThereOverlay extends Overlay implements TapListener
       listener_.onSetLocation(there);
   }
 
-  public void recentre()  {
+  public void recentre() {
     if ((there_ == null) || (mapView_ == null))
       return;
 
@@ -69,7 +69,7 @@ public class ThereOverlay extends Overlay implements TapListener
   }
 
   @Override
-  public void draw(final Canvas canvas, final MapView mapView, final boolean shadow)  {
+  public void draw(final Canvas canvas, final MapView mapView, final boolean shadow) {
     if (there_ == null)
       return;
 
@@ -87,12 +87,12 @@ public class ThereOverlay extends Overlay implements TapListener
   }
 
   @Override
-  public boolean onDoubleTap(MotionEvent event)  {
+  public boolean onDoubleTap(MotionEvent event) {
     return false;
   }
 
   @Override
-  public boolean onSingleTap(final MotionEvent event)  {
+  public boolean onSingleTap(final MotionEvent event) {
     final IGeoPoint p = mapView_.getProjection().fromPixels((int)event.getX(), (int)event.getY());
     noOverThere(p);
     return true;
