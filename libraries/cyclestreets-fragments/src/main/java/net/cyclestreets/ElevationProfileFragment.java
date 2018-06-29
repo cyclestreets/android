@@ -65,6 +65,7 @@ public class ElevationProfileFragment extends Fragment implements Route.Listener
 
   private void drawGraph(final Journey journey) {
     final LineGraphView graph = new LineGraphView(getActivity(), "");
+    final ElevationFormatter formatter = elevationFormatter();
 
     List<GraphView.GraphViewData> data = new ArrayList<>();
     for (Elevation elevation : journey.elevation().profile())
@@ -74,11 +75,14 @@ public class ElevationProfileFragment extends Fragment implements Route.Listener
 
     graph.addSeries(graphSeries);
     graph.setDrawBackground(true);
+
+    graph.setManualYMinBound(formatter.roundHeightBelow(journey.elevation().minimum()));
+    graph.setManualYMaxBound(formatter.roundHeightAbove(journey.elevation().maximum()));
+
     graph.getGraphViewStyle().setGridStyle(GraphViewStyle.GridStyle.HORIZONTAL);
     graph.getGraphViewStyle().setNumHorizontalLabels(5);
-    graph.getGraphViewStyle().setNumVerticalLabels(4);
+    graph.getGraphViewStyle().setNumVerticalLabels(5);
 
-    final ElevationFormatter formatter = elevationFormatter();
     graph.setCustomLabelFormatter((value, isValueX) -> {
       if (isValueX)
         return (value != 0) ? formatter.distance((int)value) : "";
