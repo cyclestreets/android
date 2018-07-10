@@ -29,14 +29,14 @@ import java.util.List;
 import static net.cyclestreets.util.StringUtils.initCap;
 
 public class ElevationProfileFragment extends Fragment implements Route.Listener {
-  private LinearLayout graphHolder_;
+  private LinearLayout graphHolder;
 
   @Override
   public View onCreateView(final LayoutInflater inflater,
                            final ViewGroup container,
                            final Bundle savedInstanceState) {
     final View elevation = inflater.inflate(R.layout.elevation, container, false);
-    graphHolder_ = (LinearLayout)elevation.findViewById(R.id.graphview);
+    graphHolder = (LinearLayout)elevation.findViewById(R.id.graphview);
     return elevation;
   }
 
@@ -56,12 +56,11 @@ public class ElevationProfileFragment extends Fragment implements Route.Listener
   @Override
   public void onNewJourney(final Journey journey, final Waypoints waypoints) {
     drawGraph(journey);
-    drawText(journey);
+    fillInOverview(journey);
   }
 
   @Override
-  public void onResetJourney() {
-  }
+  public void onResetJourney() {}
 
   private void drawGraph(final Journey journey) {
     final LineGraphView graph = new LineGraphView(getActivity(), "");
@@ -88,11 +87,11 @@ public class ElevationProfileFragment extends Fragment implements Route.Listener
       }
     });
 
-    graphHolder_.removeAllViews();
-    graphHolder_.addView(graph);
+    graphHolder.removeAllViews();
+    graphHolder.addView(graph);
   }
 
-  private void drawText(final Journey journey) {
+  private void fillInOverview(final Journey journey) {
     Segment.Start start = journey.segments().first();
 
     setText(R.id.title, journey.name());
@@ -108,4 +107,4 @@ public class ElevationProfileFragment extends Fragment implements Route.Listener
   private String distance(final int metres) {
     return DistanceFormatter.formatter(CycleStreetsPreferences.units()).total_distance(metres);
   }
-} // ElevationProfileFragment
+}

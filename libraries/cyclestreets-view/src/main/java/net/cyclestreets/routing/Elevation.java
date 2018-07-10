@@ -1,14 +1,14 @@
 package net.cyclestreets.routing;
 
 public class Elevation {
-  final int distanceFromStart_;
-  final int elevation_;
+  private final int distanceFromStart;
+  private final int elevation;
 
   Elevation(final int d, final int e) {
-    distanceFromStart_ = d;
-    elevation_ = e;
+    distanceFromStart = d;
+    elevation = e;
   }
 
-  public int distance() { return distanceFromStart_; }
-  public int elevation() { return elevation_; }
+  public int distance() { return distanceFromStart; }
+  public int elevation() { return elevation; }
 }
