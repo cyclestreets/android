@@ -75,8 +75,8 @@ public class Photo implements Parcelable {
   public String toString() { return id_ + ":" + caption_; }
 
   public static class Video {
-    final private String format_;
-    final private String url_;
+    private final String format_;
+    private final String url_;
 
     public Video(final String format, final String url) {
       format_ = format;

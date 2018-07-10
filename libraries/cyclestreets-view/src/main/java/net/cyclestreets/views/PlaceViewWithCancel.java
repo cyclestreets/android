@@ -7,7 +7,7 @@ import android.widget.ImageButton;
 
 public class PlaceViewWithCancel extends PlaceViewBase
 {
-  final private ImageButton cancel_;
+  private final ImageButton cancel_;
 
   public PlaceViewWithCancel(final Context context) {
     this(context, null);
