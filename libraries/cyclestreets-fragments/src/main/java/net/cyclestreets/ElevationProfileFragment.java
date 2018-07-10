@@ -25,6 +25,7 @@ import net.cyclestreets.routing.Waypoints;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import static net.cyclestreets.util.StringUtils.initCap;
 
@@ -77,34 +78,45 @@ public class ElevationProfileFragment extends Fragment implements Route.Listener
     graph.getGraphViewStyle().setNumHorizontalLabels(5);
     graph.getGraphViewStyle().setNumVerticalLabels(4);
 
-    final ElevationFormatter formatter = ElevationFormatter.formatter(CycleStreetsPreferences.units());
-    graph.setCustomLabelFormatter(new CustomLabelFormatter() {
-      @Override
-      public String formatLabel(double value, boolean isValueX) {
-        if (isValueX)
-          return (value != 0) ? formatter.distance((int)value) : "";
-        return formatter.height((int) value);
-      }
+    final ElevationFormatter formatter = elevationFormatter();
+    graph.setCustomLabelFormatter((value, isValueX) -> {
+      if (isValueX)
+        return (value != 0) ? formatter.distance((int)value) : "";
+      return formatter.height((int) value);
     });
 
     graphHolder.removeAllViews();
     graphHolder.addView(graph);
   }
 
+  public TextView getTextView(int id) {
+    return getView().findViewById(id);
+  }
+
+  /////////////
+  // TODO: The methods below are duplicated in ItineraryFragment.java.  Commonise as default
+  //       interface methods once our minSdkVersion is >=24.
+  private DistanceFormatter distanceFormatter() {
+    return DistanceFormatter.formatter(CycleStreetsPreferences.units());
+  }
+
+  private ElevationFormatter elevationFormatter() {
+    return ElevationFormatter.formatter(CycleStreetsPreferences.units());
+  }
+
   private void fillInOverview(final Journey journey) {
     Segment.Start start = journey.segments().first();
 
     setText(R.id.title, journey.name());
-    setText(R.id.journeyid, String.format("#%,d", journey.itinerary()));
-    setText(R.id.routetype, initCap(journey.plan()) + " route:");
-    setText(R.id.distance, distance(journey.total_distance()));
+    setText(R.id.journeyid, String.format(Locale.getDefault(), "#%,d", journey.itinerary()));
+    setText(R.id.routetype, initCap(journey.plan()) + " " + getContext().getString(R.string.elevation_route) + ":");
+    setText(R.id.distance, distanceFormatter().total_distance(journey.total_distance()));
     setText(R.id.journeytime, start.totalTime());
     setText(R.id.calories, start.calories());
     setText(R.id.carbondioxide, start.co2());
   }
 
-  private void setText(int id, String text) { ((TextView)getView().findViewById(id)).setText(text); }
-  private String distance(final int metres) {
-    return DistanceFormatter.formatter(CycleStreetsPreferences.units()).total_distance(metres);
+  private void setText(int id, String text) {
+    getTextView(id).setText(text);
   }
 }

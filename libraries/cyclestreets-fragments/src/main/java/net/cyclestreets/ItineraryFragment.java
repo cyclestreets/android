@@ -15,12 +15,15 @@ import android.widget.TextView;
 
 import net.cyclestreets.api.DistanceFormatter;
 import net.cyclestreets.fragments.R;
+import net.cyclestreets.routing.ElevationFormatter;
 import net.cyclestreets.routing.Journey;
 import net.cyclestreets.routing.Route;
 import net.cyclestreets.routing.Segment;
 import net.cyclestreets.routing.Waypoints;
 import net.cyclestreets.util.Theme;
 import net.cyclestreets.util.TurnIcons;
+
+import java.util.Locale;
 
 import static net.cyclestreets.util.StringUtils.initCap;
 
@@ -77,18 +80,23 @@ public class ItineraryFragment extends ListFragment implements Route.Listener {
     private final LayoutInflater inflater_;
     private final Drawable themeColor_;
     private final int backgroundColor_;
+    private final String routeString;
+    private View v;
 
     SegmentAdapter(final Context context, final ItineraryFragment itinerary) {
       itinerary_ = itinerary;
       iconMappings_ = TurnIcons.LoadMapping(context);
       footprints_ = context.getResources().getDrawable(R.drawable.footprints);
 
-      inflater_ = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+      inflater_ = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
       themeColor_ = context.getResources().getDrawable(R.color.apptheme_color);
       backgroundColor_ = Theme.backgroundColor(context);
+      routeString = context.getString(R.string.elevation_route);
     }
 
-    private Journey journey() { return itinerary_.journey_; }
+    private Journey journey() {
+      return itinerary_.journey_;
+    }
 
     private boolean hasSegments() {
       return !journey().isEmpty();
@@ -118,28 +126,19 @@ public class ItineraryFragment extends ListFragment implements Route.Listener {
 
       final Segment seg = Route.journey().segments().get(position);
       final int layout_id = position != 0 ? R.layout.itinerary_item : R.layout.itinerary_header_item;
-      final View v = inflater_.inflate(layout_id, parent, false);
+      v = inflater_.inflate(layout_id, parent, false);
 
       final boolean highlight = (position == Route.journey().activeSegmentIndex());
 
       if (position == 0) {
-        Journey journey = Route.journey();
-        Segment.Start start = journey.segments().first();
-
-        setText(v, R.id.title, journey.name(), false);
-        setText(v, R.id.journeyid, String.format("#%,d", journey.itinerary()), false);
-        setText(v, R.id.routetype, initCap(journey.plan()) + " route:", false);
-        setText(v, R.id.distance, distance(journey.total_distance()), false);
-        setText(v, R.id.journeytime, start.totalTime(), false);
-        setText(v, R.id.calories, start.calories(), false);
-        setText(v, R.id.carbondioxide, start.co2(), false);
+        fillInOverview(Route.journey());
       }
-      setText(v, R.id.segment_distance, seg.distance(), highlight);
-      setText(v, R.id.segment_cumulative_distance, seg.runningDistance(), highlight);
-      setText(v, R.id.segment_time, seg.runningTime(), highlight);
+      setText(R.id.segment_distance, seg.distance(), highlight);
+      setText(R.id.segment_cumulative_distance, seg.runningDistance(), highlight);
+      setText(R.id.segment_time, seg.runningTime(), highlight);
 
-      setMainText(v, R.id.segment_street, seg.turn(), seg.street(), highlight);
-      setTurnIcon(v, R.id.segment_type, seg.turn(), seg.walk());
+      setMainText(R.id.segment_street, seg.turn(), seg.street(), highlight);
+      setTurnIcon(R.id.segment_type, seg.turn(), seg.walk());
 
       if (highlight && position != 0)
         v.setBackgroundDrawable(themeColor_);
@@ -147,8 +146,8 @@ public class ItineraryFragment extends ListFragment implements Route.Listener {
       return v;
     }
 
-    private void setText(final View v, final int id, final String t, final boolean highlight) {
-      final TextView n = (TextView)v.findViewById(id);
+    private void setText(final int id, final String t, final boolean highlight) {
+      final TextView n = getTextView(id);
       if (n == null)
         return;
       n.setText(t);
@@ -156,15 +155,15 @@ public class ItineraryFragment extends ListFragment implements Route.Listener {
         n.setTextColor(Color.BLACK);
     }
 
-    private void setMainText(final View v, final int id, final String turn, final String street, final boolean highlight) {
+    private void setMainText(final int id, final String turn, final String street, final boolean highlight) {
       String t = street;
       if (turn.length() != 0)
         t = turn + " into " + street;
-      setText(v, id, t, highlight);
+      setText(id, t, highlight);
     }
 
-    private void setTurnIcon(final View v, final int id, final String turn, final boolean walk) {
-      final ImageView iv = (ImageView)v.findViewById(id);
+    private void setTurnIcon(final int id, final String turn, final boolean walk) {
+      final ImageView iv = v.findViewById(id);
       if (iv == null)
         return;
 
@@ -179,6 +178,35 @@ public class ItineraryFragment extends ListFragment implements Route.Listener {
       return iconMappings_.icon(turn);
     }
 
-    private String distance(final int metres) { return DistanceFormatter.formatter(CycleStreetsPreferences.units()).total_distance(metres); }
+    public TextView getTextView(int id) {
+      return v.findViewById(id);
+    }
+
+    /////////////
+    // TODO: The methods below are duplicated in ElevationProfileFragment.java.  Commonise as default
+    //       interface methods once our minSdkVersion is >=24.
+    private DistanceFormatter distanceFormatter() {
+      return DistanceFormatter.formatter(CycleStreetsPreferences.units());
+    }
+
+    private ElevationFormatter elevationFormatter() {
+      return ElevationFormatter.formatter(CycleStreetsPreferences.units());
+    }
+
+    private void fillInOverview(final Journey journey) {
+      Segment.Start start = journey.segments().first();
+
+      setText(R.id.title, journey.name());
+      setText(R.id.journeyid, String.format(Locale.getDefault(), "#%,d", journey.itinerary()));
+      setText(R.id.routetype, initCap(journey.plan()) + " " + routeString + ":");
+      setText(R.id.distance, distanceFormatter().total_distance(journey.total_distance()));
+      setText(R.id.journeytime, start.totalTime());
+      setText(R.id.calories, start.calories());
+      setText(R.id.carbondioxide, start.co2());
+    }
+
+    private void setText(int id, String text) {
+      getTextView(id).setText(text);
+    }
   }
 }
