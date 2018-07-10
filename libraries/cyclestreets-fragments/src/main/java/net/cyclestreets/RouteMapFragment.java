@@ -15,13 +15,14 @@ import net.cyclestreets.routing.Waypoints;
 import android.Manifest;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.support.v4.view.MenuItemCompat;
+import android.support.v7.widget.ShareActionProvider;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ShareActionProvider;
 
 import static net.cyclestreets.util.MenuHelper.enableMenuItem;
 import static net.cyclestreets.util.MenuHelper.showMenuItem;
@@ -80,7 +81,7 @@ public class RouteMapFragment extends CycleMapFragment implements Route.Listener
     inflater.inflate(R.menu.route_map, menu);
 
     MenuItem shareRouteItem = menu.findItem(R.id.ic_menu_share_route);
-    Route.setShareRouteActionProvider((ShareActionProvider) shareRouteItem.getActionProvider());
+    Route.setShareRouteActionProvider((ShareActionProvider) MenuItemCompat.getActionProvider(shareRouteItem));
 
     super.onCreateOptionsMenu(menu, inflater);
   }
