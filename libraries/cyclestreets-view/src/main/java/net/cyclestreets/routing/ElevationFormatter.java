@@ -32,8 +32,8 @@ public abstract class ElevationFormatter {
   static private class ImperialFormatter extends ElevationFormatter {
     @Override
     public String height(int metres) {
-      int yards = metresToYards(metres);
-      return String.format("%d yards", yards);
+      int feet = metresToFeet(metres);
+      return String.format("%d ft", feet);
     }
 
     @Override
@@ -46,6 +46,7 @@ public abstract class ElevationFormatter {
     }
 
     private int metresToYards(int metres) { return (int)(metres * 1.0936133); }
+    private int metresToFeet(int metres) { return (int)(metres * 3.2808399); }
   }
 
   static private int round_distance(int units) {
