@@ -45,6 +45,8 @@
   <string name="elevation_calories_burned">कैलोरी:</string>
   <string name="elevation_estimated_time">समय:</string>
   <string name="elevation_journey_number">यात्रा नंबर:</string>
+  <string name="elevation_gain">Total elevation gain:</string>
+  <string name="elevation_loss">Total elevation loss:</string>
   <string name="elevation_route">मार्ग</string>
 
   <string name="findplace_name_or_address">नाम या पते की जगह</string>
