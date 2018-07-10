@@ -325,11 +325,11 @@ public abstract class MainNavDrawerActivity extends AppCompatActivity implements
         final FragmentTransaction ft = fragmentManager.beginTransaction();
         ft.replace(R.id.container, newFrag);
         ft.commit();
-      } //
+     }
       if (di instanceof ActivityItem) {
         final Intent intent = new Intent(getActivity(), ((ActivityItem)di).activityClass());
         startActivity(intent);
-      } //
+     }
     }
 
     public int selectedItem() { return currentSelectedPosition_; }

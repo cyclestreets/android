@@ -195,7 +195,7 @@ public abstract class Segment {
     }
 
     return minIndex;
-  }// closestPoint
+  }
 
   public int distanceFromEnd(final GeoPoint location) {
     return GeoHelper.distanceBetween(finish(), location);

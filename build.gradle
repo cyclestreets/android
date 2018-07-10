@@ -21,14 +21,14 @@ configure(subprojects.findAll { it.path.startsWith(':custom-versions:') ||
   signingKey(it)
   manifestProperties(it)
   versionProperties(it)
-} // configure apks
+}
 
 configure(subprojects.findAll { it.path.startsWith(':libraries:') }) {
   if (!file("${projectDir}/build.gradle").exists())
     return
 
   apply plugin: 'com.android.library'
-} // configure libraries
+}
 
 subprojects {
   if (!file("${projectDir}/build.gradle").exists())
@@ -61,36 +61,36 @@ subprojects {
       exclude 'META-INF/DEPENDENCIES'
       exclude 'META-INF/NOTICE'
       exclude 'META-INF/NOTICE.txt'
-    } // packagingOptions
+   }
 
     // Required due to strictness of the Android developer tools.  See lint.xml for full details.
     lintOptions {
       lintConfig rootProject.file('gradle/lint.xml')
     }
-  } // android
-} // subprojects
+ }
+}
 
 def loadProperties(fileName) {
   Properties props = new Properties()
   props.load(new FileInputStream(file(fileName)))
   return props
-} // loadProperties
+}
 
 def manifestProperties(project) {
   def cyclestreetsDetails = project.file("cyclestreets.properties")
   if (!cyclestreetsDetails.exists()) {
     println ":${project.name}:No cyclestreets.properties"
     return
-  } // no cyclestreets props
+ }
 
   project.android {
     buildTypes {
       all {
         manifestPlaceholders = loadProperties(cyclestreetsDetails)
       }
-    } // buildType
-  } // android
-} // manifestProperties
+   }
+ }
+}
 
 def versionProperties(project) {
   // Get the version name.  We increment this manually after pushing beta releases to Production.
@@ -108,15 +108,15 @@ def versionProperties(project) {
       versionCode vCode
       versionName vName
     }
-  } // android
-} // versionProperties
+ }
+}
 
 def signingKey(project) {
   def licenseDetails = project.file("license.properties")
   if (!licenseDetails.exists()) {
     println ":${project.name}:No license.properties"
     return
-  } // licenseDetails.exists
+  }
 
   Properties props = loadProperties(licenseDetails)
 
@@ -132,7 +132,7 @@ def signingKey(project) {
         keyAlias props['key.alias']
         keyPassword props['key.password']
       }
-    } // signingConfigs
+   }
 
     playAccountConfigs {
       defaultAccountConfig {
@@ -149,9 +149,9 @@ def signingKey(project) {
       release {
         signingConfig signingConfigs.release
       }
-    } // buildTypes
-  } // android
-} // signingKey
+   }
+ }
+}
 
 repositories {
   google()
