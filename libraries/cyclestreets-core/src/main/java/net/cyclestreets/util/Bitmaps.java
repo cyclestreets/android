@@ -11,18 +11,18 @@ import android.graphics.Matrix;
 
 public class Bitmaps
 {
-  static private BitmapFactory.Options decodeOptions() {
+  private static BitmapFactory.Options decodeOptions() {
     final BitmapFactory.Options decodeOptions = new BitmapFactory.Options();
     decodeOptions.inPurgeable = true;
     decodeOptions.inSampleSize = 4;
     return decodeOptions;
   }
 
-  static public Bitmap loadFile(final String fileName) {
+  public static Bitmap loadFile(final String fileName) {
     return BitmapFactory.decodeFile(fileName, decodeOptions());
   }
 
-  static public Bitmap loadStream(final InputStream stream) {
+  public static Bitmap loadStream(final InputStream stream) {
     Bitmap bm = null;
     try {
       // return BitmapFactory.decodeStream(inputStream);
@@ -43,7 +43,7 @@ public class Bitmaps
     return bm;
   }
 
-  static public String resizePhoto(final String fileName) {
+  public static String resizePhoto(final String fileName) {
     if (fileName == null)
       return null;
 
@@ -94,14 +94,14 @@ public class Bitmaps
     }
   }
 
-  static private BitmapFactory.Options bitmapBounds(final String fileName) {
+  private static BitmapFactory.Options bitmapBounds(final String fileName) {
     final BitmapFactory.Options o = new BitmapFactory.Options();
     o.inJustDecodeBounds = true;
     BitmapFactory.decodeFile(fileName, o);
     return o;
   }
 
-  static private class FlushedInputStream extends FilterInputStream  {
+  private static class FlushedInputStream extends FilterInputStream  {
     public FlushedInputStream(final InputStream inputStream) {
       super(inputStream);
     }

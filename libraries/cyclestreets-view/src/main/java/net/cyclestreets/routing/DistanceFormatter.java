@@ -7,16 +7,16 @@ public abstract class DistanceFormatter
   public abstract String speed(float metresPerSec);
   public abstract String speedUnit();
 
-  static public DistanceFormatter formatter(final String name) {
+  public static DistanceFormatter formatter(final String name) {
     if ("miles".equals(name))
       return milesFormatter;
     return kmFormatter;
   }
 
-  static private DistanceFormatter kmFormatter = new KmFormatter();
-  static private DistanceFormatter milesFormatter = new MilesFormatter();
+  private static DistanceFormatter kmFormatter = new KmFormatter();
+  private static DistanceFormatter milesFormatter = new MilesFormatter();
 
-  static private class KmFormatter extends DistanceFormatter  {
+  private static class KmFormatter extends DistanceFormatter  {
     public String distance(int metres) {
       if (metres < 2000)
         return String.format("%dm", round_distance(metres));
@@ -41,7 +41,7 @@ public abstract class DistanceFormatter
     }
   }
 
-  static private class MilesFormatter extends DistanceFormatter  {
+  private static class MilesFormatter extends DistanceFormatter  {
     private int metresToYards(int metres) { return (int)(metres * 1.0936133); }
 
     public String distance(int metres) {

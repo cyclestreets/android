@@ -13,38 +13,38 @@ public class MessageBox
         public void onClick(DialogInterface arg0, int arg1) {  }
       };
 
-  static public void YesNo(final View parent,
+  public static void YesNo(final View parent,
                            final int msg,
                            final DialogInterface.OnClickListener yesAction) {
     YesNo(parent.getContext(), msg, yesAction);
   }
 
-  static public void YesNo(final View parent,
+  public static void YesNo(final View parent,
                            final String msg,
                            final DialogInterface.OnClickListener yesAction) {
     YesNo(parent.getContext(), msg, yesAction);
   }
 
-  static public void YesNo(final Context context,
+  public static void YesNo(final Context context,
                            final int msg,
                            final DialogInterface.OnClickListener yesAction) {
     YesNo(context, context.getString(msg), yesAction, NoAction);
   }
 
-  static public void YesNo(final Context context,
+  public static void YesNo(final Context context,
                            final String msg,
                            final DialogInterface.OnClickListener yesAction) {
     YesNo(context, msg, yesAction, NoAction);
   }
 
-  static public void YesNo(final View parent,
+  public static void YesNo(final View parent,
                            final String msg,
                            final DialogInterface.OnClickListener yesAction,
                            final DialogInterface.OnClickListener noAction) {
     YesNo(parent.getContext(), msg, yesAction, noAction);
   }
 
-  static public void YesNo(final Context context,
+  public static void YesNo(final Context context,
       final String msg,
       final DialogInterface.OnClickListener yesAction,
       final DialogInterface.OnClickListener noAction)
@@ -56,18 +56,18 @@ public class MessageBox
     Dialog.show(alertbox);
   }
 
-  static public void OK(final View parent, final int msg) {
+  public static void OK(final View parent, final int msg) {
     OK(parent.getContext(), parent.getContext().getString(msg));
   }
 
-  static public void OK(final View parent, final String msg) { OK(parent.getContext(), msg); }
-  static public void OK(final Context context, final String msg) { OK(context, msg, NoAction); }
+  public static void OK(final View parent, final String msg) { OK(parent.getContext(), msg); }
+  public static void OK(final Context context, final String msg) { OK(context, msg, NoAction); }
 
-  static public void OK(final View parent,
+  public static void OK(final View parent,
                         final String msg,
                         final DialogInterface.OnClickListener okAction) { OK(parent.getContext(), msg, okAction); }
 
-  static public void OK(final Context context,
+  public static void OK(final Context context,
                         final String msg,
                         final DialogInterface.OnClickListener okAction) {
     final AlertDialog.Builder alertbox = Dialog.newBuilder(context);
@@ -76,7 +76,7 @@ public class MessageBox
     Dialog.show(alertbox);
   }
 
-  static public void OKAndFinish(final View view,
+  public static void OKAndFinish(final View view,
                                  final String msg,
                                  final Activity activity,
                                  final boolean finishOnOK) {

@@ -47,7 +47,7 @@ public class Segments implements Iterable<Segment>
 
   public Iterator<IGeoPoint> pointsIterator() { return new PointsIterator(this); }
 
-  static private class PointsIterator implements Iterator<IGeoPoint>  {
+  private static class PointsIterator implements Iterator<IGeoPoint>  {
     private final Iterator<Segment> segments_;
     private Iterator<IGeoPoint> points_;
 

@@ -25,7 +25,7 @@ public class Journey
   private ElevationProfile elevations_;
   private int activeSegment_;
 
-  static public final Journey NULL_JOURNEY;
+  public static final Journey NULL_JOURNEY;
   static {
     NULL_JOURNEY = new Journey();
     NULL_JOURNEY.activeSegment_ = -1;
@@ -96,7 +96,7 @@ public class Journey
   }
 
   ////////////////////////////////////////////////////////////////
-  static private IGeoPoint pD(final IGeoPoint a1, final IGeoPoint a2) {
+  private static IGeoPoint pD(final IGeoPoint a1, final IGeoPoint a2) {
     return a1 != null ? a1 : a2;
   }
 
@@ -142,12 +142,12 @@ As at 16 October 2012
 </markers>
    */
 
-  static private JourneyFactory factory(final Waypoints waypoints,
+  private static JourneyFactory factory(final Waypoints waypoints,
                                          final String name) {
     return new JourneyFactory(waypoints, name);
   }
 
-  static private class JourneyFactory  {
+  private static class JourneyFactory  {
     private final Journey journey_;
     private final String name_;
     private int total_time = 0;

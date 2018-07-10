@@ -10,7 +10,7 @@ import android.graphics.Paint.FontMetricsInt;
 
 public class Draw
 {
-  static public Rect drawBubble(final Canvas canvas,
+  public static Rect drawBubble(final Canvas canvas,
                                 final Paint brush,
                                 final int offset,
                                 final float cornerRadius,
@@ -64,14 +64,14 @@ public class Draw
     return bounds;
   }
 
-  static public int measureTextInRect(final Canvas canvas,
+  public static int measureTextInRect(final Canvas canvas,
                                       final Paint brush,
                                       final Rect r,
                                       final String text) {
     return textInRect(false, canvas, brush, r, text);
   }
 
-  static public int drawTextInRect(final Canvas canvas,
+  public static int drawTextInRect(final Canvas canvas,
                                    final Paint brush,
                                    final Rect r,
                                    final String text) {
@@ -80,7 +80,7 @@ public class Draw
 
   // got this from
   // http://groups.google.com/group/android-developers/browse_thread/thread/820fb7ddbfd1ca99
-  static private int textInRect(final boolean draw,
+  private static int textInRect(final boolean draw,
                                 final Canvas canvas,
                                 final Paint brush,
                                 final Rect r,

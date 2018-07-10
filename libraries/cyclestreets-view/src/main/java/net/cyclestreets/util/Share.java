@@ -7,21 +7,21 @@ import android.view.View;
 
 public class Share
 {
-  static public void Url(final Activity activity,
+  public static void Url(final Activity activity,
                final String url,
                    final String caption,
                    final String title) {
     do_url(activity, url, caption, title);
   }
 
-  static public void Url(final View view,
+  public static void Url(final View view,
                final String url,
                final String caption,
                final String title) {
     do_url(view.getContext(), url, caption, title);
   }
 
-  static private void do_url(final Context context,
+  private static void do_url(final Context context,
                  final String url,
                  final String caption,
                  final String title) {

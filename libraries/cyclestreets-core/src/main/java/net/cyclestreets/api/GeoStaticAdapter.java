@@ -37,7 +37,7 @@ public class GeoStaticAdapter extends GeoAdapter
     coder.execute(search, bounds);
   }
 
-  static private class AsyncGeoCoder extends AsyncTask<Object, Void, GeoPlaces>  {
+  private static class AsyncGeoCoder extends AsyncTask<Object, Void, GeoPlaces>  {
     private GeoStaticAdapter owner_;
 
     public AsyncGeoCoder(final GeoStaticAdapter adapter) {

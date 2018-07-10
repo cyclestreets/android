@@ -496,7 +496,7 @@ public class TapToRouteOverlay extends Overlay
     WAITING_TO_ROUTE,
     ALL_DONE;
 
-    static public TapToRoute start() {
+    public static TapToRoute start() {
       return WAITING_FOR_START;
     }
 

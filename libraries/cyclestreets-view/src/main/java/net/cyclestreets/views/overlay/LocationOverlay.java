@@ -37,7 +37,7 @@ public class LocationOverlay extends MyLocationNewOverlay {
 
   private boolean lockedOn_;
 
-  static private class UseEverythingLocationProvider extends GpsMyLocationProvider {
+  private static class UseEverythingLocationProvider extends GpsMyLocationProvider {
     public UseEverythingLocationProvider(Context context) {
       super(context);
       LocationManager locMan = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);

@@ -32,7 +32,7 @@ public class JourneyOverlay extends Overlay {
     return jo;
   }
 
-  static private int ROUTE_COLOUR = 0x80ff00ff;
+  private static int ROUTE_COLOUR = 0x80ff00ff;
 
   private final CycleMapView mapView_;
   private boolean initial_ = true;

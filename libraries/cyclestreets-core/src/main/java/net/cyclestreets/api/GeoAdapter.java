@@ -15,7 +15,7 @@ import java.util.List;
 
 public class GeoAdapter extends ArrayAdapter<GeoPlace>
 {
-  static private final int AdapterViewId = R.layout.geo_item_2line;
+  private static final int AdapterViewId = R.layout.geo_item_2line;
 
   private final LayoutInflater inflater;
 

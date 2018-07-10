@@ -9,12 +9,12 @@ import net.cyclestreets.util.Collections.MapBuilder;
 
 public class MapFactory<K, V>
 {
-  static public <K, V> MapBuilder<K, V> map(K key, V value) {
+  public static <K, V> MapBuilder<K, V> map(K key, V value) {
   final Builder<K, V> builder = new Builder<>();
   return builder.map(key, value);
   }
 
-  static public class Builder<K, V> implements MapBuilder<K, V>  {
+  public static class Builder<K, V> implements MapBuilder<K, V>  {
   private final Map<K, V> backing_;
 
   private Builder() {

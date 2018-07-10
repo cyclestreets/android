@@ -4,16 +4,16 @@ public abstract class ElevationFormatter {
   public abstract String height(int metres);
   public abstract String distance(int metres);
 
-  static public ElevationFormatter formatter(final String name) {
+  public static ElevationFormatter formatter(final String name) {
     if ("miles".equals(name))
       return imperialFormatter;
     return metricFormatter;
   }
 
-  static private ElevationFormatter metricFormatter = new MetricFormatter();
-  static private ElevationFormatter imperialFormatter = new ImperialFormatter();
+  private static ElevationFormatter metricFormatter = new MetricFormatter();
+  private static ElevationFormatter imperialFormatter = new ImperialFormatter();
 
-  static private class MetricFormatter extends ElevationFormatter {
+  private static class MetricFormatter extends ElevationFormatter {
     @Override
     public String height(int metres) {
       return String.format("%dm", metres);
@@ -29,7 +29,7 @@ public abstract class ElevationFormatter {
     }
   }
 
-  static private class ImperialFormatter extends ElevationFormatter {
+  private static class ImperialFormatter extends ElevationFormatter {
     @Override
     public String height(int metres) {
       int yards = metresToYards(metres);
@@ -48,7 +48,7 @@ public abstract class ElevationFormatter {
     private int metresToYards(int metres) { return (int)(metres * 1.0936133); }
   }
 
-  static private int round_distance(int units) {
+  private static int round_distance(int units) {
     return (units < 500) ?
               (int)(units/5.0) * 5 :
               (int)(units/10.0) * 10;
