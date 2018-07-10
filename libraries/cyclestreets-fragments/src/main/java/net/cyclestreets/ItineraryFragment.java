@@ -28,7 +28,7 @@ import java.util.Locale;
 import static net.cyclestreets.util.StringUtils.initCap;
 
 public class ItineraryFragment extends ListFragment implements Route.Listener {
-  private Journey journey_ = Journey.NULL_JOURNEY;
+  private Journey journey = Journey.NULL_JOURNEY;
 
   @Override
   public void onCreate(final Bundle savedInstanceState) {
@@ -51,10 +51,10 @@ public class ItineraryFragment extends ListFragment implements Route.Listener {
 
   @Override
   public void onListItemClick(ListView l, View v, int position, long id) {
-    if (journey_.isEmpty())
+    if (journey.isEmpty())
       return;
 
-    journey_.setActiveSegmentIndex(position);
+    journey.setActiveSegmentIndex(position);
     try {
       ((RouteMapActivity)getActivity()).showMap();
     } catch (Exception e) {
@@ -63,39 +63,39 @@ public class ItineraryFragment extends ListFragment implements Route.Listener {
 
   @Override
   public void onNewJourney(final Journey journey, final Waypoints waypoints) {
-    journey_ = journey;
-    setSelection(journey_.activeSegmentIndex());
+    this.journey = journey;
+    setSelection(this.journey.activeSegmentIndex());
   }
 
   @Override
   public void onResetJourney() {
-    journey_ = Journey.NULL_JOURNEY;
+    journey = Journey.NULL_JOURNEY;
   }
 
   //////////////////////////////////
   static class SegmentAdapter extends BaseAdapter {
-    private final ItineraryFragment itinerary_;
-    private final TurnIcons.Mapping iconMappings_;
-    private final Drawable footprints_;
-    private final LayoutInflater inflater_;
-    private final Drawable themeColor_;
-    private final int backgroundColor_;
+    private final ItineraryFragment itinerary;
+    private final TurnIcons.Mapping iconMappings;
+    private final Drawable footprints;
+    private final LayoutInflater inflater;
+    private final Drawable themeColor;
+    private final int backgroundColor;
     private final String routeString;
     private View v;
 
     SegmentAdapter(final Context context, final ItineraryFragment itinerary) {
-      itinerary_ = itinerary;
-      iconMappings_ = TurnIcons.LoadMapping(context);
-      footprints_ = context.getResources().getDrawable(R.drawable.footprints);
+      this.itinerary = itinerary;
+      iconMappings = TurnIcons.LoadMapping(context);
+      footprints = context.getResources().getDrawable(R.drawable.footprints);
 
-      inflater_ = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-      themeColor_ = context.getResources().getDrawable(R.color.apptheme_color);
-      backgroundColor_ = Theme.backgroundColor(context);
+      inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+      themeColor = context.getResources().getDrawable(R.color.apptheme_color);
+      backgroundColor = Theme.backgroundColor(context);
       routeString = context.getString(R.string.elevation_route);
     }
 
     private Journey journey() {
-      return itinerary_.journey_;
+      return itinerary.journey;
     }
 
     private boolean hasSegments() {
@@ -122,11 +122,11 @@ public class ItineraryFragment extends ListFragment implements Route.Listener {
     @Override
     public View getView(final int position, final View convertView, final ViewGroup parent) {
       if (!hasSegments())
-        return inflater_.inflate(R.layout.itinerary_not_available, parent, false);
+        return inflater.inflate(R.layout.itinerary_not_available, parent, false);
 
       final Segment seg = Route.journey().segments().get(position);
       final int layout_id = position != 0 ? R.layout.itinerary_item : R.layout.itinerary_header_item;
-      v = inflater_.inflate(layout_id, parent, false);
+      v = inflater.inflate(layout_id, parent, false);
 
       final boolean highlight = (position == Route.journey().activeSegmentIndex());
 
@@ -141,7 +141,7 @@ public class ItineraryFragment extends ListFragment implements Route.Listener {
       setTurnIcon(R.id.segment_type, seg.turn(), seg.walk());
 
       if (highlight && position != 0)
-        v.setBackgroundDrawable(themeColor_);
+        v.setBackgroundDrawable(themeColor);
 
       return v;
     }
@@ -169,13 +169,13 @@ public class ItineraryFragment extends ListFragment implements Route.Listener {
 
       final Drawable icon = turnIcon(turn);
       iv.setImageDrawable(icon);
-      iv.setBackgroundColor(backgroundColor_);
+      iv.setBackgroundColor(backgroundColor);
       if (walk)
-        iv.setBackgroundDrawable(footprints_);
+        iv.setBackgroundDrawable(footprints);
     }
 
     private Drawable turnIcon(final String turn) {
-      return iconMappings_.icon(turn);
+      return iconMappings.icon(turn);
     }
 
     public TextView getTextView(int id) {
