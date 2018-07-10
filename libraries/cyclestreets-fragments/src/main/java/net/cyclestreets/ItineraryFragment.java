@@ -203,6 +203,8 @@ public class ItineraryFragment extends ListFragment implements Route.Listener {
       setText(R.id.journeytime, start.totalTime());
       setText(R.id.calories, start.calories());
       setText(R.id.carbondioxide, start.co2());
+      setText(R.id.elevation_gain, elevationFormatter().height(journey.elevation().totalElevationGain()));
+      setText(R.id.elevation_loss, elevationFormatter().height(journey.elevation().totalElevationLoss()));
     }
 
     private void setText(int id, String text) {
