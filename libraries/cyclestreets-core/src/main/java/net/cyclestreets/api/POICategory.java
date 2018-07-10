@@ -8,33 +8,33 @@ import java.util.Collections;
 import java.util.List;
 
 public class POICategory {
-  private final String key_;
-  private final String name_;
-  private final Drawable icon_;
+  private final String key;
+  private final String name;
+  private final Drawable icon;
 
   public POICategory(final String key,
                      final String name,
                      final Drawable icon) {
-    key_ = key;
-    name_ = name;
-    icon_ = icon;
+    this.key = key;
+    this.name = name;
+    this.icon = icon;
   }
 
-  public String name() { return name_; }
-  public Drawable icon() { return icon_; }
+  public String name() { return name; }
+  public Drawable icon() { return icon; }
 
   public boolean equals(final Object rhs) {
     if (!(rhs instanceof POICategory))
       return false;
 
-    return name_.equals(((POICategory)rhs).name_);
+    return name.equals(((POICategory)rhs).name);
   }
 
   public List<POI> pois(final IGeoPoint centre,
                         final int radius)
     throws Exception {
     try {
-      final List<POI> pois = ApiClient.getPOIs(key_,
+      final List<POI> pois = ApiClient.getPOIs(key,
                                                centre.getLongitudeE6() / 1E6,
                                                centre.getLatitudeE6() / 1E6,
                                                radius);
