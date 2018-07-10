@@ -61,13 +61,13 @@ subprojects {
       exclude 'META-INF/DEPENDENCIES'
       exclude 'META-INF/NOTICE'
       exclude 'META-INF/NOTICE.txt'
-   }
+    }
 
     // Required due to strictness of the Android developer tools.  See lint.xml for full details.
     lintOptions {
       lintConfig rootProject.file('gradle/lint.xml')
     }
- }
+  }
 }
 
 def loadProperties(fileName) {
@@ -81,15 +81,15 @@ def manifestProperties(project) {
   if (!cyclestreetsDetails.exists()) {
     println ":${project.name}:No cyclestreets.properties"
     return
- }
+  }
 
   project.android {
     buildTypes {
       all {
         manifestPlaceholders = loadProperties(cyclestreetsDetails)
       }
-   }
- }
+    }
+  }
 }
 
 def versionProperties(project) {
@@ -108,7 +108,7 @@ def versionProperties(project) {
       versionCode vCode
       versionName vName
     }
- }
+  }
 }
 
 def signingKey(project) {
@@ -132,7 +132,7 @@ def signingKey(project) {
         keyAlias props['key.alias']
         keyPassword props['key.password']
       }
-   }
+    }
 
     playAccountConfigs {
       defaultAccountConfig {
@@ -149,8 +149,8 @@ def signingKey(project) {
       release {
         signingConfig signingConfigs.release
       }
-   }
- }
+    }
+  }
 }
 
 repositories {
