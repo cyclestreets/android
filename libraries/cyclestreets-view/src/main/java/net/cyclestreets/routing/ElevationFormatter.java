@@ -2,6 +2,7 @@ package net.cyclestreets.routing;
 
 public abstract class ElevationFormatter {
   public abstract String height(int metres);
+  public abstract String roundedHeight(int metres);
   public abstract String distance(int metres);
   public abstract double roundHeightBelow(int metres);
   public abstract double roundHeightAbove(int metres);
@@ -19,6 +20,11 @@ public abstract class ElevationFormatter {
     @Override
     public String height(int metres) {
       return String.format("%dm", metres);
+    }
+
+    @Override
+    public String roundedHeight(int metres) {
+      return height(metres);
     }
 
     @Override
@@ -48,6 +54,15 @@ public abstract class ElevationFormatter {
     @Override
     public String height(int metres) {
       int feet = (int)(metres * FEET_PER_METRE);
+      return String.format("%d ft", feet);
+    }
+
+    @Override
+    public String roundedHeight(int metres) {
+      // Everything's stored in metres.  If we want to show a height in feet, then nearest-100
+      // gridlines calculated from metre values may end up being e.g. 898ft instead of 900ft.
+      // Therefore when labelling graph axes we round (N.B. not floor!) to the nearest 5.
+      int feet = (int)(Math.round(metres * FEET_PER_METRE / 5.0) * 5);
       return String.format("%d ft", feet);
     }
 

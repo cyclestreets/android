@@ -8,7 +8,6 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.jjoe64.graphview.CustomLabelFormatter;
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.GraphViewSeries;
 import com.jjoe64.graphview.GraphViewStyle;
@@ -37,7 +36,7 @@ public class ElevationProfileFragment extends Fragment implements Route.Listener
                            final ViewGroup container,
                            final Bundle savedInstanceState) {
     final View elevation = inflater.inflate(R.layout.elevation, container, false);
-    graphHolder = (LinearLayout)elevation.findViewById(R.id.graphview);
+    graphHolder = elevation.findViewById(R.id.graphview);
     return elevation;
   }
 
@@ -86,7 +85,7 @@ public class ElevationProfileFragment extends Fragment implements Route.Listener
     graph.setCustomLabelFormatter((value, isValueX) -> {
       if (isValueX)
         return (value != 0) ? formatter.distance((int)value) : "";
-      return formatter.height((int) value);
+      return formatter.roundedHeight((int) value);
     });
 
     graphHolder.removeAllViews();
