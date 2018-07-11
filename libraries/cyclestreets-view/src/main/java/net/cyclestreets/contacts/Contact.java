@@ -31,13 +31,13 @@ public class Contact
 
   public String toString() { return name_; }
 
-  static public Comparator<Contact> comparator() {
+  public static Comparator<Contact> comparator() {
     return ContactsComparator.instance();
   }
 
-  static private class ContactsComparator implements Comparator<Contact>  {
-    static private ContactsComparator instance_;
-    static public ContactsComparator instance() {
+  private static class ContactsComparator implements Comparator<Contact>  {
+    private static ContactsComparator instance_;
+    public static ContactsComparator instance() {
       if (instance_ == null)
         instance_ = new ContactsComparator();
       return instance_;

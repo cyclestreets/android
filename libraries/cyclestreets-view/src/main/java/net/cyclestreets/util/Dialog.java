@@ -32,12 +32,12 @@ public class Dialog {
     }
   }
 
-  static public ProgressDialog createProgressDialog(final Context context,
+  public static ProgressDialog createProgressDialog(final Context context,
                                                     final int messageId) {
     return createProgressDialog(context, context.getString(messageId));
   }
 
-  static public ProgressDialog createProgressDialog(final Context context,
+  public static ProgressDialog createProgressDialog(final Context context,
                                                     final String message) {
     final ProgressDialog progress = new CycleStreetsProgressDialog(context, message);
     return progress;
@@ -47,7 +47,7 @@ public class Dialog {
     void updatedText(final String updated);
   }
 
-  static public void editTextDialog(final Context context,
+  public static void editTextDialog(final Context context,
                                     final String initialText,
                                     final String buttonText,
                                     final UpdatedTextListener listener) {

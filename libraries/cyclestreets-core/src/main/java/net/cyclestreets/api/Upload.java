@@ -30,7 +30,7 @@ public class Upload {
     public String url() { return url; }
   }
 
-  static public Upload.Result photo(final String filename,
+  public static Upload.Result photo(final String filename,
                                     final String username,
                                     final String password,
                                     final IGeoPoint location,

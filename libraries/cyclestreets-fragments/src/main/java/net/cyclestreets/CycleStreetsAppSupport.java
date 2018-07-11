@@ -10,7 +10,7 @@ public final class CycleStreetsAppSupport {
   private static boolean isNew_;
   private static String version_;
 
-  static public void initialise(final Context context) {
+  public static void initialise(final Context context) {
     initialise(context, -1);
   }
 

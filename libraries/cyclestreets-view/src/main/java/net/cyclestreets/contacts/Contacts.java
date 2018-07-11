@@ -10,7 +10,7 @@ import android.provider.ContactsContract;
 
 public class Contacts
 {
-  static public List<Contact> load(final Context context) {
+  public static List<Contact> load(final Context context) {
     final List<Contact> contacts = new ArrayList<>();
 
     final String[] projection = new String[] {

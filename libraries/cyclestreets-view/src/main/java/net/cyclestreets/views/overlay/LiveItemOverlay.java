@@ -36,7 +36,7 @@ public abstract class LiveItemOverlay<T extends OverlayItem>
   private final Paint textBrush_;
   private final boolean showLoading_;
 
-  static private final String LOADING = "Loading ...";
+  private static final String LOADING = "Loading ...";
 
   public LiveItemOverlay(final CycleMapView mapView,
                          final boolean showLoading) {

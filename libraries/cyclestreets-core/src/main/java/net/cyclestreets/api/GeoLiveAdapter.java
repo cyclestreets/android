@@ -24,7 +24,7 @@ public class GeoLiveAdapter extends GeoAdapter
   public static final String MY_LOCATION = "My Location";
 
   private final GeocodeFilter filter;
-  private final BoundingBox bounds_;
+  private final BoundingBox bounds;
   private final SharedPreferences prefs;
 
   /*
@@ -33,7 +33,7 @@ public class GeoLiveAdapter extends GeoAdapter
   public GeoLiveAdapter(final Context context,
                         final BoundingBox bounds) {
     super(context);
-    bounds_ = bounds;
+    this.bounds = bounds;
 
     prefs = context.getSharedPreferences(PREFS_GEO_KEY, Application.MODE_PRIVATE);
     filter = new GeocodeFilter(prefs);
@@ -44,7 +44,7 @@ public class GeoLiveAdapter extends GeoAdapter
     return filter;
   }
 
-  public BoundingBox bounds() { return bounds_; }
+  public BoundingBox bounds() { return bounds; }
 
   public GeoPlace exactMatch(final String p) {
     for(int i = 0; i != getCount(); ++i) {
@@ -75,10 +75,10 @@ public class GeoLiveAdapter extends GeoAdapter
   /////////////////////////////////////////////////////////////////////
   /////////////////////////////////////////////////////////////////////
   private class GeocodeFilter extends Filter  {
-    private SharedPreferences prefs_;
+    private SharedPreferences prefs;
 
     public GeocodeFilter(final SharedPreferences prefs) {
-      prefs_ = prefs;
+      this.prefs = prefs;
     }
 
     @Override
@@ -91,7 +91,7 @@ public class GeoLiveAdapter extends GeoAdapter
 
         // Only geocode if more than two characters
         if (cs.length() > 2)
-          list.addAll(geoCode(cs.toString(), bounds_).asList());
+          list.addAll(geoCode(cs.toString(), bounds).asList());
       }
       else  {
         // Add all prefs
@@ -120,7 +120,7 @@ public class GeoLiveAdapter extends GeoAdapter
      */
     private void filterPrefs(final List<GeoPlace> list,
                              final CharSequence cs) {
-      if (prefs_ == null)
+      if (prefs == null)
         return;
 
       final String match = (PREFS_GEO_NAME_PREFIX + cs).toLowerCase();

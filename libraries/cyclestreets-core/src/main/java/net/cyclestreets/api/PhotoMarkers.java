@@ -13,37 +13,36 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class PhotoMarkers {
-  private final Resources res_;
-  private final Drawable defaultMarker_;
-  private final Map<String, Drawable> markers_;
-  private final BitmapFactory.Options bfo_;
+  private final Resources res;
+  private final Drawable defaultMarker;
+  private final Map<String, Drawable> markers = new HashMap<>();
+  private final BitmapFactory.Options bfo;
 
   public PhotoMarkers(final Resources res) {
-    res_ = res;
-    defaultMarker_ = res.getDrawable(R.drawable.general_neutral);
-    markers_ = new HashMap<>();
+    this.res = res;
+    defaultMarker = res.getDrawable(R.drawable.general_neutral);
 
-    bfo_ = new BitmapFactory.Options();
-    bfo_.inTargetDensity = 240;
+    bfo = new BitmapFactory.Options();
+    bfo.inTargetDensity = 240;
   }
 
   public Drawable getMarker(final Photo photo) {
     final String key = String.format("photomarkers/%s_%s.png", photo.category(), mapMetaCat(photo.metacategory()));
 
-    if (!markers_.containsKey(key)) {
+    if (!markers.containsKey(key)) {
       try {
-        final InputStream asset = res_.getAssets().open(key);
+        final InputStream asset = res.getAssets().open(key);
         final Bitmap bmp = BitmapFactory.decodeStream(asset);
-        final Drawable marker = new BitmapDrawable(res_, bmp);
+        final Drawable marker = new BitmapDrawable(res, bmp);
         asset.close();
-        markers_.put(key, marker);
+        markers.put(key, marker);
         return marker;
       } catch (Exception e) {
-        markers_.put(key, defaultMarker_);
+        markers.put(key, defaultMarker);
       }
     }
 
-    return markers_.get(key);
+    return markers.get(key);
   }
 
   private String mapMetaCat(final String mc) {

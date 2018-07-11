@@ -53,7 +53,7 @@ public class POIOverlay
                MenuListener,
                PauseResumeListener,
                Undoable {
-  static public class POIItem extends OverlayItem {
+  public static class POIItem extends OverlayItem {
     private final POI poi_;
 
     public POIItem(final POI poi) {
@@ -409,7 +409,7 @@ public class POIOverlay
   }
 
   /////////////////////////////////////////////////////
-  static private class GetPOIsTask extends AsyncTask<Object,Void,List<POI>> {
+  private static class GetPOIsTask extends AsyncTask<Object,Void,List<POI>> {
     static void fetch(final POIOverlay overlay,
                       final IGeoPoint centre,
                       final int radius) {

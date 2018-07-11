@@ -28,10 +28,10 @@ public class GeoPlaces implements Iterable<GeoPlace>
 
   public List<GeoPlace> asList() { return places; }
 
-  static public GeoPlaces EMPTY = new GeoPlaces();
+  public static GeoPlaces EMPTY = new GeoPlaces();
 
   ///////////////////////////////////////////////
-  static public GeoPlaces search(final String searchTerm,
+  public static GeoPlaces search(final String searchTerm,
                                  final BoundingBox bounds)
           throws IOException {
     return ApiClient.geoCoder(searchTerm,

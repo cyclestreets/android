@@ -9,52 +9,53 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Photo implements Parcelable {
-  private final int id_;
-  private final String category_;
-  private final String metaCategory_;
-  private final String caption_;
-  private final String url_;
-  private final String thumbnailUrl_;
-  private final GeoPoint position_;
-  private final List<Video> videos_;
+  private final int id;
+  private final String category;
+  private final String metaCategory;
+  private final String caption;
+  private final String url;
+  private final String thumbnailUrl;
+  private final GeoPoint position;
+  private final List<Video> videos;
 
   public Photo(int id,
-        String feature,
-        String metaCategory,
-        String caption,
-        String url,
-        String thumbnailUrl,
-        GeoPoint position,
-        List<Video> videos) {
-    id_ = id;
-    category_ = feature;
-    metaCategory_ = metaCategory;
-    caption_ = caption;
-    url_ = url;
-    thumbnailUrl_ = thumbnailUrl;
-    position_ = position;
-    videos_ = videos;
+               String feature,
+               String metaCategory,
+               String caption,
+               String url,
+               String thumbnailUrl,
+               GeoPoint position,
+               List<Video> videos) {
+    this.id = id;
+    category = feature;
+    this.metaCategory = metaCategory;
+    this.caption = caption;
+    this.url = url;
+    this.thumbnailUrl = thumbnailUrl;
+    this.position = position;
+    this.videos = videos;
   }
 
-  public int id() { return id_; }
-  public boolean isPlaceholder() { return thumbnailUrl_ == null && !hasVideos(); }
-  public String category() { return category_; }
-  public String metacategory() { return metaCategory_; }
-  public String caption() { return caption_; }
-  public String url() { return url_; }
-  public String thumbnailUrl() { return thumbnailUrl_; }
-  public GeoPoint position() { return position_; }
-  public boolean hasVideos() { return videos_.size() != 0; }
-  public Iterable<Video> videos() { return videos_; }
+  public int id() { return id; }
+  public boolean isPlaceholder() { return thumbnailUrl == null && !hasVideos(); }
+  public String category() { return category; }
+  public String metacategory() { return metaCategory; }
+  public String caption() { return caption; }
+  public String url() { return url; }
+  public String thumbnailUrl() { return thumbnailUrl; }
+  public GeoPoint position() { return position; }
+  public boolean hasVideos() { return videos.size() != 0; }
+  public Iterable<Video> videos() { return videos; }
+
   public Video video(final String format) {
-    for (Video v : videos_)
+    for (Video v : videos)
       if (v.format().equals(format))
         return v;
     return null;
   }
 
   @Override
-  public int hashCode() { return id_; }
+  public int hashCode() { return id; }
 
   /*
    * Photos are equal if they have the same id
@@ -68,23 +69,23 @@ public class Photo implements Parcelable {
     if (getClass() != obj.getClass())
       return false;
     Photo other = (Photo)obj;
-    return (id_ == other.id_);
+    return (id == other.id);
   }
 
   @Override
-  public String toString() { return id_ + ":" + caption_; }
+  public String toString() { return id + ":" + caption; }
 
   public static class Video {
-    final private String format_;
-    final private String url_;
+    private final String format;
+    private final String url;
 
     public Video(final String format, final String url) {
-      format_ = format;
-      url_ = url;
+      this.format = format;
+      this.url = url;
     }
 
-    public String format() { return format_; }
-    public String url() { return url_; }
+    public String format() { return format; }
+    public String url() { return url; }
   }
 
   ////////////////////////////////////////////////
@@ -94,16 +95,16 @@ public class Photo implements Parcelable {
 
   @Override
   public void writeToParcel(final Parcel dest, final int flags) {
-    dest.writeInt(id_);
-    dest.writeString(category_);
-    dest.writeString(metaCategory_);
-    dest.writeString(caption_);
-    dest.writeString(url_);
-    dest.writeString(thumbnailUrl_);
-    dest.writeInt(position_.getLatitudeE6());
-    dest.writeInt(position_.getLongitudeE6());
-    dest.writeInt(videos_.size());
-    for (Video v : videos_) {
+    dest.writeInt(id);
+    dest.writeString(category);
+    dest.writeString(metaCategory);
+    dest.writeString(caption);
+    dest.writeString(url);
+    dest.writeString(thumbnailUrl);
+    dest.writeInt(position.getLatitudeE6());
+    dest.writeInt(position.getLongitudeE6());
+    dest.writeInt(videos.size());
+    for (Video v : videos) {
       dest.writeString(v.format());
       dest.writeString(v.url());
     }

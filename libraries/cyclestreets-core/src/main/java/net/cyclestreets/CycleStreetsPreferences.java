@@ -40,7 +40,7 @@ public class CycleStreetsPreferences
   public final static String MAPSTYLE_OS = "CycleStreets-OS";
   public final static String MAPSTYLE_MAPSFORGE = "CycleStreets-Mapsforge";
 
-  static public void initialise(final Context context, final int defaults) {
+  public static void initialise(final Context context, final int defaults) {
     context_ = context;
 
     if (defaults != -1)
@@ -51,95 +51,95 @@ public class CycleStreetsPreferences
       putString(PREF_UPLOAD_SIZE, "640px");
   }
 
-  static public String routeType() {
+  public static String routeType() {
     return getString(PREF_ROUTE_TYPE_KEY, RoutePlans.PLAN_BALANCED);
   }
 
-  static public String units() {
+  public static String units() {
     return getString(PREF_UNITS_KEY, "km");
   }
 
-  static public int speed() {
+  public static int speed() {
     return Integer.parseInt(getString(PREF_SPEED_KEY, "20"));
   }
 
-  static public String mapstyle() {
+  public static String mapstyle() {
     return getString(PREF_MAPSTYLE_KEY, NOT_SET);
   }
 
-  static public void setMapstyle(final String name) {
+  public static void setMapstyle(final String name) {
     putString(PREF_MAPSTYLE_KEY, name);
   }
 
-  static public void resetMapstyle() {
+  public static void resetMapstyle() {
     setMapstyle(NOT_SET);
   }
 
-  static public String mapfile() {
+  public static String mapfile() {
     return getString(PREF_MAPFILE_KEY, NOT_SET);
   }
 
-  static public String username() {
+  public static String username() {
     return getString(PREF_USERNAME_KEY, "");
   }
 
-  static public String password() {
+  public static String password() {
     return getString(PREF_PASSWORD_KEY, "");
   }
 
-  static public String name() {
+  public static String name() {
     return getString(PREF_NAME_KEY, "");
   }
 
-  static public String email() {
+  public static String email() {
     return getString(PREF_EMAIL_KEY, "");
   }
 
-  static public boolean accountOK() {
+  public static boolean accountOK() {
     return getBoolean(PREF_VALIDATED_KEY, false);
   }
 
-  static public boolean accountPending() {
+  public static boolean accountPending() {
     return getBoolean(PREF_PENDING_KEY, false);
   }
 
-  static public boolean confirmNewRoute() {
+  public static boolean confirmNewRoute() {
     return getBoolean(PREF_CONFIRM_NEW_ROUTE, true);
   }
 
-  static public String uploadSize() {
+  public static String uploadSize() {
     return getString(PREF_UPLOAD_SIZE, "bigIfWifi");
   }
 
-  static public boolean blogNotifications() {
+  public static boolean blogNotifications() {
     return getBoolean(PREF_BLOG_NOTIFICATIONS, true);
   }
 
-  static public void setBlogNotifications(final boolean active) {
+  public static void setBlogNotifications(final boolean active) {
     putBoolean(PREF_BLOG_NOTIFICATIONS, active);
   }
 
-  static public int turnNowDistance() {
+  public static int turnNowDistance() {
     return Integer.parseInt(getString(PREF_TURN_NOW, "15"));
   }
 
-  static public int nearingTurnDistance() {
+  public static int nearingTurnDistance() {
     return Integer.parseInt(getString(PREF_NEARING_TURN, "50"));
   }
 
-  static public int offtrackDistance() {
+  public static int offtrackDistance() {
     return Integer.parseInt(getString(PREF_OFFTRACK_DISTANCE, "30"));
   }
 
-  static public int replanDistance() {
+  public static int replanDistance() {
     return Integer.parseInt(getString(PREF_REPLAN_DISTANCE, "50"));
   }
 
-  static public boolean pebbleVoice() {
+  public static boolean pebbleVoice() {
     return getBoolean(PREF_PEBBLE_VOICE, true);
   }
 
-  static public boolean uploadSmallImages() {
+  public static boolean uploadSmallImages() {
     final String resize = uploadSize();
     if ("640px".equals(resize))
       return true;
@@ -160,29 +160,29 @@ public class CycleStreetsPreferences
              (subtype == TelephonyManager.NETWORK_TYPE_HSUPA));
   }
 
-  static private String getString(final String key, final String defVal) {
+  private static String getString(final String key, final String defVal) {
     final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context_);
     return prefs.getString(key, defVal);
   }
 
-  static private void putString(final String key, final String value) {
+  private static void putString(final String key, final String value) {
     final Editor editor = editor();
     editor.putString(key, value);
     editor.commit();
   }
 
-  static private boolean getBoolean(final String key, final boolean defVal) {
+  private static boolean getBoolean(final String key, final boolean defVal) {
     final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context_);
     return prefs.getBoolean(key, defVal);
   }
 
-  static private void putBoolean(final String key, final boolean value) {
+  private static void putBoolean(final String key, final boolean value) {
     final Editor editor = editor();
     editor.putBoolean(key, value);
     editor.commit();
   }
 
-  static public void setUsernamePassword(final String username,
+  public static void setUsernamePassword(final String username,
                                          final String password,
                                          final String name,
                                          final String email,
@@ -199,7 +199,7 @@ public class CycleStreetsPreferences
     editor.commit();
   }
 
-  static public void setPendingUsernamePassword(final String username,
+  public static void setPendingUsernamePassword(final String username,
                                                 final String password,
                                                 final String name,
                                                 final String email,
@@ -214,7 +214,7 @@ public class CycleStreetsPreferences
     editor.commit();
   }
 
-  static public void clearUsernamePassword() {
+  public static void clearUsernamePassword() {
     final Editor editor = editor();
     editor.putString(PREF_USERNAME_KEY, "");
     editor.putString(PREF_PASSWORD_KEY, "");
@@ -225,14 +225,14 @@ public class CycleStreetsPreferences
     editor.commit();
   }
 
-  static public void enableMapFile(final String filename) {
+  public static void enableMapFile(final String filename) {
     final Editor editor = editor();
     editor.putString(PREF_MAPSTYLE_KEY, MAPSTYLE_MAPSFORGE);
     editor.putString(PREF_MAPFILE_KEY, filename);
     editor.commit();
   }
 
-  static private Editor editor() {
+  private static Editor editor() {
     final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context_);
     return prefs.edit();
   }

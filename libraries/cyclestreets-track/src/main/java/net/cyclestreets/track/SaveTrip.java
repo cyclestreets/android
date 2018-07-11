@@ -250,7 +250,7 @@ public class SaveTrip extends Activity
   }
 
   ///////////////////////
-  static private class SpinnerList extends BaseAdapter {
+  private static class SpinnerList extends BaseAdapter {
     private final LayoutInflater inflater_;
     private final List<String> list_;
 

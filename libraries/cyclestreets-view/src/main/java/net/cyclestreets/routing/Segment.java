@@ -19,7 +19,7 @@ public abstract class Segment {
   protected final int running_distance_;
   protected final List<IGeoPoint> points_;
 
-  static public DistanceFormatter formatter = DistanceFormatter.formatter(CycleStreetsPreferences.units());
+  public static DistanceFormatter formatter = DistanceFormatter.formatter(CycleStreetsPreferences.units());
 
   Segment(final String name,
           final String turn,
@@ -60,7 +60,7 @@ public abstract class Segment {
     return s.length() != 0 ? s.substring(0,1).toUpperCase() + s.substring(1) : s;
   }
 
-  static private String formatTime(int time, boolean terminal) {
+  private static String formatTime(int time, boolean terminal) {
     if (time == 0)
       return "";
 
@@ -78,7 +78,7 @@ public abstract class Segment {
     return String.format("%d:%02d:%02d", hours, minutes, seconds);
   }
 
-  static private String formatTerminalTime(int hours, int minutes) {
+  private static String formatTerminalTime(int hours, int minutes) {
     if (hours == 0)
       return String.format("%d minutes", minutes);
     String fraction = "";
@@ -195,7 +195,7 @@ public abstract class Segment {
     }
 
     return minIndex;
-  }// closestPoint
+  }
 
   public int distanceFromEnd(final GeoPoint location) {
     return GeoHelper.distanceBetween(finish(), location);
@@ -210,7 +210,7 @@ public abstract class Segment {
   public String extraInfo() { return ""; }
   public IterableIterator<IGeoPoint> points() { return new IterableIterator<>(points_.iterator()); }
 
-  static public class Start extends Segment  {
+  public static class Start extends Segment  {
     private final int itinerary_;
     private final String plan_;
     private final int speed_;
@@ -269,7 +269,7 @@ public abstract class Segment {
     public int crossTrackError(final GeoPoint location) { return Integer.MAX_VALUE; }
   }
 
-  static public class End extends Segment  {
+  public static class End extends Segment  {
     final int total_distance_;
 
     public End(final String destination,
@@ -285,7 +285,7 @@ public abstract class Segment {
     public int total_distance() { return total_distance_; }
   }
 
-  static public class Step extends Segment  {
+  public static class Step extends Segment  {
     public Step(final String name,
        final String turn,
        final boolean walk,
@@ -315,7 +315,7 @@ public abstract class Segment {
     }
   }
 
-  static public class Waymark extends Segment  {
+  public static class Waymark extends Segment  {
     public Waymark(final int count,
                    final int running_distance,
                    final IGeoPoint gp) {

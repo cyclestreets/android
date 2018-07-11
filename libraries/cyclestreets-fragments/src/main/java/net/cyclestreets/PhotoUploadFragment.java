@@ -781,7 +781,7 @@ if (url.startsWith("content://com.google.android.apps.photos.content")){
   }
 
   //////////////////////////////////////////////////////////
-  static private class CategoryAdapter extends BaseAdapter  {
+  private static class CategoryAdapter extends BaseAdapter  {
     private final LayoutInflater inflater_;
     private final List<PhotomapCategory> list_;
 

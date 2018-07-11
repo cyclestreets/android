@@ -21,14 +21,14 @@ public abstract class LiveRideState
   private static final int NOTIFICATION_ID = 1;
   private final PebbleNotifier pebbleNotifier_;
 
-  static public LiveRideState InitialState(final Context context, final PebbleNotifier pebbleNotifier) {
+  public static LiveRideState InitialState(final Context context, final PebbleNotifier pebbleNotifier) {
     final TextToSpeech tts = new TextToSpeech(context,
           new TextToSpeech.OnInitListener() { public void onInit(int arg0) { } }
     );
     return new LiveRideStart(context, pebbleNotifier, tts);
   }
 
-  static public LiveRideState StoppedState(final Context context, PebbleNotifier pebbleNotifier) {
+  public static LiveRideState StoppedState(final Context context, PebbleNotifier pebbleNotifier) {
     return new Stopped(context, pebbleNotifier);
   }
   //////////////////////////////////////////

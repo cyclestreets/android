@@ -27,8 +27,8 @@ import android.graphics.Point;
 
 public class RouteOverlay extends Overlay implements PauseResumeListener, Listener
 {
-  static private int ROUTE_COLOUR = 0x80ff00ff;
-  static private int HIGHLIGHT_COLOUR = 0xA000ff00;
+  private static int ROUTE_COLOUR = 0x80ff00ff;
+  private static int HIGHLIGHT_COLOUR = 0xA000ff00;
 
   private Segments route_;
 

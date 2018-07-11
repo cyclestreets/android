@@ -24,11 +24,11 @@ public final class TurnIcons
     }
   }
 
-  static public Mapping LoadMapping(final Context context) {
+  public static Mapping LoadMapping(final Context context) {
     return new Mapping(loadIconMappings(context));
   }
 
-  static private Map<String, Drawable> loadIconMappings(final Context context) {
+  private static Map<String, Drawable> loadIconMappings(final Context context) {
     final Resources res = context.getResources();
 
     return MapFactory.map("straight on", res.getDrawable(R.drawable.straight_on))
