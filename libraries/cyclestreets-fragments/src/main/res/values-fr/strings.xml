@@ -45,6 +45,8 @@
   <string name="elevation_calories_burned">Calories:</string>
   <string name="elevation_estimated_time">Temps:</string>
   <string name="elevation_journey_number">numéro Journey:</string>
+  <string name="elevation_gain">Total elevation gain:</string>
+  <string name="elevation_loss">Total elevation loss:</string>
   <string name="elevation_route">route</string>
 
   <string name="findplace_name_or_address">Placez le nom ou l\'adresse</string>

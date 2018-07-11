@@ -7,27 +7,26 @@
     android:id="@+id/title"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:textSize="24dip"
-    android:text="@string/elevation_dummy_string"
-    android:textStyle="bold"/>
+    android:textAppearance="@style/Base.TextAppearance.AppCompat.Title"
+    android:text="@string/elevation_dummy_string"/>
   <LinearLayout
-      android:orientation="horizontal"
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content">
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
     <TextView
-        android:id="@+id/routetype"
-        android:layout_height="wrap_content"
-        android:layout_width="0dp"
-        android:layout_weight="1"
-        android:textSize="@dimen/abc_text_size_title_material_toolbar"
-        android:text="@string/elevation_route"/>
+      android:id="@+id/routetype"
+      android:layout_height="wrap_content"
+      android:layout_width="0dp"
+      android:layout_weight="1"
+      android:textAppearance="@style/Base.TextAppearance.AppCompat.Body1"
+      android:text="@string/elevation_route"/>
     <TextView
-        android:id="@+id/distance"
-        android:layout_height="wrap_content"
-        android:layout_width="0dp"
-        android:layout_weight="1.4"
-        android:textSize="@dimen/abc_text_size_title_material_toolbar"
-        android:text="@string/elevation_dummy_string"/>
+      android:id="@+id/distance"
+      android:layout_height="wrap_content"
+      android:layout_width="0dp"
+      android:layout_weight="1.4"
+      android:textAppearance="@style/Base.TextAppearance.AppCompat.Body1"
+      android:text="@string/elevation_dummy_string"/>
   </LinearLayout>
   <LinearLayout
     android:orientation="horizontal"
@@ -37,14 +36,14 @@
       android:layout_height="wrap_content"
       android:layout_width="0dp"
       android:layout_weight="1"
-      android:textSize="@dimen/abc_text_size_title_material_toolbar"
+      android:textAppearance="@style/Base.TextAppearance.AppCompat.Body1"
       android:text="@string/elevation_estimated_time"/>
     <TextView
       android:id="@+id/journeytime"
       android:layout_height="wrap_content"
       android:layout_width="0dp"
       android:layout_weight="1.4"
-      android:textSize="@dimen/abc_text_size_title_material_toolbar"
+      android:textAppearance="@style/Base.TextAppearance.AppCompat.Body1"
       android:text="@string/elevation_dummy_string"/>
   </LinearLayout>
   <LinearLayout
@@ -55,14 +54,14 @@
       android:layout_height="wrap_content"
       android:layout_width="0dp"
       android:layout_weight="1"
-      android:textSize="@dimen/abc_text_size_title_material_toolbar"
+      android:textAppearance="@style/Base.TextAppearance.AppCompat.Body1"
       android:text="@string/elevation_calories_burned"/>
     <TextView
       android:id="@+id/calories"
       android:layout_height="wrap_content"
       android:layout_width="0dp"
       android:layout_weight="1.4"
-      android:textSize="@dimen/abc_text_size_title_material_toolbar"
+      android:textAppearance="@style/Base.TextAppearance.AppCompat.Body1"
       android:text="@string/elevation_dummy_string"/>
   </LinearLayout>
   <LinearLayout
@@ -73,32 +72,68 @@
       android:layout_height="wrap_content"
       android:layout_width="0dp"
       android:layout_weight="1"
-      android:textSize="@dimen/abc_text_size_title_material_toolbar"
+      android:textAppearance="@style/Base.TextAppearance.AppCompat.Body1"
       android:text="@string/elevation_co2_saved"/>
     <TextView
       android:id="@+id/carbondioxide"
       android:layout_height="wrap_content"
       android:layout_width="0dp"
       android:layout_weight="1.4"
-      android:textSize="@dimen/abc_text_size_title_material_toolbar"
+      android:textAppearance="@style/Base.TextAppearance.AppCompat.Body1"
       android:text="@string/elevation_dummy_string"/>
   </LinearLayout>
   <LinearLayout
-      android:orientation="horizontal"
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content">
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
     <TextView
-        android:layout_height="wrap_content"
-        android:layout_width="0dp"
-        android:layout_weight="1"
-        android:textSize="@dimen/abc_text_size_title_material_toolbar"
-        android:text="@string/elevation_journey_number"/>
+      android:layout_height="wrap_content"
+      android:layout_width="0dp"
+      android:layout_weight="1"
+      android:textAppearance="@style/Base.TextAppearance.AppCompat.Body1"
+      android:text="@string/elevation_journey_number"/>
     <TextView
-        android:id="@+id/journeyid"
-        android:layout_height="wrap_content"
-        android:layout_width="0dp"
-        android:layout_weight="1.4"
-        android:textSize="@dimen/abc_text_size_title_material_toolbar"
-        android:text="@string/elevation_dummy_string"/>
+      android:id="@+id/journeyid"
+      android:layout_height="wrap_content"
+      android:layout_width="0dp"
+      android:layout_weight="1.4"
+      android:textAppearance="@style/Base.TextAppearance.AppCompat.Body1"
+      android:text="@string/elevation_dummy_string"/>
+  </LinearLayout>
+  <LinearLayout
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <TextView
+      android:layout_height="wrap_content"
+      android:layout_width="0dp"
+      android:layout_weight="1"
+      android:textAppearance="@style/Base.TextAppearance.AppCompat.Body1"
+      android:text="@string/elevation_gain"/>
+    <TextView
+      android:id="@+id/elevation_gain"
+      android:layout_height="wrap_content"
+      android:layout_width="0dp"
+      android:layout_weight="1.4"
+      android:textAppearance="@style/Base.TextAppearance.AppCompat.Body1"
+      android:text="@string/elevation_dummy_string"/>
+  </LinearLayout>
+  <LinearLayout
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <TextView
+      android:layout_height="wrap_content"
+      android:layout_width="0dp"
+      android:layout_weight="1"
+      android:textAppearance="@style/Base.TextAppearance.AppCompat.Body1"
+      android:text="@string/elevation_loss"/>
+    <TextView
+      android:id="@+id/elevation_loss"
+      android:layout_height="wrap_content"
+      android:layout_width="0dp"
+      android:layout_weight="1.4"
+      android:textAppearance="@style/Base.TextAppearance.AppCompat.Body1"
+      android:text="@string/elevation_dummy_string"/>
   </LinearLayout>
 </LinearLayout>
