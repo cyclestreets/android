@@ -42,7 +42,6 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.jackson.JacksonConverterFactory;
 import retrofit2.converter.scalars.ScalarsConverterFactory;
-import retrofit2.converter.simplexml.SimpleXmlConverterFactory;
 
 public class RetrofitApiClient {
 
@@ -54,6 +53,9 @@ public class RetrofitApiClient {
   private static final int CACHE_MAX_SIZE_BYTES = 200 * 1024;
   private static final String CACHE_DIR_NAME = "RetrofitApiClientCache";
 
+  // As per https://stackoverflow.com/a/49835538, SimpleXML is deprecated in favour of JAXB, but
+  // the latter doesn't work on Android.
+  @SuppressWarnings("deprecation")
   public RetrofitApiClient(Builder builder) {
 
     context = builder.context;
@@ -73,7 +75,7 @@ public class RetrofitApiClient {
     Retrofit retrofitV1 = new Retrofit.Builder()
         .client(client)
         .addConverterFactory(ScalarsConverterFactory.create())
-        .addConverterFactory(SimpleXmlConverterFactory.createNonStrict())
+        .addConverterFactory(retrofit2.converter.simplexml.SimpleXmlConverterFactory.createNonStrict())
         .baseUrl(builder.v1Host)
         .build();
     v1Api = retrofitV1.create(V1Api.class);

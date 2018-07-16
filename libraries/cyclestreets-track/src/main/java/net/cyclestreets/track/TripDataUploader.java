@@ -102,8 +102,8 @@ public class TripDataUploader extends AsyncTask<Void, Void, Boolean> {
       JSONObject coord = new JSONObject();
 
       coord.put(TRIP_COORDS_TIME, cp.time);
-      coord.put(TRIP_COORDS_LAT, cp.getLatitudeE6()/1e6);
-      coord.put(TRIP_COORDS_LON, cp.getLongitudeE6()/1e6);
+      coord.put(TRIP_COORDS_LAT, cp.getLatitude());
+      coord.put(TRIP_COORDS_LON, cp.getLongitude());
       coord.put(TRIP_COORDS_ALT, cp.getAltitude());
       coord.put(TRIP_COORDS_SPEED, cp.speed);
       coord.put(TRIP_COORDS_HACCURACY, cp.accuracy);

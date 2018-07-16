@@ -13,7 +13,6 @@ public class Bitmaps
 {
   private static BitmapFactory.Options decodeOptions() {
     final BitmapFactory.Options decodeOptions = new BitmapFactory.Options();
-    decodeOptions.inPurgeable = true;
     decodeOptions.inSampleSize = 4;
     return decodeOptions;
   }
@@ -66,7 +65,6 @@ public class Bitmaps
 
     // Decode with inSampleSize
     options.inJustDecodeBounds = false;
-    options.inDither = false;
     options.inSampleSize = inSampleSize;
     options.inScaled = false;
     options.inPreferredConfig = Bitmap.Config.ARGB_8888;

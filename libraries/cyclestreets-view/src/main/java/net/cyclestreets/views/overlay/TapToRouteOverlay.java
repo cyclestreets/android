@@ -213,7 +213,7 @@ public class TapToRouteOverlay extends Overlay
     if (point == null)
       return null;
     controller().pushUndo(this);
-    final OverlayItem marker = new OverlayItem(label, label, new GeoPoint(point.getLatitudeE6(), point.getLongitudeE6()));
+    final OverlayItem marker = new OverlayItem(label, label, new GeoPoint(point.getLatitude(), point.getLongitude()));
     marker.setMarker(icon);
     marker.setMarkerHotspot(OverlayItem.HotspotPlace.BOTTOM_CENTER);
     return marker;
