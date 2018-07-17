@@ -146,7 +146,7 @@ public class RetrofitApiClientTest {
     verify(getRequestedFor(urlPathEqualTo("/v2/pois.locations"))
         .withQueryParam("type", equalTo("bikeshops"))
         .withQueryParam("bbox", equalTo("0.1,52.2,0.2,52.3"))
-        .withQueryParam("fields", equalTo("id,name,notes,website,latitude,longitude"))
+        .withQueryParam("fields", equalTo("id,latitude,longitude,name,notes,osmTags,website"))
         .withQueryParam("key", equalTo("myApiKey")));
     validatePois(pois);
   }
@@ -175,7 +175,7 @@ public class RetrofitApiClientTest {
             .withQueryParam("latitude", equalTo("52.25"))
             .withQueryParam("radius", equalTo("100"))
             .withQueryParam("limit", equalTo("150"))
-            .withQueryParam("fields", equalTo("id,name,notes,website,latitude,longitude"))
+            .withQueryParam("fields", equalTo("id,latitude,longitude,name,notes,osmTags,website"))
             .withQueryParam("key", equalTo("myApiKey")));
     validatePois(pois);
 
@@ -186,13 +186,26 @@ public class RetrofitApiClientTest {
 
   private static void validatePois(List<POI> pois) {
     assertThat(pois.size(), is(7));
-    POI poi = pois.get(0);
 
-    assertThat(poi.name(), is("Chris's Bikes"));
+    // happy path
+    POI poi = pois.get(0);
     assertThat(poi.id(), is(101399));
+    assertThat(poi.name(), is("Chris's Bikes"));
     assertThat(poi.notes(), is("The notes section"));
+    assertThat(poi.phone(), is("01234 567890"));
+    assertThat(poi.openingHours(), is("Mo-Fr 09:00-17:00\nSa 10:00-18:00"));
     assertThat(poi.url(), is("http://www.madeup.com"));
     assertThat(poi.position(), is(new GeoPoint(52.225338, 0.091919)));
+
+    // website provided within `osmTags.url`, but not in `website`
+    poi = pois.get(6);
+    assertThat(poi.id(), is(113267));
+    assertThat(poi.name(), is("Bicycle Ambulance"));
+    assertThat(poi.notes(), is(""));
+    assertThat(poi.phone(), is(""));
+    assertThat(poi.openingHours(), is("Tu-Fr 08:30-18:00\nSa 10:00-18:00"));
+    assertThat(poi.url(), is("http://bicycleambulance.com"));
+    assertThat(poi.position(), is(new GeoPoint(52.209179, 0.120061)));
   }
 
   @Test
