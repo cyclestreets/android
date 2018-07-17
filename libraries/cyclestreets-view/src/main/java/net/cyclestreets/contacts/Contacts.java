@@ -41,7 +41,7 @@ public class Contacts
       final int postcodeIndex = addrCur.getColumnIndex(ContactsContract.CommonDataKinds.StructuredPostal.POSTCODE);
 
       if (addrCur.moveToFirst()) {          // move the cursor to the first entry
-        while(!addrCur.isAfterLast()) {      // still a valid entry left?
+        while (!addrCur.isAfterLast()) {      // still a valid entry left?
           final String id = addrCur.getString(idIndex);
           final String address = addrCur.getString(addressIndex);
           final String street = addrCur.getString(streetIndex);

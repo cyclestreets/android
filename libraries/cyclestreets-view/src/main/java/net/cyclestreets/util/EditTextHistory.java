@@ -28,7 +28,7 @@ public class EditTextHistory extends ArrayAdapter<String> {
   }
 
   private void loadHistory() {
-    for(int c = 0; c != MAX_HISTORY; ++c) {
+    for (int c = 0; c != MAX_HISTORY; ++c) {
       final String e = prefs_.getString(Integer.toString(c), "");
       if (e.length() != 0)
         add(e);

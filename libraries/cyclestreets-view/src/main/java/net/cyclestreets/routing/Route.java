@@ -48,12 +48,12 @@ public class Route
     }
 
     public void onNewJourney(final Journey journey, final Waypoints waypoints) {
-      for(final Listener l : listeners_)
+      for (final Listener l : listeners_)
         l.onNewJourney(journey, waypoints);
     }
 
     public void onReset() {
-      for(final Listener l : listeners_)
+      for (final Listener l : listeners_)
         l.onResetJourney();
     }
   }

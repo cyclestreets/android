@@ -117,7 +117,7 @@ public class DbAdapter {
           K_TRIP_STATUS + "=" + TripData.STATUS_COMPLETE_FAILED,
           null, null, null, null);
       c.moveToFirst();
-      while(!c.isAfterLast()) {
+      while (!c.isAfterLast()) {
         int id = c.getInt(c.getColumnIndex(K_TRIP_ROWID));
         result.add(id);
         c.moveToNext();

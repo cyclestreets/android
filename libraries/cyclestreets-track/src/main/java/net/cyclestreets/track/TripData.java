@@ -143,7 +143,7 @@ public class TripData {
     double latlow = Double.MAX_VALUE;
     double lgtlow = Double.MAX_VALUE;
 
-    for(GeoPoint gp : gpspoints) {
+    for (GeoPoint gp : gpspoints) {
       lathigh = Math.max(gp.getLatitude(), lathigh);
       latlow = Math.min(gp.getLatitude(), latlow);
       lgthigh = Math.max(gp.getLongitude(), lgthigh);

@@ -89,7 +89,7 @@ public class GeoIntent
 
   public static Waypoints getWaypoints(final Intent intent) {
     final Waypoints points = new Waypoints();
-    for(int waypoints = 0; ; ++waypoints) {
+    for (int waypoints = 0; ; ++waypoints) {
       final GeoPoint wp = getWaypoint(intent, waypoints);
       if (wp == null)
         break;
@@ -99,12 +99,12 @@ public class GeoIntent
   }
 
   public static void setWaypoints(final Intent intent, final Waypoints points) {
-    for(int i = 0; i != points.count(); ++i)
+    for (int i = 0; i != points.count(); ++i)
       setWaypoint(intent, i, points.get(i));
   }
 
   public static void setWaypointsFromPlaces(final Intent intent, final List<GeoPlace> places) {
-    for(int i = 0; i != places.size(); ++i)
+    for (int i = 0; i != places.size(); ++i)
       setWaypoint(intent, i, places.get(i).coord());
   }
 
