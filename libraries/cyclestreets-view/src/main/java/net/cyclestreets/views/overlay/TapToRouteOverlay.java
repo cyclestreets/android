@@ -320,7 +320,7 @@ public class TapToRouteOverlay extends Overlay
   }
 
   private void drawTapState(final Canvas canvas) {
-    final String msg = tapState.toString();
+    final String msg = tapState.actionDescription;
     if (msg.length() == 0)
       return;
 
@@ -420,7 +420,7 @@ public class TapToRouteOverlay extends Overlay
   }
 
   private boolean stepBack(final boolean tap) {
-    if (!tap && tapState.isAtEnd())
+    if (!tap && !tapState.waypointingInProgress)
       return false;
 
     switch(tapState) {
@@ -486,11 +486,19 @@ public class TapToRouteOverlay extends Overlay
 
   ////////////////////////////////////
   private enum TapToRoute  {
-    WAITING_FOR_START,
-    WAITING_FOR_SECOND,
-    WAITING_FOR_NEXT,
-    WAITING_TO_ROUTE,
-    ALL_DONE;
+    WAITING_FOR_START(false, "Tap map to set Start"),
+    WAITING_FOR_SECOND(true, "Tap map to set Waypoint"),
+    WAITING_FOR_NEXT(true, "Tap map to set Waypoint\nTap here to Route"),
+    WAITING_TO_ROUTE(true, "Tap here to Route"),
+    ALL_DONE(false, "");
+
+    public final String actionDescription;
+    public final boolean waypointingInProgress;
+
+    TapToRoute(boolean waypointingInProgress, String actionDescription) {
+      this.waypointingInProgress = waypointingInProgress;
+      this.actionDescription = actionDescription;
+    }
 
     public static TapToRoute start() {
       return WAITING_FOR_START;
@@ -498,11 +506,6 @@ public class TapToRouteOverlay extends Overlay
 
     public TapToRoute reset() {
       return WAITING_FOR_START;
-    }
-
-    public boolean isAtEnd() {
-      return (this == WAITING_FOR_START) ||
-             (this == ALL_DONE);
     }
 
     public TapToRoute previous(final int count) {
@@ -535,22 +538,6 @@ public class TapToRouteOverlay extends Overlay
           break;
       }
       return ALL_DONE;
-    }
-
-    public String toString() {
-      switch(this) {
-        case WAITING_FOR_START:
-          return "Tap map to set Start";
-        case WAITING_FOR_SECOND:
-          return "Tap map to set Waypoint";
-        case WAITING_FOR_NEXT:
-          return "Tap map to set Waypoint\nTap here to Route";
-        case WAITING_TO_ROUTE:
-          return "Tap here to Route";
-        case ALL_DONE:
-          break;
-      }
-      return "";
     }
   }
 
