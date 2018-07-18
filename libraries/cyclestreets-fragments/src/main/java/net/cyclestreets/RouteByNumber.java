@@ -14,8 +14,9 @@ import android.widget.AutoCompleteTextView;
 
 public class RouteByNumber {
   public static void launch(final Context context) {
-    final AlertDialog.Builder builder = new AlertDialog.Builder(context);
-    builder.setTitle(R.string.menu_route_by_number);
+    final AlertDialog.Builder builder = new AlertDialog.Builder(context)
+            .setTitle(R.string.menu_route_by_number)
+            .setMessage(R.string.routenumber_desc);
 
     final RouteByNumberCallbacks rbnc = new RouteByNumberCallbacks(context, builder);
 
@@ -33,14 +34,14 @@ public class RouteByNumber {
     private final EditTextHistory history;
     private AlertDialog ad;
 
-    public RouteByNumberCallbacks(final Context context,
-                                  final AlertDialog.Builder builder) {
+    private RouteByNumberCallbacks(final Context context,
+                                   final AlertDialog.Builder builder) {
       this.context = context;
 
       final View layout = View.inflate(context, R.layout.routenumber, null);
-      builder.setView(layout);
-
-      builder.setPositiveButton(R.string.go, MessageBox.NoAction);
+      builder
+        .setView(layout)
+        .setPositiveButton(R.string.load_route, MessageBox.NoAction);
 
       numberText = layout.findViewById(R.id.routeNumber);
       history = new EditTextHistory(context, "RouteNumber");

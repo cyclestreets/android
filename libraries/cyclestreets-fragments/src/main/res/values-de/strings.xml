@@ -7,7 +7,8 @@
   <string name="settings">Einstellungen</string>
   <string name="about">Über</string>
   <string name="blog">Blog</string>
-  <string name="go">Finde Route</string>
+  <string name="find_route">Finde Route</string>
+  <string name="load_route">Load route</string>
   <string name="addvia">Füge Wegpunkt hinzu</string>
   <string name="blog_cyclestreets_update">CycleStreets-Blog-Update</string>
   <string name="blog_update">Blog-Update</string>
@@ -60,7 +61,8 @@
 
   <string name="location_editor_hint">Platziere eine Markierung auf die Karte und benenne dann den Ort.</string>
   <string name="location_editor_name">Ortsname :</string>
-  <string name="routenumber_hint">Tournummer</string>
+  <string name="routenumber_desc">Routes previously planned on CycleStreets can be loaded here, by entering the journey number shown on the webpage or itinerary</string>
+  <string name="routenumber_hint">CycleStreets journey number</string>
 
   <string name="storedroutes_title_default">Tour</string>
   <string name="storedroutes_detail_default">Details</string>

@@ -7,7 +7,8 @@
   <string name="settings">Настройки</string>
   <string name="about">О апликации</string>
   <string name="blog">Блог</string>
-  <string name="go">Найти маршрут</string>
+  <string name="find_route">Найти маршрут</string>
+  <string name="load_route">Load route</string>
   <string name="addvia">Добавить точку</string>
   <string name="blog_cyclestreets_update">Обновление блога CycleStreets</string>
   <string name="blog_update">Обновлении блога</string>
@@ -60,7 +61,8 @@
 
   <string name="location_editor_hint">Поместите метку на карте, а затем назовите местоположение.</string>
   <string name="location_editor_name">Название местоположения :</string>
-  <string name="routenumber_hint">Номер маршрута</string>
+  <string name="routenumber_desc">Routes previously planned on CycleStreets can be loaded here, by entering the journey number shown on the webpage or itinerary</string>
+  <string name="routenumber_hint">CycleStreets journey number</string>
 
   <string name="storedroutes_title_default">Маршрут </string>
   <string name="storedroutes_detail_default">Детали</string>

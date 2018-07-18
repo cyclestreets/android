@@ -6,7 +6,8 @@
   <string name="app_name">CycleStreets</string>
   <string name="settings">Impostazioni</string>
   <string name="blog">Blog</string>
-  <string name="go">Cerca percorso</string>
+  <string name="find_route">Cerca percorso</string>
+  <string name="load_route">Load route</string>
   <string name="addvia">Aggiungi destinazione</string>
   <string name="blog_cyclestreets_update">News dal blog di CycleStreets</string>
   <string name="blog_update">Blog news</string>
@@ -55,7 +56,8 @@
 
   <string name="location_editor_hint">Piazza il puntatore sulla mappa e dai un nome al luogo.</string>
   <string name="location_editor_name">Nome del luogo :</string>
-  <string name="routenumber_hint">Numero percorso</string>
+  <string name="routenumber_desc">Routes previously planned on CycleStreets can be loaded here, by entering the journey number shown on the webpage or itinerary</string>
+  <string name="routenumber_hint">CycleStreets journey number</string>
 
   <string name="storedroutes_title_default">"Percorso "</string>
   <string name="storedroutes_detail_default">Dettagli</string>
