@@ -31,12 +31,11 @@ public class POICategory {
   }
 
   public List<POI> pois(final IGeoPoint centre,
-                        final int radius)
-    throws Exception {
+                        final int radius) {
     try {
       final List<POI> pois = ApiClient.getPOIs(key,
-                                               centre.getLongitudeE6() / 1E6,
-                                               centre.getLatitudeE6() / 1E6,
+                                               centre.getLongitude(),
+                                               centre.getLatitude(),
                                                radius);
       for (final POI poi : pois)
         poi.setCategory(this);

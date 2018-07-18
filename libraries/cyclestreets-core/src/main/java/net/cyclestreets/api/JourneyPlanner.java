@@ -19,8 +19,8 @@ public class JourneyPlanner {
     final double[] lonLat = new double[waypoints.count()*2];
     for (int i = 0; i != waypoints.count(); ++i) {
       int l = i*2;
-      lonLat[l] = waypoints.get(i).getLongitudeE6() / 1E6;
-      lonLat[l+1] = waypoints.get(i).getLatitudeE6() / 1E6;
+      lonLat[l] = waypoints.get(i).getLongitude();
+      lonLat[l+1] = waypoints.get(i).getLatitude();
     }
     return ApiClient.getJourneyXml(plan,
                                    null,
