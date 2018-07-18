@@ -133,7 +133,7 @@ public class TileSource {
   private static void addDefaultSource(final Source source) { availableSources_.add(0, source); }
   private static void addSource(final Source source) { availableSources_.add(source); }
   private static Source source(final String tileSourceName) {
-    for(Source s : allSources())
+    for (Source s : allSources())
       if (s.tileSourceName().equals(tileSourceName))
         return s;
     return null;

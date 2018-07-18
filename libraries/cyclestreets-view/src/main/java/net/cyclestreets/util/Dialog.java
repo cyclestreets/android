@@ -77,7 +77,7 @@ public class Dialog {
       builder.setTitle(titleResId);
 
     final CharSequence[] itemArray = new CharSequence[items.size()];
-    for(int i = 0; i != items.size(); ++i)
+    for (int i = 0; i != items.size(); ++i)
       itemArray[i] = items.get(i).toString();
     builder.setItems(itemArray, itemListener);
 

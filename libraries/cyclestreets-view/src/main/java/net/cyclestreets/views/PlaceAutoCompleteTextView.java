@@ -57,7 +57,7 @@ public class PlaceAutoCompleteTextView extends AppCompatAutoCompleteTextView
   public GeoPlace geoPlace() {
     if (place_ == null) {
       final String t = getEditableText().toString();
-      for(final GeoPlace gp : localHistory_)
+      for (final GeoPlace gp : localHistory_)
         if (t.equals(gp.toString()))
           place_ = gp;
     }

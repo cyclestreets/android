@@ -86,7 +86,7 @@ public class PhotoUploadFragment extends Fragment
     private AddStep next_;
 
     public static AddStep fromInt(int a) {
-      for(AddStep s : Value_.keySet())
+      for (AddStep s : Value_.keySet())
         if (s.value() == a)
           return s;
       return null;

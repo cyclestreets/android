@@ -158,7 +158,7 @@ public class RouteDatabase
 
   private String flattenWaypoints(final Waypoints waypoints) {
     final StringBuilder sb = new StringBuilder();
-    for(final IGeoPoint waypoint : waypoints) {
+    for (final IGeoPoint waypoint : waypoints) {
       if (sb.length() != 0)
         sb.append('|');
       sb.append(waypoint.getLatitudeE6())
@@ -170,7 +170,7 @@ public class RouteDatabase
 
   private Waypoints expandWaypoints(final String str) {
     final Waypoints points = new Waypoints();
-    for(final String coords : str.split("\\|")) {
+    for (final String coords : str.split("\\|")) {
       final String[] latlon = coords.split(",");
       final double lat = Long.parseLong(latlon[0])/1E6;
       final double lon = Long.parseLong(latlon[1])/1E6;

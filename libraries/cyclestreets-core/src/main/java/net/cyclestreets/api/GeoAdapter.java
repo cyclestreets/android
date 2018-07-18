@@ -52,7 +52,7 @@ public class GeoAdapter extends ArrayAdapter<GeoPlace>
   }
 
   protected void addAll(final List<GeoPlace> list) {
-    for(final GeoPlace p : list)
+    for (final GeoPlace p : list)
       add(p);
   }
 }

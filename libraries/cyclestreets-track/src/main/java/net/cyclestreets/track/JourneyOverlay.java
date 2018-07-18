@@ -112,7 +112,7 @@ public class JourneyOverlay extends Overlay {
     Point screenPoint = new Point();
 
     boolean first = true;
-    for(final GeoPoint gp : trip_.journey()) {
+    for (final GeoPoint gp : trip_.journey()) {
       screenPoint = projection.toPixels(gp, screenPoint);
 
       if (first) {

@@ -19,7 +19,7 @@ public class Draw
     final String[] lines = text.split("\n");
     Rect bounds = new Rect();
 
-    for(final String line : lines) {
+    for (final String line : lines) {
       final Rect lineBounds = new Rect();
       brush.getTextBounds(line, 0, line.length(), lineBounds);
       if (lineBounds.width() > bounds.width())
@@ -44,7 +44,7 @@ public class Draw
 
     // put the words in
     int lineY = bounds.top + (-fm.ascent + offset);
-    for(final String line : lines) {
+    for (final String line : lines) {
       canvas.drawText(line, bounds.centerX(), lineY, brush);
       lineY += lineHeight;
     }
@@ -96,10 +96,10 @@ public class Draw
     }
 
     // get the distance in pixels between two lines of text
-    int lineHeight = brush.getFontMetricsInt( null );
+    int lineHeight = brush.getFontMetricsInt(null);
 
     // emit one line at a time, as much as will fit, with word wrap on whitespace.
-    while(start < end) {
+    while (start < end) {
       y += lineHeight;
 
       int charactersRemaining = end - start + 1;
@@ -109,23 +109,23 @@ public class Draw
       // This 'while' is nothing to be proud of.
       // This should probably be a binary search or more googling to
       // find "character index at distance N pixels in string"
-      while(charactersToRenderThisPass > 0 &&
-          brush.measureText(text, start, start+charactersToRenderThisPass ) > allowedWidth ) {
+      while (charactersToRenderThisPass > 0 &&
+             brush.measureText(text, start, start+charactersToRenderThisPass) > allowedWidth) {
         // remaining text won't fit, cut one character from the end and check again
         charactersToRenderThisPass--;
       }
 
       // charactersToRenderThisPass would definitely fit, but could be in the middle of a word
       int thisManyWouldDefinitelyFit = charactersToRenderThisPass;
-      if ( charactersToRenderThisPass < charactersRemaining ) {
-        while( charactersToRenderThisPass > 0 &&
-            !Character.isWhitespace( text.charAt( start+charactersToRenderThisPass-1) ) ) {
+      if (charactersToRenderThisPass < charactersRemaining) {
+        while (charactersToRenderThisPass > 0 &&
+               !Character.isWhitespace(text.charAt(start+charactersToRenderThisPass-1))) {
           charactersToRenderThisPass--;   // good bye character that would have fit!
         }
       }
 
       // Now wouldn't it be nice to be able to put in line breaks?
-      for(int i=0; i < charactersToRenderThisPass; i++ ) {
+      for (int i = 0; i < charactersToRenderThisPass; i++) {
         if (text.charAt(start+i) == '\n') {  // um, what's unicode for isLineBreak' or '\n'?
            // cool, lets stop this line early
           charactersToRenderThisPass = i;
@@ -141,19 +141,19 @@ public class Draw
       }
 
       // Emit this line of characters and advance our offsets for the next line
-      if ( charactersToRenderThisPass > 0 ) {
+      if (charactersToRenderThisPass > 0) {
         if (draw)
-          canvas.drawText( text, start, start+charactersToRenderThisPass, x, y, brush );
+          canvas.drawText(text, start, start+charactersToRenderThisPass, x, y, brush);
       }
       start += charactersToRenderThisPass + extraSkip;
 
       // start had better advance each time through the while, or we've invented an infinite loop
-      if ( (charactersToRenderThisPass + extraSkip) < 1 ) {
+      if ((charactersToRenderThisPass + extraSkip) < 1) {
         return (int)y; // better than freezing, I guess.  I am a coward.
       }
     }
 
-    // write google a letter asking why I couldn't find this as an  existing function
+    // write google a letter asking why I couldn't find this as an existing function
     // after doing a LOT of googling.  Is my phone going to explode?
     return (int)y;
   }
