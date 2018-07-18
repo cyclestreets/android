@@ -21,7 +21,7 @@ public class RouteByNumber {
 
     final AlertDialog ad = builder.create();
     ad.show();
-    ad.getButton(AlertDialog.BUTTON_POSITIVE).setTextAppearance(context, android.R.style.TextAppearance_Large);
+    ad.getButton(AlertDialog.BUTTON_POSITIVE).setTextAppearance(android.R.style.TextAppearance_Large);
 
     rbnc.setDialog(ad);
   }
@@ -42,11 +42,11 @@ public class RouteByNumber {
 
       builder.setPositiveButton(R.string.go, MessageBox.NoAction);
 
-      numberText = (AutoCompleteTextView)layout.findViewById(R.id.routeNumber);
+      numberText = layout.findViewById(R.id.routeNumber);
       history = new EditTextHistory(context, "RouteNumber");
       numberText.setAdapter(history);
 
-      routeType = (RouteType)layout.findViewById(R.id.routeType);
+      routeType = layout.findViewById(R.id.routeType);
     }
 
     private void findRoute(long routeNumber) {
