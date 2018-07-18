@@ -6,39 +6,47 @@ import org.osmdroid.util.GeoPoint;
 
 public class POI
 {
-  private final int id_;
-  private final String name_;
-  private final String notes_;
-  private final String url_;
-  private final GeoPoint pos_;
+  private final int id;
+  private final String name;
+  private final String notes;
+  private final String url;
+  private final String phone;
+  private final String openingHours;
+  private final GeoPoint pos;
 
-  private POICategory category_;
+  private POICategory category;
 
   public POI(final int id,
              final String name,
              final String notes,
              final String url,
+             final String phone,
+             final String openingHours,
              final double lat,
              final double lon) {
-    id_ = id;
-    name_ = name;
-    notes_ = notes;
-    url_ = url;
-    pos_ = new GeoPoint(lat, lon);
+    this.id = id;
+    this.name = name;
+    this.notes = notes;
+    this.url = url;
+    this.phone = phone;
+    this.openingHours = openingHours;
+    pos = new GeoPoint(lat, lon);
   }
 
-  void setCategory(final POICategory category) { category_ = category; }
+  void setCategory(final POICategory category) { this.category = category; }
 
-  public int id() { return id_; }
-  public String name() { return sOrNull(name_); }
-  public String notes() { return sOrNull(notes_); }
-  public String url() { return sOrNull(url_); }
-  public GeoPoint position() { return pos_; }
+  public int id() { return id; }
+  public String name() { return stringOrBlank(name); }
+  public String notes() { return stringOrBlank(notes); }
+  public String url() { return stringOrBlank(url); }
+  public String phone() { return stringOrBlank(phone); }
+  public String openingHours() { return stringOrBlank(openingHours); }
+  public GeoPoint position() { return pos; }
 
-  private String sOrNull(final String s) {
+  private String stringOrBlank(final String s) {
     return s != null ? s : "";
   }
 
-  public POICategory category() { return category_; }
-  public Drawable icon() { return category_.icon(); }
+  public POICategory category() { return category; }
+  public Drawable icon() { return category.icon(); }
 }

@@ -74,12 +74,16 @@ public class RetrofitApiClientIntegrationTest {
     InputStream in = RetrofitApiClientIntegrationTest.class.getClassLoader().getResourceAsStream("api.key");
     if (in != null) {
       try {
-        apiKey = IOUtils.toString(in, "UTF-8");
+        apiKey = IOUtils.toString(in, "UTF-8").trim();
+        System.out.println("Loaded api Key '" + apiKey + "' from api.key");
       } catch (IOException e) {
         // Give up and use default
+        System.out.println("Failed to load API key from api.key - use default");
       } finally {
         in.close();
       }
+    } else {
+      System.out.println("No api.key found to run integration test - use default");
     }
     return apiKey;
   }
