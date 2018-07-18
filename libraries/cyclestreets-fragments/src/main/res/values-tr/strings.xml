@@ -18,6 +18,7 @@
 
   <!-- Map menu -->
   <string name="ic_menu_directions">Güzergahı planla</string>
+  <string name="menu_share_route">Share route</string>
   <string name="menu_saved_routes">Güzergahları kaydet</string>
   <string name="menu_route_by_number">Güzergâh numarasına göre aç</string>
   <string name="menu_find_place">Yer bul</string>

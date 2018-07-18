@@ -16,6 +16,7 @@
 
   <!-- Map menu -->
   <string name="ic_menu_directions">Calcola percorso</string>
+  <string name="menu_share_route">Share route</string>
   <string name="menu_route_by_number">Apri percorso per numero</string>
   <string name="menu_find_place">Cerca luogo</string>
   <string name="ic_menu_settings">Impostazioni</string>

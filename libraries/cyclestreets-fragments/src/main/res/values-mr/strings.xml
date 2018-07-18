@@ -18,6 +18,7 @@
 
   <!-- Map menu -->
   <string name="ic_menu_directions">एक मार्ग योजना</string>
+  <string name="menu_share_route">Share route</string>
   <string name="menu_saved_routes">जतन मार्ग</string>
   <string name="menu_route_by_number">संख्या मार्ग खुला</string>
   <string name="menu_find_place">स्थान शोधू</string>

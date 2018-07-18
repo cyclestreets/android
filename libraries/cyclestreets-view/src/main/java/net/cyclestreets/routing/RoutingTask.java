@@ -45,7 +45,7 @@ public abstract class RoutingTask<Params> extends AsyncTask<Params, Integer, Rou
                                  final Waypoints waypoints) {
     try {
       final String xml = doFetchRoute(routeType, itinerary, speed, waypoints);
-      return new RouteData(xml, waypoints, null);
+      return new RouteData(itinerary, xml, waypoints, null);
     }
     catch (Exception e) {
       error_ = "Could not contact CycleStreets.net : " + e.getMessage();
@@ -56,8 +56,7 @@ public abstract class RoutingTask<Params> extends AsyncTask<Params, Integer, Rou
   private String doFetchRoute(final String routeType,
                               final long itinerary,
                               final int speed,
-                              final Waypoints waypoints)
-    throws Exception  {
+                              final Waypoints waypoints) throws Exception {
     if (itinerary != -1)
       return JourneyPlanner.getJourneyXml(routeType, itinerary);
     return JourneyPlanner.getJourneyXml(routeType, speed, waypoints);
@@ -98,7 +97,6 @@ public abstract class RoutingTask<Params> extends AsyncTask<Params, Integer, Rou
       // some devices, in rare situations, can throw here so just catch and swallow
       progress_.dismiss();
     }
-    catch (Exception e) {
-    }
+    catch (Exception e) {}
   }
 }
