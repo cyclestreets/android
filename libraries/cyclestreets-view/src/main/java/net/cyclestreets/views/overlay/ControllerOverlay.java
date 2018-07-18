@@ -50,32 +50,32 @@ public class ControllerOverlay extends Overlay implements OnDoubleTapListener,
   }
 
   public void onPause(final SharedPreferences.Editor prefEditor) {
-    for(final Iterator<PauseResumeListener> overlays = pauseResumeOverlays(); overlays.hasNext(); )
+    for (final Iterator<PauseResumeListener> overlays = pauseResumeOverlays(); overlays.hasNext(); )
       overlays.next().onPause(prefEditor);
   }
 
   public void onResume(final SharedPreferences prefs) {
-    for(final Iterator<PauseResumeListener> overlays = pauseResumeOverlays(); overlays.hasNext(); )
+    for (final Iterator<PauseResumeListener> overlays = pauseResumeOverlays(); overlays.hasNext(); )
       overlays.next().onResume(prefs);
   }
 
   public void onCreateOptionsMenu(final Menu menu) {
-    for(final Iterator<MenuListener> overlays = menuOverlays(); overlays.hasNext(); )
+    for (final Iterator<MenuListener> overlays = menuOverlays(); overlays.hasNext(); )
       overlays.next().onCreateOptionsMenu(menu);
   }
 
   public void onPrepareOptionsMenu(final Menu menu) {
-    for(final Iterator<MenuListener> overlays = menuOverlays(); overlays.hasNext(); )
+    for (final Iterator<MenuListener> overlays = menuOverlays(); overlays.hasNext(); )
       overlays.next().onPrepareOptionsMenu(menu);
   }
 
   public void onCreateContextMenu(final ContextMenu menu) {
-    for(final Iterator<ContextMenuListener> overlays = contextMenuOverlays(); overlays.hasNext(); )
+    for (final Iterator<ContextMenuListener> overlays = contextMenuOverlays(); overlays.hasNext(); )
       overlays.next().onCreateContextMenu(menu);
   }
 
   public boolean onMenuItemSelected(final int featureId, final MenuItem item) {
-    for(final Iterator<MenuListener> overlays = menuOverlays(); overlays.hasNext(); )
+    for (final Iterator<MenuListener> overlays = menuOverlays(); overlays.hasNext(); )
       if (overlays.next().onMenuItemSelected(featureId, item))
         return true;
     return false;
@@ -98,13 +98,13 @@ public class ControllerOverlay extends Overlay implements OnDoubleTapListener,
   }
 
   public void flushUndo(final Undoable undo) {
-    for(int i = undoStack_.size() - 1; i >= 0; --i)
+    for (int i = undoStack_.size() - 1; i >= 0; --i)
       if (undoStack_.get(i).equals(undo))
         undoStack_.remove(i);
   }
 
   public void popUndo(final Undoable undo) {
-    for(int i = undoStack_.size() - 1; i >= 0; --i)
+    for (int i = undoStack_.size() - 1; i >= 0; --i)
       if (undoStack_.get(i).equals(undo)) {
         undoStack_.remove(i);
         return;
@@ -126,10 +126,10 @@ public class ControllerOverlay extends Overlay implements OnDoubleTapListener,
 
   @Override
   public boolean onSingleTapConfirmed(final MotionEvent e) {
-    for(final Iterator<ButtonTapListener> overlays = buttonTapOverlays(); overlays.hasNext(); )
+    for (final Iterator<ButtonTapListener> overlays = buttonTapOverlays(); overlays.hasNext(); )
       if (overlays.next().onButtonTap(e))
         return redraw();
-    for(final Iterator<TapListener> overlays = tapOverlays(); overlays.hasNext(); )
+    for (final Iterator<TapListener> overlays = tapOverlays(); overlays.hasNext(); )
       if (overlays.next().onSingleTap(e))
         return redraw();
     return false;
@@ -137,10 +137,10 @@ public class ControllerOverlay extends Overlay implements OnDoubleTapListener,
 
   @Override
   public boolean onDoubleTap(final MotionEvent e) {
-    for(final Iterator<ButtonTapListener> overlays = buttonTapOverlays(); overlays.hasNext(); )
+    for (final Iterator<ButtonTapListener> overlays = buttonTapOverlays(); overlays.hasNext(); )
       if (overlays.next().onButtonDoubleTap(e))
         return redraw();
-    for(final Iterator<TapListener> overlays = tapOverlays(); overlays.hasNext(); )
+    for (final Iterator<TapListener> overlays = tapOverlays(); overlays.hasNext(); )
       if (overlays.next().onDoubleTap(e))
         return redraw();
     return false;
@@ -159,7 +159,7 @@ public class ControllerOverlay extends Overlay implements OnDoubleTapListener,
   }
 
   protected void drawUnskewed(final Canvas canvas, final MapView mapView) {
-    for(final Iterator<ButtonTapListener> overlays = buttonTapOverlays(); overlays.hasNext(); )
+    for (final Iterator<ButtonTapListener> overlays = buttonTapOverlays(); overlays.hasNext(); )
       overlays.next().drawButtons(canvas, mapView);
 
     final Rect screen = canvas.getClipBounds();

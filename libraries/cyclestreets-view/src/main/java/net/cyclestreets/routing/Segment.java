@@ -161,7 +161,7 @@ public abstract class Segment {
     at = alongTrack(minIndex, location);
 
     int cumulative = 0;
-    for(int i = 1; i <= minIndex; ++i) {
+    for (int i = 1; i <= minIndex; ++i) {
       final IGeoPoint p1 = points_.get(i-1);
       final IGeoPoint p2 = points_.get(i);
       cumulative += ((GeoPoint)p1).distanceTo(p2);
@@ -185,7 +185,7 @@ public abstract class Segment {
     int minIndex = -1;
     int minDistance = Integer.MAX_VALUE;
 
-    for(int p = 0; p != points_.size(); ++p) {
+    for (int p = 0; p != points_.size(); ++p) {
       int distance = GeoHelper.distanceBetween(points_.get(p), (location));
       if (distance > minDistance)
         continue;
