@@ -409,11 +409,7 @@ public class TapToRouteOverlay extends Overlay
 
     MessageBox.YesNo(mapView,
                      "Start a new route?",
-                     new DialogInterface.OnClickListener() {
-                       public void onClick(DialogInterface arg0, int arg1) {
-                         stepBack(true);
-                       }
-                     });
+                     (arg0, arg1) -> stepBack(true));
 
     return true;
   }
