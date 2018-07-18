@@ -22,10 +22,10 @@ public class GeoHelper
     // uses the Haversine formula, which I only know about because
     // http://www.movable-type.co.uk/scripts/latlong.html was the
     // first hit on my Google search
-    final double lat1 = p1.getLatitudeE6() / 1E6;
-    final double lon1 = p1.getLongitudeE6() / 1E6;
-    final double lat2 = p2.getLatitudeE6() / 1E6;
-    final double lon2 = p2.getLongitudeE6() / 1E6;
+    final double lat1 = p1.getLatitude();
+    final double lon1 = p1.getLongitude();
+    final double lat2 = p2.getLatitude();
+    final double lon2 = p2.getLongitude();
 
     final double dLat = Math.toRadians(lat2-lat1);
     final double dLon = Math.toRadians(lon2-lon1);
@@ -40,10 +40,10 @@ public class GeoHelper
   }
 
   public static double bearingTo(final IGeoPoint p1, final IGeoPoint p2) {
-    final double rlat1 = Math.toRadians(p1.getLatitudeE6() / 1E6);
-    final double rlon1 = Math.toRadians(p1.getLongitudeE6() / 1E6);
-    final double rlat2 = Math.toRadians(p2.getLatitudeE6() / 1E6);
-    final double rlon2 = Math.toRadians(p2.getLongitudeE6() / 1E6);
+    final double rlat1 = Math.toRadians(p1.getLatitude());
+    final double rlon1 = Math.toRadians(p1.getLongitude());
+    final double rlat2 = Math.toRadians(p2.getLatitude());
+    final double rlon2 = Math.toRadians(p2.getLongitude());
 
     final double deltaLon = rlon2 - rlon1;
 
