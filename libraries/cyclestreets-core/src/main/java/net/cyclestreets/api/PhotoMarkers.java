@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.support.v4.content.res.ResourcesCompat;
 
 import net.cyclestreets.core.R;
 
@@ -20,7 +21,7 @@ public class PhotoMarkers {
 
   public PhotoMarkers(final Resources res) {
     this.res = res;
-    defaultMarker = res.getDrawable(R.drawable.general_neutral);
+    defaultMarker = ResourcesCompat.getDrawable(res, R.drawable.general_neutral, null);
 
     bfo = new BitmapFactory.Options();
     bfo.inTargetDensity = 240;

@@ -101,8 +101,8 @@ public class Photo implements Parcelable {
     dest.writeString(caption);
     dest.writeString(url);
     dest.writeString(thumbnailUrl);
-    dest.writeInt(position.getLatitudeE6());
-    dest.writeInt(position.getLongitudeE6());
+    dest.writeDouble(position.getLatitude());
+    dest.writeDouble(position.getLongitude());
     dest.writeInt(videos.size());
     for (Video v : videos) {
       dest.writeString(v.format());
@@ -120,15 +120,15 @@ public class Photo implements Parcelable {
       final String url = source.readString();
       final String thumbnailUrl = source.readString();
 
-      final int latE6 = source.readInt();
-      final int lonE6 = source.readInt();
+      final double latitude = source.readDouble();
+      final double longitude = source.readDouble();
 
       final List<Video> videos = new ArrayList<>();
       final int videoCount = source.readInt();
       for (int i = 0; i != videoCount; ++i) {
         final String format = source.readString();
-        final String vurl = source.readString();
-        videos.add(new Video(format, vurl));
+        final String vUrl = source.readString();
+        videos.add(new Video(format, vUrl));
       }
 
       return new Photo(
@@ -138,7 +138,7 @@ public class Photo implements Parcelable {
           caption,
           url,
           thumbnailUrl,
-          new GeoPoint(latE6, lonE6),
+          new GeoPoint(latitude, longitude),
           videos);
     }
 
@@ -146,5 +146,5 @@ public class Photo implements Parcelable {
     public Photo[] newArray(int size) {
       return new Photo[size];
     }
-  }; // CREATOR
+  };
 }

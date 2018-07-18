@@ -437,7 +437,7 @@ public class POIOverlay
         try {
           pois.addAll(cat.pois(centre, radius));
         }
-        catch (final Exception ex) {
+        catch (final RuntimeException ex) {
           // never mind, eh?
         }
       return pois;
