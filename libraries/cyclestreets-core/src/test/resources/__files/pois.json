@@ -7,6 +7,10 @@
         "id": "101399",
         "name": "Chris's Bikes",
         "notes": "The notes section",
+        "osmTags": {
+          "opening_hours": "Mo-Fr 09:00-17:00; Sa 10:00-18:00",
+          "phone": "01234 567890"
+        },
         "website": "http://www.madeup.com"
       },
       "geometry": {
@@ -55,6 +59,15 @@
         "id": "113230",
         "name": "Primo Cycles",
         "notes": "",
+        "osmTags": {
+          "addr:city": "Cambridge",
+          "addr:housenumber": "5-7",
+          "addr:postcode": "CB5 8BA",
+          "addr:street": "Jesus Lane",
+          "name": "Primo Cycles",
+          "shop": "bicycle",
+          "source": "survey"
+        },
         "website": null
       },
       "geometry": {
@@ -103,7 +116,19 @@
         "id": "113267",
         "name": "Bicycle Ambulance",
         "notes": "",
-        "website": null
+        "osmTags": {
+          "addr:city": "Cambridge",
+          "addr:housename": "Level A, Park Street car park",
+          "addr:postcode": "CB5 8AS",
+          "addr:street": "Park Street",
+          "name": "Bicycle Ambulance",
+          "opening_hours": "Tu-Fr 08:30-18:00; Sa 10:00-18:00",
+          "shop": "bicycle",
+          "source": "local_knowledge",
+          "source:opening_hours": "http://bicycleambulance.com",
+          "url": "http://bicycleambulance.com"
+        },
+        "website": ""
       },
       "geometry": {
         "type": "Point",
