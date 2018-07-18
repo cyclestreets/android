@@ -123,7 +123,7 @@ public abstract class LiveItemOverlay<T extends OverlayItem>
                                                     final BoundingBox boundingBox);
 
   protected void setItems(final List<T> items) {
-    for(final T item : items)
+    for (final T item : items)
       if (!items().contains(item))
         items().add(item);
     if (items().size() > 500)  // arbitrary figure

@@ -127,7 +127,7 @@ public class PlaceViewBase extends LinearLayout
   }
 
   public void addHistory(final GeoPlace place) {
-    for(final GeoPlace gp : allowedPlaces_)
+    for (final GeoPlace gp : allowedPlaces_)
       if (gp == place)
         return;
     textView_.addHistory(place);
@@ -178,7 +178,7 @@ public class PlaceViewBase extends LinearLayout
   @Override
   public void onClick(final View v) {
     options_ = new ArrayList<>();
-    for(final GeoPlace gp : allowedPlaces_)
+    for (final GeoPlace gp : allowedPlaces_)
       options_.add(gp.name());
     if (contactsAvailable())
       options_.add(CONTACTS);
@@ -207,7 +207,7 @@ public class PlaceViewBase extends LinearLayout
   public void onClick(final DialogInterface dialog, final int whichButton) {
     final String option = options_.get(whichButton);
 
-    for(final GeoPlace gp : allowedPlaces_)
+    for (final GeoPlace gp : allowedPlaces_)
       if (gp.name().equals(option))
         setPlaceHint(gp);
 

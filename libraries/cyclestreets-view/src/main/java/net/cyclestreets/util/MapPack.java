@@ -30,7 +30,7 @@ public class MapPack
     if (!obbDir.exists())
       return packs;
 
-    for(final File mapDir : obbDir.listFiles(new CycleStreetsMapFilter())) {
+    for (final File mapDir : obbDir.listFiles(new CycleStreetsMapFilter())) {
       final File map = findMapFile(mapDir, "main.");
       final Properties props = mapProperties(mapDir);
       final String name = props.getProperty("title");
@@ -45,14 +45,14 @@ public class MapPack
   }
 
   public static MapPack findByPackage(final String packageName) {
-    for(final MapPack pack : availableMapPacks())
+    for (final MapPack pack : availableMapPacks())
       if (pack.path().contains(packageName))
         return pack;
     return null;
   }
 
   private static File findMapFile(final File mapDir, final String prefix) {
-    for(final File c : mapDir.listFiles())
+    for (final File c : mapDir.listFiles())
       if (c.getName().startsWith(prefix))
         return c;
     return null;

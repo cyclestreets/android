@@ -17,7 +17,7 @@ public class ListFactory<T>
   public static <T> List<T> list(final Iterator<T> values) {
     final List<T> l = new ArrayList<>();
 
-    while(values.hasNext())
+    while (values.hasNext())
       l.add(values.next());
 
     return l;

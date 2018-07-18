@@ -54,22 +54,21 @@ public class POIOverlay
                PauseResumeListener,
                Undoable {
   public static class POIItem extends OverlayItem {
-    private final POI poi_;
+    private final POI poi;
 
     public POIItem(final POI poi) {
       super(poi.id() + "", poi.name(), poi.notes(), poi.position());
-      poi_ = poi;
-      setMarker(poi_.icon());
+      this.poi = poi;
+      setMarker(this.poi.icon());
       setMarkerHotspot(HotspotPlace.CENTER);
     }
 
-    public POI poi() { return poi_; }
-    public String getUrl() { return poi_.url(); }
-    public POICategory category() { return poi_.category(); }
+    public POI poi() { return poi; }
+    public POICategory category() { return poi.category(); }
 
     // Equality testing
     @Override
-    public int hashCode() { return ((poi_ == null) ? 0 : poi_.id()); }
+    public int hashCode() { return ((poi == null) ? 0 : poi.id()); }
 
     @Override
     public boolean equals(final Object obj) {
@@ -80,15 +79,15 @@ public class POIOverlay
       if (getClass() != obj.getClass())
         return false;
       final POIItem other = (POIItem) obj;
-      if (poi_ == null)
-        return (other.poi_ == null);
+      if (poi == null)
+        return (other.poi == null);
 
-      return (poi_.id() == other.poi_.id());
+      return (poi.id() == other.poi.id());
     }
 
     @Override
     public String toString() {
-      return "POIItem [poi=" + poi_ + "]";
+      return "POIItem [poi=" + poi + "]";
     }
   }
 
@@ -96,7 +95,7 @@ public class POIOverlay
   /////////////////////////////////////////////////////
   private Context context_;
   private final List<POICategory> activeCategories_;
-  private POIItem active_;
+  private POIItem activeItem;
   private final Point curScreenCoords_ = new Point();
   private final Matrix matrix_ = new Matrix();
   private float matrixValues_[] = new float[9];
@@ -129,7 +128,7 @@ public class POIOverlay
   /////////////////////////////////////////////////////
   public void onPause(final SharedPreferences.Editor prefs) {
     prefs.putInt("category-count", activeCategories_.size());
-    for(int i = 0; i != activeCategories_.size(); ++i)
+    for (int i = 0; i != activeCategories_.size(); ++i)
       prefs.putString("category-" + i, activeCategories_.get(i).name());
   }
 
@@ -150,16 +149,16 @@ public class POIOverlay
     if (firstTime) {
       items().clear();
       clearLastFix();
-      active_ = null;
+      activeItem = null;
       refreshItems();
     }
   }
 
   private void reloadActiveCategories(final SharedPreferences prefs) {
     int count = prefs.getInt("category-count", 0);
-    for(int i = 0; i != count; ++i) {
+    for (int i = 0; i != count; ++i) {
       final String name = prefs.getString("category-" + i, "");
-      for(final POICategory cat : allCategories())
+      for (final POICategory cat : allCategories())
         if (name.equals(cat.name())) {
           activeCategories_.add(cat);
           break;
@@ -177,7 +176,7 @@ public class POIOverlay
   ///////////////////////////////////////////////////
   @Override
   public boolean onSingleTap(final MotionEvent event) {
-    if ((active_ != null) && (tappedInBubble(event)))
+    if ((activeItem != null) && (tappedInBubble(event)))
       return true;
 
     return super.onSingleTap(event);
@@ -192,12 +191,12 @@ public class POIOverlay
     if (!bubble_.contains(eventX, eventY))
       return false;
 
-    return routeMarkerAtItem(active_);
+    return routeMarkerAtItem(activeItem);
   }
 
   @Override
   protected boolean onItemSingleTap(final POIItem item) {
-    if (active_ == item)
+    if (activeItem == item)
       hideBubble();
     else
       showBubble(item);
@@ -208,12 +207,12 @@ public class POIOverlay
 
   private void showBubble(final POIItem item) {
     hideBubble();
-    active_ = item;
+    activeItem = item;
     controller().pushUndo(this);
   }
 
   private void hideBubble() {
-    active_ = null;
+    activeItem = null;
     controller().flushUndo(this);
   }
 
@@ -241,20 +240,22 @@ public class POIOverlay
 
     super.draw(canvas, mapView, shadow);
 
-    if (active_ == null)
+    if (activeItem == null)
       return;
 
     drawBubble(canvas, mapView);
   }
 
   private void drawBubble(final Canvas canvas, final MapView mapView) {
-    final String bubbleText = active_.getTitle() +
-        (active_.getSnippet().length() > 0 ? "\n" + active_.getSnippet() : "") +
-        (active_.getUrl().length() > 0 ? "\n" + active_.getUrl() : "");
+    final String bubbleText = activeItem.getTitle() +
+        (activeItem.getSnippet().length() > 0 ? "\n" + activeItem.getSnippet() : "") +
+        (activeItem.poi().url().length() > 0 ? "\n" + activeItem.poi().url() : "") +
+        (activeItem.poi().phone().length() > 0 ? "\n" + activeItem.poi().phone() : "") +
+        (activeItem.poi().openingHours().length() > 0 ? "\n" + activeItem.poi().openingHours() : "");
 
     // find the right place
     final IProjection pj = mapView.getProjection();
-    pj.toPixels(active_.getPoint(), curScreenCoords_);
+    pj.toPixels(activeItem.getPoint(), curScreenCoords_);
 
     int x = curScreenCoords_.x;
     int y = curScreenCoords_.y;
@@ -281,7 +282,7 @@ public class POIOverlay
   public void clear() {
     activeCategories_.clear();
     items().clear();
-    active_ = null;
+    activeItem = null;
     redraw();
   }
 
@@ -290,13 +291,13 @@ public class POIOverlay
     final List<POICategory> added = notIn(newCategories, activeCategories_);
 
     if (removed.size() != 0) {
-      for(final POICategory r : removed)
+      for (final POICategory r : removed)
         hide(r);
       redraw();
     }
 
     if (added.size() != 0) {
-      for(final POICategory a : added)
+      for (final POICategory a : added)
         activeCategories_.add(a);
       clearLastFix();
       refreshItems();
@@ -308,19 +309,19 @@ public class POIOverlay
       return;
     activeCategories_.remove(cat);
 
-    for(int i = items().size() - 1; i >= 0; --i)
+    for (int i = items().size() - 1; i >= 0; --i)
       if (cat.equals(items().get(i).category()))
         items().remove(i);
 
-    if ((active_ != null) && (cat.equals(active_.category())))
-      active_ = null;
+    if ((activeItem != null) && (cat.equals(activeItem.category())))
+      activeItem = null;
   }
 
   private List<POICategory> notIn(final List<POICategory> c1,
                                   final List<POICategory> c2) {
     final List<POICategory> n = new ArrayList<>();
 
-    for(final POICategory c : c1)
+    for (final POICategory c : c1)
       if (!c2.contains(c))
         n.add(c);
 
@@ -432,11 +433,11 @@ public class POIOverlay
 
       final List<POI> pois = new ArrayList<>();
 
-      for(final POICategory cat : activeCategories_)
+      for (final POICategory cat : activeCategories_)
         try {
           pois.addAll(cat.pois(centre, radius));
         }
-        catch (final Exception ex) {
+        catch (final RuntimeException ex) {
           // never mind, eh?
         }
       return pois;
@@ -532,7 +533,7 @@ public class POIOverlay
 
     private boolean isSelected(
         final POICategory cat) {
-      for(POICategory c : selected_)
+      for (POICategory c : selected_)
         if (cat.name().equals(c.name()))
           return true;
       return false;

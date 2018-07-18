@@ -47,7 +47,7 @@ public class GeoLiveAdapter extends GeoAdapter
   public BoundingBox bounds() { return bounds; }
 
   public GeoPlace exactMatch(final String p) {
-    for(int i = 0; i != getCount(); ++i) {
+    for (int i = 0; i != getCount(); ++i) {
       final GeoPlace gp = getItem(i);
       if (p.equals(gp.toString()))
         return gp;

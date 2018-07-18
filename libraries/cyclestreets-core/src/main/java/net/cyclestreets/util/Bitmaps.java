@@ -13,7 +13,6 @@ public class Bitmaps
 {
   private static BitmapFactory.Options decodeOptions() {
     final BitmapFactory.Options decodeOptions = new BitmapFactory.Options();
-    decodeOptions.inPurgeable = true;
     decodeOptions.inSampleSize = 4;
     return decodeOptions;
   }
@@ -57,7 +56,7 @@ public class Bitmaps
     // reduce memory use. It should be a power of 2
     // from: http://stackoverflow.com/questions/477572/android-strange-out-of-memory-issue/823966#823966
     int inSampleSize = 1;
-    while(srcWidth / 2 > desiredWidth) {
+    while (srcWidth / 2 > desiredWidth) {
         srcWidth /= 2;
         inSampleSize *= 2;
     }
@@ -66,7 +65,6 @@ public class Bitmaps
 
     // Decode with inSampleSize
     options.inJustDecodeBounds = false;
-    options.inDither = false;
     options.inSampleSize = inSampleSize;
     options.inScaled = false;
     options.inPreferredConfig = Bitmap.Config.ARGB_8888;
