@@ -28,7 +28,6 @@ import org.osmdroid.views.overlay.Overlay;
 import org.osmdroid.views.overlay.OverlayItem;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
@@ -42,6 +41,7 @@ import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.location.Location;
+import android.support.v4.content.res.ResourcesCompat;
 import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -78,7 +78,6 @@ public class TapToRouteOverlay extends Overlay
   private final Matrix bitmapTransform = new Matrix();
   private final Paint bitmapPaint = new Paint();
 
-  private final int offset;
   private final float radius;
 
   private final OverlayButton restartButton;
@@ -105,15 +104,15 @@ public class TapToRouteOverlay extends Overlay
     this.mapView = mapView;
 
     final Resources res = context.getResources();
-    greenWisp = res.getDrawable(R.drawable.greep_wisp);
-    orangeWisp = res.getDrawable(R.drawable.orange_wisp);
-    redWisp = res.getDrawable(R.drawable.red_wisp);
-    canRoute = ((BitmapDrawable)res.getDrawable(R.drawable.ic_route_now)).getBitmap();
+    greenWisp = ResourcesCompat.getDrawable(res, R.drawable.greep_wisp, null);
+    orangeWisp = ResourcesCompat.getDrawable(res, R.drawable.orange_wisp, null);
+    redWisp = ResourcesCompat.getDrawable(res, R.drawable.red_wisp, null);
+    canRoute = ((BitmapDrawable) ResourcesCompat.getDrawable(res, R.drawable.ic_route_now, null)).getBitmap();
 
-    offset = DrawingHelper.offset(context);
+    int offset = DrawingHelper.offset(context);
     radius = DrawingHelper.cornerRadius(context);
 
-    restartButton = new OverlayButton(res.getDrawable(R.drawable.ic_menu_rotate),
+    restartButton = new OverlayButton(ResourcesCompat.getDrawable(res, R.drawable.ic_menu_rotate, null),
                                       0,
                                       offset *2,
                                       radius);
@@ -138,7 +137,7 @@ public class TapToRouteOverlay extends Overlay
     return overlays.controller();
   }
 
-  public void setRoute(final Waypoints waypoints, final boolean complete) {
+  private void setRoute(final Waypoints waypoints, final boolean complete) {
     resetRoute();
 
     for(final IGeoPoint waypoint : waypoints) {
@@ -213,7 +212,7 @@ public class TapToRouteOverlay extends Overlay
     if (point == null)
       return null;
     controller().pushUndo(this);
-    final OverlayItem marker = new OverlayItem(label, label, new GeoPoint(point.getLatitudeE6(), point.getLongitudeE6()));
+    final OverlayItem marker = new OverlayItem(label, label, new GeoPoint(point.getLatitude(), point.getLongitude()));
     marker.setMarker(icon);
     marker.setMarkerHotspot(OverlayItem.HotspotPlace.BOTTOM_CENTER);
     return marker;
@@ -274,8 +273,7 @@ public class TapToRouteOverlay extends Overlay
         return true;
       }
 
-      final GeoPoint from = new GeoPoint((int)(lastFix.getLatitude() * 1E6),
-                                         (int)(lastFix.getLongitude() * 1E6));
+      final GeoPoint from = new GeoPoint(lastFix.getLatitude(), lastFix.getLongitude());
       onRouteNow(Waypoints.fromTo(from, finish()));
     }
     if (R.string.route_menu_change_reverse == menuId) {
@@ -308,11 +306,11 @@ public class TapToRouteOverlay extends Overlay
 
   @Override
   public void drawButtons(final Canvas canvas, final MapView mapView) {
-    drawTheButtons(canvas, mapView);
+    drawTheButtons(canvas);
     drawTapState(canvas);
   }
 
-  private void drawTheButtons(final Canvas canvas, final MapView mapView) {
+  private void drawTheButtons(final Canvas canvas) {
     restartButton.enable(tapState == TapToRoute.ALL_DONE);
 
     if (tapState == TapToRoute.ALL_DONE)
