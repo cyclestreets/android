@@ -68,7 +68,7 @@ public class StoredRoutes {
     }
 
     public RouteSummary getRouteSummary(int localId) {
-      for(final RouteSummary r : routes_)
+      for (final RouteSummary r : routes_)
         if (r.localId() == localId)
           return r;
       return null;

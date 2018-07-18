@@ -129,7 +129,7 @@ public class POIOverlay
   /////////////////////////////////////////////////////
   public void onPause(final SharedPreferences.Editor prefs) {
     prefs.putInt("category-count", activeCategories_.size());
-    for(int i = 0; i != activeCategories_.size(); ++i)
+    for (int i = 0; i != activeCategories_.size(); ++i)
       prefs.putString("category-" + i, activeCategories_.get(i).name());
   }
 
@@ -157,9 +157,9 @@ public class POIOverlay
 
   private void reloadActiveCategories(final SharedPreferences prefs) {
     int count = prefs.getInt("category-count", 0);
-    for(int i = 0; i != count; ++i) {
+    for (int i = 0; i != count; ++i) {
       final String name = prefs.getString("category-" + i, "");
-      for(final POICategory cat : allCategories())
+      for (final POICategory cat : allCategories())
         if (name.equals(cat.name())) {
           activeCategories_.add(cat);
           break;
@@ -290,13 +290,13 @@ public class POIOverlay
     final List<POICategory> added = notIn(newCategories, activeCategories_);
 
     if (removed.size() != 0) {
-      for(final POICategory r : removed)
+      for (final POICategory r : removed)
         hide(r);
       redraw();
     }
 
     if (added.size() != 0) {
-      for(final POICategory a : added)
+      for (final POICategory a : added)
         activeCategories_.add(a);
       clearLastFix();
       refreshItems();
@@ -308,7 +308,7 @@ public class POIOverlay
       return;
     activeCategories_.remove(cat);
 
-    for(int i = items().size() - 1; i >= 0; --i)
+    for (int i = items().size() - 1; i >= 0; --i)
       if (cat.equals(items().get(i).category()))
         items().remove(i);
 
@@ -320,7 +320,7 @@ public class POIOverlay
                                   final List<POICategory> c2) {
     final List<POICategory> n = new ArrayList<>();
 
-    for(final POICategory c : c1)
+    for (final POICategory c : c1)
       if (!c2.contains(c))
         n.add(c);
 
@@ -432,7 +432,7 @@ public class POIOverlay
 
       final List<POI> pois = new ArrayList<>();
 
-      for(final POICategory cat : activeCategories_)
+      for (final POICategory cat : activeCategories_)
         try {
           pois.addAll(cat.pois(centre, radius));
         }
@@ -532,7 +532,7 @@ public class POIOverlay
 
     private boolean isSelected(
         final POICategory cat) {
-      for(POICategory c : selected_)
+      for (POICategory c : selected_)
         if (cat.name().equals(c.name()))
           return true;
       return false;

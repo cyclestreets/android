@@ -104,11 +104,11 @@ public class RouteOverlay extends Overlay implements PauseResumeListener, Listen
     if (ridePath_ == null)
       drawSegments(mapView.getProjection());
 
-    for(Path path : ridePath_)
+    for (Path path : ridePath_)
       canvas.drawPath(path, rideBrush_);
-    for(Path path : walkPath_)
+    for (Path path : walkPath_)
       canvas.drawPath(path, walkBrush_);
-    for(Path path : highlightPath_)
+    for (Path path : highlightPath_)
       canvas.drawPath(path, Route.journey().activeSegment().walk() ? hiWalkBrush_ : hiRideBrush_);
   }
 
@@ -124,11 +124,11 @@ public class RouteOverlay extends Overlay implements PauseResumeListener, Listen
     highlightPath_ = new ArrayList<>();
 
     Point screenPoint = new Point();
-    for(Segment s : route_) {
+    for (Segment s : route_) {
       final Path path = newPath();
 
       boolean first = true;
-      for(Iterator<IGeoPoint> i = s.points(); i.hasNext(); ) {
+      for (Iterator<IGeoPoint> i = s.points(); i.hasNext(); ) {
         final IGeoPoint gp = i.next();
         screenPoint = projection.toPixels(gp, screenPoint);
 

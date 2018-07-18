@@ -141,7 +141,7 @@ public class TapToRouteOverlay extends Overlay
   public void setRoute(final Waypoints waypoints, final boolean complete) {
     resetRoute();
 
-    for(final IGeoPoint waypoint : waypoints) {
+    for (final IGeoPoint waypoint : waypoints) {
       addWaypoint(waypoint);
       tapState_ = tapState_.next(waymarkersCount());
     }
@@ -164,7 +164,7 @@ public class TapToRouteOverlay extends Overlay
 
   public Waypoints waypoints() {
     final Waypoints p = new Waypoints();
-    for(final OverlayItem o : waymarkers_)
+    for (final OverlayItem o : waymarkers_)
       p.add(o.getPoint());
     return p;
   }
@@ -243,7 +243,7 @@ public class TapToRouteOverlay extends Overlay
       return;
 
     final String currentPlan = Route.journey().plan();
-    for(int id : Replan_Menu_Ids)
+    for (int id : Replan_Menu_Ids)
       if (!currentPlan.equals(Replan_Menu_Plans.get(id)))
         createMenuItem(menu, id);
     if (mapView_.isMyLocationEnabled())
@@ -302,7 +302,7 @@ public class TapToRouteOverlay extends Overlay
   @Override
   public void draw(final Canvas canvas, final MapView mapView, final boolean shadow) {
     final IProjection projection = mapView.getProjection();
-    for(final OverlayItem waypoint : waymarkers_)
+    for (final OverlayItem waypoint : waymarkers_)
       drawMarker(canvas, projection, waypoint);
   }
 

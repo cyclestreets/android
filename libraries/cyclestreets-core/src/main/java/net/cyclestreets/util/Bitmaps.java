@@ -57,7 +57,7 @@ public class Bitmaps
     // reduce memory use. It should be a power of 2
     // from: http://stackoverflow.com/questions/477572/android-strange-out-of-memory-issue/823966#823966
     int inSampleSize = 1;
-    while(srcWidth / 2 > desiredWidth) {
+    while (srcWidth / 2 > desiredWidth) {
         srcWidth /= 2;
         inSampleSize *= 2;
     }

@@ -37,7 +37,7 @@ public class OverlayIterator<T> implements Iterator<T>
   private T advance() {
     T n = null;
 
-    while((n == null) && iter_.hasNext()) {
+    while ((n == null) && iter_.hasNext()) {
       Overlay o = iter_.next();
       if (targetClass_.isInstance(o))
         n = (T)o;

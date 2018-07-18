@@ -96,7 +96,7 @@ public class TripDataUploader extends AsyncTask<Void, Void, Boolean> {
   private String coordsAsJSON(final TripData tripData) throws JSONException {
     final StringBuilder tripCoords = new StringBuilder();
 
-    for(CyclePoint cp : tripData.journey()) {
+    for (CyclePoint cp : tripData.journey()) {
       tripCoords.append(tripCoords.length() == 0 ? "{" : ",");
 
       JSONObject coord = new JSONObject();

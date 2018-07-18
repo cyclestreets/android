@@ -11,7 +11,7 @@ public class OverlayHelper
 {
   @SuppressWarnings("unchecked")
   public static <T extends Overlay> T findOverlay(final CycleMapView view, final Class<T> type) {
-    for(Overlay o : view.getOverlays())
+    for (Overlay o : view.getOverlays())
       if (type.isInstance(o))
         return (T)o;
     return null;
