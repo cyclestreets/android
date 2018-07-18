@@ -40,7 +40,7 @@ public abstract class MainTabbedActivity extends Activity implements OnTabChange
 
     addTabs(tabHost_);
 
-    for(int i = 0; i != tabs_.size(); ++i) {
+    for (int i = 0; i != tabs_.size(); ++i) {
       final ViewGroup.LayoutParams layout = tabHost_.getTabWidget().getChildAt(i).getLayoutParams();
       layout.height = (int)(layout.height*0.66);
       tabHost_.getTabWidget().getChildAt(i).setLayoutParams(layout);
@@ -230,7 +230,7 @@ public abstract class MainTabbedActivity extends Activity implements OnTabChange
   @Override
   public boolean onPrepareOptionsMenu(final Menu menu) {
     // turn them all off
-    for(int i = 0; i != menu.size(); ++i) {
+    for (int i = 0; i != menu.size(); ++i) {
       final MenuItem mi = menu.getItem(i);
       mi.setVisible(false);
     }

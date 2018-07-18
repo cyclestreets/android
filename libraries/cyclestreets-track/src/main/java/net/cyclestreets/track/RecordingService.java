@@ -291,7 +291,7 @@ public class RecordingService extends Service implements LocationListener {
 
     final List<CyclePoint> points = trip_.journey();
     final CyclePoint end = points.get(points.size()-1);
-    for(int i = points.size()-1; i != 0; --i) {
+    for (int i = points.size()-1; i != 0; --i) {
       final CyclePoint cur = points.get(i);
 
       if (end.distanceTo(cur) > 100)

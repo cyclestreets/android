@@ -33,7 +33,7 @@ public class RouteType extends LinearLayout {
     plans_ = RoutePlans.allPlans();
     final String defaultType = CycleStreetsPreferences.routeType();
     routeTypeSpinner_.setAdapter(new ArrayAdapter<>(context, android.R.layout.simple_spinner_dropdown_item, plans_));
-    for(int i = 0; i != plans_.length; ++i)
+    for (int i = 0; i != plans_.length; ++i)
       if (plans_[i].equals(defaultType))
         routeTypeSpinner_.setSelection(i);
 

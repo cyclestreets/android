@@ -139,11 +139,11 @@ public class RouteHighlightOverlay extends Overlay implements ButtonTapListener
       return false;
 
     if (prevButton_.hit(event))
-      while(!Route.journey().atStart())
+      while (!Route.journey().atStart())
         Route.journey().regressActiveSegment();
 
     if (nextButton_.hit(event))
-      while(!Route.journey().atEnd())
+      while (!Route.journey().atEnd())
         Route.journey().advanceActiveSegment();
 
     mapView_.invalidate();

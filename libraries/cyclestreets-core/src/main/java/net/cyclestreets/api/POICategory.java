@@ -38,7 +38,7 @@ public class POICategory {
                                                centre.getLongitudeE6() / 1E6,
                                                centre.getLatitudeE6() / 1E6,
                                                radius);
-      for(final POI poi : pois)
+      for (final POI poi : pois)
         poi.setCategory(this);
       return pois;
     } catch (Exception e) {

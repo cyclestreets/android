@@ -56,7 +56,7 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
     final List<String> names = new ArrayList<>();
     final List<String> files = new ArrayList<>();
 
-    for(final MapPack pack : MapPack.availableMapPacks()) {
+    for (final MapPack pack : MapPack.availableMapPacks()) {
       names.add(pack.name());
       files.add(pack.path());
     }
