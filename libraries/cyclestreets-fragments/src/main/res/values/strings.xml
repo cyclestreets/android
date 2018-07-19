@@ -7,7 +7,8 @@
   <string name="settings">Settings</string>
   <string name="about">About</string>
   <string name="blog">Blog</string>
-  <string name="go">Find route</string>
+  <string name="find_route">Find route</string>
+  <string name="load_route">Load route</string>
   <string name="addvia">Add waypoint</string>
   <string name="blog_cyclestreets_update">CycleStreets blog update</string>
   <string name="blog_update">Blog update</string>
@@ -63,7 +64,8 @@
 
   <string name="location_editor_hint">Place the mark on the map and then name the location.</string>
   <string name="location_editor_name">Location name :</string>
-  <string name="routenumber_hint">Route number</string>
+  <string name="routenumber_desc">Routes previously planned on CycleStreets can be loaded here, by entering the journey number shown on the webpage or itinerary</string>
+  <string name="routenumber_hint">CycleStreets journey number</string>
 
   <string name="storedroutes_title_default">Route </string>
   <string name="storedroutes_detail_default">Details</string>

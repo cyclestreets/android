@@ -14,63 +14,64 @@ import android.widget.AutoCompleteTextView;
 
 public class RouteByNumber {
   public static void launch(final Context context) {
-    final AlertDialog.Builder builder = new AlertDialog.Builder(context);
-    builder.setTitle(R.string.menu_route_by_number);
+    final AlertDialog.Builder builder = new AlertDialog.Builder(context)
+            .setTitle(R.string.menu_route_by_number)
+            .setMessage(R.string.routenumber_desc);
 
     final RouteByNumberCallbacks rbnc = new RouteByNumberCallbacks(context, builder);
 
     final AlertDialog ad = builder.create();
     ad.show();
-    ad.getButton(AlertDialog.BUTTON_POSITIVE).setTextAppearance(context, android.R.style.TextAppearance_Large);
+    ad.getButton(AlertDialog.BUTTON_POSITIVE).setTextAppearance(android.R.style.TextAppearance_Large);
 
     rbnc.setDialog(ad);
   }
 
   private static class RouteByNumberCallbacks implements View.OnClickListener {
-    private final Context context_;
-    private final AutoCompleteTextView numberText_;
-    private final RouteType routeType_;
-    private final EditTextHistory history_;
-    private AlertDialog ad_;
+    private final Context context;
+    private final AutoCompleteTextView numberText;
+    private final RouteType routeType;
+    private final EditTextHistory history;
+    private AlertDialog ad;
 
-    public RouteByNumberCallbacks(final Context context,
-                                  final AlertDialog.Builder builder) {
-      context_ = context;
+    private RouteByNumberCallbacks(final Context context,
+                                   final AlertDialog.Builder builder) {
+      this.context = context;
 
       final View layout = View.inflate(context, R.layout.routenumber, null);
-      builder.setView(layout);
+      builder
+        .setView(layout)
+        .setPositiveButton(R.string.load_route, MessageBox.NoAction);
 
-      builder.setPositiveButton(R.string.go, MessageBox.NoAction);
+      numberText = layout.findViewById(R.id.routeNumber);
+      history = new EditTextHistory(context, "RouteNumber");
+      numberText.setAdapter(history);
 
-      numberText_ = (AutoCompleteTextView)layout.findViewById(R.id.routeNumber);
-      history_ = new EditTextHistory(context, "RouteNumber");
-      numberText_.setAdapter(history_);
-
-      routeType_ = (RouteType)layout.findViewById(R.id.routeType);
+      routeType = layout.findViewById(R.id.routeType);
     }
 
     private void findRoute(long routeNumber) {
-      final String routeType = routeType_.selectedType();
+      final String routeType = this.routeType.selectedType();
       final int speed = CycleStreetsPreferences.speed();
-      Route.FetchRoute(routeType, routeNumber, speed, context_);
+      Route.FetchRoute(routeType, routeNumber, speed, context);
     }
 
     public void setDialog(final AlertDialog ad) {
-      ad_ = ad;
-      ad_.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(this);
+      this.ad = ad;
+      this.ad.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(this);
     }
 
     @Override
     public void onClick(final View view) {
-      final String entered = numberText_.getText().toString();
+      final String entered = numberText.getText().toString();
       if (entered.length() == 0)
         return;
 
       try {
-        history_.addHistory(entered);
+        history.addHistory(entered);
         long number = Long.parseLong(entered);
         findRoute(number);
-        ad_.dismiss();
+        ad.dismiss();
       }
       catch (final NumberFormatException e) {
         // let's just swallow this, because hopefully it won't happen

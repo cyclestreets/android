@@ -8,10 +8,7 @@ import android.view.View;
 
 public class MessageBox
 {
-  public static final DialogInterface.OnClickListener NoAction =
-      new DialogInterface.OnClickListener() {
-        public void onClick(DialogInterface arg0, int arg1) {  }
-      };
+  public static final DialogInterface.OnClickListener NoAction = (arg0, arg1) -> { };
 
   public static void YesNo(final View parent,
                            final int msg,
@@ -45,10 +42,9 @@ public class MessageBox
   }
 
   public static void YesNo(final Context context,
-      final String msg,
-      final DialogInterface.OnClickListener yesAction,
-      final DialogInterface.OnClickListener noAction)
-{
+                           final String msg,
+                           final DialogInterface.OnClickListener yesAction,
+                           final DialogInterface.OnClickListener noAction) {
     final AlertDialog.Builder alertbox = Dialog.newBuilder(context);
     alertbox.setMessage(msg)
             .setPositiveButton("Yes", yesAction)
@@ -82,11 +78,9 @@ public class MessageBox
                                  final boolean finishOnOK) {
     MessageBox.OK(view,
                   msg,
-                  new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface arg0, int arg1) {
-                      if (finishOnOK)
-                        activity.finish();
-                    }
+                  (arg0, arg1) -> {
+                    if (finishOnOK)
+                      activity.finish();
                   });
   }
 }
