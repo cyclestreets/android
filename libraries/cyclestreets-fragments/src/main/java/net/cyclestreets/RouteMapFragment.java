@@ -13,10 +13,7 @@ import net.cyclestreets.routing.Route;
 import net.cyclestreets.routing.Waypoints;
 
 import android.Manifest;
-import android.app.Activity;
-import android.content.Context;
 import android.content.DialogInterface;
-import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
