@@ -2,11 +2,11 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
       xmlns:app="http://schemas.android.com/apk/res-auto">
   <item android:id="@+id/ic_menu_liveride"
-        app:materialIcon="navigation"
+        android:icon="@drawable/ic_menu_live_ride"
         android:title="@string/ic_menu_liveride"
         app:showAsAction="ifRoom|withText"/>
   <item android:id="@+id/ic_menu_directions"
-        app:materialIcon="directions"
+        android:icon="@drawable/ic_menu_directions"
         android:title="@string/ic_menu_directions"
         app:showAsAction="ifRoom|withText"/>
   <item android:id="@+id/ic_menu_saved_routes"

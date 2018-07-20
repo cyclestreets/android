@@ -11,11 +11,9 @@ import net.cyclestreets.views.overlay.TapToRouteOverlay;
 import net.cyclestreets.routing.Journey;
 import net.cyclestreets.routing.Route;
 import net.cyclestreets.routing.Waypoints;
-import net.steamcrafted.materialiconlib.MaterialMenuInflater;
 
 import android.Manifest;
 import android.content.DialogInterface;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -78,10 +76,7 @@ public class RouteMapFragment extends CycleMapFragment implements Route.Listener
 
   @Override
   public void onCreateOptionsMenu(final Menu menu, final MenuInflater inflater) {
-    MaterialMenuInflater
-            .with(getContext())
-            .setDefaultColor(Color.LTGRAY)
-            .inflate(R.menu.route_map, menu);
+    inflater.inflate(R.menu.route_map, menu);
     super.onCreateOptionsMenu(menu, inflater);
   }
 
