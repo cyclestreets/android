@@ -2,6 +2,7 @@ package net.cyclestreets;
 
 import net.cyclestreets.fragments.R;
 import net.cyclestreets.util.GPS;
+import net.cyclestreets.util.IconicsInflater;
 import net.cyclestreets.util.MessageBox;
 import net.cyclestreets.util.Permissions;
 import net.cyclestreets.views.overlay.POIOverlay;
@@ -76,7 +77,7 @@ public class RouteMapFragment extends CycleMapFragment implements Route.Listener
 
   @Override
   public void onCreateOptionsMenu(final Menu menu, final MenuInflater inflater) {
-    inflater.inflate(R.menu.route_map, menu);
+    IconicsInflater.inflate(inflater, R.menu.route_map, menu);
     super.onCreateOptionsMenu(menu, inflater);
   }
 

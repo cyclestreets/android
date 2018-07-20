@@ -27,6 +27,8 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.mikepenz.iconics.context.IconicsContextWrapper;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,6 +40,12 @@ import net.cyclestreets.routing.Waypoints;
 public abstract class MainNavDrawerActivity extends AppCompatActivity implements Route.Listener {
   private NavigationDrawerFragment navDrawer_;
   private List<DrawerItem> pages_;
+
+  @Override
+  protected void attachBaseContext(Context newBase) {
+    // Allows the use of Material icon library, see https://github.com/mikepenz/Android-Iconics
+    super.attachBaseContext(IconicsContextWrapper.wrap(newBase));
+  }
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {

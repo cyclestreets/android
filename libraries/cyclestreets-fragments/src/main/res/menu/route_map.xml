@@ -2,11 +2,15 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
       xmlns:app="http://schemas.android.com/apk/res-auto">
   <item android:id="@+id/ic_menu_liveride"
-        android:icon="@drawable/ic_menu_live_ride"
+        app:ico_icon="gmd_navigation"
+        app:ico_color="?android:textColorSecondaryInverse"
+        app:ico_size="24dp"
         android:title="@string/ic_menu_liveride"
         app:showAsAction="ifRoom|withText"/>
   <item android:id="@+id/ic_menu_directions"
-        android:icon="@drawable/ic_menu_directions"
+        app:ico_icon="gmd_directions"
+        app:ico_color="?android:textColorSecondaryInverse"
+        app:ico_size="24dp"
         android:title="@string/ic_menu_directions"
         app:showAsAction="ifRoom|withText"/>
   <item android:id="@+id/ic_menu_saved_routes"

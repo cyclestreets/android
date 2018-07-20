@@ -17,9 +17,8 @@
             android:layout_margin="16dp"
             app:fabSize="normal"
             app:borderWidth="12dp"
-            android:src="@android:drawable/ic_menu_mylocation"
-            app:backgroundTint="@android:color/background_light"
-            />
+            app:ico_icon="gmd_my_location"
+            app:backgroundTint="@android:color/background_light"/>
 
     </android.support.design.widget.CoordinatorLayout>
 </RelativeLayout>
