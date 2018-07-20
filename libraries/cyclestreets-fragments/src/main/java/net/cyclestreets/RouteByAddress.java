@@ -72,7 +72,7 @@ public class RouteByAddress {
       final View layout = View.inflate(context, R.layout.routebyaddress, null);
       builder.setView(layout);
 
-      builder.setPositiveButton(R.string.go, MessageBox.NoAction);
+      builder.setPositiveButton(R.string.find_route, MessageBox.NoAction);
 
       bounds_ = boundingBox;
       currentLoc_ = lastFix != null ? new GeoPoint(lastFix.getLatitude(), lastFix.getLongitude()) : null;

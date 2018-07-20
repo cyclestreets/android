@@ -7,7 +7,8 @@
   <string name="settings">सेटिंग्ज</string>
   <string name="about">माहिती</string>
   <string name="blog">ब्लॉग</string>
-  <string name="go">मार्ग शोधा</string>
+  <string name="find_route">मार्ग शोधा</string>
+  <string name="load_route">Load route</string>
   <string name="addvia">मार्ग बिंदू जोडू</string>
   <string name="blog_cyclestreets_update">CycleStreets ब्लॉग सुधारणा</string>
   <string name="blog_update">ब्लॉग सुधारणा</string>
@@ -60,7 +61,8 @@
 
   <string name="location_editor_hint">नकाशावर खूण ठेवा आणि मग स्थान नाव.</string>
   <string name="location_editor_name">स्थान नाव :</string>
-  <string name="routenumber_hint">मार्ग क्रमांक</string>
+  <string name="routenumber_desc">Routes previously planned on CycleStreets can be loaded here, by entering the journey number shown on the webpage or itinerary</string>
+  <string name="routenumber_hint">CycleStreets journey number</string>
 
   <string name="storedroutes_title_default">मार्ग </string>
   <string name="storedroutes_detail_default">माहिती</string>

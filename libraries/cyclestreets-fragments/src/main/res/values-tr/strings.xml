@@ -7,7 +7,8 @@
   <string name="settings">Ayarlar</string>
   <string name="about">Hakkında</string>
   <string name="blog">Blog</string>
-  <string name="go">Güzergâh bul</string>
+  <string name="find_route">Güzergâh bul</string>
+  <string name="load_route">Load route</string>
   <string name="addvia">Ara nokta ekle</string>
   <string name="blog_cyclestreets_update">CycleStreets blogu güncelle</string>
   <string name="blog_update">Blog update</string>
@@ -60,7 +61,8 @@
 
   <string name="location_editor_hint">Harita üzerinde ve daha sonra işareti koyun ve konumu adlandırın.</string>
   <string name="location_editor_name">Konum adı :</string>
-  <string name="routenumber_hint">Güzergâh numarası</string>
+  <string name="routenumber_desc">Routes previously planned on CycleStreets can be loaded here, by entering the journey number shown on the webpage or itinerary</string>
+  <string name="routenumber_hint">CycleStreets journey number</string>
 
   <string name="storedroutes_title_default">Güzergâh </string>
   <string name="storedroutes_detail_default">Detaylar</string>
