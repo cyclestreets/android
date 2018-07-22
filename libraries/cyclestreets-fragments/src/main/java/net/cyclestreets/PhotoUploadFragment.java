@@ -8,6 +8,7 @@ import net.cyclestreets.util.Bitmaps;
 import net.cyclestreets.util.Dialog;
 import net.cyclestreets.util.MessageBox;
 import net.cyclestreets.util.Share;
+import net.cyclestreets.util.Theme;
 import net.cyclestreets.views.CycleMapView;
 import net.cyclestreets.views.overlay.ThereOverlay;
 import net.cyclestreets.views.overlay.ThereOverlay.LocationListener;
@@ -21,6 +22,7 @@ import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -44,6 +46,9 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.RelativeLayout.LayoutParams;
+
+import com.mikepenz.google_material_typeface_library.GoogleMaterial;
+import com.mikepenz.iconics.IconicsDrawable;
 
 import java.io.File;
 import java.text.DateFormat;
@@ -307,7 +312,11 @@ public class PhotoUploadFragment extends Fragment
   ///////////////////////////////////////////////////////////////////
   @Override
   public void onCreateOptionsMenu(final Menu menu, final MenuInflater inflater) {
-    createMenuItem(menu, R.string.all_menu_restart, Menu.NONE, R.drawable.ic_menu_rotate);
+    Drawable restart = new IconicsDrawable(getContext())
+          .icon(GoogleMaterial.Icon.gmd_replay)
+          .color(Theme.lowlightColorInverse(getContext()))
+          .sizeDp(24);
+    createMenuItem(menu, R.string.all_menu_restart, Menu.NONE, restart);
     createMenuItem(menu, R.string.all_menu_back, Menu.NONE, R.drawable.ic_menu_revert);
   }
 
