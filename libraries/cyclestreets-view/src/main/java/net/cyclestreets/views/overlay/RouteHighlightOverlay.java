@@ -21,62 +21,55 @@ import android.view.MotionEvent;
 
 public class RouteHighlightOverlay extends Overlay implements ButtonTapListener
 {
-  private final CycleMapView mapView_;
+  private final CycleMapView mapView;
 
-  private Segment current_;
+  private Segment current;
 
-  private final OverlayButton prevButton_;
-  private final OverlayButton nextButton_;
-  private final boolean hasGps_;
+  private final OverlayButton prevButton;
+  private final OverlayButton nextButton;
 
-  private final int offset_;
-  private final float radius_;
+  private final int offset;
+  private final float radius;
 
-  private final Paint fillBrush_;
-  private final Paint textBrush_;
-
-  private final Context context_;
+  private final Paint fillBrush;
+  private final Paint textBrush;
 
   public RouteHighlightOverlay(final Context context, final CycleMapView map) {
     super();
 
-    context_ = context;
+    mapView = map;
+    current = null;
 
-    mapView_ = map;
-    current_ = null;
-
-    offset_ = DrawingHelper.offset(context);
-    radius_ = DrawingHelper.cornerRadius(context);
+    offset = DrawingHelper.offset(context);
+    radius = DrawingHelper.cornerRadius(context);
 
     final Resources res = context.getResources();
-    prevButton_ = new OverlayButton(res.getDrawable(R.drawable.btn_previous),
-                                    offset_,
-                                    offset_*2,
-                                    radius_);
-    prevButton_.bottomAlign();
-    nextButton_ = new OverlayButton(res.getDrawable(R.drawable.btn_next),
-                                    prevButton_.right() + offset_,
-                                    offset_*2,
-                                    radius_);
-    nextButton_.bottomAlign();
+    prevButton = new OverlayButton(res.getDrawable(R.drawable.btn_previous),
+            offset,
+                                    offset *2,
+            radius);
+    prevButton.bottomAlign();
+    nextButton = new OverlayButton(res.getDrawable(R.drawable.btn_next),
+                                    prevButton.right() + offset,
+                                    offset *2,
+            radius);
+    nextButton.bottomAlign();
 
-    textBrush_ = Brush.createTextBrush(offset_);
-    textBrush_.setTextAlign(Align.LEFT);
-    fillBrush_ = Brush.HighlightBrush(context);
-
-    hasGps_ = GPS.deviceHasGPS(context);
+    textBrush = Brush.createTextBrush(offset);
+    textBrush.setTextAlign(Align.LEFT);
+    fillBrush = Brush.HighlightBrush(context);
   }
 
   @Override
   public void draw(final Canvas canvas, final MapView mapView, final boolean shadow) {
-    if (current_ == Route.journey().activeSegment())
+    if (current == Route.journey().activeSegment())
       return;
 
-    current_ = Route.journey().activeSegment();
-    if (current_ == null)
+    current = Route.journey().activeSegment();
+    if (current == null)
       return;
 
-    mapView_.getController().animateTo(current_.start());
+    this.mapView.getController().animateTo(current.start());
   }
 
   @Override
@@ -86,10 +79,10 @@ public class RouteHighlightOverlay extends Overlay implements ButtonTapListener
 
     drawSegmentInfo(canvas);
 
-    prevButton_.enable(!Route.journey().atStart());
-    prevButton_.draw(canvas);
-    nextButton_.enable(!Route.journey().atEnd());
-    nextButton_.draw(canvas);
+    prevButton.enable(!Route.journey().atStart());
+    prevButton.draw(canvas);
+    nextButton.enable(!Route.journey().atEnd());
+    nextButton.draw(canvas);
   }
 
   private void drawSegmentInfo(final Canvas canvas) {
@@ -98,18 +91,18 @@ public class RouteHighlightOverlay extends Overlay implements ButtonTapListener
       return;
 
     final Rect box = canvas.getClipBounds();
-    box.bottom = box.top + prevButton_.height();
+    box.bottom = box.top + prevButton.height();
 
     final Rect textBox = new Rect(box);
-    textBox.left += offset_;
-    textBox.right -= offset_;
-    int bottom = Draw.measureTextInRect(canvas, textBrush_, textBox, seg.toString());
+    textBox.left += offset;
+    textBox.right -= offset;
+    int bottom = Draw.measureTextInRect(canvas, textBrush, textBox, seg.toString());
 
     if (bottom >= box.bottom)
-      box.bottom = bottom + offset_;
+      box.bottom = bottom + offset;
 
-    DrawingHelper.drawRoundRect(canvas, box, radius_, fillBrush_);
-    Draw.drawTextInRect(canvas, textBrush_, textBox, seg.toString());
+    DrawingHelper.drawRoundRect(canvas, box, radius, fillBrush);
+    Draw.drawTextInRect(canvas, textBrush, textBox, seg.toString());
   }
 
   //////////////////////////////////////////////
@@ -118,16 +111,16 @@ public class RouteHighlightOverlay extends Overlay implements ButtonTapListener
     if (!Route.available())
       return false;
 
-    if (!prevButton_.hit(event) && !nextButton_.hit(event))
+    if (!prevButton.hit(event) && !nextButton.hit(event))
       return false;
 
-    if (prevButton_.hit(event))
+    if (prevButton.hit(event))
       Route.journey().regressActiveSegment();
 
-    if (nextButton_.hit(event))
+    if (nextButton.hit(event))
       Route.journey().advanceActiveSegment();
 
-    mapView_.invalidate();
+    mapView.invalidate();
     return true;
   }
 
@@ -135,18 +128,18 @@ public class RouteHighlightOverlay extends Overlay implements ButtonTapListener
     if (!Route.available())
       return false;
 
-    if (!prevButton_.hit(event) && !nextButton_.hit(event))
+    if (!prevButton.hit(event) && !nextButton.hit(event))
       return false;
 
-    if (prevButton_.hit(event))
+    if (prevButton.hit(event))
       while (!Route.journey().atStart())
         Route.journey().regressActiveSegment();
 
-    if (nextButton_.hit(event))
+    if (nextButton.hit(event))
       while (!Route.journey().atEnd())
         Route.journey().advanceActiveSegment();
 
-    mapView_.invalidate();
+    mapView.invalidate();
     return true;
   }
 }
