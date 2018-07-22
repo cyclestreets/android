@@ -120,7 +120,7 @@ public class TapToRouteOverlay extends Overlay
     restartButton.bottomAlign();
 
     tapStateRect = new Rect();
-    tapStateRect.bottom = tapStateRect.top + restartButton.height();
+    tapStateRect.bottom = tapStateRect.top + canRoute.getHeight();
 
     textBrush = Brush.createTextBrush(offset);
     highlightBrush = Brush.HighlightBrush(context);
