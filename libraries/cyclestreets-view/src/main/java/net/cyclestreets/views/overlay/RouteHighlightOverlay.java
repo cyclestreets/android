@@ -5,19 +5,21 @@ import net.cyclestreets.routing.Route;
 import net.cyclestreets.routing.Segment;
 import net.cyclestreets.util.Brush;
 import net.cyclestreets.util.Draw;
-import net.cyclestreets.util.GPS;
 import net.cyclestreets.views.CycleMapView;
 
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.Overlay;
 
 import android.content.Context;
-import android.content.res.Resources;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.Paint.Align;
+import android.support.design.widget.FloatingActionButton;
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.MotionEvent;
+import android.view.View;
 
 public class RouteHighlightOverlay extends Overlay implements ButtonTapListener
 {
@@ -25,8 +27,8 @@ public class RouteHighlightOverlay extends Overlay implements ButtonTapListener
 
   private Segment current;
 
-  private final OverlayButton prevButton;
-  private final OverlayButton nextButton;
+  private final FloatingActionButton prevButton;
+  private final FloatingActionButton nextButton;
 
   private final int offset;
   private final float radius;
@@ -43,17 +45,18 @@ public class RouteHighlightOverlay extends Overlay implements ButtonTapListener
     offset = DrawingHelper.offset(context);
     radius = DrawingHelper.cornerRadius(context);
 
-    final Resources res = context.getResources();
-    prevButton = new OverlayButton(res.getDrawable(R.drawable.btn_previous),
-            offset,
-                                    offset *2,
-            radius);
-    prevButton.bottomAlign();
-    nextButton = new OverlayButton(res.getDrawable(R.drawable.btn_next),
-                                    prevButton.right() + offset,
-                                    offset *2,
-            radius);
-    nextButton.bottomAlign();
+    View routeHighlightView = LayoutInflater.from(mapView.getContext()).inflate(R.layout.route_highlight_buttons, null);
+
+    prevButton = routeHighlightView.findViewById(R.id.route_highlight_prev);
+    prevButton.setVisibility(View.INVISIBLE);
+    prevButton.setOnClickListener(view -> regressActiveSegment(1));
+    prevButton.setOnLongClickListener(view -> regressActiveSegment(Integer.MAX_VALUE));
+
+    nextButton = routeHighlightView.findViewById(R.id.route_highlight_next);
+    nextButton.setVisibility(View.INVISIBLE);
+    nextButton.setOnClickListener(view -> advanceActiveSegment(1));
+    nextButton.setOnLongClickListener(view -> advanceActiveSegment(Integer.MAX_VALUE));
+    mapView.addView(routeHighlightView);
 
     textBrush = Brush.createTextBrush(offset);
     textBrush.setTextAlign(Align.LEFT);
@@ -74,24 +77,32 @@ public class RouteHighlightOverlay extends Overlay implements ButtonTapListener
 
   @Override
   public void drawButtons(final Canvas canvas, final MapView mapView) {
-    if (!Route.available())
+    Log.i("drawButtons", "1");
+    if (!Route.available()) {
+      prevButton.hide();
+      nextButton.hide();
       return;
+    }
 
     drawSegmentInfo(canvas);
 
-    prevButton.enable(!Route.journey().atStart());
-    prevButton.draw(canvas);
-    nextButton.enable(!Route.journey().atEnd());
-    nextButton.draw(canvas);
+    Log.i("drawButtons", "atStart: " + Route.journey().atStart());
+    Log.i("drawButtons", "atEnd: " + Route.journey().atEnd());
+    prevButton.setEnabled(!Route.journey().atStart());
+    prevButton.show();
+    nextButton.setEnabled(!Route.journey().atEnd());
+    nextButton.show();
   }
 
   private void drawSegmentInfo(final Canvas canvas) {
+    Log.i("drawSegmentInfo", "1");
     final Segment seg = Route.journey().activeSegment();
     if (seg == null)
       return;
+    Log.i("drawSegmentInfo", "2");
 
     final Rect box = canvas.getClipBounds();
-    box.bottom = box.top + prevButton.height();
+    box.bottom = box.top + 72;
 
     final Rect textBox = new Rect(box);
     textBox.left += offset;
@@ -108,38 +119,38 @@ public class RouteHighlightOverlay extends Overlay implements ButtonTapListener
   //////////////////////////////////////////////
   @Override
   public boolean onButtonTap(final MotionEvent event) {
-    if (!Route.available())
-      return false;
+    // We're handling button taps via an onClickListener instead.
+    return false;
+  }
 
-    if (!prevButton.hit(event) && !nextButton.hit(event))
-      return false;
+  @Override
+  public boolean onButtonDoubleTap(MotionEvent event) {
+    // We're handling button taps via an onClickListener instead.
+    return false;
+  }
 
-    if (prevButton.hit(event))
+  private boolean regressActiveSegment(int stepsToMove) {
+    Log.i("highlight", "Regressing by " + stepsToMove);
+    if (!Route.available()) {
+      Log.i("highlight", "no route");
+      return false;
+    }
+
+    for (int i = stepsToMove; i > 0 && !Route.journey().atStart(); i--)
       Route.journey().regressActiveSegment();
 
-    if (nextButton.hit(event))
-      Route.journey().advanceActiveSegment();
-
     mapView.invalidate();
     return true;
   }
 
-  public boolean onButtonDoubleTap(final MotionEvent event) {
+  private boolean advanceActiveSegment(int stepsToMove) {
     if (!Route.available())
       return false;
 
-    if (!prevButton.hit(event) && !nextButton.hit(event))
-      return false;
-
-    if (prevButton.hit(event))
-      while (!Route.journey().atStart())
-        Route.journey().regressActiveSegment();
-
-    if (nextButton.hit(event))
-      while (!Route.journey().atEnd())
-        Route.journey().advanceActiveSegment();
-
+    for (int i = stepsToMove; i > 0 && !Route.journey().atEnd(); i--)
+      Route.journey().advanceActiveSegment();
     mapView.invalidate();
     return true;
   }
+
 }
