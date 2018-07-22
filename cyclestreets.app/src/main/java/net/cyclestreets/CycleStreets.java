@@ -46,7 +46,7 @@ public class CycleStreets extends MainNavDrawerActivity implements RouteMapActiv
                       -1,
                       BlogFragment.class);
     addDrawerFragment(R.string.settings,
-        android.R.drawable.ic_menu_preferences,
-        SettingsFragment.class);
+                      android.R.drawable.ic_menu_preferences,
+                      SettingsFragment.class);
   }
 }
