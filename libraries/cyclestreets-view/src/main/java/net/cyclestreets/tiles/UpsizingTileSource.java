@@ -23,6 +23,7 @@ public class UpsizingTileSource implements ITileSource {
   }
 
   @Override
+  @Deprecated
   public int ordinal() { return base_.ordinal(); }
   @Override
   public String name() { return base_.name(); }
