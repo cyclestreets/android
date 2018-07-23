@@ -13,6 +13,7 @@ import net.cyclestreets.views.CycleMapView;
 import net.cyclestreets.views.overlay.ThereOverlay;
 import net.cyclestreets.views.overlay.ThereOverlay.LocationListener;
 import android.app.Activity;
+import android.app.Fragment;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -28,7 +29,6 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -136,6 +136,8 @@ public class PhotoUploadFragment extends Fragment
   private boolean allowTextOnly_;
   private boolean noShare_;
 
+  Drawable restartDrawable;
+
   private LayoutInflater inflater_;
   private InputMethodManager imm_;
 
@@ -149,6 +151,11 @@ public class PhotoUploadFragment extends Fragment
     allowUploadByKey_ = metaData.contains("ByKey");
     allowTextOnly_ = metaData.contains("AllowTextOnly");
     noShare_ = metaData.contains("NoShare");
+
+    restartDrawable = new IconicsDrawable(getContext())
+        .icon(GoogleMaterial.Icon.gmd_replay)
+        .color(Theme.lowlightColorInverse(getContext()))
+        .sizeDp(24);
 
     inflater_ = LayoutInflater.from(getActivity());
     imm_ = (InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -312,11 +319,7 @@ public class PhotoUploadFragment extends Fragment
   ///////////////////////////////////////////////////////////////////
   @Override
   public void onCreateOptionsMenu(final Menu menu, final MenuInflater inflater) {
-    Drawable restart = new IconicsDrawable(getContext())
-          .icon(GoogleMaterial.Icon.gmd_replay)
-          .color(Theme.lowlightColorInverse(getContext()))
-          .sizeDp(24);
-    createMenuItem(menu, R.string.all_menu_restart, Menu.NONE, restart);
+    createMenuItem(menu, R.string.all_menu_restart, Menu.NONE, restartDrawable);
     createMenuItem(menu, R.string.all_menu_back, Menu.NONE, R.drawable.ic_menu_revert);
   }
 
@@ -460,11 +463,11 @@ public class PhotoUploadFragment extends Fragment
   }
 
   private void hookUpNext() {
-    final Button b = (Button)photoRoot_.findViewById(R.id.back);
+    final Button b = photoRoot_.findViewById(R.id.back);
     if (b != null)
       b.setOnClickListener(this);
 
-    final Button n = (Button)photoRoot_.findViewById(R.id.next);
+    final Button n = photoRoot_.findViewById(R.id.next);
     if (n != null)
       n.setOnClickListener(this);
 
