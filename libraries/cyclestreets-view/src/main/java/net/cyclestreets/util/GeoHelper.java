@@ -7,17 +7,6 @@ public class GeoHelper
 {
   private static final int RadiusInMetres = 6378137; // mean radius of Earth km
 
-  public static double boxWidthKm(final BoundingBoxE6 boundingBox) {
-    final int Radius = 6371; // mean radius of Earth km
-    final double dLat = Math.toRadians(boundingBox.getLatitudeSpanE6() / 1E6);
-
-    final double a = Math.pow(Math.sin(dLat/2.0), 2);
-    final double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
-    final double d = Radius * c;
-
-    return d;
-  }
-
   public static int distanceBetween(final IGeoPoint p1, final IGeoPoint p2) {
     // uses the Haversine formula, which I only know about because
     // http://www.movable-type.co.uk/scripts/latlong.html was the

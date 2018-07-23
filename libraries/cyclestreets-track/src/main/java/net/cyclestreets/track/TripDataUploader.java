@@ -15,6 +15,9 @@ import org.json.JSONObject;
 
 import java.util.List;
 
+// As per https://github.com/cyclestreets/android/issues/238, this class looks like it doesn't do
+// anything useful.  Therefore, ignore warnings, and may possibly subsequently delete the class.
+@SuppressWarnings("deprecated")
 public class TripDataUploader extends AsyncTask<Void, Void, Boolean> {
   private int NOTIFICATION_ID = 1;
 

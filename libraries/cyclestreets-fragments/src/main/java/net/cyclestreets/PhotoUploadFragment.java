@@ -23,6 +23,7 @@ import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.Point;
 import android.graphics.drawable.Drawable;
 import android.media.ExifInterface;
 import android.net.Uri;
@@ -455,8 +456,10 @@ public class PhotoUploadFragment extends Fragment
     }
 
     iv.setImageBitmap(photo_);
-    int newHeight = getActivity().getWindowManager().getDefaultDisplay().getHeight() / 10 * 4;
-    int newWidth = getActivity().getWindowManager().getDefaultDisplay().getWidth();
+    Point size = new Point();
+    getActivity().getWindowManager().getDefaultDisplay().getSize(size);
+    int newHeight = size.y / 10 * 4;
+    int newWidth = size.x;
 
     iv.setLayoutParams(new LinearLayout.LayoutParams(newWidth, newHeight));
     iv.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
@@ -514,7 +517,7 @@ public class PhotoUploadFragment extends Fragment
       map_.overlayPushTop(there_);
     }
 
-    v.addView(map_, new RelativeLayout.LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT));
+    v.addView(map_, new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
     map_.enableAndFollowLocation();
     map_.onResume();
     there_.setMapView(map_);
