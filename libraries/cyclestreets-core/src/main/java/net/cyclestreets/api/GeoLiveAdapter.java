@@ -67,8 +67,8 @@ public class GeoLiveAdapter extends GeoAdapter
     final SharedPreferences.Editor edit = prefs.edit();
     edit.putString(PREFS_GEO_NAME_PREFIX + key, p.name());
     edit.putString(PREFS_GEO_NEAR_PREFIX + key, p.near());
-    edit.putInt(PREFS_GEO_LATITUDE_PREFIX + key, p.coord().getLatitudeE6());
-    edit.putInt(PREFS_GEO_LONGITUDE_PREFIX + key, p.coord().getLongitudeE6());
+    edit.putInt(PREFS_GEO_LATITUDE_PREFIX + key, (int)(p.coord().getLatitude() * 1e6));
+    edit.putInt(PREFS_GEO_LONGITUDE_PREFIX + key, (int)(p.coord().getLongitudeE6() * 1e6));
     edit.apply();
   }
 

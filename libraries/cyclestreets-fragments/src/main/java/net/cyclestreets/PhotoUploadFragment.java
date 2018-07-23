@@ -254,8 +254,8 @@ public class PhotoUploadFragment extends Fragment
     edit.putInt("CATEGORY", categoryId());
     final IGeoPoint p = there_.there();
     if (p != null) {
-      edit.putInt("THERE-LAT", p.getLatitudeE6());
-      edit.putInt("THERE-LON", p.getLongitudeE6());
+      edit.putInt("THERE-LAT", (int)(p.getLatitude() * 1e6));
+      edit.putInt("THERE-LON", (int)(p.getLongitude() * 1e6));
     }
     else
       edit.putInt("THERE-LAT", -1);
@@ -300,7 +300,7 @@ public class PhotoUploadFragment extends Fragment
     final int tlat = prefs.getInt("THERE-LAT", -1);
     final int tlon = prefs.getInt("THERE-LON", -1);
     if ((tlat != -1) && (tlon != -1))
-      there_.noOverThere(new GeoPoint(tlat, tlon));
+      there_.noOverThere(new GeoPoint(tlat / 1e6, tlon / 1e6));
     geolocated_ = prefs.getBoolean("GEOLOC", false);
 
     if (map_ != null)
@@ -680,9 +680,7 @@ if (url.startsWith("content://com.google.android.apps.photos.content")){
     final float[] coords = new float[2];
     if (!photoExif.getLatLong(coords))
       return null;
-    int lat = (int)(((double)coords[0]) * 1E6);
-    int lon = (int)(((double)coords[1]) * 1E6);
-    return new GeoPoint(lat, lon);
+    return new GeoPoint(coords[0], coords[1]);
   }
 
   private String photoTimestamp(final ExifInterface photoExif) {
