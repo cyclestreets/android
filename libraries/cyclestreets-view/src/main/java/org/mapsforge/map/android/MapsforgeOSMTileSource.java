@@ -2,6 +2,7 @@ package org.mapsforge.map.android;
 
 import android.graphics.drawable.Drawable;
 
+import org.mapsforge.core.graphics.GraphicFactory;
 import org.mapsforge.core.model.Tile;
 import org.mapsforge.map.android.graphics.AndroidGraphicFactory;
 import org.mapsforge.map.android.graphics.AndroidTileBitmap;
@@ -10,7 +11,11 @@ import org.mapsforge.map.layer.renderer.RendererJob;
 import org.mapsforge.map.layer.renderer.DatabaseRenderer;
 import org.mapsforge.core.model.BoundingBox;
 import org.mapsforge.map.model.DisplayModel;
+import org.mapsforge.map.model.FixedTileSizeDisplayModel;
 import org.mapsforge.map.reader.MapFile;
+import org.mapsforge.map.rendertheme.rule.RenderTheme;
+import org.mapsforge.map.rendertheme.rule.RenderThemeFuture;
+import org.mapsforge.map.rendertheme.InternalRenderTheme;
 import org.osmdroid.tileprovider.ExpirableBitmapDrawable;
 import org.osmdroid.tileprovider.MapTile;
 import org.osmdroid.tileprovider.tilesource.BitmapTileSourceBase.LowMemoryException;
@@ -116,11 +121,16 @@ public class MapsforgeOSMTileSource implements ITileSource {
   } // getDrawable
 
   private RendererJob createJob(Tile tile) {
+    final GraphicFactory gf = AndroidGraphicFactory.INSTANCE;
+    final RenderTheme theme = InternalRenderTheme.OSMARENDER;
+    final DisplayModel dm = new FixedTileSizeDisplayModel(tileSize_);
+    final RenderThemeFuture rtf = new RenderThemeFuture(gf, theme, dm);
+
     return new RendererJob(
             tile,
             mapDatabase_,
-            null,
-            new DisplayModel(),
+            rtf,
+            dm,
             1,
             false,
             false

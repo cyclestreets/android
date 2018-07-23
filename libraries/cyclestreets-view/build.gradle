@@ -5,6 +5,7 @@ def supportLibraryVersion='27.1.1'
 dependencies {
   api project(':libraries:cyclestreets-core')
   api 'org.mapsforge:mapsforge-map-android:0.9.1'
+  api 'org.mapsforge:mapsforge-themes:0.9.1'
 
   api 'com.mikepenz:iconics-core:3.0.4@aar'
   api 'com.mikepenz:google-material-typeface:3.0.1.2.original@aar'
