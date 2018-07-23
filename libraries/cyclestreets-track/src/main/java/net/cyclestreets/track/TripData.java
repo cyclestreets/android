@@ -105,8 +105,8 @@ public class TripData {
     int COL_ALT = points.getColumnIndex(DbAdapter.K_POINT_ALT);
 
     while (!points.isAfterLast()) {
-      int lat = points.getInt(COL_LAT);
-      int lgt = points.getInt(COL_LGT);
+      double lat = points.getInt(COL_LAT) / 1e6;
+      double lgt = points.getInt(COL_LGT) / 1e6;
       long time = points.getInt(COL_TIME);
       double altitude = points.getDouble(COL_ALT);
       float speed = (float)points.getDouble(COL_SPEED);
@@ -179,8 +179,8 @@ public class TripData {
   private long now() { return System.currentTimeMillis()/1000; }
 
   public void addPointNow(Location loc) {
-    int lat = (int)(loc.getLatitude() * 1E6);
-    int lgt = (int)(loc.getLongitude() * 1E6);
+    double lat = loc.getLatitude();
+    double lgt = loc.getLongitude();
 
     float accuracy = loc.getAccuracy();
     double altitude = loc.getAltitude();

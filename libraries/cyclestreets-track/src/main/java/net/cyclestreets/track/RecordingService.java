@@ -14,7 +14,7 @@ import android.content.Intent;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
-import android.media.AudioManager;
+import android.media.AudioAttributes;
 import android.media.SoundPool;
 import android.os.Binder;
 import android.os.Bundle;
@@ -22,8 +22,8 @@ import android.os.Handler;
 import android.os.IBinder;
 
 public class RecordingService extends Service implements LocationListener {
-  private static int updateDistance = 5;  // metres
-  private static int updateTime = 5000;    // milliseconds
+  private static final int updateDistance = 5;  // metres
+  private static final int updateTime = 5000;    // milliseconds
   private static final int NOTIFICATION_ID = 1;
 
   private TrackListener trackListener_;
@@ -31,22 +31,16 @@ public class RecordingService extends Service implements LocationListener {
   private LocationManager locationManager_ = null;
 
   // Bike bell variables
-  private static int BELL_FIRST_INTERVAL = 20;
-  private static int BELL_NEXT_INTERVAL = 5;
-  private static long BAIL_TIME = 300;
+  private static final int BELL_FIRST_INTERVAL = 20;
+  private static final int BELL_NEXT_INTERVAL = 5;
+  private static final long BAIL_TIME = 300;
   private Timer tickTimer_;
   private Timer bellTimer_;
   private SoundPool soundpool_;
   private int bikebell_;
   private final Handler handler_ = new Handler();
-  private final Runnable ringBell_ = new Runnable() {
-    public void run() { remindUser(); }
-  };
-  private final Runnable tick_ = new Runnable() {
-    public void run() {
-      notifyUpdate();
-    }
-  };
+  private final Runnable ringBell_ = this::remindUser;
+  private final Runnable tick_ = this::notifyUpdate;
 
   private float curSpeedMph_;
   private TripData trip_;
@@ -60,7 +54,11 @@ public class RecordingService extends Service implements LocationListener {
   @Override
   public void onCreate() {
     super.onCreate();
-    soundpool_ = new SoundPool(1,AudioManager.STREAM_NOTIFICATION,0);
+    AudioAttributes attributes = new AudioAttributes.Builder()
+            .setUsage(AudioAttributes.USAGE_NOTIFICATION)
+            .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
+            .build();
+    soundpool_ = new SoundPool.Builder().setAudioAttributes(attributes).build();
     bikebell_ = soundpool_.load(this.getBaseContext(), R.raw.bikebell,1);
     locationManager_ = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
   }

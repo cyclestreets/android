@@ -10,6 +10,7 @@ import android.support.v4.app.ActionBarDrawerToggle;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.support.v4.content.res.ResourcesCompat;
 import android.support.v4.view.GravityCompat;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
@@ -113,7 +114,7 @@ public abstract class MainNavDrawerActivity extends AppCompatActivity implements
                                    final Class<? extends Fragment> fragClass,
                                    final PageInitialiser initialiser,
                                    final PageStatus pageStatus) {
-    final Drawable icon = iconId != -1 ? getResources().getDrawable(iconId) : null;
+    final Drawable icon = iconId != -1 ? getDrawable(iconId) : null;
 
     pages_.add(new FragmentItem(title, icon, fragClass, initialiser, pageStatus));
   }
@@ -129,7 +130,7 @@ public abstract class MainNavDrawerActivity extends AppCompatActivity implements
                                    final Class<? extends Activity> fragClass,
                                    final PageStatus pageStatus) {
     final String title = getResources().getString(titleId);
-    final Drawable icon = iconId != -1 ? getResources().getDrawable(iconId) : null;
+    final Drawable icon = iconId != -1 ? getDrawable(iconId) : null;
 
     pages_.add(new ActivityItem(new FixedTitle(title), icon, fragClass, pageStatus));
   }
@@ -429,7 +430,7 @@ public abstract class MainNavDrawerActivity extends AppCompatActivity implements
         di.setAdapter(this);
       activePages_ = new ArrayList<>();
       inflater_ = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-      themeColor_ = context.getResources().getDrawable(R.color.apptheme_color);
+      themeColor_ = ResourcesCompat.getDrawable(context.getResources(), R.color.apptheme_color, null);
 
       buildActiveList();
     }
@@ -473,8 +474,8 @@ public abstract class MainNavDrawerActivity extends AppCompatActivity implements
       n.setText(t);
 
       if (highlight) {
-        v.setBackgroundDrawable(themeColor_);
-        n.setTextAppearance(context_, android.R.style.TextAppearance);
+        v.setBackground(themeColor_);
+        n.setTextAppearance(android.R.style.TextAppearance);
       }
     }
 

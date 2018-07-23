@@ -36,7 +36,7 @@ public class RouteByAddress {
 
     final AlertDialog ad = builder.create();
     ad.show();
-    ad.getButton(AlertDialog.BUTTON_POSITIVE).setTextAppearance(context, android.R.style.TextAppearance_Large);
+    ad.getButton(AlertDialog.BUTTON_POSITIVE).setTextAppearance(android.R.style.TextAppearance_Large);
 
     rbac.setDialog(ad);
   }

@@ -1,13 +1,14 @@
 package net.cyclestreets.util;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import net.cyclestreets.view.R;
-import net.cyclestreets.util.MapFactory;
 
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
+import android.support.v4.content.res.ResourcesCompat;
 
 public final class TurnIcons
 {
@@ -31,19 +32,25 @@ public final class TurnIcons
   private static Map<String, Drawable> loadIconMappings(final Context context) {
     final Resources res = context.getResources();
 
-    return MapFactory.map("straight on", res.getDrawable(R.drawable.straight_on))
-                     .map("bear left", res.getDrawable(R.drawable.bear_left))
-                     .map("turn left", res.getDrawable(R.drawable.turn_left))
-                     .map("sharp left", res.getDrawable(R.drawable.sharp_left))
-                     .map("bear right", res.getDrawable(R.drawable.bear_right))
-                     .map("turn right", res.getDrawable(R.drawable.turn_right))
-                     .map("sharp right", res.getDrawable(R.drawable.sharp_right))
-                     .map("double-back", res.getDrawable(R.drawable.double_back))
-                     .map("join roundabout", res.getDrawable(R.drawable.roundabout))
-                     .map("first exit", res.getDrawable(R.drawable.first_exit))
-                     .map("second exit", res.getDrawable(R.drawable.second_exit))
-                     .map("third exit", res.getDrawable(R.drawable.third_exit))
-                     .map("waymark", res.getDrawable(R.drawable.waymark))
-                     .map("default", res.getDrawable(R.drawable.ic_launcher));
+    return new HashMap<String, Drawable>() {{
+        put("straight on", getDrawable(res, R.drawable.straight_on));
+        put("bear left", getDrawable(res, R.drawable.bear_left));
+        put("turn left", getDrawable(res, R.drawable.turn_left));
+        put("sharp left", getDrawable(res, R.drawable.sharp_left));
+        put("bear right", getDrawable(res, R.drawable.bear_right));
+        put("turn right", getDrawable(res, R.drawable.turn_right));
+        put("sharp right", getDrawable(res, R.drawable.sharp_right));
+        put("double-back", getDrawable(res, R.drawable.double_back));
+        put("join roundabout", getDrawable(res, R.drawable.roundabout));
+        put("first exit", getDrawable(res, R.drawable.first_exit));
+        put("second exit", getDrawable(res, R.drawable.second_exit));
+        put("third exit", getDrawable(res, R.drawable.third_exit));
+        put("waymark", getDrawable(res, R.drawable.waymark));
+        put("default", getDrawable(res, R.drawable.ic_launcher));
+      }};
+  }
+
+  private static Drawable getDrawable(Resources res, int iconId) {
+    return ResourcesCompat.getDrawable(res, iconId, null);
   }
 }

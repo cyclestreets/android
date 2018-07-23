@@ -23,6 +23,7 @@ import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.Point;
 import android.graphics.drawable.Drawable;
 import android.media.ExifInterface;
 import android.net.Uri;
@@ -254,8 +255,8 @@ public class PhotoUploadFragment extends Fragment
     edit.putInt("CATEGORY", categoryId());
     final IGeoPoint p = there_.there();
     if (p != null) {
-      edit.putInt("THERE-LAT", p.getLatitudeE6());
-      edit.putInt("THERE-LON", p.getLongitudeE6());
+      edit.putInt("THERE-LAT", (int)(p.getLatitude() * 1e6));
+      edit.putInt("THERE-LON", (int)(p.getLongitude() * 1e6));
     }
     else
       edit.putInt("THERE-LAT", -1);
@@ -300,7 +301,7 @@ public class PhotoUploadFragment extends Fragment
     final int tlat = prefs.getInt("THERE-LAT", -1);
     final int tlon = prefs.getInt("THERE-LON", -1);
     if ((tlat != -1) && (tlon != -1))
-      there_.noOverThere(new GeoPoint(tlat, tlon));
+      there_.noOverThere(new GeoPoint(tlat / 1e6, tlon / 1e6));
     geolocated_ = prefs.getBoolean("GEOLOC", false);
 
     if (map_ != null)
@@ -455,8 +456,10 @@ public class PhotoUploadFragment extends Fragment
     }
 
     iv.setImageBitmap(photo_);
-    int newHeight = getActivity().getWindowManager().getDefaultDisplay().getHeight() / 10 * 4;
-    int newWidth = getActivity().getWindowManager().getDefaultDisplay().getWidth();
+    Point size = new Point();
+    getActivity().getWindowManager().getDefaultDisplay().getSize(size);
+    int newHeight = size.y / 10 * 4;
+    int newWidth = size.x;
 
     iv.setLayoutParams(new LinearLayout.LayoutParams(newWidth, newHeight));
     iv.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
@@ -514,7 +517,7 @@ public class PhotoUploadFragment extends Fragment
       map_.overlayPushTop(there_);
     }
 
-    v.addView(map_, new RelativeLayout.LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT));
+    v.addView(map_, new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
     map_.enableAndFollowLocation();
     map_.onResume();
     there_.setMapView(map_);
@@ -680,9 +683,7 @@ if (url.startsWith("content://com.google.android.apps.photos.content")){
     final float[] coords = new float[2];
     if (!photoExif.getLatLong(coords))
       return null;
-    int lat = (int)(((double)coords[0]) * 1E6);
-    int lon = (int)(((double)coords[1]) * 1E6);
-    return new GeoPoint(lat, lon);
+    return new GeoPoint(coords[0], coords[1]);
   }
 
   private String photoTimestamp(final ExifInterface photoExif) {

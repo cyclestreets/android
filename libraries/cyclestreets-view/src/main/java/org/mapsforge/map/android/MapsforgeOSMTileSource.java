@@ -118,6 +118,7 @@ public class MapsforgeOSMTileSource implements ITileSource {
   @Override
   public String name() { return name_; }
   @Override
+  @Deprecated
   public int ordinal() { return name_.hashCode(); }
   @Override
   public int getTileSizePixels() { return tileSize_; }

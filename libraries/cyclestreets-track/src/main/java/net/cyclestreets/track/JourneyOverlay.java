@@ -8,6 +8,7 @@ import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.Point;
 import android.graphics.drawable.BitmapDrawable;
+import android.support.v4.content.res.ResourcesCompat;
 
 import net.cyclestreets.views.CycleMapView;
 
@@ -24,14 +25,6 @@ public class JourneyOverlay extends Overlay {
     return new JourneyOverlay(context, mapView, tripData);
   }
 
-  public static JourneyOverlay InProgressJourneyOverlay(final Context context,
-                                                        final CycleMapView mapView,
-                                                        final TripData tripData) {
-    JourneyOverlay jo = new JourneyOverlay(context, mapView, tripData);
-    jo.inProgress();
-    return jo;
-  }
-
   private static int ROUTE_COLOUR = 0x80ff00ff;
 
   private final CycleMapView mapView_;
@@ -44,17 +37,13 @@ public class JourneyOverlay extends Overlay {
   private IGeoPoint mapCentre_;
   private final BitmapDrawable greenWisp_;
   private final BitmapDrawable redWisp_;
-  private final Matrix canvasTransform_ = new Matrix();
-  private final float[] transformValues_ = new float[9];
   private final Matrix bitmapTransform_ = new Matrix();
   private final Paint bitmapPaint_ = new Paint();
-
-  private boolean inProgress_ = false;
 
   private JourneyOverlay(final Context context,
                          final CycleMapView mapView,
                          final TripData tripData) {
-    super(context);
+    super();
 
     mapView_ = mapView;
     trip_ = tripData;
@@ -62,17 +51,8 @@ public class JourneyOverlay extends Overlay {
     rideBrush_ = createBrush(ROUTE_COLOUR);
 
     final Resources res = context.getResources();
-    greenWisp_ = (BitmapDrawable)res.getDrawable(R.drawable.greep_wisp);
-    redWisp_ = (BitmapDrawable)res.getDrawable(R.drawable.red_wisp);
-  }
-
-  private void inProgress() {
-    inProgress_ = true;
-  }
-
-  public void update(final TripData trip) {
-    trip_ = trip;
-    mapView_.invalidate();
+    greenWisp_ = (BitmapDrawable)ResourcesCompat.getDrawable(res, R.drawable.green_wisp, null);
+    redWisp_ = (BitmapDrawable)ResourcesCompat.getDrawable(res, R.drawable.red_wisp, null);
   }
 
   @Override
@@ -92,15 +72,14 @@ public class JourneyOverlay extends Overlay {
       mapCentre_ = centre;
     }
 
-    if (ridePath_ == null || inProgress_)
+    if (ridePath_ == null)
       ridePath_ = journeyPath(mapView.getProjection());
 
     canvas.drawPath(ridePath_, rideBrush_);
     drawMarker(canvas, mapView.getProjection(), trip_.startLocation(), greenWisp_);
-    if (!inProgress_)
-      drawMarker(canvas, mapView.getProjection(), trip_.endLocation(), redWisp_);
+    drawMarker(canvas, mapView.getProjection(), trip_.endLocation(), redWisp_);
 
-    if (initial_ && !inProgress_) {
+    if (initial_) {
       mapView_.zoomToBoundingBox(trip_.boundingBox());
       initial_ = false;
     }
@@ -132,8 +111,9 @@ public class JourneyOverlay extends Overlay {
     Point screenPoint = new Point();
     projection.toPixels(location, screenPoint);
 
-    canvas.getMatrix(canvasTransform_);
-    canvasTransform_.getValues(transformValues_);
+    Matrix transform = mapView_.getMatrix();
+    float[] transformValues_ = new float[9];
+    transform.getValues(transformValues_);
 
     final int halfWidth = marker.getIntrinsicWidth()/2;
     final int halfHeight = marker.getIntrinsicHeight()/2;
@@ -161,4 +141,3 @@ public class JourneyOverlay extends Overlay {
   }
 
 }
-

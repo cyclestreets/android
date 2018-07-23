@@ -1,5 +1,6 @@
 package net.cyclestreets.routing;
 
+import java.util.Arrays;
 import java.util.List;
 
 import net.cyclestreets.CycleStreetsPreferences;
@@ -325,7 +326,7 @@ public abstract class Segment {
             0,
             0,
             running_distance,
-            Collections.list(gp, gp),
+            Arrays.asList(gp, gp),
             false);
     }
 

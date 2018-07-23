@@ -21,8 +21,6 @@ public class ItemizedOverlay<Item extends OverlayItem> extends Overlay implement
 
   // utility vars to avoid repeated allocations
   private final Rect rect_ = new Rect();
-  private final Matrix matrix_ = new Matrix();
-  private float matrixValues_[] = new float[9];
   private final Point itemPoint_ = new Point();
   private final Point screenCoords = new Point();
 
@@ -65,15 +63,16 @@ public class ItemizedOverlay<Item extends OverlayItem> extends Overlay implement
     int x = curScreenCoords.x;
     int y = curScreenCoords.y;
 
-    canvas.getMatrix(matrix_);
-    matrix_.getValues(matrixValues_);
+    Matrix matrix = mapView_.getMatrix();
+    float matrixValues[] = new float[9];
+    matrix.getValues(matrixValues);
 
-    float scaleX = (float) Math.sqrt(matrixValues_[Matrix.MSCALE_X]
-        * matrixValues_[Matrix.MSCALE_X] + matrixValues_[Matrix.MSKEW_Y]
-        * matrixValues_[Matrix.MSKEW_Y]);
-    float scaleY = (float) Math.sqrt(matrixValues_[Matrix.MSCALE_Y]
-        * matrixValues_[Matrix.MSCALE_Y] + matrixValues_[Matrix.MSKEW_X]
-        * matrixValues_[Matrix.MSKEW_X]);
+    float scaleX = (float) Math.sqrt(matrixValues[Matrix.MSCALE_X]
+        * matrixValues[Matrix.MSCALE_X] + matrixValues[Matrix.MSKEW_Y]
+        * matrixValues[Matrix.MSKEW_Y]);
+    float scaleY = (float) Math.sqrt(matrixValues[Matrix.MSCALE_Y]
+        * matrixValues[Matrix.MSCALE_Y] + matrixValues[Matrix.MSKEW_X]
+        * matrixValues[Matrix.MSKEW_X]);
 
     canvas.save();
     canvas.rotate(-mapOrientation, x, y);
