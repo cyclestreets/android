@@ -13,6 +13,7 @@ import org.mapsforge.core.model.BoundingBox;
 import org.mapsforge.map.model.DisplayModel;
 import org.mapsforge.map.model.FixedTileSizeDisplayModel;
 import org.mapsforge.map.reader.MapFile;
+import org.mapsforge.map.rendertheme.XmlRenderTheme;
 import org.mapsforge.map.rendertheme.rule.RenderTheme;
 import org.mapsforge.map.rendertheme.rule.RenderThemeFuture;
 import org.mapsforge.map.rendertheme.InternalRenderTheme;
@@ -23,8 +24,6 @@ import org.osmdroid.tileprovider.tilesource.ITileSource;
 
 import java.io.File;
 import java.io.InputStream;
-
-import static org.mapsforge.map.android.graphics.AndroidBitmapExpose.expose;
 
 public class MapsforgeOSMTileSource implements ITileSource {
   @SuppressWarnings("serial")
@@ -116,12 +115,12 @@ public class MapsforgeOSMTileSource implements ITileSource {
       return null;
 
     tileBitmap.scaleTo(tileSize_, tileSize_);
-    return new ExpirableBitmapDrawable(expose(tileBitmap));
+    return new ExpirableBitmapDrawable(AndroidGraphicFactory.getBitmap(tileBitmap));
   } // getDrawable
 
   private RendererJob createJob(Tile tile) {
     final GraphicFactory gf = AndroidGraphicFactory.INSTANCE;
-    final RenderTheme theme = InternalRenderTheme.OSMARENDER;
+    final XmlRenderTheme theme = InternalRenderTheme.OSMARENDER;
     final DisplayModel dm = new FixedTileSizeDisplayModel(tileSize_);
     final RenderThemeFuture rtf = new RenderThemeFuture(gf, theme, dm);
 
