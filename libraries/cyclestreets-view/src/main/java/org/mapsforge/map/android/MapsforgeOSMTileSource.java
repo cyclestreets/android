@@ -118,7 +118,6 @@ public class MapsforgeOSMTileSource implements ITileSource {
   @Override
   public String name() { return name_; }
   @Override
-  @Deprecated
   public int ordinal() { return name_.hashCode(); }
   @Override
   public int getTileSizePixels() { return tileSize_; }
@@ -189,3 +188,4 @@ public class MapsforgeOSMTileSource implements ITileSource {
     return (int)Math.floor((1 - Math.log(Math.tan(Math.toRadians(lat)) + 1 / Math.cos(Math.toRadians(lat))) / Math.PI) / 2 * (1<<zoom)) ;
   }
 }
+
