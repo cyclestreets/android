@@ -1,5 +1,6 @@
 package net.cyclestreets.views.overlay;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Map;
@@ -19,7 +20,6 @@ import net.cyclestreets.util.Draw;
 import net.cyclestreets.util.MessageBox;
 import net.cyclestreets.util.Share;
 import net.cyclestreets.views.CycleMapView;
-import net.cyclestreets.util.Collections;
 
 import org.osmdroid.api.IGeoPoint;
 import org.osmdroid.util.GeoPoint;
@@ -69,11 +69,12 @@ public class TapToRouteOverlay extends Overlay
                                            R.string.route_menu_change_replan_balanced,
                                            R.string.route_menu_change_replan_fastest,
                                            R.string.route_menu_change_replan_shortest};
-  private static Map<Integer, String> Replan_Menu_Plans =
-      Collections.map(R.string.route_menu_change_replan_quietest, RoutePlans.PLAN_QUIETEST)
-                 .map(R.string.route_menu_change_replan_balanced, RoutePlans.PLAN_BALANCED)
-                 .map(R.string.route_menu_change_replan_fastest, RoutePlans.PLAN_FASTEST)
-                 .map(R.string.route_menu_change_replan_shortest, RoutePlans.PLAN_SHORTEST);
+  private static Map<Integer, String> Replan_Menu_Plans = new HashMap<Integer, String>() {{
+      put(R.string.route_menu_change_replan_quietest, RoutePlans.PLAN_QUIETEST);
+      put(R.string.route_menu_change_replan_balanced, RoutePlans.PLAN_BALANCED);
+      put(R.string.route_menu_change_replan_fastest, RoutePlans.PLAN_FASTEST);
+      put(R.string.route_menu_change_replan_shortest, RoutePlans.PLAN_SHORTEST);
+    }};
 
   private final Drawable greenWisp;
   private final Drawable orangeWisp;

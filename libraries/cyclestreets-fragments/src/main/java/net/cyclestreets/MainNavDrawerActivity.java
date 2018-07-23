@@ -130,8 +130,9 @@ public abstract class MainNavDrawerActivity extends AppCompatActivity implements
                                    final Class<? extends Activity> fragClass,
                                    final PageStatus pageStatus) {
     final String title = getResources().getString(titleId);
+    final Drawable icon = iconId != -1 ? getDrawable(iconId) : null;
 
-    pages_.add(new ActivityItem(new FixedTitle(title), getDrawable(iconId), fragClass, pageStatus));
+    pages_.add(new ActivityItem(new FixedTitle(title), icon, fragClass, pageStatus));
   }
 
   @Override
