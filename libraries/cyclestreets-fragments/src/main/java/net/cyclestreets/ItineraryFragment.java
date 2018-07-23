@@ -142,7 +142,7 @@ public class ItineraryFragment extends ListFragment implements Route.Listener {
       setTurnIcon(R.id.segment_type, seg.turn(), seg.walk());
 
       if (highlight && position != 0)
-        v.setBackgroundDrawable(themeColor);
+        v.setBackground(themeColor);
 
       return v;
     }
@@ -172,7 +172,7 @@ public class ItineraryFragment extends ListFragment implements Route.Listener {
       iv.setImageDrawable(icon);
       iv.setBackgroundColor(backgroundColor);
       if (walk)
-        iv.setBackgroundDrawable(footprints);
+        iv.setBackground(footprints);
     }
 
     private Drawable turnIcon(final String turn) {

@@ -473,7 +473,7 @@ public abstract class MainNavDrawerActivity extends AppCompatActivity implements
       n.setText(t);
 
       if (highlight) {
-        v.setBackgroundDrawable(themeColor_);
+        v.setBackground(themeColor_);
         n.setTextAppearance(android.R.style.TextAppearance);
       }
     }
