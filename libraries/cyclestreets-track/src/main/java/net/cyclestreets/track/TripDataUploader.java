@@ -153,7 +153,7 @@ public class TripDataUploader extends AsyncTask<Void, Void, Boolean> {
             .setContentTitle("Cycle Hackney")
             .setContentText(text)
             .setContentIntent(contentIntent)
-            .getNotification();
+            .build();
     notification.flags = flags;
     return notification;
   }
