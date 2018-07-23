@@ -18,10 +18,13 @@ import android.util.Log;
 public abstract class LiveRideState
 {
   private static final int NOTIFICATION_ID = 1;
+
+  private final Context context_;
+  private final TextToSpeech tts_;
+  private String title_;
+
   public static LiveRideState InitialState(final Context context) {
-    final TextToSpeech tts = new TextToSpeech(context,
-          new TextToSpeech.OnInitListener() { public void onInit(int arg0) { } }
-    );
+    final TextToSpeech tts = new TextToSpeech(context, arg0 -> { });
     return new LiveRideStart(context, tts);
   }
 
@@ -29,10 +32,6 @@ public abstract class LiveRideState
     return new Stopped(context);
   }
   //////////////////////////////////////////
-
-  private Context context_;
-  private String title_;
-  private TextToSpeech tts_;
 
   protected LiveRideState(final Context context, final TextToSpeech tts) {
     context_ = context;

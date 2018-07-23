@@ -54,6 +54,10 @@ public class LiveRideService extends Service implements LocationListener
   }
 
   public void stopRiding() {
+    if (stage_.isStopped())
+      return;
+    stage_.tts().stop();
+    stage_.tts().shutdown();
     stage_ = LiveRideState.StoppedState(this);
     locationManager_.removeUpdates(this);
   }

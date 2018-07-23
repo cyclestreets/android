@@ -77,6 +77,7 @@ public class LiveRideOverlay extends Overlay implements ServiceConnection
   public void onDetach(final MapView mapView) {
     if (binding_ != null)
       binding_.stopRiding();
+    activity_.unbindService(this);
 
     super.onDetach(mapView);
   }
