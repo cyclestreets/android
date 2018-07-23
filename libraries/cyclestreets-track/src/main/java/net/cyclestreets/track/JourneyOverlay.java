@@ -8,6 +8,7 @@ import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.Point;
 import android.graphics.drawable.BitmapDrawable;
+import android.support.v4.content.res.ResourcesCompat;
 
 import net.cyclestreets.views.CycleMapView;
 
@@ -54,7 +55,7 @@ public class JourneyOverlay extends Overlay {
   private JourneyOverlay(final Context context,
                          final CycleMapView mapView,
                          final TripData tripData) {
-    super(context);
+    super();
 
     mapView_ = mapView;
     trip_ = tripData;
@@ -62,8 +63,8 @@ public class JourneyOverlay extends Overlay {
     rideBrush_ = createBrush(ROUTE_COLOUR);
 
     final Resources res = context.getResources();
-    greenWisp_ = (BitmapDrawable)res.getDrawable(R.drawable.greep_wisp);
-    redWisp_ = (BitmapDrawable)res.getDrawable(R.drawable.red_wisp);
+    greenWisp_ = (BitmapDrawable)ResourcesCompat.getDrawable(res, R.drawable.green_wisp, null);
+    redWisp_ = (BitmapDrawable)ResourcesCompat.getDrawable(res, R.drawable.red_wisp, null);
   }
 
   private void inProgress() {

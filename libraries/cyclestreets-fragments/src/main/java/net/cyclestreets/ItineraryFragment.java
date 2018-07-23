@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.app.ListFragment;
+import android.support.v4.content.res.ResourcesCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -86,10 +87,10 @@ public class ItineraryFragment extends ListFragment implements Route.Listener {
     SegmentAdapter(final Context context, final ItineraryFragment itinerary) {
       this.itinerary = itinerary;
       iconMappings = TurnIcons.LoadMapping(context);
-      footprints = context.getResources().getDrawable(R.drawable.footprints);
+      footprints = ResourcesCompat.getDrawable(context.getResources(), R.drawable.footprints, null);
 
       inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-      themeColor = context.getResources().getDrawable(R.color.apptheme_color);
+      themeColor = ResourcesCompat.getDrawable(context.getResources(), R.color.apptheme_color, null);
       backgroundColor = Theme.backgroundColor(context);
       routeString = context.getString(R.string.elevation_route);
     }

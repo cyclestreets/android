@@ -114,7 +114,7 @@ public class TapToRouteOverlay extends Overlay
     this.mapView = mapView;
 
     final Resources res = context.getResources();
-    greenWisp = ResourcesCompat.getDrawable(res, R.drawable.greep_wisp, null);
+    greenWisp = ResourcesCompat.getDrawable(res, R.drawable.green_wisp, null);
     orangeWisp = ResourcesCompat.getDrawable(res, R.drawable.orange_wisp, null);
     redWisp = ResourcesCompat.getDrawable(res, R.drawable.red_wisp, null);
     canRoute = ((BitmapDrawable) ResourcesCompat.getDrawable(res, R.drawable.ic_route_now, null)).getBitmap();

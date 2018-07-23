@@ -14,6 +14,7 @@ import android.graphics.Canvas;
 import android.graphics.Point;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
+import android.support.v4.content.res.ResourcesCompat;
 import android.view.MotionEvent;
 
 public class ThereOverlay extends Overlay implements TapListener
@@ -37,7 +38,7 @@ public class ThereOverlay extends Overlay implements TapListener
     mapView_ = mapView;
 
     final Resources res = context.getResources();
-    thereMarker_  = res.getDrawable(R.drawable.x_marks_spot);
+    thereMarker_  = ResourcesCompat.getDrawable(res, R.drawable.x_marks_spot, null);
   }
 
   public void setMapView(final CycleMapView mapView) {
