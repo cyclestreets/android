@@ -19,6 +19,7 @@
             app:fabSize="normal"
             app:borderWidth="12dp"
             app:ico_icon="gmd_chevron_left"
+            app:ico_color="?android:textColorSecondary"
             app:backgroundTint="@android:color/background_light"/>
 
         <android.support.design.widget.FloatingActionButton
@@ -28,6 +29,7 @@
             app:fabSize="normal"
             app:borderWidth="12dp"
             app:ico_icon="gmd_chevron_right"
+            app:ico_color="?android:textColorSecondary"
             app:backgroundTint="@android:color/background_light"/>
 
     </LinearLayout>
