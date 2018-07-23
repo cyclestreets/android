@@ -6,7 +6,7 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
-import android.provider.Settings.System;
+import static android.provider.Settings.Secure;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -14,9 +14,6 @@ import org.json.JSONObject;
 import java.util.Collections;
 import java.util.List;
 
-// As per https://github.com/cyclestreets/android/issues/238, this class looks like it doesn't do
-// anything useful.  Therefore, ignore warnings, and may possibly subsequently delete the class.
-@SuppressWarnings("deprecated")
 public class TripDataUploader extends AsyncTask<Void, Void, Boolean> {
   private int NOTIFICATION_ID = 1;
 
@@ -71,15 +68,14 @@ public class TripDataUploader extends AsyncTask<Void, Void, Boolean> {
   }
 
   private String deviceId() {
-    String androidId = System.getString(context_.getContentResolver(), System.ANDROID_ID);
+    String androidId = Secure.getString(context_.getContentResolver(), Secure.ANDROID_ID);
     String androidBase = "androidDeviceId-";
 
     if (androidId == null) { // This happens when running in the Emulator
       final String emulatorId = "android-RunningAsTestingDeleteMe";
       return emulatorId;
     }
-    String deviceId = androidBase.concat(androidId);
-    return deviceId;
+    return androidBase.concat(androidId);
   }
 
   private JSONObject parse(final byte[] result) throws Exception {
