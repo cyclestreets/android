@@ -20,8 +20,6 @@ public class LiveRideService extends Service implements LocationListener
   private LocationManager locationManager_;
   private Location lastLocation_;
   private LiveRideState stage_;
-  private PebbleNotifier pebbleNotifier_;
-
   private static int updateDistance = 5;  // metres
   private static int updateTime = 500;    // milliseconds
 
@@ -29,8 +27,7 @@ public class LiveRideService extends Service implements LocationListener
   public void onCreate() {
     binder_ = new Binding();
     locationManager_ = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
-    pebbleNotifier_ = new PebbleNotifier(this);
-    stage_ = LiveRideState.StoppedState(this, pebbleNotifier_);
+    stage_ = LiveRideState.StoppedState(this);
   }
 
   @Override
@@ -40,6 +37,7 @@ public class LiveRideService extends Service implements LocationListener
 
   @Override
   public void onDestroy() {
+    stopRiding();
     super.onDestroy();
   }
 
@@ -51,14 +49,13 @@ public class LiveRideService extends Service implements LocationListener
   public void startRiding() {
     if (!stage_.isStopped())
       return;
-    stage_ = LiveRideState.InitialState(this, pebbleNotifier_);
+    stage_ = LiveRideState.InitialState(this);
     locationManager_.requestLocationUpdates(LocationManager.GPS_PROVIDER, updateTime, updateDistance, this);
   }
 
   public void stopRiding() {
-    stage_ = LiveRideState.StoppedState(this, pebbleNotifier_);
+    stage_ = LiveRideState.StoppedState(this);
     locationManager_.removeUpdates(this);
-    pebbleNotifier_.notifyStopped();
   }
 
   public boolean areRiding() {

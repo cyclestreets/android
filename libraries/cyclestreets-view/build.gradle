@@ -3,7 +3,6 @@ evaluationDependsOn(':libraries:cyclestreets-core')
 dependencies {
   api project(':libraries:cyclestreets-core')
   api files('libs/mapsforge-map-0.3.0-jar-with-dependencies.jar')
-  implementation 'com.getpebble:pebblekit:3.1.0@aar'
 
   api 'com.mikepenz:iconics-core:3.0.4@aar'
   api 'com.mikepenz:google-material-typeface:3.0.1.2.original@aar'

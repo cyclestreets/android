@@ -15,7 +15,7 @@ final class ReplanFromHere extends LiveRideState implements Route.Listener
   ReplanFromHere(final LiveRideState previous, final GeoPoint whereIam) {
     super(previous);
     notify("Too far away. Re-planning the journey.");
-    getPebbleNotifier().notify(this);
+
     next_ = this;
 
     final IGeoPoint finish = Route.waypoints().last();

@@ -14,4 +14,3 @@ final class OnTheMove extends MovingState
     return new NearingTurn(this, journey);
   }
 }
-  

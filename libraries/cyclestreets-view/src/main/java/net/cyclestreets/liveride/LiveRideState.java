@@ -1,6 +1,5 @@
 package net.cyclestreets.liveride;
 
-import net.cyclestreets.CycleStreetsPreferences;
 import net.cyclestreets.LiveRideActivity;
 import net.cyclestreets.view.R;
 import net.cyclestreets.routing.Journey;
@@ -19,17 +18,15 @@ import android.util.Log;
 public abstract class LiveRideState
 {
   private static final int NOTIFICATION_ID = 1;
-  private final PebbleNotifier pebbleNotifier_;
-
-  public static LiveRideState InitialState(final Context context, final PebbleNotifier pebbleNotifier) {
+  public static LiveRideState InitialState(final Context context) {
     final TextToSpeech tts = new TextToSpeech(context,
           new TextToSpeech.OnInitListener() { public void onInit(int arg0) { } }
     );
-    return new LiveRideStart(context, pebbleNotifier, tts);
+    return new LiveRideStart(context, tts);
   }
 
-  public static LiveRideState StoppedState(final Context context, PebbleNotifier pebbleNotifier) {
-    return new Stopped(context, pebbleNotifier);
+  public static LiveRideState StoppedState(final Context context) {
+    return new Stopped(context);
   }
   //////////////////////////////////////////
 
@@ -37,19 +34,17 @@ public abstract class LiveRideState
   private String title_;
   private TextToSpeech tts_;
 
-  protected LiveRideState(final Context context, final PebbleNotifier pebbleNotifier, final TextToSpeech tts) {
+  protected LiveRideState(final Context context, final TextToSpeech tts) {
     context_ = context;
-    pebbleNotifier_ = pebbleNotifier;
     tts_ = tts;
     title_ = context.getString(context.getApplicationInfo().labelRes);
-    Log.d("CS_PEBBLE LRS", "New State: " + this.getClass().getSimpleName());
+    Log.d("LiveRideState", "New State: " + this.getClass().getSimpleName());
   }
 
   protected LiveRideState(final LiveRideState state) {
     context_ = state.context();
-    pebbleNotifier_ = state.getPebbleNotifier();
     tts_ = state.tts();
-    Log.d("CS_PEBBLE LRS", "State: " + this.getClass().getSimpleName());
+    Log.d("LiveRideState", "State: " + this.getClass().getSimpleName());
   }
 
   public abstract LiveRideState update(Journey journey, GeoPoint whereIam, int accuracy);
@@ -58,9 +53,6 @@ public abstract class LiveRideState
 
   protected Context context() { return context_; }
   protected TextToSpeech tts() { return tts_; }
-  protected PebbleNotifier getPebbleNotifier() {
-    return pebbleNotifier_;
-  }
 
   protected void notify(final Segment seg) {
     notification(seg.street() + " " + seg.distance(), seg.toString());
@@ -71,7 +63,6 @@ public abstract class LiveRideState
     instruction.append(seg.street().replace("un-", "un").replace("Un-", "un"));
     instruction.append(". Continue ").append(seg.distance());
     speak(instruction.toString());
-    getPebbleNotifier().notify(this, seg);
   }
 
   protected void notify(final String text) {
@@ -112,12 +103,6 @@ public abstract class LiveRideState
 
   private void speak(final String words) {
     String toSpeak = words.replace("LiveRide", "Live Ride");
-
-    if (getPebbleNotifier().isConnected()) {
-      if (CycleStreetsPreferences.pebbleVoice())
-        tts().speak(toSpeak, TextToSpeech.QUEUE_ADD, null);
-    } else
-      tts().speak(toSpeak, TextToSpeech.QUEUE_ADD, null);
+    tts().speak(toSpeak, TextToSpeech.QUEUE_ADD, null);
   }
 }
-
