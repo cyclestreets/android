@@ -10,7 +10,7 @@ import net.cyclestreets.util.MessageBox;
 import net.cyclestreets.util.Screen;
 import net.cyclestreets.view.R;
 
-import org.mapsforge.android.maps.MapsforgeOSMTileSource;
+import org.mapsforge.map.android.MapsforgeOSMTileSource;
 import org.osmdroid.tileprovider.MapTileProviderBase;
 import org.osmdroid.tileprovider.tilesource.ITileSource;
 import org.osmdroid.tileprovider.tilesource.XYTileSource;
