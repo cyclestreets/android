@@ -4,7 +4,7 @@ import android.content.Context;
 
 import net.cyclestreets.AppInfo;
 
-import org.mapsforge.android.maps.MapsforgeOSMDroidTileProvider;
+import org.mapsforge.map.android.MapsforgeOSMDroidTileProvider;
 import org.osmdroid.tileprovider.IMapTileProviderCallback;
 import org.osmdroid.tileprovider.IRegisterReceiver;
 import org.osmdroid.tileprovider.MapTileProviderArray;
