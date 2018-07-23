@@ -9,6 +9,6 @@ public class CycleMapDefaults {
   public static void setCentre(GeoPoint gp) { centre_ = new GeoPoint(gp); }
   public static void setGps(boolean gps) { gps_ = gps; }
 
-  private static GeoPoint centre_ = new GeoPoint(51477841, 0); /* Greenwich! */
+  private static GeoPoint centre_ = new GeoPoint(51.477841, 0); // Greenwich!
   private static boolean gps_ = true;
 }

@@ -1,5 +1,6 @@
 package net.cyclestreets.views.overlay;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Map;
@@ -19,7 +20,6 @@ import net.cyclestreets.util.Draw;
 import net.cyclestreets.util.MessageBox;
 import net.cyclestreets.util.Share;
 import net.cyclestreets.views.CycleMapView;
-import net.cyclestreets.util.Collections;
 
 import org.osmdroid.api.IGeoPoint;
 import org.osmdroid.util.GeoPoint;
@@ -69,19 +69,18 @@ public class TapToRouteOverlay extends Overlay
                                            R.string.route_menu_change_replan_balanced,
                                            R.string.route_menu_change_replan_fastest,
                                            R.string.route_menu_change_replan_shortest};
-  private static Map<Integer, String> Replan_Menu_Plans =
-      Collections.map(R.string.route_menu_change_replan_quietest, RoutePlans.PLAN_QUIETEST)
-                 .map(R.string.route_menu_change_replan_balanced, RoutePlans.PLAN_BALANCED)
-                 .map(R.string.route_menu_change_replan_fastest, RoutePlans.PLAN_FASTEST)
-                 .map(R.string.route_menu_change_replan_shortest, RoutePlans.PLAN_SHORTEST);
+  private static Map<Integer, String> Replan_Menu_Plans = new HashMap<Integer, String>() {{
+      put(R.string.route_menu_change_replan_quietest, RoutePlans.PLAN_QUIETEST);
+      put(R.string.route_menu_change_replan_balanced, RoutePlans.PLAN_BALANCED);
+      put(R.string.route_menu_change_replan_fastest, RoutePlans.PLAN_FASTEST);
+      put(R.string.route_menu_change_replan_shortest, RoutePlans.PLAN_SHORTEST);
+    }};
 
   private final Drawable greenWisp;
   private final Drawable orangeWisp;
   private final Drawable redWisp;
   private final Bitmap canRoute;
   private final Point screenPos = new Point();
-  private final Matrix canvasTransform = new Matrix();
-  private final float[] transformValues = new float[9];
   private final Matrix bitmapTransform = new Matrix();
   private final Paint bitmapPaint = new Paint();
 
@@ -114,7 +113,7 @@ public class TapToRouteOverlay extends Overlay
     this.mapView = mapView;
 
     final Resources res = context.getResources();
-    greenWisp = ResourcesCompat.getDrawable(res, R.drawable.greep_wisp, null);
+    greenWisp = ResourcesCompat.getDrawable(res, R.drawable.green_wisp, null);
     orangeWisp = ResourcesCompat.getDrawable(res, R.drawable.orange_wisp, null);
     redWisp = ResourcesCompat.getDrawable(res, R.drawable.red_wisp, null);
     canRoute = ((BitmapDrawable) ResourcesCompat.getDrawable(res, R.drawable.ic_route_now, null)).getBitmap();
@@ -375,8 +374,9 @@ public class TapToRouteOverlay extends Overlay
 
     projection.toPixels(marker.getPoint(), screenPos);
 
-    canvas.getMatrix(canvasTransform);
-    canvasTransform.getValues(transformValues);
+    Matrix transform = mapView.getMatrix();
+    float[] transformValues = new float[9];
+    transform.getValues(transformValues);
 
     final BitmapDrawable thingToDraw = (BitmapDrawable)marker.getDrawable();
     final int halfWidth = thingToDraw.getIntrinsicWidth()/2;

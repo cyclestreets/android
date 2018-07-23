@@ -11,6 +11,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Point;
 import android.graphics.drawable.BitmapDrawable;
 import android.media.MediaPlayer;
 import android.net.Uri;
@@ -257,8 +258,10 @@ public final class DisplayPhoto {
 
     protected static void sizeView(final View v, final Context context) {
       final WindowManager wm = (WindowManager)context.getSystemService(Context.WINDOW_SERVICE);
-      final int device_height = wm.getDefaultDisplay().getHeight();
-      final int device_width = wm.getDefaultDisplay().getWidth();
+      final Point point = new Point();
+      wm.getDefaultDisplay().getSize(point);
+      final int device_height = point.y;
+      final int device_width = point.x;
       final int height = (device_height > device_width)
           ? device_height / 10 * 5
           : device_height / 10 * 6;

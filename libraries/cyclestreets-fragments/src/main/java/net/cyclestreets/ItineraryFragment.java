@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.app.ListFragment;
+import android.support.v4.content.res.ResourcesCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -86,10 +87,10 @@ public class ItineraryFragment extends ListFragment implements Route.Listener {
     SegmentAdapter(final Context context, final ItineraryFragment itinerary) {
       this.itinerary = itinerary;
       iconMappings = TurnIcons.LoadMapping(context);
-      footprints = context.getResources().getDrawable(R.drawable.footprints);
+      footprints = ResourcesCompat.getDrawable(context.getResources(), R.drawable.footprints, null);
 
       inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-      themeColor = context.getResources().getDrawable(R.color.apptheme_color);
+      themeColor = ResourcesCompat.getDrawable(context.getResources(), R.color.apptheme_color, null);
       backgroundColor = Theme.backgroundColor(context);
       routeString = context.getString(R.string.elevation_route);
     }
@@ -141,7 +142,7 @@ public class ItineraryFragment extends ListFragment implements Route.Listener {
       setTurnIcon(R.id.segment_type, seg.turn(), seg.walk());
 
       if (highlight && position != 0)
-        v.setBackgroundDrawable(themeColor);
+        v.setBackground(themeColor);
 
       return v;
     }
@@ -171,7 +172,7 @@ public class ItineraryFragment extends ListFragment implements Route.Listener {
       iv.setImageDrawable(icon);
       iv.setBackgroundColor(backgroundColor);
       if (walk)
-        iv.setBackgroundDrawable(footprints);
+        iv.setBackground(footprints);
     }
 
     private Drawable turnIcon(final String turn) {

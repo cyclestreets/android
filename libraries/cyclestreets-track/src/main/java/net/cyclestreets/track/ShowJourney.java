@@ -20,8 +20,8 @@ public class ShowJourney extends Activity {
     mapView_.hideLocationButton();
     final RelativeLayout v = (RelativeLayout)findViewById(R.id.mapholder);
     v.addView(mapView_,
-              new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.FILL_PARENT,
-                                              RelativeLayout.LayoutParams.FILL_PARENT));
+              new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT,
+                                              RelativeLayout.LayoutParams.MATCH_PARENT));
 
     final Bundle cmds = getIntent().getExtras();
     final long journeyId = cmds.getLong("showtrip");
