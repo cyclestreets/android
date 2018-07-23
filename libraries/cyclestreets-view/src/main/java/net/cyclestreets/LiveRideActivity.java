@@ -1,6 +1,5 @@
 package net.cyclestreets;
 
-import net.cyclestreets.liveride.PebbleNotifier;
 import net.cyclestreets.util.GPS;
 import net.cyclestreets.util.MessageBox;
 import net.cyclestreets.views.CycleMapView;
@@ -13,6 +12,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.RelativeLayout;
+
+import com.mikepenz.iconics.context.IconicsContextWrapper;
 
 public class LiveRideActivity extends Activity
 {
@@ -37,7 +38,11 @@ public class LiveRideActivity extends Activity
 
   private CycleMapView map_;
 
-  private PebbleNotifier notifier_;
+  @Override
+  protected void attachBaseContext(Context newBase) {
+    // Allows the use of Material icon library, see https://github.com/mikepenz/Android-Iconics
+    super.attachBaseContext(IconicsContextWrapper.wrap(newBase));
+  }
 
   @Override
   public void onCreate(final Bundle saved) {

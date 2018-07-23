@@ -6,14 +6,14 @@
     android:layout_height="match_parent">
 
     <android.support.design.widget.FloatingActionButton
-        android:id="@+id/locationbutton"
+        android:id="@+id/liveride_screenlock_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
+        android:layout_gravity="top|right"
         android:layout_margin="16dp"
         app:fabSize="normal"
         app:borderWidth="12dp"
-        app:ico_icon="gmd_my_location"
+        app:ico_icon="gmd_lock_open"
         app:backgroundTint="@android:color/background_light"/>
 
 </android.support.design.widget.CoordinatorLayout>

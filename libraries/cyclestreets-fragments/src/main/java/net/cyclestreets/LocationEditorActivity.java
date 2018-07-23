@@ -1,5 +1,6 @@
 package net.cyclestreets;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.app.Activity;
 import android.text.Editable;
@@ -8,6 +9,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
+
+import com.mikepenz.iconics.context.IconicsContextWrapper;
 
 import net.cyclestreets.content.LocationDatabase;
 import net.cyclestreets.content.SavedLocation;
@@ -29,6 +32,12 @@ public class LocationEditorActivity extends Activity
   private LocationDatabase ldb_;
   private int localId_;
   private boolean firstTime_;
+
+  @Override
+  protected void attachBaseContext(Context newBase) {
+    // Allows the use of Material icon library, see https://github.com/mikepenz/Android-Iconics
+    super.attachBaseContext(IconicsContextWrapper.wrap(newBase));
+  }
 
   @Override
   public void onCreate(final Bundle saved) {

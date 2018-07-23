@@ -41,18 +41,20 @@ import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.location.Location;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.content.res.ResourcesCompat;
 import android.view.ContextMenu;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
+import android.view.View;
 import android.widget.Toast;
 import static net.cyclestreets.util.MenuHelper.createMenuItem;
 import static net.cyclestreets.util.MenuHelper.showMenuItem;
 
 public class TapToRouteOverlay extends Overlay
-                               implements ButtonTapListener,
-                                          TapListener,
+                               implements TapListener,
                                           ContextMenuListener,
                                           Undoable,
                                           PauseResumeListener,
@@ -80,7 +82,7 @@ public class TapToRouteOverlay extends Overlay
 
   private final float radius;
 
-  private final OverlayButton restartButton;
+  private final FloatingActionButton restartButton;
 
   private final CycleMapView mapView;
 
@@ -112,15 +114,14 @@ public class TapToRouteOverlay extends Overlay
     int offset = DrawingHelper.offset(context);
     radius = DrawingHelper.cornerRadius(context);
 
-    restartButton = new OverlayButton(ResourcesCompat.getDrawable(res, R.drawable.ic_menu_rotate, null),
-                                      0,
-                                      offset *2,
-                                      radius);
-    restartButton.centreAlign();
-    restartButton.bottomAlign();
+    View restartButtonView = LayoutInflater.from(mapView.getContext()).inflate(R.layout.restart_planning_button, null);
+    restartButton = restartButtonView.findViewById(R.id.restartbutton);
+    restartButton.setVisibility(View.INVISIBLE);
+    restartButton.setOnClickListener(view -> tapRestart());
+    mapView.addView(restartButtonView);
 
     tapStateRect = new Rect();
-    tapStateRect.bottom = tapStateRect.top + restartButton.height();
+    tapStateRect.bottom = tapStateRect.top + canRoute.getHeight();
 
     textBrush = Brush.createTextBrush(offset);
     highlightBrush = Brush.HighlightBrush(context);
@@ -302,19 +303,16 @@ public class TapToRouteOverlay extends Overlay
     final IProjection projection = mapView.getProjection();
     for (final OverlayItem waypoint : waymarkers)
       drawMarker(canvas, projection, waypoint);
-  }
-
-  @Override
-  public void drawButtons(final Canvas canvas, final MapView mapView) {
-    drawTheButtons(canvas);
     drawTapState(canvas);
+    drawButtons();
   }
 
-  private void drawTheButtons(final Canvas canvas) {
-    restartButton.enable(tapState == TapToRoute.ALL_DONE);
-
-    if (tapState == TapToRoute.ALL_DONE)
-      restartButton.draw(canvas);
+  private void drawButtons() {
+    if (tapState == TapToRoute.ALL_DONE) {
+      restartButton.show();
+    } else {
+      restartButton.hide();
+    }
   }
 
   private void drawTapState(final Canvas canvas) {
@@ -388,18 +386,8 @@ public class TapToRouteOverlay extends Overlay
     return false;
   }
 
-  @Override
-  public boolean onButtonTap(final MotionEvent event) {
-    return tapRestart(event);
-  }
-
-  @Override
-  public boolean onButtonDoubleTap(final MotionEvent event) {
-    return false;
-  }
-
-  private boolean tapRestart(final MotionEvent event) {
-    if (!restartButton.enabled() || !restartButton.hit(event))
+  private boolean tapRestart() {
+    if (!restartButton.isShown())
       return false;
 
     if (!CycleStreetsPreferences.confirmNewRoute())

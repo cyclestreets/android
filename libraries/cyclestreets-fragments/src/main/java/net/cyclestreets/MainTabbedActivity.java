@@ -25,12 +25,21 @@ import android.widget.TabHost;
 import android.widget.TabHost.OnTabChangeListener;
 import android.widget.TabHost.TabSpec;
 
+import com.mikepenz.iconics.context.IconicsContextWrapper;
+
 public abstract class MainTabbedActivity extends Activity implements OnTabChangeListener, TabHost.TabContentFactory
 {
   private TabHost tabHost_;
   private final Map<String, TabInfo> tabs_ = new HashMap<>();
   private TabInfo lastTab_;
 
+  @Override
+  protected void attachBaseContext(Context newBase) {
+    // Allows the use of Material icon library, see https://github.com/mikepenz/Android-Iconics
+    super.attachBaseContext(IconicsContextWrapper.wrap(newBase));
+  }
+
+  @Override
   public void onCreate(final Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.maintabbedactivity);

@@ -1,10 +1,24 @@
 package net.cyclestreets.util;
 
+import android.graphics.drawable.Drawable;
 import android.view.Menu;
 import android.view.MenuItem;
 
 public class MenuHelper
 {
+  public static MenuItem createMenuItem(final Menu menu,
+                                        final int itemId,
+                                        final int order,
+                                        final Drawable icon) {
+    final MenuItem item = menu.findItem(itemId);
+    if (item != null)
+      return item;
+    final MenuItem newItem = menu.add(0, itemId, order, itemId);
+    if (icon != null)
+      newItem.setIcon(icon);
+    return newItem;
+  }
+
   public static MenuItem createMenuItem(final Menu menu,
                                         final int itemId,
                                         final int order,
