@@ -87,7 +87,7 @@ public abstract class LiveRideState
             .setContentTitle(title_)
             .setContentText(text)
             .setContentIntent(contentIntent)
-            .getNotification();
+            .build();
 
     nm.notify(NOTIFICATION_ID, notification);
   }
@@ -102,6 +102,6 @@ public abstract class LiveRideState
 
   private void speak(final String words) {
     String toSpeak = words.replace("LiveRide", "Live Ride");
-    tts().speak(toSpeak, TextToSpeech.QUEUE_ADD, null);
+    tts().speak(toSpeak, TextToSpeech.QUEUE_ADD, null, null);
   }
 }
