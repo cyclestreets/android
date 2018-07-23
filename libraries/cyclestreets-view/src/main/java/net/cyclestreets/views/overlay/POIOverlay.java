@@ -47,12 +47,8 @@ import net.cyclestreets.views.CycleMapView;
 import static net.cyclestreets.util.MenuHelper.createMenuItem;
 import static net.cyclestreets.util.MenuHelper.enableMenuItem;
 
-public class POIOverlay
-    extends LiveItemOverlay<POIOverlay.POIItem>
-    implements MapListener,
-               MenuListener,
-               PauseResumeListener,
-               Undoable {
+public class POIOverlay extends LiveItemOverlay<POIOverlay.POIItem>
+                        implements MapListener, MenuListener, PauseResumeListener, Undoable {
   public static class POIItem extends OverlayItem {
     private final POI poi;
 
@@ -97,8 +93,6 @@ public class POIOverlay
   private final List<POICategory> activeCategories_;
   private POIItem activeItem;
   private final Point curScreenCoords_ = new Point();
-  private final Matrix matrix_ = new Matrix();
-  private float matrixValues_[] = new float[9];
   private IGeoPoint lastFix_;
   private Rect bubble_;
   private OverlayHelper overlays_;
@@ -260,15 +254,16 @@ public class POIOverlay
     int x = curScreenCoords_.x;
     int y = curScreenCoords_.y;
 
-    canvas.getMatrix(matrix_);
-    matrix_.getValues(matrixValues_);
+    Matrix matrix_ = mapView.getMatrix();
+    float matrixValues[] = new float[9];
+    matrix_.getValues(matrixValues);
 
-    float scaleX = (float) Math.sqrt(matrixValues_[Matrix.MSCALE_X]
-        * matrixValues_[Matrix.MSCALE_X] + matrixValues_[Matrix.MSKEW_Y]
-        * matrixValues_[Matrix.MSKEW_Y]);
-    float scaleY = (float) Math.sqrt(matrixValues_[Matrix.MSCALE_Y]
-        * matrixValues_[Matrix.MSCALE_Y] + matrixValues_[Matrix.MSKEW_X]
-        * matrixValues_[Matrix.MSKEW_X]);
+    float scaleX = (float) Math.sqrt(matrixValues[Matrix.MSCALE_X]
+        * matrixValues[Matrix.MSCALE_X] + matrixValues[Matrix.MSKEW_Y]
+        * matrixValues[Matrix.MSKEW_Y]);
+    float scaleY = (float) Math.sqrt(matrixValues[Matrix.MSCALE_Y]
+        * matrixValues[Matrix.MSCALE_Y] + matrixValues[Matrix.MSKEW_X]
+        * matrixValues[Matrix.MSKEW_X]);
 
     canvas.save();
     canvas.rotate(-mapView.getMapOrientation(), x, y);

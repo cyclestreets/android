@@ -80,8 +80,6 @@ public class TapToRouteOverlay extends Overlay
   private final Drawable redWisp;
   private final Bitmap canRoute;
   private final Point screenPos = new Point();
-  private final Matrix canvasTransform = new Matrix();
-  private final float[] transformValues = new float[9];
   private final Matrix bitmapTransform = new Matrix();
   private final Paint bitmapPaint = new Paint();
 
@@ -375,8 +373,9 @@ public class TapToRouteOverlay extends Overlay
 
     projection.toPixels(marker.getPoint(), screenPos);
 
-    canvas.getMatrix(canvasTransform);
-    canvasTransform.getValues(transformValues);
+    Matrix transform = mapView.getMatrix();
+    float[] transformValues = new float[9];
+    transform.getValues(transformValues);
 
     final BitmapDrawable thingToDraw = (BitmapDrawable)marker.getDrawable();
     final int halfWidth = thingToDraw.getIntrinsicWidth()/2;
