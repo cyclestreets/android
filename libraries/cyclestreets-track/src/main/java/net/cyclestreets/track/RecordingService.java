@@ -256,7 +256,7 @@ public class RecordingService extends Service implements LocationListener {
             .setContentTitle("Cycle Hackney - Recording")
             .setContentText("Tap to see your ongoing trip")
             .setContentIntent(contentIntent)
-            .getNotification();
+            .build();
     notification.flags = flags;
     return notification;
   }
