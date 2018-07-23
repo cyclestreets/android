@@ -68,7 +68,7 @@ public class GeoLiveAdapter extends GeoAdapter
     edit.putString(PREFS_GEO_NAME_PREFIX + key, p.name());
     edit.putString(PREFS_GEO_NEAR_PREFIX + key, p.near());
     edit.putInt(PREFS_GEO_LATITUDE_PREFIX + key, (int)(p.coord().getLatitude() * 1e6));
-    edit.putInt(PREFS_GEO_LONGITUDE_PREFIX + key, (int)(p.coord().getLongitudeE6() * 1e6));
+    edit.putInt(PREFS_GEO_LONGITUDE_PREFIX + key, (int)(p.coord().getLongitude() * 1e6));
     edit.apply();
   }
 
