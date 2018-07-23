@@ -10,7 +10,8 @@
     android:icon="@drawable/ic_launcher"
     android:label="@string/app_name"
     android:theme="@style/AppTheme"
-    android:name=".CycleStreetsApp">
+    android:name=".CycleStreetsApp"
+    android:appCategory="maps">
     <activity
       android:name=".CycleStreets"
       android:label="@string/app_name">
