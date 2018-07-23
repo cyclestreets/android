@@ -107,6 +107,9 @@ public class MapsforgeOSMTileSource implements ITileSource {
     final Tile tile = new Tile(tileX, tileY, (byte)zoom, tileSize_);
     final RendererJob mapGeneratorJob = createJob(tile);
     final AndroidTileBitmap tileBitmap = (AndroidTileBitmap)mapGenerator_.executeJob(mapGeneratorJob);
+    if (tileBitmap == null)
+      return null;
+
     tileBitmap.scaleTo(tileSize_, tileSize_);
     return new ExpirableBitmapDrawable(expose(tileBitmap));
   } // getDrawable
