@@ -1,11 +1,11 @@
 package net.cyclestreets.routing;
 
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ArrayList;
 
 import net.cyclestreets.CycleStreetsPreferences;
-import net.cyclestreets.util.Collections;
 
 import org.osmdroid.api.IGeoPoint;
 import org.osmdroid.util.GeoPoint;
@@ -255,18 +255,18 @@ As at 16 October 2012
           final IGeoPoint pstart = journey_.segments_.startPoint();
           final IGeoPoint pend = journey_.segments_.finishPoint();
           final Segment startSeg = new Segment.Start(itinerary_,
-                                 name_ != null ? name_ : start_,
-                                 plan_,
-                                 speed_,
-                                 total_time,
-                                 total_distance,
-                                 calories_,
-                                 grammesCO2saved_,
-                                 Collections.list(pD(from, pstart), pstart));
+                                                     name_ != null ? name_ : start_,
+                                                     plan_,
+                                                     speed_,
+                                                     total_time,
+                                                     total_distance,
+                                                     calories_,
+                                                     grammesCO2saved_,
+                                                     Arrays.asList(pD(from, pstart), pstart));
           final Segment endSeg = new Segment.End(finish_,
-                               total_time,
-                               total_distance,
-                               Collections.list(pend, pD(to, pend)));
+                                                 total_time,
+                                                 total_distance,
+                                                 Arrays.asList(pend, pD(to, pend)));
           journey_.segments_.add(startSeg);
           journey_.segments_.add(endSeg);
         }

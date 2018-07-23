@@ -1,6 +1,7 @@
 package net.cyclestreets.track;
 
 import java.text.DateFormat;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -27,8 +28,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
-import net.cyclestreets.util.ListFactory;
-
 public class SaveTrip extends Activity
     implements View.OnClickListener, AdapterView.OnItemSelectedListener, CompoundButton.OnCheckedChangeListener {
   public static void start(final Context context, final long tripid) {
@@ -43,7 +42,7 @@ public class SaveTrip extends Activity
   }
 
   private final Map<Integer, ToggleButton> purpButtons = new HashMap<>();
-  private final Map <Integer, String> purpDescriptions = new HashMap<>();
+  private final Map<Integer, String> purpDescriptions = new HashMap<>();
   private TripData trip_;
   private String purpose_;
   private Spinner age_;
@@ -139,24 +138,23 @@ public class SaveTrip extends Activity
     e.putInt("age", age_.getSelectedItemPosition());
     e.putInt("gender", gender_.getSelectedItemPosition());
     e.putInt("experience", experience_.getSelectedItemPosition());
-    e.commit();
+    e.apply();
 
     TripDataUploader.upload(this, trip_);
 
-    //CycleHackney.start(this);
     finish();
   }
 
   private void setupAge(final Spinner age) {
-    final List<String> ages = ListFactory.list(getString(R.string.savetrip_please_select),
-                                               "0-10",
-                                               "11-16",
-                                               "17-24",
-                                               "25-44",
-                                               "45-64",
-                                               "65-74",
-                                               "75-84",
-                                               "85+");
+    final List<String> ages = Arrays.asList(getString(R.string.savetrip_please_select),
+                                            "0-10",
+                                            "11-16",
+                                            "17-24",
+                                            "25-44",
+                                            "45-64",
+                                            "65-74",
+                                            "75-84",
+                                            "85+");
     age.setAdapter(new SpinnerList(this, ages));
     int index = prefs_.getInt("age", 0);
     age.setSelection(index);
@@ -164,10 +162,10 @@ public class SaveTrip extends Activity
   }
 
   private void setupGender(final Spinner gender) {
-    final List<String> genders = ListFactory.list(getString(R.string.savetrip_please_select),
-                                                  getString(R.string.savetrip_gender_male),
-                                                  getString(R.string.savetrip_gender_female),
-                                                  getString(R.string.savetrip_gender_private));
+    final List<String> genders = Arrays.asList(getString(R.string.savetrip_please_select),
+                                               getString(R.string.savetrip_gender_male),
+                                               getString(R.string.savetrip_gender_female),
+                                               getString(R.string.savetrip_gender_private));
     gender.setPrompt(getString(R.string.savetrip_gender_prompt));
     gender.setAdapter(new SpinnerList(this, genders));
     int index = prefs_.getInt("gender", 0);
@@ -176,10 +174,10 @@ public class SaveTrip extends Activity
   }
 
   private void setupExperience(final Spinner experience) {
-    final List<String> experienceLevels = ListFactory.list(getString(R.string.savetrip_please_select),
-                                                           getString(R.string.savetrip_experience_experienced),
-                                                           getString(R.string.savetrip_experience_infrequent),
-                                                           getString(R.string.savetrip_experience_beginner));
+    final List<String> experienceLevels = Arrays.asList(getString(R.string.savetrip_please_select),
+                                                        getString(R.string.savetrip_experience_experienced),
+                                                        getString(R.string.savetrip_experience_infrequent),
+                                                        getString(R.string.savetrip_experience_beginner));
     experience.setPrompt(getString(R.string.savetrip_experience_prompt));
     experience.setAdapter(new SpinnerList(this, experienceLevels));
     int index = prefs_.getInt("experience", 0);

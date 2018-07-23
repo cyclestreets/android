@@ -8,11 +8,10 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.provider.Settings.System;
 
-import net.cyclestreets.util.ListFactory;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.Collections;
 import java.util.List;
 
 // As per https://github.com/cyclestreets/android/issues/238, this class looks like it doesn't do
@@ -22,7 +21,7 @@ public class TripDataUploader extends AsyncTask<Void, Void, Boolean> {
   private int NOTIFICATION_ID = 1;
 
   public static void upload(final Context context, final TripData tripData) {
-    upload(context, ListFactory.list(tripData));
+    upload(context, Collections.singletonList(tripData));
   }
 
   public static void upload(final Context context, final List<TripData> tripData) {
