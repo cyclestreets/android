@@ -8,6 +8,7 @@ import net.cyclestreets.RoutePlans;
 
 import net.cyclestreets.CycleStreetsPreferences;
 import net.cyclestreets.FeedbackActivity;
+import net.cyclestreets.util.Theme;
 import net.cyclestreets.view.R;
 import net.cyclestreets.Undoable;
 import net.cyclestreets.routing.Journey;
@@ -50,6 +51,10 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Toast;
+
+import com.mikepenz.google_material_typeface_library.GoogleMaterial;
+import com.mikepenz.iconics.IconicsDrawable;
+
 import static net.cyclestreets.util.MenuHelper.createMenuItem;
 import static net.cyclestreets.util.MenuHelper.showMenuItem;
 
@@ -88,6 +93,9 @@ public class TapToRouteOverlay extends Overlay
 
   private final Context context;
 
+  private final Drawable shareDrawable;
+  private final Drawable commentDrawable;
+
   private List<OverlayItem> waymarkers;
   private Rect tapStateRect;
 
@@ -113,6 +121,15 @@ public class TapToRouteOverlay extends Overlay
 
     int offset = DrawingHelper.offset(context);
     radius = DrawingHelper.cornerRadius(context);
+
+    shareDrawable = new IconicsDrawable(context)
+            .icon(GoogleMaterial.Icon.gmd_share)
+            .color(Theme.lowlightColorInverse(context))
+            .sizeDp(24);
+    commentDrawable = new IconicsDrawable(context)
+            .icon(GoogleMaterial.Icon.gmd_comment)
+            .color(Theme.lowlightColorInverse(context))
+            .sizeDp(24);
 
     View restartButtonView = LayoutInflater.from(mapView.getContext()).inflate(R.layout.restart_planning_button, null);
     restartButton = restartButtonView.findViewById(R.id.restartbutton);
@@ -230,11 +247,15 @@ public class TapToRouteOverlay extends Overlay
   @Override
   public void onCreateOptionsMenu(final Menu menu) {
     createMenuItem(menu, R.string.route_menu_change, Menu.FIRST, R.drawable.ic_menu_more);
+    createMenuItem(menu, R.string.route_menu_change_share, Menu.NONE, shareDrawable);
+    createMenuItem(menu, R.string.route_menu_change_comment, Menu.NONE, commentDrawable);
   }
 
   @Override
   public void onPrepareOptionsMenu(final Menu menu) {
     showMenuItem(menu, R.string.route_menu_change, tapState == TapToRoute.ALL_DONE);
+    showMenuItem(menu, R.string.route_menu_change_share, tapState == TapToRoute.ALL_DONE);
+    showMenuItem(menu, R.string.route_menu_change_comment, tapState == TapToRoute.ALL_DONE);
   }
 
   @Override
@@ -249,8 +270,6 @@ public class TapToRouteOverlay extends Overlay
     if (mapView.isMyLocationEnabled())
       createMenuItem(menu, R.string.route_menu_change_reroute_from_here);
     createMenuItem(menu, R.string.route_menu_change_reverse);
-    createMenuItem(menu, R.string.route_menu_change_share);
-    createMenuItem(menu, R.string.route_menu_change_comment);
   }
 
   @Override
