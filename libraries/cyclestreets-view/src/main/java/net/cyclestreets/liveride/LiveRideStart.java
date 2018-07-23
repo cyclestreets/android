@@ -9,8 +9,8 @@ import android.speech.tts.TextToSpeech;
 
 final class LiveRideStart extends LiveRideState
 {
-  LiveRideStart(final Context context, final PebbleNotifier pebbleNotifier, final TextToSpeech tts) {
-    super(context, pebbleNotifier, tts);
+  LiveRideStart(final Context context, final TextToSpeech tts) {
+    super(context, tts);
     notify("Starting LiveRide", "Starting LiveRide");
   }
 
@@ -19,7 +19,6 @@ final class LiveRideStart extends LiveRideState
     notify("LiveRide", "LiveRide");
     journey.setActiveSegmentIndex(0);
     notify(journey.activeSegment());
-    getPebbleNotifier().notifyStart(this, journey.activeSegment());
     return new HuntForSegment(this);
   }
 

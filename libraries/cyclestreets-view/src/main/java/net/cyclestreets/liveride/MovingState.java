@@ -9,8 +9,6 @@ abstract class MovingState extends LiveRideState
 {
   private final int transition_;
 
-  private boolean notifiedPebble_ = false;
-
   MovingState(final LiveRideState previous, final int transitionThreshold) {
     super(previous);
     transition_ = transitionThreshold;
@@ -18,10 +16,6 @@ abstract class MovingState extends LiveRideState
 
   @Override
   public final LiveRideState update(final Journey journey, final GeoPoint whereIam, final int accuracy) {
-    if (! this.notifiedPebble_) {
-      this.notifiedPebble_ = true;
-      getPebbleNotifier().notify(this, journey.nextSegment());
-    }
     int distanceFromEnd = journey.activeSegment().distanceFromEnd(whereIam);
     distanceFromEnd -= accuracy;
     if (distanceFromEnd < transition_)

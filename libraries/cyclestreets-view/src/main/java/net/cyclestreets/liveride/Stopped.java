@@ -8,8 +8,8 @@ import android.content.Context;
 
 final class Stopped extends LiveRideState
 {
-  Stopped(final Context context, final PebbleNotifier pebbleNotifier) {
-    super(context, pebbleNotifier, null);
+  Stopped(final Context context) {
+    super(context, null);
     cancelNotification();
   }
 
