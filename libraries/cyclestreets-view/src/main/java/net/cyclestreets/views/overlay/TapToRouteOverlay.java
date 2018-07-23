@@ -118,7 +118,7 @@ public class TapToRouteOverlay extends Overlay
     View restartButtonView = LayoutInflater.from(mapView.getContext()).inflate(R.layout.restart_planning_button, null);
     restartButton = restartButtonView.findViewById(R.id.restartbutton);
     restartButton.setVisibility(View.INVISIBLE);
-    restartButton.setOnClickListener(this::tapRestart);
+    restartButton.setOnClickListener(view -> tapRestart());
     mapView.addView(restartButtonView);
 
     tapStateRect = new Rect();
@@ -402,7 +402,7 @@ public class TapToRouteOverlay extends Overlay
     return false;
   }
 
-  private boolean tapRestart(final View view) {
+  private boolean tapRestart() {
     if (!restartButton.isShown())
       return false;
 

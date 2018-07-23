@@ -77,7 +77,6 @@ public class RouteHighlightOverlay extends Overlay implements ButtonTapListener
 
   @Override
   public void drawButtons(final Canvas canvas, final MapView mapView) {
-    Log.i("drawButtons", "1");
     if (!Route.available()) {
       prevButton.hide();
       nextButton.hide();
@@ -86,8 +85,6 @@ public class RouteHighlightOverlay extends Overlay implements ButtonTapListener
 
     drawSegmentInfo(canvas);
 
-    Log.i("drawButtons", "atStart: " + Route.journey().atStart());
-    Log.i("drawButtons", "atEnd: " + Route.journey().atEnd());
     prevButton.setEnabled(!Route.journey().atStart());
     prevButton.show();
     nextButton.setEnabled(!Route.journey().atEnd());
@@ -95,11 +92,9 @@ public class RouteHighlightOverlay extends Overlay implements ButtonTapListener
   }
 
   private void drawSegmentInfo(final Canvas canvas) {
-    Log.i("drawSegmentInfo", "1");
     final Segment seg = Route.journey().activeSegment();
     if (seg == null)
       return;
-    Log.i("drawSegmentInfo", "2");
 
     final Rect box = canvas.getClipBounds();
     box.bottom = box.top + 72;
@@ -130,9 +125,7 @@ public class RouteHighlightOverlay extends Overlay implements ButtonTapListener
   }
 
   private boolean regressActiveSegment(int stepsToMove) {
-    Log.i("highlight", "Regressing by " + stepsToMove);
     if (!Route.available()) {
-      Log.i("highlight", "no route");
       return false;
     }
 
