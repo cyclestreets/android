@@ -57,6 +57,8 @@ public class CycleMapView extends FrameLayout
 
     mapView_.setBuiltInZoomControls(false);
     mapView_.setMultiTouchControls(true);
+    mapView_.setMaxZoomLevel(17);
+    mapView_.setMinZoomLevel(2);
 
     overlayBottomIndex_ = getOverlays().size();
 
