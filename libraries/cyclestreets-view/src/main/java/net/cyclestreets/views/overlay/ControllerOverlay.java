@@ -146,14 +146,14 @@ public class ControllerOverlay extends Overlay implements OnDoubleTapListener, O
     canvas.save();
     canvas.concat(unscaled);
 
-    drawUnskewed(canvas, mapView);
+    drawUnskewed(canvas);
 
     canvas.restore();
   }
 
-  protected void drawUnskewed(final Canvas canvas, final MapView mapView) {
-    for (final Iterator<ButtonTapListener> overlays = buttonTapOverlays(); overlays.hasNext(); )
-      overlays.next().drawButtons(canvas, mapView);
+  private void drawUnskewed(final Canvas canvas) {
+    for (final Iterator<UnskewedOverlay> overlays = unskewedOverlays(); overlays.hasNext(); )
+      overlays.next().drawUnskewed(canvas);
 
     final Rect screen = canvas.getClipBounds();
     canvas.drawText(mapView_.mapAttribution(),
@@ -183,8 +183,8 @@ public class ControllerOverlay extends Overlay implements OnDoubleTapListener, O
   private Iterator<TapListener> tapOverlays() {
     return new OverlayIterator<>(mapView_, TapListener.class);
   }
-  private Iterator<ButtonTapListener> buttonTapOverlays() {
-    return new OverlayIterator<>(mapView_, ButtonTapListener.class);
+  private Iterator<UnskewedOverlay> unskewedOverlays() {
+    return new OverlayIterator<>(mapView_, UnskewedOverlay.class);
   }
   private Iterator<MenuListener> menuOverlays() {
     return new OverlayIterator<>(mapView_, MenuListener.class);

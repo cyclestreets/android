@@ -59,7 +59,7 @@ import static net.cyclestreets.util.MenuHelper.createMenuItem;
 import static net.cyclestreets.util.MenuHelper.showMenuItem;
 
 public class TapToRouteOverlay extends Overlay
-                               implements ButtonTapListener,
+                               implements UnskewedOverlay,
                                           TapListener,
                                           ContextMenuListener,
                                           Undoable,
@@ -322,15 +322,16 @@ public class TapToRouteOverlay extends Overlay
     final IProjection projection = mapView.getProjection();
     for (final OverlayItem waypoint : waymarkers)
       drawMarker(canvas, projection, waypoint);
+
+    drawRestartButton();
   }
 
   @Override
-  public void drawButtons(final Canvas canvas, final MapView mapView) {
-    drawTheButtons();
+  public void drawUnskewed(final Canvas canvas) {
     drawTapState(canvas);
   }
 
-  private void drawTheButtons() {
+  private void drawRestartButton() {
     if (tapState == TapToRoute.ALL_DONE) {
       restartButton.show();
     } else {

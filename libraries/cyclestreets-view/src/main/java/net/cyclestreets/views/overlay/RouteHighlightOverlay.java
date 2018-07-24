@@ -16,12 +16,10 @@ import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.Paint.Align;
 import android.support.design.widget.FloatingActionButton;
-import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 
-public class RouteHighlightOverlay extends Overlay implements ButtonTapListener
+public class RouteHighlightOverlay extends Overlay implements UnskewedOverlay
 {
   private final CycleMapView mapView;
 
@@ -76,7 +74,7 @@ public class RouteHighlightOverlay extends Overlay implements ButtonTapListener
   }
 
   @Override
-  public void drawButtons(final Canvas canvas, final MapView mapView) {
+  public void drawUnskewed(final Canvas canvas) {
     if (!Route.available()) {
       prevButton.hide();
       nextButton.hide();
