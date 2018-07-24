@@ -410,17 +410,6 @@ public class TapToRouteOverlay extends Overlay
     return false;
   }
 
-  @Override
-  public boolean onButtonTap(final MotionEvent event) {
-    // We're handling restart button taps via an onClickListener instead.
-    return false;
-  }
-
-  @Override
-  public boolean onButtonDoubleTap(final MotionEvent event) {
-    return false;
-  }
-
   private boolean tapRestart() {
     if (!restartButton.isShown())
       return false;

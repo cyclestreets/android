@@ -26,8 +26,7 @@ import android.view.MotionEvent;
 import android.view.GestureDetector.OnDoubleTapListener;
 import android.view.GestureDetector.OnGestureListener;
 
-public class ControllerOverlay extends Overlay implements OnDoubleTapListener,
-                              OnGestureListener
+public class ControllerOverlay extends Overlay implements OnDoubleTapListener, OnGestureListener
 {
   private final GestureDetector gestureDetector_;
   private final CycleMapView mapView_;
@@ -126,9 +125,6 @@ public class ControllerOverlay extends Overlay implements OnDoubleTapListener,
 
   @Override
   public boolean onSingleTapConfirmed(final MotionEvent e) {
-    for (final Iterator<ButtonTapListener> overlays = buttonTapOverlays(); overlays.hasNext(); )
-      if (overlays.next().onButtonTap(e))
-        return redraw();
     for (final Iterator<TapListener> overlays = tapOverlays(); overlays.hasNext(); )
       if (overlays.next().onSingleTap(e))
         return redraw();
@@ -137,9 +133,6 @@ public class ControllerOverlay extends Overlay implements OnDoubleTapListener,
 
   @Override
   public boolean onDoubleTap(final MotionEvent e) {
-    for (final Iterator<ButtonTapListener> overlays = buttonTapOverlays(); overlays.hasNext(); )
-      if (overlays.next().onButtonDoubleTap(e))
-        return redraw();
     for (final Iterator<TapListener> overlays = tapOverlays(); overlays.hasNext(); )
       if (overlays.next().onDoubleTap(e))
         return redraw();

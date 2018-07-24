@@ -112,18 +112,6 @@ public class RouteHighlightOverlay extends Overlay implements ButtonTapListener
   }
 
   //////////////////////////////////////////////
-  @Override
-  public boolean onButtonTap(final MotionEvent event) {
-    // We're handling button taps via an onClickListener instead.
-    return false;
-  }
-
-  @Override
-  public boolean onButtonDoubleTap(MotionEvent event) {
-    // We're handling button taps via an onClickListener instead.
-    return false;
-  }
-
   private boolean regressActiveSegment(int stepsToMove) {
     if (!Route.available()) {
       return false;
