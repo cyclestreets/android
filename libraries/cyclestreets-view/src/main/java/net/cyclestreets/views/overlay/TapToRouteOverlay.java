@@ -31,7 +31,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.content.res.Resources;
-import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.graphics.Paint;
@@ -48,6 +47,7 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.mikepenz.google_material_typeface_library.GoogleMaterial;
@@ -77,12 +77,12 @@ public class TapToRouteOverlay extends Overlay
   private final Drawable greenWisp;
   private final Drawable orangeWisp;
   private final Drawable redWisp;
-  private final Bitmap canRoute;
   private final Point screenPos = new Point();
   private final Matrix bitmapTransform = new Matrix();
   private final Paint bitmapPaint = new Paint();
 
   private final Button routingInfoRect;
+  private final ImageView routeNowIcon;
   private final FloatingActionButton restartButton;
 
   private final CycleMapView mapView;
@@ -111,7 +111,6 @@ public class TapToRouteOverlay extends Overlay
     greenWisp = ResourcesCompat.getDrawable(res, R.drawable.green_wisp, null);
     orangeWisp = ResourcesCompat.getDrawable(res, R.drawable.orange_wisp, null);
     redWisp = ResourcesCompat.getDrawable(res, R.drawable.red_wisp, null);
-    canRoute = ((BitmapDrawable) ResourcesCompat.getDrawable(res, R.drawable.ic_route_now, null)).getBitmap();
 
     shareDrawable = new IconicsDrawable(context)
             .icon(GoogleMaterial.Icon.gmd_share)
@@ -123,10 +122,11 @@ public class TapToRouteOverlay extends Overlay
             .sizeDp(24);
 
     View routeViewButtons = LayoutInflater.from(mapView.getContext()).inflate(R.layout.route_view_buttons, null);
-    restartButton = routeViewButtons.findViewById(R.id.restartbutton);
-    restartButton.setOnClickListener(view -> tapRestart());
     routingInfoRect = routeViewButtons.findViewById(R.id.routing_info_rect);
     routingInfoRect.setOnClickListener(view -> onRouteNow(waypoints()));
+    routeNowIcon = routeViewButtons.findViewById(R.id.route_now_icon);
+    restartButton = routeViewButtons.findViewById(R.id.restartbutton);
+    restartButton.setOnClickListener(view -> tapRestart());
     mapView.addView(routeViewButtons);
 
     lowlightColour = Theme.lowlightColor(context);
@@ -225,6 +225,7 @@ public class TapToRouteOverlay extends Overlay
   }
 
   private void onRouteNow(final Waypoints waypoints) {
+    routeNowIcon.setVisibility(View.INVISIBLE);
     Route.PlotRoute(CycleStreetsPreferences.routeType(),
                     CycleStreetsPreferences.speed(),
                     context,
@@ -336,7 +337,9 @@ public class TapToRouteOverlay extends Overlay
     bgColour |= 0xFF000000;
 
     if (tapState == TapToRoute.WAITING_FOR_NEXT || tapState == TapToRoute.WAITING_TO_ROUTE) {
-      //TODO: redraw the canRoute icon on the right, if necessary
+      routeNowIcon.setVisibility(View.VISIBLE);
+    } else {
+      routeNowIcon.setVisibility(View.INVISIBLE);
     }
 
     routingInfoRect.setBackgroundColor(bgColour);
