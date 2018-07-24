@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/route_view"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!-- Tap to Route rectangle -->
+    <Button
+        android:id="@+id/routing_info_rect"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top"
+        android:layout_margin="0dp"
+        android:visibility="visible"
+        android:padding="0dp"
+        android:textAppearance="@android:style/TextAppearance.Material.Body1"
+        android:textSize="16sp"
+        android:textColor="@android:color/white"/>
+    <ImageView
+        android:id="@+id/route_now_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top|right"
+        android:padding="0dp"
+        android:src="@drawable/ic_route_now"
+        android:visibility="invisible"/>
+
+    <!-- Route highlight left/right -->
+    <LinearLayout
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:orientation="horizontal"
+      android:layout_gravity="bottom|left"
+      android:layout_margin="16dp">
+        <android.support.design.widget.FloatingActionButton
+          android:id="@+id/route_highlight_prev"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          app:fabSize="normal"
+          app:borderWidth="12dp"
+          app:ico_icon="gmd_chevron_left"
+          app:ico_color="?android:textColorSecondary"
+          app:backgroundTint="@android:color/background_light"/>
+        <android.support.design.widget.FloatingActionButton
+          android:id="@+id/route_highlight_next"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          app:fabSize="normal"
+          app:borderWidth="12dp"
+          app:ico_icon="gmd_chevron_right"
+          app:ico_color="?android:textColorSecondary"
+          app:backgroundTint="@android:color/background_light"/>
+    </LinearLayout>
+
+    <!-- Restart route planning -->
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/restartbutton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|center_horizontal"
+        android:layout_margin="16dp"
+        android:visibility="invisible"
+        app:fabSize="normal"
+        app:borderWidth="12dp"
+        app:ico_icon="gmd_replay"
+        app:ico_color="?android:textColorSecondary"
+        app:backgroundTint="@android:color/background_light"/>
+
+</android.support.design.widget.CoordinatorLayout>

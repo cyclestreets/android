@@ -26,8 +26,7 @@ import android.view.MotionEvent;
 import android.view.GestureDetector.OnDoubleTapListener;
 import android.view.GestureDetector.OnGestureListener;
 
-public class ControllerOverlay extends Overlay implements OnDoubleTapListener,
-                              OnGestureListener
+public class ControllerOverlay extends Overlay implements OnDoubleTapListener, OnGestureListener
 {
   private final GestureDetector gestureDetector_;
   private final CycleMapView mapView_;
@@ -147,12 +146,12 @@ public class ControllerOverlay extends Overlay implements OnDoubleTapListener,
     canvas.save();
     canvas.concat(unscaled);
 
-    drawUnskewed(canvas, mapView);
+    drawUnskewed(canvas);
 
     canvas.restore();
   }
 
-  private void drawUnskewed(final Canvas canvas, final MapView mapView) {
+  private void drawUnskewed(final Canvas canvas) {
     final Rect screen = canvas.getClipBounds();
     canvas.drawText(mapView_.mapAttribution(),
         screen.centerX(),
