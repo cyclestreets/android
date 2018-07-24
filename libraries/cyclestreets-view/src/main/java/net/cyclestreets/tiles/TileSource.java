@@ -171,7 +171,8 @@ public class TileSource {
                                      "https://c.tile.cyclestreets.net/osopendata/");
 
     final MapsforgeOSMTileSource MAPSFORGE =
-            new MapsforgeOSMTileSource(CycleStreetsPreferences.MAPSTYLE_MAPSFORGE,
+            new MapsforgeOSMTileSource(context,
+                                       CycleStreetsPreferences.MAPSTYLE_MAPSFORGE,
                                        DEFAULT_ATTRIBUTION,
                                        Screen.isHighDensity(context));
 
