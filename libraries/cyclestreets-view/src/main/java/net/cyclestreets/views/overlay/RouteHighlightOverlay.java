@@ -1,10 +1,9 @@
 package net.cyclestreets.views.overlay;
 
+import net.cyclestreets.util.Theme;
 import net.cyclestreets.view.R;
 import net.cyclestreets.routing.Route;
 import net.cyclestreets.routing.Segment;
-import net.cyclestreets.util.Brush;
-import net.cyclestreets.util.Draw;
 import net.cyclestreets.views.CycleMapView;
 
 import org.osmdroid.views.MapView;
@@ -12,27 +11,25 @@ import org.osmdroid.views.overlay.Overlay;
 
 import android.content.Context;
 import android.graphics.Canvas;
-import android.graphics.Paint;
-import android.graphics.Rect;
-import android.graphics.Paint.Align;
 import android.support.design.widget.FloatingActionButton;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
+import android.widget.ImageView;
 
-public class RouteHighlightOverlay extends Overlay implements UnskewedOverlay
+public class RouteHighlightOverlay extends Overlay
 {
   private final CycleMapView mapView;
 
   private Segment current;
 
+  private final Button routingInfoRect;
+  private final ImageView routeNowIcon;
   private final FloatingActionButton prevButton;
   private final FloatingActionButton nextButton;
 
-  private final int offset;
-  private final float radius;
-
-  private final Paint fillBrush;
-  private final Paint textBrush;
+  private int highlightColour;
 
   public RouteHighlightOverlay(final Context context, final CycleMapView map) {
     super();
@@ -40,25 +37,24 @@ public class RouteHighlightOverlay extends Overlay implements UnskewedOverlay
     mapView = map;
     current = null;
 
-    offset = DrawingHelper.offset(context);
-    radius = DrawingHelper.cornerRadius(context);
+    View routeView = LayoutInflater.from(mapView.getContext()).inflate(R.layout.route_view, null);
 
-    View routeHighlightView = LayoutInflater.from(mapView.getContext()).inflate(R.layout.route_highlight_buttons, null);
+    routingInfoRect = routeView.findViewById(R.id.routing_info_rect);
+    routeNowIcon = routeView.findViewById(R.id.route_now_icon);
 
-    prevButton = routeHighlightView.findViewById(R.id.route_highlight_prev);
+    prevButton = routeView.findViewById(R.id.route_highlight_prev);
     prevButton.setVisibility(View.INVISIBLE);
     prevButton.setOnClickListener(view -> regressActiveSegment(1));
     prevButton.setOnLongClickListener(view -> regressActiveSegment(Integer.MAX_VALUE));
 
-    nextButton = routeHighlightView.findViewById(R.id.route_highlight_next);
+    nextButton = routeView.findViewById(R.id.route_highlight_next);
     nextButton.setVisibility(View.INVISIBLE);
     nextButton.setOnClickListener(view -> advanceActiveSegment(1));
     nextButton.setOnLongClickListener(view -> advanceActiveSegment(Integer.MAX_VALUE));
-    mapView.addView(routeHighlightView);
 
-    textBrush = Brush.createTextBrush(offset);
-    textBrush.setTextAlign(Align.LEFT);
-    fillBrush = Brush.HighlightBrush(context);
+    mapView.addView(routeView);
+
+    highlightColour = Theme.highlightColor(context) | 0xFF000000;
   }
 
   @Override
@@ -70,18 +66,18 @@ public class RouteHighlightOverlay extends Overlay implements UnskewedOverlay
     if (current == null)
       return;
 
+    drawSegmentInfo();
+    drawButtons();
+
     this.mapView.getController().animateTo(current.start());
   }
 
-  @Override
-  public void drawUnskewed(final Canvas canvas) {
+  private void drawButtons() {
     if (!Route.available()) {
       prevButton.hide();
       nextButton.hide();
       return;
     }
-
-    drawSegmentInfo(canvas);
 
     prevButton.setEnabled(!Route.journey().atStart());
     prevButton.show();
@@ -89,24 +85,20 @@ public class RouteHighlightOverlay extends Overlay implements UnskewedOverlay
     nextButton.show();
   }
 
-  private void drawSegmentInfo(final Canvas canvas) {
+  private void drawSegmentInfo() {
     final Segment seg = Route.journey().activeSegment();
-    if (seg == null)
+    if (seg == null) {
+      // In this case, populating the routing info is done by the TapToRouteOverlay
       return;
+    }
 
-    final Rect box = canvas.getClipBounds();
-    box.bottom = box.top + 72;
+    routeNowIcon.setVisibility(View.INVISIBLE);
 
-    final Rect textBox = new Rect(box);
-    textBox.left += offset;
-    textBox.right -= offset;
-    int bottom = Draw.measureTextInRect(canvas, textBrush, textBox, seg.toString());
-
-    if (bottom >= box.bottom)
-      box.bottom = bottom + offset;
-
-    DrawingHelper.drawRoundRect(canvas, box, radius, fillBrush);
-    Draw.drawTextInRect(canvas, textBrush, textBox, seg.toString());
+    routingInfoRect.setBackgroundColor(highlightColour);
+    routingInfoRect.setGravity(Gravity.LEFT);
+    routingInfoRect.setText(seg.toString());
+    routingInfoRect.setVisibility(View.VISIBLE);
+    routingInfoRect.setEnabled(false);
   }
 
   //////////////////////////////////////////////

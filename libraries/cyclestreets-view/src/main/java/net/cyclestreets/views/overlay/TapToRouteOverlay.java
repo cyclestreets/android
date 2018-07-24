@@ -41,6 +41,7 @@ import android.location.Location;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.content.res.ResourcesCompat;
 import android.view.ContextMenu;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -121,16 +122,18 @@ public class TapToRouteOverlay extends Overlay
             .color(Theme.lowlightColorInverse(context))
             .sizeDp(24);
 
-    View routeViewButtons = LayoutInflater.from(mapView.getContext()).inflate(R.layout.route_view_buttons, null);
-    routingInfoRect = routeViewButtons.findViewById(R.id.routing_info_rect);
-    routingInfoRect.setOnClickListener(view -> onRouteNow(waypoints()));
-    routeNowIcon = routeViewButtons.findViewById(R.id.route_now_icon);
-    restartButton = routeViewButtons.findViewById(R.id.restartbutton);
-    restartButton.setOnClickListener(view -> tapRestart());
-    mapView.addView(routeViewButtons);
+    // The view is shared, and has already been added by the RouteHighlightOverlay.
+    // So find that, and don't inflate a second copy.
+    View routeView = mapView.findViewById(R.id.route_view);
 
-    lowlightColour = Theme.lowlightColor(context);
-    highlightColour = Theme.highlightColor(context);
+    routingInfoRect = routeView.findViewById(R.id.routing_info_rect);
+    routingInfoRect.setOnClickListener(view -> onRouteNow(waypoints()));
+    routeNowIcon = routeView.findViewById(R.id.route_now_icon);
+    restartButton = routeView.findViewById(R.id.restartbutton);
+    restartButton.setOnClickListener(view -> tapRestart());
+
+    lowlightColour = Theme.lowlightColor(context) | 0xFF000000;
+    highlightColour = Theme.highlightColor(context) | 0xFF000000;
 
     waymarkers = new ArrayList<>();
 
@@ -312,8 +315,8 @@ public class TapToRouteOverlay extends Overlay
     for (final OverlayItem waypoint : waymarkers)
       drawMarker(canvas, projection, waypoint);
 
-    drawRestartButton();
     drawRoutingInfoRect();
+    drawRestartButton();
   }
 
   private void drawRestartButton() {
@@ -325,16 +328,10 @@ public class TapToRouteOverlay extends Overlay
   }
 
   private void drawRoutingInfoRect() {
-    final String msg = tapState.actionDescription;
-    if (msg.length() == 0) {
-      routingInfoRect.setVisibility(View.GONE);
+    if (tapState == TapToRoute.ALL_DONE) {
+      // In this case, populating the routing info is done by the RouteHighlightOverlay
       return;
     }
-
-    // Get the background colour for the routing info rectangle from the theme, but with full opacity
-    int bgColour = (tapState == TapToRoute.WAITING_FOR_START ||
-                    tapState == TapToRoute.WAITING_FOR_SECOND) ? lowlightColour : highlightColour;
-    bgColour |= 0xFF000000;
 
     if (tapState == TapToRoute.WAITING_FOR_NEXT || tapState == TapToRoute.WAITING_TO_ROUTE) {
       routeNowIcon.setVisibility(View.VISIBLE);
@@ -342,9 +339,11 @@ public class TapToRouteOverlay extends Overlay
       routeNowIcon.setVisibility(View.INVISIBLE);
     }
 
+    int bgColour = (tapState == TapToRoute.WAITING_FOR_START ||
+                    tapState == TapToRoute.WAITING_FOR_SECOND) ? lowlightColour : highlightColour;
     routingInfoRect.setBackgroundColor(bgColour);
-    routingInfoRect.setAlpha(1);
-    routingInfoRect.setText(msg);
+    routingInfoRect.setGravity(Gravity.CENTER);
+    routingInfoRect.setText(tapState.actionDescription);
     routingInfoRect.setVisibility(View.VISIBLE);
     routingInfoRect.setEnabled(tapState == TapToRoute.WAITING_FOR_NEXT ||
                                tapState == TapToRoute.WAITING_TO_ROUTE);
