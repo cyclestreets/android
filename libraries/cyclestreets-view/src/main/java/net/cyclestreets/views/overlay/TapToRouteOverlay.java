@@ -15,8 +15,6 @@ import net.cyclestreets.Undoable;
 import net.cyclestreets.routing.Journey;
 import net.cyclestreets.routing.Route;
 import net.cyclestreets.routing.Waypoints;
-import net.cyclestreets.util.Brush;
-import net.cyclestreets.util.Draw;
 import net.cyclestreets.util.MessageBox;
 import net.cyclestreets.util.Share;
 import net.cyclestreets.views.CycleMapView;
@@ -38,7 +36,6 @@ import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Point;
-import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.location.Location;
@@ -50,6 +47,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 import com.mikepenz.google_material_typeface_library.GoogleMaterial;
@@ -59,8 +57,7 @@ import static net.cyclestreets.util.MenuHelper.createMenuItem;
 import static net.cyclestreets.util.MenuHelper.showMenuItem;
 
 public class TapToRouteOverlay extends Overlay
-                               implements UnskewedOverlay,
-                                          TapListener,
+                               implements TapListener,
                                           ContextMenuListener,
                                           Undoable,
                                           PauseResumeListener,
@@ -85,8 +82,7 @@ public class TapToRouteOverlay extends Overlay
   private final Matrix bitmapTransform = new Matrix();
   private final Paint bitmapPaint = new Paint();
 
-  private final float radius;
-
+  private final Button routingInfoRect;
   private final FloatingActionButton restartButton;
 
   private final CycleMapView mapView;
@@ -97,11 +93,9 @@ public class TapToRouteOverlay extends Overlay
   private final Drawable commentDrawable;
 
   private List<OverlayItem> waymarkers;
-  private Rect tapStateRect;
 
-  private Paint textBrush;
-  private Paint highlightBrush;
-  private Paint lowlightBrush;
+  private int highlightColour;
+  private int lowlightColour;
 
   private TapToRoute tapState;
 
@@ -119,9 +113,6 @@ public class TapToRouteOverlay extends Overlay
     redWisp = ResourcesCompat.getDrawable(res, R.drawable.red_wisp, null);
     canRoute = ((BitmapDrawable) ResourcesCompat.getDrawable(res, R.drawable.ic_route_now, null)).getBitmap();
 
-    int offset = DrawingHelper.offset(context);
-    radius = DrawingHelper.cornerRadius(context);
-
     shareDrawable = new IconicsDrawable(context)
             .icon(GoogleMaterial.Icon.gmd_share)
             .color(Theme.lowlightColorInverse(context))
@@ -131,18 +122,15 @@ public class TapToRouteOverlay extends Overlay
             .color(Theme.lowlightColorInverse(context))
             .sizeDp(24);
 
-    View restartButtonView = LayoutInflater.from(mapView.getContext()).inflate(R.layout.restart_planning_button, null);
-    restartButton = restartButtonView.findViewById(R.id.restartbutton);
-    restartButton.setVisibility(View.INVISIBLE);
+    View routeViewButtons = LayoutInflater.from(mapView.getContext()).inflate(R.layout.route_view_buttons, null);
+    restartButton = routeViewButtons.findViewById(R.id.restartbutton);
     restartButton.setOnClickListener(view -> tapRestart());
-    mapView.addView(restartButtonView);
+    routingInfoRect = routeViewButtons.findViewById(R.id.routing_info_rect);
+    routingInfoRect.setOnClickListener(view -> onRouteNow(waypoints()));
+    mapView.addView(routeViewButtons);
 
-    tapStateRect = new Rect();
-    tapStateRect.bottom = tapStateRect.top + canRoute.getHeight();
-
-    textBrush = Brush.createTextBrush(offset);
-    highlightBrush = Brush.HighlightBrush(context);
-    lowlightBrush = Brush.LowlightBrush(context);
+    lowlightColour = Theme.lowlightColor(context);
+    highlightColour = Theme.highlightColor(context);
 
     waymarkers = new ArrayList<>();
 
@@ -324,11 +312,7 @@ public class TapToRouteOverlay extends Overlay
       drawMarker(canvas, projection, waypoint);
 
     drawRestartButton();
-  }
-
-  @Override
-  public void drawUnskewed(final Canvas canvas) {
-    drawTapState(canvas);
+    drawRoutingInfoRect();
   }
 
   private void drawRestartButton() {
@@ -339,37 +323,28 @@ public class TapToRouteOverlay extends Overlay
     }
   }
 
-  private void drawTapState(final Canvas canvas) {
+  private void drawRoutingInfoRect() {
     final String msg = tapState.actionDescription;
-    if (msg.length() == 0)
+    if (msg.length() == 0) {
+      routingInfoRect.setVisibility(View.GONE);
       return;
-
-    final Rect screen = canvas.getClipBounds();
-    screen.offset(tapStateRect.left, tapStateRect.top);
-    screen.right -= tapStateRect.left;
-    screen.bottom = screen.top + tapStateRect.height();
-
-    tapStateRect.right = tapStateRect.left + screen.width();
-
-    DrawingHelper.drawRoundRect(canvas, screen, radius, fillBrush());
-
-    if (tapState == TapToRoute.WAITING_FOR_NEXT ||
-       tapState == TapToRoute.WAITING_TO_ROUTE) {
-      final Rect btn = new Rect(screen);
-      btn.left = btn.right - canRoute.getWidth();
-      DrawingHelper.drawBitmap(canvas, canRoute, btn);
-      screen.right -= canRoute.getWidth();
     }
 
-    screen.offset(screen.width()/2, 0);
+    // Get the background colour for the routing info rectangle from the theme, but with full opacity
+    int bgColour = (tapState == TapToRoute.WAITING_FOR_START ||
+                    tapState == TapToRoute.WAITING_FOR_SECOND) ? lowlightColour : highlightColour;
+    bgColour |= 0xFF000000;
 
-    if (msg.indexOf('\n') == -1) {
-      final Rect bounds = new Rect();
-      textBrush.getTextBounds(msg, 0, 1, bounds);
-      screen.offset(0, bounds.height());
+    if (tapState == TapToRoute.WAITING_FOR_NEXT || tapState == TapToRoute.WAITING_TO_ROUTE) {
+      //TODO: redraw the canRoute icon on the right, if necessary
     }
 
-    Draw.drawTextInRect(canvas, textBrush, screen, msg);
+    routingInfoRect.setBackgroundColor(bgColour);
+    routingInfoRect.setAlpha(1);
+    routingInfoRect.setText(msg);
+    routingInfoRect.setVisibility(View.VISIBLE);
+    routingInfoRect.setEnabled(tapState == TapToRoute.WAITING_FOR_NEXT ||
+                               tapState == TapToRoute.WAITING_TO_ROUTE);
   }
 
   private void drawMarker(final Canvas canvas,
@@ -393,13 +368,6 @@ public class TapToRouteOverlay extends Overlay
     canvas.drawBitmap(thingToDraw.getBitmap(), bitmapTransform, bitmapPaint);
   }
 
-  private Paint fillBrush() {
-    if (tapState == TapToRoute.WAITING_FOR_START ||
-        tapState == TapToRoute.WAITING_FOR_SECOND)
-      return lowlightBrush;
-    return highlightBrush;
-  }
-
   //////////////////////////////////////////////
   @Override
   public boolean onSingleTap(final MotionEvent event) {
@@ -412,9 +380,6 @@ public class TapToRouteOverlay extends Overlay
   }
 
   private boolean tapRestart() {
-    if (!restartButton.isShown())
-      return false;
-
     if (!CycleStreetsPreferences.confirmNewRoute())
       return stepBack(true);
 
@@ -454,39 +419,23 @@ public class TapToRouteOverlay extends Overlay
   }
 
   private boolean tapMarker(final MotionEvent event) {
-    final int x = (int)event.getX();
-    final int y = (int)event.getY();
-    final IGeoPoint p = mapView.getProjection().fromPixels(x, y);
-    tapAction(x, y, p, true);
+    final IGeoPoint p = mapView.getProjection().fromPixels((int) event.getX(), (int)event.getY());
+    tapAction(p);
     return true;
   }
 
   public void setNextMarker(final IGeoPoint point) {
-    tapAction(Integer.MIN_VALUE, Integer.MIN_VALUE, point, false);
+    tapAction(point);
   }
 
-  private void tapAction(final int x, final int y, final IGeoPoint point, boolean tap) {
+  private void tapAction(final IGeoPoint point) {
     switch(tapState) {
       case WAITING_FOR_START:
       case WAITING_FOR_SECOND:
-        if (tapStateRect.contains(x, y))
-          return;
-        addWaypoint(point);
-        break;
       case WAITING_FOR_NEXT:
-        if (tapStateRect.contains(x, y)) {
-          onRouteNow(waypoints());
-          return;
-        }
         addWaypoint(point);
         break;
       case WAITING_TO_ROUTE:
-        if (!tap)
-          return;
-        if (!tapStateRect.contains(x, y))
-          return;
-        onRouteNow(waypoints());
-        break;
       case ALL_DONE:
         break;
     }

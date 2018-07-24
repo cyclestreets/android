@@ -5,12 +5,25 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <Button
+        android:id="@+id/routing_info_rect"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top"
+        android:layout_margin="0dp"
+        android:visibility="visible"
+        app:borderWidth="3dp"
+        android:textAppearance="@android:style/TextAppearance.Material.Body1"
+        android:textSize="16sp"
+        android:textColor="@android:color/white"/>
+
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/restartbutton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|center_horizontal"
         android:layout_margin="16dp"
+        android:visibility="invisible"
         app:fabSize="normal"
         app:borderWidth="12dp"
         app:ico_icon="gmd_replay"
