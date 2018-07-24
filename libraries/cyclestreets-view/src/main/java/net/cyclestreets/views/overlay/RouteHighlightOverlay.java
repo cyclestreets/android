@@ -97,11 +97,9 @@ public class RouteHighlightOverlay extends Overlay
     routingInfoRect.setBackgroundColor(highlightColour);
     routingInfoRect.setGravity(Gravity.LEFT);
     routingInfoRect.setText(seg.toString());
-    routingInfoRect.setVisibility(View.VISIBLE);
     routingInfoRect.setEnabled(false);
   }
 
-  //////////////////////////////////////////////
   private boolean regressActiveSegment(int stepsToMove) {
     if (!Route.available()) {
       return false;

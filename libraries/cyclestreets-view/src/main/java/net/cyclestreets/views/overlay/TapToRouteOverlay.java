@@ -228,7 +228,6 @@ public class TapToRouteOverlay extends Overlay
   }
 
   private void onRouteNow(final Waypoints waypoints) {
-    routeNowIcon.setVisibility(View.INVISIBLE);
     Route.PlotRoute(CycleStreetsPreferences.routeType(),
                     CycleStreetsPreferences.speed(),
                     context,
@@ -344,7 +343,6 @@ public class TapToRouteOverlay extends Overlay
     routingInfoRect.setBackgroundColor(bgColour);
     routingInfoRect.setGravity(Gravity.CENTER);
     routingInfoRect.setText(tapState.actionDescription);
-    routingInfoRect.setVisibility(View.VISIBLE);
     routingInfoRect.setEnabled(tapState == TapToRoute.WAITING_FOR_NEXT ||
                                tapState == TapToRoute.WAITING_TO_ROUTE);
   }
