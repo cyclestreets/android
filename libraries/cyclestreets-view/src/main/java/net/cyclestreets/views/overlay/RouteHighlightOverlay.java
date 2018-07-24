@@ -16,10 +16,12 @@ import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.Paint.Align;
 import android.support.design.widget.FloatingActionButton;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 
-public class RouteHighlightOverlay extends Overlay
+public class RouteHighlightOverlay extends Overlay implements ButtonTapListener
 {
   private final CycleMapView mapView;
 
@@ -63,8 +65,6 @@ public class RouteHighlightOverlay extends Overlay
 
   @Override
   public void draw(final Canvas canvas, final MapView mapView, final boolean shadow) {
-    this.drawButtons(canvas);
-
     if (current == Route.journey().activeSegment())
       return;
 
@@ -75,7 +75,8 @@ public class RouteHighlightOverlay extends Overlay
     this.mapView.getController().animateTo(current.start());
   }
 
-  private void drawButtons(final Canvas canvas) {
+  @Override
+  public void drawButtons(final Canvas canvas, final MapView mapView) {
     if (!Route.available()) {
       prevButton.hide();
       nextButton.hide();
@@ -108,6 +109,19 @@ public class RouteHighlightOverlay extends Overlay
 
     DrawingHelper.drawRoundRect(canvas, box, radius, fillBrush);
     Draw.drawTextInRect(canvas, textBrush, textBox, seg.toString());
+  }
+
+  //////////////////////////////////////////////
+  @Override
+  public boolean onButtonTap(final MotionEvent event) {
+    // We're handling button taps via an onClickListener instead.
+    return false;
+  }
+
+  @Override
+  public boolean onButtonDoubleTap(MotionEvent event) {
+    // We're handling button taps via an onClickListener instead.
+    return false;
   }
 
   private boolean regressActiveSegment(int stepsToMove) {

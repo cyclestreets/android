@@ -126,6 +126,9 @@ public class ControllerOverlay extends Overlay implements OnDoubleTapListener,
 
   @Override
   public boolean onSingleTapConfirmed(final MotionEvent e) {
+    for (final Iterator<ButtonTapListener> overlays = buttonTapOverlays(); overlays.hasNext(); )
+      if (overlays.next().onButtonTap(e))
+        return redraw();
     for (final Iterator<TapListener> overlays = tapOverlays(); overlays.hasNext(); )
       if (overlays.next().onSingleTap(e))
         return redraw();
@@ -134,6 +137,9 @@ public class ControllerOverlay extends Overlay implements OnDoubleTapListener,
 
   @Override
   public boolean onDoubleTap(final MotionEvent e) {
+    for (final Iterator<ButtonTapListener> overlays = buttonTapOverlays(); overlays.hasNext(); )
+      if (overlays.next().onButtonDoubleTap(e))
+        return redraw();
     for (final Iterator<TapListener> overlays = tapOverlays(); overlays.hasNext(); )
       if (overlays.next().onDoubleTap(e))
         return redraw();
@@ -152,7 +158,10 @@ public class ControllerOverlay extends Overlay implements OnDoubleTapListener,
     canvas.restore();
   }
 
-  private void drawUnskewed(final Canvas canvas, final MapView mapView) {
+  protected void drawUnskewed(final Canvas canvas, final MapView mapView) {
+    for (final Iterator<ButtonTapListener> overlays = buttonTapOverlays(); overlays.hasNext(); )
+      overlays.next().drawButtons(canvas, mapView);
+
     final Rect screen = canvas.getClipBounds();
     canvas.drawText(mapView_.mapAttribution(),
         screen.centerX(),
@@ -180,6 +189,9 @@ public class ControllerOverlay extends Overlay implements OnDoubleTapListener,
   //////////////////////////////////////////////////////
   private Iterator<TapListener> tapOverlays() {
     return new OverlayIterator<>(mapView_, TapListener.class);
+  }
+  private Iterator<ButtonTapListener> buttonTapOverlays() {
+    return new OverlayIterator<>(mapView_, ButtonTapListener.class);
   }
   private Iterator<MenuListener> menuOverlays() {
     return new OverlayIterator<>(mapView_, MenuListener.class);

@@ -59,7 +59,8 @@ import static net.cyclestreets.util.MenuHelper.createMenuItem;
 import static net.cyclestreets.util.MenuHelper.showMenuItem;
 
 public class TapToRouteOverlay extends Overlay
-                               implements TapListener,
+                               implements ButtonTapListener,
+                                          TapListener,
                                           ContextMenuListener,
                                           Undoable,
                                           PauseResumeListener,
@@ -321,11 +322,15 @@ public class TapToRouteOverlay extends Overlay
     final IProjection projection = mapView.getProjection();
     for (final OverlayItem waypoint : waymarkers)
       drawMarker(canvas, projection, waypoint);
-    drawTapState(canvas);
-    drawButtons();
   }
 
-  private void drawButtons() {
+  @Override
+  public void drawButtons(final Canvas canvas, final MapView mapView) {
+    drawTheButtons();
+    drawTapState(canvas);
+  }
+
+  private void drawTheButtons() {
     if (tapState == TapToRoute.ALL_DONE) {
       restartButton.show();
     } else {
@@ -402,6 +407,17 @@ public class TapToRouteOverlay extends Overlay
 
   @Override
   public boolean onDoubleTap(final MotionEvent event) {
+    return false;
+  }
+
+  @Override
+  public boolean onButtonTap(final MotionEvent event) {
+    // We're handling restart button taps via an onClickListener instead.
+    return false;
+  }
+
+  @Override
+  public boolean onButtonDoubleTap(final MotionEvent event) {
     return false;
   }
 
