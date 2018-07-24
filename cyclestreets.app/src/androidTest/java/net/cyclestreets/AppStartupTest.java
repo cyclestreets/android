@@ -16,7 +16,8 @@ public class AppStartupTest {
   public ActivityTestRule<CycleStreets> mActivityRule = new ActivityTestRule<>(CycleStreets.class);
 
   @Test
-  public void testAppStartup() {
+  public void testAppStartup() throws Exception {
     System.out.println("I've started up without crashing.");
+    Thread.sleep(240000L);
   }
 }
