@@ -54,7 +54,7 @@ public class LocationOverlay extends MyLocationNewOverlay {
     mapView_ = mapView;
 
     onColor_ = Theme.lowlightColor(mapView_.getContext());
-    followColor_ = Theme.highlightColor(mapView_.getContext());
+    followColor_ = Theme.highlightColor(mapView_.getContext()) | 0xFF000000;
 
     View overlayView = LayoutInflater.from(mapView_.getContext()).inflate(R.layout.locationbutton, null);
     button_ = overlayView.findViewById(R.id.locationbutton);
