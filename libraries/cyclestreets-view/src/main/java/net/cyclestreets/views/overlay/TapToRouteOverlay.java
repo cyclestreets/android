@@ -40,6 +40,7 @@ import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.content.res.ResourcesCompat;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.Gravity;
 import android.view.Menu;
@@ -63,6 +64,7 @@ public class TapToRouteOverlay extends Overlay
                                           PauseResumeListener,
                                           Route.Listener
 {
+  private static final String TAG = "TTROverlay";
   private static final int[] REPLAN_MENU_IDS = { R.string.route_menu_change_replan_quietest,
                                                  R.string.route_menu_change_replan_balanced,
                                                  R.string.route_menu_change_replan_fastest,
@@ -429,17 +431,12 @@ public class TapToRouteOverlay extends Overlay
   }
 
   private void tapAction(final IGeoPoint point) {
-    switch(tapState) {
-      case WAITING_FOR_START:
-      case WAITING_FOR_SECOND:
-      case WAITING_FOR_NEXT:
-        addWaypoint(point);
-        break;
-      case WAITING_TO_ROUTE:
-      case ALL_DONE:
-        break;
+    if (tapState == TapToRoute.WAITING_TO_ROUTE || tapState == TapToRoute.ALL_DONE) {
+      // Any taps that hit the overlay shouldn't do anything - we can't accept more waypoints
+      return;
     }
 
+    addWaypoint(point);
     tapState = tapState.next(waymarkersCount());
     mapView.invalidate();
   }
@@ -469,35 +466,44 @@ public class TapToRouteOverlay extends Overlay
     }
 
     public TapToRoute previous(final int count) {
+      TapToRoute previous;
       switch(this) {
         case WAITING_FOR_START:
-          break;
         case WAITING_FOR_SECOND:
-          return WAITING_FOR_START;
-        case WAITING_FOR_NEXT:
-          return (count == 1) ? WAITING_FOR_SECOND : WAITING_FOR_NEXT;
-        case WAITING_TO_ROUTE:
-          return WAITING_FOR_NEXT;
         case ALL_DONE:
+          previous = WAITING_FOR_START;
+          break;
+        case WAITING_FOR_NEXT:
+          previous = (count == 1) ? WAITING_FOR_SECOND : WAITING_FOR_NEXT;
+          break;
+        case WAITING_TO_ROUTE:
+        default:
+          previous = WAITING_FOR_NEXT;
           break;
       }
-      return WAITING_FOR_START;
+      Log.d(TAG, "Moving to previous TapToRoute state=" + previous.name() + " with waypoints=" + count);
+      return previous;
     }
 
     public TapToRoute next(final int count) {
+      TapToRoute next;
       switch(this) {
         case WAITING_FOR_START:
-          return WAITING_FOR_SECOND;
-        case WAITING_FOR_SECOND:
-          return WAITING_FOR_NEXT;
-        case WAITING_FOR_NEXT:
-          return (count == MAX_WAYPOINTS) ? WAITING_TO_ROUTE : WAITING_FOR_NEXT;
-        case WAITING_TO_ROUTE:
-          return ALL_DONE;
-        case ALL_DONE:
+          next = WAITING_FOR_SECOND;
           break;
+        case WAITING_FOR_SECOND:
+          next = WAITING_FOR_NEXT;
+          break;
+        case WAITING_FOR_NEXT:
+          next = (count == MAX_WAYPOINTS) ? WAITING_TO_ROUTE : WAITING_FOR_NEXT;
+          break;
+        case WAITING_TO_ROUTE:
+        case ALL_DONE:
+        default:
+          next = ALL_DONE;
       }
-      return ALL_DONE;
+      Log.d(TAG, "Moving to next TapToRoute state=" + next.name() + " with waypoints=" + count);
+      return next;
     }
   }
 
