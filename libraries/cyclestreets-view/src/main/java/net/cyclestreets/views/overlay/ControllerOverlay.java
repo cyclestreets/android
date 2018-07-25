@@ -18,6 +18,7 @@ import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.GestureDetector;
 import android.view.Menu;
@@ -28,6 +29,8 @@ import android.view.GestureDetector.OnGestureListener;
 
 public class ControllerOverlay extends Overlay implements OnDoubleTapListener, OnGestureListener
 {
+  private static final String TAG = "ControllerOverlay";
+
   private final GestureDetector gestureDetector_;
   private final CycleMapView mapView_;
   private final Paint textBrush_;
@@ -149,6 +152,8 @@ public class ControllerOverlay extends Overlay implements OnDoubleTapListener, O
     drawUnskewed(canvas);
 
     canvas.restore();
+
+    Log.d(TAG, "Current zoom=" +  mapView.getZoomLevel());
   }
 
   private void drawUnskewed(final Canvas canvas) {

@@ -21,6 +21,7 @@ import android.content.SharedPreferences;
 import android.graphics.Canvas;
 import android.location.Location;
 import android.os.CountDownTimer;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.ContextMenu;
@@ -29,8 +30,12 @@ import android.widget.Scroller;
 
 import java.util.List;
 
+import static java.lang.Math.abs;
+
 public class CycleMapView extends FrameLayout
 {
+  private static final String TAG = "CycleMapView";
+
   private static final String PREFS_APP_CENTRE_LON = "centreLon";
   private static final String PREFS_APP_CENTRE_LAT = "centreLat";
   private static final String PREFS_APP_ZOOM_LEVEL = "zoomLevel";
@@ -101,17 +106,28 @@ public class CycleMapView extends FrameLayout
   public void onPause() {
     if (paused_)
       return;
+
+    // Some process seems to somehow set the co-ordinates to (85.051128, -180.0) - the north pole!
+    // then pause/resume. Despite extensive debugging, I've not been able to figure out the cause.
+    // As a workaround, ignore ridiculous (ant)arctic co-ordinates - I can't imagine anyone needing
+    // cycle navigation in such places!
+    if (abs(getMapCenter().getLatitude()) > 80) {
+      Log.d(TAG, "Working around weird location setting bug");
+      return;
+    }
+
     paused_ = true;
 
     final SharedPreferences.Editor edit = prefs_.edit();
     final IGeoPoint centre = getMapCenter();
-    int lon = (int)(centre.getLongitude()*1e6);
-    int lat = (int)(centre.getLatitude()*1e6);
+    int lon = (int)(centre.getLongitude() * 1E6);
+    int lat = (int)(centre.getLatitude() * 1E6);
     edit.putInt(PREFS_APP_CENTRE_LON, lon);
     edit.putInt(PREFS_APP_CENTRE_LAT, lat);
     edit.putInt(PREFS_APP_ZOOM_LEVEL, getZoomLevel());
     edit.putBoolean(PREFS_APP_MY_LOCATION, location_.isMyLocationEnabled());
     edit.putBoolean(PREFS_APP_FOLLOW_LOCATION, location_.isFollowLocationEnabled());
+    Log.d(TAG, "onPause: Saving lat/lon=" + lat + "/" + lon + ", zoom=" + getZoomLevel());
 
     disableMyLocation();
 
@@ -140,14 +156,16 @@ public class CycleMapView extends FrameLayout
       location_.enableAndFollowLocation(true);
 
     GeoPoint defCentre = CycleMapDefaults.centre();
-    double lat = pref(PREFS_APP_CENTRE_LAT, (int)(defCentre.getLatitude()*1e6))/1e6; /* Greenwich */
-    double lon = pref(PREFS_APP_CENTRE_LON, (int)(defCentre.getLongitude()*1e6))/1e6;
-    final GeoPoint centre = new GeoPoint(lat, lon);
+    int lat = pref(PREFS_APP_CENTRE_LAT, (int)(defCentre.getLatitude() * 1E6));
+    int lon = pref(PREFS_APP_CENTRE_LON, (int)(defCentre.getLongitude() * 1E6));
+    int zoom = pref(PREFS_APP_ZOOM_LEVEL, 14);
+    Log.d(TAG, "onResume: Loading lat/lon=" + lat + "/" + lon + ", zoom=" + zoom);
+    final GeoPoint centre = new GeoPoint(lat / 1e6, lon / 1e6);
     getScroller().abortAnimation();
     getController().setCenter(centre);
     centreOn(centre);
 
-    getController().setZoom(pref(PREFS_APP_ZOOM_LEVEL, 14));
+    getController().setZoom(zoom);
     controllerOverlay_.onResume(prefs_);
 
     new CountDownTimer(250, 50) {
@@ -200,6 +218,7 @@ public class CycleMapView extends FrameLayout
   @Override
   protected void dispatchDraw(final Canvas canvas) {
     if (centreOn_ != null) {
+      Log.d(TAG, "Animating to " + centreOn_.getLatitude() + "/" + centreOn_.getLongitude());
       getController().animateTo(new GeoPoint(centreOn_.getLatitude(), centreOn_.getLongitude()));
       centreOn_ = null;
       return;
