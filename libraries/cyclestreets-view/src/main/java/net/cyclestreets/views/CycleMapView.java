@@ -107,8 +107,8 @@ public class CycleMapView extends FrameLayout
     if (paused_)
       return;
 
-    // Some process seems to somehow set the co-ordinates to (85.051128, -180.0) and then
-    // pause/resume. Despite extensive debugging, I've not been able to figure out the cause.
+    // Some process seems to somehow set the co-ordinates to (85.051128, -180.0) - the north pole!
+    // then pause/resume. Despite extensive debugging, I've not been able to figure out the cause.
     // As a workaround, ignore ridiculous (ant)arctic co-ordinates - I can't imagine anyone needing
     // cycle navigation in such places!
     if (abs(getMapCenter().getLatitude()) > 80) {
