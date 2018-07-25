@@ -44,6 +44,7 @@ public class CycleMapView extends FrameLayout
   public static final int FINDPLACE_ZOOM_LEVEL = 16;
   public static final int ITEM_ZOOM_LEVEL = 16;
   public static final int MAX_ZOOM_LEVEL = 19;
+  public static final double MIN_ZOOM_LEVEL = 2;
   private static final String TAG = Logging.getTag(CycleMapView.class);
 
   private static final String PREFS_APP_CENTRE_LON = "centreLon";
@@ -79,8 +80,8 @@ public class CycleMapView extends FrameLayout
 
     mapView_.setBuiltInZoomControls(false);
     mapView_.setMultiTouchControls(true);
-    mapView_.setMaxZoomLevel(MAX_ZOOM_LEVEL);
-    mapView_.setMinZoomLevel(2);
+    mapView_.setMaxZoomLevel((double)MAX_ZOOM_LEVEL);
+    mapView_.setMinZoomLevel(MIN_ZOOM_LEVEL);
 
     overlayBottomIndex_ = getOverlays().size();
 
