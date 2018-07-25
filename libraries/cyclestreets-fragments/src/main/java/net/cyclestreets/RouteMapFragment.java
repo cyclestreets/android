@@ -16,6 +16,7 @@ import net.cyclestreets.routing.Waypoints;
 import android.Manifest;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -28,6 +29,7 @@ import static net.cyclestreets.util.MenuHelper.showMenuItem;
 
 public class RouteMapFragment extends CycleMapFragment implements Route.Listener
 {
+  private static final String TAG = "RouteMapFragment";
   private TapToRouteOverlay routeSetter_;
   private POIOverlay poiOverlay_;
   private boolean hasGps_;
@@ -121,11 +123,7 @@ public class RouteMapFragment extends CycleMapFragment implements Route.Listener
   }
 
   private void launchRouteDialog() {
-    startNewRoute(new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface arg0, int arg1) {
-                      doLaunchRouteDialog();
-                    }
-                  });
+    startNewRoute((arg0, arg1) -> doLaunchRouteDialog());
   }
 
   private void doLaunchRouteDialog() {
@@ -136,11 +134,7 @@ public class RouteMapFragment extends CycleMapFragment implements Route.Listener
   }
 
   private void launchFetchRouteDialog() {
-    startNewRoute(new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface arg0, int arg1) {
-                      doLaunchFetchRouteDialog();
-                    }
-                  });
+    startNewRoute((arg0, arg1) -> doLaunchFetchRouteDialog());
   }
 
   private void doLaunchFetchRouteDialog() {
@@ -162,8 +156,10 @@ public class RouteMapFragment extends CycleMapFragment implements Route.Listener
 
   @Override
   public void onNewJourney(final Journey journey, final Waypoints waypoints) {
-    if (!waypoints.isEmpty())
+    if (!waypoints.isEmpty()) {
+      Log.d(TAG, "Setting map centre to " + waypoints.first());
       mapView().getController().setCenter(waypoints.first());
+    }
     mapView().postInvalidate();
   }
 

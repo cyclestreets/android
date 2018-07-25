@@ -9,26 +9,20 @@ import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.overlay.mylocation.GpsMyLocationProvider;
 import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay;
 
-import android.app.Activity;
 import android.content.Context;
-import android.content.pm.PackageManager;
-import android.content.res.Resources;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.location.Location;
 import android.location.LocationManager;
 import android.support.design.widget.FloatingActionButton;
-import android.util.TypedValue;
+import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 
-import static net.cyclestreets.util.MenuHelper.createMenuItem;
-import static net.cyclestreets.util.MenuHelper.enableMenuItem;
-
 public class LocationOverlay extends MyLocationNewOverlay {
+  private static final String TAG = "LocationOverlay";
+
   private final FloatingActionButton button_;
 
   private final CycleMapView mapView_;
@@ -78,8 +72,10 @@ public class LocationOverlay extends MyLocationNewOverlay {
         enableMyLocation();
         enableFollowLocation();
         final Location lastFix = getLastFix();
-        if (lastFix != null)
+        if (lastFix != null) {
+          Log.d(TAG, "Setting map centre to " + lastFix);
           mapView_.getController().setCenter(new GeoPoint(lastFix));
+        }
       } catch (RuntimeException e) {
         // might not have location service
       }
