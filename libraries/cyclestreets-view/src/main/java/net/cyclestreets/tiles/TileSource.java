@@ -9,6 +9,7 @@ import net.cyclestreets.util.MapPack;
 import net.cyclestreets.util.MessageBox;
 import net.cyclestreets.util.Screen;
 import net.cyclestreets.view.R;
+import net.cyclestreets.views.CycleMapView;
 
 import org.mapsforge.map.android.MapsforgeOSMTileSource;
 import org.osmdroid.tileprovider.MapTileProviderBase;
@@ -117,7 +118,7 @@ public class TileSource {
                                                 final String[] baseUrls) {
     return new XYTileSource(name,
                             0,
-                            17,
+                            CycleMapView.MAX_ZOOM_LEVEL,
                             tileSize,
                             extension,
                             baseUrls,

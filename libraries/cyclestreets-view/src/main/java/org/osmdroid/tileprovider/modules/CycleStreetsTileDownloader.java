@@ -2,6 +2,7 @@ package org.osmdroid.tileprovider.modules;
 
 import android.graphics.drawable.Drawable;
 import android.text.TextUtils;
+import android.util.Log;
 
 import net.cyclestreets.tiles.UpsizingTileSource;
 
@@ -69,6 +70,7 @@ public class CycleStreetsTileDownloader extends MapTileModuleProviderBase {
   // ===========================================================
 
   private static final Logger logger = LoggerFactory.getLogger("CycleStreetsTileDownloader");
+  private static final String TAG = "CSTileDownloader";
 
   // ===========================================================
   // Fields
@@ -204,6 +206,7 @@ public class CycleStreetsTileDownloader extends MapTileModuleProviderBase {
           return null;
 
         final String tileURLString = tileSource.getTileURLString(tile);
+        Log.d(TAG, "Want to fetch tile from url: " + tileURLString);
         if (TextUtils.isEmpty(tileURLString))
           return null;
 
