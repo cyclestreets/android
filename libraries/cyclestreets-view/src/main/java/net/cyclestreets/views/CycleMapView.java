@@ -34,6 +34,7 @@ import static java.lang.Math.abs;
 
 public class CycleMapView extends FrameLayout
 {
+  public static final int MAX_ZOOM_LEVEL = 19;
   private static final String TAG = "CycleMapView";
 
   private static final String PREFS_APP_CENTRE_LON = "centreLon";
@@ -62,7 +63,7 @@ public class CycleMapView extends FrameLayout
 
     mapView_.setBuiltInZoomControls(false);
     mapView_.setMultiTouchControls(true);
-    mapView_.setMaxZoomLevel(17);
+    mapView_.setMaxZoomLevel(MAX_ZOOM_LEVEL);
     mapView_.setMinZoomLevel(2);
 
     overlayBottomIndex_ = getOverlays().size();
