@@ -65,10 +65,10 @@ public class JourneyOverlay extends Overlay {
 
     final IGeoPoint centre = mapView.getMapCenter();
 
-    if (zoomLevel_ != mapView.getZoomLevel() ||
+    if (zoomLevel_ != (int)mapView.getZoomLevelDouble() ||
        !centre.equals(mapCentre_)) {
       ridePath_ = null;
-      zoomLevel_ = mapView.getProjection().getZoomLevel();
+      zoomLevel_ = (int)mapView.getProjection().getZoomLevel();
       mapCentre_ = centre;
     }
 
