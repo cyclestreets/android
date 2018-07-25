@@ -14,6 +14,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.Html;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -107,7 +108,7 @@ public class SaveTrip extends Activity
   }
 
   private void uploadTrip() {
-    if (purpose_.equals("")) {
+    if (TextUtils.isEmpty(purpose_)) {
       // Oh no!  No trip purpose!
       Toast.makeText(getBaseContext(), R.string.savetrip_no_purpose, Toast.LENGTH_SHORT).show();
       return;

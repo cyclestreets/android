@@ -1,5 +1,7 @@
 package net.cyclestreets.api.client.geojson;
 
+import android.text.TextUtils;
+
 import net.cyclestreets.api.POI;
 
 import org.geojson.Feature;
@@ -27,7 +29,7 @@ public class PoiFactory {
       openingHours = openingHours.replaceAll("; *", "\n");
 
     String website = feature.getProperty("website");
-    if (website == null || website.equals(""))
+    if (TextUtils.isEmpty(website))
       website = osmTags.get("url");
 
     return new POI(Integer.parseInt(feature.getProperty("id")),
