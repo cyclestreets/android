@@ -82,6 +82,9 @@ public class CycleMapView extends FrameLayout
     mapView_.setMultiTouchControls(true);
     mapView_.setMaxZoomLevel((double)MAX_ZOOM_LEVEL);
     mapView_.setMinZoomLevel(MIN_ZOOM_LEVEL);
+    mapView_.setScrollableAreaLimitLatitude(MapView.getTileSystem().getMaxLatitude(),
+                                            -MapView.getTileSystem().getMaxLatitude(),
+                                            0);
 
     overlayBottomIndex_ = getOverlays().size();
 
