@@ -48,14 +48,18 @@ public class MainSupport {
   private static String extractItinerary(final Uri launchUri) {
     final String host = launchUri.getHost();
 
-    if ("cycle.st".equals(host))
+    if ("cycle.st".equals(host)) {
+      // e.g. http://cycle.st/j61207326
       return launchUri.getPath().substring(2);
+    }
 
     if ("m.cyclestreets.net".equals(host)) {
+      // e.g. https://m.cyclestreets.net/journey/#57201887/balanced
       final String frag = launchUri.getFragment();
       return frag.substring(0, frag.indexOf('/'));
     }
 
+    // e.g. http://(www.)cyclestreets.net/journey/61207326(/#balanced)
     final String path = launchUri.getPath().substring(8);
     return path.replace("/", "");
   }

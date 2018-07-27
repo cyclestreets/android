@@ -24,16 +24,26 @@
         <action android:name="android.intent.action.VIEW" />
         <category android:name="android.intent.category.DEFAULT" />
         <category android:name="android.intent.category.BROWSABLE" />
+        <!-- Journey URLs -->
         <data android:scheme="http"
               android:host="cycle.st"
               android:pathPrefix="/j" />
         <data android:scheme="http"
               android:host="cyclestreets.net"
               android:pathPrefix="/journey/" />
+        <data android:scheme="https"
+              android:host="cyclestreets.net"
+              android:pathPrefix="/journey/" />
         <data android:scheme="http"
               android:host="www.cyclestreets.net"
               android:pathPrefix="/journey/" />
+        <data android:scheme="https"
+              android:host="www.cyclestreets.net"
+              android:pathPrefix="/journey/" />
         <data android:scheme="http"
+              android:host="m.cyclestreets.net"
+              android:pathPrefix="/journey/" />
+        <data android:scheme="https"
               android:host="m.cyclestreets.net"
               android:pathPrefix="/journey/" />
       </intent-filter>
