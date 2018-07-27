@@ -8,7 +8,7 @@ class CycleStreets : MainNavDrawerActivity(), RouteMapActivity {
 
         super.onCreate(savedInstanceState)
 
-        MainSupport.loadRoute(intent, this)
+        MainSupport.handleLaunchIntent(intent, this)
     }
 
     override fun onFirstRun() {

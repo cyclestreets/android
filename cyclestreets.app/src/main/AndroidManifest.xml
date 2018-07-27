@@ -46,6 +46,22 @@
         <data android:scheme="https"
               android:host="m.cyclestreets.net"
               android:pathPrefix="/journey/" />
+        <!-- Location URLs (there don't seem to be m.cyclestreets.net variants of these -->
+        <data android:scheme="http"
+              android:host="cycle.st"
+              android:pathPrefix="/p" />
+        <data android:scheme="http"
+              android:host="cyclestreets.net"
+              android:pathPattern="/location/" />
+        <data android:scheme="https"
+              android:host="cyclestreets.net"
+              android:pathPattern="/location/" />
+        <data android:scheme="http"
+              android:host="www.cyclestreets.net"
+              android:pathPattern="/location/" />
+        <data android:scheme="https"
+              android:host="www.cyclestreets.net"
+              android:pathPattern="/location/" />
       </intent-filter>
     </activity>
     <activity android:name="net.cyclestreets.AccountDetailsActivity"

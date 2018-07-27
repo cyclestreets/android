@@ -19,8 +19,8 @@ public class MainSupport {
     return true;
   }
 
-  public static boolean loadRoute(final Intent launchIntent,
-                                  final Context context) {
+  public static boolean handleLaunchIntent(final Intent launchIntent,
+                                           final Context context) {
     final Uri launchUri = launchIntent.getData();
     if (launchUri == null)
       return false;
@@ -65,4 +65,23 @@ public class MainSupport {
   }
 
   private MainSupport() { }
+
+  // Helper classes
+  private enum LaunchIntentType {
+    JOURNEY, LOCATION;
+
+    public LaunchIntent withId(int id) {
+      return new LaunchIntent(this, id);
+    }
+  }
+
+  private static class LaunchIntent {
+    private final LaunchIntentType type;
+    private final int id;
+
+    private LaunchIntent(LaunchIntentType type, int id) {
+      this.type = type;
+      this.id = id;
+    }
+  }
 }
