@@ -28,7 +28,7 @@ public class RouteType extends LinearLayout {
     final LayoutInflater inflator = LayoutInflater.from(context);
     inflator.inflate(R.layout.journey_type, this);
 
-    routeTypeSpinner_ = (Spinner)findViewById(R.id.routeTypeSpinner);
+    routeTypeSpinner_ = findViewById(R.id.routeTypeSpinner);
 
     plans_ = RoutePlans.allPlans();
     final String defaultType = CycleStreetsPreferences.routeType();
@@ -41,7 +41,6 @@ public class RouteType extends LinearLayout {
 
   public String selectedType() {
     final int sel = routeTypeSpinner_.getSelectedItemPosition();
-    final String routeType = plans_[sel];
-    return routeType;
+    return plans_[sel];
   }
 }
