@@ -45,11 +45,11 @@
             android:id="@+id/cancel"
             android:layout_height="wrap_content"
             android:layout_weight="1.0"
-            android:layout_width="30dip"/>
+            android:layout_width="30dp"/>
     <Button android:text="@string/all_button_save"
             android:id="@+id/save"
             android:layout_height="wrap_content"
             android:layout_weight="1.0"
-            android:layout_width="30dip"/>
+            android:layout_width="30dp"/>
   </LinearLayout>
 </LinearLayout>

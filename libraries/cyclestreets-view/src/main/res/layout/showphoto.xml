@@ -21,9 +21,9 @@
         android:gravity="center"
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
-        android:paddingLeft="9dip"
-        android:paddingRight="9dip"
-        android:paddingTop="12dip"
-        android:paddingBottom="12dip" />
+        android:paddingLeft="9dp"
+        android:paddingRight="9dp"
+        android:paddingTop="12dp"
+        android:paddingBottom="12dp" />
   </LinearLayout>
 </ScrollView>

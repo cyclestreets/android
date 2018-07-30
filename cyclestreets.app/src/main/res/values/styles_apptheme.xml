@@ -24,8 +24,8 @@
 
   <style name="ButtonAppTheme" parent="android:Widget.Button">
 	  <item name="android:background">@drawable/apptheme_btn_default_holo_light</item>
-	  <item name="android:minHeight">48dip</item>
-	  <item name="android:minWidth">64dip</item>
+	  <item name="android:minHeight">48dp</item>
+	  <item name="android:minWidth">64dp</item>
 	  <item name="android:textColor">#000000</item>
   </style>
 
@@ -43,12 +43,12 @@
   </style>
   <style name="TabAppTheme">
       <item name="android:gravity">center_horizontal</item>
-      <item name="android:paddingLeft">16dip</item>
-      <item name="android:paddingRight">16dip</item>
+      <item name="android:paddingLeft">16dp</item>
+      <item name="android:paddingRight">16dp</item>
       <item name="android:background">@drawable/apptheme_tab_indicator_holo</item>
-      <item name="android:layout_width">0dip</item>
+      <item name="android:layout_width">0dp</item>
       <item name="android:layout_weight">1</item>
-      <item name="android:minWidth">80dip</item>
+      <item name="android:minWidth">80dp</item>
   </style>
 
   <style name="TabTextAppTheme">
@@ -58,19 +58,19 @@
       <!-- v14 <item name="android:textAllCaps">true</item> -->
       <item name="android:ellipsize">marquee</item>
       <item name="android:maxLines">2</item>
-      <item name="android:maxWidth">180dip</item>
+      <item name="android:maxWidth">180dp</item>
   </style>
 
   <style name="ProgressBarAppTheme" parent="android:Widget.ProgressBar.Horizontal">
       <item name="android:progressDrawable">@drawable/apptheme_progress_horizontal_holo_light</item>
       <item name="android:indeterminateDrawable">@drawable/apptheme_progress_indeterminate_horizontal_holo_light</item>
-      <item name="android:minHeight">16dip</item>
-      <item name="android:maxHeight">16dip</item>
+      <item name="android:minHeight">16dp</item>
+      <item name="android:maxHeight">16dp</item>
   </style>
 
   <style name="ToggleAppTheme" parent="android:Widget.Button.Toggle">
       <item name="android:background">@drawable/apptheme_btn_toggle_holo_light</item>
-      <item name="android:minHeight">48dip</item>
+      <item name="android:minHeight">48dp</item>
 	  <item name="android:textColor">#000000</item>
   </style>
 
