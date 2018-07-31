@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
       package="net.cyclestreets.fragments">
 
-  <application>
+  <application android:supportsRtl="false">
     <activity android:name="net.cyclestreets.LocationEditorActivity"
               android:label="CycleStreets"/>
   </application>

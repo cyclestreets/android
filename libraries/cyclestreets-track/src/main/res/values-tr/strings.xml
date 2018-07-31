@@ -11,7 +11,7 @@
   <string name="completedjourney_purpose">seyahat amacı</string>
 
   <string name="save_choose_purpose_hint">Kaydı bitir. Seyahat amacını seçiniz:</string>
-  <string name="save_purpose_commute">ev iş arası gidip gelmek</string>
+  <string name="save_purpose_commute">ev iş arası gidp gelmek</string>
   <string name="save_purpose_school">Okul</string>
   <string name="save_purpose_work">İş ile ilgili</string>
   <string name="save_purpose_exercise">Egzersiz</string>

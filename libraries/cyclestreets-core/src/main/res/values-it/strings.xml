@@ -16,4 +16,7 @@
   <string name="upload_ok">Upload della foto completato con successo.</string>
   <string name="upload_error_prefix">C\'è stato un problema con l\'upload della tua foto: \n</string>
 
+  <string name="channel_liveride_name">LiveRide</string>
+  <string name="channel_liveride_description">Turn-by-turn instructions for navigation</string>
+
 </resources>

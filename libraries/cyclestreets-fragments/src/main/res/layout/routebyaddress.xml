@@ -4,10 +4,10 @@
 	    android:layout_width="match_parent"
 	    android:layout_height="wrap_content"
 	    android:clipChildren="false"
-	    android:paddingLeft="9dip"
-	    android:paddingRight="9dip"
-	    android:paddingTop="12dip"
-	    android:paddingBottom="6dip"
+	    android:paddingLeft="9dp"
+	    android:paddingRight="9dp"
+	    android:paddingTop="12dp"
+	    android:paddingBottom="6dp"
       android:background="?android:attr/colorBackground">
 	<LinearLayout
 	    android:orientation="vertical"
@@ -18,10 +18,10 @@
 	    android:orientation="vertical"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
-      android:layout_marginLeft="2.0dip" 
-      android:layout_marginTop="1.0dip" 
-      android:layout_marginRight="2.0dip" 
-      android:layout_marginBottom="2.0dip">
+      android:layout_marginLeft="2.0dp"
+      android:layout_marginTop="1.0dp"
+      android:layout_marginRight="2.0dp"
+      android:layout_marginBottom="2.0dp">
   </LinearLayout>
 
   <!-- Route type / Go =============================== -->

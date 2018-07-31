@@ -8,7 +8,7 @@
 		android:layout_height="0dp"
 		android:orientation="vertical"
 		android:layout_weight="5.0"
-		android:padding="4.0dip">
+		android:padding="4.0dp">
 	</RelativeLayout>
   <TextView
     android:id="@+id/label"

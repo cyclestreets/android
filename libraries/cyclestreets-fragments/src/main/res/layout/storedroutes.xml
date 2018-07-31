@@ -3,14 +3,14 @@
 	    android:layout_width="fill_parent"
 	    android:layout_height="fill_parent"
 	    android:clipChildren="false"
-	    android:padding="20dip"
+	    android:padding="20dp"
 	    android:background="@drawable/empty">
 <LinearLayout
 	    android:orientation="vertical"
 	    android:layout_width="wrap_content"
 	    android:layout_height="fill_parent"
 	    android:clipChildren="false"
-	    android:padding="5dip"
+	    android:padding="5dp"
 	    android:background="@drawable/roundrect">
 	<ListView android:id="@android:id/list"
 		android:layout_width="fill_parent"

@@ -9,6 +9,7 @@ import android.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebResourceRequest;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
@@ -91,7 +92,17 @@ public class WebPageFragment extends Fragment {
     }
 
     @Override
+    public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
+      return shouldOverrideUrlLoading(request.getUrl().toString());
+    }
+
+    @Override
+    @Deprecated
     public boolean shouldOverrideUrlLoading(WebView view, String url) {
+      return shouldOverrideUrlLoading(url);
+    }
+
+    private boolean shouldOverrideUrlLoading(String url) {
       if (url.equals(homePage_))
         return false;
 

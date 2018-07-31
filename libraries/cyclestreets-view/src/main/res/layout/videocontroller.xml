@@ -9,7 +9,7 @@
      android:orientation="vertical">
 
   <LinearLayout
-      android:paddingTop="4dip"
+      android:paddingTop="4dp"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
       android:orientation="horizontal">
@@ -17,7 +17,7 @@
     <ImageButton android:id="@+id/pause" style="@android:style/MediaButton.Play"/>
     <ImageButton android:id="@+id/ffwd" style="@android:style/MediaButton.Ffwd"/>
     <LinearLayout
-        android:paddingTop="4dip"
+        android:paddingTop="4dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
@@ -26,16 +26,16 @@
           android:id="@+id/time_current"
           android:textSize="14sp"
           android:textStyle="bold"
-          android:paddingTop="4dip"
-          android:paddingLeft="4dip"
+          android:paddingTop="4dp"
+          android:paddingLeft="4dp"
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
           android:textColor="@android:color/white"
-          android:paddingRight="4dip" />
+          android:paddingRight="4dp" />
       <SeekBar
           android:id="@+id/mediacontroller_progress"
           style="?android:attr/progressBarStyleHorizontal"
-          android:layout_width="0dip"
+          android:layout_width="0dp"
           android:layout_weight="1"
           android:layout_gravity="center_horizontal"
           android:layout_height="wrap_content" />
@@ -43,13 +43,13 @@
           android:id="@+id/time"
           android:textSize="14sp"
           android:textStyle="bold"
-          android:paddingTop="4dip"
-          android:paddingRight="4dip"
+          android:paddingTop="4dp"
+          android:paddingRight="4dp"
           android:layout_gravity="center_horizontal"
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
           android:textColor="@android:color/white"
-          android:paddingLeft="4dip" />
+          android:paddingLeft="4dp" />
     </LinearLayout>
   </LinearLayout>
 </LinearLayout>
