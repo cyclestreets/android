@@ -50,7 +50,12 @@ public class CycleStreetsNotifications
     if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
       return new Notification.Builder(context, channelId);
     } else {
-      return new Notification.Builder(context);
+      return getBuilderPreOreo(context);
     }
+  }
+
+  @SuppressWarnings("deprecation")
+  private static Notification.Builder getBuilderPreOreo(Context context) {
+    return new Notification.Builder(context);
   }
 }
