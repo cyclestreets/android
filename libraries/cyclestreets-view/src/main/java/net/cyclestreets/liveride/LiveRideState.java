@@ -1,5 +1,6 @@
 package net.cyclestreets.liveride;
 
+import net.cyclestreets.CycleStreetsNotifications;
 import net.cyclestreets.LiveRideActivity;
 import net.cyclestreets.view.R;
 import net.cyclestreets.routing.Journey;
@@ -76,9 +77,19 @@ public abstract class LiveRideState
   private void notification(final String text, final String ticker) {
     final NotificationManager nm = nm();
     final Intent notificationIntent = new Intent(context(), LiveRideActivity.class);
-    final PendingIntent contentIntent = PendingIntent.getActivity(context(), 0, notificationIntent, PendingIntent.FLAG_CANCEL_CURRENT);
+    final PendingIntent contentIntent = PendingIntent.getActivity(context(),
+                                                                  0,
+                                                                  notificationIntent,
+                                                                  PendingIntent.FLAG_CANCEL_CURRENT);
 
-    Notification notification = new Notification.Builder(context())
+    Notification.Builder notificationBuilder;
+    if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+      notificationBuilder = new Notification.Builder(context(), CycleStreetsNotifications.CHANNEL_LIVERIDE_ID);
+    } else {
+      notificationBuilder = new Notification.Builder(context());
+    }
+
+    Notification notification = notificationBuilder
             .setSmallIcon(R.drawable.ic_launcher)
             .setTicker(ticker)
             .setWhen(System.currentTimeMillis())
