@@ -2,15 +2,15 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="fill_parent"
                 android:layout_height="?android:attr/listPreferredItemHeight"
-                android:padding="6dip">
+                android:padding="6dp">
     <ImageView
         android:id="@+id/menu_icon"
         android:layout_width="?android:attr/listPreferredItemHeight"
         android:layout_height="match_parent"
         android:layout_alignParentTop="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginLeft="6dip"
-        android:layout_marginRight="12dip"
+        android:layout_marginLeft="6dp"
+        android:layout_marginRight="12dp"
         android:src="@drawable/ic_launcher" />
     <TextView
         android:id="@+id/menu_name"

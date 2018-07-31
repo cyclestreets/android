@@ -17,4 +17,7 @@
   <string name="upload_ok">Fotoğrafınız başarıyla yüklendi.</string>
   <string name="upload_error_prefix">Fotoğrafınız yüklenirken bir problem oluştu: \n</string>
 
+  <string name="channel_liveride_name">LiveRide</string>
+  <string name="channel_liveride_description">Turn-by-turn instructions for navigation</string>
+
 </resources>

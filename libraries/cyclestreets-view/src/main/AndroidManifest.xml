@@ -9,7 +9,7 @@
   <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
   <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
 
-  <application>
+  <application android:supportsRtl="false">
     <activity android:name="net.cyclestreets.AccountDetailsActivity"
               android:label="Account Details"
               android:windowSoftInputMode="stateVisible|adjustResize"/>

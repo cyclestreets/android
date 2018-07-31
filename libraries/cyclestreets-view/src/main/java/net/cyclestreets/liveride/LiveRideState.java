@@ -1,5 +1,6 @@
 package net.cyclestreets.liveride;
 
+import net.cyclestreets.CycleStreetsNotifications;
 import net.cyclestreets.LiveRideActivity;
 import net.cyclestreets.view.R;
 import net.cyclestreets.routing.Journey;
@@ -14,6 +15,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.speech.tts.TextToSpeech;
 import android.util.Log;
+
+import static net.cyclestreets.CycleStreetsNotifications.CHANNEL_LIVERIDE_ID;
 
 public abstract class LiveRideState
 {
@@ -76,9 +79,12 @@ public abstract class LiveRideState
   private void notification(final String text, final String ticker) {
     final NotificationManager nm = nm();
     final Intent notificationIntent = new Intent(context(), LiveRideActivity.class);
-    final PendingIntent contentIntent = PendingIntent.getActivity(context(), 0, notificationIntent, PendingIntent.FLAG_CANCEL_CURRENT);
+    final PendingIntent contentIntent = PendingIntent.getActivity(context(),
+                                                                  0,
+                                                                  notificationIntent,
+                                                                  PendingIntent.FLAG_CANCEL_CURRENT);
 
-    Notification notification = new Notification.Builder(context())
+    Notification notification = CycleStreetsNotifications.getBuilder(context(), CHANNEL_LIVERIDE_ID)
             .setSmallIcon(R.drawable.ic_launcher)
             .setTicker(ticker)
             .setWhen(System.currentTimeMillis())

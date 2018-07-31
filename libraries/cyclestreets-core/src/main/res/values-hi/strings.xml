@@ -16,4 +16,7 @@
   <string name="upload_ok">अपनी फ़ोटो सफलतापूर्वक अपलोड किया गया.</string>
   <string name="upload_error_prefix">फोटो अपलोड करते समय, समस्या हुआ : \n</string>
 
+  <string name="channel_liveride_name">LiveRide</string>
+  <string name="channel_liveride_description">Turn-by-turn instructions for navigation</string>
+
 </resources>

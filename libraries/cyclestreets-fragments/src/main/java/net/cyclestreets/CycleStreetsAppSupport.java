@@ -16,6 +16,7 @@ public final class CycleStreetsAppSupport {
 
   public static void initialise(final Context context, final int prefsDefault) {
     CycleStreetsPreferences.initialise(context, prefsDefault);
+    CycleStreetsNotifications.initialise(context);
 
     Route.initialise(context);
     ApiClient.initialise(context);
@@ -32,7 +33,7 @@ public final class CycleStreetsAppSupport {
   public static boolean isNewVersion() { return isNew_; }
   public static boolean isFirstRun() { return isFirstRun_; }
 
-  private  static String version(final Context context) {
+  private static String version(final Context context) {
     return "Version : " + AppInfo.version(context);
   }
 
