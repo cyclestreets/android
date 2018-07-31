@@ -23,6 +23,8 @@ import org.apache.commons.io.IOUtils;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.robolectric.RobolectricTestRunner;
 
 import java.io.File;
 import java.io.IOException;
@@ -38,6 +40,7 @@ import static org.mockito.Mockito.when;
 
 // Useful for manual testing that operations do work with the real API, and not just WireMock.
 @Ignore
+@RunWith(RobolectricTestRunner.class)
 public class RetrofitApiClientIntegrationTest {
 
   RetrofitApiClient apiClient;
