@@ -16,6 +16,8 @@ import android.content.Intent;
 import android.speech.tts.TextToSpeech;
 import android.util.Log;
 
+import static net.cyclestreets.CycleStreetsNotifications.CHANNEL_LIVERIDE_ID;
+
 public abstract class LiveRideState
 {
   private static final int NOTIFICATION_ID = 1;
@@ -82,14 +84,7 @@ public abstract class LiveRideState
                                                                   notificationIntent,
                                                                   PendingIntent.FLAG_CANCEL_CURRENT);
 
-    Notification.Builder notificationBuilder;
-    if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-      notificationBuilder = new Notification.Builder(context(), CycleStreetsNotifications.CHANNEL_LIVERIDE_ID);
-    } else {
-      notificationBuilder = new Notification.Builder(context());
-    }
-
-    Notification notification = notificationBuilder
+    Notification notification = CycleStreetsNotifications.getBuilder(context(), CHANNEL_LIVERIDE_ID)
             .setSmallIcon(R.drawable.ic_launcher)
             .setTicker(ticker)
             .setWhen(System.currentTimeMillis())

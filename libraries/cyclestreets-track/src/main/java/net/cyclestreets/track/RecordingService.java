@@ -21,6 +21,10 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
 
+import net.cyclestreets.CycleStreetsNotifications;
+
+import static net.cyclestreets.CycleStreetsNotifications.CHANNEL_TRACK_ID;
+
 public class RecordingService extends Service implements LocationListener {
   private static final int updateDistance = 5;  // metres
   private static final int updateTime = 5000;    // milliseconds
@@ -247,7 +251,7 @@ public class RecordingService extends Service implements LocationListener {
     final Intent notificationIntent = new Intent(this, activityClass_);
     final PendingIntent contentIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0);
 
-    Notification notification = new Notification.Builder(this)
+    Notification notification = CycleStreetsNotifications.getBuilder(this, CHANNEL_TRACK_ID)
             .setSmallIcon(R.drawable.icon25)
             .setTicker(tickerText)
             .setWhen(java.lang.System.currentTimeMillis())

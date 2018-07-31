@@ -6,7 +6,11 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
+
+import net.cyclestreets.CycleStreetsNotifications;
+
 import static android.provider.Settings.Secure;
+import static net.cyclestreets.CycleStreetsNotifications.CHANNEL_TRACK_ID;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -144,7 +148,7 @@ public class TripDataUploader extends AsyncTask<Void, Void, Boolean> {
     final Intent notificationIntent = new Intent(context_, TripDataUploader.class);
     final PendingIntent contentIntent = PendingIntent.getActivity(context_, 0, notificationIntent, PendingIntent.FLAG_CANCEL_CURRENT);
 
-    Notification notification = new Notification.Builder(context_.getApplicationContext())
+    Notification notification = CycleStreetsNotifications.getBuilder(context_.getApplicationContext(), CHANNEL_TRACK_ID)
             .setSmallIcon(R.drawable.icon25)
             .setTicker(text)
             .setWhen(java.lang.System.currentTimeMillis())
