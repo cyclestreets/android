@@ -23,9 +23,9 @@ dependencies {
 
   // Jackson is already included transitively from multiple sources; we specify explicit versions
   // to ensure consistency across these artifacts.
-  implementation 'com.fasterxml.jackson.core:jackson-annotations:2.9.5'
-  implementation 'com.fasterxml.jackson.core:jackson-core:2.9.5'
-  implementation 'com.fasterxml.jackson.core:jackson-databind:2.9.5'
+  api 'com.fasterxml.jackson.core:jackson-annotations:2.9.5'
+  api 'com.fasterxml.jackson.core:jackson-core:2.9.5'
+  api 'com.fasterxml.jackson.core:jackson-databind:2.9.5'
 
   testImplementation 'com.github.tomakehurst:wiremock-standalone:2.18.0'
   testImplementation 'junit:junit:4.12'
