@@ -1,4 +1,4 @@
-package net.cyclestreets.content;
+package net.cyclestreets.api.client;
 
 import com.bazaarvoice.jolt.Chainr;
 import com.bazaarvoice.jolt.JsonUtils;

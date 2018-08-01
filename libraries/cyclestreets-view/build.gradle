@@ -4,10 +4,6 @@ dependencies {
   api project(':libraries:cyclestreets-core')
   api files('libs/mapsforge-map-0.3.0-jar-with-dependencies.jar')
 
-  api 'com.github.smart-fun:XmlToJson:1.4.4'
-  api 'com.bazaarvoice.jolt:jolt-core:0.1.1'
-  api 'com.bazaarvoice.jolt:json-utils:0.1.1'
-
   api 'com.mikepenz:iconics-core:3.0.4@aar'
   api 'com.mikepenz:google-material-typeface:3.0.1.2.original@aar'
 
@@ -15,9 +11,4 @@ dependencies {
   api 'com.android.support:support-v4:27.1.1'
   api 'com.android.support:support-annotations:27.1.1'
   api 'com.android.support:design:27.1.1'
-
-  testImplementation 'junit:junit:4.12'
-  testImplementation 'org.skyscreamer:jsonassert:1.5.0'
-  testImplementation 'org.robolectric:robolectric:3.3.2'
-  testImplementation 'commons-io:commons-io:2.6'
 }
