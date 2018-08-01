@@ -461,6 +461,7 @@ public class RetrofitApiClientTest {
     assertThat(result.url(), is("https://www.cyclestreets.net/location/64001/"));
   }
 
+  @SuppressWarnings("deprecation")
   @Test
   public void testGetJourneyXml() throws Exception {
     // given
@@ -488,7 +489,7 @@ public class RetrofitApiClientTest {
             .withQueryParam("key", equalTo("myApiKey")));
 
     assertThat(journeyXml, is(notNullValue()));
-    assertThat(journeyXml, containsString("xml"));
+    assertThat(journeyXml, containsString("{"));
   }
 
   @Test

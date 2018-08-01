@@ -57,18 +57,18 @@ public class ApiClient
   /////////////////////////////////////////////////////////////////////////
   private ApiClient() {}
 
-  static String getJourneyXml(final String plan,
-                              final String leaving,
-                              final String arriving,
-                              final int speed,
-                              final double[] lonLat) throws IOException {
+  static String getJourneyJson(final String plan,
+                               final String leaving,
+                               final String arriving,
+                               final int speed,
+                               final double[] lonLat) throws IOException {
     final String points = itineraryPoints(lonLat);
-    return retrofitApiClient.getJourneyXml(plan, points, leaving, arriving, speed);
+    return retrofitApiClient.getJourneyJson(plan, points, leaving, arriving, speed);
   }
 
-  static String getJourneyXml(final String plan,
-                              final long itineraryId) throws IOException {
-    return retrofitApiClient.retrievePreviousJourneyXml(plan, itineraryId);
+  static String getJourneyJson(final String plan,
+                               final long itineraryId) throws IOException {
+    return retrofitApiClient.retrievePreviousJourneyJson(plan, itineraryId);
   }
 
   static PhotomapCategories getPhotomapCategories() throws IOException {
