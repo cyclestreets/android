@@ -9,35 +9,18 @@ import fr.arnaudguyon.xmltojsonlib.XmlToJson;
 
 public class JourneyStringTransformer {
 
-    private static final String V1API_XML_JOLT_SPEC =
-            "[{\n" +
-            "  \"operation\": \"shift\",\n" +
-            "  \"spec\": {\n" +
-            "    \"markers\": {\n" +
-            "      \"waypoint\": { \"@\": \"waypoints\" },\n" +
-            "      \"marker\": {\n" +
-            "        \"*\": {\n" +
-            "          \"type\": {\n" +
-            "            \"route\": { \"@(2)\": \"route\" },\n" +
-            "            \"segment\": { \"@(2)\": \"segments\" }\n" +
-            "          }\n" +
-            "        }\n" +
-            "      }\n" +
-            "    }\n" +
-            "  }\n" +
-            "}]\n";
-
     public static String fromV1ApiXml(String inputXml) {
         XmlToJson xmlToJson = new XmlToJson.Builder(inputXml).build();
-        String basicJsonString = xmlToJson.toString();
-        String transformedJson = joltTransform(basicJsonString, V1API_XML_JOLT_SPEC);
-        return transformedJson;
+        String intermediateJson = xmlToJson.toString();
+        return joltTransform(intermediateJson, V1API_XML_JOLT_SPEC);
     }
 
     public static String fromV1ApiJson(String inputJson) {
-        return inputJson;
+        return joltTransform(inputJson, V1API_JSON_JOLT_SPEC);
     }
 
+    // Uses https://github.com/bazaarvoice/jolt to transform JSON strings, without
+    // the need for us to define intermediate object representations.
     private static String joltTransform(String inputJson, String specJson) {
         Object inputJsonObject = JsonUtils.jsonToObject(inputJson);
 
@@ -45,8 +28,44 @@ public class JourneyStringTransformer {
         Chainr chainr = Chainr.fromSpec(chainrSpecJson);
 
         Object transformedOutput = chainr.transform(inputJsonObject);
-        String outputJson = JsonUtils.toJsonString(transformedOutput);
-        System.out.println(outputJson);
-        return outputJson;
+        return JsonUtils.toJsonString(transformedOutput);
     }
+
+    private static final String V1API_XML_JOLT_SPEC =
+            "[{\n" +
+                    "  \"operation\": \"shift\",\n" +
+                    "  \"spec\": {\n" +
+                    "    \"markers\": {\n" +
+                    "      \"waypoint\": { \"@\": \"waypoints\" },\n" +
+                    "      \"marker\": {\n" +
+                    "        \"*\": {\n" +
+                    "          \"type\": {\n" +
+                    "            \"route\": { \"@(2)\": \"route\" },\n" +
+                    "            \"segment\": { \"@(2)\": \"segments\" }\n" +
+                    "          }\n" +
+                    "        }\n" +
+                    "      }\n" +
+                    "    }\n" +
+                    "  }\n" +
+                    "}]\n";
+
+    private static final String V1API_JSON_JOLT_SPEC =
+            "[{\n" +
+                    "  \"operation\": \"shift\",\n" +
+                    "  \"spec\": {\n" +
+                    "    \"waypoint\": {\n" +
+                    "      \"*\": { \"\\\\@attributes\": \"waypoints\" }\n" +
+                    "    },\n" +
+                    "    \"marker\": {\n" +
+                    "      \"*\": {\n" +
+                    "        \"\\\\@attributes\": {\n" +
+                    "          \"type\": {\n" +
+                    "            \"route\": { \"@(2)\": \"route\" },\n" +
+                    "            \"segment\": { \"@(2)\": \"segments\" }\n" +
+                    "          }\n" +
+                    "        }\n" +
+                    "      }\n" +
+                    "    }\n" +
+                    "  }\n" +
+                    "}]";
 }

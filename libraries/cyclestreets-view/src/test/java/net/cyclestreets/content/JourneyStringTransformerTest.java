@@ -4,7 +4,6 @@ import net.cyclestreets.TestUtils;
 
 import org.json.JSONException;
 import org.junit.BeforeClass;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
@@ -18,10 +17,12 @@ import java.io.IOException;
 @RunWith(RobolectricTestRunner.class)
 public class JourneyStringTransformerTest {
 
-    static String expectedJson;
+    private static String expectedJson;
 
     @BeforeClass
     public static void setup() throws IOException {
+        // We want to validate that transforming from either V1 API (XML or JSON) results in the
+        // same domain JSON.
         expectedJson = TestUtils.fromResourceFile("journey-domain.json");
     }
 
@@ -33,7 +34,6 @@ public class JourneyStringTransformerTest {
         JSONAssert.assertEquals(expectedJson, outputJson, JSONCompareMode.STRICT);
     }
 
-    @Ignore
     @Test
     public void fromV1ApiJsonTest() throws IOException, JSONException {
         String inputJson = TestUtils.fromResourceFile("journey-v1api.json");
