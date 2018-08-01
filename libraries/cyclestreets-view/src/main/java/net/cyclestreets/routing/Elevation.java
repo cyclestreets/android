@@ -4,7 +4,7 @@ public class Elevation {
   private final int distanceFromStart;
   private final int elevation;
 
-  Elevation(final int d, final int e) {
+  public Elevation(final int d, final int e) {
     distanceFromStart = d;
     elevation = e;
   }

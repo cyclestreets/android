@@ -23,9 +23,9 @@ dependencies {
 
   // Jackson is already included transitively from multiple sources; we specify explicit versions
   // to ensure consistency across these artifacts.
-  implementation 'com.fasterxml.jackson.core:jackson-annotations:2.9.5'
-  implementation 'com.fasterxml.jackson.core:jackson-core:2.9.5'
-  implementation 'com.fasterxml.jackson.core:jackson-databind:2.9.5'
+  api 'com.fasterxml.jackson.core:jackson-annotations:2.9.5'
+  api 'com.fasterxml.jackson.core:jackson-core:2.9.5'
+  api 'com.fasterxml.jackson.core:jackson-databind:2.9.5'
 
   // XML / JSON conversion utilities
   implementation 'com.github.smart-fun:XmlToJson:1.4.4'
