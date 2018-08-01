@@ -468,7 +468,7 @@ public class RetrofitApiClientTest {
             .willReturn(aResponse()
                     .withStatus(200)
                     .withHeader("Content-Type", "text/xml")
-                    .withBodyFile("journey.xml")));
+                    .withBodyFile("journey-v1api.xml")));
 
     // when
     String journeyXml = apiClient.getJourneyXml("balanced",
@@ -498,7 +498,7 @@ public class RetrofitApiClientTest {
             .willReturn(aResponse()
                     .withStatus(200)
                     .withHeader("Content-Type", "text/json")
-                    .withBodyFile("journey.json")));
+                    .withBodyFile("journey-v1api.json")));
 
     // when
     String journeyJson = apiClient.getJourneyJson("balanced",

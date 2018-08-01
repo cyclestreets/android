@@ -28,7 +28,7 @@ public class JourneyStringTransformerTest {
 
     @Test
     public void fromV1ApiXmlTest() throws IOException, JSONException {
-        String inputXml = TestUtils.fromResourceFile("journey-v1api.xml");
+        String inputXml = TestUtils.fromResourceFile("__files/journey-v1api.xml");
         String outputJson = JourneyStringTransformer.fromV1ApiXml(inputXml);
         System.out.println(outputJson);
         JSONAssert.assertEquals(expectedJson, outputJson, JSONCompareMode.STRICT);
@@ -36,7 +36,7 @@ public class JourneyStringTransformerTest {
 
     @Test
     public void fromV1ApiJsonTest() throws IOException, JSONException {
-        String inputJson = TestUtils.fromResourceFile("journey-v1api.json");
+        String inputJson = TestUtils.fromResourceFile("__files/journey-v1api.json");
         String outputJson = JourneyStringTransformer.fromV1ApiJson(inputJson);
         System.out.println(outputJson);
         JSONAssert.assertEquals(expectedJson, outputJson, JSONCompareMode.STRICT);
