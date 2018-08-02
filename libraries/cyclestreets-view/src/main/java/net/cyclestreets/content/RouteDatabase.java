@@ -148,7 +148,7 @@ public class RouteDatabase
     if (cursor.moveToFirst())
       do  {
         r = new RouteData(cursor.getString(0),
-                          expandWaypoints(cursor.getString(1)),
+                          new Waypoints(deserializeWaypoints(cursor.getString(1))),
                           cursor.getString(2));
       }
       while (cursor.moveToNext());
@@ -157,11 +157,5 @@ public class RouteDatabase
       cursor.close();
 
     return r;
-  }
-
-  private Waypoints expandWaypoints(final String str) {
-    final Waypoints waypoints = new Waypoints();
-    waypoints.addAll(deserializeWaypoints(str));
-    return waypoints;
   }
 }
