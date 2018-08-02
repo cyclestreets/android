@@ -9,19 +9,17 @@ import java.util.List;
 
 public class JourneyDomainObject {
   @JsonProperty
-  private final List<IGeoPoint> waypoints = new ArrayList<>();
+  public final List<IGeoPoint> waypoints = new ArrayList<>();
   @JsonProperty
-  private final RouteDomainObject route = null;
+  public final RouteDomainObject route = new RouteDomainObject();
   @JsonProperty
-  private final List<SegmentDomainObject> segments = new ArrayList<>();
+  public final List<SegmentDomainObject> segments = new ArrayList<>();
 
   @Override
   public String toString() {
-    final StringBuilder sb = new StringBuilder("JourneyDomainObject{");
-    sb.append("waypoints=").append(waypoints);
-    sb.append(", route=").append(route);
-    sb.append(", segments=").append(segments);
-    sb.append('}');
-    return sb.toString();
+    return "JourneyDomainObject{" + "waypoints=" + waypoints +
+        ", route=" + route +
+        ", segments=" + segments +
+        '}';
   }
 }

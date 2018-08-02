@@ -157,9 +157,9 @@ public class Route
       return;
     }
 
-    plannedRoute_ = Journey.loadFromXml(route.xml(), route.points(), route.name());
+    plannedRoute_ = Journey.loadFromJson(route.json(), route.points(), route.name());
 
-    db_.saveRoute(plannedRoute_, route.xml());
+    db_.saveRoute(plannedRoute_, route.json());
     waypoints_ = plannedRoute_.waypoints();
     listeners_.onNewJourney(plannedRoute_, waypoints_);
     setRoutePref();
