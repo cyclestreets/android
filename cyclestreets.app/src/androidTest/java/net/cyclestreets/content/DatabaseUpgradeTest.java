@@ -13,9 +13,7 @@ import org.junit.runner.RunWith;
 
 import java.io.*;
 
-import static net.cyclestreets.content.DatabaseHelper.OLD_ROUTE_TABLE;
-import static net.cyclestreets.content.DatabaseHelper.ROUTE_TABLE;
-import static net.cyclestreets.content.DatabaseHelper.getTableAsString;
+import static net.cyclestreets.content.DatabaseHelper.*;
 
 @RunWith(AndroidJUnit4.class)
 @LargeTest
@@ -43,8 +41,10 @@ public class DatabaseUpgradeTest {
       DatabaseHelper databaseHelper = new DatabaseHelper(InstrumentationRegistry.getTargetContext());
       Log.d(TAG, " New Database Version:" + databaseHelper.getWritableDatabase().getVersion());
       Assert.assertEquals(DatabaseHelper.DATABASE_VERSION, databaseHelper.getWritableDatabase().getVersion());
-      Log.d(TAG, getTableAsString(databaseHelper.getReadableDatabase(), OLD_ROUTE_TABLE));
+      Log.d(TAG, getTableAsString(databaseHelper.getReadableDatabase(), ROUTE_TABLE_OLD));
       Log.d(TAG, getTableAsString(databaseHelper.getReadableDatabase(), ROUTE_TABLE));
+      Log.d(TAG, getTableAsString(databaseHelper.getReadableDatabase(), LOCATION_TABLE_OLD));
+      Log.d(TAG, getTableAsString(databaseHelper.getReadableDatabase(), LOCATION_TABLE));
     }
 
     // After upgrading the DB, uncomment these lines and grab the next version so future testing can be perfornmed!

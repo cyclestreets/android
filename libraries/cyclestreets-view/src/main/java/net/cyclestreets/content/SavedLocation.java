@@ -10,8 +10,8 @@ public class SavedLocation {
 
   SavedLocation(final int id,
                 final String name,
-                final int whereLat,
-                final int whereLon) {
+                final double whereLat,
+                final double whereLon) {
     id_ = id;
     name_ = name;
     where_ = new GeoPoint(whereLat, whereLon);

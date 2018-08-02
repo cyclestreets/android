@@ -20,9 +20,10 @@ class DatabaseHelper extends SQLiteOpenHelper {
   static final String DATABASE_NAME = "cyclestreets.db";
   // If you're upgrading the DB version, then be sure to grab a snapshot - see the DatabaseUpgradeTest.
   static final int DATABASE_VERSION = 4;
-  public static final String ROUTE_TABLE = "route";
-  static final String OLD_ROUTE_TABLE = "_route_old";
-  public static final String LOCATION_TABLE = "location";
+  static final String ROUTE_TABLE = "route";
+  static final String LOCATION_TABLE = "location";
+  static final String ROUTE_TABLE_OLD = "_" + ROUTE_TABLE + "_old";
+  static final String LOCATION_TABLE_OLD = "_" + LOCATION_TABLE + "_old";
 
   private static final String ROUTE_TABLE_CREATE =
         "CREATE TABLE route (" + BaseColumns._ID + " INTEGER PRIMARY KEY, " +
@@ -35,11 +36,11 @@ class DatabaseHelper extends SQLiteOpenHelper {
                              " journey_json TEXT " +
                              " ) ";
 
-  private static final String LOCATIONS_TABLE_CREATE =
+  private static final String LOCATION_TABLE_CREATE =
         "CREATE TABLE location (" + BaseColumns._ID + " INTEGER PRIMARY KEY, "  +
                                 " name TEXT, " +
-                                " lat INTEGER, " +
-                                " lon INTEGER " +
+                                " lat TEXT, " +
+                                " lon TEXT " +
                                 " ) ";
 
   DatabaseHelper(final Context context) {
@@ -49,7 +50,7 @@ class DatabaseHelper extends SQLiteOpenHelper {
   @Override
   public void onCreate(final SQLiteDatabase db) {
     db.execSQL(ROUTE_TABLE_CREATE);
-    db.execSQL(LOCATIONS_TABLE_CREATE);
+    db.execSQL(LOCATION_TABLE_CREATE);
   }
 
   @Override
@@ -103,15 +104,15 @@ class DatabaseHelper extends SQLiteOpenHelper {
   }
 
   private void upgradeTo3(final SQLiteDatabase db) {
-    db.execSQL(LOCATIONS_TABLE_CREATE);
+    db.execSQL(LOCATION_TABLE_CREATE);
   }
 
   private void upgradeTo4(final SQLiteDatabase db) {
-    db.execSQL("ALTER TABLE " + ROUTE_TABLE + " RENAME TO " + OLD_ROUTE_TABLE);
+    db.execSQL("ALTER TABLE " + ROUTE_TABLE + " RENAME TO " + ROUTE_TABLE_OLD);
     db.execSQL(ROUTE_TABLE_CREATE);
     db.execSQL("INSERT INTO " + ROUTE_TABLE + " (" + BaseColumns._ID + ", journey, last_used, name, plan, distance, waypoints, journey_json)\n" +
-               "  SELECT " + BaseColumns._ID + ", journey, last_used, name, plan, distance, waypoints, xml\n" +
-               "  FROM " + OLD_ROUTE_TABLE + ";");
+        "  SELECT " + BaseColumns._ID + ", journey, last_used, name, plan, distance, waypoints, xml\n" +
+        "  FROM " + ROUTE_TABLE_OLD + ";");
 
     try {
       final Cursor cursor = db.query(ROUTE_TABLE,
@@ -128,7 +129,37 @@ class DatabaseHelper extends SQLiteOpenHelper {
           final String e6Waypoints = cursor.getString(2);
           final String newWaypoints = serializeWaypoints(deserializeE6Waypoints(e6Waypoints));
 
-          final String updateStmt = "UPDATE route SET journey_json='" + journeyJson + "', waypoints='" + newWaypoints + "' " +
+          final String updateStmt = "UPDATE " + ROUTE_TABLE + " SET journey_json='" + journeyJson + "', waypoints='" + newWaypoints + "' " +
+              "WHERE " + BaseColumns._ID + " = " + cursor.getInt(0);
+          db.compileStatement(updateStmt).execute();
+        } while (cursor.moveToNext());
+      }
+      if (!cursor.isClosed())
+        cursor.close();
+    } catch (RuntimeException e) {
+      System.out.println(e.getMessage());
+    }
+
+    db.execSQL("ALTER TABLE " + LOCATION_TABLE + " RENAME TO " + LOCATION_TABLE_OLD);
+    db.execSQL(LOCATION_TABLE_CREATE);
+    db.execSQL("INSERT INTO " + LOCATION_TABLE + " (" + BaseColumns._ID + ", name, lat, lon)\n" +
+        "  SELECT " + BaseColumns._ID + ", name, lat, lon\n" +
+        "  FROM " + LOCATION_TABLE_OLD + ";");
+
+    try {
+      final Cursor cursor = db.query(LOCATION_TABLE,
+          new String[] { BaseColumns._ID, "lat", "lon"},
+          null,
+          null,
+          null,
+          null,
+          null);
+      if (cursor.moveToFirst()) {
+        do {
+          double lat = Long.parseLong(cursor.getString(1)) / 1E6;
+          double lon = Long.parseLong(cursor.getString(2)) / 1E6;
+
+          final String updateStmt = "UPDATE " + LOCATION_TABLE + " SET lat='" + lat + "', lon='" + lon + "' " +
               "WHERE " + BaseColumns._ID + " = " + cursor.getInt(0);
           db.compileStatement(updateStmt).execute();
         } while (cursor.moveToNext());
