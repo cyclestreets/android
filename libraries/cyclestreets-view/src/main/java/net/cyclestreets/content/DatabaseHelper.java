@@ -5,11 +5,23 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.provider.BaseColumns;
+import android.util.Log;
+import net.cyclestreets.api.client.JourneyStringTransformer;
+import net.cyclestreets.util.Logging;
+import org.osmdroid.api.IGeoPoint;
+import org.osmdroid.util.GeoPoint;
+
+import java.util.ArrayList;
+import java.util.List;
 
 class DatabaseHelper extends SQLiteOpenHelper {
+  private static final String TAG = Logging.getTag(DatabaseHelper.class);
+
   static final String DATABASE_NAME = "cyclestreets.db";
-  static final int DATABASE_VERSION = 3;
+  // If you're upgrading the DB version, then be sure to grab a snapshot - see the DatabaseUpgradeTest.
+  static final int DATABASE_VERSION = 4;
   public static final String ROUTE_TABLE = "route";
+  static final String OLD_ROUTE_TABLE = "_route_old";
   public static final String LOCATION_TABLE = "location";
 
   private static final String ROUTE_TABLE_CREATE =
@@ -20,7 +32,7 @@ class DatabaseHelper extends SQLiteOpenHelper {
                              " plan TEXT, " +
                              " distance INTEGER, " +
                              " waypoints TEXT, " +
-                             " xml TEXT " +
+                             " journey_json TEXT " +
                              " ) ";
 
   private static final String LOCATIONS_TABLE_CREATE =
@@ -46,10 +58,13 @@ class DatabaseHelper extends SQLiteOpenHelper {
 
   @Override
   public void onUpgrade(final SQLiteDatabase db, final int oldVersion, final int newVersion) {
+    Log.d(TAG, "onUpgrade - from " + oldVersion + " to " + newVersion);
     if (oldVersion < 2)
       upgradeTo2(db);
     if (oldVersion < 3)
       upgradeTo3(db);
+    if (oldVersion < 4)
+      upgradeTo4(db);
   }
 
   private void upgradeTo2(final SQLiteDatabase db) {
@@ -89,5 +104,108 @@ class DatabaseHelper extends SQLiteOpenHelper {
 
   private void upgradeTo3(final SQLiteDatabase db) {
     db.execSQL(LOCATIONS_TABLE_CREATE);
+  }
+
+  private void upgradeTo4(final SQLiteDatabase db) {
+    db.execSQL("ALTER TABLE " + ROUTE_TABLE + " RENAME TO " + OLD_ROUTE_TABLE);
+    db.execSQL(ROUTE_TABLE_CREATE);
+    db.execSQL("INSERT INTO " + ROUTE_TABLE + " (" + BaseColumns._ID + ", journey, last_used, name, plan, distance, waypoints, journey_json)\n" +
+               "  SELECT " + BaseColumns._ID + ", journey, last_used, name, plan, distance, waypoints, xml\n" +
+               "  FROM " + OLD_ROUTE_TABLE + ";");
+
+    try {
+      final Cursor cursor = db.query(ROUTE_TABLE,
+                                     new String[] { BaseColumns._ID, "journey_json", "waypoints"},
+                                     null,
+                                     null,
+                                     null,
+                                     null,
+                                     null);
+      if (cursor.moveToFirst()) {
+        do {
+          final String v1ApiJourneyXml = cursor.getString(1);
+          final String journeyJson = JourneyStringTransformer.fromV1ApiXml(v1ApiJourneyXml);
+          final String e6Waypoints = cursor.getString(2);
+          final String newWaypoints = serializeWaypoints(deserializeE6Waypoints(e6Waypoints));
+
+          final String updateStmt = "UPDATE route SET journey_json='" + journeyJson + "', waypoints='" + newWaypoints + "' " +
+              "WHERE " + BaseColumns._ID + " = " + cursor.getInt(0);
+          db.compileStatement(updateStmt).execute();
+        } while (cursor.moveToNext());
+      }
+      if (!cursor.isClosed())
+        cursor.close();
+    } catch (RuntimeException e) {
+      System.out.println(e.getMessage());
+    }
+  }
+
+  /**
+   * Helper function that parses a given table into a string
+   * and returns it for easy printing. The string consists of
+   * the table name and then each row is iterated through with
+   * column_name: value pairs printed out.
+   *
+   * Courtesy of https://stackoverflow.com/a/27003490/2108057
+   *
+   * @param db the database to get the table from
+   * @param tableName the the name of the table to parse
+   * @return the table tableName as a string
+   */
+  static String getTableAsString(SQLiteDatabase db, String tableName) {
+    Log.d(TAG, "getTableAsString called");
+    String tableString = String.format("Table %s:\n", tableName);
+    Cursor allRows  = db.rawQuery("SELECT * FROM " + tableName, null);
+    if (allRows.moveToFirst() ){
+      String[] columnNames = allRows.getColumnNames();
+      do {
+        for (String name: columnNames) {
+          tableString += String.format("%s: %s\n", name,
+              allRows.getString(allRows.getColumnIndex(name)));
+        }
+        tableString += "\n";
+
+      } while (allRows.moveToNext());
+    }
+
+    return tableString;
+  }
+
+  static String serializeWaypoints(Iterable<IGeoPoint> waypoints) {
+    final StringBuilder sb = new StringBuilder();
+    for (final IGeoPoint waypoint : waypoints) {
+      if (sb.length() != 0)
+        sb.append('|');
+      sb.append(waypoint.getLatitude())
+        .append(",")
+        .append(waypoint.getLongitude());
+    }
+    String wpString = sb.toString();
+    Log.d(TAG, "sW: " + wpString);
+    return wpString;
+  }
+
+  static List<IGeoPoint> deserializeWaypoints(String serializedWaypoints) {
+    List<IGeoPoint> waypoints = new ArrayList<>();
+    for (final String coords : serializedWaypoints.split("\\|")) {
+      final String[] latlon = coords.split(",", 2);
+      double lat = Double.parseDouble(latlon[0]);
+      double lon = Double.parseDouble(latlon[1]);
+      Log.d(TAG, "dW: lat=" + lat + ", lon=" + lon);
+      waypoints.add(new GeoPoint(lat, lon));
+    }
+    return waypoints;
+  }
+
+  private static List<IGeoPoint> deserializeE6Waypoints(String serializedWaypoints) {
+    List<IGeoPoint> waypoints = new ArrayList<>();
+    for (final String coords : serializedWaypoints.split("\\|")) {
+      final String[] latlon = coords.split(",", 2);
+      double lat = Long.parseLong(latlon[0]) / 1E6;
+      double lon = Long.parseLong(latlon[1]) / 1E6;
+      Log.d(TAG, "dWE6: lat=" + lat + ", lon=" + lon);
+      waypoints.add(new GeoPoint(lat, lon));
+    }
+    return waypoints;
   }
 }

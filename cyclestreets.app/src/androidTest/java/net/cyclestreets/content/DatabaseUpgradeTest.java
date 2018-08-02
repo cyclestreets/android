@@ -2,19 +2,28 @@ package net.cyclestreets.content;
 
 import android.support.test.InstrumentationRegistry;
 import android.support.test.filters.LargeTest;
+import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 import android.util.Log;
 import junit.framework.Assert;
+import net.cyclestreets.CycleStreets;
+import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import java.io.*;
 
+import static net.cyclestreets.content.DatabaseHelper.OLD_ROUTE_TABLE;
+import static net.cyclestreets.content.DatabaseHelper.ROUTE_TABLE;
+import static net.cyclestreets.content.DatabaseHelper.getTableAsString;
+
 @RunWith(AndroidJUnit4.class)
 @LargeTest
 public class DatabaseUpgradeTest {
-
   private static final String TAG = DatabaseUpgradeTest.class.getCanonicalName();
+
+  @Rule
+  public ActivityTestRule<CycleStreets> mActivityRule = new ActivityTestRule<>(CycleStreets.class);
 
   /**
    * This test runs through all the database versions from the /androidTest/assets/ folder. It copies the old database to the file path of the application.
@@ -26,7 +35,7 @@ public class DatabaseUpgradeTest {
    * @throws IOException if the database cannot be copied.
    */
   @Test
-  public void testDatabaseUpgrades() throws IOException {
+  public void testDatabaseUpgrades() throws IOException, InterruptedException {
     for (int i = 3; i < DatabaseHelper.DATABASE_VERSION; i++) {
       Log.d(TAG, "Testing upgrade from version:" + i);
       copyDatabase(i);
@@ -34,10 +43,14 @@ public class DatabaseUpgradeTest {
       DatabaseHelper databaseHelper = new DatabaseHelper(InstrumentationRegistry.getTargetContext());
       Log.d(TAG, " New Database Version:" + databaseHelper.getWritableDatabase().getVersion());
       Assert.assertEquals(DatabaseHelper.DATABASE_VERSION, databaseHelper.getWritableDatabase().getVersion());
+      Log.d(TAG, getTableAsString(databaseHelper.getReadableDatabase(), OLD_ROUTE_TABLE));
+      Log.d(TAG, getTableAsString(databaseHelper.getReadableDatabase(), ROUTE_TABLE));
     }
 
+    // After upgrading the DB, uncomment these lines and grab the next version so future testing can be perfornmed!
+    // Log.i(TAG, "Sleeping to give a chance to run: ./adb pull /data/data/net.cyclestreets/databases/cyclestreets.db");
+    // Thread.sleep(60000L);
   }
-
 
   private void copyDatabase(int version) throws IOException {
     String dbPath = InstrumentationRegistry.getTargetContext().getDatabasePath(DatabaseHelper.DATABASE_NAME).getAbsolutePath();

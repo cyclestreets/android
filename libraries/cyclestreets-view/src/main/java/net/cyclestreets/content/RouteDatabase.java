@@ -14,17 +14,20 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteStatement;
 import android.provider.BaseColumns;
 
+import static net.cyclestreets.content.DatabaseHelper.deserializeWaypoints;
+import static net.cyclestreets.content.DatabaseHelper.serializeWaypoints;
+
 public class RouteDatabase
 {
-  private final SQLiteDatabase db_;
+  private final SQLiteDatabase db;
 
   public RouteDatabase(final Context context) {
     DatabaseHelper dh = new DatabaseHelper(context);
-    db_ = dh.getWritableDatabase();
+    db = dh.getWritableDatabase();
   }
 
   public int routeCount() {
-    final Cursor cursor = db_.query(DatabaseHelper.ROUTE_TABLE,
+    final Cursor cursor = db.query(DatabaseHelper.ROUTE_TABLE,
         new String[] { "count(" + BaseColumns._ID +")" },
                        null,
                        null,
@@ -45,26 +48,26 @@ public class RouteDatabase
   }
 
   public void saveRoute(final Journey journey,
-                        final String xml) {
+                        final String json) {
     if (route(journey.itinerary(), journey.plan()) == null)
-      addRoute(journey, xml);
+      addRoute(journey, json);
     else
       updateRoute(journey);
   }
 
   private void addRoute(final Journey journey,
-                        final String xml) {
+                        final String json) {
     final String ROUTE_TABLE_INSERT =
-          "INSERT INTO route (journey, name, plan, distance, waypoints, xml, last_used) " +
+          "INSERT INTO route (journey, name, plan, distance, waypoints, journey_json, last_used) " +
           "  VALUES(?, ?, ?, ?, ?, ?, datetime())";
 
-    final SQLiteStatement insertRoute = db_.compileStatement(ROUTE_TABLE_INSERT);
+    final SQLiteStatement insertRoute = db.compileStatement(ROUTE_TABLE_INSERT);
     insertRoute.bindLong(1, journey.itinerary());
     insertRoute.bindString(2, journey.name());
     insertRoute.bindString(3, journey.plan());
     insertRoute.bindLong(4, journey.total_distance());
-    insertRoute.bindString(5, flattenWaypoints(journey.waypoints()));
-    insertRoute.bindString(6, xml);
+    insertRoute.bindString(5, serializeWaypoints(journey.waypoints()));
+    insertRoute.bindString(6, json);
     insertRoute.executeInsert();
   }
 
@@ -72,7 +75,7 @@ public class RouteDatabase
     final String ROUTE_TABLE_UPDATE =
       "UPDATE route SET last_used = datetime() WHERE journey = ? and plan = ?";
 
-    final SQLiteStatement update = db_.compileStatement(ROUTE_TABLE_UPDATE);
+    final SQLiteStatement update = db.compileStatement(ROUTE_TABLE_UPDATE);
     update.bindLong(1, journey.itinerary());
     update.bindString(2, journey.plan());
     update.execute();
@@ -81,7 +84,7 @@ public class RouteDatabase
   public void renameRoute(final int localId, final String newName) {
     final String ROUTE_TABLE_RENAME =
       "UPDATE route SET name = ? WHERE " + BaseColumns._ID + " = ?";
-    final SQLiteStatement update = db_.compileStatement(ROUTE_TABLE_RENAME);
+    final SQLiteStatement update = db.compileStatement(ROUTE_TABLE_RENAME);
     update.bindString(1, newName);
     update.bindLong(2, localId);
     update.execute();
@@ -91,14 +94,14 @@ public class RouteDatabase
     final String ROUTE_TABLE_DELETE =
       "DELETE FROM route WHERE " + BaseColumns._ID + " = ?";
 
-    final SQLiteStatement delete = db_.compileStatement(ROUTE_TABLE_DELETE);
+    final SQLiteStatement delete = db.compileStatement(ROUTE_TABLE_DELETE);
     delete.bindLong(1, localId);
     delete.execute();
   }
 
   public List<RouteSummary> savedRoutes() {
     final List<RouteSummary> routes = new ArrayList<>();
-    final Cursor cursor = db_.query(DatabaseHelper.ROUTE_TABLE,
+    final Cursor cursor = db.query(DatabaseHelper.ROUTE_TABLE,
         new String[] { BaseColumns._ID, "journey", "name", "plan", "distance" },
                         null,
                         null,
@@ -133,8 +136,8 @@ public class RouteDatabase
 
   private RouteData fetchRoute(final String filter, final String[] bindParams) {
     RouteData r = null;
-    final Cursor cursor = db_.query(DatabaseHelper.ROUTE_TABLE,
-                  new String[] { "xml",
+    final Cursor cursor = db.query(DatabaseHelper.ROUTE_TABLE,
+                  new String[] { "journey_json",
                         "waypoints",
                         "name"},
                         filter,
@@ -156,27 +159,9 @@ public class RouteDatabase
     return r;
   }
 
-  private String flattenWaypoints(final Waypoints waypoints) {
-    final StringBuilder sb = new StringBuilder();
-    for (final IGeoPoint waypoint : waypoints) {
-      if (sb.length() != 0)
-        sb.append('|');
-      sb.append(waypoint.getLatitudeE6())
-        .append(',')
-        .append(waypoint.getLongitudeE6());
-    }
-    return sb.toString();
-  }
-
   private Waypoints expandWaypoints(final String str) {
-    final Waypoints points = new Waypoints();
-    for (final String coords : str.split("\\|")) {
-      final String[] latlon = coords.split(",");
-      final double lat = Long.parseLong(latlon[0])/1E6;
-      final double lon = Long.parseLong(latlon[1])/1E6;
-
-      points.add(lat, lon);
-    }
-    return points;
+    final Waypoints waypoints = new Waypoints();
+    waypoints.addAll(deserializeWaypoints(str));
+    return waypoints;
   }
 }
