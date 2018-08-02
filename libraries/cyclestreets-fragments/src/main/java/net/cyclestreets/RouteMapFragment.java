@@ -1,10 +1,7 @@
 package net.cyclestreets;
 
 import net.cyclestreets.fragments.R;
-import net.cyclestreets.util.GPS;
-import net.cyclestreets.util.IconicsInflater;
-import net.cyclestreets.util.MessageBox;
-import net.cyclestreets.util.Permissions;
+import net.cyclestreets.util.*;
 import net.cyclestreets.views.overlay.POIOverlay;
 import net.cyclestreets.views.overlay.RouteOverlay;
 import net.cyclestreets.views.overlay.RouteHighlightOverlay;
@@ -29,7 +26,7 @@ import static net.cyclestreets.util.MenuHelper.showMenuItem;
 
 public class RouteMapFragment extends CycleMapFragment implements Route.Listener
 {
-  private static final String TAG = "RouteMapFragment";
+  private static final String TAG = Logging.getTag(RouteMapFragment.class);
   private TapToRouteOverlay routeSetter_;
   private POIOverlay poiOverlay_;
   private boolean hasGps_;

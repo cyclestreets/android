@@ -6,6 +6,7 @@ import android.util.Log;
 
 import net.cyclestreets.tiles.UpsizingTileSource;
 
+import net.cyclestreets.util.Logging;
 import org.osmdroid.config.Configuration;
 import org.osmdroid.tileprovider.BitmapPool;
 import org.osmdroid.tileprovider.MapTile;
@@ -70,7 +71,7 @@ public class CycleStreetsTileDownloader extends MapTileModuleProviderBase {
   // ===========================================================
 
   private static final Logger logger = LoggerFactory.getLogger("CycleStreetsTileDownloader");
-  private static final String TAG = "CSTileDownloader";
+  private static final String TAG = Logging.getTag(CycleStreetsTileDownloader.class);
 
   // ===========================================================
   // Fields

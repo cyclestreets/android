@@ -6,6 +6,7 @@ import java.util.ArrayList;
 
 import net.cyclestreets.Undoable;
 import net.cyclestreets.util.Brush;
+import net.cyclestreets.util.Logging;
 import net.cyclestreets.views.CycleMapView;
 
 import org.osmdroid.views.MapView;
@@ -29,7 +30,7 @@ import android.view.GestureDetector.OnGestureListener;
 
 public class ControllerOverlay extends Overlay implements OnDoubleTapListener, OnGestureListener
 {
-  private static final String TAG = "ControllerOverlay";
+  private static final String TAG = Logging.getTag(ControllerOverlay.class);
 
   private final GestureDetector gestureDetector_;
   private final CycleMapView mapView_;

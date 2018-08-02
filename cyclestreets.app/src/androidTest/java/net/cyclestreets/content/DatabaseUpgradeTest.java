@@ -7,6 +7,7 @@ import android.support.test.runner.AndroidJUnit4;
 import android.util.Log;
 import junit.framework.Assert;
 import net.cyclestreets.CycleStreets;
+import net.cyclestreets.util.Logging;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -18,7 +19,7 @@ import static net.cyclestreets.content.DatabaseHelper.*;
 @RunWith(AndroidJUnit4.class)
 @LargeTest
 public class DatabaseUpgradeTest {
-  private static final String TAG = DatabaseUpgradeTest.class.getCanonicalName();
+  private static final String TAG = Logging.getTag(DatabaseUpgradeTest.class);
 
   @Rule
   public ActivityTestRule<CycleStreets> mActivityRule = new ActivityTestRule<>(CycleStreets.class);
