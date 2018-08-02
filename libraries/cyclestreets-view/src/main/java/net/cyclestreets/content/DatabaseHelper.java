@@ -7,8 +7,8 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.provider.BaseColumns;
 
 class DatabaseHelper extends SQLiteOpenHelper {
-  private static final String DATABASE_NAME = "cyclestreets.db";
-  private static final int DATABASE_VERSION = 3;
+  static final String DATABASE_NAME = "cyclestreets.db";
+  static final int DATABASE_VERSION = 3;
   public static final String ROUTE_TABLE = "route";
   public static final String LOCATION_TABLE = "location";
 
