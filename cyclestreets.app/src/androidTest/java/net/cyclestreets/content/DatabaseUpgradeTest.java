@@ -41,15 +41,15 @@ public class DatabaseUpgradeTest {
       DatabaseHelper databaseHelper = new DatabaseHelper(InstrumentationRegistry.getTargetContext());
       Log.d(TAG, " New Database Version:" + databaseHelper.getWritableDatabase().getVersion());
       Assert.assertEquals(DatabaseHelper.DATABASE_VERSION, databaseHelper.getWritableDatabase().getVersion());
-      Log.d(TAG, getTableAsString(databaseHelper.getReadableDatabase(), ROUTE_TABLE_OLD));
-      Log.d(TAG, getTableAsString(databaseHelper.getReadableDatabase(), ROUTE_TABLE));
-      Log.d(TAG, getTableAsString(databaseHelper.getReadableDatabase(), LOCATION_TABLE_OLD));
-      Log.d(TAG, getTableAsString(databaseHelper.getReadableDatabase(), LOCATION_TABLE));
+      logTableContents(databaseHelper.getReadableDatabase(), ROUTE_TABLE_OLD);
+      logTableContents(databaseHelper.getReadableDatabase(), ROUTE_TABLE);
+      logTableContents(databaseHelper.getReadableDatabase(), LOCATION_TABLE_OLD);
+      logTableContents(databaseHelper.getReadableDatabase(), LOCATION_TABLE);
     }
 
     // After upgrading the DB, uncomment these lines and grab the next version so future testing can be perfornmed!
-    // Log.i(TAG, "Sleeping to give a chance to run: ./adb pull /data/data/net.cyclestreets/databases/cyclestreets.db");
-    // Thread.sleep(60000L);
+     Log.i(TAG, "Sleeping to give a chance to run: ./adb pull /data/data/net.cyclestreets/databases/cyclestreets.db");
+     Thread.sleep(240000L);
   }
 
   private void copyDatabase(int version) throws IOException {

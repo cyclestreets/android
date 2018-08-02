@@ -20,6 +20,6 @@ public class AppStartupTest {
   @Test
   public void testAppStartup() throws Exception {
     System.out.println("I've started up without crashing.");
-    Thread.sleep(3000L);
+    Thread.sleep(240000L);
   }
 }

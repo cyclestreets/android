@@ -4,6 +4,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.database.sqlite.SQLiteStatement;
 import android.provider.BaseColumns;
 import android.util.Log;
 import net.cyclestreets.api.client.JourneyStringTransformer;
@@ -129,9 +130,12 @@ class DatabaseHelper extends SQLiteOpenHelper {
           final String e6Waypoints = cursor.getString(2);
           final String newWaypoints = serializeWaypoints(deserializeE6Waypoints(e6Waypoints));
 
-          final String updateStmt = "UPDATE " + ROUTE_TABLE + " SET journey_json='" + journeyJson + "', waypoints='" + newWaypoints + "' " +
-              "WHERE " + BaseColumns._ID + " = " + cursor.getInt(0);
-          db.compileStatement(updateStmt).execute();
+          final String updateStmt = "UPDATE " + ROUTE_TABLE + " SET journey_json = ?, waypoints = ? " +
+              " WHERE " + BaseColumns._ID + " = " + cursor.getInt(0);
+          final SQLiteStatement update = db.compileStatement(updateStmt);
+          update.bindString(1, journeyJson);
+          update.bindString(2, newWaypoints);
+          update.execute();
         } while (cursor.moveToNext());
       }
       if (!cursor.isClosed())
@@ -159,9 +163,12 @@ class DatabaseHelper extends SQLiteOpenHelper {
           double lat = Long.parseLong(cursor.getString(1)) / 1E6;
           double lon = Long.parseLong(cursor.getString(2)) / 1E6;
 
-          final String updateStmt = "UPDATE " + LOCATION_TABLE + " SET lat='" + lat + "', lon='" + lon + "' " +
-              "WHERE " + BaseColumns._ID + " = " + cursor.getInt(0);
-          db.compileStatement(updateStmt).execute();
+          final String updateStmt = "UPDATE " + LOCATION_TABLE + " SET lat = ?, lon = ? " +
+              " WHERE " + BaseColumns._ID + " = " + cursor.getInt(0);
+          final SQLiteStatement update = db.compileStatement(updateStmt);
+          update.bindString(1, String.valueOf(lat));
+          update.bindString(2, String.valueOf(lon));
+          update.execute();
         } while (cursor.moveToNext());
       }
       if (!cursor.isClosed())
@@ -181,25 +188,21 @@ class DatabaseHelper extends SQLiteOpenHelper {
    *
    * @param db the database to get the table from
    * @param tableName the the name of the table to parse
-   * @return the table tableName as a string
    */
-  static String getTableAsString(SQLiteDatabase db, String tableName) {
-    Log.d(TAG, "getTableAsString called");
-    String tableString = String.format("Table %s:\n", tableName);
+  static void logTableContents(SQLiteDatabase db, String tableName) {
+    Log.i(TAG, String.format("Table %s:\n", tableName));
     Cursor allRows  = db.rawQuery("SELECT * FROM " + tableName, null);
     if (allRows.moveToFirst() ){
       String[] columnNames = allRows.getColumnNames();
       do {
+        StringBuilder rowSb = new StringBuilder();
         for (String name: columnNames) {
-          tableString += String.format("%s: %s\n", name,
-              allRows.getString(allRows.getColumnIndex(name)));
+          rowSb.append(String.format("%s: %s\n", name, allRows.getString(allRows.getColumnIndex(name))));
         }
-        tableString += "\n";
-
+        Log.d(TAG, rowSb.toString());
       } while (allRows.moveToNext());
     }
-
-    return tableString;
+    allRows.close();
   }
 
   static String serializeWaypoints(Iterable<IGeoPoint> waypoints) {
