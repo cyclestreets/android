@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import net.cyclestreets.util.Logging;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,7 +36,7 @@ public class DbAdapter {
   public static final String K_POINT_ALT   = "alt";
   public static final String K_POINT_SPEED = "speed";
 
-  private static final String TAG = "DbAdapter";
+  private static final String TAG = Logging.getTag(DbAdapter.class);
   private static final String TABLE_CREATE_TRIPS = "create table trips "
     + "(_id integer primary key autoincrement, purp text, start integer, endtime integer, "
     + "fancystart text, fancyinfo text, distance float, note text, age text, gender text, experience text, "

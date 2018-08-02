@@ -125,19 +125,36 @@ public class RetrofitApiClient {
   // --------------------------------------------------------------------------------
   // V1 APIs
   // --------------------------------------------------------------------------------
+  @Deprecated
   public String getJourneyXml(final String plan,
                               final String itineraryPoints,
                               final String leaving,
                               final String arriving,
                               final int speed) throws IOException {
     Response<String> response = v1Api.getJourneyXml(plan, itineraryPoints, leaving, arriving, speed).execute();
-    return response.body();
+    return JourneyStringTransformer.fromV1ApiXml(response.body());
   }
 
+  public String getJourneyJson(final String plan,
+                               final String itineraryPoints,
+                               final String leaving,
+                               final String arriving,
+                               final int speed) throws IOException {
+    Response<String> response = v1Api.getJourneyJson(plan, itineraryPoints, leaving, arriving, speed).execute();
+    return JourneyStringTransformer.fromV1ApiJson(response.body());
+  }
+
+  @Deprecated
   public String retrievePreviousJourneyXml(final String plan,
                                            final long itineraryId) throws IOException {
     Response<String> response = v1Api.retrievePreviousJourneyXml(plan, itineraryId).execute();
-    return response.body();
+    return JourneyStringTransformer.fromV1ApiXml(response.body());
+  }
+
+  public String retrievePreviousJourneyJson(final String plan,
+                                           final long itineraryId) throws IOException {
+    Response<String> response = v1Api.retrievePreviousJourneyJson(plan, itineraryId).execute();
+    return JourneyStringTransformer.fromV1ApiJson(response.body());
   }
 
   public Blog getBlogEntries() throws IOException {

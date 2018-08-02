@@ -23,6 +23,9 @@ import org.apache.commons.io.IOUtils;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.robolectric.RobolectricTestRunner;
+import org.robolectric.annotation.Config;
 
 import java.io.File;
 import java.io.IOException;
@@ -37,8 +40,9 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 // Useful for manual testing that operations do work with the real API, and not just WireMock.
-// If we assigned an appropriate api key, these tests could be expanded and un-ignored.
 @Ignore
+@Config(manifest=Config.NONE, sdk = 23)
+@RunWith(RobolectricTestRunner.class)
 public class RetrofitApiClientIntegrationTest {
 
   RetrofitApiClient apiClient;
@@ -71,7 +75,7 @@ public class RetrofitApiClientIntegrationTest {
 
   private String getApiKey() throws IOException {
     String apiKey = "apiKeyRedacted";
-    InputStream in = RetrofitApiClientIntegrationTest.class.getClassLoader().getResourceAsStream("api.key");
+    InputStream in = RetrofitApiClientIntegrationTest.class.getClassLoader().getResourceAsStream("cyclestreets-api.key");
     if (in != null) {
       try {
         apiKey = IOUtils.toString(in, "UTF-8").trim();
@@ -190,6 +194,7 @@ public class RetrofitApiClientIntegrationTest {
     System.out.println("Don't forgot to log on as this user and delete the photo afterwards...");
   }
 
+  @SuppressWarnings("deprecation")
   @Test
   public void hitGetJourneyXmlApi() throws Exception {
     String xml = apiClient.getJourneyXml("quietest", "0.117950,52.205302,City+Centre|0.131402,52.221046,Mulberry+Close|0.147324,52.199650,Thoday+Street", null, null, 24);
@@ -197,9 +202,22 @@ public class RetrofitApiClientIntegrationTest {
   }
 
   @Test
+  public void hitGetJourneyJsonApi() throws Exception {
+    String json = apiClient.getJourneyJson("quietest", "0.117950,52.205302,City+Centre|0.131402,52.221046,Mulberry+Close|0.147324,52.199650,Thoday+Street", null, null, 24);
+    System.out.println(json);
+  }
+
+  @SuppressWarnings("deprecation")
+  @Test
   public void hitRetrievePreviousJourneyXmlApi() throws Exception {
     String xml = apiClient.retrievePreviousJourneyXml("fastest", 53135357);
     System.out.println(xml);
+  }
+
+  @Test
+  public void hitRetrievePreviousJourneyJsonApi() throws Exception {
+    String json = apiClient.retrievePreviousJourneyJson("fastest", 53135357);
+    System.out.println(json);
   }
 
   @Test

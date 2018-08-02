@@ -1,6 +1,7 @@
 package net.cyclestreets.views;
 
 import net.cyclestreets.tiles.TileSource;
+import net.cyclestreets.util.Logging;
 import net.cyclestreets.views.overlay.LocationOverlay;
 import net.cyclestreets.views.overlay.ControllerOverlay;
 
@@ -35,7 +36,7 @@ import static java.lang.Math.abs;
 public class CycleMapView extends FrameLayout
 {
   public static final int MAX_ZOOM_LEVEL = 19;
-  private static final String TAG = "CycleMapView";
+  private static final String TAG = Logging.getTag(CycleMapView.class);
 
   private static final String PREFS_APP_CENTRE_LON = "centreLon";
   private static final String PREFS_APP_CENTRE_LAT = "centreLat";

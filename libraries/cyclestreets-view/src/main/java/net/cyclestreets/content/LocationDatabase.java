@@ -50,8 +50,8 @@ public class LocationDatabase {
 
     final SQLiteStatement insert = db_.compileStatement(LOCATION_TABLE_INSERT);
     insert.bindString(1, name);
-    insert.bindLong(2, where.getLatitudeE6());
-    insert.bindLong(3, where.getLongitudeE6());
+    insert.bindString(2, String.valueOf(where.getLatitude()));
+    insert.bindString(3, String.valueOf(where.getLongitude()));
     insert.executeInsert();
   }
 
@@ -61,8 +61,8 @@ public class LocationDatabase {
 
     final SQLiteStatement update = db_.compileStatement(LOCATION_TABLE_UPDATE);
     update.bindString(1, name);
-    update.bindLong(2, where.getLatitudeE6());
-    update.bindLong(3, where.getLongitudeE6());
+    update.bindString(2, String.valueOf(where.getLatitude()));
+    update.bindString(3, String.valueOf(where.getLongitude()));
     update.bindLong(4, localId);
     update.execute();
   }
@@ -99,8 +99,8 @@ public class LocationDatabase {
         locations.add(new SavedLocation(
             cursor.getInt(0),
             cursor.getString(1),
-            cursor.getInt(2),
-            cursor.getInt(3)));
+            Double.parseDouble(cursor.getString(2)),
+            Double.parseDouble(cursor.getString(3))));
       } while (cursor.moveToNext());
 
     if (!cursor.isClosed())

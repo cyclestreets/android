@@ -42,6 +42,7 @@ subprojects {
   repositories {
     google()
     jcenter()
+    maven { url "https://jitpack.io" }
   }
 
   android {
