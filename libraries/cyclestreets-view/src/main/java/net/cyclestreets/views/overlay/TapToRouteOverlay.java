@@ -9,6 +9,7 @@ import net.cyclestreets.RoutePlans;
 
 import net.cyclestreets.CycleStreetsPreferences;
 import net.cyclestreets.FeedbackActivity;
+import net.cyclestreets.util.Logging;
 import net.cyclestreets.util.Theme;
 import net.cyclestreets.view.R;
 import net.cyclestreets.Undoable;
@@ -64,7 +65,7 @@ public class TapToRouteOverlay extends Overlay
                                           PauseResumeListener,
                                           Route.Listener
 {
-  private static final String TAG = "TTROverlay";
+  private static final String TAG = Logging.getTag(TapToRouteOverlay.class);
   private static final int[] REPLAN_MENU_IDS = { R.string.route_menu_change_replan_quietest,
                                                  R.string.route_menu_change_replan_balanced,
                                                  R.string.route_menu_change_replan_fastest,

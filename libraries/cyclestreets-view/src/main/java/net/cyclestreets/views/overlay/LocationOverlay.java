@@ -1,5 +1,6 @@
 package net.cyclestreets.views.overlay;
 
+import net.cyclestreets.util.Logging;
 import net.cyclestreets.util.Theme;
 import net.cyclestreets.view.R;
 import net.cyclestreets.views.CycleMapView;
@@ -21,7 +22,7 @@ import android.view.MotionEvent;
 import android.view.View;
 
 public class LocationOverlay extends MyLocationNewOverlay {
-  private static final String TAG = "LocationOverlay";
+  private static final String TAG = Logging.getTag(LocationOverlay.class);
 
   private final FloatingActionButton button_;
 

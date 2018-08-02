@@ -7,6 +7,7 @@ if [ "$TRAVIS_REPO_SLUG" == "cyclestreets/android" ] &&[ "$CI" == "true" ] && [ 
   openssl aes-256-cbc -k $openssl_file_encryption_key -in cyclestreets.app/signature.asc.enc -out cyclestreets.app/signature.asc -d
   openssl aes-256-cbc -k $openssl_file_encryption_key -in cyclestreets.app/keystore.enc -out cyclestreets.app/keystore -d
   openssl aes-256-cbc -k $openssl_file_encryption_key -in cyclestreets.app/play-api-key.p12.enc -out cyclestreets.app/play-api-key.p12 -d
+  openssl aes-256-cbc -k $openssl_file_encryption_key -in libraries/cyclestreets-core/src/test/resources/cyclestreets-api.key.enc -out libraries/cyclestreets-core/src/test/resources/cyclestreets-api.key -d
 else
   echo "The compiled artifact will not be signed"
 fi
