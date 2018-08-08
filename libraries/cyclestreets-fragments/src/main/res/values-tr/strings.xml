@@ -3,10 +3,7 @@
 
   <string name="navigation_drawer_open">Rota çiziciyi aç</string>
   <string name="navigation_drawer_close">Rota çiziciyi kapat</string>
-  <string name="app_name">CycleStreets</string>
-  <string name="settings">Ayarlar</string>
-  <string name="about">Hakkında</string>
-  <string name="blog">Blog</string>
+
   <string name="find_route">Güzergâh bul</string>
   <string name="load_route">Load route</string>
   <string name="addvia">Ara nokta ekle</string>

@@ -1,7 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-  <string name="app_name">CycleStreets</string>
+  <string name="route_map">Yolculuk Planlayıcısı</string>
+  <string name="itinerary">Yol Klavuzu</string>
+  <string name="elevation">Yükselti</string>
+  <string name="photomap">Fotoharita</string>
+  <string name="photo_upload">Fotoğraf Ekle</string>
+  <string name="settings">Ayarlar</string>
+  <string name="about">Hakkında</string>
+  <string name="blog">Blog</string>
+  <string name="blog_updated">Blog - güncellenmiş</string>
+
   <string name="all_button_back">Geri</string>
   <string name="all_button_next">İleri</string>
   <string name="all_button_save">Kaydet</string>

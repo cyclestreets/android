@@ -1,6 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-  <string name="app_name">CycleStreets</string>
+  
+  <string name="route_map">Planejador de viagem</string>
+  <string name="itinerary">Itinerário</string>
+  <string name="elevation">Elevação</string>
+  <string name="photomap">Photomap</string>
+  <string name="photo_upload">Adicionar foto</string>
+  <string name="settings">Configuração</string>
+  <string name="about">Sobre</string>
+  <string name="blog">Blog</string>
+  <string name="blog_updated">Blog - Atualizado</string>
 
   <string name="all_button_back">Anterior</string>
   <string name="all_button_next">Próximo</string>

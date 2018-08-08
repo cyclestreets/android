@@ -3,10 +3,7 @@
 
   <string name="navigation_drawer_open">Navegador abierto</string>
   <string name="navigation_drawer_close"> Navegador cerrado</string>
-  <string name="app_name">CycleStreets</string>
-  <string name="settings">Configuración</string>
-  <string name="about">Sobre</string>
-  <string name="blog">Blog</string>
+
   <string name="find_route">Encontrar ruta</string>
   <string name="load_route">Load route</string>
   <string name="addvia">Añadir punto en el camino</string>

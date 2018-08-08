@@ -3,10 +3,7 @@
 
   <string name="navigation_drawer_open">Abrir gaveta de navegação</string>
   <string name="navigation_drawer_close">Fechar gaveta de navegação</string>
-  <string name="app_name">CycleStreets</string>
-  <string name="settings">Configuração</string>
-  <string name="about">Sobre</string>
-  <string name="blog">Blog</string>
+
   <string name="find_route">Encontrar Rota</string>
   <string name="load_route">Load route</string>
   <string name="addvia">Adicionar destino</string>

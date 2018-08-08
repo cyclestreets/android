@@ -3,10 +3,7 @@
 
   <string name="navigation_drawer_open">Открыть панель навигации</string>
   <string name="navigation_drawer_close">Закрыть панель навигации</string>
-  <string name="app_name">CycleStreets</string>
-  <string name="settings">Настройки</string>
-  <string name="about">О апликации</string>
-  <string name="blog">Блог</string>
+
   <string name="find_route">Найти маршрут</string>
   <string name="load_route">Load route</string>
   <string name="addvia">Добавить точку</string>
