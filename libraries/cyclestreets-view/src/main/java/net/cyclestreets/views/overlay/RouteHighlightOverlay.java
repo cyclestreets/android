@@ -59,6 +59,8 @@ public class RouteHighlightOverlay extends Overlay
 
   @Override
   public void draw(final Canvas canvas, final MapView mapView, final boolean shadow) {
+    drawButtons();
+
     if (current == Route.journey().activeSegment())
       return;
 
@@ -67,8 +69,6 @@ public class RouteHighlightOverlay extends Overlay
       return;
 
     drawSegmentInfo();
-    drawButtons();
-
     this.mapView.getController().animateTo(current.start());
   }
 

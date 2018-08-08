@@ -1,8 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-  <string name="app_name">CycleStreets</string>
-  
+  <string name="route_map">Планировщик путешествий</string>
+  <string name="itinerary">Маршрут</string>
+  <string name="elevation">Высота</string>
+  <string name="photomap">Фотокарта</string>
+  <string name="photo_upload">Добавить фото</string>
+  <string name="settings">Настройки</string>
+  <string name="about">О апликации</string>
+  <string name="blog">Блог</string>
+  <string name="blog_updated">Блог - обновился</string>
+
   <string name="all_button_back">Назад</string>
   <string name="all_button_next">Следующий</string>
   <string name="all_button_save">Сохранить</string>

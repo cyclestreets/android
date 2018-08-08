@@ -3,9 +3,7 @@
 
   <string name="navigation_drawer_open">Apri menù di navigazione</string>
   <string name="navigation_drawer_close">Chiudi menù di navigazione</string>
-  <string name="app_name">CycleStreets</string>
-  <string name="settings">Impostazioni</string>
-  <string name="blog">Blog</string>
+
   <string name="find_route">Cerca percorso</string>
   <string name="load_route">Load route</string>
   <string name="addvia">Aggiungi destinazione</string>
@@ -62,7 +60,6 @@
   <string name="storedroutes_title_default">"Percorso "</string>
   <string name="storedroutes_detail_default">Dettagli</string>
   <string name="storedroutes_detail_format">%1$s percorso, %2$s</string>
-  <string name="about">Chi Siamo</string>
   <string name="ic_menu_elevation">Dislivello</string>
   <string name="itinerary_direction">direzione</string>
   <string name="menu_saved_routes">Percorsi salvati</string>
