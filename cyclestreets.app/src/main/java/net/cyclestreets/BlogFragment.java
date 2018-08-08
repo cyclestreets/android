@@ -28,13 +28,12 @@ public class BlogFragment extends WebPageFragment {
   }
 
   //////////////////////////////////////////////////////////////////////////////////
-  public static MainNavDrawerActivity.PageTitle blogTitle(
-      final Context context) {
+  public static MainNavDrawerActivity.PageTitle blogTitle(final Context context) {
     final Context appContext = context.getApplicationContext();
     start(appContext);
 
-    final String blogTitle = appContext.getString(R.string.cyclestreets_blog);
-    final String updateBlogTitle = appContext.getString(R.string.cyclestreets_blog_updates);
+    final String blogTitle = appContext.getString(R.string.blog);
+    final String updateBlogTitle = appContext.getString(R.string.blog_updated);
 
     return new MainNavDrawerActivity.PageTitle() {
       @Override
@@ -81,13 +80,11 @@ public class BlogFragment extends WebPageFragment {
     return prefs.getString(LAST_DATE, null);
   }
 
-  private static void setLastBlogUpdate(
-      final Context context,
-      final String update) {
+  private static void setLastBlogUpdate(final Context context, final String update) {
     final SharedPreferences.Editor edit = prefs(context).edit();
     edit.putString(LAST_DATE, update);
     edit.putBoolean(UPDATE_AVAILABLE, true);
-    edit.commit();
+    edit.apply();
   }
 
   private static SharedPreferences prefs(

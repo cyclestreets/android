@@ -1,15 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-  <string name="app_name">CycleStreets</string>
-  <string name="route_map">Routenplanung</string>
-  <string name="itinerary">Reiseplan</string>
-  <string name="elevation">Geländeprofil</string>
-  <string name="photomap">Photokarte</string>
-  <string name="photo_upload">Photo hinzufügen</string>
-  <string name="cyclestreets_blog">Blog</string>
-  <string name="cyclestreets_blog_updates">Blog - aktualisiert</string>
-
   <string name="crash_notif_ticker_text">Unerwarteter Fehler, bitte sende einen Bericht …</string>
   <string name="crash_notif_title">CycleStreets ist abgestürzt …</string>
   <string name="crash_notif_text">Bitte klicke hier um uns bei der Fehlerbehebung zu unterstützen.</string>
