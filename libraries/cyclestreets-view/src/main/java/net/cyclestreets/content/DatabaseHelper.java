@@ -126,7 +126,7 @@ class DatabaseHelper extends SQLiteOpenHelper {
       if (cursor.moveToFirst()) {
         do {
           final String v1ApiJourneyXml = cursor.getString(1);
-          final String journeyJson = JourneyStringTransformer.fromV1ApiXml(v1ApiJourneyXml);
+          final String journeyJson = JourneyStringTransformer.INSTANCE.fromV1ApiXml(v1ApiJourneyXml);
           final String e6Waypoints = cursor.getString(2);
           final String newWaypoints = serializeWaypoints(deserializeE6Waypoints(e6Waypoints));
 
