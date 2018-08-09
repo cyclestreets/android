@@ -19,7 +19,6 @@ configure(subprojects.findAll { it.path.startsWith(':custom-versions:') ||
 
   apply plugin: 'com.android.application'
   apply plugin: 'com.github.triplet.play'
-  apply plugin: 'kotlin-android'
 
   signingKey(it)
   manifestProperties(it)
@@ -36,6 +35,8 @@ configure(subprojects.findAll { it.path.startsWith(':libraries:') }) {
 subprojects {
   if (!file("${projectDir}/build.gradle").exists())
     return
+
+  apply plugin: 'kotlin-android'
 
   gradle.projectsEvaluated {
     tasks.withType(JavaCompile) {
