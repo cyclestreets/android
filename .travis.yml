@@ -13,7 +13,7 @@ jdk:
 env:
   global:
     # Remember to keep these four values in sync with config.properties
-    - compileSdkVersion=26
+    - compileSdkVersion=28
     - minSdkVersion=23
     - targetSdkVersion=26
     - toolsVersion=27.0.3

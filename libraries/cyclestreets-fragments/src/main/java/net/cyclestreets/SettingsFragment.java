@@ -3,27 +3,30 @@ package net.cyclestreets;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.EditTextPreference;
-import android.preference.ListPreference;
-import android.preference.Preference;
-import android.preference.PreferenceFragment;
-import android.preference.PreferenceScreen;
+import android.support.transition.Fade;
+import android.support.transition.Slide;
+import android.support.v7.preference.*;
 
+import android.util.Log;
+import android.view.Gravity;
 import net.cyclestreets.fragments.R;
 import net.cyclestreets.tiles.TileSource;
+import net.cyclestreets.util.Logging;
 import net.cyclestreets.util.MapPack;
 import net.cyclestreets.util.MessageBox;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class SettingsFragment extends PreferenceFragment implements SharedPreferences.OnSharedPreferenceChangeListener
+public class SettingsFragment extends PreferenceFragmentCompat implements SharedPreferences.OnSharedPreferenceChangeListener
 {
+  private static final String TAG = Logging.getTag(SettingsFragment.class);
+  private static final String PREFERENCE_SCREEN_ARG = "preferenceScreenArg";
+
   @Override
-  public void onCreate(final Bundle savedInstance) {
+  public void onCreate(Bundle savedInstance) {
     super.onCreate(savedInstance);
 
-    addPreferencesFromResource(R.xml.prefs);
     setupMapStyles();
     setupMapFileList();
 
@@ -38,15 +41,48 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
     setSummary(CycleStreetsPreferences.PREF_REPLAN_DISTANCE);
   }
 
+  @Override
+  public void onCreatePreferences(final Bundle savedInstance, final String rootKey) {
+    if (getArguments() != null) {
+      Log.d(TAG, "Creating preferences subscreen with key " + rootKey);
+      String key = getArguments().getString(PREFERENCE_SCREEN_ARG);
+      setPreferencesFromResource(R.xml.prefs, key);
+    } else {
+      Log.d(TAG, "Creating root preferences page");
+      setPreferencesFromResource(R.xml.prefs, rootKey);
+    }
+  }
+
+  @Override
+  public void onNavigateToScreen(PreferenceScreen preferenceScreen) {
+    // Allow instantiation of subscreens
+    Bundle args = new Bundle();
+    args.putString(PREFERENCE_SCREEN_ARG, preferenceScreen.getKey());
+    SettingsFragment settingsSubScreen = new SettingsFragment();
+    settingsSubScreen.setArguments(args);
+
+    // Make the transitions into and back out of subscreens look nice
+    settingsSubScreen.setEnterTransition(new Slide(Gravity.END));
+    settingsSubScreen.setExitTransition(new Slide(Gravity.START));
+    this.setEnterTransition(new Fade());
+    this.setExitTransition(new Fade());
+
+    getFragmentManager()
+        .beginTransaction()
+        .replace(getId(), settingsSubScreen)
+        .addToBackStack(null)
+        .commit();
+  }
+
   private void setupMapStyles() {
-    final ListPreference mapstylePref= (ListPreference)findPreference(CycleStreetsPreferences.PREF_MAPSTYLE_KEY);
+    final ListPreference mapstylePref = (ListPreference)findPreference(CycleStreetsPreferences.PREF_MAPSTYLE_KEY);
     if (mapstylePref == null)
       return;
     TileSource.configurePreference(mapstylePref);
   }
 
   private void setupMapFileList() {
-    final ListPreference mapfilePref= (ListPreference)findPreference(CycleStreetsPreferences.PREF_MAPFILE_KEY);
+    final ListPreference mapfilePref = (ListPreference)findPreference(CycleStreetsPreferences.PREF_MAPFILE_KEY);
     if (mapfilePref == null)
       return;
     populateMapFileList(mapfilePref);
@@ -88,6 +124,8 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
 
   private void setSummary(final String key) {
     final Preference prefUI = findPreference(key);
+    if (prefUI == null)
+      return;
     if (prefUI instanceof ListPreference)
       prefUI.setSummary(((ListPreference)prefUI).getEntry());
     if (prefUI instanceof EditTextPreference)
@@ -98,7 +136,7 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
   }
 
   private void setMapFileSummary(final String style) {
-    final ListPreference mapfilePref= (ListPreference)findPreference(CycleStreetsPreferences.PREF_MAPFILE_KEY);
+    final ListPreference mapfilePref = (ListPreference)findPreference(CycleStreetsPreferences.PREF_MAPFILE_KEY);
     if (mapfilePref == null)
       return;
 

@@ -6,13 +6,13 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.graphics.drawable.Drawable;
+import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
-import android.app.Fragment;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.res.ResourcesCompat;
 import android.support.v4.view.GravityCompat;
-import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
@@ -54,7 +54,7 @@ public abstract class MainNavDrawerActivity extends AppCompatActivity implements
 
     setContentView(R.layout.mainnavdraweractivity);
 
-    navDrawer_ = (NavigationDrawerFragment)getFragmentManager().findFragmentById(R.id.navigation_drawer);
+    navDrawer_ = (NavigationDrawerFragment)getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
     navDrawer_.setUp(R.id.navigation_drawer, (DrawerLayout)findViewById(R.id.drawer_layout));
 
     pages_ = new ArrayList<>();
@@ -328,7 +328,7 @@ public abstract class MainNavDrawerActivity extends AppCompatActivity implements
         currentSelectedPosition_ = position;
         drawerListView_.setItemChecked(position, true);
 
-        final FragmentManager fragmentManager = getActivity().getFragmentManager();
+        final FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
         final Fragment newFrag = ((FragmentItem)di).create();
 
         final FragmentTransaction ft = fragmentManager.beginTransaction();
