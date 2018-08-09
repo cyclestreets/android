@@ -1,19 +1,21 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
   <PreferenceScreen
       android:title="Maps display">
     <ListPreference
         android:key="mapstyle"
         android:title="Map style"
         android:summary="OpenStreetMap"
-        android:defaultValue="CycleStreets-OSM"/>
+        android:defaultValue="CycleStreets-OSM" />
     <ListPreference
         android:key="mapfile"
-        android:title="Vector mapfile"/>
+        android:title="Vector mapfile" />
     <CheckBoxPreference
-      android:key="confirm-new-route"
-      android:title="Confirm start new route"
-      android:defaultValue="true"/>
+        android:key="confirm-new-route"
+        android:title="Confirm start new route"
+        android:defaultValue="true" />
   </PreferenceScreen>
+
   <PreferenceScreen
       android:title="Routing preferences">
     <ListPreference
@@ -36,8 +38,9 @@
         android:summary="Kilometres"
         android:defaultValue="km"
         android:entries="@array/units"
-        android:entryValues="@array/unit_values"/>
+        android:entryValues="@array/unit_values" />
   </PreferenceScreen>
+
   <PreferenceScreen
       android:title="LiveRide">
     <ListPreference
@@ -62,23 +65,25 @@
         android:entries="@array/distance"
         android:entryValues="@array/distance_values" />
   </PreferenceScreen>
+
   <PreferenceScreen
       android:title="Saved locations">
-    <intent android:action="net.cyclestreets.LocationsActivity"/>
+    <intent android:action="net.cyclestreets.LocationsActivity" />
   </PreferenceScreen>
+
   <PreferenceScreen
       android:title="CycleStreets account">
     <PreferenceScreen
         android:title="Account details"
         android:key="cyclestreets-account">
-      <intent android:action="net.cyclestreets.AccountDetailsActivity"/>
+      <intent android:action="net.cyclestreets.AccountDetailsActivity" />
       <EditTextPreference
           android:key="username"
-          android:title="Username"/>
+          android:title="Username" />
       <EditTextPreference
           android:key="password"
           android:title="Password"
-          android:password="true"/>
+          android:password="true" />
     </PreferenceScreen>
     <ListPreference
         android:key="uploadsize"
@@ -86,10 +91,12 @@
         android:summary="medium"
         android:defaultValue="big"
         android:entries="@array/uploadsize"
-        android:entryValues="@array/uploadsize_values"/>
+        android:entryValues="@array/uploadsize_values" />
   </PreferenceScreen>
+
   <PreferenceScreen
       android:title="About">
-    <intent android:action="net.cyclestreets.AboutActivity"/>
+    <intent android:action="net.cyclestreets.AboutActivity" />
   </PreferenceScreen>
+
 </PreferenceScreen>
