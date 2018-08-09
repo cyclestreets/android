@@ -1,7 +1,9 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
   <PreferenceScreen
-      android:title="Maps display">
+      android:key="screen-maps-display"
+      android:title="Maps display"
+      android:persistent="false">
     <ListPreference
         android:key="mapstyle"
         android:title="Map style"
@@ -17,7 +19,9 @@
   </PreferenceScreen>
 
   <PreferenceScreen
-      android:title="Routing preferences">
+      android:key="screen-routing-preferences"
+      android:title="Routing preferences"
+      android:persistent="false">
     <ListPreference
         android:key="routetype"
         android:title="Route type default"
@@ -42,7 +46,9 @@
   </PreferenceScreen>
 
   <PreferenceScreen
-      android:title="LiveRide">
+      android:key="screen-liveride"
+      android:title="LiveRide"
+      android:persistent="false">
     <ListPreference
         android:key="nearing-turn-distance"
         android:title="Turn warning distance"
@@ -72,7 +78,10 @@
   </PreferenceScreen>
 
   <PreferenceScreen
-      android:title="CycleStreets account">
+      android:key="screen-account"
+      android:title="CycleStreets account"
+      android:persistent="false">
+
     <PreferenceScreen
         android:title="Account details"
         android:key="cyclestreets-account">
@@ -85,6 +94,7 @@
           android:title="Password"
           android:password="true" />
     </PreferenceScreen>
+
     <ListPreference
         android:key="uploadsize"
         android:title="Photo upload"
@@ -95,7 +105,9 @@
   </PreferenceScreen>
 
   <PreferenceScreen
-      android:title="About">
+      android:key="screen-about"
+      android:title="About"
+      android:persistent="false">
     <intent android:action="net.cyclestreets.AboutActivity" />
   </PreferenceScreen>
 
