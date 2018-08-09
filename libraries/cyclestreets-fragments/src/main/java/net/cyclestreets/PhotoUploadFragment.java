@@ -1,19 +1,6 @@
 package net.cyclestreets;
 
-import net.cyclestreets.fragments.R;
-import net.cyclestreets.api.PhotomapCategory;
-import net.cyclestreets.api.PhotomapCategories;
-import net.cyclestreets.api.Upload;
-import net.cyclestreets.util.Bitmaps;
-import net.cyclestreets.util.Dialog;
-import net.cyclestreets.util.MessageBox;
-import net.cyclestreets.util.Share;
-import net.cyclestreets.util.Theme;
-import net.cyclestreets.views.CycleMapView;
-import net.cyclestreets.views.overlay.ThereOverlay;
-import net.cyclestreets.views.overlay.ThereOverlay.LocationListener;
 import android.app.Activity;
-import android.app.Fragment;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -30,6 +17,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -58,6 +46,19 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import net.cyclestreets.fragments.R;
+import net.cyclestreets.api.PhotomapCategory;
+import net.cyclestreets.api.PhotomapCategories;
+import net.cyclestreets.api.Upload;
+import net.cyclestreets.util.Bitmaps;
+import net.cyclestreets.util.Dialog;
+import net.cyclestreets.util.MessageBox;
+import net.cyclestreets.util.Share;
+import net.cyclestreets.util.Theme;
+import net.cyclestreets.views.CycleMapView;
+import net.cyclestreets.views.overlay.ThereOverlay;
+import net.cyclestreets.views.overlay.ThereOverlay.LocationListener;
 
 import org.osmdroid.api.IGeoPoint;
 import org.osmdroid.util.GeoPoint;

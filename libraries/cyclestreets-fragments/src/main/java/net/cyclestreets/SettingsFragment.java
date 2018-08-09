@@ -3,11 +3,7 @@ package net.cyclestreets;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.EditTextPreference;
-import android.preference.ListPreference;
-import android.preference.Preference;
-import android.preference.PreferenceFragment;
-import android.preference.PreferenceScreen;
+import android.support.v7.preference.*;
 
 import net.cyclestreets.fragments.R;
 import net.cyclestreets.tiles.TileSource;
@@ -17,10 +13,10 @@ import net.cyclestreets.util.MessageBox;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SettingsFragment extends PreferenceFragment implements SharedPreferences.OnSharedPreferenceChangeListener
+public class SettingsFragment extends PreferenceFragmentCompat implements SharedPreferences.OnSharedPreferenceChangeListener
 {
   @Override
-  public void onCreate(final Bundle savedInstance) {
+  public void onCreatePreferences(final Bundle savedInstance, final String rootKey) {
     super.onCreate(savedInstance);
 
     addPreferencesFromResource(R.xml.prefs);
