@@ -1,9 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-  <string name="navigation_drawer_open">Abrir gaveta de navegação</string>
-  <string name="navigation_drawer_close">Fechar gaveta de navegação</string>
-
   <string name="find_route">Encontrar Rota</string>
   <string name="load_route">Load route</string>
   <string name="addvia">Adicionar destino</string>

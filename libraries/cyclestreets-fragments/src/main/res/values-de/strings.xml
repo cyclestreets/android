@@ -1,9 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-  <string name="navigation_drawer_open">Öffne Navigationsanzeige</string>
-  <string name="navigation_drawer_close">Schließe Navigationsanzeige</string>
-
   <string name="find_route">Finde Route</string>
   <string name="load_route">Load route</string>
   <string name="addvia">Füge Wegpunkt hinzu</string>
