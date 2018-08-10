@@ -2,11 +2,9 @@ package net.cyclestreets
 
 import android.content.Context
 import android.content.SharedPreferences
-import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.support.design.widget.NavigationView
 import android.support.v4.app.Fragment
-import android.support.v4.app.FragmentTransaction
 import android.support.v7.app.ActionBar
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
@@ -30,6 +28,7 @@ import net.cyclestreets.util.Theme
 
 import android.support.design.widget.NavigationView.OnNavigationItemSelectedListener
 import android.support.transition.Fade
+import android.support.transition.Slide
 
 private val TAG = Logging.getTag(MainNavDrawerActivity::class.java)
 private const val DRAWER_ITEMID_SELECTED_KEY = "DRAWER_ITEM_SELECTED"
@@ -114,7 +113,7 @@ abstract class MainNavDrawerActivity : AppCompatActivity(), OnNavigationItemSele
         val fragmentClass = itemToFragment.get(menuItem.itemId)
         try {
             val fragment: Fragment = fragmentClass.newInstance()
-            fragment.enterTransition = Fade()
+            fragment.enterTransition = Slide(Gravity.END)
             fragment.exitTransition = Fade()
             return fragment
         }
