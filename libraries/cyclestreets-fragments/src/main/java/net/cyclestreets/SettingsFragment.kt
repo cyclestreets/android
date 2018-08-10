@@ -56,7 +56,7 @@ class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedP
 
         // Make the transitions into and back out of subscreens look nice
         settingsSubScreen.enterTransition = Slide(Gravity.END)
-        settingsSubScreen.exitTransition = Slide(Gravity.START)
+        settingsSubScreen.exitTransition = Fade()
         this.enterTransition = Fade()
         this.exitTransition = Fade()
 
