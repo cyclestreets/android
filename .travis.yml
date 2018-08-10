@@ -16,7 +16,7 @@ env:
     - compileSdkVersion=28
     - minSdkVersion=23
     - targetSdkVersion=26
-    - toolsVersion=27.0.3
+    - toolsVersion=28.0.0
 
     # For the decryption of secrets needed to sign and publish our artifacts
     - secure: "LipL0wPv0uQrKitaeGxCpoQsx5sl/Pg/DtQv4S7Bi52DxfArgvD2hPB0TWgkgYGJPfENHLEyqg+H+/v2nON3IXY+cnsd+TW+P1T03/52D56ieSKGVtVtSYUOZUgoyxIIvRZWFh/UNg+AmZIjOCTJDLitBTUxD8kWux8NjhIqZow="

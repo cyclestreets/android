@@ -7,7 +7,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.database.sqlite.SQLiteStatement;
 import android.provider.BaseColumns;
 import android.util.Log;
-import net.cyclestreets.api.client.JourneyStringTransformer;
+import net.cyclestreets.api.client.JourneyStringTransformerKt;
 import net.cyclestreets.util.Logging;
 import org.osmdroid.api.IGeoPoint;
 import org.osmdroid.util.GeoPoint;
@@ -126,7 +126,7 @@ class DatabaseHelper extends SQLiteOpenHelper {
       if (cursor.moveToFirst()) {
         do {
           final String v1ApiJourneyXml = cursor.getString(1);
-          final String journeyJson = JourneyStringTransformer.fromV1ApiXml(v1ApiJourneyXml);
+          final String journeyJson = JourneyStringTransformerKt.fromV1ApiXml(v1ApiJourneyXml);
           final String e6Waypoints = cursor.getString(2);
           final String newWaypoints = serializeWaypoints(deserializeE6Waypoints(e6Waypoints));
 
