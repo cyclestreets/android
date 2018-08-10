@@ -10,16 +10,13 @@ public final class CycleStreetsAppSupport {
   private static boolean isNew_;
   private static String version_;
 
-  public static void initialise(final Context context) {
-    initialise(context, -1);
-  }
-
   public static void initialise(final Context context, final int prefsDefault) {
     CycleStreetsPreferences.initialise(context, prefsDefault);
     CycleStreetsNotifications.initialise(context);
 
     Route.initialise(context);
     ApiClient.initialise(context);
+    BlogState.INSTANCE.initialise(context);
 
     version_ = version(context);
 
