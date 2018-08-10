@@ -29,6 +29,7 @@ import net.cyclestreets.util.Logging
 import net.cyclestreets.util.Theme
 
 import android.support.design.widget.NavigationView.OnNavigationItemSelectedListener
+import android.support.transition.Fade
 
 private val TAG = Logging.getTag(MainNavDrawerActivity::class.java)
 private const val DRAWER_ITEMID_SELECTED_KEY = "DRAWER_ITEM_SELECTED"
@@ -111,7 +112,12 @@ abstract class MainNavDrawerActivity : AppCompatActivity(), OnNavigationItemSele
 
     private fun instantiateFragmentFor(menuItem: MenuItem): Fragment {
         val fragmentClass = itemToFragment.get(menuItem.itemId)
-        try { return fragmentClass.newInstance() }
+        try {
+            val fragment: Fragment = fragmentClass.newInstance()
+            fragment.enterTransition = Fade()
+            fragment.exitTransition = Fade()
+            return fragment
+        }
         catch (e: InstantiationException) { throw RuntimeException(e) }
         catch (e: IllegalAccessException) { throw RuntimeException(e) }
     }
