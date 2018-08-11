@@ -100,7 +100,7 @@ public class AddPhotoFragment extends Fragment
                            final Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
 
-    final String metaData = photoUploadMetaData();
+    final String metaData = photoUploadMetaData(getActivity());
     allowUploadByKey_ = metaData.contains("ByKey");
     allowTextOnly_ = metaData.contains("AllowTextOnly");
     noShare_ = metaData.contains("NoShare");
@@ -171,17 +171,6 @@ public class AddPhotoFragment extends Fragment
     final Button next = (Button)parentView.findViewById(R.id.next);
     next.setText(nextText);
     next.setCompoundDrawablesWithIntrinsicBounds(0, 0, nextDrawable, 0);
-  }
-
-  private String photoUploadMetaData() {
-    try {
-      final ApplicationInfo ai = getActivity().getPackageManager().getApplicationInfo(getActivity().getPackageName(), PackageManager.GET_META_DATA);
-      final Bundle bundle = ai.metaData;
-      final String upload = bundle.getString("CycleStreetsPhotoUpload");
-      return upload != null ? upload : "";
-    } catch (final Exception e) {
-      return "";
-    }
   }
 
   private void setContentView(final View child) {

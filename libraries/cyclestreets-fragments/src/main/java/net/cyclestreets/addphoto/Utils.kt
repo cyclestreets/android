@@ -2,12 +2,22 @@ package net.cyclestreets.addphoto
 
 import android.app.Activity
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.provider.MediaStore
 import android.support.media.ExifInterface
 import android.text.TextUtils
 import org.osmdroid.util.GeoPoint
 import java.text.SimpleDateFormat
 import java.util.Date
+
+internal fun photoUploadMetaData(activity: Activity?): String {
+    try {
+        val ai = activity!!.packageManager.getApplicationInfo(activity.packageName, PackageManager.GET_META_DATA)
+        return ai.metaData.getString("CycleStreetsPhotoUpload") ?: ""
+    } catch (e: Exception) {
+        return ""
+    }
+}
 
 internal fun getImageFilePath(data: Intent, activity: Activity?): String {
     val selectedImage = data.data
