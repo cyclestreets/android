@@ -43,10 +43,9 @@ import java.io.File;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
+import net.cyclestreets.addphoto.AddStep;
 import net.cyclestreets.fragments.R;
 import net.cyclestreets.api.PhotomapCategory;
 import net.cyclestreets.api.PhotomapCategories;
@@ -69,45 +68,6 @@ import static net.cyclestreets.util.MenuHelper.enableMenuItem;
 public class PhotoUploadFragment extends Fragment
                 implements View.OnClickListener, LocationListener, Undoable
 {
-  public enum AddStep  {
-    PHOTO(null),
-    CAPTION(PHOTO),
-    CATEGORY(CAPTION),
-    LOCATION(CATEGORY),
-    VIEW(LOCATION),
-    DONE(VIEW);
-
-    AddStep(AddStep p) {
-      prev_ = p;
-      if (prev_ != null)
-        prev_.next_ = this;
-      save(this);
-    }
-
-    public AddStep prev() { return prev_; }
-    public AddStep next() { return next_; }
-
-    public int value() { return Value_.get(this); }
-
-    private AddStep prev_;
-    private AddStep next_;
-
-    public static AddStep fromInt(int a) {
-      for (AddStep s : Value_.keySet())
-        if (s.value() == a)
-          return s;
-      return null;
-    }
-
-    private static void save(AddStep a) {
-      if (Value_ == null)
-        Value_ = new HashMap<>();
-      Value_.put(a, Value_.size());
-    }
-
-    private static Map<AddStep, Integer> Value_;
-  }
-
   private static final int TakePhoto = 2;
   private static final int ChoosePhoto = 3;
   private static final int AccountDetails = 4;
@@ -240,7 +200,7 @@ public class PhotoUploadFragment extends Fragment
 
   private void store() {
     final SharedPreferences.Editor edit = prefs().edit();
-    edit.putInt("STEP", step_.value());
+    edit.putInt("STEP", step_.getId());
     edit.putString("PHOTOFILE", photoFile_);
     edit.putString("DATETIME", dateTime_);
     edit.putString("CAPTION", caption_);
@@ -278,7 +238,7 @@ public class PhotoUploadFragment extends Fragment
       doOnResume();
     }
     catch (RuntimeException e) {
-      step_ = AddStep.fromInt(0);
+      step_ = AddStep.Companion.fromId(0);
     }
 
     super.onResume();
@@ -288,7 +248,7 @@ public class PhotoUploadFragment extends Fragment
   private void doOnResume() {
     final SharedPreferences prefs = prefs();
 
-    step_ = AddStep.fromInt(prefs.getInt("STEP", 0));
+    step_ = AddStep.Companion.fromId(prefs.getInt("STEP", 0));
     photoFile_ = prefs.getString("PHOTOFILE", photoFile_);
     if (photo_ == null && photoFile_ != null)
       photo_ = Bitmaps.loadFile(photoFile_);
@@ -311,7 +271,7 @@ public class PhotoUploadFragment extends Fragment
     final long now = new Date().getTime();
     final long when = prefs.getLong("WHEN", now);
     if ((now - when) > fiveMinutes)
-      step_ = AddStep.fromInt(0);
+      step_ = AddStep.Companion.fromId(0);
   }
 
   private SharedPreferences prefs() {
@@ -359,7 +319,7 @@ public class PhotoUploadFragment extends Fragment
       return false;
     }
 
-    step_ = step_.prev();
+    step_ = step_.getPrevious();
     store();
     setupView();
 
@@ -372,7 +332,7 @@ public class PhotoUploadFragment extends Fragment
       return;
     }
 
-    step_ = step_.next();
+    step_ = step_.getNext();
 
     store();
     setupView();
