@@ -1,7 +1,6 @@
 package net.cyclestreets.addphoto;
 
 import android.app.Activity;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -25,7 +24,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -39,21 +37,16 @@ import android.widget.RelativeLayout.LayoutParams;
 import com.mikepenz.google_material_typeface_library.GoogleMaterial;
 import com.mikepenz.iconics.IconicsDrawable;
 
-import java.io.File;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.List;
 
 import net.cyclestreets.AccountDetailsActivity;
 import net.cyclestreets.CycleStreetsPreferences;
 import net.cyclestreets.Undoable;
 import net.cyclestreets.fragments.R;
-import net.cyclestreets.api.PhotomapCategory;
 import net.cyclestreets.api.PhotomapCategories;
-import net.cyclestreets.api.Upload;
 import net.cyclestreets.util.Bitmaps;
-import net.cyclestreets.util.Dialog;
 import net.cyclestreets.util.MessageBox;
 import net.cyclestreets.util.Share;
 import net.cyclestreets.util.Theme;
@@ -689,38 +682,4 @@ if (url.startsWith("content://com.google.android.apps.photos.content")){
   }
 
   //////////////////////////////////////////////////////////
-  private static class CategoryAdapter extends BaseAdapter  {
-    private final LayoutInflater inflater_;
-    private final List<PhotomapCategory> list_;
-
-    public CategoryAdapter(final Context context,
-                           final List<PhotomapCategory> list) {
-      inflater_ = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-      list_ = list;
-    }
-
-    @Override
-    public int getCount() {
-      return list_.size();
-    }
-
-    @Override
-    public String getItem(final int position) {
-      final PhotomapCategory c = list_.get(position);
-      return c.getName();
-    }
-
-    @Override
-    public long getItemId(final int position) {
-      return position;
-    }
-
-    @Override
-    public View getView(final int position, final View convertView, final ViewGroup parent) {
-      final int id = (parent instanceof Spinner) ? android.R.layout.simple_spinner_item : android.R.layout.simple_spinner_dropdown_item;
-      final TextView tv = (TextView)inflater_.inflate(id, parent, false);
-      tv.setText(getItem(position));
-      return tv;
-    }
-  }
 }
