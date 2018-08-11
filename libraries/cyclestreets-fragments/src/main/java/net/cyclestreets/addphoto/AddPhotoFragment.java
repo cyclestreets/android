@@ -1,4 +1,4 @@
-package net.cyclestreets;
+package net.cyclestreets.addphoto;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
@@ -45,7 +45,9 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
-import net.cyclestreets.addphoto.AddStep;
+import net.cyclestreets.AccountDetailsActivity;
+import net.cyclestreets.CycleStreetsPreferences;
+import net.cyclestreets.Undoable;
 import net.cyclestreets.fragments.R;
 import net.cyclestreets.api.PhotomapCategory;
 import net.cyclestreets.api.PhotomapCategories;
@@ -65,7 +67,7 @@ import org.osmdroid.util.GeoPoint;
 import static net.cyclestreets.util.MenuHelper.createMenuItem;
 import static net.cyclestreets.util.MenuHelper.enableMenuItem;
 
-public class PhotoUploadFragment extends Fragment
+public class AddPhotoFragment extends Fragment
                 implements View.OnClickListener, LocationListener, Undoable
 {
   private static final int TakePhoto = 2;
@@ -681,7 +683,7 @@ if (url.startsWith("content://com.google.android.apps.photos.content")){
         Toast.makeText(getActivity(), R.string.photo_could_not_load_categories, Toast.LENGTH_LONG).show();
         return;
       }
-      PhotoUploadFragment.photomapCategories = photomapCategories;
+      AddPhotoFragment.photomapCategories = photomapCategories;
       setupSpinners();
     }
   }
