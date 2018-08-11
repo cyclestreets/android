@@ -7,15 +7,12 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
-import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.Point;
 import android.graphics.drawable.Drawable;
-import android.media.ExifInterface;
-import android.net.Uri;
+import android.support.media.ExifInterface;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -37,8 +34,6 @@ import android.widget.RelativeLayout.LayoutParams;
 import com.mikepenz.google_material_typeface_library.GoogleMaterial;
 import com.mikepenz.iconics.IconicsDrawable;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import net.cyclestreets.AccountDetailsActivity;
@@ -57,6 +52,7 @@ import net.cyclestreets.views.overlay.ThereOverlay.LocationListener;
 import org.osmdroid.api.IGeoPoint;
 import org.osmdroid.util.GeoPoint;
 
+import static net.cyclestreets.addphoto.UtilsKt.*;
 import static net.cyclestreets.util.MenuHelper.createMenuItem;
 import static net.cyclestreets.util.MenuHelper.enableMenuItem;
 
@@ -549,7 +545,7 @@ if (url.startsWith("content://com.google.android.apps.photos.content")){
 }
        */
 
-      photoFile_ = getImageFilePath(data);
+      photoFile_ = getImageFilePath(data, getActivity());
       if (photo_ != null)
         photo_.recycle();
       photo_ = Bitmaps.loadFile(photoFile_);
@@ -559,7 +555,7 @@ if (url.startsWith("content://com.google.android.apps.photos.content")){
       dateTime_ = photoTimestamp(exif);
       final GeoPoint photoLoc = photoLocation(exif);
       geolocated_ = (photoLoc != null);
-      there_.noOverThere(photoLocation(exif));
+      there_.noOverThere(photoLoc);
 
       nextStep();
     }
@@ -569,20 +565,6 @@ if (url.startsWith("content://com.google.android.apps.photos.content")){
         startActivityForResult(new Intent(Intent.ACTION_PICK,
                                           android.provider.MediaStore.Images.Media.INTERNAL_CONTENT_URI),
                                           ChoosePhoto);
-    }
-  }
-
-  private String getImageFilePath(final Intent data) {
-    final Uri selectedImage = data.getData();
-    final String[] filePathColumn = { MediaStore.Images.Media.DATA };
-
-    final Cursor cursor = getActivity().getContentResolver().query(selectedImage, filePathColumn, null, null, null);
-    try  {
-      cursor.moveToFirst();
-      return cursor.getString(cursor.getColumnIndex(filePathColumn[0]));
-    }
-    finally  {
-      cursor.close();
     }
   }
 
@@ -633,29 +615,6 @@ if (url.startsWith("content://com.google.android.apps.photos.content")){
             setupView();
           }
         });
-  }
-
-  private GeoPoint photoLocation(final ExifInterface photoExif) {
-    final float[] coords = new float[2];
-    if (!photoExif.getLatLong(coords))
-      return null;
-    return new GeoPoint(coords[0], coords[1]);
-  }
-
-  private String photoTimestamp(final ExifInterface photoExif) {
-    Date date = new Date();
-
-    try  {
-      final DateFormat df = new SimpleDateFormat("yyyy:MM:dd HH:mm:ss");
-      final String dateString = photoExif.getAttribute(ExifInterface.TAG_DATETIME);
-      if (dateString != null && dateString.length() > 0)
-        date = df.parse(dateString);
-    }
-    catch (Exception e) {
-      // ah well
-    }
-
-    return Long.toString(date.getTime() / 1000);
   }
 
   ///////////////////////////////////////////////////////////////////////////
