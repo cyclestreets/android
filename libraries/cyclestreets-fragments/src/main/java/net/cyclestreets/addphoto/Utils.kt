@@ -10,6 +10,10 @@ import org.osmdroid.util.GeoPoint
 import java.text.SimpleDateFormat
 import java.util.Date
 
+internal const val TAKE_PHOTO = 2
+internal const val CHOOSE_PHOTO = 3
+internal const val ACCOUNT_DETAILS = 4
+
 internal fun photoUploadMetaData(activity: Activity?): String {
     try {
         val ai = activity!!.packageManager.getApplicationInfo(activity.packageName, PackageManager.GET_META_DATA)

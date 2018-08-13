@@ -59,10 +59,6 @@ import static net.cyclestreets.util.MenuHelper.enableMenuItem;
 public class AddPhotoFragment extends Fragment
                 implements View.OnClickListener, LocationListener, Undoable
 {
-  private static final int TakePhoto = 2;
-  private static final int ChoosePhoto = 3;
-  private static final int AccountDetails = 4;
-
   private LinearLayout photoRoot_;
   private View photoView_;
   private View photoCaption_;
@@ -470,11 +466,11 @@ public class AddPhotoFragment extends Fragment
 
     if (R.id.takephoto_button == clicked)
       startActivityForResult(new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE),
-                             TakePhoto);
+                             TAKE_PHOTO);
 
     if (R.id.chooseexisting_button == clicked)
       startActivityForResult(new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.INTERNAL_CONTENT_URI),
-                             ChoosePhoto);
+                             CHOOSE_PHOTO);
 
     if (R.id.textonly_button == clicked) {
       photo_ = null;
@@ -499,7 +495,7 @@ public class AddPhotoFragment extends Fragment
       if (step_ == AddStep.LOCATION) {
         final boolean needAccountDetails = !allowUploadByKey_ && !CycleStreetsPreferences.accountOK();
         if (needAccountDetails)
-          startActivityForResult(new Intent(getActivity(), AccountDetailsActivity.class), AccountDetails);
+          startActivityForResult(new Intent(getActivity(), AccountDetailsActivity.class), ACCOUNT_DETAILS);
         else
           upload();
       } else if (step_ == AddStep.VIEW) {
