@@ -1,5 +1,6 @@
 package net.cyclestreets.addphoto
 
+import android.app.Activity
 import android.app.ProgressDialog
 import android.content.Context
 import android.content.Intent
@@ -7,26 +8,28 @@ import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.Point
+import android.graphics.drawable.Drawable
 import android.os.AsyncTask
 import android.os.Bundle
 import android.provider.MediaStore
+import android.support.media.ExifInterface
 import android.support.v4.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.util.Log
+import android.view.*
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.view.inputmethod.InputMethodManager
 import android.widget.*
+import com.mikepenz.google_material_typeface_library.GoogleMaterial
+import com.mikepenz.iconics.IconicsDrawable
 import net.cyclestreets.AccountDetailsActivity
 import net.cyclestreets.CycleStreetsPreferences
 import net.cyclestreets.Undoable
 import net.cyclestreets.api.PhotomapCategories
 import net.cyclestreets.api.Upload
 import net.cyclestreets.fragments.R
-import net.cyclestreets.util.Bitmaps
-import net.cyclestreets.util.Dialog
-import net.cyclestreets.util.MessageBox
-import net.cyclestreets.util.Share
+import net.cyclestreets.util.*
+import net.cyclestreets.util.MenuHelper.createMenuItem
+import net.cyclestreets.util.MenuHelper.enableMenuItem
 import net.cyclestreets.views.CycleMapView
 import net.cyclestreets.views.overlay.ThereOverlay
 import org.osmdroid.api.IGeoPoint
@@ -34,8 +37,9 @@ import org.osmdroid.util.GeoPoint
 import java.io.File
 import java.util.*
 
-class AddPhotoFragmant : Fragment(), View.OnClickListener, Undoable, ThereOverlay.LocationListener
-{
+internal val TAG = Logging.getTag(AddPhotoFragment::class.java)
+
+class AddPhotoFragment : Fragment(), View.OnClickListener, Undoable, ThereOverlay.LocationListener {
     // Android classes
     private lateinit var inflater: LayoutInflater
     private lateinit var inputMethodManager: InputMethodManager
@@ -68,18 +72,22 @@ class AddPhotoFragmant : Fragment(), View.OnClickListener, Undoable, ThereOverla
     private var geolocated: Boolean = false
     private var uploadedUrl: String? = null
 
+    // Drawables
+    private lateinit var restartDrawable: Drawable
+
     companion object {
         private lateinit var photomapCategories: PhotomapCategories
     }
 
-    ///////////// Fragment methods
+    ///////////// Fragment methods - views
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         super.onCreate(savedInstanceState)
 
         this.inflater = LayoutInflater.from(activity)
         inputMethodManager = activity!!.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
 
-        initialiseOptions()
+        initialiseDrawables()
+        initialiseFromMetadata()
         initialiseViews(this.inflater)
         step = AddStep.START
         caption = ""
@@ -92,7 +100,14 @@ class AddPhotoFragmant : Fragment(), View.OnClickListener, Undoable, ThereOverla
         return photoRoot
     }
 
-    private fun initialiseOptions() {
+    private fun initialiseDrawables() {
+        restartDrawable = IconicsDrawable(context!!)
+            .icon(GoogleMaterial.Icon.gmd_replay)
+            .color(Theme.lowlightColorInverse(context))
+            .sizeDp(24)
+    }
+
+    private fun initialiseFromMetadata() {
         val metaData = photoUploadMetaData(activity)
         allowUploadByKey = metaData.contains("ByKey")
         allowTextOnly = metaData.contains("AllowTextOnly")
@@ -104,12 +119,12 @@ class AddPhotoFragmant : Fragment(), View.OnClickListener, Undoable, ThereOverla
 
         photo1Start = inflater.inflate(R.layout.addphoto_1_start, null)
         (photo1Start.findViewById<View>(R.id.takephoto_button) as Button).apply {
-            setOnClickListener(this@AddPhotoFragmant)
+            setOnClickListener(this@AddPhotoFragment)
             isEnabled = activity!!.packageManager.hasSystemFeature(PackageManager.FEATURE_CAMERA)
         }
         photo1Start.findViewById<View>(R.id.chooseexisting_button).setOnClickListener(this)
         (photo1Start.findViewById<View>(R.id.textonly_button) as Button).apply {
-            setOnClickListener(this@AddPhotoFragmant)
+            setOnClickListener(this@AddPhotoFragment)
             if (!allowTextOnly) visibility = View.GONE
         }
 
@@ -233,7 +248,7 @@ class AddPhotoFragmant : Fragment(), View.OnClickListener, Undoable, ThereOverla
     private fun hookUpNext() {
         (photoRoot.findViewById(R.id.back) as Button?)?.setOnClickListener(this)
         (photoRoot.findViewById(R.id.next) as Button?)?.apply {
-            setOnClickListener(this@AddPhotoFragmant)
+            setOnClickListener(this@AddPhotoFragment)
             isEnabled = there.there() != null
         }
     }
@@ -256,8 +271,62 @@ class AddPhotoFragmant : Fragment(), View.OnClickListener, Undoable, ThereOverla
         iv.scaleType = ImageView.ScaleType.CENTER_INSIDE
     }
 
+    ///////////// Fragment methods - options menus
+    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
+        createMenuItem(menu!!, R.string.all_menu_restart, Menu.NONE, restartDrawable)
+        createMenuItem(menu!!, R.string.all_menu_back, Menu.NONE, R.drawable.ic_menu_revert)
+    }
 
-    ///////////// State store / retrieval
+    override fun onPrepareOptionsMenu(menu: Menu?) {
+        enableMenuItem(menu!!, R.string.all_menu_restart, step !== AddStep.START)
+        enableMenuItem(menu!!, R.string.all_menu_back, step !== AddStep.START && step !== AddStep.VIEW)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        val menuItem = item!!.itemId
+
+        return when (menuItem) {
+            R.string.all_menu_restart -> {
+                step = AddStep.START
+                setupView()
+                true
+            }
+            R.string.all_menu_back -> {
+                onBackPressed()
+                true
+            }
+            else -> false
+        }
+    }
+
+    ///////////// Fragment methods - Activity result processing
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        if (resultCode != Activity.RESULT_OK)
+            return
+
+        try {
+            photoFile = getImageFilePath(data!!, activity)
+            photo?.recycle()
+            photo = Bitmaps.loadFile(photoFile)
+
+            val exif = ExifInterface(photoFile!!)
+            dateTime = photoTimestamp(exif)
+            val photoLoc = photoLocation(exif)
+            geolocated = photoLoc != null
+            there.noOverThere(photoLoc)
+            nextStep()
+        } catch (e: Exception) {
+            Toast.makeText(activity, "There was a problem grabbing the photo : " + e.message, Toast.LENGTH_LONG).show()
+            Log.d(TAG, "onActivityResult threw exception when processing requestCode $requestCode", e)
+            if (requestCode == TAKE_PHOTO)
+                startActivityForResult(
+                    Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.INTERNAL_CONTENT_URI),
+                    CHOOSE_PHOTO
+                )
+        }
+    }
+
+    ///////////// Fragment methods - State store / retrieval
     override fun onPause() {
         prefs().edit().apply {
             putLong("WHEN", Date().time)
