@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Point;
@@ -111,13 +110,13 @@ public class AddPhotoFragment extends Fragment
 
     photoRoot_ = (LinearLayout)inflater_.inflate(R.layout.addphoto, null);
 
-    step_ = AddStep.PHOTO;
+    step_ = AddStep.START;
     caption_ = "";
     dateTime_ = "";
     metaCatId_ = -1;
     catId_ = -1;
 
-    photoView_ = inflater_.inflate(R.layout.addphotostart, null);  {
+    photoView_ = inflater_.inflate(R.layout.addphoto_1_start, null);  {
       final Button takePhoto = (Button)photoView_.findViewById(R.id.takephoto_button);
       if (getActivity().getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA))
         takePhoto.setOnClickListener(this);
@@ -132,13 +131,13 @@ public class AddPhotoFragment extends Fragment
         textOnly.setVisibility(View.GONE);
     }
 
-    photoCategory_ = inflater_.inflate(R.layout.addphotocategory, null);
+    photoCategory_ = inflater_.inflate(R.layout.addphoto_3_category, null);
     backNextButtons(photoCategory_, "Back", android.R.drawable.ic_media_rew, "Next", android.R.drawable.ic_media_ff);
 
-    photoLocation_ = inflater_.inflate(R.layout.addphotolocation, null);
+    photoLocation_ = inflater_.inflate(R.layout.addphoto_4_location, null);
     backNextButtons(photoLocation_, "Back", android.R.drawable.ic_media_rew, "Upload!", android.R.drawable.ic_menu_upload);
 
-    photoWebView_ = inflater_.inflate(R.layout.addphotoview, null);
+    photoWebView_ = inflater_.inflate(R.layout.addphoto_5_view, null);
     backNextButtons(photoWebView_, "Upload another", android.R.drawable.ic_menu_revert, "Close", android.R.drawable.ic_menu_close_clear_cancel);
     final Button closeButton = (Button)photoWebView_.findViewById(R.id.next);
     closeButton.setEnabled(false);
@@ -263,8 +262,8 @@ public class AddPhotoFragment extends Fragment
 
   @Override
   public void onPrepareOptionsMenu(final Menu menu) {
-    enableMenuItem(menu, R.string.all_menu_restart, step_ != AddStep.PHOTO);
-    enableMenuItem(menu, R.string.all_menu_back, step_ != AddStep.PHOTO && step_ != AddStep.VIEW);
+    enableMenuItem(menu, R.string.all_menu_restart, step_ != AddStep.START);
+    enableMenuItem(menu, R.string.all_menu_back, step_ != AddStep.START && step_ != AddStep.VIEW);
   }
 
   @Override
@@ -272,7 +271,7 @@ public class AddPhotoFragment extends Fragment
     final int menuItem = item.getItemId();
 
     if (R.string.all_menu_restart == menuItem) {
-      step_ = AddStep.PHOTO;
+      step_ = AddStep.START;
       setupView();
       return true;
     }
@@ -288,8 +287,8 @@ public class AddPhotoFragment extends Fragment
   ///////////////////////////////////////////////////////////////////
   @Override
   public boolean onBackPressed() {
-    if (step_ == AddStep.PHOTO || step_ == AddStep.VIEW) {
-      step_ = AddStep.PHOTO;
+    if (step_ == AddStep.START || step_ == AddStep.VIEW) {
+      step_ = AddStep.START;
       store();
 
       return false;
@@ -316,7 +315,7 @@ public class AddPhotoFragment extends Fragment
 
   private void setupView() {
     switch(step_) {
-    case PHOTO:
+    case START:
       metaCategorySpinner().setSelection(0);
       categorySpinner().setSelection(0);
       caption_ = "";
@@ -328,7 +327,7 @@ public class AddPhotoFragment extends Fragment
       // why recreate this view each time - well *sigh* because we have to force the
       // keyboard to hide, if we don't recreate the view afresh, Android won't redisplay
       // the keyboard if we come back to this view
-      photoCaption_ = inflater_.inflate(R.layout.addphotocaption, null);
+      photoCaption_ = inflater_.inflate(R.layout.addphoto_2_caption, null);
       backNextButtons(photoCaption_, getString(R.string.all_button_back), android.R.drawable.ic_media_rew, getString(R.string.all_button_next), android.R.drawable.ic_media_ff);
       setContentView(photoCaption_);
       captionEditor().setText(caption_);
@@ -373,7 +372,7 @@ public class AddPhotoFragment extends Fragment
       }
       break;
     case DONE:
-      step_ = AddStep.PHOTO;
+      step_ = AddStep.START;
       setupView();
       break;
     }
@@ -484,7 +483,7 @@ public class AddPhotoFragment extends Fragment
 
     if (R.id.back == clicked) {
       if (step_ == AddStep.VIEW) {
-        step_ = AddStep.PHOTO;
+        step_ = AddStep.START;
         store();
         setupView();
       } else

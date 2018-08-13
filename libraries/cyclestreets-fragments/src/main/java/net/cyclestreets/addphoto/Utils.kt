@@ -6,6 +6,9 @@ import android.content.pm.PackageManager
 import android.provider.MediaStore
 import android.support.media.ExifInterface
 import android.text.TextUtils
+import android.view.View
+import android.widget.Button
+import net.cyclestreets.fragments.R
 import org.osmdroid.util.GeoPoint
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -20,6 +23,19 @@ internal fun photoUploadMetaData(activity: Activity?): String {
         return ai.metaData.getString("CycleStreetsPhotoUpload") ?: ""
     } catch (e: Exception) {
         return ""
+    }
+}
+
+internal fun backNextButtons(parentView: View,
+                            backText: String, backDrawable: Int,
+                            nextText: String, nextDrawable: Int) {
+    (parentView.findViewById<View>(R.id.back) as Button).apply {
+        text = backText
+        setCompoundDrawablesWithIntrinsicBounds(backDrawable, 0, 0, 0)
+    }
+    (parentView.findViewById<View>(R.id.next) as Button).apply {
+        text = nextText
+        setCompoundDrawablesWithIntrinsicBounds(0, 0, nextDrawable, 0)
     }
 }
 
