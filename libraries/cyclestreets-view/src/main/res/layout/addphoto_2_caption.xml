@@ -2,37 +2,37 @@
 	android:orientation="vertical"
 	android:layout_width="fill_parent"
 	android:layout_height="fill_parent">
-	<ScrollView 
+	<ScrollView
 		android:layout_width="fill_parent"
 		android:layout_height="0dp"
 		android:orientation="vertical"
 		android:layout_weight="5.0"
 		android:padding="4.0dp">
-	    <LinearLayout
-	    	android:orientation="vertical"
-	       	android:layout_width="fill_parent"
-	    	android:layout_height="wrap_content">
-		<ImageView android:id="@+id/photo" 
-			android:layout_weight="1.0"
-			android:layout_width="fill_parent" 
-			android:layout_height="0dp"
-			android:cropToPadding="true"/>
+		<LinearLayout
+      android:orientation="vertical"
+      android:layout_width="fill_parent"
+      android:layout_height="wrap_content">
+		  <ImageView android:id="@+id/photo"
+			  android:layout_weight="1.0"
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:cropToPadding="true" />
 	  	<TextView
-			android:layout_width="fill_parent"
-			android:layout_height="wrap_content"
-			android:text="@string/photo_describe_hint"
-      android:id="@+id/label"/>
-		<EditText
-			android:id="@+id/caption"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/photo_describe_hint"
+        android:id="@+id/label" />
+  		<EditText
+	  		android:id="@+id/caption"
     		android:lines="4"
-    		android:minLines="4" 
+    		android:minLines="4"
     		android:gravity="top|left"
     		android:maxLines="8"
     		android:layout_height="fill_parent"
     		android:layout_width="fill_parent"
     		android:inputType="textCapSentences|textMultiLine"
-    		android:scrollbars="none"/>
+    		android:scrollbars="none" />
     	</LinearLayout>
-   	</ScrollView>	
-	<include layout="@layout/addphotonext"/>
+   	</ScrollView>
+	<include layout="@layout/addphoto_backnext" />
 </LinearLayout>

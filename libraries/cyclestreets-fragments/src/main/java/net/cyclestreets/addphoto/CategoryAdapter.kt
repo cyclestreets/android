@@ -27,7 +27,7 @@ internal class CategoryAdapter(context: Context,
         return position.toLong()
     }
 
-    override fun getView(position: Int, convertView: View, parent: ViewGroup): View {
+    override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
         val id = if (parent is Spinner) android.R.layout.simple_spinner_item else android.R.layout.simple_spinner_dropdown_item
         val tv = inflater.inflate(id, parent, false) as TextView
         tv.text = getItem(position)

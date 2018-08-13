@@ -20,13 +20,13 @@ import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.view.inputmethod.InputMethodManager
 import android.widget.*
 import com.mikepenz.google_material_typeface_library.GoogleMaterial
-import com.mikepenz.iconics.IconicsDrawable
 import net.cyclestreets.AccountDetailsActivity
 import net.cyclestreets.CycleStreetsPreferences
 import net.cyclestreets.Undoable
 import net.cyclestreets.api.PhotomapCategories
 import net.cyclestreets.api.Upload
 import net.cyclestreets.fragments.R
+import net.cyclestreets.iconics.IconicsHelper
 import net.cyclestreets.util.*
 import net.cyclestreets.util.MenuHelper.createMenuItem
 import net.cyclestreets.util.MenuHelper.enableMenuItem
@@ -52,7 +52,7 @@ class AddPhotoFragment : Fragment(), View.OnClickListener, Undoable, ThereOverla
     // Views for each step in the Add Photo process
     private lateinit var photoRoot: LinearLayout
     private lateinit var photo1Start: View
-    private lateinit var photo2Caption: View
+    private var photo2Caption: View? = null
     private lateinit var photo3Category: View
     private lateinit var photo4Location: View
     private lateinit var photo5View: View
@@ -62,7 +62,7 @@ class AddPhotoFragment : Fragment(), View.OnClickListener, Undoable, ThereOverla
     private lateinit var there: ThereOverlay
 
     // State
-    private lateinit var step: AddStep
+    private var step: AddStep = AddStep.START
     private var photoFile: String? = null
     private var photo: Bitmap? = null
     private var dateTime: String? = ""
@@ -73,10 +73,10 @@ class AddPhotoFragment : Fragment(), View.OnClickListener, Undoable, ThereOverla
     private var uploadedUrl: String? = null
 
     // Drawables
-    private lateinit var restartDrawable: Drawable
+    private var restartDrawable: Drawable? = null
 
     companion object {
-        private lateinit var photomapCategories: PhotomapCategories
+        private var photomapCategories: PhotomapCategories? = null
     }
 
     ///////////// Fragment methods - views
@@ -86,10 +86,9 @@ class AddPhotoFragment : Fragment(), View.OnClickListener, Undoable, ThereOverla
         this.inflater = LayoutInflater.from(activity)
         inputMethodManager = activity!!.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
 
-        initialiseDrawables()
+        initialiseDrawables(this.inflater)
         initialiseFromMetadata()
         initialiseViews(this.inflater)
-        step = AddStep.START
         caption = ""
 
         there = ThereOverlay(activity)
@@ -100,11 +99,11 @@ class AddPhotoFragment : Fragment(), View.OnClickListener, Undoable, ThereOverla
         return photoRoot
     }
 
-    private fun initialiseDrawables() {
-        restartDrawable = IconicsDrawable(context!!)
-            .icon(GoogleMaterial.Icon.gmd_replay)
-            .color(Theme.lowlightColorInverse(context))
-            .sizeDp(24)
+    private fun initialiseDrawables(inflater: Any) {
+        if (restartDrawable == null) {
+            val colorFunction: (Context) -> Int = { cxt: Context -> Theme.lowlightColorInverse(cxt) }
+            restartDrawable = IconicsHelper.drawable(inflater, GoogleMaterial.Icon.gmd_replay, colorFunction)?.sizeDp(24)
+        }
     }
 
     private fun initialiseFromMetadata() {
@@ -115,7 +114,7 @@ class AddPhotoFragment : Fragment(), View.OnClickListener, Undoable, ThereOverla
     }
 
     private fun initialiseViews(inflater: LayoutInflater) {
-        photoRoot = inflater.inflate(R.layout.addphoto, null) as LinearLayout
+        photoRoot = inflater.inflate(R.layout.addphoto_root, null) as LinearLayout
 
         photo1Start = inflater.inflate(R.layout.addphoto_1_start, null)
         (photo1Start.findViewById<View>(R.id.takephoto_button) as Button).apply {
@@ -187,11 +186,12 @@ class AddPhotoFragment : Fragment(), View.OnClickListener, Undoable, ThereOverla
                 // why recreate this view each time - well *sigh* because we have to force the
                 // keyboard to hide, if we don't recreate the view afresh, Android won't redisplay
                 // the keyboard if we come back to this view
-                photo2Caption = inflater.inflate(R.layout.addphoto_2_caption, null)
-                backNextButtons(photo2Caption,
-                                getString(R.string.all_button_back), android.R.drawable.ic_media_rew,
-                                getString(R.string.all_button_next), android.R.drawable.ic_media_ff)
-                setContentView(photo2Caption)
+                photo2Caption = inflater.inflate(R.layout.addphoto_2_caption, null).apply {
+                    backNextButtons(this,
+                                    getString(R.string.all_button_back), android.R.drawable.ic_media_rew,
+                                    getString(R.string.all_button_next), android.R.drawable.ic_media_ff)
+                    setContentView(this)
+                }
                 captionEditor().setText(caption)
                 if (photo == null && allowTextOnly) {
                     (photoRoot.findViewById(R.id.label) as TextView).setText(R.string.report_title)
@@ -249,7 +249,8 @@ class AddPhotoFragment : Fragment(), View.OnClickListener, Undoable, ThereOverla
         (photoRoot.findViewById(R.id.back) as Button?)?.setOnClickListener(this)
         (photoRoot.findViewById(R.id.next) as Button?)?.apply {
             setOnClickListener(this@AddPhotoFragment)
-            isEnabled = there.there() != null
+            if (step === AddStep.LOCATION)
+                isEnabled = there.there() != null
         }
     }
 
@@ -273,13 +274,14 @@ class AddPhotoFragment : Fragment(), View.OnClickListener, Undoable, ThereOverla
 
     ///////////// Fragment methods - options menus
     override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
+        initialiseDrawables(inflater!!)
         createMenuItem(menu!!, R.string.all_menu_restart, Menu.NONE, restartDrawable)
-        createMenuItem(menu!!, R.string.all_menu_back, Menu.NONE, R.drawable.ic_menu_revert)
+        createMenuItem(menu, R.string.all_menu_back, Menu.NONE, R.drawable.ic_menu_revert)
     }
 
     override fun onPrepareOptionsMenu(menu: Menu?) {
         enableMenuItem(menu!!, R.string.all_menu_restart, step !== AddStep.START)
-        enableMenuItem(menu!!, R.string.all_menu_back, step !== AddStep.START && step !== AddStep.VIEW)
+        enableMenuItem(menu, R.string.all_menu_back, step !== AddStep.START && step !== AddStep.VIEW)
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
@@ -414,7 +416,7 @@ class AddPhotoFragment : Fragment(), View.OnClickListener, Undoable, ThereOverla
 
     ///////////// Caption text
     private fun captionEditor(): EditText {
-        return photo2Caption.findViewById(R.id.caption)
+        return photo2Caption!!.findViewById(R.id.caption)
     }
     private fun captionText(): String {
         if (photo2Caption == null)
@@ -430,8 +432,8 @@ class AddPhotoFragment : Fragment(), View.OnClickListener, Undoable, ThereOverla
     private fun categoryId(): Int { return categorySpinner().selectedItemId.toInt() }
 
     private fun setupSpinners() {
-        metaCategorySpinner().adapter = CategoryAdapter(activity!!, photomapCategories.metaCategories())
-        categorySpinner().adapter = CategoryAdapter(activity!!, photomapCategories.categories())
+        metaCategorySpinner().adapter = CategoryAdapter(activity!!, photomapCategories!!.metaCategories())
+        categorySpinner().adapter = CategoryAdapter(activity!!, photomapCategories!!.categories())
         setSpinnerSelections()
     }
     private fun setSpinnerSelections() {
@@ -499,8 +501,8 @@ class AddPhotoFragment : Fragment(), View.OnClickListener, Undoable, ThereOverla
                             CycleStreetsPreferences.username(),
                             CycleStreetsPreferences.password(),
                             there.there(),
-                            photomapCategories.metaCategories()[metaCatId].tag,
-                            photomapCategories.categories()[catId].tag,
+                            photomapCategories!!.metaCategories()[metaCatId].tag,
+                            photomapCategories!!.categories()[catId].tag,
                             this.dateTime ?: java.lang.Long.toString(Date().time / 1000),
                             caption).execute()
         } catch (e: RuntimeException) {
