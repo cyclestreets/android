@@ -14,6 +14,7 @@ import android.os.Bundle
 import android.provider.MediaStore
 import android.support.media.ExifInterface
 import android.support.v4.app.Fragment
+import android.support.v4.content.FileProvider
 import android.util.Log
 import android.view.*
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
@@ -63,7 +64,7 @@ class AddPhotoFragment : Fragment(), View.OnClickListener, Undoable, ThereOverla
 
     // State
     private var step: AddStep = AddStep.START
-    private var photoFile: String? = null
+    private var photoFilename: String? = null
     private var photo: Bitmap? = null
     private var dateTime: String? = ""
     private lateinit var caption: String
@@ -232,6 +233,7 @@ class AddPhotoFragment : Fragment(), View.OnClickListener, Undoable, ThereOverla
             }
             AddStep.DONE -> {
                 step = AddStep.START
+                deletePreviouslyCapturedImages(activity)
                 setupView()
             }
         }
@@ -307,11 +309,13 @@ class AddPhotoFragment : Fragment(), View.OnClickListener, Undoable, ThereOverla
             return
 
         try {
-            photoFile = getImageFilePath(data!!, activity)
-            photo?.recycle()
-            photo = Bitmaps.loadFile(photoFile)
+            if (requestCode == CHOOSE_PHOTO)
+                photoFilename = getImageFilePath(data!!, activity)
 
-            val exif = ExifInterface(photoFile!!)
+            photo?.recycle()
+            photo = Bitmaps.loadFile(photoFilename)
+
+            val exif = ExifInterface(photoFilename!!)
             dateTime = photoTimestamp(exif)
             val photoLoc = photoLocation(exif)
             geolocated = photoLoc != null
@@ -319,7 +323,7 @@ class AddPhotoFragment : Fragment(), View.OnClickListener, Undoable, ThereOverla
             nextStep()
         } catch (e: Exception) {
             Toast.makeText(activity, "There was a problem grabbing the photo : " + e.message, Toast.LENGTH_LONG).show()
-            Log.d(TAG, "onActivityResult threw exception when processing requestCode $requestCode", e)
+            Log.w(TAG, "onActivityResult threw exception when processing requestCode $requestCode", e)
             if (requestCode == TAKE_PHOTO)
                 startActivityForResult(
                     Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.INTERNAL_CONTENT_URI),
@@ -355,7 +359,7 @@ class AddPhotoFragment : Fragment(), View.OnClickListener, Undoable, ThereOverla
     private fun store() {
         prefs().edit().apply {
             putInt("STEP", step.id)
-            putString("PHOTOFILE", photoFile)
+            putString("PHOTOFILE", photoFilename)
             putString("DATETIME", dateTime)
             putString("CAPTION", caption)
             putBoolean("GEOLOC", geolocated)
@@ -377,10 +381,10 @@ class AddPhotoFragment : Fragment(), View.OnClickListener, Undoable, ThereOverla
         prefs().apply {
             step = AddStep.fromId(getInt("STEP", 1))!!
 
-            photoFile = getString("PHOTOFILE", photoFile)
-            if (photo == null && photoFile != null) {
+            photoFilename = getString("PHOTOFILE", photoFilename)
+            if (photo == null && photoFilename != null) {
                 // TODO scaling?
-                photo = Bitmaps.loadFile(photoFile)
+                photo = Bitmaps.loadFile(photoFilename)
             }
             dateTime = getString("DATETIME", "")
 
@@ -447,8 +451,9 @@ class AddPhotoFragment : Fragment(), View.OnClickListener, Undoable, ThereOverla
     ///////////// View.OnClickListener methods
     override fun onClick(v: View) {
         when (v.id) {
-            R.id.takephoto_button ->
-                startActivityForResult(Intent(MediaStore.ACTION_IMAGE_CAPTURE), TAKE_PHOTO)
+            R.id.takephoto_button -> {
+                dispatchTakePhotoIntent()
+            }
             R.id.chooseexisting_button ->
                 startActivityForResult(
                     Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI),
@@ -456,7 +461,7 @@ class AddPhotoFragment : Fragment(), View.OnClickListener, Undoable, ThereOverla
                 )
             R.id.textonly_button -> {
                 photo = null
-                photoFile = null
+                photoFilename = null
                 dateTime = null
                 nextStep()
             }
@@ -484,6 +489,32 @@ class AddPhotoFragment : Fragment(), View.OnClickListener, Undoable, ThereOverla
         }
     }
 
+    private fun dispatchTakePhotoIntent() {
+        val takePictureIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+
+        // Ensure that there's a camera activity to handle the intent
+        if (takePictureIntent.resolveActivity(activity!!.packageManager) == null) {
+            Log.i(TAG, "Unable to identify a camera activity")
+            Toast.makeText(activity, "Unable to identify a camera activity", Toast.LENGTH_LONG).show()
+            return
+        }
+
+        try {
+            // Create the File where the photo should go
+            val photoFile: File = createImageFile(activity)
+            // Save a file: path for use with ACTION_VIEW intents
+            photoFilename = photoFile.absolutePath
+
+            val photoUri = FileProvider.getUriForFile(activity!!, "net.cyclestreets.fileprovider", photoFile)
+            takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri)
+            startActivityForResult(takePictureIntent, TAKE_PHOTO)
+        } catch (e: Exception) {
+            // Error occurred while creating the File
+            Log.w(TAG, "Error occured while creating image file", e)
+            Toast.makeText(activity, "There was a problem creating an image file : " + e.message, Toast.LENGTH_LONG).show()
+        }
+    }
+
     private fun nextStep() {
         if (step === AddStep.LOCATION && there.there() == null) {
             Toast.makeText(activity, "Please set photo location", Toast.LENGTH_LONG).show()
@@ -497,13 +528,13 @@ class AddPhotoFragment : Fragment(), View.OnClickListener, Undoable, ThereOverla
     private fun upload() {
         try {
             UploadPhotoTask(activity!!,
-                            photoFile!!,
+                            photoFilename!!,
                             CycleStreetsPreferences.username(),
                             CycleStreetsPreferences.password(),
                             there.there(),
                             photomapCategories!!.metaCategories()[metaCatId].tag,
                             photomapCategories!!.categories()[catId].tag,
-                            this.dateTime ?: java.lang.Long.toString(Date().time / 1000),
+                            dateTime!!,
                             caption).execute()
         } catch (e: RuntimeException) {
             Toast.makeText(activity, R.string.photo_could_not_upload, Toast.LENGTH_LONG).show()
