@@ -80,8 +80,8 @@
   <string name="poi_menu_entry">Kategorie</string>
 
   <string name="settings_no_map_packs">Du hast  keine Kartenpakete installiert. Vektorkarten für
-	Offline-Nutzung sind als separate Downloads verfügbar.
-	\n\nMöchtest du jetzt nach Kartenpaketen suchen?</string>
+  Offline-Nutzung sind als separate Downloads verfügbar.
+  \n\nMöchtest du jetzt nach Kartenpaketen suchen?</string>
   <string name="settings_signed_in">In CycleStreets eingeloggt</string>
   <string name="settings_awaiting">Account-Registrierung wartet auf Verifikation</string>
 

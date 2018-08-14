@@ -3,5 +3,5 @@
     <item android:drawable="@drawable/ic_menu_gallery"
           android:state_selected="true" />
     <item android:drawable="@drawable/ic_menu_gallery_white"
-    	  android:state_selected="false" />
+        android:state_selected="false" />
 </selector>

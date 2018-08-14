@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-	    android:orientation="vertical"
-	    android:layout_width="match_parent"
-	    android:layout_height="wrap_content"
-	    android:clipChildren="false"
-	    android:paddingLeft="9dp"
-	    android:paddingRight="9dp"
-	    android:paddingTop="12dp"
-	    android:paddingBottom="6dp"
+      android:orientation="vertical"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:clipChildren="false"
+      android:paddingLeft="9dp"
+      android:paddingRight="9dp"
+      android:paddingTop="12dp"
+      android:paddingBottom="6dp"
       android:background="?android:attr/colorBackground">
-	<LinearLayout
-	    android:orientation="vertical"
+  <LinearLayout
+      android:orientation="vertical"
       android:layout_width="match_parent"
       android:layout_height="wrap_content">
-	 <LinearLayout
-	    android:id="@+id/places"
-	    android:orientation="vertical"
+   <LinearLayout
+      android:id="@+id/places"
+      android:orientation="vertical"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
       android:layout_marginLeft="2.0dp"
@@ -25,10 +25,10 @@
   </LinearLayout>
 
   <!-- Route type / Go =============================== -->
-	<LinearLayout
-	    android:orientation="vertical"
-	    android:layout_width="match_parent"
-	    android:layout_height="wrap_content">
+  <LinearLayout
+      android:orientation="vertical"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content">
 
       <Button
           android:id="@+id/addVia"

@@ -5,4 +5,4 @@
     android:layout_height="?android:listPreferredItemHeight"
     android:textAppearance="?android:textAppearanceMediumInverse"
     android:singleLine="true"
-	style="?android:dropDownItemStyle" />
+  style="?android:dropDownItemStyle" />
