@@ -11,8 +11,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
-        android:text="@string/route_type"
-        />
+        android:text="@string/route_type" />
     <Spinner
         android:id="@+id/routeTypeSpinner"
         android:layout_width="match_parent"

@@ -43,6 +43,5 @@
       app:elevation="6dp"
       app:pressedTranslationZ="12dp"
       android:src="@android:drawable/ic_menu_add"
-      app:backgroundTint="@color/apptheme_color"
-      />
+      app:backgroundTint="@color/apptheme_color" />
 </android.support.design.widget.CoordinatorLayout>
