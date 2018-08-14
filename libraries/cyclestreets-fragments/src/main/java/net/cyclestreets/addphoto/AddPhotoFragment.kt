@@ -307,6 +307,8 @@ class AddPhotoFragment : Fragment(), View.OnClickListener, Undoable, ThereOverla
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (resultCode != Activity.RESULT_OK)
             return
+        if (requestCode != TAKE_PHOTO && requestCode != CHOOSE_PHOTO)
+            return
 
         try {
             if (requestCode == CHOOSE_PHOTO)
@@ -451,15 +453,14 @@ class AddPhotoFragment : Fragment(), View.OnClickListener, Undoable, ThereOverla
     ///////////// View.OnClickListener methods
     override fun onClick(v: View) {
         when (v.id) {
-            R.id.takephoto_button -> {
+            R.id.takephoto_button -> doOrLogin {
                 dispatchTakePhotoIntent()
             }
-            R.id.chooseexisting_button ->
-                startActivityForResult(
-                    Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI),
-                    CHOOSE_PHOTO
-                )
-            R.id.textonly_button -> {
+            R.id.chooseexisting_button -> doOrLogin {
+                startActivityForResult(Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI),
+                                       CHOOSE_PHOTO)
+            }
+            R.id.textonly_button -> doOrLogin {
                 photo = null
                 photoFilename = null
                 dateTime = null
@@ -478,15 +479,21 @@ class AddPhotoFragment : Fragment(), View.OnClickListener, Undoable, ThereOverla
             R.id.next -> {
                 if (step === AddStep.LOCATION) {
                     val needAccountDetails = !allowUploadByKey && !CycleStreetsPreferences.accountOK()
-                    if (needAccountDetails)
-                        startActivityForResult(Intent(activity, AccountDetailsActivity::class.java), ACCOUNT_DETAILS)
-                    else
-                        upload()
+                    assert(!needAccountDetails)
+                    upload()
                 } else if (step != AddStep.VIEW) {
                     nextStep()
                 }
             }
         }
+    }
+
+    private fun doOrLogin(function: () -> Unit) {
+        val needAccountDetails = !allowUploadByKey && !CycleStreetsPreferences.accountOK()
+        if (needAccountDetails)
+            startActivityForResult(Intent(activity, AccountDetailsActivity::class.java), ACCOUNT_DETAILS)
+        else
+            function()
     }
 
     private fun dispatchTakePhotoIntent() {
