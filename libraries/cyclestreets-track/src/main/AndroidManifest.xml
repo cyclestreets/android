@@ -11,6 +11,6 @@
               android:theme="@android:style/Theme.Black.NoTitleBar"
               android:screenOrientation="portrait" />
 
-    <service android:name=".RecordingService"/>
+    <service android:name=".RecordingService" />
   </application>
 </manifest>

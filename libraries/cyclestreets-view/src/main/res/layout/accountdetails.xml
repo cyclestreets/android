@@ -28,9 +28,9 @@
   <Button android:id="@+id/newaccount_button"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
-    android:text="@string/account_register_message"/>
+    android:text="@string/account_register_message" />
   <Button android:id="@+id/existingaccount_button"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
-    android:text="@string/account_signin_with_existing"/>
+    android:text="@string/account_signin_with_existing" />
 </LinearLayout>

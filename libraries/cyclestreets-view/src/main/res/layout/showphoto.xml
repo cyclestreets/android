@@ -15,7 +15,7 @@
         android:gravity="center"
         android:src="@drawable/loading"
         android:scaleType="centerInside"
-        android:background="?android:attr/colorBackground"/>
+        android:background="?android:attr/colorBackground" />
     <TextView
         android:id="@+id/caption"
         android:gravity="center"

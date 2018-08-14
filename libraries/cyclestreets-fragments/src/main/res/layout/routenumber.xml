@@ -14,10 +14,10 @@
       android:layout_height="wrap_content"
       android:layout_width="fill_parent"
       android:inputType="number"
-      android:hint="@string/routenumber_hint"/>
+      android:hint="@string/routenumber_hint" />
   <!-- Route type / Go =============================== -->
   <net.cyclestreets.views.RouteType
       android:id="@+id/routeType"
       android:layout_width="fill_parent"
-      android:layout_height="wrap_content"/>
+      android:layout_height="wrap_content" />
  </LinearLayout>

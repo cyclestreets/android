@@ -15,35 +15,35 @@
       <TextView
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
-    android:text="@string/all_blank"/>
+    android:text="@string/all_blank" />
       <TextView
     android:id="@+id/signin_message"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:gravity="center"
-    android:text="@string/account_signin_message"/>
+    android:text="@string/account_signin_message" />
       <TextView
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
-    android:text="@string/all_blank"/>
+    android:text="@string/all_blank" />
       <TextView
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
-    android:text="@string/account_username"/>
+    android:text="@string/account_username" />
       <EditText
     android:id="@+id/username"
     android:layout_height="wrap_content"
     android:layout_width="fill_parent"
-    android:inputType="text"/>
+    android:inputType="text" />
       <TextView
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
-    android:text="@string/account_password"/>
+    android:text="@string/account_password" />
       <EditText
     android:id="@+id/password"
     android:layout_height="wrap_content"
     android:layout_width="fill_parent"
-    android:inputType="textPassword"/>
+    android:inputType="textPassword" />
     </LinearLayout>
   </ScrollView>
   <LinearLayout
@@ -56,12 +56,12 @@
   android:layout_width="0dp"
   android:layout_height="wrap_content"
   android:layout_weight="1"
-  android:text="@string/account_clear_stored_button"/>
+  android:text="@string/account_clear_stored_button" />
     <Button
   android:id="@+id/signin_button"
   android:layout_width="0dp"
   android:layout_height="wrap_content"
   android:layout_weight="1"
-  android:text="@string/account_signin_button"/>
+  android:text="@string/account_signin_button" />
   </LinearLayout>
 </LinearLayout>

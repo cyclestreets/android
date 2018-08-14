@@ -14,11 +14,11 @@
                 android:paddingTop="8sp"
                 android:layout_marginLeft="5sp"
                 android:text="@string/save_choose_purpose_hint"
-                android:paddingBottom="4sp"/>
+                android:paddingBottom="4sp" />
       <LinearLayout android:id="@+id/LinearLayout03"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:layout_width="fill_parent"/>
+                    android:layout_width="fill_parent" />
       <TableLayout android:id="@+id/TableLayout01"
                    android:layout_height="wrap_content"
                    android:layout_width="fill_parent">
@@ -33,7 +33,7 @@
                         android:layout_weight="1"
                         android:id="@+id/ToggleCommute"
                         android:textSize="11sp"
-                        android:drawableTop="@drawable/commute"/>
+                        android:drawableTop="@drawable/commute" />
           <ToggleButton android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -41,7 +41,7 @@
                         android:textOn="@string/save_purpose_school"
                         android:textSize="11sp"
                         android:id="@+id/ToggleSchool"
-                        android:drawableTop="@drawable/school"/>
+                        android:drawableTop="@drawable/school" />
           <ToggleButton android:layout_width="wrap_content"
                         android:layout_height="fill_parent"
                         android:id="@+id/ToggleWorkRel"
@@ -49,7 +49,7 @@
                         android:drawableTop="@drawable/workrel"
                         android:layout_weight="0.7"
                         android:textOff="@string/save_purpose_work"
-                        android:textOn="@string/save_purpose_work"/>
+                        android:textOn="@string/save_purpose_work" />
           <ToggleButton android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -57,7 +57,7 @@
                         android:textOn="@string/save_purpose_exercise"
                         android:textSize="11sp"
                         android:id="@+id/ToggleExercise"
-                        android:drawableTop="@drawable/exercise"/>
+                        android:drawableTop="@drawable/exercise" />
         </TableRow>
 
         <TableRow android:id="@+id/TableRow02"
@@ -72,7 +72,7 @@
                         android:id="@+id/ToggleSocial"
                         android:drawableTop="@drawable/social"
                         android:nextFocusUp="@+id/ToggleCommute"
-                        android:nextFocusDown="@+id/NotesField"/>
+                        android:nextFocusDown="@+id/NotesField" />
           <ToggleButton android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -80,7 +80,7 @@
                         android:textOff="@string/save_purpose_shopping"
                         android:textOn="@string/save_purpose_shopping"
                         android:id="@+id/ToggleShopping"
-                        android:drawableTop="@drawable/shopping"/>
+                        android:drawableTop="@drawable/shopping" />
           <ToggleButton android:layout_width="wrap_content"
                         android:layout_height="fill_parent"
                         android:textOff="@string/save_purpose_errand"
@@ -88,7 +88,7 @@
                         android:id="@+id/ToggleErrand"
                         android:textSize="11sp"
                         android:drawableTop="@drawable/errands"
-                        android:layout_weight="0.7"/>
+                        android:layout_weight="0.7" />
           <ToggleButton android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -96,7 +96,7 @@
                         android:textOff="@string/save_purpose_other"
                         android:textOn="@string/save_purpose_other"
                         android:id="@+id/ToggleOther"
-                        android:drawableTop="@drawable/other"/>
+                        android:drawableTop="@drawable/other" />
         </TableRow>
 
       </TableLayout>
@@ -110,7 +110,7 @@
                 android:text="@string/save_wide_blank"
                 android:lines="3"
                 android:bufferType="spannable"
-                android:textSize="14sp"/>
+                android:textSize="14sp" />
       <EditText android:bufferType="editable"
                 android:cursorVisible="true"
                 android:layout_width="fill_parent"
@@ -126,7 +126,7 @@
                 android:nextFocusDown="@+id/ButtonSubmit"
                 android:nextFocusRight="@+id/ButtonSubmit"
                 android:nextFocusUp="@+id/ToggleSocial"
-                android:imeOptions="actionDone"/>
+                android:imeOptions="actionDone" />
 
       <TableLayout android:layout_height="wrap_content" android:layout_width="fill_parent">
         <TableRow android:layout_height="wrap_content" android:layout_width="fill_parent"
@@ -136,12 +136,12 @@
             android:layout_height="match_parent"
             android:gravity="center"
             android:textSize="16sp"
-            android:text="@string/save_age"/>
+            android:text="@string/save_age" />
           <Spinner
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:id="@+id/age"/>
+            android:id="@+id/age" />
         </TableRow>
         <TableRow android:layout_height="wrap_content" android:layout_width="fill_parent"
                   android:layout_marginLeft="2sp" android:layout_marginRight="4sp">
@@ -150,12 +150,12 @@
             android:layout_height="match_parent"
             android:gravity="center"
             android:textSize="16sp"
-            android:text="@string/save_gender"/>
+            android:text="@string/save_gender" />
           <Spinner
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:id="@+id/gender"/>
+            android:id="@+id/gender" />
         </TableRow>
         <TableRow android:layout_height="wrap_content" android:layout_width="fill_parent"
                   android:layout_marginLeft="2sp" android:layout_marginRight="4sp">
@@ -167,22 +167,22 @@
                       android:layout_height="wrap_content"
                       android:gravity="center"
                       android:textSize="14sp"
-                      android:text="@string/save_level_of"/>
+                      android:text="@string/save_level_of" />
             <TextView android:layout_width="wrap_content"
                       android:layout_height="wrap_content"
                       android:gravity="center"
                       android:textSize="14sp"
-                      android:text="@string/save_cycling"/>
+                      android:text="@string/save_cycling" />
             <TextView android:layout_width="wrap_content"
                       android:layout_height="wrap_content"
                       android:gravity="center"
                       android:textSize="14sp"
-                      android:text="@string/save_experience"/>
+                      android:text="@string/save_experience" />
           </LinearLayout>
           <Spinner android:layout_width="match_parent"
                    android:layout_height="match_parent"
                    android:layout_weight="1"
-                   android:id="@+id/experience"/>
+                   android:id="@+id/experience" />
         </TableRow>
       </TableLayout>
 
@@ -197,7 +197,7 @@
                 android:id="@+id/ButtonDiscard"
                 android:textStyle="bold"
                 android:textSize="18sp"
-                android:text="@string/save_discard_button"/>
+                android:text="@string/save_discard_button" />
         <Button android:layout_height="wrap_content"
                 android:layout_width="fill_parent"
                 android:layout_weight="1"
@@ -205,7 +205,7 @@
                 android:id="@+id/ButtonSubmit"
                 android:textStyle="bold"
                 android:textSize="18sp"
-                android:text="@string/save_submit_button"/>
+                android:text="@string/save_submit_button" />
       </LinearLayout>
     </LinearLayout>
   </RelativeLayout>

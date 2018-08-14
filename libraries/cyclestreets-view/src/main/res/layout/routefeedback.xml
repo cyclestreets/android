@@ -15,7 +15,7 @@
       <TextView
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
-    android:text="@string/feedback_your_comments"/>
+    android:text="@string/feedback_your_comments" />
       <EditText
     android:id="@+id/comments"
     android:lines="8"
@@ -25,25 +25,25 @@
     android:layout_height="wrap_content"
     android:layout_width="fill_parent"
     android:scrollbars="none"
-    android:inputType="textCapSentences|textMultiLine"/>
+    android:inputType="textCapSentences|textMultiLine" />
       <TextView
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
-    android:text="@string/all_your_name"/>
+    android:text="@string/all_your_name" />
       <EditText
     android:id="@+id/name"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
-    android:inputType="textPersonName|textCapWords"/>
+    android:inputType="textPersonName|textCapWords" />
       <TextView
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
-    android:text="@string/all_your_email"/>
+    android:text="@string/all_your_email" />
       <EditText
     android:id="@+id/email"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
-    android:inputType="textEmailAddress"/>
+    android:inputType="textEmailAddress" />
     </LinearLayout>
   </ScrollView>
   <LinearLayout
@@ -54,11 +54,11 @@
     <View
   android:layout_width="0.0dp"
   android:layout_height="fill_parent"
-  android:layout_weight="1"/>
+  android:layout_weight="1" />
     <Button android:text="@string/all_upload"
       android:id="@+id/upload"
       android:layout_height="wrap_content"
       android:layout_weight="1"
-      android:layout_width="0dp"/>
+      android:layout_width="0dp" />
   </LinearLayout>
 </LinearLayout>

@@ -7,9 +7,9 @@
     layout="@layout/itinerary_header_item"
     android:layout_height="wrap_content"
     android:layout_width="match_parent"
-    android:layout_marginBottom="20dp"/>
+    android:layout_marginBottom="20dp" />
 
   <include
-      layout="@layout/elevation_graph"/>
+      layout="@layout/elevation_graph" />
 
 </LinearLayout>

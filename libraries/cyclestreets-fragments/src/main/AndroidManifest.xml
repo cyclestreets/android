@@ -4,6 +4,6 @@
 
   <application android:supportsRtl="false">
     <activity android:name="net.cyclestreets.LocationEditorActivity"
-              android:label="CycleStreets"/>
+              android:label="CycleStreets" />
   </application>
 </manifest>

@@ -18,9 +18,9 @@
         android:id="@+id/video"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:gravity="center"/>
+        android:gravity="center" />
   </LinearLayout>
-  <include layout="@layout/videocontroller"/>
+  <include layout="@layout/videocontroller" />
   <TextView
       android:id="@+id/caption"
       android:gravity="center"

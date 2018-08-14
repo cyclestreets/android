@@ -29,5 +29,5 @@
         android:layout_alignParentRight="true"
         android:layout_marginLeft="6dp"
         android:layout_marginRight="12dp"
-        android:text=""/>
+        android:text="" />
 </RelativeLayout>

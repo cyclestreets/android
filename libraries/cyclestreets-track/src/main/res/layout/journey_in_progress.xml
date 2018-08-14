@@ -11,14 +11,14 @@
               android:textStyle="bold"
               android:layout_marginTop="5sp"
               android:textSize="26sp"
-              android:text="@string/journey_distance"/>
+              android:text="@string/journey_distance" />
     <TextView android:id="@+id/journey_distance"
               android:layout_width="wrap_content"
               android:layout_height="wrap_content"
               android:layout_alignParentRight="true"
               android:textStyle="bold"
               android:layout_marginTop="5sp"
-              android:layout_marginRight="5sp" android:textSize="26sp"/>
+              android:layout_marginRight="5sp" android:textSize="26sp" />
   </RelativeLayout>
   <RelativeLayout android:layout_height="wrap_content" android:layout_width="match_parent" android:layout_marginTop="5sp">
     <TextView android:layout_width="wrap_content"
@@ -27,14 +27,14 @@
               android:textStyle="bold"
               android:layout_marginTop="5sp"
               android:textSize="26sp"
-              android:text="@string/journey_time"/>
+              android:text="@string/journey_time" />
     <TextView android:id="@+id/journey_time"
               android:layout_width="wrap_content"
               android:layout_height="wrap_content"
               android:layout_alignParentRight="true"
               android:textStyle="bold"
               android:layout_marginTop="5sp"
-              android:layout_marginRight="5sp" android:textSize="26sp"/>
+              android:layout_marginRight="5sp" android:textSize="26sp" />
   </RelativeLayout>
   <RelativeLayout android:layout_height="wrap_content" android:layout_width="match_parent" android:layout_marginTop="5sp">
     <TextView android:layout_width="wrap_content"
@@ -43,7 +43,7 @@
               android:textStyle="bold"
               android:layout_marginTop="5sp"
               android:textSize="26sp"
-              android:text="@string/journey_current_speed"/>
+              android:text="@string/journey_current_speed" />
     <TextView android:id="@+id/journey_speed"
               android:layout_width="wrap_content"
               android:layout_height="wrap_content"
@@ -51,7 +51,7 @@
               android:textStyle="bold"
               android:layout_marginTop="5sp"
               android:layout_marginRight="5sp"
-              android:textSize="26sp"/>
+              android:textSize="26sp" />
   </RelativeLayout>
 
   <RelativeLayout
@@ -64,7 +64,7 @@
     <TextView
       android:layout_width="fill_parent"
       android:layout_height="wrap_content"
-      android:text=""/>
+      android:text="" />
   </RelativeLayout>
   <Button android:id="@+id/ButtonFinished"
           android:text="@string/journey_finish_button"
@@ -72,5 +72,5 @@
           android:layout_width="match_parent"
           android:drawableLeft="@android:drawable/ic_media_next"
           android:textStyle="bold"
-          android:textSize="18sp"/>
+          android:textSize="18sp" />
 </LinearLayout>

@@ -20,5 +20,5 @@
         android:textSize="@dimen/abc_text_size_title_material_toolbar"
         android:textColor="?android:attr/textColorPrimaryInverse"
         android:layout_centerVertical="true"
-        android:gravity="center_vertical"/>
+        android:gravity="center_vertical" />
 </RelativeLayout>

@@ -10,11 +10,11 @@
     android:layout_weight="1.0"
     android:layout_width="0.0dp"
     android:freezesText="true"
-    android:imeOptions="actionNext"/>
+    android:imeOptions="actionNext" />
   <ImageButton
     android:id="@+id/optionsBtn"
     android:layout_width="40.0dp"
     android:layout_height="fill_parent"
     android:src="@android:drawable/ic_input_get"
-    android:contentDescription="@string/placeview_menu"/>
+    android:contentDescription="@string/placeview_menu" />
 </LinearLayout>

@@ -14,6 +14,6 @@
         app:fabSize="normal"
         app:borderWidth="12dp"
         app:ico_icon="gmd_my_location"
-        app:backgroundTint="@android:color/background_light"/>
+        app:backgroundTint="@android:color/background_light" />
 
 </android.support.design.widget.CoordinatorLayout>
