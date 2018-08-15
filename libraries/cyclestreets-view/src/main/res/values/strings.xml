@@ -82,8 +82,8 @@
   <string name="poi_menu_entry">category</string>
 
   <string name="settings_no_map_packs">You do not have any map packs installed.  Vector maps for
-	    offline use are available as separate downloads.
-	    \n\nWould you like to search for map packs now?</string>
+      offline use are available as separate downloads.
+      \n\nWould you like to search for map packs now?</string>
   <string name="settings_signed_in">Signed in to CycleStreets</string>
   <string name="settings_awaiting">Account registration awaiting verification</string>
 

@@ -7,7 +7,7 @@
   <string name="crash_dialog_title">CycleStreets parou de funcionar</string>
   <string name="crash_dialog_text">Ocorreu um erro inesperado forçando o aplicativo parar. Por favor,
     ajude-nos a corrigir isso nos enviando os dados de erro, tudo que você literalmente tem que fazer
-	é clicar em \'OK\'.</string>
+  é clicar em \'OK\'.</string>
   <string name="crash_dialog_comment_prompt">Você pode adicionar seus comentários sobre o problema a seguir:</string>
   <string name="crash_dialog_ok_toast">Muito Obrigado!</string>
 

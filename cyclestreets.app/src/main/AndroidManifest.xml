@@ -3,7 +3,7 @@
   package="net.cyclestreets"
   android:installLocation="preferExternal">
 
-  <uses-permission android:name="android.permission.READ_CONTACTS"/>
+  <uses-permission android:name="android.permission.READ_CONTACTS" />
 
   <application
     android:allowBackup="true"
@@ -43,21 +43,21 @@
               android:exported="true">
       <intent-filter>
         <action android:name="net.cyclestreets.AccountDetailsActivity" />
-        <category android:name="android.intent.category.DEFAULT"/>
+        <category android:name="android.intent.category.DEFAULT" />
       </intent-filter>
     </activity>
     <activity android:name="net.cyclestreets.AboutActivity"
               android:label="About">
       <intent-filter>
         <action android:name="net.cyclestreets.AboutActivity" />
-        <category android:name="android.intent.category.DEFAULT"/>
+        <category android:name="android.intent.category.DEFAULT" />
       </intent-filter>
     </activity>
     <activity android:name="net.cyclestreets.LocationsActivity"
               android:label="Locations">
       <intent-filter>
         <action android:name="net.cyclestreets.LocationsActivity" />
-        <category android:name="android.intent.category.DEFAULT"/>
+        <category android:name="android.intent.category.DEFAULT" />
       </intent-filter>
     </activity>
 

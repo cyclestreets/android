@@ -13,9 +13,9 @@
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
       android:orientation="horizontal">
-    <ImageButton android:id="@+id/rew" style="@android:style/MediaButton.Rew"/>
-    <ImageButton android:id="@+id/pause" style="@android:style/MediaButton.Play"/>
-    <ImageButton android:id="@+id/ffwd" style="@android:style/MediaButton.Ffwd"/>
+    <ImageButton android:id="@+id/rew" style="@android:style/MediaButton.Rew" />
+    <ImageButton android:id="@+id/pause" style="@android:style/MediaButton.Play" />
+    <ImageButton android:id="@+id/ffwd" style="@android:style/MediaButton.Ffwd" />
     <LinearLayout
         android:paddingTop="4dp"
         android:layout_width="match_parent"

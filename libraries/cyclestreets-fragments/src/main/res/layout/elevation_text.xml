@@ -8,7 +8,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:textAppearance="@style/Base.TextAppearance.AppCompat.Title"
-    android:text="@string/elevation_dummy_string"/>
+    android:text="@string/elevation_dummy_string" />
   <LinearLayout
     android:orientation="horizontal"
     android:layout_width="match_parent"
@@ -19,14 +19,14 @@
       android:layout_width="0dp"
       android:layout_weight="1"
       android:textAppearance="@style/Base.TextAppearance.AppCompat.Body1"
-      android:text="@string/elevation_route"/>
+      android:text="@string/elevation_route" />
     <TextView
       android:id="@+id/distance"
       android:layout_height="wrap_content"
       android:layout_width="0dp"
       android:layout_weight="1.4"
       android:textAppearance="@style/Base.TextAppearance.AppCompat.Body1"
-      android:text="@string/elevation_dummy_string"/>
+      android:text="@string/elevation_dummy_string" />
   </LinearLayout>
   <LinearLayout
     android:orientation="horizontal"
@@ -37,14 +37,14 @@
       android:layout_width="0dp"
       android:layout_weight="1"
       android:textAppearance="@style/Base.TextAppearance.AppCompat.Body1"
-      android:text="@string/elevation_estimated_time"/>
+      android:text="@string/elevation_estimated_time" />
     <TextView
       android:id="@+id/journeytime"
       android:layout_height="wrap_content"
       android:layout_width="0dp"
       android:layout_weight="1.4"
       android:textAppearance="@style/Base.TextAppearance.AppCompat.Body1"
-      android:text="@string/elevation_dummy_string"/>
+      android:text="@string/elevation_dummy_string" />
   </LinearLayout>
   <LinearLayout
     android:orientation="horizontal"
@@ -55,14 +55,14 @@
       android:layout_width="0dp"
       android:layout_weight="1"
       android:textAppearance="@style/Base.TextAppearance.AppCompat.Body1"
-      android:text="@string/elevation_calories_burned"/>
+      android:text="@string/elevation_calories_burned" />
     <TextView
       android:id="@+id/calories"
       android:layout_height="wrap_content"
       android:layout_width="0dp"
       android:layout_weight="1.4"
       android:textAppearance="@style/Base.TextAppearance.AppCompat.Body1"
-      android:text="@string/elevation_dummy_string"/>
+      android:text="@string/elevation_dummy_string" />
   </LinearLayout>
   <LinearLayout
     android:orientation="horizontal"
@@ -73,14 +73,14 @@
       android:layout_width="0dp"
       android:layout_weight="1"
       android:textAppearance="@style/Base.TextAppearance.AppCompat.Body1"
-      android:text="@string/elevation_co2_saved"/>
+      android:text="@string/elevation_co2_saved" />
     <TextView
       android:id="@+id/carbondioxide"
       android:layout_height="wrap_content"
       android:layout_width="0dp"
       android:layout_weight="1.4"
       android:textAppearance="@style/Base.TextAppearance.AppCompat.Body1"
-      android:text="@string/elevation_dummy_string"/>
+      android:text="@string/elevation_dummy_string" />
   </LinearLayout>
   <LinearLayout
     android:orientation="horizontal"
@@ -91,14 +91,14 @@
       android:layout_width="0dp"
       android:layout_weight="1"
       android:textAppearance="@style/Base.TextAppearance.AppCompat.Body1"
-      android:text="@string/elevation_journey_number"/>
+      android:text="@string/elevation_journey_number" />
     <TextView
       android:id="@+id/journeyid"
       android:layout_height="wrap_content"
       android:layout_width="0dp"
       android:layout_weight="1.4"
       android:textAppearance="@style/Base.TextAppearance.AppCompat.Body1"
-      android:text="@string/elevation_dummy_string"/>
+      android:text="@string/elevation_dummy_string" />
   </LinearLayout>
   <LinearLayout
     android:orientation="horizontal"
@@ -109,14 +109,14 @@
       android:layout_width="0dp"
       android:layout_weight="1"
       android:textAppearance="@style/Base.TextAppearance.AppCompat.Body1"
-      android:text="@string/elevation_gain"/>
+      android:text="@string/elevation_gain" />
     <TextView
       android:id="@+id/elevation_gain"
       android:layout_height="wrap_content"
       android:layout_width="0dp"
       android:layout_weight="1.4"
       android:textAppearance="@style/Base.TextAppearance.AppCompat.Body1"
-      android:text="@string/elevation_dummy_string"/>
+      android:text="@string/elevation_dummy_string" />
   </LinearLayout>
   <LinearLayout
     android:orientation="horizontal"
@@ -127,13 +127,13 @@
       android:layout_width="0dp"
       android:layout_weight="1"
       android:textAppearance="@style/Base.TextAppearance.AppCompat.Body1"
-      android:text="@string/elevation_loss"/>
+      android:text="@string/elevation_loss" />
     <TextView
       android:id="@+id/elevation_loss"
       android:layout_height="wrap_content"
       android:layout_width="0dp"
       android:layout_weight="1.4"
       android:textAppearance="@style/Base.TextAppearance.AppCompat.Body1"
-      android:text="@string/elevation_dummy_string"/>
+      android:text="@string/elevation_dummy_string" />
   </LinearLayout>
 </LinearLayout>

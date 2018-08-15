@@ -16,14 +16,14 @@
               android:layout_marginLeft="2sp"
               android:textSize="20sp"
               android:textStyle="bold"
-              android:text="@string/completedjourney_purpose"/>
+              android:text="@string/completedjourney_purpose" />
     <TextView android:id="@+id/journey_start"
               android:layout_width="wrap_content"
               android:layout_height="wrap_content"
               android:layout_alignParentRight="true"
               android:textSize="20sp"
               android:textStyle="bold"
-              android:text="@string/completedjourney_start_time"/>
+              android:text="@string/completedjourney_start_time" />
   </RelativeLayout>
   <TextView android:layout_height="wrap_content"
             android:id="@+id/journey_info"
@@ -31,7 +31,7 @@
             android:layout_marginLeft="7sp"
             android:paddingBottom="8sp"
             android:text="@string/completedjourney_info"
-            android:layout_marginRight="7sp"/>
+            android:layout_marginRight="7sp" />
   <RelativeLayout
     android:id="@+id/mapholder"
     android:layout_width="fill_parent"
@@ -42,7 +42,7 @@
     <TextView
       android:layout_width="fill_parent"
       android:layout_height="wrap_content"
-      android:text=""/>
+      android:text="" />
   </RelativeLayout>
 
 </LinearLayout>

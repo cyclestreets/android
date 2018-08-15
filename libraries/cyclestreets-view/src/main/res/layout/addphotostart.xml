@@ -5,30 +5,25 @@
 	<TextView
 		android:layout_width="fill_parent"
 		android:layout_height="wrap_content"
-		android:text="@string/all_blank"
-		/>
+		android:text="@string/all_blank" />
 	<TextView android:id="@+id/addphoto_text"
 		android:layout_width="fill_parent"
 		android:layout_height="wrap_content"
 		android:gravity="center"
-		android:text="@string/photo_upload_hint1"
-		/>
+		android:text="@string/photo_upload_hint1" />
 	<TextView
 		android:layout_width="fill_parent"
 		android:layout_height="wrap_content"
-		android:text="@string/all_blank"
-		/>
+		android:text="@string/all_blank" />
 	<TextView android:id="@+id/addphoto_text2"
 		android:layout_width="fill_parent"
 		android:layout_height="wrap_content"
 		android:gravity="center"
-		android:text="@string/photo_upload_hint2"
-		/>		
+		android:text="@string/photo_upload_hint2" />
 	<TextView
 		android:layout_width="fill_parent"
 		android:layout_height="wrap_content"
-		android:text="@string/all_blank"
-		/>
+		android:text="@string/all_blank" />
 	<Button android:id="@+id/takephoto_button"
 		android:layout_width="fill_parent"
 		android:layout_height="wrap_content"

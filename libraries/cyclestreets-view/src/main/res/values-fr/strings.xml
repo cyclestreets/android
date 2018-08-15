@@ -81,7 +81,7 @@
 
   <string name="settings_no_map_packs">Vous n\'avez pas de carte packs installés.
     Vector maps pour utilisation hors ligne sont disponibles en tant que téléchargements séparés.
-	    \n\nVoulez-vous rechercher packs de cartes maintenant?</string>
+      \n\nVoulez-vous rechercher packs de cartes maintenant?</string>
   <string name="settings_signed_in">Enregistrement pour CycleStreets</string>
   <string name="settings_awaiting">L\'enregistrement du compte en attente de vérification</string>
 

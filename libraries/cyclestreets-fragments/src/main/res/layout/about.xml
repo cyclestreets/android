@@ -5,20 +5,20 @@
   android:layout_width="fill_parent"
   android:layout_height="fill_parent">
   <WebView android:id="@+id/html_view"
-		 android:layout_width="fill_parent"
-		 android:layout_height="0dp"
+     android:layout_width="fill_parent"
+     android:layout_height="0dp"
      android:layout_weight="1.0"
-		 android:scrollbars="vertical">
+     android:scrollbars="vertical">
   </WebView>
   <LinearLayout
     android:orientation="vertical"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
-    android:gravity="bottom">    
+    android:gravity="bottom">
     <TextView android:id="@+id/version_view"
               android:text="@string/about_version_default"
               android:layout_height="wrap_content"
               android:layout_width="fill_parent"
-              android:gravity="center"/>
+              android:gravity="center" />
   </LinearLayout>
 </LinearLayout>
