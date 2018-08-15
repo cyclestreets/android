@@ -39,8 +39,6 @@ public class CycleMapFragment extends Fragment implements Undoable
   protected Overlay overlayPushBottom(final Overlay overlay) { return map_.overlayPushBottom(overlay); }
   protected Overlay overlayPushTop(final Overlay overlay) { return map_.overlayPushTop(overlay); }
 
-  protected void findPlace() { launchFindDialog(); }
-
   @Override
   public void onPause() {
     map_.onPause();
