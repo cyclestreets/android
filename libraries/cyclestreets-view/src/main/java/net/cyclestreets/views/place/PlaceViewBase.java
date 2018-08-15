@@ -41,7 +41,6 @@ public class PlaceViewBase extends LinearLayout
   ////////////////////////////////
   private static String CURRENT_LOCATION;
   private static String LOCATION_NOT_FOUND;
-  private static String LOCATION_SEARCH;
   private static String CONTACTS;
   private static String NO_CONTACTS_WITH_ADDRESSES;
   private static String CONTACTS_LOADING;
@@ -87,7 +86,6 @@ public class PlaceViewBase extends LinearLayout
     final Resources res = context.getResources();
     CURRENT_LOCATION = res.getString(R.string.placeview_current_location);
     LOCATION_NOT_FOUND = res.getString(R.string.placeview_location_not_found);
-    LOCATION_SEARCH = res.getString(R.string.placeview_location_search);
     CONTACTS = res.getString(R.string.placeview_contacts);
     NO_CONTACTS_WITH_ADDRESSES = res.getString(R.string.placeview_no_contacts_with_addresses);
     CONTACTS_LOADING = res.getString(R.string.placeview_contacts_loading);
@@ -276,8 +274,8 @@ public class PlaceViewBase extends LinearLayout
     asc.execute(what, bounds());
   }
 
-  private void resolvedContacts(final GeoPlaces results,
-                                final OnResolveListener listener) {
+  void resolvedContacts(final GeoPlaces results,
+                        final OnResolveListener listener) {
     if (results.isEmpty()) {
       MessageBox.OK(this, LOCATION_NOT_FOUND);
       return;
@@ -334,63 +332,6 @@ public class PlaceViewBase extends LinearLayout
     protected void onPostExecute(final List<Contact> results) {
       progress_.dismiss();
       view_.onContactsLoaded(results);
-    }
-  }
-
-  ////////////////////////////////
-  private static class AsyncContactLookup extends AsyncTask<Object, Void, GeoPlaces>  {
-    final ProgressDialog progress_;
-    final OnResolveListener listener_;
-    final PlaceViewBase view_;
-
-    public AsyncContactLookup(final PlaceViewBase view,
-                              final OnResolveListener listener) {
-      progress_ = Dialog.createProgressDialog(view.getContext(), LOCATION_SEARCH);
-      view_ = view;
-      listener_ = listener;
-    }
-
-    @Override
-    protected void onPreExecute() {  progress_.show(); }
-
-    @Override
-    protected GeoPlaces doInBackground(Object... params) {
-      final BoundingBox bounds = (BoundingBox)params[1];
-
-      if (params[0] instanceof String)
-        return doSearch((String)params[0], bounds);
-
-      return doContactSearch((Contact)params[0], bounds);
-    }
-
-    @Override
-    protected void onPostExecute(final GeoPlaces result) {
-      progress_.dismiss();
-      view_.resolvedContacts(result, listener_);
-    }
-
-    private GeoPlaces doContactSearch(final Contact contact,
-                                      final BoundingBox bounds) {
-      GeoPlaces r = doSearch(contact.address(), bounds);
-      if (!r.isEmpty())
-        return r;
-
-      r = doSearch(contact.postcode(), bounds);
-      if (!r.isEmpty())
-        return r;
-
-      r = doSearch(contact.city(), bounds);
-      return r;
-    }
-
-    private GeoPlaces doSearch(final String search,
-                    final BoundingBox bounds) {
-      try {
-        return GeoPlaces.search(search, bounds);
-      }
-      catch (Exception e) {
-        return GeoPlaces.EMPTY;
-      }
     }
   }
 }
