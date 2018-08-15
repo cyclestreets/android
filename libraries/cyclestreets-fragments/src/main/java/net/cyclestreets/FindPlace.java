@@ -5,7 +5,7 @@ import net.cyclestreets.fragments.R;
 import net.cyclestreets.api.GeoPlace;
 
 import net.cyclestreets.util.MessageBox;
-import net.cyclestreets.views.PlaceView;
+import net.cyclestreets.views.place.PlaceView;
 
 import android.app.AlertDialog;
 import android.content.Context;

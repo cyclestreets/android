@@ -8,7 +8,7 @@ import java.util.List;
 import net.cyclestreets.routing.Route;
 import net.cyclestreets.routing.Waypoints;
 import net.cyclestreets.util.MessageBox;
-import net.cyclestreets.views.PlaceViewWithCancel;
+import net.cyclestreets.views.place.PlaceViewWithCancel;
 import net.cyclestreets.api.GeoPlace;
 import net.cyclestreets.views.RouteType;
 

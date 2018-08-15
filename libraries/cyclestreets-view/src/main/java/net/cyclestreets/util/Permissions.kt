@@ -1,6 +1,7 @@
 package net.cyclestreets.util
 
 import android.app.Activity
+import android.content.Context
 import android.content.pm.PackageManager
 
 @Deprecated("requestPermissions returns asynchronously, so this is not a sensible mechanism")
@@ -21,6 +22,6 @@ private fun requestPermission(activity: Activity, permission: String) {
     activity.requestPermissions(arrayOf(permission), 1)
 }
 
-private fun hasPermission(activity: Activity, permission: String): Boolean {
-    return activity.checkSelfPermission(permission) == PackageManager.PERMISSION_GRANTED
+private fun hasPermission(context: Context, permission: String): Boolean {
+    return context.checkSelfPermission(permission) == PackageManager.PERMISSION_GRANTED
 }
