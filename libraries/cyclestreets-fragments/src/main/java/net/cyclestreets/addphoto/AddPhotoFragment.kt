@@ -482,8 +482,7 @@ class AddPhotoFragment : Fragment(), View.OnClickListener, Undoable, ThereOverla
             }
             R.id.next -> {
                 if (step === AddStep.LOCATION) {
-                    val needAccountDetails = !allowUploadByKey && !CycleStreetsPreferences.accountOK()
-                    assert(!needAccountDetails)
+                    assert(!needAccountDetails())
                     upload()
                 } else if (step != AddStep.VIEW) {
                     nextStep()
@@ -493,11 +492,14 @@ class AddPhotoFragment : Fragment(), View.OnClickListener, Undoable, ThereOverla
     }
 
     private fun doOrLogin(function: () -> Unit) {
-        val needAccountDetails = !allowUploadByKey && !CycleStreetsPreferences.accountOK()
-        if (needAccountDetails)
+        if (needAccountDetails())
             startActivityForResult(Intent(activity, AccountDetailsActivity::class.java), ACCOUNT_DETAILS)
         else
             function()
+    }
+
+    private fun needAccountDetails(): Boolean {
+        return !allowUploadByKey && !CycleStreetsPreferences.accountOK()
     }
 
     private fun dispatchTakePhotoIntent() {

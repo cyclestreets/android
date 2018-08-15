@@ -61,7 +61,7 @@
       </intent-filter>
     </activity>
 
-    <!-- Allow taking photos -->
+    <!-- Allows CycleStreets-created files to be written into by the camera app -->
     <provider
       android:name="android.support.v4.content.FileProvider"
       android:authorities="net.cyclestreets.fileprovider"
