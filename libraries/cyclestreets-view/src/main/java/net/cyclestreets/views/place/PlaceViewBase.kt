@@ -35,7 +35,7 @@ internal val TAG: String = Logging.getTag(PlaceViewBase::class.java)
 open class PlaceViewBase protected constructor(private val context_: Context, layout: Int, attrs: AttributeSet?) :
             LinearLayout(context_, attrs), OnClickListener, DialogInterface.OnClickListener {
 
-    private val textView: PlaceAutoCompleteTextView = findViewById(R.id.placeBox)
+    private val textView: PlaceAutoCompleteTextView
     private val allowedPlaces = ArrayList<GeoPlace>()
     private val savedLocations: List<SavedLocation> = LocationDatabase(context_).savedLocations()
     private var options: MutableList<String>? = null
@@ -52,7 +52,10 @@ open class PlaceViewBase protected constructor(private val context_: Context, la
     init {
         orientation = LinearLayout.HORIZONTAL
         LayoutInflater.from(context_).inflate(layout, this)
+
+        textView = findViewById(R.id.placeBox)
         findViewById<ImageButton>(R.id.optionsBtn).setOnClickListener(this)
+
         attrs?.getAttributeValue("http://schemas.android.com/apk/res/android", "hint")?.apply {
             hint = this
         }
