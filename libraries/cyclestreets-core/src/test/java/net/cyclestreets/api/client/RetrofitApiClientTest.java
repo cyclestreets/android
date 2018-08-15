@@ -461,37 +461,6 @@ public class RetrofitApiClientTest {
     assertThat(result.url(), is("https://www.cyclestreets.net/location/64001/"));
   }
 
-  @SuppressWarnings("deprecation")
-  @Test
-  public void testGetJourneyXml() throws Exception {
-    // given
-    stubFor(get(urlPathEqualTo("/api/journey.xml"))
-            .willReturn(aResponse()
-                    .withStatus(200)
-                    .withHeader("Content-Type", "text/xml")
-                    .withBodyFile("journey-v1api.xml")));
-
-    // when
-    String journeyXml = apiClient.getJourneyXml("balanced",
-                                                "mySetOfItineraryPoints",
-                                                "2016-07-03 07:51:12",
-                                                null,
-                                                24);
-    // N.B. if you try putting a realistic set of itinerary points, Wiremock barfs at the presence
-    //      of the unencoded pipe character (see https://github.com/square/retrofit/issues/1891).
-
-    // then
-    verify(getRequestedFor(urlPathEqualTo("/api/journey.xml"))
-            .withQueryParam("plan", equalTo("balanced"))
-            .withQueryParam("itinerarypoints", equalTo("mySetOfItineraryPoints"))
-            .withQueryParam("leaving", equalTo("2016-07-03 07:51:12"))
-            .withQueryParam("speed", equalTo("24"))
-            .withQueryParam("key", equalTo("myApiKey")));
-
-    assertThat(journeyXml, is(notNullValue()));
-    assertThat(journeyXml, containsString("{"));
-  }
-
   @Test
   public void testGetJourneyJson() throws Exception {
     // given
