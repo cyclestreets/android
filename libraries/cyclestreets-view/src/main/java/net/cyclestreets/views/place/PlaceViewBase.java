@@ -43,35 +43,33 @@ public class PlaceViewBase extends LinearLayout
   private static String SAVED_LOCATIONS;
 
   private final Context context_;
-  private final PlaceAutoCompleteTextView textView_;
-  private final ImageButton button_;
-  private List<GeoPlace> allowedPlaces_;
-  private List<String> options_;
-  private List<Contact> contacts_;
-  private final List<SavedLocation> savedLocations_;
+  private final PlaceAutoCompleteTextView textView;
+  private final ImageButton button;
+  private final List<GeoPlace> allowedPlaces = new ArrayList<>();
+  private final List<SavedLocation> savedLocations;
+  private List<String> options;
+  private List<Contact> contacts;
 
   protected PlaceViewBase(final Context context, final int layout, final AttributeSet attrs) {
     super(context, attrs);
     context_ = context;
 
     LocationDatabase locDb = new LocationDatabase(context);
-    savedLocations_ = locDb.savedLocations();
+    savedLocations = locDb.savedLocations();
 
     setOrientation(HORIZONTAL);
 
-    final LayoutInflater inflator = LayoutInflater.from(context);
-    inflator.inflate(layout, this);
+    final LayoutInflater inflater = LayoutInflater.from(context);
+    inflater.inflate(layout, this);
 
-    textView_ = (PlaceAutoCompleteTextView)findViewById(R.id.placeBox);
+    textView = findViewById(R.id.placeBox);
     final String hint = attrs != null ? attrs.getAttributeValue("http://schemas.android.com/apk/res/android", "hint") : null;
     if (hint != null)
-      textView_.setHint(hint);
+      textView.setHint(hint);
 
-    button_ = (ImageButton)findViewById(R.id.optionsBtn);
+    button = findViewById(R.id.optionsBtn);
 
-    button_.setOnClickListener(this);
-
-    allowedPlaces_ = new ArrayList<>();
+    button.setOnClickListener(this);
 
     loadStrings(context);
   }
@@ -92,7 +90,7 @@ public class PlaceViewBase extends LinearLayout
     if (loc == null)
       return;
     final GeoPlace gp = new GeoPlace(loc, CURRENT_LOCATION, "");
-    allowedPlaces_.add(gp);
+    allowedPlaces.add(gp);
     if (hint)
       setPlaceHint(gp);
   }
@@ -100,39 +98,39 @@ public class PlaceViewBase extends LinearLayout
   public void allowLocation(final IGeoPoint loc, final String label) {
     if (loc == null)
       return;
-    allowedPlaces_.add(new GeoPlace(loc, label, ""));
+    allowedPlaces.add(new GeoPlace(loc, label, ""));
   }
 
-  public String getText() { return textView_.getText().toString(); }
-  public void setText(final String text) { textView_.setText(text); }
-  public String getHint() { return textView_.getHint().toString(); }
-  public void setHint(final String text) { textView_.setHint(text); }
+  public String getText() { return textView.getText().toString(); }
+  public void setText(final String text) { textView.setText(text); }
+  public String getHint() { return textView.getHint().toString(); }
+  public void setHint(final String text) { textView.setHint(text); }
 
   public void geoPlace(final OnResolveListener listener) {
-    if (textView_.geoPlace() != null) {
-      listener.onResolve(textView_.geoPlace());
+    if (textView.geoPlace() != null) {
+      listener.onResolve(textView.geoPlace());
       return;
     }
 
-    if (textView_.contact() != null)
-      lookup(textView_.contact(), listener);
+    if (textView.contact() != null)
+      lookup(textView.contact(), listener);
     else if (getText() != null)
       lookup(getText(), listener);
   }
 
   public void addHistory(final GeoPlace place) {
-    for (final GeoPlace gp : allowedPlaces_)
+    for (final GeoPlace gp : allowedPlaces)
       if (gp == place)
         return;
-    textView_.addHistory(place);
+    textView.addHistory(place);
   }
 
-  private BoundingBox bounds() { return textView_.bounds(); }
-  public void setBounds(final BoundingBox bounds) { textView_.setBounds(bounds); }
+  private BoundingBox bounds() { return textView.bounds(); }
+  public void setBounds(final BoundingBox bounds) { textView.setBounds(bounds); }
 
-  private void setPlace(final GeoPlace geoPlace) { textView_.setGeoPlace(geoPlace); }
-  private void setPlaceHint(final GeoPlace geoPlace) { textView_.setGeoPlaceHint(geoPlace); }
-  private void setContact(final Contact contact) { textView_.setContact(contact); }
+  private void setPlace(final GeoPlace geoPlace) { textView.setGeoPlace(geoPlace); }
+  private void setPlaceHint(final GeoPlace geoPlace) { textView.setGeoPlaceHint(geoPlace); }
+  private void setContact(final Contact contact) { textView.setContact(contact); }
   private void setSavedLocation(final SavedLocation location) {
     GeoPlace gp = new GeoPlace(location.where(), location.name(), null);
     setPlace(gp);
@@ -140,17 +138,17 @@ public class PlaceViewBase extends LinearLayout
 
   @Override
   public void onClick(final View v) {
-    options_ = new ArrayList<>();
-    for (final GeoPlace gp : allowedPlaces_)
-      options_.add(gp.name());
+    options = new ArrayList<>();
+    for (final GeoPlace gp : allowedPlaces)
+      options.add(gp.name());
     if (contactsAvailable())
-      options_.add(CONTACTS);
+      options.add(CONTACTS);
     if (savedLocationsAvailable())
-      options_.add(SAVED_LOCATIONS);
+      options.add(SAVED_LOCATIONS);
 
     Dialog.listViewDialog(context_,
         R.string.placeview_choose_location,
-        options_,
+        options,
         this);
   }
 
@@ -162,14 +160,14 @@ public class PlaceViewBase extends LinearLayout
   }
 
   private boolean savedLocationsAvailable() {
-    return savedLocations_.size() != 0;
+    return savedLocations.size() != 0;
   }
 
   @Override
   public void onClick(final DialogInterface dialog, final int whichButton) {
-    final String option = options_.get(whichButton);
+    final String option = options.get(whichButton);
 
-    for (final GeoPlace gp : allowedPlaces_)
+    for (final GeoPlace gp : allowedPlaces)
       if (gp.name().equals(option))
         setPlaceHint(gp);
 
@@ -181,26 +179,26 @@ public class PlaceViewBase extends LinearLayout
   }
 
   private void pickContact() {
-    if (contacts_ == null) {
+    if (contacts == null) {
       loadContacts();
       return;
     }
 
-    if (contacts_.size() == 0) {
+    if (contacts.size() == 0) {
       MessageBox.OK(this, NO_CONTACTS_WITH_ADDRESSES);
       return;
     }
 
     Dialog.listViewDialog(context_,
                           R.string.placeview_contacts,
-                          contacts_,
+                          contacts,
                           new ContactsListener());
   }
 
   private class ContactsListener implements DialogInterface.OnClickListener  {
     @Override
     public void onClick(final DialogInterface dialog, final int whichButton) {
-      final Contact c = contacts_.get(whichButton);
+      final Contact c = contacts.get(whichButton);
       setContact(c);
     }
   }
@@ -208,14 +206,14 @@ public class PlaceViewBase extends LinearLayout
   private void pickSavedLocation() {
     Dialog.listViewDialog(context_,
                           R.string.placeview_saved_locations,
-                          savedLocations_,
+                          savedLocations,
                           new SavedLocationListener());
   }
 
   private class SavedLocationListener implements DialogInterface.OnClickListener {
     @Override
     public void onClick(final DialogInterface dialog, final int whichButton) {
-      final SavedLocation l = savedLocations_.get(whichButton);
+      final SavedLocation l = savedLocations.get(whichButton);
       setSavedLocation(l);
     }
   }
@@ -227,7 +225,7 @@ public class PlaceViewBase extends LinearLayout
   }
 
   void onContactsLoaded(final List<Contact> contacts) {
-    contacts_ = contacts;
+    this.contacts = contacts;
     pickContact();
   }
 
@@ -245,7 +243,7 @@ public class PlaceViewBase extends LinearLayout
     }
 
     if (results.size() == 1) {
-      textView_.setGeoPlace(results.get(0));
+      textView.setGeoPlace(results.get(0));
       listener.onResolve(results.get(0));
       return;
     }
@@ -268,7 +266,7 @@ public class PlaceViewBase extends LinearLayout
 
     @Override
     public void onClick(final DialogInterface dialog, final int whichButton) {
-      textView_.setGeoPlace(results_.get(whichButton));
+      textView.setGeoPlace(results_.get(whichButton));
       listener_.onResolve(results_.get(whichButton));
     }
   }
