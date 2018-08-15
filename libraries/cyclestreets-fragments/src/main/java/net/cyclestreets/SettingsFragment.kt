@@ -36,7 +36,7 @@ class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedP
         setSummary(CycleStreetsPreferences.PREF_REPLAN_DISTANCE)
     }
 
-    override fun onCreatePreferences(savedInstance: Bundle, rootKey: String) {
+    override fun onCreatePreferences(savedInstance: Bundle?, rootKey: String?) {
         if (arguments != null) {
             Log.d(TAG, "Creating preferences subscreen with key $rootKey")
             val key = arguments!!.getString(PREFERENCE_SCREEN_ARG)
