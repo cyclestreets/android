@@ -234,7 +234,6 @@ class AddPhotoFragment : Fragment(), View.OnClickListener, Undoable, ThereOverla
             }
             AddStep.DONE -> {
                 step = AddStep.START
-                deletePreviouslyCapturedImages(activity)
                 setupView()
             }
         }

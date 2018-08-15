@@ -49,6 +49,7 @@ internal fun backNextButtons(parentView: View,
 
 @SuppressLint("SimpleDateFormat")
 internal fun createImageFile(context: Context?): File {
+    deletePreviouslyCapturedImages(context)
     val timeStamp = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
     val imageFileName = "$PHOTO_FILE_PREFIX$timeStamp"
     val file = File.createTempFile(imageFileName, ".jpg", storageDir(context))
@@ -56,7 +57,7 @@ internal fun createImageFile(context: Context?): File {
     return file
 }
 
-internal fun deletePreviouslyCapturedImages(context: Context?) {
+private fun deletePreviouslyCapturedImages(context: Context?) {
     val files = storageDir(context).listFiles { _, filename -> filename.matches(Regex("$PHOTO_FILE_PREFIX.*")) }
     files.forEach {
         Log.i(TAG, "Deleting previously captured image ${it.absolutePath}")
