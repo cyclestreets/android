@@ -13,17 +13,14 @@ import net.cyclestreets.view.R;
 import net.cyclestreets.api.GeoPlace;
 import net.cyclestreets.api.GeoPlaces;
 import net.cyclestreets.contacts.Contact;
-import net.cyclestreets.contacts.Contacts;
 import net.cyclestreets.util.Dialog;
 import net.cyclestreets.util.MessageBox;
 
 import android.Manifest;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
-import android.os.AsyncTask;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -43,7 +40,6 @@ public class PlaceViewBase extends LinearLayout
   private static String LOCATION_NOT_FOUND;
   private static String CONTACTS;
   private static String NO_CONTACTS_WITH_ADDRESSES;
-  private static String CONTACTS_LOADING;
   private static String SAVED_LOCATIONS;
 
   private final Context context_;
@@ -88,7 +84,6 @@ public class PlaceViewBase extends LinearLayout
     LOCATION_NOT_FOUND = res.getString(R.string.placeview_location_not_found);
     CONTACTS = res.getString(R.string.placeview_contacts);
     NO_CONTACTS_WITH_ADDRESSES = res.getString(R.string.placeview_no_contacts_with_addresses);
-    CONTACTS_LOADING = res.getString(R.string.placeview_contacts_loading);
     SAVED_LOCATIONS = res.getString(R.string.placeview_saved_locations);
   }
 
@@ -263,7 +258,7 @@ public class PlaceViewBase extends LinearLayout
     acl.execute();
   }
 
-  private void onContactsLoaded(final List<Contact> contacts) {
+  void onContactsLoaded(final List<Contact> contacts) {
     contacts_ = contacts;
     pickContact();
   }
@@ -307,31 +302,6 @@ public class PlaceViewBase extends LinearLayout
     public void onClick(final DialogInterface dialog, final int whichButton) {
       textView_.setGeoPlace(results_.get(whichButton));
       listener_.onResolve(results_.get(whichButton));
-    }
-  }
-
-  ///////////////////////////////////////////////////////////
-  private static class AsyncContactLoad extends AsyncTask<Void, Void, List<Contact>>  {
-    final ProgressDialog progress_;
-    final PlaceViewBase view_;
-
-    public AsyncContactLoad(final PlaceViewBase view) {
-      progress_ = Dialog.createProgressDialog(view.getContext(), CONTACTS_LOADING);
-      view_ = view;
-    }
-
-    @Override
-    protected void onPreExecute() { progress_.show(); }
-
-    @Override
-    protected List<Contact> doInBackground(Void... params) {
-      return Contacts.load(view_.getContext());
-    }
-
-    @Override
-    protected void onPostExecute(final List<Contact> results) {
-      progress_.dismiss();
-      view_.onContactsLoaded(results);
     }
   }
 }
