@@ -34,8 +34,8 @@ public class RouteMapFragment extends CycleMapFragment implements Route.Listener
 
   @Override
   public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle saved) {
-    Permissions.verify(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION);
-    Permissions.verify(getActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE);
+    PermissionsKt.verify(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION);
+    PermissionsKt.verify(getActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE);
 
     final View v = super.onCreateView(inflater, container, saved);
 
