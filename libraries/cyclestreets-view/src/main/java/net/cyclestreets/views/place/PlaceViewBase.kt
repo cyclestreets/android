@@ -13,18 +13,24 @@ import net.cyclestreets.api.GeoPlace
 import net.cyclestreets.api.GeoPlaces
 import net.cyclestreets.contacts.Contact
 import net.cyclestreets.util.Dialog
+import net.cyclestreets.util.Logging
 import net.cyclestreets.util.MessageBox
+import net.cyclestreets.util.doOrRequestPermission
 
 import android.Manifest
+import android.app.Activity
 import android.content.Context
 import android.content.DialogInterface
-import android.content.pm.PackageManager
 import android.util.AttributeSet
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.View.OnClickListener
 import android.widget.ImageButton
 import android.widget.LinearLayout
+import android.widget.Toast
+
+internal val TAG: String = Logging.getTag(PlaceViewBase::class.java)
 
 open class PlaceViewBase protected constructor(private val context_: Context, layout: Int, attrs: AttributeSet?) :
             LinearLayout(context_, attrs), OnClickListener, DialogInterface.OnClickListener {
@@ -140,9 +146,7 @@ open class PlaceViewBase protected constructor(private val context_: Context, la
         options = ArrayList()
         for (gp in allowedPlaces)
             options!!.add(gp.name())
-
-        if (contactsAvailable())
-            options!!.add(CONTACTS!!)
+        options!!.add(CONTACTS!!)
         if (savedLocationsAvailable())
             options!!.add(SAVED_LOCATIONS!!)
 
@@ -150,15 +154,6 @@ open class PlaceViewBase protected constructor(private val context_: Context, la
                               R.string.placeview_choose_location,
                               options,
                               this)
-    }
-
-    private fun contactsAvailable(): Boolean {
-        val pm = context_.packageManager
-        val hasPerm = pm.checkPermission(
-            Manifest.permission.READ_CONTACTS,
-            context_.packageName
-        )
-        return hasPerm == PackageManager.PERMISSION_GRANTED
     }
 
     private fun savedLocationsAvailable(): Boolean {
@@ -172,8 +167,14 @@ open class PlaceViewBase protected constructor(private val context_: Context, la
             if (gp.name() == option)
                 setPlaceHint(gp)
 
-        if (CONTACTS == option)
-            pickContact()
+        if (CONTACTS == option) {
+            if (context_ is Activity)
+                doOrRequestPermission(context_, Manifest.permission.READ_CONTACTS) { pickContact() }
+            else {
+                Toast.makeText(context_, "Could not ", Toast.LENGTH_LONG).show()
+                Log.w(TAG, "Context is not an instance of Activity")
+            }
+        }
 
         if (SAVED_LOCATIONS == option)
             pickSavedLocation()
