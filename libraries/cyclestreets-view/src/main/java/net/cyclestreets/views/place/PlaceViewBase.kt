@@ -38,15 +38,15 @@ open class PlaceViewBase protected constructor(private val context_: Context, la
     private val textView: PlaceAutoCompleteTextView
     private val allowedPlaces = ArrayList<GeoPlace>()
     private val savedLocations: List<SavedLocation> = LocationDatabase(context_).savedLocations()
-    private var options: MutableList<String>? = null
+    private val options: MutableList<String> = ArrayList()
     private var contacts: List<Contact>? = null
 
     companion object {
         private var CURRENT_LOCATION: String? = null
-        private var LOCATION_NOT_FOUND: String? = null
-        private var CONTACTS: String? = null
-        private var NO_CONTACTS_WITH_ADDRESSES: String? = null
-        private var SAVED_LOCATIONS: String? = null
+        private lateinit var LOCATION_NOT_FOUND: String
+        private lateinit var CONTACTS: String
+        private lateinit var NO_CONTACTS_WITH_ADDRESSES: String
+        private lateinit var SAVED_LOCATIONS: String
     }
 
     init {
@@ -146,12 +146,12 @@ open class PlaceViewBase protected constructor(private val context_: Context, la
     }
 
     override fun onClick(v: View) {
-        options = ArrayList()
+        options.clear()
         for (gp in allowedPlaces)
-            options!!.add(gp.name())
-        options!!.add(CONTACTS!!)
+            options.add(gp.name())
+        options.add(CONTACTS)
         if (savedLocationsAvailable())
-            options!!.add(SAVED_LOCATIONS!!)
+            options.add(SAVED_LOCATIONS)
 
         Dialog.listViewDialog(context_,
                               R.string.placeview_choose_location,
@@ -164,7 +164,7 @@ open class PlaceViewBase protected constructor(private val context_: Context, la
     }
 
     override fun onClick(dialog: DialogInterface, whichButton: Int) {
-        val option = options!![whichButton]
+        val option = options[whichButton]
 
         for (gp in allowedPlaces)
             if (gp.name() == option)
