@@ -4,23 +4,23 @@
 
   <uses-permission android:name="android.permission.INTERNET" />
   <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-  <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
-  <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+  <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+  <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
   <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-  <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+  <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
 
   <application android:supportsRtl="false">
     <activity android:name="net.cyclestreets.AccountDetailsActivity"
               android:label="Account Details"
-              android:windowSoftInputMode="stateVisible|adjustResize"/>
+              android:windowSoftInputMode="stateVisible|adjustResize" />
     <activity android:name="net.cyclestreets.FeedbackActivity"
               android:label="Route Comments"
-              android:windowSoftInputMode="stateVisible|adjustResize"/>
+              android:windowSoftInputMode="stateVisible|adjustResize" />
     <activity android:name="net.cyclestreets.LiveRideActivity"
               android:label="LiveRide"
               android:launchMode="singleTop"
-              android:screenOrientation="portrait"/>
+              android:screenOrientation="portrait" />
 
-    <service android:name="net.cyclestreets.liveride.LiveRideService"/>
+    <service android:name="net.cyclestreets.liveride.LiveRideService" />
   </application>
 </manifest>

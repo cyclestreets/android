@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-	    android:orientation="vertical"
-	    android:layout_width="match_parent"
-	    android:layout_height="wrap_content"
-	    android:clipChildren="false"
-	    android:paddingLeft="9dp"
-	    android:paddingRight="9dp"
-	    android:paddingTop="12dp"
-	    android:paddingBottom="6dp"
-	    android:background="?android:attr/colorBackground">
+      android:orientation="vertical"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:clipChildren="false"
+      android:paddingLeft="9dp"
+      android:paddingRight="9dp"
+      android:paddingTop="12dp"
+      android:paddingBottom="6dp"
+      android:background="?android:attr/colorBackground">
   <net.cyclestreets.views.PlaceView
-  		android:id="@+id/place"	     
-	    android:orientation="horizontal"
-    	android:layout_width="match_parent"
-     	android:layout_height="wrap_content"
-      android:hint="@string/findplace_name_or_address"/>
+      android:id="@+id/place"
+      android:orientation="horizontal"
+      android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+      android:hint="@string/findplace_name_or_address" />
 </LinearLayout>

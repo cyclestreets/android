@@ -1,67 +1,67 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-	    android:orientation="vertical"
-	    android:layout_width="fill_parent"
-	    android:layout_height="fill_parent">
+  android:orientation="vertical"
+  android:layout_width="fill_parent"
+  android:layout_height="fill_parent">
   <ScrollView
-      android:layout_width="fill_parent"
-      android:layout_height="0dp"
-      android:layout_weight="5.0"
-      android:padding="4.0dp">
+    android:layout_width="fill_parent"
+    android:layout_height="0dp"
+    android:layout_weight="5.0"
+    android:padding="4.0dp">
     <LinearLayout
-	android:orientation="vertical"
-	android:layout_width="fill_parent"
-	android:layout_height="wrap_content">
+      android:orientation="vertical"
+      android:layout_width="fill_parent"
+      android:layout_height="wrap_content">
       <TextView
-	  android:layout_width="fill_parent"
-	  android:layout_height="wrap_content"
-	  android:text="@string/all_blank"/>
-      <TextView 
-	  android:id="@+id/signin_message"
-	  android:layout_width="fill_parent"
-	  android:layout_height="wrap_content"
-	  android:gravity="center"
-	  android:text="@string/account_signin_message"/>
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/all_blank" />
       <TextView
-	  android:layout_width="fill_parent"
-	  android:layout_height="wrap_content"
-	  android:text="@string/all_blank"/>
+        android:id="@+id/signin_message"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="@string/account_signin_message" />
       <TextView
-	  android:layout_width="fill_parent"
-	  android:layout_height="wrap_content"
-	  android:text="@string/account_username"/>
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/all_blank" />
+      <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/account_username" />
       <EditText
-	  android:id="@+id/username"
-	  android:layout_height="wrap_content" 
-	  android:layout_width="fill_parent"
-	  android:inputType="text"/>	
+        android:id="@+id/username"
+        android:layout_height="wrap_content"
+        android:layout_width="fill_parent"
+        android:inputType="text" />
       <TextView
-	  android:layout_width="fill_parent"
-	  android:layout_height="wrap_content"
-	  android:text="@string/account_password"/>
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/account_password" />
       <EditText
-	  android:id="@+id/password"
-	  android:layout_height="wrap_content" 
-	  android:layout_width="fill_parent"
-	  android:inputType="textPassword"/>	
-    </LinearLayout>    	
+        android:id="@+id/password"
+        android:layout_height="wrap_content"
+        android:layout_width="fill_parent"
+        android:inputType="textPassword" />
+    </LinearLayout>
   </ScrollView>
   <LinearLayout
-      android:orientation="horizontal" 
-      android:layout_width="fill_parent"
+    android:orientation="horizontal"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:gravity="bottom">
+    <Button
+      android:id="@+id/cleardetails_button"
+      android:layout_width="0dp"
       android:layout_height="wrap_content"
-      android:gravity="bottom">    	
+      android:layout_weight="1"
+      android:text="@string/account_clear_stored_button" />
     <Button
-	android:id="@+id/cleardetails_button"
-	android:layout_width="0dp"
-	android:layout_height="wrap_content"
-	android:layout_weight="1"     	
-	android:text="@string/account_clear_stored_button"/>
-    <Button
-	android:id="@+id/signin_button"
-	android:layout_width="0dp"
-	android:layout_height="wrap_content"
-	android:layout_weight="1"     	
-	android:text="@string/account_signin_button"/>
-  </LinearLayout>       
+      android:id="@+id/signin_button"
+      android:layout_width="0dp"
+      android:layout_height="wrap_content"
+      android:layout_weight="1"
+      android:text="@string/account_signin_button" />
+  </LinearLayout>
 </LinearLayout>

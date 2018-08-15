@@ -5,10 +5,10 @@
   android:layout_width="fill_parent"
   android:layout_height="fill_parent">
   <WebView android:id="@+id/html_view"
-		 android:layout_width="fill_parent"
-		 android:layout_height="0dp"
+     android:layout_width="fill_parent"
+     android:layout_height="0dp"
      android:layout_weight="1.0"
-		 android:scrollbars="vertical">
+     android:scrollbars="vertical">
   </WebView>
 
   <LinearLayout
@@ -18,10 +18,10 @@
       <TextView
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
-      		android:text="@string/blog_notifications"/>
-		  <CheckBox
-    		  android:id="@+id/blog_notifications"
-      		android:layout_width="wrap_content"
-      		android:layout_height="wrap_content"/>
+          android:text="@string/blog_notifications" />
+      <CheckBox
+          android:id="@+id/blog_notifications"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content" />
   </LinearLayout>
 </LinearLayout>

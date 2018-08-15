@@ -80,7 +80,7 @@
   <string name="poi_menu_entry">Categorías</string>
 
   <string name="settings_no_map_packs">No tienes paquetes de mapas instalados. Vector maps está disponible como descarga a parte para los mapas sin conexión.
-	    \n\n¿Te gustaría buscar paquetes de mapas ahora?</string>
+      \n\n¿Te gustaría buscar paquetes de mapas ahora?</string>
   <string name="settings_signed_in">Registro en CycleStreets</string>
   <string name="settings_awaiting">Registro esperando verificación de cuenta</string>
 

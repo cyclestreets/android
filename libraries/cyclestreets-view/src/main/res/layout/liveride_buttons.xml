@@ -15,6 +15,6 @@
         app:borderWidth="12dp"
         app:ico_icon="gmd_lock_open"
         app:ico_color="?android:textColorSecondary"
-        app:backgroundTint="@android:color/background_light"/>
+        app:backgroundTint="@android:color/background_light" />
 
 </android.support.design.widget.CoordinatorLayout>

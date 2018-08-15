@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-  
+
   <string name="route_map">Planejador de viagem</string>
   <string name="itinerary">Itinerário</string>
   <string name="elevation">Elevação</string>
@@ -79,7 +79,7 @@
   <string name="poi_menu_entry">categorias</string>
 
   <string name="settings_no_map_packs">Você não tem nenhum mapa instalado. Mapas vetoriais para uso offline estão disponíveis como download separado.
-	    \n\nGostaria de procurar por um pacote de mapas agora?</string>
+      \n\nGostaria de procurar por um pacote de mapas agora?</string>
   <string name="settings_signed_in">Logado em CycleStreets</string>
   <string name="settings_awaiting">Registro da conta aguardando confirmação</string>
 
