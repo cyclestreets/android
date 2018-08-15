@@ -130,35 +130,6 @@ public class PlaceViewBase extends LinearLayout
   private BoundingBox bounds() { return textView_.bounds(); }
   public void setBounds(final BoundingBox bounds) { textView_.setBounds(bounds); }
 
-  public void swap(final PlaceViewBase other) {
-    final String to = other.getText();
-    final String ho = other.getHint();
-    final GeoPlace po = other.textView_.geoPlace();
-
-    final String t = getText();
-    final String h = getHint();
-    final GeoPlace p = textView_.geoPlace();
-
-    set(po, to, ho);
-    other.set(p, t, h);
-  }
-
-  //////////////////////////////////////////
-  private void set(final GeoPlace gp, final String t, final String h) {
-    if (gp == null) {
-      if (notEmpty(t))
-        setText(t);
-      else if (notEmpty(h))
-        setHint(h);
-      else
-        setText("");
-      return;
-    }
-    if (notEmpty(t))
-      setPlace(gp);
-    else
-      setPlaceHint(gp);
-  }
   private void setPlace(final GeoPlace geoPlace) { textView_.setGeoPlace(geoPlace); }
   private void setPlaceHint(final GeoPlace geoPlace) { textView_.setGeoPlaceHint(geoPlace); }
   private void setContact(final Contact contact) { textView_.setContact(contact); }
@@ -166,8 +137,6 @@ public class PlaceViewBase extends LinearLayout
     GeoPlace gp = new GeoPlace(location.where(), location.name(), null);
     setPlace(gp);
   }
-
-  private boolean notEmpty(final String s) { return s != null && s.length() != 0; }
 
   @Override
   public void onClick(final View v) {
@@ -187,7 +156,6 @@ public class PlaceViewBase extends LinearLayout
 
   private boolean contactsAvailable() {
     final PackageManager pm = context_.getPackageManager();
-    final String pn = context_.getPackageName();
     int hasPerm = pm.checkPermission(Manifest.permission.READ_CONTACTS,
                                      context_.getPackageName());
     return (hasPerm == PackageManager.PERMISSION_GRANTED);
