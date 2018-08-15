@@ -153,8 +153,6 @@ public class ControllerOverlay extends Overlay implements OnDoubleTapListener, O
     drawUnskewed(canvas);
 
     canvas.restore();
-
-    Log.d(TAG, "Current zoom=" +  mapView.getZoomLevel());
   }
 
   private void drawUnskewed(final Canvas canvas) {
