@@ -194,24 +194,10 @@ public class RetrofitApiClientIntegrationTest {
     System.out.println("Don't forgot to log on as this user and delete the photo afterwards...");
   }
 
-  @SuppressWarnings("deprecation")
-  @Test
-  public void hitGetJourneyXmlApi() throws Exception {
-    String xml = apiClient.getJourneyXml("quietest", "0.117950,52.205302,City+Centre|0.131402,52.221046,Mulberry+Close|0.147324,52.199650,Thoday+Street", null, null, 24);
-    System.out.println(xml);
-  }
-
   @Test
   public void hitGetJourneyJsonApi() throws Exception {
     String json = apiClient.getJourneyJson("quietest", "0.117950,52.205302,City+Centre|0.131402,52.221046,Mulberry+Close|0.147324,52.199650,Thoday+Street", null, null, 24);
     System.out.println(json);
-  }
-
-  @SuppressWarnings("deprecation")
-  @Test
-  public void hitRetrievePreviousJourneyXmlApi() throws Exception {
-    String xml = apiClient.retrievePreviousJourneyXml("fastest", 53135357);
-    System.out.println(xml);
   }
 
   @Test
