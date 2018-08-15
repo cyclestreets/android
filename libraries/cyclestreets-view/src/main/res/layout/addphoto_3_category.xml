@@ -1,0 +1,39 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  android:orientation="vertical"
+  android:layout_width="fill_parent"
+  android:layout_height="fill_parent">
+  <ScrollView
+    android:layout_width="fill_parent"
+    android:layout_height="0dp"
+    android:orientation="vertical"
+    android:layout_weight="5.0"
+    android:padding="4.0dp">
+    <LinearLayout
+      android:orientation="vertical"
+      android:layout_width="fill_parent"
+      android:layout_height="wrap_content">
+      <ImageView android:id="@+id/photo"
+        android:layout_weight="1.0"
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:cropToPadding="true" />
+      <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/photo_good_or_bad_hint" />
+      <Spinner
+        android:id="@+id/metacat"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" />
+      <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/photo_feature_type_hint" />
+      <Spinner
+        android:id="@+id/category"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" />
+    </LinearLayout>
+  </ScrollView>
+  <include layout="@layout/addphoto_backnext" />
+</LinearLayout>

@@ -1,0 +1,26 @@
+<LinearLayout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  android:orientation="vertical"
+  android:layout_width="fill_parent"
+  android:layout_height="fill_parent">
+  <RelativeLayout
+    android:id="@+id/mapholder"
+    android:layout_width="fill_parent"
+    android:layout_height="0dp"
+    android:orientation="vertical"
+    android:layout_weight="5.0"
+    android:padding="4.0dp" />
+  <TextView
+    android:id="@+id/label"
+    android:gravity="center"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:text="@string/photo_location_hint" />
+  <TextView
+    android:id="@+id/nogeo"
+    android:gravity="center"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:text="@string/photo_not_geolocatable_hint" />
+  <include layout="@layout/addphoto_backnext" />
+</LinearLayout>
