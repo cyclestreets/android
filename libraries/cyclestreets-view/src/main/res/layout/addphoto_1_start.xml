@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  android:orientation="vertical" android:layout_width="fill_parent"
+  android:layout_height="fill_parent">
+  <TextView
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+		android:text="@string/all_blank" />
+  <TextView android:id="@+id/addphoto_text"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center"
+    android:text="@string/photo_upload_hint1" />
+  <TextView
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:text="@string/all_blank" />
+  <TextView android:id="@+id/addphoto_text2"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center"
+    android:text="@string/photo_upload_hint2" />
+  <TextView
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:text="@string/all_blank" />
+  <Button android:id="@+id/takephoto_button"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:text="@string/photo_take_button" />
+  <Button android:id="@+id/chooseexisting_button"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:text="@string/photo_select_button" />
+
+  <TextView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="@string/all_blank"
+    android:id="@+id/textView"
+    android:layout_gravity="center_horizontal" />
+
+  <Button
+    android:id="@+id/textonly_button"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center_horizontal"
+    android:text="@string/report_continue_without_photo_button" />
+</LinearLayout>

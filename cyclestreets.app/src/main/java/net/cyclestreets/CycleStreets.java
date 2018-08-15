@@ -2,6 +2,8 @@ package net.cyclestreets;
 
 import android.os.Bundle;
 
+import net.cyclestreets.addphoto.AddPhotoFragment;
+
 public class CycleStreets extends MainNavDrawerActivity implements RouteMapActivity {
   @Override
   public void onCreate(final Bundle savedInstanceState) {
@@ -41,7 +43,7 @@ public class CycleStreets extends MainNavDrawerActivity implements RouteMapActiv
                       PhotoMapFragment.class);
     addDrawerFragment(R.string.photo_upload,
                       R.drawable.ic_menu_camera,
-                      PhotoUploadFragment.class);
+                      AddPhotoFragment.class);
     addDrawerFragment(BlogFragment.blogTitle(this),
                       -1,
                       BlogFragment.class);
