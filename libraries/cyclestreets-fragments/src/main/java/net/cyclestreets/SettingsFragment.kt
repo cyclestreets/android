@@ -69,7 +69,14 @@ class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedP
 
     private fun setupMapStyles() {
         findPreference(CycleStreetsPreferences.PREF_MAPSTYLE_KEY)?.apply {
-            TileSource.configurePreference(this as ListPreference)
+            val pref = this as ListPreference
+
+            if (pref.value == CycleStreetsPreferences.MAPSTYLE_MAPSFORGE && MapPack.availableMapPacks().isEmpty()) {
+                Log.i(TAG, "Offline Vector Maps were selected, but there are no available map packs; default to OSM")
+                pref.value = CycleStreetsPreferences.MAPSTYLE_OSM
+            }
+
+            TileSource.configurePreference(pref)
         }
     }
 
