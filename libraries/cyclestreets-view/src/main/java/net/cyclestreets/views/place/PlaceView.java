@@ -1,4 +1,4 @@
-package net.cyclestreets.views;
+package net.cyclestreets.views.place;
 
 import net.cyclestreets.view.R;
 import android.content.Context;

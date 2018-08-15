@@ -1,8 +1,9 @@
-package net.cyclestreets.views;
+package net.cyclestreets.views.place;
 
 import java.util.List;
 import java.util.ArrayList;
 
+import net.cyclestreets.views.PlaceAutoCompleteTextView;
 import org.osmdroid.api.IGeoPoint;
 import org.osmdroid.util.BoundingBox;
 
