@@ -29,6 +29,7 @@ import net.cyclestreets.util.Theme
 import android.support.design.widget.NavigationView.OnNavigationItemSelectedListener
 import android.support.transition.Fade
 import android.support.transition.Slide
+import net.cyclestreets.addphoto.AddPhotoFragment
 
 private val TAG = Logging.getTag(MainNavDrawerActivity::class.java)
 private const val DRAWER_ITEMID_SELECTED_KEY = "DRAWER_ITEM_SELECTED"
@@ -44,7 +45,7 @@ abstract class MainNavDrawerActivity : AppCompatActivity(), OnNavigationItemSele
             put(R.id.nav_journey_planner, RouteMapFragment::class.java)
             put(R.id.nav_itinerary, ItineraryAndElevationFragment::class.java)
             put(R.id.nav_photomap, PhotoMapFragment::class.java)
-            put(R.id.nav_addphoto, PhotoUploadFragment::class.java)
+            put(R.id.nav_addphoto, AddPhotoFragment::class.java)
             put(R.id.nav_blog, BlogFragment::class.java)
             put(R.id.nav_settings, SettingsFragment::class.java)
         }

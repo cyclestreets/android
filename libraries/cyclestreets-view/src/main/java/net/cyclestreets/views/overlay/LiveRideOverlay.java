@@ -60,7 +60,7 @@ public class LiveRideOverlay extends Overlay implements ServiceConnection
     midTextBrush_.setTextAlign(Align.LEFT);
     smallTextBrush_ = Brush.createTextBrush(offset_);
     smallTextBrush_.setTextAlign(Align.LEFT);
-    fillBrush_ = Brush.HighlightBrush(context);
+    fillBrush_ = Brush.HighlightBrush();
 
     iconMappings_ = TurnIcons.LoadMapping(context);
     formatter_ = DistanceFormatter.formatter(CycleStreetsPreferences.units());
