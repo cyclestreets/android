@@ -156,6 +156,11 @@ def signingKey(project) {
     }
 
     buildTypes {
+// If you have the decrypted keys locally, and need to use them to sign the debug variant so you can install it onto
+// a real device for testing in advance of a beta build coming out, uncomment the following lines.
+//      debug {
+//        signingConfig signingConfigs.release
+//      }
       release {
         signingConfig signingConfigs.release
       }
