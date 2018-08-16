@@ -438,6 +438,10 @@ class AddPhotoFragment : Fragment(), View.OnClickListener, Undoable, ThereOverla
     private fun categoryId(): Int { return categorySpinner().selectedItemId.toInt() }
 
     private fun setupSpinners() {
+        if (activity == null) {
+            Log.d(TAG, "Activity was null when setting up spinners - break out")
+            return
+        }
         metaCategorySpinner().adapter = CategoryAdapter(activity!!, photomapCategories!!.metaCategories())
         categorySpinner().adapter = CategoryAdapter(activity!!, photomapCategories!!.categories())
         setSpinnerSelections()

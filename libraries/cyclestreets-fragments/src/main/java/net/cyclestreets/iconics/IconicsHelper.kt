@@ -2,6 +2,7 @@ package net.cyclestreets.iconics
 
 import android.content.Context
 import android.util.Log
+import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuInflater
 import com.mikepenz.iconics.IconicsDrawable
@@ -39,21 +40,25 @@ object IconicsHelper {
         }
     }
 
-    // Use reflection to derive the Context from a MenuInflater or LayoutInflater.
+    // Derive the Context from a LayoutInflater (trivially) or a MenuInflater (using reflection).
     //
-    // In some fragment transitions, the menu inflation is performed before the fragment's context
+    // In some fragment transitions, menu inflation is performed before the fragment's context
     // is initialised, so we can't just do a `getContext()`; the internal `mContext` field is used
-    // in this way by the native inflater.inflate(), so we should be safe.
+    // in this scope by the native inflater.inflate(), so we should be safe.
     private fun getContext(inflater: Any): Context? {
+        if (inflater is LayoutInflater) {
+            return inflater.context
+        }
+
         return try {
             val f = inflater.javaClass.getDeclaredField("mContext")
             f.isAccessible = true
             f.get(inflater) as Context
         } catch (e: IllegalAccessException) {
-            Log.e(TAG, "IllegalAccessException: Failed to find mContext on ${inflater.javaClass.canonicalName}")
+            Log.w(TAG, "IllegalAccessException: Failed to find mContext on ${inflater.javaClass.canonicalName}")
             null
         } catch (e: NoSuchFieldException) {
-            Log.e(TAG, "NoSuchFieldException: Failed to find mContext on ${inflater.javaClass.canonicalName}")
+            Log.w(TAG, "NoSuchFieldException: Failed to find mContext on ${inflater.javaClass.canonicalName}")
             null
         }
     }
