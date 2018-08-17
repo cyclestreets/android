@@ -2,6 +2,7 @@ package net.cyclestreets
 
 import android.content.Context
 import android.content.SharedPreferences
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.support.design.widget.NavigationView
 import android.support.v4.app.Fragment
@@ -29,6 +30,7 @@ import net.cyclestreets.util.Theme
 import android.support.design.widget.NavigationView.OnNavigationItemSelectedListener
 import android.support.transition.Fade
 import android.support.transition.Slide
+import android.support.v4.content.ContextCompat
 import net.cyclestreets.addphoto.AddPhotoFragment
 
 private val TAG = Logging.getTag(MainNavDrawerActivity::class.java)
@@ -69,13 +71,15 @@ abstract class MainNavDrawerActivity : AppCompatActivity(), OnNavigationItemSele
         val toolbar: Toolbar = findViewById(R.id.toolbar)
         toolbar.visibility = View.VISIBLE
         setSupportActionBar(toolbar)
-        val actionbar: ActionBar = supportActionBar!!
-        actionbar.setDisplayHomeAsUpEnabled(true)
         val burger = IconicsDrawable(this)
             .icon(GoogleMaterial.Icon.gmd_menu)
             .color(Theme.lowlightColor(this))
             .sizeDp(24)
-        actionbar.setHomeAsUpIndicator(burger)
+        supportActionBar!!.apply {
+            setDisplayHomeAsUpEnabled(true)
+            setHomeAsUpIndicator(burger)
+            setBackgroundDrawable(ColorDrawable(ContextCompat.getColor(this@MainNavDrawerActivity, R.color.apptheme_highlight_color)))
+        }
 
         if (CycleStreetsAppSupport.isFirstRun())
             onFirstRun()
