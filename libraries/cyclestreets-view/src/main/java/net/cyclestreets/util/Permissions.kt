@@ -17,8 +17,14 @@ fun verify(activity: Activity, permission: String): Boolean {
 fun doOrRequestPermission(activity: Activity, permission: String, action: () -> Unit) {
     if (hasPermission(activity, permission))
         action()
-    else
-        requestPermission(activity, permission)
+    else {
+        if (activity.shouldShowRequestPermissionRationale(permission)) {
+            MessageBox.OK(activity, justification(activity, permission)) {
+                _, _ -> requestPermission(activity, permission)
+            }
+        } else
+            requestPermission(activity, permission)
+    }
 }
 
 fun hasPermission(context: Context, permission: String): Boolean {
