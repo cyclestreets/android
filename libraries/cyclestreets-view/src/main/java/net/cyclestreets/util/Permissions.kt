@@ -18,10 +18,10 @@ fun doOrRequestPermission(activity: Activity, permission: String, action: () -> 
         requestPermission(activity, permission)
 }
 
-private fun requestPermission(activity: Activity, permission: String) {
-    activity.requestPermissions(arrayOf(permission), 1)
+fun hasPermission(context: Context, permission: String): Boolean {
+    return context.checkSelfPermission(permission) == PackageManager.PERMISSION_GRANTED
 }
 
-private fun hasPermission(context: Context, permission: String): Boolean {
-    return context.checkSelfPermission(permission) == PackageManager.PERMISSION_GRANTED
+private fun requestPermission(activity: Activity, permission: String) {
+    activity.requestPermissions(arrayOf(permission), 1)
 }

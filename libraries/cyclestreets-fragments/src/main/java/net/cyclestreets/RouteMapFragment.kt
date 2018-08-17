@@ -100,7 +100,9 @@ class RouteMapFragment : CycleMapFragment(), Route.Listener {
     }
 
     private fun startLiveRide() {
-        LiveRideActivity.launch(activity!!)
+        doOrRequestPermission(activity!!, Manifest.permission.ACCESS_FINE_LOCATION) {
+            LiveRideActivity.launch(activity!!)
+        }
     }
 
     private fun launchRouteDialog() {
