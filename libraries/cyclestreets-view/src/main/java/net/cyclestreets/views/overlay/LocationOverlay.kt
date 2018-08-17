@@ -63,12 +63,14 @@ class LocationOverlay(private val mapView: CycleMapView) :
         Log.d(TAG, "Location button clicked, enable = $enable")
         if (enable) {
             try {
-                enableMyLocation()
-                enableFollowLocation()
-                val lastFix = lastFix
-                if (lastFix != null) {
-                    Log.d(TAG, "Setting map centre to $lastFix")
-                    mapView.controller.setCenter(GeoPoint(lastFix))
+                doOrRequestPermission(mapView.context, ACCESS_FINE_LOCATION) {
+                    enableMyLocation()
+                    enableFollowLocation()
+                    val lastFix = lastFix
+                    if (lastFix != null) {
+                        Log.d(TAG, "Setting map centre to $lastFix")
+                        mapView.controller.setCenter(GeoPoint(lastFix))
+                    }
                 }
             } catch (e: RuntimeException) {
                 // might not have location service

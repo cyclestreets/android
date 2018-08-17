@@ -3,6 +3,7 @@ package net.cyclestreets.util
 import android.Manifest
 import android.app.Activity
 import android.content.Context
+import android.content.ContextWrapper
 import android.content.pm.PackageManager
 import net.cyclestreets.util.Permissions.justifications
 import net.cyclestreets.view.R
@@ -12,6 +13,10 @@ fun verify(activity: Activity, permission: String): Boolean {
     if (!hasPermission(activity, permission))
         activity.requestPermissions(arrayOf(permission), 1)
     return hasPermission(activity, permission)
+}
+
+fun doOrRequestPermission(context: Context, permission: String, action: () -> Unit) {
+    doOrRequestPermission(activityFromContext(context)!!, permission, action)
 }
 
 fun doOrRequestPermission(activity: Activity, permission: String, action: () -> Unit) {
@@ -29,6 +34,17 @@ fun doOrRequestPermission(activity: Activity, permission: String, action: () -> 
 
 fun hasPermission(context: Context, permission: String): Boolean {
     return context.checkSelfPermission(permission) == PackageManager.PERMISSION_GRANTED
+}
+
+private fun activityFromContext(initialContext: Context): Activity? {
+    var context = initialContext
+    while (context is ContextWrapper) {
+        if (context is Activity) {
+            return context
+        }
+        context = context.baseContext;
+    }
+    return null
 }
 
 private fun requestPermission(activity: Activity, permission: String) {
