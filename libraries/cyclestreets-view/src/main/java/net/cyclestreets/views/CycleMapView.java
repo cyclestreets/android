@@ -1,12 +1,16 @@
 package net.cyclestreets.views;
 
+import android.Manifest;
+import android.preference.PreferenceManager;
 import net.cyclestreets.tiles.TileSource;
 import net.cyclestreets.util.Logging;
+import net.cyclestreets.util.PermissionsKt;
 import net.cyclestreets.views.overlay.LocationOverlay;
 import net.cyclestreets.views.overlay.ControllerOverlay;
 
 import org.osmdroid.api.IGeoPoint;
 import org.osmdroid.api.IMapController;
+import org.osmdroid.config.Configuration;
 import org.osmdroid.events.MapListener;
 import org.osmdroid.tileprovider.BitmapPool;
 import org.osmdroid.tileprovider.MapTileProviderBase;
@@ -56,6 +60,12 @@ public class CycleMapView extends FrameLayout
 
   public CycleMapView(final Context context, final String name) {
     super(context);
+
+    boolean hasWritePermission = PermissionsKt.hasPermission(context, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+    Configuration.getInstance().load(context, PreferenceManager.getDefaultSharedPreferences(context));
+    Log.i(TAG, "Creating map view. App has write permission? " + hasWritePermission +
+        "; osmdroid base path: " + Configuration.getInstance().getOsmdroidBasePath().getAbsolutePath() +
+        "; osmdroid tile cache location: " + Configuration.getInstance().getOsmdroidTileCache().getAbsolutePath());
 
     mapView_ = new MapView(context, TileSource.mapTileProvider(context));
     addView(mapView_);
