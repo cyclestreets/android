@@ -19,7 +19,7 @@ fun doOrRequestPermission(activity: Activity, permission: String, action: () -> 
         action()
     else {
         if (activity.shouldShowRequestPermissionRationale(permission)) {
-            MessageBox.OK(activity, justification(activity, permission)) {
+            MessageBox.OkHtml(activity, justification(activity, permission)) {
                 _, _ -> requestPermission(activity, permission)
             }
         } else
@@ -38,7 +38,7 @@ private fun requestPermission(activity: Activity, permission: String) {
 private fun justification(context: Context, permission: String): String {
     val reason = context.getString(justifications.get(permission)!!)
     val permString = permission.replace("android.permission.", "")
-    return context.getString(R.string.perm_justification_format, permString, reason)
+    return context.getString(R.string.perm_justification_format, "<i>$permString</i>", "<ul>$reason</ul>")
 }
 
 object Permissions {

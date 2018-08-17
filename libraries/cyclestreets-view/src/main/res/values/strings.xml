@@ -116,10 +116,23 @@
   <string name="account_registration_is_free_long">Registration is free and registered users can add photos. To start the registration process please enter your details in the form below.</string>
 
   <!-- Permission justifications -->
-  <string name="perm_justification_format" translatable="false">We use permission %1$s in order to:\n%2$s</string>
-  <string name="perm_justification_read_external_storage" translatable="false">1)  optimize map performance by using cached downloaded map tiles\n2)  allow you to select photographs from your image library for use by the Add Photo feature</string>
-  <string name="perm_justification_write_external_storage" translatable="false">1)  optimize map performance by caching downloaded map tiles\n2)  allow your camera app to directly take photographs for use by the Add Photo feature</string>
-  <string name="perm_justification_access_fine_location" translatable="false">1)  centre the map on your location\n2)  give turn-by-turn navigation directions (the LiveRide feature)</string>
-  <string name="perm_justification_read_contacts" translatable="false">allow you to find the addresses of your contacts on the map, and create routes to them if desired</string>
+  <string name="perm_justification_format" translatable="false"><![CDATA[
+    <p>We would like to use permission %1$s in order to:</p>%2$s
+  ]]></string>
+  <string name="perm_justification_read_external_storage" translatable="false"><![CDATA[
+    <li>&nbsp; optimize map performance by using cached downloaded map tiles</li>
+    <li>&nbsp; allow you to select photographs from your image library for use by the Add Photo feature</li>
+  ]]></string>
+  <string name="perm_justification_write_external_storage" translatable="false"><![CDATA[
+    <li>&nbsp; optimize map performance by caching downloaded map tiles</li>
+    <li>&nbsp; allow your camera app to directly take photographs for use by the Add Photo feature</li>
+  ]]></string>
+  <string name="perm_justification_access_fine_location" translatable="false"><![CDATA[
+    <li>&nbsp; centre the map on your location</li>
+    <li>&nbsp; give turn-by-turn navigation directions (the LiveRide feature)</li>
+  ]]></string>
+  <string name="perm_justification_read_contacts" translatable="false"><![CDATA[
+    <li>&nbsp; allow you to find the addresses of your contacts on the map, and create routes to these locations</li>
+  ]]></string>
 
 </resources>
