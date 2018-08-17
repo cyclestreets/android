@@ -116,7 +116,7 @@ public class RouteMapFragment extends CycleMapFragment implements Route.Listener
   }
 
   private void startLiveRide() {
-    LiveRideActivity.launch(getActivity());
+    LiveRideActivity.Companion.launch(getActivity());
   }
 
   private void launchRouteDialog() {
