@@ -36,6 +36,7 @@ fun hasPermission(context: Context, permission: String): Boolean {
     return context.checkSelfPermission(permission) == PackageManager.PERMISSION_GRANTED
 }
 
+// See https://stackoverflow.com/questions/8276634/android-get-hosting-activity-from-a-view for a discussion of this hackery
 private fun activityFromContext(initialContext: Context): Activity? {
     var context = initialContext
     while (context is ContextWrapper) {
