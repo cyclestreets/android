@@ -54,8 +54,7 @@ private fun requestPermission(activity: Activity, permission: String) {
 
 private fun justification(context: Context, permission: String): String {
     val reason = context.getString(justifications.get(permission)!!)
-    val permString = permission.replace("android.permission.", "")
-    return context.getString(R.string.perm_justification_format, "<i>$permString</i>", "<ul>$reason</ul>")
+    return context.getString(R.string.perm_justification_format, "<ul>$reason</ul>")
 }
 
 object Permissions {
