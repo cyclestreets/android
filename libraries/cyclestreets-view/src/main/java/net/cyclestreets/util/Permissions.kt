@@ -8,13 +8,6 @@ import android.content.pm.PackageManager
 import net.cyclestreets.util.Permissions.justifications
 import net.cyclestreets.view.R
 
-@Deprecated("requestPermissions returns asynchronously, so this is not a sensible mechanism")
-fun verify(activity: Activity, permission: String): Boolean {
-    if (!hasPermission(activity, permission))
-        activity.requestPermissions(arrayOf(permission), 1)
-    return hasPermission(activity, permission)
-}
-
 fun doOrRequestPermission(context: Context, permission: String, action: () -> Unit) {
     doOrRequestPermission(activityFromContext(context)!!, permission, action)
 }
