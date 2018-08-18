@@ -2,7 +2,6 @@ evaluationDependsOn(':libraries:cyclestreets-fragments')
 
 dependencies {
   api project(':libraries:cyclestreets-fragments')
-  implementation 'ch.acra:acra:4.11'
 
   androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
   androidTestImplementation 'com.android.support.test:runner:1.0.2'
