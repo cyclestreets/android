@@ -171,9 +171,12 @@ public class Route
   public static Journey journey() { return plannedRoute_; }
 
   private static void loadLastJourney() {
-    RouteSummary lastRoute = storedRoutes().get(0);
-    RouteData route = db_.route(lastRoute.localId());
-    Route.onNewJourney(route);
+    List<RouteSummary> routeSummaries = storedRoutes();
+    if (!storedRoutes().isEmpty()) {
+      RouteSummary lastRoute = routeSummaries.get(0);
+      RouteData route = db_.route(lastRoute.localId());
+      Route.onNewJourney(route);
+    }
   }
 
   private static void clearRoutePref() {
