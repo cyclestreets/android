@@ -72,6 +72,15 @@ public class MessageBox
     Dialog.show(alertbox);
   }
 
+  public static void OkHtml(final Context context,
+                            final String msg,
+                            final DialogInterface.OnClickListener okAction) {
+    final AlertDialog.Builder alertbox = Dialog.newBuilder(context);
+    alertbox.setMessage(HtmlKt.fromHtml(msg))
+        .setPositiveButton("OK", okAction);
+    Dialog.show(alertbox);
+  }
+
   public static void OKAndFinish(final View view,
                                  final String msg,
                                  final Activity activity,
