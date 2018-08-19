@@ -12,9 +12,7 @@ import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.Build;
 import android.os.Bundle;
-import android.text.Html;
 import android.text.Spanned;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -30,6 +28,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
+import net.cyclestreets.util.HtmlKt;
 
 public class SaveTrip extends Activity
     implements View.OnClickListener, AdapterView.OnItemSelectedListener, CompoundButton.OnCheckedChangeListener {
@@ -222,21 +221,11 @@ public class SaveTrip extends Activity
     v.setChecked(true);
     purpose_ = v.getText().toString();
 
-    Spanned styledText;
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-      styledText = Html.fromHtml(purpDescriptions.get(v.getId()), Html.FROM_HTML_MODE_LEGACY);
-    } else {
-      styledText = fromHtmlPreNougat(v);
-    }
+    Spanned styledText = HtmlKt.fromHtml(purpDescriptions.get(v.getId()));
 
     ((TextView)findViewById(R.id.TextPurpDescription)).setText(styledText);
 
     enableSubmit();
-  }
-
-  @SuppressWarnings("deprecation")
-  private Spanned fromHtmlPreNougat(CompoundButton v) {
-    return Html.fromHtml(purpDescriptions.get(v.getId()));
   }
 
   @Override

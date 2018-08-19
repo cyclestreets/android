@@ -1,5 +1,9 @@
 package net.cyclestreets.liveride;
 
+import android.Manifest;
+import android.util.Log;
+import net.cyclestreets.util.Logging;
+import net.cyclestreets.util.PermissionsKt;
 import org.osmdroid.util.GeoPoint;
 
 import net.cyclestreets.routing.Journey;
@@ -22,6 +26,7 @@ public class LiveRideService extends Service implements LocationListener
   private LiveRideState stage_;
   private static int updateDistance = 5;  // metres
   private static int updateTime = 500;    // milliseconds
+  private static final String TAG = Logging.getTag(LiveRideService.class);
 
   @Override
   public void onCreate() {
@@ -49,6 +54,13 @@ public class LiveRideService extends Service implements LocationListener
   public void startRiding() {
     if (!stage_.isStopped())
       return;
+
+    if (!PermissionsKt.hasPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)) {
+      // Should be unreachable, but we're being defensive
+      Log.w(TAG, "Location permission is not granted.  Bail out.");
+      return;
+    }
+
     stage_ = LiveRideState.InitialState(this);
     locationManager_.requestLocationUpdates(LocationManager.GPS_PROVIDER, updateTime, updateDistance, this);
   }
