@@ -1,6 +1,7 @@
 package net.cyclestreets;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,9 +10,11 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.jjoe64.graphview.GraphView;
-import com.jjoe64.graphview.GraphViewSeries;
-import com.jjoe64.graphview.GraphViewStyle;
-import com.jjoe64.graphview.LineGraphView;
+import com.jjoe64.graphview.GridLabelRenderer;
+import com.jjoe64.graphview.LabelFormatter;
+import com.jjoe64.graphview.Viewport;
+import com.jjoe64.graphview.series.DataPoint;
+import com.jjoe64.graphview.series.LineGraphSeries;
 
 import net.cyclestreets.api.DistanceFormatter;
 import net.cyclestreets.fragments.R;
@@ -32,7 +35,7 @@ public class ElevationProfileFragment extends Fragment implements Route.Listener
   private LinearLayout graphHolder;
 
   @Override
-  public View onCreateView(final LayoutInflater inflater,
+  public View onCreateView(@NonNull final LayoutInflater inflater,
                            final ViewGroup container,
                            final Bundle savedInstanceState) {
     final View elevation = inflater.inflate(R.layout.elevation, container, false);
@@ -63,33 +66,53 @@ public class ElevationProfileFragment extends Fragment implements Route.Listener
   public void onResetJourney() {}
 
   private void drawGraph(final Journey journey) {
-    final LineGraphView graph = new LineGraphView(getActivity(), "");
+    final GraphView graphView = new GraphView(getContext());
     final ElevationFormatter formatter = elevationFormatter();
 
-    List<GraphView.GraphViewData> data = new ArrayList<>();
+    List<DataPoint> data = new ArrayList<>();
     for (Elevation elevation : journey.elevation().profile())
-      data.add(new GraphView.GraphViewData(elevation.distance(), elevation.elevation()));
+      data.add(new DataPoint(elevation.distance(), elevation.elevation()));
 
-    GraphViewSeries graphSeries = new GraphViewSeries(data.toArray(new GraphView.GraphViewData[]{}));
+    LineGraphSeries<DataPoint> graphSeries = new LineGraphSeries<>(data.toArray(new DataPoint[]{}));
+    graphSeries.setDrawBackground(true);
 
-    graph.addSeries(graphSeries);
-    graph.setDrawBackground(true);
+    graphView.addSeries(graphSeries);
 
-    graph.setManualYMinBound(formatter.roundHeightBelow(journey.elevation().minimum()));
-    graph.setManualYMaxBound(formatter.roundHeightAbove(journey.elevation().maximum()));
+    // Allow zooming & scrolling on the x-axis (y-axis remains fixed)
+    Viewport viewport = graphView.getViewport();
+    viewport.setScalable(true);
+    viewport.setYAxisBoundsManual(true);
+    viewport.setMinY(formatter.roundHeightBelow(journey.elevation().minimum()));
+    viewport.setMaxY(formatter.roundHeightAbove(journey.elevation().maximum()));
 
-    graph.getGraphViewStyle().setGridStyle(GraphViewStyle.GridStyle.HORIZONTAL);
-    graph.getGraphViewStyle().setNumHorizontalLabels(5);
-    graph.getGraphViewStyle().setNumVerticalLabels(5);
+    GridLabelRenderer gridLabelRenderer = graphView.getGridLabelRenderer();
+    gridLabelRenderer.setGridStyle(GridLabelRenderer.GridStyle.HORIZONTAL);
+    gridLabelRenderer.setNumHorizontalLabels(5);
+    gridLabelRenderer.setNumVerticalLabels(5);
+    gridLabelRenderer.setLabelFormatter(new ElevationLabelFormatter(formatter));
+    // we handle y-rounding ourselves, and x-rounding makes labels overlap - see https://github.com/jjoe64/GraphView/issues/413
+    gridLabelRenderer.setHumanRounding(false, false);
 
-    graph.setCustomLabelFormatter((value, isValueX) -> {
+    graphHolder.removeAllViews();
+    graphHolder.addView(graphView);    
+  }
+
+  private static class ElevationLabelFormatter implements LabelFormatter {
+    private final ElevationFormatter formatter;
+
+    private ElevationLabelFormatter(ElevationFormatter formatter) {
+      this.formatter = formatter;
+    }
+
+    @Override
+    public String formatLabel(double value, boolean isValueX) {
       if (isValueX)
         return (value != 0) ? formatter.distance((int)value) : "";
       return formatter.roundedHeight((int) value);
-    });
+    }
 
-    graphHolder.removeAllViews();
-    graphHolder.addView(graph);
+    @Override
+    public void setViewport(Viewport viewport) {}
   }
 
   public TextView getTextView(int id) {

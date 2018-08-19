@@ -8,5 +8,4 @@
     android:paddingTop="50dp"
     android:paddingBottom="50dp"
     android:paddingLeft="@dimen/abc_dropdownitem_text_padding_left"
-    android:paddingRight="@dimen/abc_dropdownitem_text_padding_right">
-</LinearLayout>
+    android:paddingRight="@dimen/abc_dropdownitem_text_padding_right" />
