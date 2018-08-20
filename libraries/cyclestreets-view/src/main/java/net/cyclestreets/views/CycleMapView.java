@@ -61,9 +61,10 @@ public class CycleMapView extends FrameLayout
   public CycleMapView(final Context context, final String name) {
     super(context);
 
+    // Make sure we can save map tiles, regardless of whether we have the write-external permission granted.
     boolean hasWritePermission = PermissionsKt.hasPermission(context, Manifest.permission.WRITE_EXTERNAL_STORAGE);
     Configuration.getInstance().load(context, PreferenceManager.getDefaultSharedPreferences(context));
-    Log.i(TAG, "Creating map view. App has write permission? " + hasWritePermission +
+    Log.i(TAG, "Creating map view. App has write-external permission? " + hasWritePermission +
         "; osmdroid base path: " + Configuration.getInstance().getOsmdroidBasePath().getAbsolutePath() +
         "; osmdroid tile cache location: " + Configuration.getInstance().getOsmdroidTileCache().getAbsolutePath());
 

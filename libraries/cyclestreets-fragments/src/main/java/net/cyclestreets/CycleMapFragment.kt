@@ -38,7 +38,7 @@ open class CycleMapFragment : Fragment(), Undoable {
         super.onCreate(saved)
 
         forceMenuRebuild = true
-        
+
         doOrRequestPermission(this.activity as Activity, Manifest.permission.WRITE_EXTERNAL_STORAGE) {
             Log.d(TAG, "Already have ${Manifest.permission.WRITE_EXTERNAL_STORAGE} permission")
         }
@@ -54,6 +54,8 @@ open class CycleMapFragment : Fragment(), Undoable {
             val permission = permissions[i]
             val grantResult = grantResults[i]
 
+            // If we have permission to write to external storage, we'll use the default OSMDroid location for caching
+            // map tiles.  Therefore, when permission is granted, clear state accordingly so this is possible.
             if (permission == Manifest.permission.WRITE_EXTERNAL_STORAGE && grantResult == PackageManager.PERMISSION_GRANTED) {
                 Log.i(TAG, "Permission ${Manifest.permission.WRITE_EXTERNAL_STORAGE} granted; update OSMDroid cache location")
                 val oldCacheLocation: File = Configuration.getInstance().osmdroidTileCache
