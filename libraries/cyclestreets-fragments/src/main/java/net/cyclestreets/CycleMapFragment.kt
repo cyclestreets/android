@@ -41,7 +41,7 @@ open class CycleMapFragment : Fragment(), Undoable {
 
         checkPermissionNoMoreThanOnceEveryFiveMinutes()
 
-        map = CycleMapView(activity, this.javaClass.name)
+        map = CycleMapView(context, this.javaClass.name)
         return map
     }
 
