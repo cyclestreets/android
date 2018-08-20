@@ -24,7 +24,6 @@ import net.cyclestreets.util.MenuHelper.enableMenuItem
 import net.cyclestreets.util.doOrRequestPermission
 import android.content.pm.PackageManager
 import android.preference.PreferenceManager
-import net.cyclestreets.util.hasPermission
 import org.osmdroid.config.Configuration
 import java.io.File
 
@@ -39,7 +38,7 @@ open class CycleMapFragment : Fragment(), Undoable {
 
         forceMenuRebuild = true
 
-        doOrRequestPermission(this.activity as Activity, Manifest.permission.WRITE_EXTERNAL_STORAGE) {
+        doOrRequestPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) {
             Log.d(TAG, "Already have ${Manifest.permission.WRITE_EXTERNAL_STORAGE} permission")
         }
 
@@ -49,6 +48,8 @@ open class CycleMapFragment : Fragment(), Undoable {
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+
+        Log.d(TAG, "Permissions granted: $permissions, $grantResults")
 
         for (i in 0 until permissions.size) {
             val permission = permissions[i]
