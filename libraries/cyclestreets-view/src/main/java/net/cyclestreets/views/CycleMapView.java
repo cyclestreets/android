@@ -36,6 +36,7 @@ import android.widget.Scroller;
 import java.util.List;
 
 import static java.lang.Math.abs;
+import static net.cyclestreets.util.PermissionsKt.hasPermission;
 
 public class CycleMapView extends FrameLayout
 {
@@ -165,7 +166,7 @@ public class CycleMapView extends FrameLayout
     boolean locationFollow = pref(PREFS_APP_FOLLOW_LOCATION, CycleMapDefaults.gps());
     location_.disableFollowLocation();
     location_.enableLocation(locationEnabled);
-    if (locationFollow)
+    if (locationFollow && hasPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION))
       location_.enableAndFollowLocation(true);
 
     GeoPoint defCentre = CycleMapDefaults.centre();
@@ -214,7 +215,6 @@ public class CycleMapView extends FrameLayout
   // location
   public Location getLastFix() { return location_.getLastFix(); }
   public boolean isMyLocationEnabled() { return location_.isMyLocationEnabled(); }
-  public void toggleMyLocation() { location_.enableLocation(!location_.isMyLocationEnabled()); }
   public void disableMyLocation() { location_.disableMyLocation(); }
   public void disableFollowLocation() { location_.disableFollowLocation(); }
 

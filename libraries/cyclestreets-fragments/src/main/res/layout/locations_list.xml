@@ -8,21 +8,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical" >
-
-    <!-- TextView
-        android:id="@+id/header"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:minHeight="?android:attr/listPreferredItemHeight"
-        android:background="@color/apptheme_color"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:gravity="center_vertical|center_horizontal"
-        android:textAppearance="?android:attr/textAppearanceMediumInverse"
-        android:padding="6dp"
-        android:text="@string/location_list_header"
-        / -->
-
     <ListView
         android:id="@android:id/list"
         android:layout_width="match_parent"
@@ -31,17 +16,15 @@
   </LinearLayout>
 
   <android.support.design.widget.FloatingActionButton
-      android:id="@+id/addlocation"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:layout_alignParentBottom="true"
-      android:layout_alignParentEnd="true"
-      android:layout_gravity="bottom|end"
-      android:layout_margin="16dp"
-      app:fabSize="normal"
-      app:borderWidth="12dp"
-      app:elevation="6dp"
-      app:pressedTranslationZ="12dp"
-      android:src="@android:drawable/ic_menu_add"
-      app:backgroundTint="@color/apptheme_color" />
+    android:id="@+id/addlocation"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_alignParentBottom="true"
+    android:layout_alignParentEnd="true"
+    android:layout_gravity="bottom|end"
+    android:layout_margin="16dp"
+    app:fabSize="normal"
+    app:borderWidth="12dp"
+    app:ico_icon="gmd_add_location"
+    app:backgroundTint="@android:color/background_light" />
 </android.support.design.widget.CoordinatorLayout>
