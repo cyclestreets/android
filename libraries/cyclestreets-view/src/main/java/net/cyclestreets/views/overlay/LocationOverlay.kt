@@ -21,10 +21,6 @@ import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
 import net.cyclestreets.util.doOrRequestPermission
-import android.content.ContextWrapper
-import android.app.Activity
-
-
 
 private val TAG = Logging.getTag(LocationOverlay::class.java)
 

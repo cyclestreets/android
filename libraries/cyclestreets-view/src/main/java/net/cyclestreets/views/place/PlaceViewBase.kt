@@ -63,7 +63,7 @@ open class PlaceViewBase protected constructor(private val context_: Context, la
     }
 
     // Helper methods
-    var text: String
+    var text: String?
         get() = textView.text.toString()
         set(text) = textView.setText(text)
     var hint: String
@@ -112,7 +112,7 @@ open class PlaceViewBase protected constructor(private val context_: Context, la
         if (textView.contact() != null)
             lookup(textView.contact(), listener)
         else if (text != null)
-            lookup(text, listener)
+            lookup(text!!, listener)
     }
 
     fun addHistory(place: GeoPlace) {
@@ -174,7 +174,7 @@ open class PlaceViewBase protected constructor(private val context_: Context, la
             if (context_ is Activity)
                 doOrRequestPermission(context_, Manifest.permission.READ_CONTACTS) { pickContact() }
             else {
-                Toast.makeText(context_, "Could not ", Toast.LENGTH_LONG).show()
+                Toast.makeText(context_, "Error: Unable to request Read Contacts permission", Toast.LENGTH_LONG).show()
                 Log.w(TAG, "Context is not an instance of Activity")
             }
         }

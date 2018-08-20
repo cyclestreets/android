@@ -155,6 +155,13 @@ public class CycleStreetsPreferences
              (subtype == TelephonyManager.NETWORK_TYPE_HSUPA));
   }
 
+  public static void clearOsmdroidCacheLocation() {
+    final Editor editor = editor();
+    editor.remove("osmdroid.basePath");
+    editor.remove("osmdroid.cachePath");
+    editor.commit();
+  }
+
   private static String getString(final String key, final String defVal) {
     final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context_);
     return prefs.getString(key, defVal);
