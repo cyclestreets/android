@@ -168,7 +168,9 @@ class AddPhotoFragment : Fragment(), View.OnClickListener, Undoable, ThereOverla
 
         map!!.apply {
             v.addView(this, RelativeLayout.LayoutParams(MATCH_PARENT, MATCH_PARENT))
-            enableAndFollowLocation()
+            if (hasPermission(context, Manifest.permission.ACCESS_FINE_LOCATION)) {
+                enableAndFollowLocation()
+            }
             onResume()
             there.setMapView(this)
         }
@@ -458,12 +460,12 @@ class AddPhotoFragment : Fragment(), View.OnClickListener, Undoable, ThereOverla
     override fun onClick(v: View) {
         when (v.id) {
             R.id.takephoto_button -> doOrLogin {
-                doOrRequestPermission(activity!!, Manifest.permission.WRITE_EXTERNAL_STORAGE) {
+                doOrRequestPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) {
                     dispatchTakePhotoIntent()
                 }
             }
             R.id.chooseexisting_button -> doOrLogin {
-                doOrRequestPermission(activity!!, Manifest.permission.READ_EXTERNAL_STORAGE) {
+                doOrRequestPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) {
                     startActivityForResult(Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI),
                                            CHOOSE_PHOTO)
                 }

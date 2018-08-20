@@ -32,8 +32,6 @@ class RouteMapFragment : CycleMapFragment(), Route.Listener {
     private var hasGps: Boolean = false
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, saved: Bundle?): View? {
-        verify(activity!!, Manifest.permission.WRITE_EXTERNAL_STORAGE)
-
         val v = super.onCreateView(inflater, container, saved)
 
         overlayPushBottom(RouteHighlightOverlay(activity, mapView()))

@@ -18,6 +18,7 @@ import android.widget.TextView;
 import net.cyclestreets.content.LocationDatabase;
 import net.cyclestreets.content.SavedLocation;
 import net.cyclestreets.fragments.R;
+import net.cyclestreets.util.Theme;
 
 import java.util.List;
 
@@ -42,6 +43,7 @@ public class LocationsFragment extends ListFragment {
 
     final FloatingActionButton addButton = layout.findViewById(R.id.addlocation);
     addButton.setOnClickListener(view -> editLocation(-1));
+    addButton.setColorFilter(Theme.lowlightColor(getContext()));
 
     return layout;
   }

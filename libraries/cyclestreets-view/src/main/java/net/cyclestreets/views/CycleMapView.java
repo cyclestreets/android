@@ -1,12 +1,16 @@
 package net.cyclestreets.views;
 
+import android.Manifest;
+import android.preference.PreferenceManager;
 import net.cyclestreets.tiles.TileSource;
 import net.cyclestreets.util.Logging;
+import net.cyclestreets.util.PermissionsKt;
 import net.cyclestreets.views.overlay.LocationOverlay;
 import net.cyclestreets.views.overlay.ControllerOverlay;
 
 import org.osmdroid.api.IGeoPoint;
 import org.osmdroid.api.IMapController;
+import org.osmdroid.config.Configuration;
 import org.osmdroid.events.MapListener;
 import org.osmdroid.tileprovider.BitmapPool;
 import org.osmdroid.tileprovider.MapTileProviderBase;
@@ -32,6 +36,7 @@ import android.widget.Scroller;
 import java.util.List;
 
 import static java.lang.Math.abs;
+import static net.cyclestreets.util.PermissionsKt.hasPermission;
 
 public class CycleMapView extends FrameLayout
 {
@@ -56,6 +61,13 @@ public class CycleMapView extends FrameLayout
 
   public CycleMapView(final Context context, final String name) {
     super(context);
+
+    // Make sure we can save map tiles, regardless of whether we have the write-external permission granted.
+    boolean hasWritePermission = PermissionsKt.hasPermission(context, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+    Configuration.getInstance().load(context, PreferenceManager.getDefaultSharedPreferences(context));
+    Log.i(TAG, "Creating map view. App has write-external permission? " + hasWritePermission +
+        "; osmdroid base path: " + Configuration.getInstance().getOsmdroidBasePath().getAbsolutePath() +
+        "; osmdroid tile cache location: " + Configuration.getInstance().getOsmdroidTileCache().getAbsolutePath());
 
     mapView_ = new MapView(context, TileSource.mapTileProvider(context));
     addView(mapView_);
@@ -154,7 +166,7 @@ public class CycleMapView extends FrameLayout
     boolean locationFollow = pref(PREFS_APP_FOLLOW_LOCATION, CycleMapDefaults.gps());
     location_.disableFollowLocation();
     location_.enableLocation(locationEnabled);
-    if (locationFollow)
+    if (locationFollow && hasPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION))
       location_.enableAndFollowLocation(true);
 
     GeoPoint defCentre = CycleMapDefaults.centre();
@@ -203,7 +215,6 @@ public class CycleMapView extends FrameLayout
   // location
   public Location getLastFix() { return location_.getLastFix(); }
   public boolean isMyLocationEnabled() { return location_.isMyLocationEnabled(); }
-  public void toggleMyLocation() { location_.enableLocation(!location_.isMyLocationEnabled()); }
   public void disableMyLocation() { location_.disableMyLocation(); }
   public void disableFollowLocation() { location_.disableFollowLocation(); }
 
