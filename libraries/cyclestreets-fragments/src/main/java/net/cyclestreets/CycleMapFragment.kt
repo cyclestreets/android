@@ -1,7 +1,6 @@
 package net.cyclestreets
 
 import android.Manifest
-import android.app.Activity
 import net.cyclestreets.fragments.R
 
 import net.cyclestreets.views.CycleMapView
@@ -30,7 +29,7 @@ import java.io.File
 private val TAG = Logging.getTag(CycleMapFragment::class.java)
 
 open class CycleMapFragment : Fragment(), Undoable {
-    private lateinit var map: CycleMapView
+    private var map: CycleMapView? = null
     private var forceMenuRebuild: Boolean = false
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, saved: Bundle?): View? {
@@ -61,7 +60,7 @@ open class CycleMapFragment : Fragment(), Undoable {
                 Log.i(TAG, "Permission ${Manifest.permission.WRITE_EXTERNAL_STORAGE} granted; update OSMDroid cache location")
                 val oldCacheLocation: File = Configuration.getInstance().osmdroidTileCache
 
-                CycleStreetsPreferences.clearOsmdroidCacheLocation();
+                CycleStreetsPreferences.clearOsmdroidCacheLocation()
                 Configuration.getInstance().load(context, PreferenceManager.getDefaultSharedPreferences(context))
 
                 if (Configuration.getInstance().osmdroidTileCache.absolutePath != oldCacheLocation.absolutePath)
@@ -70,23 +69,23 @@ open class CycleMapFragment : Fragment(), Undoable {
         }
     }
 
-    protected fun mapView(): CycleMapView { return map }
-    protected fun overlayPushBottom(overlay: Overlay): Overlay { return map.overlayPushBottom(overlay) }
-    protected fun overlayPushTop(overlay: Overlay): Overlay { return map.overlayPushTop(overlay) }
+    protected fun mapView(): CycleMapView { return map!! }
+    protected fun overlayPushBottom(overlay: Overlay): Overlay { return map!!.overlayPushBottom(overlay) }
+    protected fun overlayPushTop(overlay: Overlay): Overlay { return map!!.overlayPushTop(overlay) }
 
     override fun onPause() {
-        map.onPause()
+        map!!.onPause()
         super.onPause()
     }
 
     override fun onResume() {
         super.onResume()
-        map.onResume()
+        map!!.onResume()
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         if (map != null)
-            map.onCreateOptionsMenu(menu)
+            map!!.onCreateOptionsMenu(menu)
 
         createMenuItem(menu, R.string.menu_find_place, Menu.NONE, R.drawable.ic_menu_search)
     }
@@ -100,13 +99,13 @@ open class CycleMapFragment : Fragment(), Undoable {
         }
 
         if (map != null)
-            map.onPrepareOptionsMenu(menu)
+            map!!.onPrepareOptionsMenu(menu)
 
         enableMenuItem(menu, R.string.menu_find_place, true)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (map.onMenuItemSelected(item.itemId, item))
+        if (map!!.onMenuItemSelected(item.itemId, item))
             return true
 
         if (item.itemId == R.string.menu_find_place) {
@@ -118,16 +117,16 @@ open class CycleMapFragment : Fragment(), Undoable {
     }
 
     override fun onContextItemSelected(item: MenuItem): Boolean {
-        return map.onMenuItemSelected(item.itemId, item)
+        return map!!.onMenuItemSelected(item.itemId, item)
     }
 
     private fun launchFindDialog() {
-        FindPlace.launch(activity, map.boundingBox) {
-            place -> map.centreOn(place)
+        FindPlace.launch(activity, map!!.boundingBox) {
+            place -> map!!.centreOn(place)
         }
     }
 
     override fun onBackPressed(): Boolean {
-        return map.onBackPressed()
+        return map!!.onBackPressed()
     }
 }
