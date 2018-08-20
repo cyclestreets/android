@@ -168,7 +168,9 @@ class AddPhotoFragment : Fragment(), View.OnClickListener, Undoable, ThereOverla
 
         map!!.apply {
             v.addView(this, RelativeLayout.LayoutParams(MATCH_PARENT, MATCH_PARENT))
-            enableAndFollowLocation()
+            if (hasPermission(context, Manifest.permission.ACCESS_FINE_LOCATION)) {
+                enableAndFollowLocation()
+            }
             onResume()
             there.setMapView(this)
         }
