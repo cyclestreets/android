@@ -49,7 +49,7 @@ open class CycleMapFragment : Fragment(), Undoable {
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
 
-        Log.d(TAG, "Permissions granted: $permissions, $grantResults")
+        Log.d(TAG, "Permissions granted: ${permissions.forEach { toString() }}, ${grantResults.forEach { toString() }}")
 
         for (i in 0 until permissions.size) {
             val permission = permissions[i]
