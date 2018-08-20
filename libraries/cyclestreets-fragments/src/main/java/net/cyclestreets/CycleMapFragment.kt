@@ -24,6 +24,7 @@ import net.cyclestreets.util.doOrRequestPermission
 import android.content.pm.PackageManager
 import android.preference.PreferenceManager
 import org.osmdroid.config.Configuration
+import org.osmdroid.config.DefaultConfigurationProvider
 import java.io.File
 
 private val TAG = Logging.getTag(CycleMapFragment::class.java)
@@ -48,7 +49,7 @@ open class CycleMapFragment : Fragment(), Undoable {
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
 
-        Log.d(TAG, "Permissions granted: ${permissions.forEach { toString() }}, ${grantResults.forEach { toString() }}")
+        Log.d(TAG, "Permissions granted: ${permissions.joinToString()}, ${grantResults.joinToString()}")
 
         for (i in 0 until permissions.size) {
             val permission = permissions[i]
@@ -57,13 +58,16 @@ open class CycleMapFragment : Fragment(), Undoable {
             // If we have permission to write to external storage, we'll use the default OSMDroid location for caching
             // map tiles.  Therefore, when permission is granted, clear state accordingly so this is possible.
             if (permission == Manifest.permission.WRITE_EXTERNAL_STORAGE && grantResult == PackageManager.PERMISSION_GRANTED) {
-                Log.i(TAG, "Permission ${Manifest.permission.WRITE_EXTERNAL_STORAGE} granted; update OSMDroid cache location")
                 val oldCacheLocation: File = Configuration.getInstance().osmdroidTileCache
 
                 CycleStreetsPreferences.clearOsmdroidCacheLocation()
+                Configuration.setConfigurationProvider(DefaultConfigurationProvider())
                 Configuration.getInstance().load(context, PreferenceManager.getDefaultSharedPreferences(context))
+                val newCacheLocation: File = Configuration.getInstance().osmdroidTileCache
 
-                if (Configuration.getInstance().osmdroidTileCache.absolutePath != oldCacheLocation.absolutePath)
+                Log.i(TAG, "Permission ${Manifest.permission.WRITE_EXTERNAL_STORAGE} granted; update OSMDroid cache " +
+                           "location from ${oldCacheLocation.absolutePath} to ${newCacheLocation.absolutePath}")
+                if (newCacheLocation.absolutePath != oldCacheLocation.absolutePath)
                     oldCacheLocation.delete()
             }
         }
