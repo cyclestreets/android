@@ -1,5 +1,6 @@
 package net.cyclestreets;
 
+import android.Manifest;
 import android.content.Context;
 import android.os.Bundle;
 import android.app.Activity;
@@ -20,6 +21,8 @@ import net.cyclestreets.views.overlay.ThereOverlay;
 
 import org.osmdroid.api.IGeoPoint;
 
+import static net.cyclestreets.util.PermissionsKt.hasPermission;
+
 public class LocationEditorActivity extends Activity
     implements ThereOverlay.LocationListener,
                View.OnClickListener,
@@ -27,7 +30,6 @@ public class LocationEditorActivity extends Activity
   private CycleMapView map_;
   private ThereOverlay there_;
   private Button save_;
-  private Button cancel_;
   private EditText nameBox_;
   private LocationDatabase ldb_;
   private int localId_;
@@ -55,7 +57,7 @@ public class LocationEditorActivity extends Activity
   }
 
   private void setupMap() {
-    final RelativeLayout v = (RelativeLayout)(findViewById(R.id.mapholder));
+    final RelativeLayout v = (findViewById(R.id.mapholder));
 
     map_ = new CycleMapView(this, getClass().getName());
 
@@ -65,30 +67,34 @@ public class LocationEditorActivity extends Activity
     map_.overlayPushTop(there_);
 
     v.addView(map_, new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT));
-    map_.enableAndFollowLocation();
+    if (hasPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)) {
+      map_.enableAndFollowLocation();
+    }
     map_.onResume();
     there_.setMapView(map_);
   }
 
   private void setupButtons() {
-    save_ = (Button)findViewById(R.id.save);
+    save_ = findViewById(R.id.save);
     save_.setCompoundDrawablesWithIntrinsicBounds(0, 0, android.R.drawable.ic_menu_save, 0);
     save_.setOnClickListener(this);
     save_.setEnabled(false);
 
-    cancel_ = (Button)findViewById(R.id.cancel);
+    Button cancel_ = findViewById(R.id.cancel);
     cancel_.setCompoundDrawablesWithIntrinsicBounds(android.R.drawable.ic_menu_close_clear_cancel, 0, 0, 0);
     cancel_.setOnClickListener(this);
   }
 
   private void setupEditBox() {
-    nameBox_ = (EditText)findViewById(R.id.name);
+    nameBox_ = findViewById(R.id.name);
     nameBox_.addTextChangedListener(this);
   }
 
   private void setupLocation() {
     if (localId_ == -1) {
-      map_.enableAndFollowLocation();
+      if (hasPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)) {
+        map_.enableAndFollowLocation();
+      }
       return;
     }
 
