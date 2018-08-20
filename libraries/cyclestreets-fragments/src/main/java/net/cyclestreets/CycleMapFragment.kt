@@ -26,6 +26,7 @@ import android.preference.PreferenceManager
 import org.osmdroid.config.Configuration
 import org.osmdroid.config.DefaultConfigurationProvider
 import java.io.File
+import java.util.Date
 
 private val TAG = Logging.getTag(CycleMapFragment::class.java)
 
@@ -38,12 +39,21 @@ open class CycleMapFragment : Fragment(), Undoable {
 
         forceMenuRebuild = true
 
-        doOrRequestPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) {
-            Log.d(TAG, "Already have ${Manifest.permission.WRITE_EXTERNAL_STORAGE} permission")
-        }
+        checkPermissionNoMoreThanOnceEveryFiveMinutes()
 
         map = CycleMapView(activity, this.javaClass.name)
         return map
+    }
+
+    private fun checkPermissionNoMoreThanOnceEveryFiveMinutes() {
+        val now = Date().time
+        val oneMinuteAgo = now - (5 * 60 * 1000)
+        if (oneMinuteAgo > permissionLastCheckedTime) {
+            permissionLastCheckedTime = now
+            doOrRequestPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) {
+                Log.v(TAG, "Already have ${Manifest.permission.WRITE_EXTERNAL_STORAGE} permission")
+            }
+        }
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
@@ -132,5 +142,9 @@ open class CycleMapFragment : Fragment(), Undoable {
 
     override fun onBackPressed(): Boolean {
         return map!!.onBackPressed()
+    }
+
+    companion object {
+        var permissionLastCheckedTime: Long = 0
     }
 }
