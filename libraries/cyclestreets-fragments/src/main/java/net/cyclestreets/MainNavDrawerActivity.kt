@@ -14,7 +14,7 @@ import android.view.Gravity
 import android.view.MenuItem
 
 import android.view.View
-import com.mikepenz.google_material_typeface_library.GoogleMaterial
+import com.mikepenz.google_material_typeface_library.GoogleMaterial.Icon
 import com.mikepenz.iconics.context.IconicsContextWrapper
 
 import net.cyclestreets.fragments.R
@@ -60,15 +60,18 @@ abstract class MainNavDrawerActivity : AppCompatActivity(), OnNavigationItemSele
         super.onCreate(savedInstanceState)
         setContentView(R.layout.main_navdrawer_activity)
 
-        val (burger, blog) = materialIcons(context = this, size = 24,
-                                           icons = listOf(GoogleMaterial.Icon.gmd_menu, GoogleMaterial.Icon.gmd_chat))
-        burger.setTint(resources.getColor(R.color.cs_primary_material_light, null))
+        val (burgerIcon, addPhotoIcon, blogIcon, settingsIcon) =
+                materialIcons(context = this, size = 24,
+                              icons = listOf(Icon.gmd_menu, Icon.gmd_add_a_photo, Icon.gmd_chat, Icon.gmd_settings))
+        burgerIcon.setTint(resources.getColor(R.color.cs_primary_material_light, null))
 
         drawerLayout = findViewById(R.id.drawer_layout)
         navigationView = (findViewById<NavigationView>(R.id.nav_view)).apply {
             setNavigationItemSelectedListener(this@MainNavDrawerActivity)
             menu.findItem(R.id.nav_itinerary).isVisible = Route.available()
-            menu.findItem(R.id.nav_blog).icon = blog
+            menu.findItem(R.id.nav_addphoto).icon = addPhotoIcon
+            menu.findItem(R.id.nav_blog).icon = blogIcon
+            menu.findItem(R.id.nav_settings).icon = settingsIcon
         }
 
         toolbar = findViewById(R.id.toolbar)
@@ -76,7 +79,7 @@ abstract class MainNavDrawerActivity : AppCompatActivity(), OnNavigationItemSele
         setSupportActionBar(toolbar)
         supportActionBar!!.apply {
             setDisplayHomeAsUpEnabled(true)
-            setHomeAsUpIndicator(burger)
+            setHomeAsUpIndicator(burgerIcon)
         }
 
         if (CycleStreetsAppSupport.isFirstRun())

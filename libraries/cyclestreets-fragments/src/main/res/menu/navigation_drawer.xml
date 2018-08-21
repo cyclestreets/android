@@ -15,14 +15,12 @@
         android:title="@string/photomap" />
     <item
         android:id="@+id/nav_addphoto"
-        android:icon="@drawable/ic_menu_camera"
         android:title="@string/photo_upload" />
     <item
         android:id="@+id/nav_blog"
         android:title="@string/blog" />
     <item
         android:id="@+id/nav_settings"
-        android:icon="@android:drawable/ic_menu_preferences"
         android:title="@string/settings" />
   </group>
 </menu>
