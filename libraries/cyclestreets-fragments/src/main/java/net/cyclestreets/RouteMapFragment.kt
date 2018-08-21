@@ -31,6 +31,11 @@ class RouteMapFragment : CycleMapFragment(), Route.Listener {
     private lateinit var routeSetter: TapToRouteOverlay
     private var hasGps: Boolean = false
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        setHasOptionsMenu(true)
+        super.onCreate(savedInstanceState)
+    }
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, saved: Bundle?): View? {
         val v = super.onCreateView(inflater, container, saved)
 
