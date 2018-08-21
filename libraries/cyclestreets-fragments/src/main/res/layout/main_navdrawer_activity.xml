@@ -43,6 +43,7 @@
       android:fitsSystemWindows="true"
       app:menu="@menu/navigation_drawer"
       app:itemBackground="@drawable/nav_state_background"
+      app:itemIconTint="@color/nav_state_icon"
       app:itemTextColor="@color/nav_state_text" />
   <!-- app:headerLayout="@layout/nav_header" /> TODO: add a header -->
 

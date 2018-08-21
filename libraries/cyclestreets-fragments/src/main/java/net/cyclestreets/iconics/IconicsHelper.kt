@@ -15,8 +15,9 @@ private val TAG = Logging.getTag(IconicsHelper::class.java)
 
 object IconicsHelper {
 
-    fun materialIcons(context: Context, color: Int, size: Int, icons: List<IIcon>): List<IconicsDrawable> {
-        return icons.map { iconId -> IconicsDrawable(context).icon(iconId).color(color).sizeDp(size) }
+    fun materialIcons(context: Context, color: Int? = null, size: Int, icons: List<IIcon>): List<IconicsDrawable> {
+        val sizedIcons = icons.map { iconId -> IconicsDrawable(context).icon(iconId).sizeDp(size) }
+        return sizedIcons.map { icon -> color?.let { icon.color(it) } ?: icon }
     }
 
     // Derive Context from the inflater, and then create the IconicsDrawable.

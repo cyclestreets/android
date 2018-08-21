@@ -59,10 +59,9 @@ abstract class MainNavDrawerActivity : AppCompatActivity(), OnNavigationItemSele
         super.onCreate(savedInstanceState)
         setContentView(R.layout.main_navdrawer_activity)
 
-        val (burger) = materialIcons(context = this, color = R.color.cs_primary_material_light, size = 24,
-                                     icons = listOf(GoogleMaterial.Icon.gmd_menu))
-        val (blog) = materialIcons(context = this, color = Theme.lowlightColor(this), size = 24,
-                                   icons = listOf(GoogleMaterial.Icon.gmd_chat))
+        val (burger, blog) = materialIcons(context = this, size = 24,
+                                           icons = listOf(GoogleMaterial.Icon.gmd_menu, GoogleMaterial.Icon.gmd_chat))
+        burger.setTint(resources.getColor(R.color.cs_primary_material_light, null))
 
         drawerLayout = findViewById(R.id.drawer_layout)
         navigationView = (findViewById<NavigationView>(R.id.nav_view)).apply {
@@ -170,12 +169,12 @@ abstract class MainNavDrawerActivity : AppCompatActivity(), OnNavigationItemSele
 
     ////////// Route.Listener method implementations
     override fun onNewJourney(journey: Journey, waypoints: Waypoints) {
-        navigationView.menu.findItem(R.id.nav_itinerary).isEnabled = Route.available()
+        navigationView.menu.findItem(R.id.nav_itinerary).isVisible = Route.available()
         invalidateOptionsMenu()
     }
 
     override fun onResetJourney() {
-        navigationView.menu.findItem(R.id.nav_itinerary).isEnabled = Route.available()
+        navigationView.menu.findItem(R.id.nav_itinerary).isVisible = Route.available()
         invalidateOptionsMenu()
     }
 
