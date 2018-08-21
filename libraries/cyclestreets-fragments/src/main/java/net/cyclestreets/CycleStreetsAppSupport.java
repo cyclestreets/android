@@ -29,6 +29,10 @@ public final class CycleStreetsAppSupport {
   public static String version() { return version_; }
   public static boolean isNewVersion() { return isNew_; }
   public static boolean isFirstRun() { return isFirstRun_; }
+  public static void splashScreenSeen() {
+    isFirstRun_ = false;
+    isNew_ = false;
+  }
 
   private static String version(final Context context) {
     return "Version : " + AppInfo.version(context);

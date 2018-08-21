@@ -84,6 +84,7 @@ abstract class MainNavDrawerActivity : AppCompatActivity(), OnNavigationItemSele
             onFirstRun()
         else if (CycleStreetsAppSupport.isNewVersion())
             onNewVersion()
+        CycleStreetsAppSupport.splashScreenSeen()
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
