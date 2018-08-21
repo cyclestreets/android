@@ -1,16 +1,16 @@
 package net.cyclestreets.util;
 
+import android.content.Context;
 import android.graphics.Paint;
 import android.graphics.Paint.Style;
 import android.graphics.Typeface;
-import net.cyclestreets.view.R;
 
 public class Brush {
   public static Paint Grey = createFillBrush(127, 127, 127);
   public static Paint White = createFillBrush(255, 255, 255);
   public static Paint BlackOutline = createOutlineBrush(0, 0, 0);
-  public static Paint HighlightBrush() {
-    return createFillBrush(R.color.apptheme_highlight_color);
+  public static Paint HighlightBrush(final Context context) {
+    return createFillBrush(Theme.highlightColor(context));
   }
 
   private static Paint createFillBrush(final int color) {

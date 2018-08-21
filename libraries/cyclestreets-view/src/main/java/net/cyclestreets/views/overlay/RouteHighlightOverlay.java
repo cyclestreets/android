@@ -54,7 +54,7 @@ public class RouteHighlightOverlay extends Overlay
 
     mapView.addView(routeView);
 
-    highlightColour = R.color.apptheme_highlight_color;
+    highlightColour = Theme.highlightColor(context) | 0xFF000000;
   }
 
   @Override

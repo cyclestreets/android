@@ -136,7 +136,7 @@ public class TapToRouteOverlay extends Overlay
     restartButton.setOnClickListener(view -> tapRestart());
 
     lowlightColour = Theme.lowlightColor(context) | 0xFF000000;
-    highlightColour = R.color.apptheme_highlight_color;
+    highlightColour = Theme.highlightColor(context) | 0xFF000000;
 
     waymarkers = new ArrayList<>();
 
