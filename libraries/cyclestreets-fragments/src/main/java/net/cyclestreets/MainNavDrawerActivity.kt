@@ -37,6 +37,7 @@ abstract class MainNavDrawerActivity : AppCompatActivity(), OnNavigationItemSele
 
     private lateinit var drawerLayout: DrawerLayout
     private lateinit var navigationView: NavigationView
+    private lateinit var toolbar: Toolbar
     private var selectedItem: Int = 0
 
     private val itemToFragment = object : SparseArray<Class<out Fragment>>() {
@@ -71,7 +72,7 @@ abstract class MainNavDrawerActivity : AppCompatActivity(), OnNavigationItemSele
         }
         setBlogStateTitle()
 
-        val toolbar: Toolbar = findViewById(R.id.toolbar)
+        toolbar = findViewById(R.id.toolbar)
         toolbar.visibility = View.VISIBLE
         setSupportActionBar(toolbar)
         supportActionBar!!.apply {
@@ -104,6 +105,9 @@ abstract class MainNavDrawerActivity : AppCompatActivity(), OnNavigationItemSele
 
         // Save which item is selected
         selectedItem = menuItem.itemId
+
+        // Update the ActionBar title to be the title of the chosen fragment
+        toolbar.title = menuItem.title
 
         // Swap UI fragments based on the selection
         val ft = this.supportFragmentManager.beginTransaction()
