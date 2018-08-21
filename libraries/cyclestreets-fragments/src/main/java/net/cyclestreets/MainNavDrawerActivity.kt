@@ -22,7 +22,6 @@ import net.cyclestreets.routing.Journey
 import net.cyclestreets.routing.Route
 import net.cyclestreets.routing.Waypoints
 import net.cyclestreets.util.Logging
-import net.cyclestreets.util.Theme
 
 import android.support.design.widget.NavigationView.OnNavigationItemSelectedListener
 import android.support.transition.Fade
@@ -39,6 +38,7 @@ abstract class MainNavDrawerActivity : AppCompatActivity(), OnNavigationItemSele
     private lateinit var navigationView: NavigationView
     private lateinit var toolbar: Toolbar
     private var selectedItem: Int = 0
+    private var currentFragment: Fragment? = null
 
     private val itemToFragment = object : SparseArray<Class<out Fragment>>() {
         init {
@@ -67,7 +67,7 @@ abstract class MainNavDrawerActivity : AppCompatActivity(), OnNavigationItemSele
         drawerLayout = findViewById(R.id.drawer_layout)
         navigationView = (findViewById<NavigationView>(R.id.nav_view)).apply {
             setNavigationItemSelectedListener(this@MainNavDrawerActivity)
-            menu.findItem(R.id.nav_itinerary).isEnabled = Route.available()
+            menu.findItem(R.id.nav_itinerary).isVisible = Route.available()
             menu.findItem(R.id.nav_blog).icon = blog
         }
         setBlogStateTitle()
@@ -120,13 +120,27 @@ abstract class MainNavDrawerActivity : AppCompatActivity(), OnNavigationItemSele
     private fun instantiateFragmentFor(menuItem: MenuItem): Fragment {
         val fragmentClass = itemToFragment.get(menuItem.itemId)
         try {
-            val fragment: Fragment = fragmentClass.newInstance()
-            fragment.enterTransition = Slide(Gravity.END)
-            fragment.exitTransition = Fade()
-            return fragment
+            return fragmentClass.newInstance().apply {
+                enterTransition = Slide(Gravity.END)
+                exitTransition = Fade()
+                currentFragment = this
+            }
         }
         catch (e: InstantiationException) { throw RuntimeException(e) }
         catch (e: IllegalAccessException) { throw RuntimeException(e) }
+    }
+
+    override fun onBackPressed() {
+        if (drawerLayout.isDrawerOpen(navigationView)) {
+            drawerLayout.closeDrawers()
+            return
+        }
+        currentFragment?.let {
+            if (it is Undoable && it.onBackPressed())
+                return
+        }
+
+        super.onBackPressed()
     }
 
     protected open fun onFirstRun() {}
