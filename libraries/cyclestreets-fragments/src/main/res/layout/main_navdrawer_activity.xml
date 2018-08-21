@@ -24,8 +24,8 @@
         android:layout_width="match_parent"
         android:layout_height="52dp"
         android:background="?android:colorPrimary"
-        android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
-        android:visibility="visible"/>
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
 
     <!-- The main content view where fragments are loaded -->
     <FrameLayout
@@ -41,7 +41,9 @@
       android:layout_height="match_parent"
       android:layout_gravity="start"
       android:fitsSystemWindows="true"
-      app:menu="@menu/navigation_drawer" />
+      app:menu="@menu/navigation_drawer"
+      app:itemBackground="@drawable/nav_state_background"
+      app:itemTextColor="@color/nav_state_text" />
   <!-- app:headerLayout="@layout/nav_header" /> TODO: add a header -->
 
 </android.support.v4.widget.DrawerLayout>

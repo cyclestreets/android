@@ -2,11 +2,9 @@ package net.cyclestreets
 
 import android.content.Context
 import android.content.SharedPreferences
-import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.support.design.widget.NavigationView
 import android.support.v4.app.Fragment
-import android.support.v7.app.ActionBar
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
 import android.util.Log
@@ -17,7 +15,6 @@ import android.view.MenuItem
 
 import android.view.View
 import com.mikepenz.google_material_typeface_library.GoogleMaterial
-import com.mikepenz.iconics.IconicsDrawable
 import com.mikepenz.iconics.context.IconicsContextWrapper
 
 import net.cyclestreets.fragments.R
@@ -30,8 +27,8 @@ import net.cyclestreets.util.Theme
 import android.support.design.widget.NavigationView.OnNavigationItemSelectedListener
 import android.support.transition.Fade
 import android.support.transition.Slide
-import android.support.v4.content.ContextCompat
 import net.cyclestreets.addphoto.AddPhotoFragment
+import net.cyclestreets.iconics.IconicsHelper.materialIcons
 
 private val TAG = Logging.getTag(MainNavDrawerActivity::class.java)
 private const val DRAWER_ITEMID_SELECTED_KEY = "DRAWER_ITEM_SELECTED"
@@ -62,23 +59,25 @@ abstract class MainNavDrawerActivity : AppCompatActivity(), OnNavigationItemSele
         super.onCreate(savedInstanceState)
         setContentView(R.layout.main_navdrawer_activity)
 
+        val (burger) = materialIcons(context = this, color = R.color.cs_primary_material_light, size = 24,
+                                     icons = listOf(GoogleMaterial.Icon.gmd_menu))
+        val (blog) = materialIcons(context = this, color = Theme.lowlightColor(this), size = 24,
+                                   icons = listOf(GoogleMaterial.Icon.gmd_chat))
+
         drawerLayout = findViewById(R.id.drawer_layout)
-        navigationView = findViewById(R.id.nav_view)
-        navigationView.setNavigationItemSelectedListener(this)
-        navigationView.menu.findItem(R.id.nav_itinerary).isEnabled = Route.available()
+        navigationView = (findViewById<NavigationView>(R.id.nav_view)).apply {
+            setNavigationItemSelectedListener(this@MainNavDrawerActivity)
+            menu.findItem(R.id.nav_itinerary).isEnabled = Route.available()
+            menu.findItem(R.id.nav_blog).icon = blog
+        }
         setBlogStateTitle()
 
         val toolbar: Toolbar = findViewById(R.id.toolbar)
         toolbar.visibility = View.VISIBLE
         setSupportActionBar(toolbar)
-        val burger = IconicsDrawable(this)
-            .icon(GoogleMaterial.Icon.gmd_menu)
-            .color(Theme.lowlightColor(this))
-            .sizeDp(24)
         supportActionBar!!.apply {
             setDisplayHomeAsUpEnabled(true)
             setHomeAsUpIndicator(burger)
-            setBackgroundDrawable(ColorDrawable(ContextCompat.getColor(this@MainNavDrawerActivity, R.color.apptheme_highlight_color)))
         }
 
         if (CycleStreetsAppSupport.isFirstRun())

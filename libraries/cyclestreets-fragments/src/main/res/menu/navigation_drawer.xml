@@ -19,7 +19,6 @@
         android:title="@string/photo_upload" />
     <item
         android:id="@+id/nav_blog"
-        android:icon="@drawable/ic_logo_button"
         android:title="@string/blog" />
     <item
         android:id="@+id/nav_settings"

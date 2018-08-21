@@ -14,6 +14,11 @@ import net.cyclestreets.util.Logging
 private val TAG = Logging.getTag(IconicsHelper::class.java)
 
 object IconicsHelper {
+
+    fun materialIcons(context: Context, color: Int, size: Int, icons: List<IIcon>): List<IconicsDrawable> {
+        return icons.map { iconId -> IconicsDrawable(context).icon(iconId).color(color).sizeDp(size) }
+    }
+
     // Derive Context from the inflater, and then create the IconicsDrawable.
     fun drawable(inflater: Any, iconId: IIcon, colorFunction: (Context) -> Int): IconicsDrawable? {
         getContext(inflater)?.apply {
