@@ -70,7 +70,6 @@ abstract class MainNavDrawerActivity : AppCompatActivity(), OnNavigationItemSele
             menu.findItem(R.id.nav_itinerary).isVisible = Route.available()
             menu.findItem(R.id.nav_blog).icon = blog
         }
-        setBlogStateTitle()
 
         toolbar = findViewById(R.id.toolbar)
         toolbar.visibility = View.VISIBLE
@@ -90,6 +89,7 @@ abstract class MainNavDrawerActivity : AppCompatActivity(), OnNavigationItemSele
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             android.R.id.home -> {
+                setBlogStateTitle()
                 drawerLayout.openDrawer(Gravity.START)
                 return true
             }
