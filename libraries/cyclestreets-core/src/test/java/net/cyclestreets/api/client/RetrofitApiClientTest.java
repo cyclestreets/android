@@ -28,7 +28,6 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.osmdroid.api.IGeoPoint;
 import org.osmdroid.util.GeoPoint;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
@@ -66,7 +65,7 @@ public class RetrofitApiClientTest {
   @Rule
   public WireMockRule wireMockRule = new WireMockRule(8089);
 
-  RetrofitApiClient apiClient;
+  private RetrofitApiClient apiClient;
 
   @Before
   public void setUp() throws Exception {
@@ -305,7 +304,7 @@ public class RetrofitApiClientTest {
     GeoPlace place = geoPlaces.get(1);
     assertThat(place.name(), is("The High"));
     assertThat(place.near(), is("Essex, East of England"));
-    assertThat(place.coord(), is((IGeoPoint)new GeoPoint(51.769678, 0.0939271)));
+    assertThat(place.coord(), is(new GeoPoint(51.769678, 0.0939271)));
 
     // not cached - REST request will be made 6 times
     List<LoggedRequest> requests = findAll(getRequestedFor(urlPathEqualTo("/v2/geocoder")));
