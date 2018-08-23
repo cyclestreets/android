@@ -46,16 +46,24 @@ public class CycleStreetsNotifications
     }
   }
 
-  public static Notification.Builder getBuilder(Context context, String channelId) {
+  private final Context context;
+  private final String channelId;
+
+  public CycleStreetsNotifications(Context context, String channelId) {
+    this.context = context;
+    this.channelId = channelId;
+  }
+
+  public Notification.Builder getBuilder() {
     if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
       return new Notification.Builder(context, channelId);
     } else {
-      return getBuilderPreOreo(context);
+      return getBuilderPreOreo();
     }
   }
 
   @SuppressWarnings("deprecation")
-  private static Notification.Builder getBuilderPreOreo(Context context) {
+  private Notification.Builder getBuilderPreOreo() {
     return new Notification.Builder(context);
   }
 }

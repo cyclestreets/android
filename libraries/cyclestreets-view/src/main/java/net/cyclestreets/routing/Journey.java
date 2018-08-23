@@ -97,9 +97,9 @@ public class Journey
     return a1 != null ? a1 : a2;
   }
 
-  static Journey loadFromJson(final String domainJson,
-                              final Waypoints waypoints,
-                              final String name) {
+  public static Journey loadFromJson(final String domainJson,
+                                     final Waypoints waypoints,
+                                     final String name) {
     return new JourneyFactory(waypoints, name).parse(domainJson);
   }
 
