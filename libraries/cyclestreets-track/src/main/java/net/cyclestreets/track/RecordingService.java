@@ -33,6 +33,7 @@ public class RecordingService extends Service implements LocationListener {
   private TrackListener trackListener_;
   private Class<Activity> activityClass_;
   private LocationManager locationManager_ = null;
+  private CycleStreetsNotifications cycleStreetsNotifications;
 
   // Bike bell variables
   private static final int BELL_FIRST_INTERVAL = 20;
@@ -65,6 +66,7 @@ public class RecordingService extends Service implements LocationListener {
     soundpool_ = new SoundPool.Builder().setAudioAttributes(attributes).build();
     bikebell_ = soundpool_.load(this.getBaseContext(), R.raw.bikebell,1);
     locationManager_ = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+    cycleStreetsNotifications = new CycleStreetsNotifications(this, CHANNEL_TRACK_ID);
   }
 
   @Override
@@ -251,7 +253,7 @@ public class RecordingService extends Service implements LocationListener {
     final Intent notificationIntent = new Intent(this, activityClass_);
     final PendingIntent contentIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0);
 
-    Notification notification = CycleStreetsNotifications.getBuilder(this, CHANNEL_TRACK_ID)
+    Notification notification = cycleStreetsNotifications.getBuilder()
             .setSmallIcon(R.drawable.icon25)
             .setTicker(tickerText)
             .setWhen(java.lang.System.currentTimeMillis())
