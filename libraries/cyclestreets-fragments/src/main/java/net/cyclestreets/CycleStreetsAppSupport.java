@@ -10,16 +10,13 @@ public final class CycleStreetsAppSupport {
   private static boolean isNew_;
   private static String version_;
 
-  public static void initialise(final Context context) {
-    initialise(context, -1);
-  }
-
   public static void initialise(final Context context, final int prefsDefault) {
     CycleStreetsPreferences.initialise(context, prefsDefault);
     CycleStreetsNotifications.initialise(context);
 
     Route.initialise(context);
     ApiClient.initialise(context);
+    BlogState.INSTANCE.initialise(context);
 
     version_ = version(context);
 
@@ -32,6 +29,10 @@ public final class CycleStreetsAppSupport {
   public static String version() { return version_; }
   public static boolean isNewVersion() { return isNew_; }
   public static boolean isFirstRun() { return isFirstRun_; }
+  public static void splashScreenSeen() {
+    isFirstRun_ = false;
+    isNew_ = false;
+  }
 
   private static String version(final Context context) {
     return "Version : " + AppInfo.version(context);

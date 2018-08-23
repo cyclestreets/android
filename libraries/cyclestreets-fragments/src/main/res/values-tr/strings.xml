@@ -1,9 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-  <string name="navigation_drawer_open">Rota çiziciyi aç</string>
-  <string name="navigation_drawer_close">Rota çiziciyi kapat</string>
-
   <string name="find_route">Güzergâh bul</string>
   <string name="load_route">Load route</string>
   <string name="addvia">Ara nokta ekle</string>

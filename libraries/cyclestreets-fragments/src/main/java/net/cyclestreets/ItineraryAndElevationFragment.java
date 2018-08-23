@@ -22,6 +22,7 @@ public class ItineraryAndElevationFragment extends Fragment {
 
   @Override
   public void onCreate(Bundle savedInstanceState) {
+    setHasOptionsMenu(true);
     setRetainInstance(true);
     itinerary_ = new ItineraryFragment();
     elevation_ = new ElevationProfileFragment();

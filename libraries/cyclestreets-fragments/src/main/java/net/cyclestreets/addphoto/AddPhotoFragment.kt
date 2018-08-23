@@ -82,9 +82,12 @@ class AddPhotoFragment : Fragment(), View.OnClickListener, Undoable, ThereOverla
     }
 
     ///////////// Fragment methods - views
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        setHasOptionsMenu(true)
         super.onCreate(savedInstanceState)
+    }
 
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         this.inflater = LayoutInflater.from(activity)
         inputMethodManager = activity!!.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
 
@@ -591,7 +594,9 @@ class AddPhotoFragment : Fragment(), View.OnClickListener, Undoable, ThereOverla
 
         override fun onPostExecute(categories: PhotomapCategories?) {
             if (categories == null) {
-                Toast.makeText(activity, R.string.photo_could_not_load_categories, Toast.LENGTH_LONG).show()
+                if (activity != null) {
+                    Toast.makeText(activity, R.string.photo_could_not_load_categories, Toast.LENGTH_LONG).show()
+                }
                 return
             }
             photomapCategories = categories

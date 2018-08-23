@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+  <group android:checkableBehavior="single">
+    <item
+        android:id="@+id/nav_journey_planner"
+        android:icon="@drawable/ic_menu_mapmode"
+        android:title="@string/route_map" />
+    <item
+        android:id="@+id/nav_itinerary"
+        android:icon="@drawable/ic_menu_agenda"
+        android:title="@string/itinerary" />
+    <item
+        android:id="@+id/nav_photomap"
+        android:icon="@drawable/ic_menu_gallery"
+        android:title="@string/photomap" />
+    <item
+        android:id="@+id/nav_addphoto"
+        android:title="@string/photo_upload" />
+    <item
+        android:id="@+id/nav_blog"
+        android:title="@string/blog" />
+    <item
+        android:id="@+id/nav_settings"
+        android:title="@string/settings" />
+  </group>
+</menu>

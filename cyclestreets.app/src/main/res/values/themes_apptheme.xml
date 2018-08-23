@@ -3,13 +3,13 @@
 <!-- Generated with http://android-holo-colors.com -->
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
 
-  <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+  <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
 
     <item name="preferenceTheme">@style/PreferenceThemeOverlay.v14.Material</item>
 
     <item name="android:editTextBackground">@drawable/apptheme_edit_text_holo_light</item>
 
-    <item name="android:textColorHighlight">#99009800</item>
+    <item name="android:textColorHighlight">@color/apptheme_highlight_color</item>
     <item name="android:textSelectHandleLeft">@drawable/apptheme_text_select_handle_left</item>
     <item name="android:textSelectHandleRight">@drawable/apptheme_text_select_handle_right</item>
     <item name="android:textSelectHandle">@drawable/apptheme_text_select_handle_middle</item>
@@ -35,6 +35,10 @@
     <item name="android:activatedBackgroundIndicator">@drawable/apptheme_activated_background_holo_light</item>
 
     <item name="android:fastScrollThumbDrawable">@drawable/apptheme_fastscroll_thumb_holo</item>
+
+    <!-- From Theme.AppCompat.Light.DarkActionBar, to style the Toolbar (replacement for ActionBar!) that we have  -->
+    <item name="colorPrimaryDark">@color/cs_primary_dark_material_dark</item>
+    <item name="colorPrimary">@color/cs_primary_material_dark</item>
 
   </style>
 

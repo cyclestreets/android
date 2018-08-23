@@ -1,9 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-  <string name="navigation_drawer_open">Ouvrez le dessinateur du navigation</string>
-  <string name="navigation_drawer_close">Fermer le dessinateur du navigation</string>
-
   <string name="find_route">Trouver la route</string>
   <string name="load_route">Load route</string>
   <string name="addvia">Ajouter un point sur chemin</string>

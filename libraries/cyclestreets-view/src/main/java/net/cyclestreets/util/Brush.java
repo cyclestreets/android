@@ -7,12 +7,8 @@ import android.graphics.Typeface;
 
 public class Brush {
   public static Paint Grey = createFillBrush(127, 127, 127);
-  public static Paint LightGrey = createFillBrush(192, 192, 192);
   public static Paint White = createFillBrush(255, 255, 255);
   public static Paint BlackOutline = createOutlineBrush(0, 0, 0);
-  public static Paint LowlightBrush(final Context context) {
-    return createFillBrush(Theme.lowlightColor(context));
-  }
   public static Paint HighlightBrush(final Context context) {
     return createFillBrush(Theme.highlightColor(context));
   }
