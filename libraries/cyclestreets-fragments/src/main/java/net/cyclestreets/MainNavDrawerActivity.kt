@@ -25,7 +25,6 @@ import net.cyclestreets.util.Logging
 
 import android.support.design.widget.NavigationView.OnNavigationItemSelectedListener
 import android.support.transition.Fade
-import android.support.transition.Slide
 import net.cyclestreets.addphoto.AddPhotoFragment
 import net.cyclestreets.iconics.IconicsHelper.materialIcons
 
@@ -124,7 +123,7 @@ abstract class MainNavDrawerActivity : AppCompatActivity(), OnNavigationItemSele
         val fragmentClass = itemToFragment.get(menuItem.itemId)
         try {
             return fragmentClass.newInstance().apply {
-                enterTransition = Slide(Gravity.END)
+                enterTransition = Fade()
                 exitTransition = Fade()
                 currentFragment = this
             }
