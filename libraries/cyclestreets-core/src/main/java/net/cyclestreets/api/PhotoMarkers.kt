@@ -15,19 +15,23 @@ import java.util.HashMap
 private val TAG = Logging.getTag(PhotoMarkers::class.java)
 
 class PhotoMarkers(private val res: Resources) {
-    private lateinit var defaultMarker: Drawable
+    private val defaultMarker: Drawable
     private val markers = HashMap<String, Drawable>()
     private val bfo: BitmapFactory.Options
 
     init {
-        defaultMarker = ResourcesCompat.getDrawable(res, R.drawable.general_neutral, null)!!
+        defaultMarker = getMarker("general", "neutral")
 
         bfo = BitmapFactory.Options()
         bfo.inTargetDensity = 240
     }
 
     fun getMarker(photo: Photo): Drawable {
-        val key = String.format("photomarkers/%s_%s.png", photo.category(), mapMetaCat(photo.metacategory()))
+        return getMarker(photo.category(), mapMetaCat(photo.metacategory()))
+    }
+
+    private fun getMarker(category: String, metaCategory: String): Drawable {
+        val key = String.format("photomarkers/%s_%s.png", category, metaCategory)
 
         if (!markers.containsKey(key)) {
             try {
