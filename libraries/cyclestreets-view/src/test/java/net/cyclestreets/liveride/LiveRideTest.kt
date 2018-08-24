@@ -80,24 +80,6 @@ class LiveRideTest {
     }
 
     @Test
-    fun turnIssues() {
-        loadJourneyFrom("journey-domain.json")
-        journey.setActiveSegmentIndex(16)
-        assertThat(journey.activeSegment().street()).isEqualTo("NCN 11")
-
-        move(0.1277, 52.21223)
-        verify("Get ready to Turn left")
-        move(0.12774, 52.21222)
-        verify("Turn left into Short unnamed link. Continue 0m")
-        move(0.12774, 52.21222)
-        // AdvanceToSegment advances the segment; we need another location update to trigger the next NearingTurn
-        move(0.12774, 52.21222)
-        verify("Get ready to Turn right")
-        move(0.12774, 52.21222)
-        verify("Turn right into Short unnamed link. Continue 30m")
-    }
-
-    @Test
     fun specificTurnIssues() {
         loadJourneyFrom("journey-rightleft-domain.json")
         journey.setActiveSegmentIndex(1)
