@@ -44,7 +44,6 @@ public class JourneyStringTransformerTest {
     public void fromV1ApiRightLeftJsonTest() throws IOException, JSONException {
         String inputJson = TestUtils.fromResourceFile("__files/journey-v1api-rightleft.json");
         String outputJson = JourneyStringTransformerKt.fromV1ApiJson(inputJson);
-        System.out.println(outputJson);
         JSONAssert.assertEquals(TestUtils.fromResourceFile("journey-rightleft-domain.json"), outputJson, JSONCompareMode.STRICT);
     }
 }
