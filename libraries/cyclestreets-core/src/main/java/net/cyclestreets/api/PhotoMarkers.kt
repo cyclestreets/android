@@ -4,24 +4,31 @@ import android.content.res.Resources
 import android.graphics.BitmapFactory
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
-import android.support.v4.content.res.ResourcesCompat
 import android.util.Log
 
-import net.cyclestreets.core.R
 import net.cyclestreets.util.Logging
 
 import java.util.HashMap
 
 private val TAG = Logging.getTag(PhotoMarkers::class.java)
 
+private const val GOOD = "good"
+private const val BAD = "bad"
+private const val NEUTRAL = "neutral"
+
+private const val GENERAL = "general"
+
 class PhotoMarkers(private val res: Resources) {
-    private val defaultMarker: Drawable
+    private val defaultMarkers: Map<String, Drawable>
     private val markers = HashMap<String, Drawable>()
     private val bfo: BitmapFactory.Options
 
     init {
-        defaultMarker = getMarker("general", "neutral")
-
+        defaultMarkers = mapOf(
+            GOOD to getMarker(GENERAL, GOOD),
+            BAD to getMarker(GENERAL, BAD),
+            NEUTRAL to getMarker(GENERAL, NEUTRAL)
+        )
         bfo = BitmapFactory.Options()
         bfo.inTargetDensity = 240
     }
@@ -43,7 +50,7 @@ class PhotoMarkers(private val res: Resources) {
                 return marker
             } catch (e: Exception) {
                 Log.w(TAG, "Error while loading image $key into the cache")
-                markers[key] = defaultMarker
+                markers[key] = defaultMarkers[metaCategory]!!
             }
         }
 
@@ -51,6 +58,6 @@ class PhotoMarkers(private val res: Resources) {
     }
 
     private fun mapMetaCat(mc: String): String {
-        return if ("good" == mc || "bad" == mc) mc else "neutral"
+        return if (GOOD == mc || BAD == mc) mc else NEUTRAL
     }
 }
