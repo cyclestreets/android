@@ -35,7 +35,7 @@ public class CycleStreetsNotifications
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
       CharSequence name = context.getString(nameResourceId);
       String description = context.getString(descriptionResourceId);
-      int importance = NotificationManager.IMPORTANCE_DEFAULT;
+      int importance = NotificationManager.IMPORTANCE_LOW;
       NotificationChannel channel = new NotificationChannel(channelId, name, importance);
       channel.setDescription(description);
 
