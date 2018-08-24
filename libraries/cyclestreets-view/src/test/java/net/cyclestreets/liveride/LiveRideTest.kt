@@ -20,6 +20,7 @@ import org.robolectric.RobolectricTestRunner
 import org.robolectric.annotation.Config
 import org.robolectric.shadows.ShadowApplication
 import org.mockito.Mockito.mockingDetails;
+import org.mockito.exceptions.verification.VerificationInOrderFailure
 
 @Config(constants = BuildConfig::class, manifest = Config.NONE, sdk = [27])
 @RunWith(RobolectricTestRunner::class)
@@ -42,14 +43,9 @@ class LiveRideTest {
 
         liveRideState = LiveRideStart(roboContext, mockTts, mockCycleStreetsNotifications)
         liveRideState = OnTheMove(liveRideState)
-        inOrder.verify(mockTts, times(1)).speak(eq("Starting Live Ride"), eq(TextToSpeech.QUEUE_ADD), isNull(), isNull())
+        verify("Starting Live Ride")
 
-        val rawJson = TestUtils.fromResourceFile("journey-domain.json")
-        //journey = Journey.loadFromJson(rawJson, null, "test route")
-        val routeData: RouteData = RouteData(rawJson, null, "test route")
         Route.initialise(roboContext)
-        Route.onNewJourney(routeData)
-        journey = Route.journey()
     }
 
     private fun setUpMocks() {
@@ -67,39 +63,76 @@ class LiveRideTest {
 
     @Test
     fun doubleStraightOn() {
+        loadJourneyFrom("journey-domain.json")
         journey.setActiveSegmentIndex(13)
         assertThat(journey.activeSegment().street()).isEqualTo("lcn (unknown cycle network)")
+
         move(0.126, 52.212)
-        inOrder.verify(mockTts, times(1)).speak(eq("Get ready to Straight on"), eq(TextToSpeech.QUEUE_ADD), isNull(), isNull())
+        verify("Get ready to Straight on")
         move(0.12634, 52.21207)
-        inOrder.verify(mockTts, times(1)).speak(eq("Straight on into lcn (unknown cycle network) continuation. Continue 5m"), eq(TextToSpeech.QUEUE_ADD), isNull(), isNull())
+        verify("Straight on into lcn (unknown cycle network) continuation. Continue 5m")
         move(0.12634, 52.21207)
         // AdvanceToSegment advances the segment; we need another location update to trigger the next NearingTurn
         move(0.12634, 52.21207)
-        inOrder.verify(mockTts, times(1)).speak(eq("Get ready to Straight on"), eq(TextToSpeech.QUEUE_ADD), isNull(), isNull())
+        verify("Get ready to Straight on")
         move(0.12634, 52.21207)
-        inOrder.verify(mockTts, times(1)).speak(eq("Straight on into lcn (unknown cycle network). Continue 85m"), eq(TextToSpeech.QUEUE_ADD), isNull(), isNull())
+        verify("Straight on into lcn (unknown cycle network). Continue 85m")
     }
 
     @Test
     fun turnIssues() {
+        loadJourneyFrom("journey-domain.json")
         journey.setActiveSegmentIndex(16)
         assertThat(journey.activeSegment().street()).isEqualTo("NCN 11")
+
         move(0.1277, 52.21223)
-        inOrder.verify(mockTts, times(1)).speak(eq("Get ready to Turn left"), eq(TextToSpeech.QUEUE_ADD), isNull(), isNull())
+        verify("Get ready to Turn left")
         move(0.12774, 52.21222)
-        inOrder.verify(mockTts, times(1)).speak(eq("Turn left into Short unnamed link. Continue 0m"), eq(TextToSpeech.QUEUE_ADD), isNull(), isNull())
+        verify("Turn left into Short unnamed link. Continue 0m")
         move(0.12774, 52.21222)
         // AdvanceToSegment advances the segment; we need another location update to trigger the next NearingTurn
         move(0.12774, 52.21222)
-        inOrder.verify(mockTts, times(1)).speak(eq("Get ready to Turn right"), eq(TextToSpeech.QUEUE_ADD), isNull(), isNull())
+        verify("Get ready to Turn right")
         move(0.12774, 52.21222)
-        inOrder.verify(mockTts, times(1)).speak(eq("Turn right into Short unnamed link. Continue 30m"), eq(TextToSpeech.QUEUE_ADD), isNull(), isNull())
-//        System.out.println(mockingDetails(mockTts).printInvocations());
+        verify("Turn right into Short unnamed link. Continue 30m")
+    }
+
+    @Test
+    fun specificTurnIssues() {
+        loadJourneyFrom("journey-rightleft-domain.json")
+        journey.setActiveSegmentIndex(1)
+        assertThat(journey.activeSegment().street()).isEqualTo("Link with A38")
+
+        move(-3.33022, 50.92086)
+        verify("Get ready to Turn right")
+        move(-3.33019, 50.92081)
+        verify("Turn right into A38. Continue 15m")
+        move(-3.33019, 50.92081)
+        move(-3.33019, 50.92081)
+        verify("Get ready to Turn left")
+        move(-3.33019, 50.92081)
+        verify("Turn left into Broad Path. Continue 990m")
+    }
+
+    private fun loadJourneyFrom(domainJsonFile: String) {
+        val rawJson = TestUtils.fromResourceFile(domainJsonFile)
+        val routeData = RouteData(rawJson, null, "test route")
+        Route.onNewJourney(routeData)
+        journey = Route.journey()
     }
 
     private fun move(lon: Double, lat: Double) {
         liveRideState = liveRideState.update(journey, GeoPoint(lat, lon), 5)
+    }
+
+    private fun verify(expectedSpeech: String) {
+        try {
+            inOrder.verify(mockTts, times(1)).speak(eq(expectedSpeech), eq(TextToSpeech.QUEUE_ADD), isNull(), isNull())
+            inOrder.verifyNoMoreInteractions()
+        } catch (e: VerificationInOrderFailure) {
+            System.out.println(mockingDetails(mockTts).printInvocations())
+            throw e
+        }
     }
 
 }
