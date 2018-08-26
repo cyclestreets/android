@@ -10,7 +10,7 @@ import net.cyclestreets.core.R;
 
 public class CycleStreetsNotifications
 {
-  public final static String CHANNEL_LIVERIDE_ID = "liveride";
+  public final static String CHANNEL_LIVERIDE_ID = "liveride_v2";
   public final static String CHANNEL_TRACK_ID = "track";
 
   public static void initialise(final Context context) {
