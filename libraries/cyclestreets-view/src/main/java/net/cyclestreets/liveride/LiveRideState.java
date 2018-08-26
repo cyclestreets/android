@@ -107,7 +107,13 @@ public abstract class LiveRideState
   }
 
   private void speak(final String words) {
-    String toSpeak = words.replace("LiveRide", "Live Ride");
-    tts().speak(toSpeak, TextToSpeech.QUEUE_ADD, null, null);
+    tts().speak(speechify(words), TextToSpeech.QUEUE_ADD, null, null);
+  }
+
+  private String speechify(final String words) {
+    return words
+            .replace("LiveRide", "Live Ride")
+            .replace("Live", "<speak xml:lang=\"en-US\"><phoneme alphabet=\"xsampa\" ph=\"la_Iv\"/></speak>")
+            .replace(Arrivee.ARRIVEE, "<speak xml:lang=\"en-US\"><phoneme alphabet=\"xsampa\" ph=\"ari:ve:\"/></speak>");
   }
 }

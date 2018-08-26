@@ -11,8 +11,11 @@ final class NearingTurn extends MovingState
     super(previous, CycleStreetsPreferences.turnNowDistance());
 
     final Segment segment = journey.segments().get(journey.activeSegmentIndex() + 1);
-    String nextAction = (segment.turn() != null && !segment.turn().isEmpty()) ? segment.turn() : Arrivee.ARRIVERAI;
-    notify("Get ready to " + nextAction);
+    if (segment.turn() != null && !segment.turn().isEmpty()) {
+      notify("Get ready to " + segment.turn());
+    } else {
+      notify("You are approaching the " + Arrivee.ARRIVEE);
+    }
   }
 
   @Override
