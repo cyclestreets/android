@@ -11,6 +11,7 @@ import net.cyclestreets.core.R
 object CycleStreetsNotifications {
     const val CHANNEL_LIVERIDE_ID = "liveride_v2"
     const val CHANNEL_TRACK_ID = "track"
+    private val DEPRECATED_CHANNELS = listOf("liveride")
 
     fun initialise(context: Context) {
         createNotificationChannel(context,
@@ -22,6 +23,15 @@ object CycleStreetsNotifications {
         //                           R.string.channel_track_name,
         //                           R.string.channel_track_description,
         //                           CHANNEL_TRACK_ID);
+        deletedDeprecatedChannels(context, DEPRECATED_CHANNELS);
+    }
+
+    fun getBuilder(context: Context, channelId: String): Notification.Builder {
+        return if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            Notification.Builder(context, channelId)
+        } else {
+            getBuilderPreOreo(context)
+        }
     }
 
     // see https://developer.android.com/training/notify-user/channels
@@ -45,11 +55,12 @@ object CycleStreetsNotifications {
         }
     }
 
-    fun getBuilder(context: Context, channelId: String): Notification.Builder {
-        return if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-            Notification.Builder(context, channelId)
-        } else {
-            getBuilderPreOreo(context)
+    private fun deletedDeprecatedChannels(context: Context, channelIds: List<String>) {
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            for (channelId in channelIds) {
+                val nm = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+                nm.deleteNotificationChannel(channelId)
+            }
         }
     }
 
