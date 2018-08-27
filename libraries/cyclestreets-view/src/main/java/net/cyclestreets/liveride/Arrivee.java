@@ -15,7 +15,7 @@ final class Arrivee extends LiveRideState
 
   @Override
   public LiveRideState update(Journey journey, GeoPoint whereIam, int accuracy) {
-    return new Stopped(context());
+    return new Stopped(getContext());
   }
 
   @Override
