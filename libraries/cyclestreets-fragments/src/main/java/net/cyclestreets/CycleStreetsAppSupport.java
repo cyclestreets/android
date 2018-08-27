@@ -15,7 +15,7 @@ public final class CycleStreetsAppSupport {
   public static void initialise(final Context context, final int prefsDefault) {
     TurnIcons.initialise(context);
     CycleStreetsPreferences.initialise(context, prefsDefault);
-    CycleStreetsNotifications.initialise(context);
+    CycleStreetsNotifications.INSTANCE.initialise(context);
 
     Route.initialise(context);
     ApiClient.initialise(context);
