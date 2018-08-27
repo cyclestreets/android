@@ -2,7 +2,6 @@ package net.cyclestreets.liveride
 
 import net.cyclestreets.CycleStreetsNotifications
 import net.cyclestreets.LiveRideActivity
-import net.cyclestreets.view.R
 import net.cyclestreets.routing.Journey
 import net.cyclestreets.routing.Segment
 
@@ -12,14 +11,12 @@ import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
-import android.graphics.drawable.Drawable
 import android.speech.tts.TextToSpeech
 import android.util.Log
-import com.mikepenz.google_material_typeface_library.GoogleMaterial.Icon
 
 import net.cyclestreets.CycleStreetsNotifications.CHANNEL_LIVERIDE_ID
-import net.cyclestreets.iconics.IconicsHelper
 import net.cyclestreets.util.Logging
+import net.cyclestreets.view.R
 
 fun initialState(context: Context): LiveRideState {
     val tts = TextToSpeech(context) { _ -> }
@@ -36,7 +33,6 @@ private const val NOTIFICATION_ID = 1
 abstract class LiveRideState(protected val context: Context,
                              val tts: TextToSpeech,
                              private val title: String) {
-
     init {
         Log.d(TAG, "New State: " + this.javaClass.simpleName)
     }
@@ -75,8 +71,8 @@ abstract class LiveRideState(protected val context: Context,
                                                       notificationIntent,
                                                       PendingIntent.FLAG_CANCEL_CURRENT)
 
-        val notification = CycleStreetsNotifications.getBuilder(context, CHANNEL_LIVERIDE_ID)
-                .setSmallIcon(R.drawable.ic_launcher)
+        val notificationBuilder = CycleStreetsNotifications.getBuilder(context, CHANNEL_LIVERIDE_ID)
+                .setSmallIcon(R.drawable.baseline_directions_bike_24px)
                 .setTicker(ticker)
                 .setWhen(System.currentTimeMillis())
                 .setAutoCancel(true)
@@ -84,9 +80,8 @@ abstract class LiveRideState(protected val context: Context,
                 .setContentTitle(title)
                 .setContentText(text)
                 .setContentIntent(contentIntent)
-                .build()
 
-        nm().notify(NOTIFICATION_ID, notification)
+        nm().notify(NOTIFICATION_ID, notificationBuilder.build())
     }
 
     protected fun cancelNotification() {
