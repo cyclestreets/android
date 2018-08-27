@@ -109,7 +109,7 @@ internal abstract class LiveRideState(protected val context: Context,
     private fun speechify(words: String): String {
         return words
                 .replace("LiveRide", "Live Ride")
-                .replace("Live", "<speak xml:lang=\"en-US\"><phoneme alphabet=\"xsampa\" ph=\"la_Iv\"/></speak>")
-                .replace(Arrivee.ARRIVEE, "<speak xml:lang=\"en-US\"><phoneme alphabet=\"xsampa\" ph=\"ari:ve:\"/></speak>")
+                .replace("Live", "Lyve") // Otherwise some TTS engines pronounce as "lɪv" instead of "laɪv"
+                .replace(Arrivee.ARRIVEE, "arreev eh")
     }
 }
