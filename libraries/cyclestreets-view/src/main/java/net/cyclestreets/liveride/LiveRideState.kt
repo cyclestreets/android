@@ -32,13 +32,13 @@ private val TAG = Logging.getTag(LiveRideState::class.java)
 private const val NOTIFICATION_ID = 1
 
 internal abstract class LiveRideState(protected val context: Context,
-                                      val tts: TextToSpeech,
+                                      val tts: TextToSpeech?,
                                       private val title: String) {
     init {
         Log.d(TAG, "New State: " + this.javaClass.simpleName)
     }
 
-    protected constructor(context: Context, tts: TextToSpeech):
+    protected constructor(context: Context, tts: TextToSpeech?):
         this(context, tts, context.getString(R.string.app_name))
 
     protected constructor(state: LiveRideState):
@@ -103,7 +103,7 @@ internal abstract class LiveRideState(protected val context: Context,
     }
 
     private fun speak(words: String) {
-        tts.speak(speechify(words), TextToSpeech.QUEUE_ADD, null, null)
+        tts?.speak(speechify(words), TextToSpeech.QUEUE_ADD, null, null)
     }
 
     private fun speechify(words: String): String {
