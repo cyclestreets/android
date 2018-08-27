@@ -10,17 +10,11 @@ import android.view.ViewGroup
 import android.widget.BaseAdapter
 import android.widget.ImageView
 import android.widget.TextView
-import net.cyclestreets.CycleStreetsPreferences
-import net.cyclestreets.api.DistanceFormatter
 import net.cyclestreets.fragments.R
-import net.cyclestreets.routing.ElevationFormatter
-import net.cyclestreets.routing.Journey
 import net.cyclestreets.routing.Route
 import net.cyclestreets.routing.Segment
-import net.cyclestreets.util.StringUtils
 import net.cyclestreets.util.Theme
 import net.cyclestreets.util.TurnIcons
-import java.util.*
 
 internal class SegmentAdapter(context: Context) : BaseAdapter() {
     private val iconMappings: TurnIcons.Mapping = TurnIcons.LoadMapping(context)
@@ -59,7 +53,7 @@ internal class SegmentAdapter(context: Context) : BaseAdapter() {
         val highlight = position == Route.journey().activeSegmentIndex()
 
         if (position == 0) {
-            fillInOverview(Route.journey())
+            fillInOverview(Route.journey(), view, routeString)
         }
         setText(R.id.segment_distance, seg.distance(), highlight)
         setText(R.id.segment_cumulative_distance, seg.runningDistance(), highlight)
@@ -102,34 +96,5 @@ internal class SegmentAdapter(context: Context) : BaseAdapter() {
 
     private fun getTextView(id: Int): TextView? {
         return v!!.findViewById(id)
-    }
-
-    /////////////
-    // TODO: The methods below are duplicated in ElevationProfileFragment.java.  Commonise as default
-    //       interface methods once our minSdkVersion is >=24.
-    private fun distanceFormatter(): DistanceFormatter {
-        return DistanceFormatter.formatter(CycleStreetsPreferences.units())
-    }
-
-    private fun elevationFormatter(): ElevationFormatter {
-        return ElevationFormatter.formatter(CycleStreetsPreferences.units())
-    }
-
-    private fun fillInOverview(journey: Journey) {
-        val start = journey.segments().first()
-
-        setText(R.id.title, journey.name())
-        setText(R.id.journeyid, String.format(Locale.getDefault(), "#%,d", journey.itinerary()))
-        setText(R.id.routetype, StringUtils.initCap(journey.plan()) + " " + routeString + ":")
-        setText(R.id.distance, distanceFormatter().total_distance(journey.total_distance()))
-        setText(R.id.journeytime, start.totalTime())
-        setText(R.id.calories, start.calories())
-        setText(R.id.carbondioxide, start.co2())
-        setText(R.id.elevation_gain, elevationFormatter().height(journey.elevation().totalElevationGain()))
-        setText(R.id.elevation_loss, elevationFormatter().height(journey.elevation().totalElevationLoss()))
-    }
-
-    private fun setText(id: Int, text: String) {
-        getTextView(id)!!.text = text
     }
 }

@@ -54,7 +54,7 @@ class ElevationProfileFragment : Fragment(), Route.Listener {
 
     override fun onNewJourney(journey: Journey, waypoints: Waypoints) {
         drawGraph(journey)
-        fillInOverview(journey)
+        fillInOverview(journey, view!!, context!!.getString(R.string.elevation_route))
     }
 
     override fun onResetJourney() {}
@@ -99,38 +99,5 @@ class ElevationProfileFragment : Fragment(), Route.Listener {
                 if (value != 0.0) formatter.distance(value.toInt()) else ""
             else formatter.roundedHeight(value.toInt())
         }
-    }
-
-    fun getTextView(id: Int): TextView {
-        return view!!.findViewById(id)
-    }
-
-    /////////////
-    // TODO: The methods below are duplicated in ItineraryFragment.java.  Commonise as default
-    //       interface methods once our minSdkVersion is >=24.
-    private fun distanceFormatter(): DistanceFormatter {
-        return DistanceFormatter.formatter(CycleStreetsPreferences.units())
-    }
-
-    private fun elevationFormatter(): ElevationFormatter {
-        return ElevationFormatter.formatter(CycleStreetsPreferences.units())
-    }
-
-    private fun fillInOverview(journey: Journey) {
-        val start = journey.segments().first()
-
-        setText(R.id.title, journey.name())
-        setText(R.id.journeyid, String.format(Locale.getDefault(), "#%,d", journey.itinerary()))
-        setText(R.id.routetype, initCap(journey.plan()) + " " + context!!.getString(R.string.elevation_route) + ":")
-        setText(R.id.distance, distanceFormatter().total_distance(journey.total_distance()))
-        setText(R.id.journeytime, start.totalTime())
-        setText(R.id.calories, start.calories())
-        setText(R.id.carbondioxide, start.co2())
-        setText(R.id.elevation_gain, elevationFormatter().height(journey.elevation().totalElevationGain()))
-        setText(R.id.elevation_loss, elevationFormatter().height(journey.elevation().totalElevationLoss()))
-    }
-
-    private fun setText(id: Int, text: String) {
-        getTextView(id).text = text
     }
 }
