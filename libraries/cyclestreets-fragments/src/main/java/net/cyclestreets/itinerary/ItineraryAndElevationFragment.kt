@@ -8,7 +8,6 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
-import net.cyclestreets.ItineraryFragment
 
 import net.cyclestreets.fragments.R
 
