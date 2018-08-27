@@ -34,7 +34,7 @@ public abstract class ElevationFormatter {
       if (metres < 1000)
         return String.format(Locale.getDefault(), "%dm", roundDistance(metres));
 
-      float km = metres / 1000;
+      float km = metres / 1000f;
       if (km < 5)
         return String.format(Locale.getDefault(), "%.2fkm", km);
       else if (km < 20)
@@ -57,7 +57,6 @@ public abstract class ElevationFormatter {
   static private class ImperialFormatter extends ElevationFormatter {
     private static final double YARDS_PER_METRE = 1.0936133d;
     private static final double FEET_PER_METRE = 3.2808399d;
-    private static final int YARDS_PER_MILE = 1760;
 
     @Override
     public String height(int metres) {
@@ -80,7 +79,7 @@ public abstract class ElevationFormatter {
       if (yards <= 750)
         return String.format(Locale.getDefault(), "%d yards", roundDistance(yards));
 
-      float miles = yards / YARDS_PER_MILE;
+      float miles = yards / 1760f;
       if (miles < 5)
         return String.format(Locale.getDefault(), "%.2f miles", miles);
       else if (miles < 20)
