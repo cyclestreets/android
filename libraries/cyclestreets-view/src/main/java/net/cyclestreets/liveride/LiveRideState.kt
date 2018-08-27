@@ -78,7 +78,7 @@ internal abstract class LiveRideState(protected val context: Context,
                                                       PendingIntent.FLAG_CANCEL_CURRENT)
 
         val notificationBuilder = CycleStreetsNotifications.getBuilder(context, CHANNEL_LIVERIDE_ID)
-                .setSmallIcon(R.drawable.baseline_directions_bike_24px)
+                .setSmallIcon(R.drawable.baseline_directions_bike_24)
                 .setTicker(ticker)
                 .setWhen(System.currentTimeMillis())
                 .setAutoCancel(true)
