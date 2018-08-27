@@ -18,21 +18,21 @@ import net.cyclestreets.CycleStreetsNotifications.CHANNEL_LIVERIDE_ID
 import net.cyclestreets.util.Logging
 import net.cyclestreets.view.R
 
-fun initialState(context: Context): LiveRideState {
+internal fun initialState(context: Context): LiveRideState {
     val tts = TextToSpeech(context) { _ -> }
     return LiveRideStart(context, tts)
 }
 
-fun stoppedState(context: Context): LiveRideState {
+internal fun stoppedState(context: Context): LiveRideState {
     return Stopped(context)
 }
 
 private val TAG = Logging.getTag(LiveRideState::class.java)
 private const val NOTIFICATION_ID = 1
 
-abstract class LiveRideState(protected val context: Context,
-                             val tts: TextToSpeech,
-                             private val title: String) {
+internal abstract class LiveRideState(protected val context: Context,
+                                      val tts: TextToSpeech,
+                                      private val title: String) {
     init {
         Log.d(TAG, "New State: " + this.javaClass.simpleName)
     }
