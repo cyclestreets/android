@@ -24,15 +24,15 @@ public class LiveRideService extends Service implements LocationListener
   private LocationManager locationManager_;
   private Location lastLocation_;
   private LiveRideState stage_;
-  private static int updateDistance = 5;  // metres
-  private static int updateTime = 500;    // milliseconds
+  private static final int UPDATE_DISTANCE = 5;  // metres
+  private static final int UPDATE_TIME = 500;    // milliseconds
   private static final String TAG = Logging.getTag(LiveRideService.class);
 
   @Override
   public void onCreate() {
     binder_ = new Binding();
     locationManager_ = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
-    stage_ = LiveRideState.StoppedState(this);
+    stage_ = LiveRideStateKt.stoppedState(this);
   }
 
   @Override
@@ -61,16 +61,16 @@ public class LiveRideService extends Service implements LocationListener
       return;
     }
 
-    stage_ = LiveRideState.InitialState(this);
-    locationManager_.requestLocationUpdates(LocationManager.GPS_PROVIDER, updateTime, updateDistance, this);
+    stage_ = LiveRideStateKt.initialState(this);
+    locationManager_.requestLocationUpdates(LocationManager.GPS_PROVIDER, UPDATE_TIME, UPDATE_DISTANCE, this);
   }
 
   public void stopRiding() {
     if (stage_.isStopped())
       return;
-    stage_.tts().stop();
-    stage_.tts().shutdown();
-    stage_ = LiveRideState.StoppedState(this);
+    stage_.getTts().stop();
+    stage_.getTts().shutdown();
+    stage_ = LiveRideStateKt.stoppedState(this);
     locationManager_.removeUpdates(this);
   }
 
