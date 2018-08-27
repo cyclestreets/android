@@ -11,6 +11,7 @@ import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
+import android.graphics.drawable.Icon
 import android.speech.tts.TextToSpeech
 import android.util.Log
 
@@ -58,13 +59,18 @@ internal abstract class LiveRideState(protected val context: Context,
         speak(instruction.toString())
     }
 
+    protected fun notify(text: String, directionIcon: Int) {
+        notification(text, text, directionIcon)
+        speak(text)
+    }
+
     @JvmOverloads
     protected fun notify(text: String, ticker: String = text) {
         notification(text, ticker)
         speak(text)
     }
 
-    private fun notification(text: String, ticker: String) {
+    private fun notification(text: String, ticker: String, directionIcon: Int? = null) {
         val notificationIntent = Intent(context, LiveRideActivity::class.java)
         val contentIntent = PendingIntent.getActivity(context,
                                                       0,
@@ -80,6 +86,10 @@ internal abstract class LiveRideState(protected val context: Context,
                 .setContentTitle(title)
                 .setContentText(text)
                 .setContentIntent(contentIntent)
+
+        directionIcon?.let {
+            notificationBuilder.setLargeIcon(Icon.createWithResource(context, it))
+        }
 
         nm().notify(NOTIFICATION_ID, notificationBuilder.build())
     }
