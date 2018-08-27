@@ -80,7 +80,7 @@ class ElevationProfileFragment : Fragment(), Route.Listener {
         viewport.setMaxY(formatter.roundHeightAbove(journey.elevation().maximum()))
 
         val gridLabelRenderer = graphView.gridLabelRenderer
-        gridLabelRenderer.gridStyle = GridLabelRenderer.GridStyle.HORIZONTAL
+        gridLabelRenderer.gridStyle = GridLabelRenderer.GridStyle.BOTH
         gridLabelRenderer.numHorizontalLabels = 5
         gridLabelRenderer.numVerticalLabels = 5
         gridLabelRenderer.labelFormatter = ElevationLabelFormatter(formatter)
