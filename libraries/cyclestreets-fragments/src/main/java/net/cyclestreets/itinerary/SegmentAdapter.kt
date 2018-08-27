@@ -41,7 +41,7 @@ internal class SegmentAdapter(context: Context) : BaseAdapter() {
         return position.toLong()
     }
 
-    override fun getView(position: Int, convertView: View, parent: ViewGroup): View {
+    override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
         if (!hasSegments())
             return inflater.inflate(R.layout.itinerary_not_available, parent, false)
 
