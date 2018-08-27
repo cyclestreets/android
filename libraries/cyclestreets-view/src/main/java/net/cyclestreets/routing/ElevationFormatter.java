@@ -1,5 +1,7 @@
 package net.cyclestreets.routing;
 
+import java.util.Locale;
+
 public abstract class ElevationFormatter {
   public abstract String height(int metres);
   public abstract String roundedHeight(int metres);
@@ -19,7 +21,7 @@ public abstract class ElevationFormatter {
   private static class MetricFormatter extends ElevationFormatter {
     @Override
     public String height(int metres) {
-      return String.format("%dm", metres);
+      return String.format(Locale.getDefault(), "%dm", metres);
     }
 
     @Override
@@ -29,11 +31,16 @@ public abstract class ElevationFormatter {
 
     @Override
     public String distance(int metres) {
-      if (metres < 2000)
-        return String.format("%dm", round_distance(metres));
+      if (metres < 1000)
+        return String.format(Locale.getDefault(), "%dm", roundDistance(metres));
 
-      int km = metres / 1000;
-      return String.format("%dkm", km);
+      float km = metres / 1000;
+      if (km < 5)
+        return String.format(Locale.getDefault(), "%.2fkm", km);
+      else if (km < 20)
+        return String.format(Locale.getDefault(), "%.1fkm", km);
+      else
+        return String.format(Locale.getDefault(), "%dkm", (int)km);
     }
 
     @Override
@@ -50,11 +57,12 @@ public abstract class ElevationFormatter {
   static private class ImperialFormatter extends ElevationFormatter {
     private static final double YARDS_PER_METRE = 1.0936133d;
     private static final double FEET_PER_METRE = 3.2808399d;
+    private static final int YARDS_PER_MILE = 1760;
 
     @Override
     public String height(int metres) {
       int feet = (int)(metres * FEET_PER_METRE);
-      return String.format("%d ft", feet);
+      return String.format(Locale.getDefault(), "%d ft", feet);
     }
 
     @Override
@@ -63,16 +71,22 @@ public abstract class ElevationFormatter {
       // gridlines calculated from metre values may end up being e.g. 898ft instead of 900ft.
       // Therefore when labelling graph axes we round (N.B. not floor!) to the nearest 5.
       int feet = (int)(Math.round(metres * FEET_PER_METRE / 5.0) * 5);
-      return String.format("%d ft", feet);
+      return String.format(Locale.getDefault(), "%d ft", feet);
     }
 
     @Override
     public String distance(int metres) {
       int yards = (int)(metres * YARDS_PER_METRE);
       if (yards <= 750)
-        return String.format("%d yards", round_distance(yards));
-      int miles = yards / 1760;
-      return String.format("%d miles", miles);
+        return String.format(Locale.getDefault(), "%d yards", roundDistance(yards));
+
+      float miles = yards / YARDS_PER_MILE;
+      if (miles < 5)
+        return String.format(Locale.getDefault(), "%.2f miles", miles);
+      else if (miles < 20)
+        return String.format(Locale.getDefault(), "%.1f miles", miles);
+      else
+        return String.format(Locale.getDefault(), "%d miles", (int)miles);
     }
 
     @Override
@@ -90,7 +104,7 @@ public abstract class ElevationFormatter {
     }
   }
 
-  private static int round_distance(int units) {
+  private static int roundDistance(int units) {
     return (units < 500) ?
               (int)(units/5.0) * 5 :
               (int)(units/10.0) * 10;
