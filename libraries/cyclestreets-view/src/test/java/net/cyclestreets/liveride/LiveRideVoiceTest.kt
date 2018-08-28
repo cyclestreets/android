@@ -97,7 +97,7 @@ class LiveRideVoiceTest {
         move(-0.56665, 51.63393)
         verify("Get ready to Bear left then right")
         move(-0.56667, 51.63401)
-        verify("Bear left then right into London Road, A413.  Continue 1.32km")
+        verify("Bear left then right into London Road, A413. Continue 1330m")
     }
 
     @Test
