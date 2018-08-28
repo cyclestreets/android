@@ -3,6 +3,7 @@ package net.cyclestreets.routing
 import java.util.LinkedList
 
 import net.cyclestreets.util.Turn
+import net.cyclestreets.util.Turn.*
 import org.osmdroid.api.IGeoPoint
 
 class Segments : Iterable<Segment> {
@@ -15,6 +16,11 @@ class Segments : Iterable<Segment> {
     fun finishPoint(): IGeoPoint { return segments.last.finish() }
     fun first(): Segment.Start { return segments.first as Segment.Start }
     fun last(): Segment.End { return segments.last as Segment.End }
+
+    private val CROSSROAD_MELDS: Map<Pair<Turn, Turn>, Turn> = mapOf(
+        Pair(TURN_LEFT, TURN_RIGHT) to LEFT_RIGHT,
+        Pair(TURN_RIGHT, TURN_LEFT) to RIGHT_LEFT
+    )
 
     fun add(seg: Segment) {
         if (seg is Segment.Start) {
@@ -34,14 +40,9 @@ class Segments : Iterable<Segment> {
 
             // Meld staggered crossroads
             if (previous.distance_ < 20) {
-                if (Turn.TURN_LEFT == previous.turn && Turn.TURN_RIGHT == seg.turn) {
+                CROSSROAD_MELDS[Pair(previous.turn, seg.turn)]?.let {
                     segments.remove(previous)
-                    segments.add(Segment.Step(previous, seg, Turn.LEFT_RIGHT, Turn.LEFT_RIGHT.textInstruction))
-                    return
-                }
-                if (Turn.TURN_RIGHT == previous.turn && Turn.TURN_LEFT == seg.turn) {
-                    segments.remove(previous)
-                    segments.add(Segment.Step(previous, seg, Turn.RIGHT_LEFT, Turn.RIGHT_LEFT.textInstruction))
+                    segments.add(Segment.Step(previous, seg, it, it.textInstruction))
                     return
                 }
             }
