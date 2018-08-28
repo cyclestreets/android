@@ -6,6 +6,7 @@ import net.cyclestreets.TestUtils
 import net.cyclestreets.content.RouteData
 import net.cyclestreets.routing.Journey
 import net.cyclestreets.routing.Route
+import net.cyclestreets.util.TurnIcons
 import net.cyclestreets.view.BuildConfig
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Before
@@ -34,10 +35,11 @@ class LiveRideTest {
     @Before
     fun setUp() {
         CycleStreetsPreferences.initialise(roboContext, -1)
+        TurnIcons.initialise(roboContext)
 
         liveRideState = LiveRideStart(roboContext, mockTts)
         liveRideState = OnTheMove(liveRideState)
-        verify("Starting Live Ride")
+        verify("Starting Lyve Ride")
 
         Route.initialise(roboContext)
     }
@@ -58,6 +60,20 @@ class LiveRideTest {
         verify("Get ready to Straight on")
         move(0.12634, 52.21207)
         verify("Straight on into lcn (unknown cycle network). Continue 85m")
+    }
+
+    @Test
+    fun arrivee() {
+        loadJourneyFrom("journey-domain.json")
+        journey.setActiveSegmentIndex(66)
+        assertThat(journey.activeSegment().street()).isEqualTo("Thoday Street")
+
+        move(0.14748, 52.19967)
+        verify("You are approaching the arreev eh")
+        move(0.14744, 52.19962)
+        verify("Destination Thoday+Street")
+        move(0.14744, 52.19962)
+        verify("arreev eh")
     }
 
     @Test

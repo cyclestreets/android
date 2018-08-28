@@ -55,7 +55,8 @@ internal abstract class LiveRideState(protected val context: Context,
         if (seg.turn().isNotEmpty())
             instruction.append(seg.turn()).append(" into ")
         instruction.append(seg.street().replace("un-", "un").replace("Un-", "un"))
-        instruction.append(". Continue ").append(seg.distance())
+        if (seg.turn().isNotEmpty())
+            instruction.append(". Continue ").append(seg.distance())
         speak(instruction.toString())
     }
 
