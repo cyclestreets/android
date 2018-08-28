@@ -83,9 +83,9 @@ class LiveRideVoiceTest {
         assertThat(journey.activeSegment().street()).isEqualTo("Link with A38")
 
         move(-3.33022, 50.92086)
-        verify("Get ready to Turn right then left")
+        verify("Get ready to Turn right then turn left")
         move(-3.33019, 50.92081)
-        verify("Turn right then left into Broad Path. Continue 1000m")
+        verify("Turn right then turn left into Broad Path. Continue 1000m")
     }
 
     @Test
@@ -95,9 +95,9 @@ class LiveRideVoiceTest {
         assertThat(journey.activeSegment().street()).isEqualTo("London Road, A413")
 
         move(-0.56665, 51.63393)
-        verify("Get ready to Bear left then right")
+        verify("Get ready to Bear left then bear right")
         move(-0.56667, 51.63401)
-        verify("Bear left then right into London Road, A413. Continue 1330m")
+        verify("Bear left then bear right into London Road, A413. Continue 1330m")
     }
 
     @Test

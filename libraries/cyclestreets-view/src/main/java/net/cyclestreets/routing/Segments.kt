@@ -18,10 +18,10 @@ class Segments : Iterable<Segment> {
     fun last(): Segment.End { return segments.last as Segment.End }
 
     private val CROSSROAD_MELDS: Map<Pair<Turn, Turn>, Turn> = mapOf(
-        Pair(TURN_LEFT, TURN_RIGHT) to LEFT_RIGHT,
-        Pair(TURN_RIGHT, TURN_LEFT) to RIGHT_LEFT,
-        Pair(BEAR_LEFT, BEAR_RIGHT) to BEAR_LEFT_RIGHT,
-        Pair(BEAR_RIGHT, BEAR_LEFT) to BEAR_RIGHT_LEFT
+        Pair(TURN_LEFT, TURN_RIGHT) to TURN_LEFT_THEN_RIGHT,
+        Pair(TURN_RIGHT, TURN_LEFT) to TURN_RIGHT_THEN_LEFT,
+        Pair(BEAR_LEFT, BEAR_RIGHT) to BEAR_LEFT_THEN_RIGHT,
+        Pair(BEAR_RIGHT, BEAR_LEFT) to BEAR_RIGHT_THEN_LEFT
     )
 
     fun add(seg: Segment) {
