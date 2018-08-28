@@ -89,6 +89,18 @@ class LiveRideVoiceTest {
     }
 
     @Test
+    fun bearLeftThenRight() {
+        loadJourneyFrom("journey-bearleftright-domain.json")
+        journey.setActiveSegmentIndex(2)
+        assertThat(journey.activeSegment().street()).isEqualTo("London Road, A413")
+
+        move(-0.56665, 51.63393)
+        verify("Get ready to Bear left then right")
+        move(-0.56667, 51.63401)
+        verify("Bear left then right into London Road, A413.  Continue 1.32km")
+    }
+
+    @Test
     fun overBridge() {
         loadJourneyFrom("journey-overbridge-domain.json")
         journey.setActiveSegmentIndex(1)
