@@ -27,6 +27,7 @@ import android.support.design.widget.NavigationView.OnNavigationItemSelectedList
 import android.support.transition.Fade
 import net.cyclestreets.addphoto.AddPhotoFragment
 import net.cyclestreets.iconics.IconicsHelper.materialIcons
+import net.cyclestreets.itinerary.ItineraryAndElevationFragment
 
 private val TAG = Logging.getTag(MainNavDrawerActivity::class.java)
 private const val DRAWER_ITEMID_SELECTED_KEY = "DRAWER_ITEM_SELECTED"
