@@ -251,7 +251,7 @@ public class RecordingService extends Service implements LocationListener {
     final Intent notificationIntent = new Intent(this, activityClass_);
     final PendingIntent contentIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0);
 
-    Notification notification = CycleStreetsNotifications.getBuilder(this, CHANNEL_TRACK_ID)
+    Notification notification = CycleStreetsNotifications.INSTANCE.getBuilder(this, CHANNEL_TRACK_ID)
             .setSmallIcon(R.drawable.icon25)
             .setTicker(tickerText)
             .setWhen(java.lang.System.currentTimeMillis())

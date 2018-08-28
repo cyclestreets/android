@@ -41,7 +41,6 @@ public class LiveRideOverlay extends Overlay implements ServiceConnection
   private final int speedWidth_;
   private final int kmWidth_;
   private final int lineHeight_;
-  private final TurnIcons.Mapping iconMappings_;
   private final DistanceFormatter formatter_;
 
   public LiveRideOverlay(final Activity context, final View view) {
@@ -62,7 +61,6 @@ public class LiveRideOverlay extends Overlay implements ServiceConnection
     smallTextBrush_.setTextAlign(Align.LEFT);
     fillBrush_ = Brush.HighlightBrush(context);
 
-    iconMappings_ = TurnIcons.LoadMapping(context);
     formatter_ = DistanceFormatter.formatter(CycleStreetsPreferences.units());
 
     speedWidth_ = (int)largeTextBrush_.measureText("0.0");
@@ -109,7 +107,7 @@ public class LiveRideOverlay extends Overlay implements ServiceConnection
     drawThenShrink(canvas, box, Brush.White);
 
     final Segment nextSeg = Route.journey().nextSegment();
-    final Drawable turnIcon = iconMappings_.icon(nextSeg.turn());
+    final Drawable turnIcon = TurnIcons.icon(nextSeg.turn());
     turnIcon.setBounds(box);
     turnIcon.draw(canvas);
 
