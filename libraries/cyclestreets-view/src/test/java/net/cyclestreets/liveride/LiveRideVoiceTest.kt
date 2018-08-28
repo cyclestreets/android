@@ -23,7 +23,7 @@ import org.mockito.exceptions.verification.VerificationInOrderFailure
 
 @Config(constants = BuildConfig::class, manifest = Config.NONE, sdk = [27])
 @RunWith(RobolectricTestRunner::class)
-class LiveRideTest {
+class LiveRideVoiceTest {
 
     private lateinit var liveRideState: LiveRideState
     private lateinit var journey: Journey
