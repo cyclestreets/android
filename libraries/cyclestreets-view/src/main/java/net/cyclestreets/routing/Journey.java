@@ -13,6 +13,7 @@ import net.cyclestreets.CycleStreetsPreferences;
 import net.cyclestreets.routing.domain.GeoPointDeserializer;
 import net.cyclestreets.routing.domain.JourneyDomainObject;
 import net.cyclestreets.routing.domain.SegmentDomainObject;
+import net.cyclestreets.util.Turn;
 import org.osmdroid.api.IGeoPoint;
 
 public class Journey
@@ -161,6 +162,7 @@ public class Journey
         totalTime += seg.time;
         totalDistance += seg.distance;
         journey.segments_.add(new Segment.Step(seg.name,
+                                               Turn.turnFor(seg.turn),
                                                seg.turn,
                                                seg.shouldWalk,
                                                totalTime,

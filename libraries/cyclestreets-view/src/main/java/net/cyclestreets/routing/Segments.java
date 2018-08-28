@@ -1,10 +1,9 @@
 package net.cyclestreets.routing;
 
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedList;
-import java.util.List;
 
+import net.cyclestreets.util.Turn;
 import org.osmdroid.api.IGeoPoint;
 
 public class Segments implements Iterable<Segment>
@@ -28,8 +27,9 @@ public class Segments implements Iterable<Segment>
     }
 
     if (count() != 0) {
-      final Segment previous = segments.get(count()-1);
-      if ("join roundabout".equals(previous.turn().toLowerCase())) {
+      final Segment previous = segments.get(count() - 1);
+      // Some segment melding already exists here!
+      if (Turn.JOIN_ROUNDABOUT.equals(previous.turn())) {
         segments.remove(previous);
         segments.add(new Segment.Step(previous, seg));
         return;

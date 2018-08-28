@@ -8,12 +8,14 @@ import net.cyclestreets.util.Collections;
 import net.cyclestreets.util.GeoHelper;
 import net.cyclestreets.util.IterableIterator;
 
+import net.cyclestreets.util.Turn;
 import org.osmdroid.api.IGeoPoint;
 import org.osmdroid.util.GeoPoint;
 
 public abstract class Segment {
   protected final String name_;
-  protected final String turn_;
+  protected final Turn turn;
+  protected final String turnInstruction;
   protected final boolean walk_;
   protected final String running_time_;
   protected final int distance_;
@@ -23,7 +25,8 @@ public abstract class Segment {
   public static DistanceFormatter formatter = DistanceFormatter.formatter(CycleStreetsPreferences.units());
 
   Segment(final String name,
-          final String turn,
+          final Turn turn,
+          final String turnInstruction,
           final boolean walk,
           final int time,
           final int distance,
@@ -32,6 +35,7 @@ public abstract class Segment {
           final boolean terminal) {
     this(name,
          turn,
+         turnInstruction,
          walk,
          formatTime(time, terminal),
          distance,
@@ -41,7 +45,8 @@ public abstract class Segment {
   }
 
   Segment(final String name,
-          final String turn,
+          final Turn turn,
+          final String turnInstruction,
           final boolean walk,
           final String running_time,
           final int distance,
@@ -49,7 +54,8 @@ public abstract class Segment {
           final List<IGeoPoint> points,
           final boolean terminal) {
     name_ = name;
-    turn_ = initCap(turn);
+    this.turn = turn;
+    this.turnInstruction = initCap(turnInstruction);
     walk_ = walk;
     running_time_ = running_time;
     distance_ = distance;
@@ -96,8 +102,8 @@ public abstract class Segment {
 
   public String toString() {
     String s = name_;
-    if (turn_.length() != 0)
-      s = turn_ + " into " + name_;
+    if (turnInstruction.length() != 0)
+      s = turnInstruction + " into " + name_;
     if (walk())
       s += "\nPlease dismount and walk.";
     return s;
@@ -203,7 +209,8 @@ public abstract class Segment {
   }
 
   public String street() { return name_; }
-  public String turn() { return turn_; }
+  public Turn turn() { return turn; }
+  public String turnInstruction() { return turnInstruction; }
   public boolean walk() { return walk_; }
   public String runningTime() { return running_time_; }
   public String distance() { return formatter.distance(distance_); }
@@ -227,7 +234,7 @@ public abstract class Segment {
           final int calories,
           final int co2,
           final List<IGeoPoint> points) {
-      super(journey, "", false, total_time, 0, total_distance, points, true);
+      super(journey, Turn.turnFor(""), "", false, total_time, 0, total_distance, points, true);
       itinerary_ = itinerary;
       plan_ = plan;
       speed_ = speed;
@@ -277,7 +284,7 @@ public abstract class Segment {
       final int total_time,
       final int total_distance,
       final List<IGeoPoint> points) {
-      super("Destination " + destination, "", false, total_time, 0, total_distance, points, true);
+      super("Destination " + destination, Turn.turnFor(""), "", false, total_time, 0, total_distance, points, true);
       total_distance_ = total_distance;
     }
 
@@ -288,25 +295,29 @@ public abstract class Segment {
 
   public static class Step extends Segment  {
     public Step(final String name,
-       final String turn,
-       final boolean walk,
-       final int time,
-       final int distance,
-       final int running_distance,
-       final List<IGeoPoint> points) {
+                final Turn turn,
+                final String turnInstruction,
+                final boolean walk,
+                final int time,
+                final int distance,
+                final int running_distance,
+                final List<IGeoPoint> points) {
+
       super(name,
-          turn.length() != 0 ? turn.substring(0,1).toUpperCase() + turn.substring(1) : turn,
-          walk,
-          time,
-          distance,
-          running_distance,
-          points,
-          false);
+            turn,
+            turnInstruction,
+            walk,
+            time,
+            distance,
+            running_distance,
+            points,
+            false);
     }
 
     public Step(final Segment s1, final Segment s2) {
       super(s2.name_,
-            s2.turn_,
+            s2.turn,
+            s2.turnInstruction,
             s1.walk_ || s2.walk_,
             s2.running_time_,
             s1.distance_ + s2.distance_,
@@ -321,7 +332,8 @@ public abstract class Segment {
                    final int running_distance,
                    final IGeoPoint gp) {
       super("Waypoint " + count,
-            "Waymark",
+            Turn.WAYMARK,
+            Turn.WAYMARK.name(),
             false,
             0,
             0,

@@ -14,6 +14,7 @@ import net.cyclestreets.fragments.R
 import net.cyclestreets.routing.Route
 import net.cyclestreets.routing.Segment
 import net.cyclestreets.util.Theme
+import net.cyclestreets.util.Turn
 import net.cyclestreets.util.TurnIcons
 
 internal class SegmentAdapter(context: Context) : BaseAdapter() {
@@ -58,7 +59,7 @@ internal class SegmentAdapter(context: Context) : BaseAdapter() {
         setText(R.id.segment_cumulative_distance, seg.runningDistance(), highlight)
         setText(R.id.segment_time, seg.runningTime(), highlight)
 
-        setMainText(R.id.segment_street, seg.turn(), seg.street(), highlight)
+        setMainText(R.id.segment_street, seg.turnInstruction(), seg.street(), highlight)
         setTurnIcon(R.id.segment_type, seg.turn(), seg.walk())
 
         if (highlight && position != 0)
@@ -79,7 +80,7 @@ internal class SegmentAdapter(context: Context) : BaseAdapter() {
         setText(id, text, highlight)
     }
 
-    private fun setTurnIcon(id: Int, turn: String, walk: Boolean) {
+    private fun setTurnIcon(id: Int, turn: Turn, walk: Boolean) {
         val iv = v!!.findViewById<ImageView>(id) ?: return
 
         val icon = TurnIcons.icon(turn)
