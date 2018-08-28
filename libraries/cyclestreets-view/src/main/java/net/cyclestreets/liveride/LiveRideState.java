@@ -39,7 +39,7 @@ public abstract class LiveRideState
   protected LiveRideState(final Context context, final TextToSpeech tts) {
     context_ = context;
     tts_ = tts;
-    title_ = context.getString(context.getApplicationInfo().labelRes);
+    title_ = context.getString(R.string.app_name);
     Log.d("LiveRideState", "New State: " + this.getClass().getSimpleName());
   }
 
