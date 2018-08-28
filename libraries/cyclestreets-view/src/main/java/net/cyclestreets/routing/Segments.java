@@ -36,8 +36,8 @@ public class Segments implements Iterable<Segment>
         return;
       }
 
+      // Meld staggered crossroads
       if (previous.distance_ < 20) {
-        // Meld staggered crossroads
         if (Turn.TURN_LEFT.equals(previous.turn) && Turn.TURN_RIGHT.equals(seg.turn)) {
           segments.remove(previous);
           segments.add(new Segment.Step(previous, seg, Turn.LEFT_RIGHT, Turn.LEFT_RIGHT.getTextInstruction()));
@@ -48,6 +48,13 @@ public class Segments implements Iterable<Segment>
           segments.add(new Segment.Step(previous, seg, Turn.RIGHT_LEFT, Turn.RIGHT_LEFT.getTextInstruction()));
           return;
         }
+      }
+
+      // Meld bridges
+      if (previous.distance_ < 100 && "Bridge".equalsIgnoreCase(previous.name_) && seg.turn == Turn.STRAIGHT_ON) {
+        segments.remove(previous);
+        segments.add(new Segment.Step(previous, seg, previous.turn, previous.turnInstruction + " over Bridge"));
+        return;
       }
     }
 
