@@ -148,7 +148,7 @@ public class TripDataUploader extends AsyncTask<Void, Void, Boolean> {
     final Intent notificationIntent = new Intent(context_, TripDataUploader.class);
     final PendingIntent contentIntent = PendingIntent.getActivity(context_, 0, notificationIntent, PendingIntent.FLAG_CANCEL_CURRENT);
 
-    Notification notification = CycleStreetsNotifications.getBuilder(context_.getApplicationContext(), CHANNEL_TRACK_ID)
+    Notification notification = CycleStreetsNotifications.INSTANCE.getBuilder(context_.getApplicationContext(), CHANNEL_TRACK_ID)
             .setSmallIcon(R.drawable.icon25)
             .setTicker(text)
             .setWhen(java.lang.System.currentTimeMillis())

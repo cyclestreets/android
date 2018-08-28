@@ -81,7 +81,7 @@ public abstract class Segment {
 
   private static String formatTerminalTime(int hours, int minutes) {
     if (hours == 0)
-      return String.format("%d minutes", minutes);
+      return String.format("%d minute%s", minutes, (minutes != 1) ? "s" : "");
     String fraction = "";
     if (minutes > 52)
       ++hours;

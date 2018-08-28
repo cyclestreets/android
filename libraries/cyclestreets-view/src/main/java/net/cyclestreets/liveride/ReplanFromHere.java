@@ -22,7 +22,7 @@ final class ReplanFromHere extends LiveRideState implements Route.Listener
     Route.softRegisterListener(this);
     Route.PlotRoute(CycleStreetsPreferences.routeType(),
                     CycleStreetsPreferences.speed(),
-                    context(),
+                    getContext(),
                     Waypoints.fromTo(whereIam, finish));
   }
 

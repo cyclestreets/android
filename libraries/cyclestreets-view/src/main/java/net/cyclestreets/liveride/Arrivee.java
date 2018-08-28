@@ -6,16 +6,16 @@ import org.osmdroid.util.GeoPoint;
 
 final class Arrivee extends LiveRideState
 {
-  public static final String ARRIVERAI = "Arreeve eh";
+  public static final String ARRIVEE = "Arrivée";
 
   Arrivee(final LiveRideState previous) {
     super(previous);
-    notify(ARRIVERAI, "Arriv\u00e9e");
+    notify(ARRIVEE, ARRIVEE);
   }
 
   @Override
   public LiveRideState update(Journey journey, GeoPoint whereIam, int accuracy) {
-    return new Stopped(context());
+    return new Stopped(getContext());
   }
 
   @Override

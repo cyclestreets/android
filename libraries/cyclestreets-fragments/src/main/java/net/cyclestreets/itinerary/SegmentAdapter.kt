@@ -17,7 +17,6 @@ import net.cyclestreets.util.Theme
 import net.cyclestreets.util.TurnIcons
 
 internal class SegmentAdapter(context: Context) : BaseAdapter() {
-    private val iconMappings: TurnIcons.Mapping = TurnIcons.LoadMapping(context)
     private val footprints: Drawable = ResourcesCompat.getDrawable(context.resources, R.drawable.footprints, null)!!
     private val inflater: LayoutInflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
     private val themeColor: Drawable = ResourcesCompat.getDrawable(context.resources, R.color.apptheme_color, null)!!
@@ -83,15 +82,11 @@ internal class SegmentAdapter(context: Context) : BaseAdapter() {
     private fun setTurnIcon(id: Int, turn: String, walk: Boolean) {
         val iv = v!!.findViewById<ImageView>(id) ?: return
 
-        val icon = turnIcon(turn)
+        val icon = TurnIcons.icon(turn)
         iv.setImageDrawable(icon)
         iv.setBackgroundColor(backgroundColor)
         if (walk)
             iv.background = footprints
-    }
-
-    private fun turnIcon(turn: String): Drawable {
-        return iconMappings.icon(turn)
     }
 
     private fun getTextView(id: Int): TextView? {

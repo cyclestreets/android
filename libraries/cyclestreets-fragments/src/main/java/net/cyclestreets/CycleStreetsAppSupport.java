@@ -2,6 +2,8 @@ package net.cyclestreets;
 
 import net.cyclestreets.api.ApiClient;
 import net.cyclestreets.routing.Route;
+import net.cyclestreets.util.TurnIcons;
+
 import android.content.Context;
 import android.content.SharedPreferences;
 
@@ -11,8 +13,9 @@ public final class CycleStreetsAppSupport {
   private static String version_;
 
   public static void initialise(final Context context, final int prefsDefault) {
+    TurnIcons.initialise(context);
     CycleStreetsPreferences.initialise(context, prefsDefault);
-    CycleStreetsNotifications.initialise(context);
+    CycleStreetsNotifications.INSTANCE.initialise(context);
 
     Route.initialise(context);
     ApiClient.initialise(context);
