@@ -77,7 +77,7 @@ class LiveRideVoiceTest {
     }
 
     @Test
-    fun specificTurnIssues() {
+    fun rightThenLeft() {
         loadJourneyFrom("journey-rightleft-domain.json")
         journey.setActiveSegmentIndex(1)
         assertThat(journey.activeSegment().street()).isEqualTo("Link with A38")
@@ -91,6 +91,33 @@ class LiveRideVoiceTest {
         verify("Get ready to Turn left")
         move(-3.33019, 50.92081)
         verify("Turn left into Broad Path. Continue 990m")
+    }
+
+    @Test
+    fun overBridge() {
+        loadJourneyFrom("journey-overbridge-domain.json")
+        journey.setActiveSegmentIndex(1)
+        assertThat(journey.activeSegment().street()).isEqualTo("Link with B3390")
+
+        move(-2.26018, 50.74097)
+        verify("Get ready to Straight on")
+        move(-2.26058, 50.74058)
+        verify("Straight on into Bridge. Continue 20m")
+        move(-2.26058, 50.74058)
+        move(-2.26058, 50.74058)
+        verify("Get ready to Straight on")
+        move(-2.26085, 50.74045)
+        verify("Straight on into Short unnamed link. Continue 70m")
+        move(-2.2612, 50.74025)
+        move(-2.2612, 50.74025)
+        verify("Get ready to Bear left")
+        move(-2.26148, 50.73993)
+        verify("Bear left into Bridge. Continue 60m")
+        move(-2.26146, 50.7396)
+        move(-2.26146, 50.7396)
+        verify("Get ready to Straight on")
+        move(-2.26138, 50.73938)
+        verify("Straight on into Link with The Hollow. Continue 130m")
     }
 
     private fun loadJourneyFrom(domainJsonFile: String) {
