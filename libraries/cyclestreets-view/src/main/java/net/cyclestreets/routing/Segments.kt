@@ -19,7 +19,9 @@ class Segments : Iterable<Segment> {
 
     private val CROSSROAD_MELDS: Map<Pair<Turn, Turn>, Turn> = mapOf(
         Pair(TURN_LEFT, TURN_RIGHT) to LEFT_RIGHT,
-        Pair(TURN_RIGHT, TURN_LEFT) to RIGHT_LEFT
+        Pair(TURN_RIGHT, TURN_LEFT) to RIGHT_LEFT,
+        Pair(BEAR_LEFT, BEAR_RIGHT) to BEAR_LEFT_RIGHT,
+        Pair(BEAR_RIGHT, BEAR_LEFT) to BEAR_RIGHT_LEFT
     )
 
     fun add(seg: Segment) {
