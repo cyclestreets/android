@@ -1,8 +1,6 @@
 package net.cyclestreets.liveride
 
-import android.app.Notification
 import android.speech.tts.TextToSpeech
-import net.cyclestreets.CycleStreetsNotifications
 import net.cyclestreets.CycleStreetsPreferences
 import net.cyclestreets.TestUtils
 import net.cyclestreets.content.RouteData
@@ -32,33 +30,16 @@ class LiveRideTest {
     private val roboContext = ShadowApplication.getInstance().applicationContext
     private val mockTts = mock(TextToSpeech::class.java)
     private val inOrder = Mockito.inOrder(mockTts)
-    private val mockCycleStreetsNotifications = mock(CycleStreetsNotifications::class.java)
-    private val mockNotificationBuilder = mock(Notification.Builder::class.java)
-    private val mockNotification = mock(Notification::class.java)
 
     @Before
     fun setUp() {
-        setUpMocks()
         CycleStreetsPreferences.initialise(roboContext, -1)
 
-        liveRideState = LiveRideStart(roboContext, mockTts, mockCycleStreetsNotifications)
+        liveRideState = LiveRideStart(roboContext, mockTts)
         liveRideState = OnTheMove(liveRideState)
         verify("Starting Live Ride")
 
         Route.initialise(roboContext)
-    }
-
-    private fun setUpMocks() {
-        `when`(mockCycleStreetsNotifications.builder).thenReturn(mockNotificationBuilder)
-        `when`(mockNotificationBuilder.setSmallIcon(anyInt())).thenReturn(mockNotificationBuilder)
-        `when`(mockNotificationBuilder.setTicker(anyString())).thenReturn(mockNotificationBuilder)
-        `when`(mockNotificationBuilder.setWhen(anyLong())).thenReturn(mockNotificationBuilder)
-        `when`(mockNotificationBuilder.setAutoCancel(anyBoolean())).thenReturn(mockNotificationBuilder)
-        `when`(mockNotificationBuilder.setOngoing(anyBoolean())).thenReturn(mockNotificationBuilder)
-        `when`(mockNotificationBuilder.setContentTitle(any())).thenReturn(mockNotificationBuilder)
-        `when`(mockNotificationBuilder.setContentText(any())).thenReturn(mockNotificationBuilder)
-        `when`(mockNotificationBuilder.setContentIntent(any())).thenReturn(mockNotificationBuilder)
-        `when`(mockNotificationBuilder.build()).thenReturn(mockNotification)
     }
 
     @Test
@@ -116,5 +97,4 @@ class LiveRideTest {
             throw e
         }
     }
-
 }

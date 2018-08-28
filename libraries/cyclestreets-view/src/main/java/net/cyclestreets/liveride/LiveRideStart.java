@@ -1,6 +1,5 @@
 package net.cyclestreets.liveride;
 
-import net.cyclestreets.CycleStreetsNotifications;
 import net.cyclestreets.routing.Journey;
 
 import org.osmdroid.util.GeoPoint;
@@ -10,8 +9,8 @@ import android.speech.tts.TextToSpeech;
 
 final class LiveRideStart extends LiveRideState
 {
-  LiveRideStart(final Context context, final TextToSpeech tts, CycleStreetsNotifications cycleStreetsNotifications) {
-    super(context, tts, cycleStreetsNotifications);
+  LiveRideStart(final Context context, final TextToSpeech tts) {
+    super(context, tts);
     notify("Starting LiveRide", "Starting LiveRide");
   }
 

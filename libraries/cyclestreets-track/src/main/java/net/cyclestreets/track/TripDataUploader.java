@@ -32,12 +32,10 @@ public class TripDataUploader extends AsyncTask<Void, Void, Boolean> {
 
   private Context context_;
   private List<TripData> tripData_;
-  private CycleStreetsNotifications cycleStreetsNotifications;
 
   private TripDataUploader(final Context context, final List<TripData> tripData) {
     context_ = context;
     tripData_ = tripData;
-    cycleStreetsNotifications = new CycleStreetsNotifications(context.getApplicationContext(), CHANNEL_TRACK_ID);
   }
 
   protected Boolean doInBackground(Void... p) {
@@ -150,7 +148,7 @@ public class TripDataUploader extends AsyncTask<Void, Void, Boolean> {
     final Intent notificationIntent = new Intent(context_, TripDataUploader.class);
     final PendingIntent contentIntent = PendingIntent.getActivity(context_, 0, notificationIntent, PendingIntent.FLAG_CANCEL_CURRENT);
 
-    Notification notification = cycleStreetsNotifications.getBuilder()
+    Notification notification = CycleStreetsNotifications.getBuilder(context_.getApplicationContext(), CHANNEL_TRACK_ID)
             .setSmallIcon(R.drawable.icon25)
             .setTicker(text)
             .setWhen(java.lang.System.currentTimeMillis())

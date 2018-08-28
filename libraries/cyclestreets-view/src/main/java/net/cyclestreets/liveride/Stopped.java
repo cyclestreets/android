@@ -9,7 +9,7 @@ import android.content.Context;
 final class Stopped extends LiveRideState
 {
   Stopped(final Context context) {
-    super(context, null, null);
+    super(context, null);
     cancelNotification();
   }
 

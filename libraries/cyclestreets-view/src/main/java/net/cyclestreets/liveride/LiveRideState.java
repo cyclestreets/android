@@ -24,13 +24,11 @@ public abstract class LiveRideState
 
   private final Context context_;
   private final TextToSpeech tts_;
-  private final CycleStreetsNotifications cycleStreetsNotifications;
   private String title_;
 
   public static LiveRideState InitialState(final Context context) {
     final TextToSpeech tts = new TextToSpeech(context, arg0 -> { });
-    CycleStreetsNotifications csn = new CycleStreetsNotifications(context, CHANNEL_LIVERIDE_ID);
-    return new LiveRideStart(context, tts, csn);
+    return new LiveRideStart(context, tts);
   }
 
   public static LiveRideState StoppedState(final Context context) {
@@ -38,18 +36,16 @@ public abstract class LiveRideState
   }
   //////////////////////////////////////////
 
-  protected LiveRideState(final Context context, final TextToSpeech tts, CycleStreetsNotifications cycleStreetsNotifications) {
+  protected LiveRideState(final Context context, final TextToSpeech tts) {
     context_ = context;
     tts_ = tts;
     title_ = context.getString(R.string.app_name);
-    this.cycleStreetsNotifications = cycleStreetsNotifications;
     Log.d("LiveRideState", "New State: " + this.getClass().getSimpleName());
   }
 
   protected LiveRideState(final LiveRideState state) {
     context_ = state.context();
     tts_ = state.tts();
-    cycleStreetsNotifications = state.cycleStreetsNotifications;
     Log.d("LiveRideState", "State: " + this.getClass().getSimpleName());
   }
 
@@ -88,7 +84,7 @@ public abstract class LiveRideState
                                                                   notificationIntent,
                                                                   PendingIntent.FLAG_CANCEL_CURRENT);
 
-    Notification notification = cycleStreetsNotifications.getBuilder()
+    Notification notification = CycleStreetsNotifications.getBuilder(context(), CHANNEL_LIVERIDE_ID)
             .setSmallIcon(R.drawable.ic_launcher)
             .setTicker(ticker)
             .setWhen(System.currentTimeMillis())
