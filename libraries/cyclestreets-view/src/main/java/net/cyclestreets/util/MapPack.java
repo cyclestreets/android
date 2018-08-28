@@ -15,7 +15,7 @@ import android.os.Environment;
 
 public class MapPack
 {
-  private static String MAPSFORGE_VERSION = "0.9.1";
+  private static String MAPSFORGE_VERSION = "0.4.0";
 
   public static void searchGooglePlay(final Context context) {
     final Intent play = new Intent(Intent.ACTION_VIEW);
