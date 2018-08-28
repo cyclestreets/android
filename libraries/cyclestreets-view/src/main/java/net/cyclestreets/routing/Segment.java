@@ -314,10 +314,10 @@ public abstract class Segment {
             false);
     }
 
-    public Step(final Segment s1, final Segment s2) {
+    public Step(final Segment s1, final Segment s2, final Turn turn, final String turnInstruction) {
       super(s2.name_,
-            s2.turn,
-            s2.turnInstruction,
+            turn,
+            turnInstruction,
             s1.walk_ || s2.walk_,
             s2.running_time_,
             s1.distance_ + s2.distance_,

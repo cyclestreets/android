@@ -28,11 +28,26 @@ public class Segments implements Iterable<Segment>
 
     if (count() != 0) {
       final Segment previous = segments.get(count() - 1);
-      // Some segment melding already exists here!
-      if (Turn.JOIN_ROUNDABOUT.equals(previous.turn())) {
+
+      // Meld "Join Roundabout" instructions
+      if (Turn.JOIN_ROUNDABOUT.equals(previous.turn)) {
         segments.remove(previous);
-        segments.add(new Segment.Step(previous, seg));
+        segments.add(new Segment.Step(previous, seg, seg.turn, seg.turnInstruction));
         return;
+      }
+
+      if (previous.distance_ < 20) {
+        // Meld staggered crossroads
+        if (Turn.TURN_LEFT.equals(previous.turn) && Turn.TURN_RIGHT.equals(seg.turn)) {
+          segments.remove(previous);
+          segments.add(new Segment.Step(previous, seg, Turn.LEFT_RIGHT, Turn.LEFT_RIGHT.getTextInstruction()));
+          return;
+        }
+        if (Turn.TURN_RIGHT.equals(previous.turn) && Turn.TURN_LEFT.equals(seg.turn)) {
+          segments.remove(previous);
+          segments.add(new Segment.Step(previous, seg, Turn.RIGHT_LEFT, Turn.RIGHT_LEFT.getTextInstruction()));
+          return;
+        }
       }
     }
 

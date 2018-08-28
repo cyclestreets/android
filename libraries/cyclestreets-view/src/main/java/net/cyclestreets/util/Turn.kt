@@ -1,6 +1,6 @@
 package net.cyclestreets.util
 
-enum class Turn(private val textInstruction: String) {
+enum class Turn(val textInstruction: String) {
     STRAIGHT_ON("straight on"),
     BEAR_LEFT("bear left"),
     TURN_LEFT("turn left"),

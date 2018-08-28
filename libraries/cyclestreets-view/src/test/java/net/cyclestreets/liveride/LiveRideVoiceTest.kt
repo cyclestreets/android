@@ -65,7 +65,7 @@ class LiveRideVoiceTest {
     @Test
     fun arrivee() {
         loadJourneyFrom("journey-domain.json")
-        journey.setActiveSegmentIndex(66)
+        journey.setActiveSegmentIndex(journey.segments().count() - 2)
         assertThat(journey.activeSegment().street()).isEqualTo("Thoday Street")
 
         move(0.14748, 52.19967)
@@ -83,14 +83,9 @@ class LiveRideVoiceTest {
         assertThat(journey.activeSegment().street()).isEqualTo("Link with A38")
 
         move(-3.33022, 50.92086)
-        verify("Get ready to Turn right")
+        verify("Get ready to Turn right then left")
         move(-3.33019, 50.92081)
-        verify("Turn right into A38. Continue 15m")
-        move(-3.33019, 50.92081)
-        move(-3.33019, 50.92081)
-        verify("Get ready to Turn left")
-        move(-3.33019, 50.92081)
-        verify("Turn left into Broad Path. Continue 990m")
+        verify("Turn right then left into Broad Path. Continue 1000m")
     }
 
     @Test
