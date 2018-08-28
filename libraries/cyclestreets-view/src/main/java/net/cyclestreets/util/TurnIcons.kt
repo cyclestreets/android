@@ -24,6 +24,8 @@ object TurnIcons {
             SHARP_RIGHT to getDrawable(res, R.drawable.sharp_right),
             LEFT_RIGHT to getDrawable(res, R.drawable.left_right),
             RIGHT_LEFT to getDrawable(res, R.drawable.right_left),
+            BEAR_LEFT_RIGHT to getDrawable(res, R.drawable.bear_left_right),
+            BEAR_RIGHT_LEFT to getDrawable(res, R.drawable.bear_right_left),
             DOUBLE_BACK to getDrawable(res, R.drawable.double_back),
             JOIN_ROUNDABOUT to getDrawable(res, R.drawable.roundabout),
             FIRST_EXIT to getDrawable(res, R.drawable.first_exit),
