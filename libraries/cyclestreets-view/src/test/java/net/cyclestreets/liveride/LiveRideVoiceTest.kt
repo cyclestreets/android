@@ -39,7 +39,7 @@ class LiveRideVoiceTest {
 
         liveRideState = LiveRideStart(roboContext, mockTts)
         liveRideState = OnTheMove(liveRideState)
-        verify("Starting Lyv Ride")
+        verify("Starting Live Ride")
 
         Route.initialise(roboContext)
     }
