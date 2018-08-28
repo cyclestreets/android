@@ -147,8 +147,7 @@ public class Route
     return false;
   }
 
-  private static void doOnNewJourney(final RouteData route)
-      throws Exception {
+  private static void doOnNewJourney(final RouteData route) {
     if (route == null) {
       plannedRoute_ = Journey.NULL_JOURNEY;
       waypoints_ = Waypoints.NULL_WAYPOINTS;
