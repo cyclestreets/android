@@ -8,6 +8,8 @@ enum class Turn(private val textInstruction: String) {
     BEAR_RIGHT("bear right"),
     TURN_RIGHT("turn right"),
     SHARP_RIGHT("sharp right"),
+    LEFT_RIGHT("turn left then right"),
+    RIGHT_LEFT("turn right then left"),
     DOUBLE_BACK("double-back"),
     JOIN_ROUNDABOUT("join roundabout"),
     FIRST_EXIT("first exit"),
