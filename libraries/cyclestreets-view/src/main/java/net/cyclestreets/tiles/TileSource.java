@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.support.v7.preference.ListPreference;
 
 import net.cyclestreets.CycleStreetsPreferences;
+import net.cyclestreets.util.Logging;
 import net.cyclestreets.util.MapPack;
 import net.cyclestreets.util.MessageBox;
 import net.cyclestreets.util.Screen;
@@ -22,6 +23,9 @@ import java.util.List;
 import android.util.Log;
 
 public class TileSource {
+
+  private static final String TAG = Logging.getTag(TileSource.class);
+
   public static String mapAttribution() {
     try {
       return source(CycleStreetsPreferences.mapstyle()).attribution();
@@ -58,7 +62,7 @@ public class TileSource {
       return renderer;
     }
     catch (Exception e) {
-      Log.d("TileSource", e.getMessage());
+      Log.d(TAG, e.getMessage());
       // oh dear
     }
     CycleStreetsPreferences.resetMapstyle();
