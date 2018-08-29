@@ -162,6 +162,7 @@ public class Journey
         totalTime += seg.time;
         totalDistance += seg.distance;
         journey.segments_.add(new Segment.Step(seg.name,
+                                               seg.legNumber,
                                                Turn.turnFor(seg.turn),
                                                seg.turn,
                                                seg.shouldWalk,

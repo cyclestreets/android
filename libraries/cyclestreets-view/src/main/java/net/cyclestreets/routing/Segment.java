@@ -14,6 +14,7 @@ import org.osmdroid.util.GeoPoint;
 
 public abstract class Segment {
   protected final String name_;
+  protected final int legNumber;
   protected final Turn turn;
   protected final String turnInstruction;
   protected final boolean walk_;
@@ -25,6 +26,7 @@ public abstract class Segment {
   public static DistanceFormatter formatter = DistanceFormatter.formatter(CycleStreetsPreferences.units());
 
   Segment(final String name,
+          final int legNumber,
           final Turn turn,
           final String turnInstruction,
           final boolean walk,
@@ -34,6 +36,7 @@ public abstract class Segment {
           final List<IGeoPoint> points,
           final boolean terminal) {
     this(name,
+         legNumber,
          turn,
          turnInstruction,
          walk,
@@ -45,6 +48,7 @@ public abstract class Segment {
   }
 
   Segment(final String name,
+          final int legNumber,
           final Turn turn,
           final String turnInstruction,
           final boolean walk,
@@ -54,6 +58,7 @@ public abstract class Segment {
           final List<IGeoPoint> points,
           final boolean terminal) {
     name_ = name;
+    this.legNumber = legNumber;
     this.turn = turn;
     this.turnInstruction = initCap(turnInstruction);
     walk_ = walk;
@@ -209,6 +214,7 @@ public abstract class Segment {
   }
 
   public String street() { return name_; }
+  public int legNumber() { return legNumber; }
   public Turn turn() { return turn; }
   public String turnInstruction() { return turnInstruction; }
   public boolean walk() { return walk_; }
@@ -226,15 +232,15 @@ public abstract class Segment {
     private final int co2_;
 
     public Start(final int itinerary,
-          final String journey,
-          final String plan,
-          final int speed,
-          final int total_time,
-          final int total_distance,
-          final int calories,
-          final int co2,
-          final List<IGeoPoint> points) {
-      super(journey, Turn.turnFor(""), "", false, total_time, 0, total_distance, points, true);
+                 final String journey,
+                 final String plan,
+                 final int speed,
+                 final int total_time,
+                 final int total_distance,
+                 final int calories,
+                 final int co2,
+                 final List<IGeoPoint> points) {
+      super(journey, Integer.MIN_VALUE, Turn.turnFor(""), "", false, total_time, 0, total_distance, points, true);
       itinerary_ = itinerary;
       plan_ = plan;
       speed_ = speed;
@@ -284,7 +290,7 @@ public abstract class Segment {
       final int total_time,
       final int total_distance,
       final List<IGeoPoint> points) {
-      super("Destination " + destination, Turn.turnFor(""), "", false, total_time, 0, total_distance, points, true);
+      super("Destination " + destination, Integer.MAX_VALUE, Turn.turnFor(""), "", false, total_time, 0, total_distance, points, true);
       total_distance_ = total_distance;
     }
 
@@ -295,6 +301,7 @@ public abstract class Segment {
 
   public static class Step extends Segment  {
     public Step(final String name,
+                final int legNumber,
                 final Turn turn,
                 final String turnInstruction,
                 final boolean walk,
@@ -302,8 +309,8 @@ public abstract class Segment {
                 final int distance,
                 final int running_distance,
                 final List<IGeoPoint> points) {
-
       super(name,
+            legNumber,
             turn,
             turnInstruction,
             walk,
@@ -316,6 +323,7 @@ public abstract class Segment {
 
     public Step(final Segment s1, final Segment s2, final Turn turn, final String turnInstruction) {
       super(s2.name_,
+            s2.legNumber,
             turn,
             turnInstruction,
             s1.walk_ || s2.walk_,
@@ -328,10 +336,11 @@ public abstract class Segment {
   }
 
   public static class Waymark extends Segment  {
-    public Waymark(final int count,
+    public Waymark(final int endOfLegNumber,
                    final int running_distance,
                    final IGeoPoint gp) {
-      super("Waypoint " + count,
+      super("Waypoint " + endOfLegNumber,
+            endOfLegNumber,
             Turn.WAYMARK,
             Turn.WAYMARK.name(),
             false,
