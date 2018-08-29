@@ -9,10 +9,10 @@ internal class NearingTurn(previous: LiveRideState, journey: Journey) :
         MovingState(previous, CycleStreetsPreferences.turnNowDistance()) {
 
     init {
-        val turn: String? = journey.segments().get(journey.activeSegmentIndex() + 1).turn()
+        val segment = journey.segments().get(journey.activeSegmentIndex() + 1)
 
-        if (!turn.isNullOrEmpty()) {
-            notify("Get ready to $turn", TurnIcons.iconId(turn!!))
+        if (!segment.turnInstruction().isNullOrEmpty()) {
+            notify("Get ready to ${segment.turnInstruction()}", TurnIcons.iconId(segment.turn()))
         } else {
             notify("You are approaching the ${Arrivee.ARRIVEE}")
         }

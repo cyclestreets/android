@@ -65,7 +65,7 @@ class LiveRideVoiceTest {
     @Test
     fun arrivee() {
         loadJourneyFrom("journey-domain.json")
-        journey.setActiveSegmentIndex(66)
+        journey.setActiveSegmentIndex(journey.segments().count() - 2)
         assertThat(journey.activeSegment().street()).isEqualTo("Thoday Street")
 
         move(0.14748, 52.19967)
@@ -83,14 +83,21 @@ class LiveRideVoiceTest {
         assertThat(journey.activeSegment().street()).isEqualTo("Link with A38")
 
         move(-3.33022, 50.92086)
-        verify("Get ready to Turn right")
+        verify("Get ready to Turn right then turn left")
         move(-3.33019, 50.92081)
-        verify("Turn right into A38. Continue 15m")
-        move(-3.33019, 50.92081)
-        move(-3.33019, 50.92081)
-        verify("Get ready to Turn left")
-        move(-3.33019, 50.92081)
-        verify("Turn left into Broad Path. Continue 990m")
+        verify("Turn right then turn left into Broad Path. Continue 1000m")
+    }
+
+    @Test
+    fun bearLeftThenRight() {
+        loadJourneyFrom("journey-bearleftright-domain.json")
+        journey.setActiveSegmentIndex(2)
+        assertThat(journey.activeSegment().street()).isEqualTo("London Road, A413")
+
+        move(-0.56665, 51.63393)
+        verify("Get ready to Bear left then bear right")
+        move(-0.56667, 51.63401)
+        verify("Bear left then bear right into London Road, A413. Continue 1330m")
     }
 
     @Test
@@ -100,24 +107,14 @@ class LiveRideVoiceTest {
         assertThat(journey.activeSegment().street()).isEqualTo("Link with B3390")
 
         move(-2.26018, 50.74097)
-        verify("Get ready to Straight on")
+        verify("Get ready to Straight on over Bridge")
         move(-2.26058, 50.74058)
-        verify("Straight on into Bridge. Continue 20m")
-        move(-2.26058, 50.74058)
-        move(-2.26058, 50.74058)
-        verify("Get ready to Straight on")
-        move(-2.26085, 50.74045)
-        verify("Straight on into Short unnamed link. Continue 70m")
+        verify("Straight on over Bridge into Short unnamed link. Continue 95m")
         move(-2.2612, 50.74025)
         move(-2.2612, 50.74025)
-        verify("Get ready to Bear left")
+        verify("Get ready to Bear left over Bridge")
         move(-2.26148, 50.73993)
-        verify("Bear left into Bridge. Continue 60m")
-        move(-2.26146, 50.7396)
-        move(-2.26146, 50.7396)
-        verify("Get ready to Straight on")
-        move(-2.26138, 50.73938)
-        verify("Straight on into Link with The Hollow. Continue 130m")
+        verify("Bear left over Bridge into Link with The Hollow. Continue 195m")
     }
 
     private fun loadJourneyFrom(domainJsonFile: String) {
