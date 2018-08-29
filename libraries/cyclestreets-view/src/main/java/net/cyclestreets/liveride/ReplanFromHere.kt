@@ -1,11 +1,16 @@
 package net.cyclestreets.liveride
 
+import android.util.Log
 import net.cyclestreets.CycleStreetsPreferences
 import net.cyclestreets.routing.Journey
 import net.cyclestreets.routing.Route
+import net.cyclestreets.routing.Segment
 import net.cyclestreets.routing.Waypoints
+import net.cyclestreets.util.Logging
 
 import org.osmdroid.util.GeoPoint
+
+private val TAG = Logging.getTag(ReplanFromHere::class.java)
 
 internal class ReplanFromHere(previous: LiveRideState, whereIam: GeoPoint) : LiveRideState(previous), Route.Listener {
     private var next: LiveRideState? = null
@@ -15,13 +20,23 @@ internal class ReplanFromHere(previous: LiveRideState, whereIam: GeoPoint) : Liv
 
         next = this
 
-        val finish = Route.waypoints().last()
+        val activeSegment = Route.journey().activeSegment()
+        val remainingWaypoints: Waypoints = when (activeSegment) {
+            is Segment.Start ->  Route.waypoints().startingWith(whereIam)
+            is Segment.End -> Waypoints.fromTo(whereIam, Route.waypoints().last())
+            is Segment.Waymark -> Route.waypoints().from(activeSegment.legNumber()).startingWith(whereIam)
+            is Segment.Step -> Route.waypoints().from(activeSegment.legNumber()).startingWith(whereIam)
+            else -> {
+                Log.w(TAG, "Unexpected segment type ${activeSegment.javaClass}")
+                throw IllegalStateException("Unexpected segment type ${activeSegment.javaClass}")
+            }
+        }
         Route.softRegisterListener(this)
         Route.PlotRoute(
             CycleStreetsPreferences.routeType(),
             CycleStreetsPreferences.speed(),
             context,
-            Waypoints.fromTo(whereIam, finish)
+            remainingWaypoints
         )
     }
 
