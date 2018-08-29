@@ -17,12 +17,13 @@ import android.location.LocationManager
 import android.os.Binder
 import android.os.Bundle
 import android.os.IBinder
+import android.speech.tts.TextToSpeech
 
 private const val UPDATE_DISTANCE = 5f  // metres
 private const val UPDATE_TIME = 500L    // milliseconds
 private val TAG = Logging.getTag(LiveRideService::class.java)
 
-class LiveRideService : Service(), LocationListener {
+class LiveRideService : Service(), LocationListener, TextToSpeech.OnInitListener {
     private lateinit var binder: IBinder
     private lateinit var locationManager: LocationManager
     private var stage: LiveRideState? = null
@@ -58,7 +59,8 @@ class LiveRideService : Service(), LocationListener {
             return
         }
 
-        stage = initialState(this)
+        val tts = TextToSpeech(this, this)
+        stage = initialState(this, tts)
         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, UPDATE_TIME, UPDATE_DISTANCE, this)
     }
 
@@ -79,8 +81,14 @@ class LiveRideService : Service(), LocationListener {
         fun lastLocation(): Location? { return service().lastLocation }
     }
 
-    // ///////////////////////////////////////////////
-    // location listener
+    // TextToSpeech init listener
+    @SuppressLint("MissingPermission")
+    override fun onInit(status: Int) {
+        Log.i(TAG, "TextToSpeech init returned $status (where 0 = SUCCESS)")
+        onLocationChanged(locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER))
+    }
+
+    // Location listener
     override fun onLocationChanged(location: Location) {
         if (!Route.available()) {
             stopRiding()

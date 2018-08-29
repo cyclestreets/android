@@ -19,8 +19,7 @@ import net.cyclestreets.CycleStreetsNotifications.CHANNEL_LIVERIDE_ID
 import net.cyclestreets.util.Logging
 import net.cyclestreets.view.R
 
-internal fun initialState(context: Context): LiveRideState {
-    val tts = TextToSpeech(context) { _ -> }
+internal fun initialState(context: Context, tts: TextToSpeech): LiveRideState {
     return LiveRideStart(context, tts)
 }
 
