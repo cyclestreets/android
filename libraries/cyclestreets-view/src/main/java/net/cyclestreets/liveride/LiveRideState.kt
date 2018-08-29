@@ -19,8 +19,7 @@ import net.cyclestreets.CycleStreetsNotifications.CHANNEL_LIVERIDE_ID
 import net.cyclestreets.util.Logging
 import net.cyclestreets.view.R
 
-internal fun initialState(context: Context): LiveRideState {
-    val tts = TextToSpeech(context) { _ -> }
+internal fun initialState(context: Context, tts: TextToSpeech): LiveRideState {
     return LiveRideStart(context, tts)
 }
 
@@ -110,7 +109,6 @@ internal abstract class LiveRideState(protected val context: Context,
     private fun speechify(words: String): String {
         return words
                 .replace("LiveRide", "Live Ride")
-                .replace("Live", "Lyve") // Otherwise some TTS engines pronounce as "lɪv" instead of "laɪv"
                 .replace(Arrivee.ARRIVEE, "arreev eh")
     }
 }

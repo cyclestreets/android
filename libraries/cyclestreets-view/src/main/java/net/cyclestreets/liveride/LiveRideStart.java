@@ -16,7 +16,6 @@ final class LiveRideStart extends LiveRideState
 
   @Override
   public LiveRideState update(Journey journey, GeoPoint whereIam, int accuracy) {
-    notify("LiveRide", "LiveRide");
     journey.setActiveSegmentIndex(0);
     notify(journey.activeSegment());
     return new HuntForSegment(this);
