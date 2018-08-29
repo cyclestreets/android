@@ -58,7 +58,7 @@ class ReplanFromHereTest {
     @Test
     fun ifNoRemainingIntermediateWaypointsThenHeadForTheFinish() {
         loadJourneyFrom("journey-domain.json")
-        journey.setActiveSegmentIndex(35)
+        journey.setActiveSegmentIndex(34)
         assertThat(journey.activeSegment().street()).isEqualTo("Pye Alley")
         assertThat(journey.activeSegment().legNumber()).isEqualTo(2)
 
@@ -85,7 +85,7 @@ Journey time : 26 minutes""")
     @Test
     fun replanFromWaymarkKeepsAllWaypointsFromTheCurrentOne() {
         loadJourneyFrom("journey-domain.json")
-        journey.setActiveSegmentIndex(33)
+        journey.setActiveSegmentIndex(32)
         assertThat(journey.activeSegment().street()).isEqualTo("Waypoint 1")
         assertThat(journey.activeSegment().legNumber()).isEqualTo(1)
 
