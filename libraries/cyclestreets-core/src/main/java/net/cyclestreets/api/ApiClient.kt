@@ -23,24 +23,30 @@ interface CycleStreetsApi {
     fun getBlogEntries(): Blog
 }
 
-object ApiClient : CycleStreetsApi {
+object ApiClient : CycleStreetsApi by ApiClient.delegate {
     private const val API_HOST = "https://www.cyclestreets.net"
     private const val API_HOST_V2 = "https://api.cyclestreets.net"
 
-    private lateinit var retrofitApiClient: RetrofitApiClient
+    private lateinit var delegate: CycleStreetsApi
     private lateinit var messages: Map<Int, String>
     private var customiser: ApiCustomiser? = null
 
     fun initialise(context: Context) {
-        retrofitApiClient = RetrofitApiClient.Builder()
+        val retrofitApiClient = RetrofitApiClient.Builder()
             .withContext(context)
             .withApiKey(findApiKey(context))
             .withV1Host(API_HOST)
             .withV2Host(API_HOST_V2)
             .build()
+        delegate = ApiClientImpl(retrofitApiClient)
 
         POICategories.backgroundLoad()
         PhotomapCategories.backgroundLoad()
+        initMessages(context)
+    }
+
+    fun initialiseForTests(context: Context, delegate: CycleStreetsApi) {
+        this.delegate = delegate
         initMessages(context)
     }
 
@@ -75,9 +81,9 @@ object ApiClient : CycleStreetsApi {
             R.string.upload_error_prefix
         ).map { resId -> (resId to context.getString(resId)) }.toMap()
     }
+}
 
-    /////////////////////////////////////////////////////////////////////////
-
+private class ApiClientImpl(val retrofitApiClient: RetrofitApiClient): CycleStreetsApi {
     override fun getJourneyJson(plan: String,
                                 leaving: String,
                                 arriving: String,
