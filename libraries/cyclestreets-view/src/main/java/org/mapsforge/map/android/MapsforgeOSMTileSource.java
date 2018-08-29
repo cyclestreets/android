@@ -65,8 +65,6 @@ public class MapsforgeOSMTileSource implements ITileSource {
   private int northTileBounds_;
   private int tileSize_;
 
-  private static boolean firstTime = true;
-
   public MapsforgeOSMTileSource(final Context context,
                                 final String name,
                                 final String attribution,
@@ -77,11 +75,7 @@ public class MapsforgeOSMTileSource implements ITileSource {
     tileSize_ = upSize ? 512 : 256;
     displayModel_ = new FixedTileSizeDisplayModel(tileSize_);
 
-    if (firstTime) {
-      Application app = (Application)context.getApplicationContext();
-      AndroidGraphicFactory.createInstance(app);
-      firstTime = false;
-    }
+    setupGraphicsFactory(context);
   }
 
   public void setMapFile(final String mapFile) {
@@ -180,11 +174,24 @@ public class MapsforgeOSMTileSource implements ITileSource {
   @Override
   public String getTileRelativeFilenameString(final MapTile tile) { return null; }
 
+  ///////////
   private static int lon2XTile(final double lon, final int zoom) {
     return (int)Math.floor((lon + 180) / 360 * (1<<zoom)) ;
   }
 
   private static int lat2YTile(final double lat, final int zoom) {
     return (int)Math.floor((1 - Math.log(Math.tan(Math.toRadians(lat)) + 1 / Math.cos(Math.toRadians(lat))) / Math.PI) / 2 * (1<<zoom)) ;
+  }
+
+  ///////////
+  private static boolean firstTime = true;
+
+  private static void setupGraphicsFactory(Context context) {
+    if (!firstTime)
+      return;
+
+    Application app = (Application)context.getApplicationContext();
+    AndroidGraphicFactory.createInstance(app);
+    firstTime = false;
   }
 }
