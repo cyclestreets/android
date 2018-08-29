@@ -55,6 +55,57 @@ class ReplanFromHereTest {
         verify(mockApiClient, times(1)).getJourneyJson("balanced", null, null, 20, expectedWaypoints)
     }
 
+    @Test
+    fun ifNoRemainingIntermediateWaypointsThenHeadForTheFinish() {
+        loadJourneyFrom("journey-domain.json")
+        journey.setActiveSegmentIndex(35)
+        assertThat(journey.activeSegment().street()).isEqualTo("Pye Alley")
+        assertThat(journey.activeSegment().legNumber()).isEqualTo(2)
+
+        liveRideState = ReplanFromHere(liveRideState, GeoPoint(52.0, 0.0))
+
+        val expectedWaypoints: DoubleArray = doubleArrayOf(0.0, 52.0, 0.14744, 52.19962)
+        verify(mockApiClient, times(1)).getJourneyJson("balanced", null, null, 20, expectedWaypoints)
+    }
+
+    @Test
+    fun replanFromStartKeepsAllOriginalWaypoints() {
+        loadJourneyFrom("journey-domain.json")
+        journey.setActiveSegmentIndex(0)
+        assertThat(journey.activeSegment().street()).isEqualTo("""test route
+Quietest route : 6.25km
+Journey time : 26 minutes""")
+        assertThat(journey.activeSegment().legNumber()).isEqualTo(Int.MIN_VALUE)
+
+        liveRideState = ReplanFromHere(liveRideState, GeoPoint(52.0, 0.0))
+        val expectedWaypoints: DoubleArray = doubleArrayOf(0.0, 52.0, 0.11783, 52.20530, 0.13140, 52.22105, 0.14744, 52.19962)
+        verify(mockApiClient, times(1)).getJourneyJson("balanced", null, null, 20, expectedWaypoints)
+    }
+
+    @Test
+    fun replanFromWaymarkKeepsAllWaypointsFromTheCurrentOne() {
+        loadJourneyFrom("journey-domain.json")
+        journey.setActiveSegmentIndex(33)
+        assertThat(journey.activeSegment().street()).isEqualTo("Waypoint 1")
+        assertThat(journey.activeSegment().legNumber()).isEqualTo(1)
+
+        liveRideState = ReplanFromHere(liveRideState, GeoPoint(52.0, 0.0))
+        val expectedWaypoints: DoubleArray = doubleArrayOf(0.0, 52.0, 0.13140, 52.22105, 0.14744, 52.19962)
+        verify(mockApiClient, times(1)).getJourneyJson("balanced", null, null, 20, expectedWaypoints)
+    }
+
+    @Test
+    fun replanFromEndJustAimsForTheArrivee() {
+        loadJourneyFrom("journey-domain.json")
+        journey.setActiveSegmentIndex(journey.segments().count() - 1)
+        assertThat(journey.activeSegment().street()).isEqualTo("Destination Thoday+Street")
+        assertThat(journey.activeSegment().legNumber()).isEqualTo(Int.MAX_VALUE)
+
+        liveRideState = ReplanFromHere(liveRideState, GeoPoint(52.0, 0.0))
+        val expectedWaypoints: DoubleArray = doubleArrayOf(0.0, 52.0, 0.14744, 52.19962)
+        verify(mockApiClient, times(1)).getJourneyJson("balanced", null, null, 20, expectedWaypoints)
+    }
+
     private fun loadJourneyFrom(domainJsonFile: String) {
         val rawJson = TestUtils.fromResourceFile(domainJsonFile)
         val routeData = RouteData(rawJson, null, "test route")
