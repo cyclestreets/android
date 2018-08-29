@@ -6,7 +6,24 @@ import android.content.pm.PackageManager
 import net.cyclestreets.api.client.RetrofitApiClient
 import net.cyclestreets.core.R
 
-object ApiClient {
+interface CycleStreetsApi {
+    fun getJourneyJson(plan: String, leaving: String, arriving: String, speed: Int, lonLat: DoubleArray): String
+    fun getJourneyJson(plan: String, itineraryId: Long): String
+    fun getPhotomapCategories(): PhotomapCategories
+    fun getPhotos(e: Double, w: Double, n: Double, s: Double): Photos
+    fun getUserJourneys(username: String): UserJourneys
+    fun geoCoder(search: String, n: Double, s: Double, e: Double, w: Double): GeoPlaces
+    fun sendFeedback(itinerary: Int, comments: String, name: String, email: String): Result
+    fun uploadPhoto(filename: String, username: String, password: String, lon: Double, lat: Double, metaCat: String, category: String, dateTime: String, caption: String): Upload.Result
+    fun signin(username: String, password: String): Signin.Result
+    fun register(username: String, password: String, name: String, email: String): Result
+    fun getPOICategories(iconSize: Int): POICategories
+    fun getPOIs(key: String, lonE: Double, lonW: Double, latN: Double, latS: Double): List<POI>
+    fun getPOIs(key: String, lon: Double, lat: Double, radius: Int): List<POI>
+    fun getBlogEntries(): Blog
+}
+
+object ApiClient : CycleStreetsApi {
     private const val API_HOST = "https://www.cyclestreets.net"
     private const val API_HOST_V2 = "https://api.cyclestreets.net"
 
@@ -61,95 +78,95 @@ object ApiClient {
 
     /////////////////////////////////////////////////////////////////////////
 
-    fun getJourneyJson(plan: String,
-                       leaving: String,
-                       arriving: String,
-                       speed: Int,
-                       lonLat: DoubleArray): String {
+    override fun getJourneyJson(plan: String,
+                                leaving: String,
+                                arriving: String,
+                                speed: Int,
+                                lonLat: DoubleArray): String {
         val points = itineraryPoints(*lonLat)
         return retrofitApiClient.getJourneyJson(plan, points, leaving, arriving, speed)
     }
 
-    fun getJourneyJson(plan: String,
-                       itineraryId: Long): String {
+    override fun getJourneyJson(plan: String,
+                                itineraryId: Long): String {
         return retrofitApiClient.retrievePreviousJourneyJson(plan, itineraryId)
     }
 
-    fun getPhotomapCategories(): PhotomapCategories {
+    override fun getPhotomapCategories(): PhotomapCategories {
         return retrofitApiClient.photomapCategories
     }
 
-    fun getPhotos(e: Double,
-                  w: Double,
-                  n: Double,
-                  s: Double): Photos {
+    override fun getPhotos(e: Double,
+                           w: Double,
+                           n: Double,
+                           s: Double): Photos {
         return retrofitApiClient.getPhotos(w, s, e, n)
     }
 
-    fun getUserJourneys(username: String): UserJourneys {
+    override fun getUserJourneys(username: String): UserJourneys {
         return retrofitApiClient.getUserJourneys(username)
     }
 
-    fun geoCoder(search: String,
-                 n: Double,
-                 s: Double,
-                 e: Double,
-                 w: Double): GeoPlaces {
+    override fun geoCoder(search: String,
+                          n: Double,
+                          s: Double,
+                          e: Double,
+                          w: Double): GeoPlaces {
         return retrofitApiClient.geoCoder(search, w, s, e, n)
     }
 
-    fun sendFeedback(itinerary: Int,
-                     comments: String,
-                     name: String,
-                     email: String): Result {
+    override fun sendFeedback(itinerary: Int,
+                              comments: String,
+                              name: String,
+                              email: String): Result {
         return retrofitApiClient.sendFeedback(itinerary, comments, name, email)
     }
 
-    fun uploadPhoto(filename: String,
-                    username: String,
-                    password: String,
-                    lon: Double,
-                    lat: Double,
-                    metaCat: String,
-                    category: String,
-                    dateTime: String,
-                    caption: String): Upload.Result {
+    override fun uploadPhoto(filename: String,
+                             username: String,
+                             password: String,
+                             lon: Double,
+                             lat: Double,
+                             metaCat: String,
+                             category: String,
+                             dateTime: String,
+                             caption: String): Upload.Result {
         return retrofitApiClient.uploadPhoto(username, password, lon, lat, java.lang.Long.valueOf(dateTime),
                                              category, metaCat, caption, filename)
     }
 
-    fun signin(username: String,
-               password: String): Signin.Result {
+    override fun signin(username: String,
+                        password: String): Signin.Result {
         return retrofitApiClient.authenticate(username, password)
     }
 
-    fun register(username: String,
-                 password: String,
-                 name: String,
-                 email: String): Result {
+    override fun register(username: String,
+                          password: String,
+                          name: String,
+                          email: String): Result {
         return retrofitApiClient.register(username, password, name, email)
     }
 
-    fun getPOICategories(iconSize: Int): POICategories {
+    override fun getPOICategories(iconSize: Int): POICategories {
         return retrofitApiClient.getPOICategories(iconSize)
     }
 
-    fun getPOIs(key: String,
-                lonE: Double,
-                lonW: Double,
-                latN: Double,
-                latS: Double): List<POI> {
+    override fun getPOIs(key: String,
+                         lonE: Double,
+                         lonW: Double,
+                         latN: Double,
+                         latS: Double): List<POI> {
         return retrofitApiClient.getPOIs(key, lonW, latS, lonE, latN)
     }
 
-    fun getPOIs(key: String,
-                lon: Double,
-                lat: Double,
-                radius: Int): List<POI> {
+    override fun getPOIs(key: String,
+                         lon: Double,
+                         lat: Double,
+                         radius: Int): List<POI> {
         return retrofitApiClient.getPOIs(key, lon, lat, radius)
     }
 
-    fun getBlogEntries(): Blog {
+    override fun getBlogEntries(): Blog {
         return retrofitApiClient.blogEntries
     }
 
