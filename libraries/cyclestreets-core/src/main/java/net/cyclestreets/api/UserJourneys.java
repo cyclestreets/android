@@ -29,7 +29,7 @@ public final class UserJourneys implements Iterable<UserJourney> {
 
   public static UserJourneys load(final String username) {
     try {
-      return ApiClient.getUserJournies(username);
+      return ApiClient.INSTANCE.getUserJourneys(username);
     } catch (Exception e) {
       // let's come back
     }
