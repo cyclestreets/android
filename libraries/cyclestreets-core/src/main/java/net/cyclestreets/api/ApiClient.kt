@@ -7,7 +7,7 @@ import net.cyclestreets.api.client.RetrofitApiClient
 import net.cyclestreets.core.R
 
 interface CycleStreetsApi {
-    fun getJourneyJson(plan: String, leaving: String, arriving: String, speed: Int, lonLat: DoubleArray): String
+    fun getJourneyJson(plan: String, leaving: String?, arriving: String?, speed: Int, lonLat: DoubleArray): String
     fun getJourneyJson(plan: String, itineraryId: Long): String
     fun getPhotomapCategories(): PhotomapCategories
     fun getPhotos(e: Double, w: Double, n: Double, s: Double): Photos
@@ -23,7 +23,7 @@ interface CycleStreetsApi {
     fun getBlogEntries(): Blog
 }
 
-object ApiClient : CycleStreetsApi by ApiClient.delegate {
+object ApiClient : CycleStreetsApi {
     private const val API_HOST = "https://www.cyclestreets.net"
     private const val API_HOST_V2 = "https://api.cyclestreets.net"
 
@@ -81,12 +81,56 @@ object ApiClient : CycleStreetsApi by ApiClient.delegate {
             R.string.upload_error_prefix
         ).map { resId -> (resId to context.getString(resId)) }.toMap()
     }
+
+    override fun getJourneyJson(plan: String, leaving: String?, arriving: String?, speed: Int, lonLat: DoubleArray): String {
+        return delegate.getJourneyJson(plan, leaving, arriving, speed, lonLat)
+    }
+    override fun getJourneyJson(plan: String, itineraryId: Long): String {
+        return delegate.getJourneyJson(plan, itineraryId)
+    }
+    override fun getPhotomapCategories(): PhotomapCategories {
+        return delegate.getPhotomapCategories()
+    }
+    override fun getPhotos(e: Double, w: Double, n: Double, s: Double): Photos {
+        return delegate.getPhotos(w, e, n, s)
+    }
+    override fun getUserJourneys(username: String): UserJourneys {
+        return delegate.getUserJourneys(username)
+    }
+    override fun geoCoder(search: String, n: Double, s: Double, e: Double, w: Double): GeoPlaces {
+        return delegate.geoCoder(search, n, s, e, w)
+    }
+    override fun sendFeedback(itinerary: Int, comments: String, name: String, email: String): Result {
+        return delegate.sendFeedback(itinerary, comments, name, email)
+    }
+    override fun uploadPhoto(filename: String, username: String, password: String, lon: Double, lat: Double, metaCat: String, category: String, dateTime: String, caption: String): Upload.Result {
+        return delegate.uploadPhoto(filename, username, password, lon, lat, metaCat, category, dateTime, caption)
+    }
+    override fun signin(username: String, password: String): Signin.Result {
+        return delegate.signin(username, password)
+    }
+    override fun register(username: String, password: String, name: String, email: String): Result {
+        return delegate.register(username, password, name, email)
+    }
+    override fun getPOICategories(iconSize: Int): POICategories {
+        return getPOICategories(iconSize)
+    }
+    override fun getPOIs(key: String, lonE: Double, lonW: Double, latN: Double, latS: Double): List<POI> {
+        return getPOIs(key, lonE, lonW, latN, latS)
+    }
+    override fun getPOIs(key: String, lon: Double, lat: Double, radius: Int): List<POI> {
+        return getPOIs(key, lon, lat, radius)
+    }
+    override fun getBlogEntries(): Blog {
+        return getBlogEntries()
+    }
+
 }
 
 private class ApiClientImpl(val retrofitApiClient: RetrofitApiClient): CycleStreetsApi {
     override fun getJourneyJson(plan: String,
-                                leaving: String,
-                                arriving: String,
+                                leaving: String?,
+                                arriving: String?,
                                 speed: Int,
                                 lonLat: DoubleArray): String {
         val points = itineraryPoints(*lonLat)
