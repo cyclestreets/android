@@ -24,13 +24,8 @@ import android.view.ViewGroup
 
 import net.cyclestreets.util.MenuHelper.enableMenuItem
 import net.cyclestreets.util.MenuHelper.showMenuItem
-import android.R
 import net.cyclestreets.util.MessageBox
 import net.cyclestreets.util.GpsFileDownloader
-
-
-
-
 
 private val TAG = Logging.getTag(RouteMapFragment::class.java)
 
