@@ -63,7 +63,7 @@ public class RetrofitApiClient {
     Cache cache = new Cache(new File(context.getCacheDir(), CACHE_DIR_NAME), CACHE_MAX_SIZE_BYTES);
     OkHttpClient client = new OkHttpClient.Builder()
             .addInterceptor(new ApiKeyInterceptor(builder.apiKey))
-            .addInterceptor(new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
+            .addInterceptor(new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.NONE))
             .addNetworkInterceptor(new RewriteCacheControlInterceptor())
             .cache(cache)
             .build();
