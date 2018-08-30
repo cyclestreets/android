@@ -18,7 +18,7 @@ public final class CycleStreetsAppSupport {
     CycleStreetsNotifications.INSTANCE.initialise(context);
 
     Route.initialise(context);
-    ApiClient.initialise(context);
+    ApiClient.INSTANCE.initialise(context);
     BlogState.INSTANCE.initialise(context);
 
     version_ = version(context);

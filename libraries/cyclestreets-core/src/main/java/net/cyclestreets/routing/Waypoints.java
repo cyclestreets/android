@@ -44,9 +44,21 @@ public class Waypoints implements Iterable<IGeoPoint>
     return waypoints.iterator();
   }
 
+  @NonNull
   public Waypoints reversed() {
     final List<IGeoPoint> points = new ArrayList<>(waypoints);
     Collections.reverse(points);
     return new Waypoints(points);
+  }
+
+  @NonNull
+  public Waypoints from(int legNumber) {
+    return new Waypoints(waypoints.subList(legNumber, count()));
+  }
+
+  @NonNull
+  public Waypoints startingWith(IGeoPoint geopoint) {
+    waypoints.addFirst(geopoint);
+    return this;
   }
 }
