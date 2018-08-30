@@ -43,8 +43,8 @@ internal abstract class LiveRideState(protected val context: Context,
     protected constructor(state: LiveRideState):
         this(state.context, state.tts, state.title)
 
-    abstract val isStopped: Boolean
     abstract fun update(journey: Journey, whereIam: GeoPoint, accuracy: Int): LiveRideState
+    abstract val isStopped: Boolean
     abstract fun arePedalling(): Boolean
 
     protected fun notify(seg: Segment) {

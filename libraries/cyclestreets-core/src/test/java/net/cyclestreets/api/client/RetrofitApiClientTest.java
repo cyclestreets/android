@@ -33,7 +33,6 @@ import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 
 import java.io.File;
-import java.lang.reflect.Field;
 import java.util.Iterator;
 import java.util.List;
 
@@ -91,10 +90,8 @@ public class RetrofitApiClientTest {
     when(testContext.getString(R.string.signin_default_error)).thenReturn("Could not sign into CycleStreets.  Please check your username and password.");
     when(testContext.getString(R.string.upload_ok)).thenReturn("Your photo was uploaded successfully.");
     when(testContext.getString(R.string.upload_error_prefix)).thenReturn("There was a problem uploading your photo: \n");
-    // Use reflection to set context without doing full initialise
-    Field contextField = ApiClient.class.getDeclaredField("context");
-    contextField.setAccessible(true);
-    contextField.set(ApiClient.class, testContext);
+    // Initialise API Client messages without doing full initialise
+    ApiClient.INSTANCE.initMessages(testContext);
   }
 
   @Test

@@ -31,7 +31,7 @@ public class PhotomapCategories
 
   public static PhotomapCategories load() {
     try {
-      return ApiClient.getPhotomapCategories();
+      return ApiClient.INSTANCE.getPhotomapCategories();
     } catch (Exception e) {
       // ah
     }

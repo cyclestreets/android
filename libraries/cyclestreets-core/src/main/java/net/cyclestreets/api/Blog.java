@@ -42,7 +42,7 @@ public class Blog
 
   public static Blog load() {
     try {
-      return ApiClient.getBlogEntries();
+      return ApiClient.INSTANCE.getBlogEntries();
     }
     catch (Exception e) {
       // ah
