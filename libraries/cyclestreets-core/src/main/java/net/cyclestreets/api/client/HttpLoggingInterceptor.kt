@@ -18,10 +18,10 @@ class HttpLoggingInterceptor : Interceptor {
         val request = chain.request()
         val url = request.url().toString().replace(API_KEY_REGEX, "key=redacted")
 
-        Log.d(TAG, "Sending request $url with headers ${request.headers()}")
+        Log.d(TAG, "Sending request: $url with headers: ${request.headers()}")
         val response = chain.proceed(request)
 
-        Log.d(TAG, "Received ${StatusLine.get(response)} response for $url")
+        Log.d(TAG, "Received ${StatusLine.get(response)} response for: $url")
         return response
     }
 }
