@@ -36,7 +36,7 @@ private const val V1API_XML_JOLT_SPEC = """[{
         "*": {
           "type": {
             "route": { "@(2)": "route" },
-            "segment": { "@(2)": "segments" }
+            "segment": { "@(2)": "segments[]" }
           }
         }
       }
@@ -56,7 +56,7 @@ private const val V1API_JSON_JOLT_SPEC = """[{
         "\\@attributes": {
           "type": {
             "route": { "@(2)": "route" },
-            "segment": { "@(2)": "segments" }
+            "segment": { "@(2)": "segments[]" }
           }
         }
       }

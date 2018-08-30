@@ -134,7 +134,7 @@ public class Journey
       try {
         jdo = objectMapper.readValue(domainJson, JourneyDomainObject.class);
       } catch (IOException e) {
-        throw new RuntimeException("Coding error - unable to parse domain JSON");
+        throw new RuntimeException("Coding error - unable to parse domain JSON", e);
       }
 
       populateWaypoints(jdo);
