@@ -1,0 +1,74 @@
+{
+  "waypoints": [
+    {
+      "sequenceId": "1",
+      "longitude": "0.14771",
+      "latitude": "52.20004"
+    },
+    {
+      "sequenceId": "2",
+      "longitude": "0.14682",
+      "latitude": "52.19870"
+    }
+  ],
+  "route": {
+    "start": "Thoday Street",
+    "finish": "Thoday Street",
+    "startBearing": "0",
+    "startSpeed": "0",
+    "start_longitude": "0.14771",
+    "start_latitude": "52.20004",
+    "finish_longitude": "0.14682",
+    "finish_latitude": "52.19870",
+    "crow_fly_distance": "161",
+    "event": "depart",
+    "whence": "1535615311",
+    "speed": "20",
+    "itinerary": "63123653",
+    "clientRouteId": "0",
+    "plan": "balanced",
+    "note": "",
+    "length": "161",
+    "time": "45",
+    "busynance": "218",
+    "quietness": "74",
+    "signalledJunctions": "0",
+    "signalledCrossings": "0",
+    "west": "0.14682",
+    "south": "52.19870",
+    "east": "0.14771",
+    "north": "52.20004",
+    "name": "Thoday Street to Thoday Street",
+    "walk": "0",
+    "leaving": "2018-08-30 08:48:31",
+    "arriving": "2018-08-30 08:49:16",
+    "coordinates": "0.14771,52.20004 0.14748,52.19967 0.14714,52.19915 0.14707,52.19908 0.14704,52.19904 0.14682,52.19870",
+    "elevations": "14,15,15,15,15,16",
+    "distances": "44,62,9,5,41",
+    "grammesCO2saved": "30",
+    "calories": "4",
+    "edition": "routing180820",
+    "type": "route"
+  },
+  "segments": [
+    {
+      "name": "Thoday Street",
+      "legNumber": "1",
+      "distance": "161",
+      "time": "45",
+      "busynance": "218",
+      "flow": "with",
+      "walk": "0",
+      "signalledJunctions": "0",
+      "signalledCrossings": "0",
+      "turn": "",
+      "startBearing": "201",
+      "color": "#000000",
+      "points": "0.14771,52.20004 0.14748,52.19967 0.14714,52.19915 0.14707,52.19908 0.14704,52.19904 0.14682,52.19870",
+      "distances": "0,44,62,9,5,41",
+      "elevations": "14,15,15,15,15,16",
+      "provisionName": "Residential street",
+      "type": "segment"
+    }
+  ]
+}
