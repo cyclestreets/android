@@ -56,21 +56,19 @@ open class PlaceViewBase protected constructor(private val context_: Context, la
         textView = findViewById(R.id.placeBox)
         findViewById<ImageButton>(R.id.optionsBtn).setOnClickListener(this)
 
-        attrs?.getAttributeValue("http://schemas.android.com/apk/res/android", "hint")?.apply {
-            hint = this
+        attrs?.getAttributeValue("http://schemas.android.com/apk/res/android", "hint")?.let {
+            if (it.startsWith("@"))
+                textView.setHint(it.substring(1).toInt())
+            else
+                textView.hint = it
         }
         loadStrings(context_)
     }
 
     // Helper methods
-    var text: String?
-        get() = textView.text.toString()
-        set(text) = textView.setText(text)
-    var hint: String
-        get() = textView.hint.toString()
-        set(text) {
-            textView.hint = text
-        }
+    fun getText(): String? {
+        return textView.text.toString()
+    }
 
     interface OnResolveListener {
         fun onResolve(place: GeoPlace)
@@ -111,8 +109,8 @@ open class PlaceViewBase protected constructor(private val context_: Context, la
 
         if (textView.contact() != null)
             lookup(textView.contact(), listener)
-        else if (text != null)
-            lookup(text!!, listener)
+        else
+            getText()?.let { lookup(it, listener) }
     }
 
     fun addHistory(place: GeoPlace) {
