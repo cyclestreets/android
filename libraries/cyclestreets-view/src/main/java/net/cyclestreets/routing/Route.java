@@ -5,9 +5,11 @@ import java.util.List;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.Log;
 import android.widget.Toast;
 
 import net.cyclestreets.CycleStreetsPreferences;
+import net.cyclestreets.util.Logging;
 import net.cyclestreets.view.R;
 import net.cyclestreets.content.RouteData;
 import net.cyclestreets.content.RouteDatabase;
@@ -15,6 +17,8 @@ import net.cyclestreets.content.RouteSummary;
 
 public class Route
 {
+  private static final String TAG = Logging.getTag(Route.class);
+
   public interface Listener {
     void onNewJourney(final Journey journey, final Waypoints waypoints);
     void onResetJourney();
@@ -142,6 +146,7 @@ public class Route
       return true;
     }
     catch (Exception e) {
+      Log.w(TAG, "Route finding failed", e);
       Toast.makeText(context_, R.string.route_finding_failed, Toast.LENGTH_LONG).show();
     }
     return false;
