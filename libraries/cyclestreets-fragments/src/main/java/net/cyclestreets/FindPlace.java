@@ -52,7 +52,7 @@ public class FindPlace {
 
       builder.setPositiveButton(R.string.btn_find_place, MessageBox.NoAction);
 
-      place_ = (PlaceView) layout.findViewById(R.id.place);
+      place_ = layout.findViewById(R.id.place);
       place_.setBounds(boundingBox);
 
       listener_ = listener;
