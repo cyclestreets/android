@@ -27,18 +27,18 @@ public class LockScreenOnOverlay extends Overlay implements PauseResumeListener 
   private final CycleMapView mapView;
 
   private final FloatingActionButton screenLockButton;
-  private final Drawable locked;
-  private final Drawable unlocked;
+  private final Drawable on;
+  private final Drawable off;
 
   public LockScreenOnOverlay(final Context context, final CycleMapView mapView) {
     super();
     this.mapView = mapView;
 
-    locked = new IconicsDrawable(context)
-        .icon(GoogleMaterial.Icon.gmd_lock)
-        .color(Theme.lowlightColor(context))
+    on = new IconicsDrawable(context)
+        .icon(GoogleMaterial.Icon.gmd_lock_open)
+        .color(Theme.highlightColor(context))
         .sizeDp(24);
-    unlocked = new IconicsDrawable(context)
+    off = new IconicsDrawable(context)
         .icon(GoogleMaterial.Icon.gmd_lock_open)
         .color(Theme.lowlightColor(context))
         .sizeDp(24);
@@ -57,7 +57,7 @@ public class LockScreenOnOverlay extends Overlay implements PauseResumeListener 
 
   private void setScreenLockState(boolean state) {
     Log.d("LiveRide", "Setting keepScreenOn state to " + state);
-    screenLockButton.setImageDrawable(state ? locked : unlocked);
+    screenLockButton.setImageDrawable(state ? on : off);
     mapView.setKeepScreenOn(state);
   }
 
