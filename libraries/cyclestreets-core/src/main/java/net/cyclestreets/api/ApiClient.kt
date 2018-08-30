@@ -113,16 +113,16 @@ object ApiClient : CycleStreetsApi {
         return delegate.register(username, password, name, email)
     }
     override fun getPOICategories(iconSize: Int): POICategories {
-        return getPOICategories(iconSize)
+        return delegate.getPOICategories(iconSize)
     }
     override fun getPOIs(key: String, lonE: Double, lonW: Double, latN: Double, latS: Double): List<POI> {
-        return getPOIs(key, lonE, lonW, latN, latS)
+        return delegate.getPOIs(key, lonE, lonW, latN, latS)
     }
     override fun getPOIs(key: String, lon: Double, lat: Double, radius: Int): List<POI> {
-        return getPOIs(key, lon, lat, radius)
+        return delegate.getPOIs(key, lon, lat, radius)
     }
     override fun getBlogEntries(): Blog {
-        return getBlogEntries()
+        return delegate.getBlogEntries()
     }
 
 }
