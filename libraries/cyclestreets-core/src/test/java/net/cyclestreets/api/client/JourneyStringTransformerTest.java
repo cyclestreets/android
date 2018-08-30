@@ -19,12 +19,14 @@ import java.io.IOException;
 public class JourneyStringTransformerTest {
 
     private static String expectedJson;
+    private static String expectedSingleSegmentJson;
 
     @BeforeClass
     public static void setup() throws IOException {
         // We want to validate that transforming from either V1 API (XML or JSON) results in the
         // same domain JSON.
         expectedJson = TestUtils.fromResourceFile("journey-domain.json");
+        expectedSingleSegmentJson = TestUtils.fromResourceFile("journey-single-segment-domain.json");
     }
 
     @Test
@@ -39,6 +41,20 @@ public class JourneyStringTransformerTest {
         String inputJson = TestUtils.fromResourceFile("__files/journey-v1api.json");
         String outputJson = JourneyStringTransformerKt.fromV1ApiJson(inputJson);
         JSONAssert.assertEquals(expectedJson, outputJson, JSONCompareMode.STRICT);
+    }
+
+    @Test
+    public void singleSegmentXmlTransformation() throws IOException, JSONException {
+        String inputJson = TestUtils.fromResourceFile("__files/journey-v1api-single-segment.xml");
+        String outputJson = JourneyStringTransformerKt.fromV1ApiXml(inputJson);
+        JSONAssert.assertEquals(expectedSingleSegmentJson, outputJson, JSONCompareMode.STRICT);
+    }
+
+    @Test
+    public void singleSegmentJsonTransformation() throws IOException, JSONException {
+        String inputJson = TestUtils.fromResourceFile("__files/journey-v1api-single-segment.json");
+        String outputJson = JourneyStringTransformerKt.fromV1ApiJson(inputJson);
+        JSONAssert.assertEquals(expectedSingleSegmentJson, outputJson, JSONCompareMode.STRICT);
     }
 
     /**
