@@ -38,6 +38,7 @@ import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
 import okhttp3.RequestBody;
+import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.jackson.JacksonConverterFactory;
@@ -62,6 +63,7 @@ public class RetrofitApiClient {
     Cache cache = new Cache(new File(context.getCacheDir(), CACHE_DIR_NAME), CACHE_MAX_SIZE_BYTES);
     OkHttpClient client = new OkHttpClient.Builder()
             .addInterceptor(new ApiKeyInterceptor(builder.apiKey))
+            .addInterceptor(new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
             .addNetworkInterceptor(new RewriteCacheControlInterceptor())
             .cache(cache)
             .build();
