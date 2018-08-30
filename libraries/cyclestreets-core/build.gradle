@@ -21,7 +21,6 @@ dependencies {
     exclude group: 'stax', module: 'stax'
   }
   implementation 'com.squareup.retrofit2:converter-jackson:2.4.0'
-  implementation 'com.squareup.okhttp3:logging-interceptor:3.11.0'
   implementation 'de.grundid.opendatalab:geojson-jackson:1.8'
 
   // Jackson is already included transitively from multiple sources; we specify explicit versions
