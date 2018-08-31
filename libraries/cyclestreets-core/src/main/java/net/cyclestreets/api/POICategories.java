@@ -37,7 +37,7 @@ public class POICategories implements Iterable<POICategory> {
 
   public static POICategories load() {
     try {
-      return ApiClient.getPOICategories(IconSize);
+      return ApiClient.INSTANCE.getPOICategories(IconSize);
     } catch (Exception e) {
       // ah
     }
@@ -53,7 +53,7 @@ public class POICategories implements Iterable<POICategory> {
   private static class GetPOICategoriesTask extends AsyncTask<Void,Void,POICategories> {
     protected POICategories doInBackground(Void... params) {
       try {
-        return ApiClient.getPOICategories(POICategories.IconSize);
+        return ApiClient.INSTANCE.getPOICategories(POICategories.IconSize);
       } catch (final Exception ex) {
         // never mind, eh?
       }

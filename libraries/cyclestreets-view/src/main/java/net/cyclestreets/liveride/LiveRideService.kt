@@ -85,7 +85,7 @@ class LiveRideService : Service(), LocationListener, TextToSpeech.OnInitListener
     @SuppressLint("MissingPermission")
     override fun onInit(status: Int) {
         Log.i(TAG, "TextToSpeech init returned $status (where 0 = SUCCESS)")
-        onLocationChanged(locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER))
+        locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER)?.let { onLocationChanged(it) }
     }
 
     // Location listener
