@@ -1,0 +1,21 @@
+Features:
+-  Some closely-consecutive instructions (e.g. turn left, turn right) are now joined together to make live directions clearer
+-  Permissions to access contacts, location, and external storage are now requested only when needed
+-  Added partial translations for Deutsch, Español, Français, Italiano, Português, Русский, Türkçe
+-  Elevation view improvements: total elevation gain/loss displayed, graph scale improved
+-  POI bubbles now show phone and opening hours, where available
+-  Higher zoom levels now show more detail
+-  Some design modernisation - with much more to come in future releases soon
+-  "Share route" and "Comment on this route" features are now more accessible
+-  Lots of upgrading and improvement behind the scenes!
+
+Bug fixes:
+-  Live ride replanning (if you go off track) now keeps intermediate waypoints
+-  Take Photo functionality now more widely supported
+-  Map location no longer lost on app reload / orientation change
+-  If you previously had planned routes, but deleted all of them, don't crash on startup
+-  If no vector maps are available, app now defaults to OSM mapping, instead of crashing
+-  LiveRide says more than just "Get ready to" when approaching destination
+-  You can now undo placing the final waypoint
+
+Deprecation: Pebble is no longer supported.
