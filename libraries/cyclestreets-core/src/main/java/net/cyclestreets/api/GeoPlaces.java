@@ -33,9 +33,9 @@ public class GeoPlaces implements Iterable<GeoPlace>
   public static GeoPlaces search(final String searchTerm,
                                  final BoundingBox bounds) {
     return ApiClient.INSTANCE.geoCoder(searchTerm,
-                                       bounds.getLatNorth(),
+                                       bounds.getLonWest(),
                                        bounds.getLatSouth(),
                                        bounds.getLonEast(),
-                                       bounds.getLonWest());
+                                       bounds.getLatNorth());
   }
 }

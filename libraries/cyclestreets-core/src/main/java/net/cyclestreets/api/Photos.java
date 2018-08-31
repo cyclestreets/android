@@ -21,9 +21,9 @@ public class Photos implements Iterable<Photo> {
 
   /////////////////////////////////////////////////////////////
   public static Photos load(final BoundingBox boundingBox) {
-    return ApiClient.INSTANCE.getPhotos(boundingBox.getLonEast(),
-                                        boundingBox.getLonWest(),
-                                        boundingBox.getLatNorth(),
-                                        boundingBox.getLatSouth());
+    return ApiClient.INSTANCE.getPhotos(boundingBox.getLonWest(),
+                                        boundingBox.getLatSouth(),
+                                        boundingBox.getLonEast(),
+                                        boundingBox.getLatNorth());
   }
 }
