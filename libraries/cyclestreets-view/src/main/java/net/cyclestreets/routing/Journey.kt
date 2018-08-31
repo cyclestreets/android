@@ -4,6 +4,7 @@ import java.io.IOException
 import java.util.Arrays
 
 import android.text.TextUtils
+import android.util.Log
 import com.fasterxml.jackson.databind.DeserializationFeature
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.module.SimpleModule
@@ -12,8 +13,11 @@ import net.cyclestreets.CycleStreetsPreferences
 import net.cyclestreets.routing.domain.GeoPointDeserializer
 import net.cyclestreets.routing.domain.JourneyDomainObject
 import net.cyclestreets.routing.domain.SegmentDomainObject
+import net.cyclestreets.util.Logging
 import net.cyclestreets.util.Turn
 import org.osmdroid.api.IGeoPoint
+
+private val TAG = Logging.getTag(Journey::class.java)
 
 class Journey private constructor(wp: Waypoints? = null) {
     val waypoints: Waypoints = wp ?: Waypoints()
@@ -132,7 +136,7 @@ class Journey private constructor(wp: Waypoints? = null) {
                 totalDistance += sdo.distance
                 journey.segments.add(
                     Segment.Step(
-                        sdo.name,
+                        getStreetName(sdo.name),
                         sdo.legNumber,
                         Turn.turnFor(sdo.turn),
                         sdo.turn,
@@ -145,6 +149,17 @@ class Journey private constructor(wp: Waypoints? = null) {
                 )
                 journey.elevation.add(sdo.segmentProfile)
             }
+        }
+
+        private fun getStreetName(name: String): String {
+            // If "Link" appears three or more times, abbreviate! (https://github.com/cyclestreets/android/issues/305)
+            val split = name.split(", Link")
+            val numberOfLinks = split.size + 1
+            return if (numberOfLinks >= 3) {
+                val abbreviatedName = "${split.first()} and other streets"
+                Log.d(TAG, "Abbreviating long street name $name to $abbreviatedName")
+                abbreviatedName
+            } else name
         }
 
         private fun generateStartAndFinishSegments(jdo: JourneyDomainObject) {

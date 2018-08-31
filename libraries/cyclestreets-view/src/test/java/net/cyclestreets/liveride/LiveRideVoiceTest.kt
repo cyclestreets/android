@@ -117,6 +117,14 @@ class LiveRideVoiceTest {
         verify("Bear left over Bridge into Link with The Hollow. Continue 195m")
     }
 
+    @Test
+    fun longWindedRoadNameIsShortened() {
+        loadJourneyFrom("journey-longname-domain.json")
+        journey.setActiveSegmentIndex(14)
+        // Link joining Pedestrian Area, Link between Charlton Way, B210 and Pedestrian Area, Link joining Long Pond Road, General Wolfe Road, Pedestrian Area, Charlton Way, B210"
+        assertThat(journey.activeSegment()!!.street()).isEqualTo("Link joining Pedestrian Area and other streets")
+    }
+
     private fun loadJourneyFrom(domainJsonFile: String) {
         val rawJson = TestUtils.fromResourceFile(domainJsonFile)
         val routeData = RouteData(rawJson, null, "test route")
