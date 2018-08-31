@@ -1,13 +1,9 @@
 package net.cyclestreets
 
 import android.Manifest
-import net.cyclestreets.fragments.R
-
-import net.cyclestreets.views.CycleMapView
-
-import org.osmdroid.views.overlay.Overlay
-
+import android.content.pm.PackageManager
 import android.os.Bundle
+import android.preference.PreferenceManager
 import android.support.v4.app.Fragment
 import android.util.Log
 import android.view.LayoutInflater
@@ -16,15 +12,19 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
-import net.cyclestreets.util.Logging
 
+import net.cyclestreets.fragments.R
+import net.cyclestreets.util.Logging
 import net.cyclestreets.util.MenuHelper.createMenuItem
 import net.cyclestreets.util.MenuHelper.enableMenuItem
 import net.cyclestreets.util.doOrRequestPermission
-import android.content.pm.PackageManager
-import android.preference.PreferenceManager
+import net.cyclestreets.views.CycleMapView
+import net.cyclestreets.views.CycleMapView.FINDPLACE_ZOOM_LEVEL
+
 import org.osmdroid.config.Configuration
 import org.osmdroid.config.DefaultConfigurationProvider
+import org.osmdroid.views.overlay.Overlay
+
 import java.io.File
 import java.util.Date
 
@@ -135,8 +135,10 @@ open class CycleMapFragment : Fragment(), Undoable {
     }
 
     private fun launchFindDialog() {
-        FindPlace.launch(activity, map!!.boundingBox) {
-            place -> map!!.centreOn(place)
+        FindPlace.launch(activity, map!!.boundingBox) { place ->
+            map!!.centreOn(place)
+            if (map!!.zoomLevel < FINDPLACE_ZOOM_LEVEL)
+                map!!.controller.setZoom(FINDPLACE_ZOOM_LEVEL)
         }
     }
 
