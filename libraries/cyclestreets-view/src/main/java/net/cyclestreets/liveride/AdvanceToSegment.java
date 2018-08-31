@@ -9,7 +9,7 @@ final class AdvanceToSegment extends LiveRideState
 {
   AdvanceToSegment(final LiveRideState previous,
                    final Journey journey) {
-    this(previous, journey, journey.segments().get(journey.activeSegmentIndex()+1));
+    this(previous, journey, journey.getSegments().get(journey.activeSegmentIndex()+1));
   }
 
   AdvanceToSegment(final LiveRideState previous,

@@ -27,8 +27,8 @@ internal class ReplanFromHere(previous: LiveRideState, whereIam: GeoPoint) : Liv
             is Segment.Waymark -> Route.waypoints().from(activeSegment.legNumber()).startingWith(whereIam)
             is Segment.Step -> Route.waypoints().from(activeSegment.legNumber()).startingWith(whereIam)
             else -> {
-                Log.w(TAG, "Unexpected segment type ${activeSegment.javaClass}")
-                throw IllegalStateException("Unexpected segment type ${activeSegment.javaClass}")
+                Log.w(TAG, "Unexpected segment type ${activeSegment?.javaClass ?: "'null'"}")
+                throw IllegalStateException("Unexpected segment type ${activeSegment?.javaClass ?: "'null'"}")
             }
         }
         Route.softRegisterListener(this)

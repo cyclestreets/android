@@ -160,7 +160,7 @@ public class RouteOverlay extends Overlay implements PauseResumeListener, Route.
 
   @Override
   public void onNewJourney(final Journey journey, final Waypoints waypoints) {
-    setRoute(journey.segments());
+    setRoute(journey.getSegments());
   }
 
   @Override

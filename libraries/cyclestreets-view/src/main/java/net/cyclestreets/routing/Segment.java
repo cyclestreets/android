@@ -19,8 +19,8 @@ public abstract class Segment {
   protected final String turnInstruction;
   protected final boolean walk;
   protected final String runningTime;
-  protected final int distance;
-  protected final int cumulativeDistance; // up to the *END* of the segment
+  public final int distance;
+  public final int cumulativeDistance; // up to the *END* of the segment
   protected final List<IGeoPoint> points;
 
   public static DistanceFormatter formatter = DistanceFormatter.formatter(CycleStreetsPreferences.units());
@@ -188,9 +188,7 @@ public abstract class Segment {
     final IGeoPoint p1 = points.get(index);
     final IGeoPoint p2 = points.get(index + 1);
 
-    GeoHelper.AlongTrack alongTrack = GeoHelper.alongTrackOffset(p1, p2, location);
-
-    return alongTrack;
+    return GeoHelper.alongTrackOffset(p1, p2, location);
   }
 
   private int closestPoint(final GeoPoint location) {
@@ -231,15 +229,15 @@ public abstract class Segment {
     private final int calories;
     private final int co2;
 
-    public Start(final int itinerary,
-                 final String journey,
-                 final String plan,
-                 final int speed,
-                 final int totalTime,
-                 final int totalDistance,
-                 final int calories,
-                 final int co2,
-                 final List<IGeoPoint> points) {
+    Start(final int itinerary,
+          final String journey,
+          final String plan,
+          final int speed,
+          final int totalTime,
+          final int totalDistance,
+          final int calories,
+          final int co2,
+          final List<IGeoPoint> points) {
       super(journey, Integer.MIN_VALUE, Turn.turnFor(""), "", false, totalTime, 0, totalDistance, points, true);
       this.itinerary = itinerary;
       this.plan = plan;
@@ -300,15 +298,15 @@ public abstract class Segment {
   }
 
   public static class Step extends Segment  {
-    public Step(final String name,
-                final int legNumber,
-                final Turn turn,
-                final String turnInstruction,
-                final boolean walk,
-                final int time,
-                final int distance,
-                final int runningDistance,
-                final List<IGeoPoint> points) {
+    Step(final String name,
+         final int legNumber,
+         final Turn turn,
+         final String turnInstruction,
+         final boolean walk,
+         final int time,
+         final int distance,
+         final int runningDistance,
+         final List<IGeoPoint> points) {
       super(name,
             legNumber,
             turn,
@@ -321,7 +319,7 @@ public abstract class Segment {
             false);
     }
 
-    public Step(final Segment s1, final Segment s2, final Turn turn, final String turnInstruction) {
+    Step(final Segment s1, final Segment s2, final Turn turn, final String turnInstruction) {
       super(s2.name,
             s2.legNumber,
             turn,
@@ -336,9 +334,9 @@ public abstract class Segment {
   }
 
   public static class Waymark extends Segment  {
-    public Waymark(final int endOfLegNumber,
-                   final int runningDistance,
-                   final IGeoPoint gp) {
+    Waymark(final int endOfLegNumber,
+            final int runningDistance,
+            final IGeoPoint gp) {
       super("Waypoint " + endOfLegNumber,
             endOfLegNumber,
             Turn.WAYMARK,

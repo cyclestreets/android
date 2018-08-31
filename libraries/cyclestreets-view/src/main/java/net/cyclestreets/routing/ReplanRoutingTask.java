@@ -26,6 +26,6 @@ public class ReplanRoutingTask extends RoutingTask<Journey>
       return rd;
 
     publishProgress(R.string.route_finding_new);
-    return fetchRoute(newPlan_, pr.itinerary(), 0, pr.waypoints());
+    return fetchRoute(newPlan_, pr.itinerary(), 0, pr.getWaypoints());
   }
 }
