@@ -132,6 +132,7 @@ def signingKey(project) {
 
   project.play {
     track = 'beta'
+    uploadImages = true
   }
 
   project.android {
