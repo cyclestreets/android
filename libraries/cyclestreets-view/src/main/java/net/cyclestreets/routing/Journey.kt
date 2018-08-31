@@ -25,7 +25,7 @@ class Journey private constructor(wp: Waypoints? = null) {
         val NULL_JOURNEY: Journey = Journey()
         init { NULL_JOURNEY.activeSegment = -1 }
 
-        fun loadFromJson(domainJson: String, waypoints: Waypoints, name: String): Journey {
+        fun loadFromJson(domainJson: String, waypoints: Waypoints?, name: String?): Journey {
             return JourneyFactory(waypoints, name).parse(domainJson)
         }
     }
@@ -79,7 +79,7 @@ class Journey private constructor(wp: Waypoints? = null) {
     }
 
     ////////////////////////////////////////////////////////////////////////////////
-    private class JourneyFactory internal constructor(waypoints: Waypoints, private val name: String) {
+    private class JourneyFactory internal constructor(waypoints: Waypoints?, private val name: String?) {
         private val objectMapper = ObjectMapper()
         private val journey: Journey = Journey(waypoints)
 
