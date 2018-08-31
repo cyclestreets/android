@@ -56,7 +56,7 @@ public class Journey
   public String name() { return s().name(); }
   public String plan() { return s().plan(); }
   public int speed() { return s().speed(); }
-  public int total_distance() { return e().total_distance(); }
+  public int total_distance() { return e().totalDistance(); }
 
   /////////////////////////////////////////
   public void setActiveSegmentIndex(int index) { activeSegment_ = index; }

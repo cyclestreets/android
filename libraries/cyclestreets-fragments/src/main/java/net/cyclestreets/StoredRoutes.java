@@ -98,7 +98,7 @@ public class StoredRoutes {
 
       titleView.setText(summary.title());
       detailView.setText(context_.getString(R.string.storedroutes_detail_format, plan,
-                                            Segment.formatter.total_distance(summary.distance())));
+                                            Segment.formatter.totalDistance(summary.distance())));
 
       view.setOnClickListener(this);
       view.setOnLongClickListener(this);
