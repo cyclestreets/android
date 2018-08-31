@@ -1,5 +1,6 @@
 package net.cyclestreets.views.overlay;
 
+import android.widget.Toast;
 import net.cyclestreets.util.Theme;
 import net.cyclestreets.view.R;
 import net.cyclestreets.views.CycleMapView;
@@ -27,18 +28,18 @@ public class LockScreenOnOverlay extends Overlay implements PauseResumeListener 
   private final CycleMapView mapView;
 
   private final FloatingActionButton screenLockButton;
-  private final Drawable on;
-  private final Drawable off;
+  private final Drawable onIcon;
+  private final Drawable offIcon;
 
   public LockScreenOnOverlay(final Context context, final CycleMapView mapView) {
     super();
     this.mapView = mapView;
 
-    on = new IconicsDrawable(context)
+    onIcon = new IconicsDrawable(context)
         .icon(GoogleMaterial.Icon.gmd_lock_open)
         .color(Theme.highlightColor(context))
         .sizeDp(24);
-    off = new IconicsDrawable(context)
+    offIcon = new IconicsDrawable(context)
         .icon(GoogleMaterial.Icon.gmd_lock_open)
         .color(Theme.lowlightColor(context))
         .sizeDp(24);
@@ -48,7 +49,7 @@ public class LockScreenOnOverlay extends Overlay implements PauseResumeListener 
     screenLockButton.setOnClickListener(view -> screenLockButtonTapped());
     mapView.addView(liverideButtonView);
 
-    setScreenLockState(mapView.getKeepScreenOn());
+    mapView.setKeepScreenOn(false);
   }
 
   private void screenLockButtonTapped() {
@@ -57,7 +58,9 @@ public class LockScreenOnOverlay extends Overlay implements PauseResumeListener 
 
   private void setScreenLockState(boolean state) {
     Log.d("LiveRide", "Setting keepScreenOn state to " + state);
-    screenLockButton.setImageDrawable(state ? on : off);
+    screenLockButton.setImageDrawable(state ? onIcon : offIcon);
+    int message = state ? R.string.liveride_keep_screen_on_enabled : R.string.liveride_keep_screen_on_disabled;
+    Toast.makeText(mapView.getContext(), message, Toast.LENGTH_LONG).show();
     mapView.setKeepScreenOn(state);
   }
 
