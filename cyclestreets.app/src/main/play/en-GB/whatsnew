@@ -1,2 +1,12 @@
-Fixed Comment on this Route so you can, indeed, send a comment.
-Other small bug fixes.
+Closely-consecutive instructions (e.g. turn left, turn right) are now joined together to make live directions clearer.
+More waypoints - up to 30.
+Significant permissions now requested only when needed.
+Added a number of partial language translations.
+Elevation view improved.
+POI bubbles now show phone and opening hours, where available.
+Higher zoom levels now show more detail.
+Extensive design modernisation.
+
+Numerous bug fixes.
+
+Deprecation: Pebble is no longer supported.
