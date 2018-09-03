@@ -132,6 +132,8 @@ def signingKey(project) {
 
   project.play {
     track = 'beta'
+    // Uncomment the line below if you want to update the screenshots etc.
+    // uploadImages = true
   }
 
   project.android {

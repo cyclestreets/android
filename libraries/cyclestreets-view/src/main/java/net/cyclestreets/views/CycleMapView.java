@@ -40,6 +40,8 @@ import static net.cyclestreets.util.PermissionsKt.hasPermission;
 
 public class CycleMapView extends FrameLayout
 {
+  public static final int DEFAULT_ZOOM_LEVEL = 14;
+  public static final int FINDPLACE_ZOOM_LEVEL = 16;
   public static final int MAX_ZOOM_LEVEL = 19;
   private static final String TAG = Logging.getTag(CycleMapView.class);
 
@@ -172,7 +174,7 @@ public class CycleMapView extends FrameLayout
     GeoPoint defCentre = CycleMapDefaults.centre();
     int lat = pref(PREFS_APP_CENTRE_LAT, (int)(defCentre.getLatitude() * 1E6));
     int lon = pref(PREFS_APP_CENTRE_LON, (int)(defCentre.getLongitude() * 1E6));
-    int zoom = pref(PREFS_APP_ZOOM_LEVEL, 14);
+    int zoom = pref(PREFS_APP_ZOOM_LEVEL, DEFAULT_ZOOM_LEVEL);
     Log.d(TAG, "onResume: Loading lat/lon=" + lat + "/" + lon + ", zoom=" + zoom);
     final GeoPoint centre = new GeoPoint(lat / 1e6, lon / 1e6);
     getScroller().abortAnimation();

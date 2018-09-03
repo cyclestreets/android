@@ -10,15 +10,15 @@ interface CycleStreetsApi {
     fun getJourneyJson(plan: String, leaving: String?, arriving: String?, speed: Int, lonLat: DoubleArray): String
     fun getJourneyJson(plan: String, itineraryId: Long): String
     fun getPhotomapCategories(): PhotomapCategories
-    fun getPhotos(e: Double, w: Double, n: Double, s: Double): Photos
+    fun getPhotos(lonW: Double, latS: Double, lonE: Double, latN: Double): Photos
     fun getUserJourneys(username: String): UserJourneys
-    fun geoCoder(search: String, n: Double, s: Double, e: Double, w: Double): GeoPlaces
+    fun geoCoder(search: String, lonW: Double, latS: Double, lonE: Double, latN: Double): GeoPlaces
     fun sendFeedback(itinerary: Int, comments: String, name: String, email: String): Result
     fun uploadPhoto(filename: String, username: String, password: String, lon: Double, lat: Double, metaCat: String, category: String, dateTime: String, caption: String): Upload.Result
     fun signin(username: String, password: String): Signin.Result
     fun register(username: String, password: String, name: String, email: String): Result
     fun getPOICategories(iconSize: Int): POICategories
-    fun getPOIs(key: String, lonE: Double, lonW: Double, latN: Double, latS: Double): List<POI>
+    fun getPOIs(key: String, lonW: Double, latS: Double, lonE: Double, latN: Double): List<POI>
     fun getPOIs(key: String, lon: Double, lat: Double, radius: Int): List<POI>
     fun getBlogEntries(): Blog
 }
@@ -91,14 +91,14 @@ object ApiClient : CycleStreetsApi {
     override fun getPhotomapCategories(): PhotomapCategories {
         return delegate.getPhotomapCategories()
     }
-    override fun getPhotos(e: Double, w: Double, n: Double, s: Double): Photos {
-        return delegate.getPhotos(w, e, n, s)
+    override fun getPhotos(lonW: Double, latS: Double, lonE: Double, latN: Double): Photos {
+        return delegate.getPhotos(lonW, latS, lonE, latN)
     }
     override fun getUserJourneys(username: String): UserJourneys {
         return delegate.getUserJourneys(username)
     }
-    override fun geoCoder(search: String, n: Double, s: Double, e: Double, w: Double): GeoPlaces {
-        return delegate.geoCoder(search, n, s, e, w)
+    override fun geoCoder(search: String, lonW: Double, latS: Double, lonE: Double, latN: Double): GeoPlaces {
+        return delegate.geoCoder(search, lonW, latS, lonE, latN)
     }
     override fun sendFeedback(itinerary: Int, comments: String, name: String, email: String): Result {
         return delegate.sendFeedback(itinerary, comments, name, email)
@@ -115,8 +115,8 @@ object ApiClient : CycleStreetsApi {
     override fun getPOICategories(iconSize: Int): POICategories {
         return delegate.getPOICategories(iconSize)
     }
-    override fun getPOIs(key: String, lonE: Double, lonW: Double, latN: Double, latS: Double): List<POI> {
-        return delegate.getPOIs(key, lonE, lonW, latN, latS)
+    override fun getPOIs(key: String, lonW: Double, latS: Double, lonE: Double, latN: Double): List<POI> {
+        return delegate.getPOIs(key, lonW, latS, lonE, latN)
     }
     override fun getPOIs(key: String, lon: Double, lat: Double, radius: Int): List<POI> {
         return delegate.getPOIs(key, lon, lat, radius)
@@ -146,11 +146,11 @@ private class ApiClientImpl(val retrofitApiClient: RetrofitApiClient): CycleStre
         return retrofitApiClient.photomapCategories
     }
 
-    override fun getPhotos(e: Double,
-                           w: Double,
-                           n: Double,
-                           s: Double): Photos {
-        return retrofitApiClient.getPhotos(w, s, e, n)
+    override fun getPhotos(lonW: Double,
+                           latS: Double,
+                           lonE: Double,
+                           latN: Double): Photos {
+        return retrofitApiClient.getPhotos(lonW, latS, lonE, latN)
     }
 
     override fun getUserJourneys(username: String): UserJourneys {
@@ -158,11 +158,11 @@ private class ApiClientImpl(val retrofitApiClient: RetrofitApiClient): CycleStre
     }
 
     override fun geoCoder(search: String,
-                          n: Double,
-                          s: Double,
-                          e: Double,
-                          w: Double): GeoPlaces {
-        return retrofitApiClient.geoCoder(search, w, s, e, n)
+                          lonW: Double,
+                          latS: Double,
+                          lonE: Double,
+                          latN: Double): GeoPlaces {
+        return retrofitApiClient.geoCoder(search, lonW, latS, lonE, latN)
     }
 
     override fun sendFeedback(itinerary: Int,
@@ -202,10 +202,10 @@ private class ApiClientImpl(val retrofitApiClient: RetrofitApiClient): CycleStre
     }
 
     override fun getPOIs(key: String,
-                         lonE: Double,
                          lonW: Double,
-                         latN: Double,
-                         latS: Double): List<POI> {
+                         latS: Double,
+                         lonE: Double,
+                         latN: Double): List<POI> {
         return retrofitApiClient.getPOIs(key, lonW, latS, lonE, latN)
     }
 
