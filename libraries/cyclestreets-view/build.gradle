@@ -8,6 +8,7 @@ dependencies {
 
   api 'com.mikepenz:iconics-core:3.0.4@aar'
   api 'com.mikepenz:google-material-typeface:3.0.1.2.original@aar'
+  api 'ru.ztrap.iconics:core-kt:1.0.2'
 
   api "com.android.support:appcompat-v7:$supportLibraryVersion"
   api "com.android.support:design:$supportLibraryVersion"

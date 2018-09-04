@@ -61,8 +61,7 @@ abstract class MainNavDrawerActivity : AppCompatActivity(), OnNavigationItemSele
         setContentView(R.layout.main_navdrawer_activity)
 
         val (burgerIcon, addPhotoIcon, blogIcon, settingsIcon) =
-                materialIcons(context = this, size = 24,
-                              icons = listOf(Icon.gmd_menu, Icon.gmd_add_a_photo, Icon.gmd_chat, Icon.gmd_settings))
+            materialIcons(context = this, icons = listOf(Icon.gmd_menu, Icon.gmd_add_a_photo, Icon.gmd_chat, Icon.gmd_settings))
         burgerIcon.setTint(resources.getColor(R.color.cs_primary_material_light, null))
 
         drawerLayout = findViewById(R.id.drawer_layout)
