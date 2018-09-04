@@ -1,14 +1,22 @@
 package net.cyclestreets
 
+import android.content.Intent
 import android.os.Bundle
 
-class CycleStreets : MainNavDrawerActivity(), RouteMapActivity {
+class CycleStreets : MainNavDrawerActivity(), RouteMapActivity, PhotoMapActivity {
     public override fun onCreate(savedInstanceState: Bundle?) {
         MainSupport.switchMapFile(intent)
 
         super.onCreate(savedInstanceState)
 
-        MainSupport.loadRoute(intent, this)
+        MainSupport.handleLaunchIntent(intent, this)
+    }
+
+    override fun onNewIntent(intent: Intent?) {
+        super.onNewIntent(intent)
+        intent?.let {
+            MainSupport.handleLaunchIntent(it, this)
+        }
     }
 
     override fun onFirstRun() {
@@ -19,7 +27,11 @@ class CycleStreets : MainNavDrawerActivity(), RouteMapActivity {
         Welcome.whatsNew(this)
     }
 
-    override fun showMap() {
+    override fun showRouteMap() {
         showPage(R.id.nav_journey_planner)
+    }
+
+    override fun showPhotoMap() {
+        showPage(R.id.nav_photomap)
     }
 }

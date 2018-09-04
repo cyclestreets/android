@@ -8,16 +8,19 @@ import org.osmdroid.util.BoundingBox;
 import org.osmdroid.views.overlay.OverlayItem;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
+import android.support.annotation.NonNull;
 
 import net.cyclestreets.DisplayPhoto;
 import net.cyclestreets.api.Photo;
 import net.cyclestreets.api.PhotoMarkers;
 import net.cyclestreets.api.Photos;
+import net.cyclestreets.photos.IndividualPhoto;
 import net.cyclestreets.views.CycleMapView;
 
-public class PhotosOverlay extends LiveItemOverlay<PhotosOverlay.PhotoItem> {
+public class PhotosOverlay extends LiveItemOverlay<PhotosOverlay.PhotoItem> implements PauseResumeListener, IndividualPhoto.Listener {
   public static class PhotoItem extends OverlayItem {
     private final Photo photo_;
     private final PhotoMarkers photoMarkers_;
@@ -74,6 +77,24 @@ public class PhotosOverlay extends LiveItemOverlay<PhotosOverlay.PhotoItem> {
 
     context_ = mapView.getContext();
     photoMarkers_ = new PhotoMarkers(context_.getResources());
+  }
+
+  /////////////////////////////////////////////////////
+  @Override
+  public void onResume(SharedPreferences prefs) {
+    IndividualPhoto.INSTANCE.registerListener(this);
+  }
+
+  @Override
+  public void onPause(SharedPreferences.Editor prefs) {
+    IndividualPhoto.INSTANCE.unregisterListener(this);
+  }
+
+  ///////////////////////////////////////////////////
+  @Override
+  public void onPhotoLoaded(@NonNull Photo photo) {
+    centreOn(photo.position());
+    DisplayPhoto.launch(photo, context_);
   }
 
   ///////////////////////////////////////////////////

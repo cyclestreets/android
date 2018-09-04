@@ -136,7 +136,7 @@ public class RetrofitApiClient {
   }
 
   public String retrievePreviousJourneyJson(final String plan,
-                                           final long itineraryId) throws IOException {
+                                            final long itineraryId) throws IOException {
     Response<String> response = v1Api.retrievePreviousJourneyJson(plan, itineraryId).execute();
     return JourneyStringTransformerKt.fromV1ApiJson(response.body());
   }
@@ -194,6 +194,11 @@ public class RetrofitApiClient {
                           final double latN) throws IOException {
     String bbox = toBboxString(lonW, latS, lonE, latN);
     Response<FeatureCollection> response = v2Api.getPhotos(bbox).execute();
+    return PhotosFactory.toPhotos(response.body());
+  }
+
+  public Photos getPhoto(final long photoId) throws IOException {
+    Response<FeatureCollection> response = v2Api.getPhoto(photoId).execute();
     return PhotosFactory.toPhotos(response.body());
   }
 
