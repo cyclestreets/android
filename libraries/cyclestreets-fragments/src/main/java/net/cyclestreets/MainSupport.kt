@@ -1,5 +1,6 @@
 package net.cyclestreets
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
@@ -21,7 +22,7 @@ object MainSupport {
         return true
     }
 
-    fun handleLaunchIntent(intent: Intent, context: Context): Boolean {
+    fun handleLaunchIntent(intent: Intent, activity: Activity): Boolean {
         val launchUri = intent.data ?: return false
         Log.d(TAG, "Handling launch intent with URI: $launchUri")
 
@@ -30,13 +31,15 @@ object MainSupport {
         when(launchIntent.type) {
             JOURNEY -> {
                 Log.d(TAG, "Loading journey #${launchIntent.id}")
+                (activity as RouteMapActivity).showRouteMap()
                 Route.FetchRoute(CycleStreetsPreferences.routeType(),
                                  launchIntent.id,
                                  CycleStreetsPreferences.speed(),
-                                 context)
+                                 activity as Context)
             }
             LOCATION -> {
                 Log.d(TAG, "Loading location #${launchIntent.id}")
+                (activity as PhotoMapActivity).showPhotoMap()
                 TODO()
             }
         }

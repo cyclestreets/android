@@ -1,5 +1,5 @@
 package net.cyclestreets;
 
 public interface RouteMapActivity {
-  void showMap();
+  void showRouteMap();
 }

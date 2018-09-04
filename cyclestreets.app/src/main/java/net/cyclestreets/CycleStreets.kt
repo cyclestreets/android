@@ -2,7 +2,7 @@ package net.cyclestreets
 
 import android.os.Bundle
 
-class CycleStreets : MainNavDrawerActivity(), RouteMapActivity {
+class CycleStreets : MainNavDrawerActivity(), RouteMapActivity, PhotoMapActivity {
     public override fun onCreate(savedInstanceState: Bundle?) {
         MainSupport.switchMapFile(intent)
 
@@ -19,7 +19,11 @@ class CycleStreets : MainNavDrawerActivity(), RouteMapActivity {
         Welcome.whatsNew(this)
     }
 
-    override fun showMap() {
+    override fun showRouteMap() {
         showPage(R.id.nav_journey_planner)
+    }
+
+    override fun showPhotoMap() {
+        showPage(R.id.nav_photomap)
     }
 }
