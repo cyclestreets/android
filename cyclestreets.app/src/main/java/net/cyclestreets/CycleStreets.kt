@@ -1,5 +1,6 @@
 package net.cyclestreets
 
+import android.content.Intent
 import android.os.Bundle
 
 class CycleStreets : MainNavDrawerActivity(), RouteMapActivity, PhotoMapActivity {
@@ -9,6 +10,13 @@ class CycleStreets : MainNavDrawerActivity(), RouteMapActivity, PhotoMapActivity
         super.onCreate(savedInstanceState)
 
         MainSupport.handleLaunchIntent(intent, this)
+    }
+
+    override fun onNewIntent(intent: Intent?) {
+        super.onNewIntent(intent)
+        intent?.let {
+            MainSupport.handleLaunchIntent(it, this)
+        }
     }
 
     override fun onFirstRun() {
