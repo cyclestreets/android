@@ -20,13 +20,12 @@ import android.graphics.Rect;
 
 import net.cyclestreets.util.Brush;
 import net.cyclestreets.views.CycleMapView;
+import static net.cyclestreets.views.CycleMapView.ITEM_ZOOM_LEVEL;
 
 public abstract class LiveItemOverlay<T extends OverlayItem>
           extends ItemizedOverlay<T>
           implements MapListener
 {
-  /////////////////////////////////////////////////////
-  /////////////////////////////////////////////////////
   private final CycleMapView mapView_;
   private int zoomLevel_;
   private boolean loading_;
@@ -59,6 +58,10 @@ public abstract class LiveItemOverlay<T extends OverlayItem>
   protected Paint textBrush() { return textBrush_; }
   protected int offset() { return offset_; }
   protected float cornerRadius() { return radius_; }
+
+  protected void centreOn(IGeoPoint geoPoint) {
+    mapView_.centreOn(geoPoint, ITEM_ZOOM_LEVEL);
+  }
 
   @Override
   public void draw(final Canvas canvas, final MapView mapView, final boolean shadow) {

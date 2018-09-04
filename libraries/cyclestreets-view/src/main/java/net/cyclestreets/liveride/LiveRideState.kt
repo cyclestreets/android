@@ -1,11 +1,17 @@
 package net.cyclestreets.liveride
 
 import net.cyclestreets.CycleStreetsNotifications
+import net.cyclestreets.CycleStreetsNotifications.CHANNEL_LIVERIDE_ID
 import net.cyclestreets.LiveRideActivity
+import net.cyclestreets.iconics.IconicsHelper
 import net.cyclestreets.routing.Journey
 import net.cyclestreets.routing.Segment
+import net.cyclestreets.util.Logging
+import net.cyclestreets.view.R
 
+import com.mikepenz.google_material_typeface_library.GoogleMaterial
 import org.osmdroid.util.GeoPoint
+import ru.ztrap.iconics.kt.toAndroidIconCompat
 
 import android.app.NotificationManager
 import android.app.PendingIntent
@@ -14,10 +20,6 @@ import android.content.Intent
 import android.graphics.drawable.Icon
 import android.speech.tts.TextToSpeech
 import android.util.Log
-
-import net.cyclestreets.CycleStreetsNotifications.CHANNEL_LIVERIDE_ID
-import net.cyclestreets.util.Logging
-import net.cyclestreets.view.R
 
 internal fun initialState(context: Context, tts: TextToSpeech): LiveRideState {
     return LiveRideStart(context, tts)
@@ -48,14 +50,14 @@ internal abstract class LiveRideState(protected val context: Context,
     abstract fun arePedalling(): Boolean
 
     protected fun notify(seg: Segment) {
-        notification(seg.street() + " " + seg.distance(), seg.toString())
+        notification(seg.street() + " " + seg.formattedDistance(), seg.toString())
 
         val instruction = StringBuilder()
         if (seg.turnInstruction().isNotEmpty())
             instruction.append(seg.turnInstruction()).append(" into ")
         instruction.append(seg.street().replace("un-", "un").replace("Un-", "un"))
         if (seg.turnInstruction().isNotEmpty())
-            instruction.append(". Continue ").append(seg.distance())
+            instruction.append(". Continue ").append(seg.formattedDistance())
         speak(instruction.toString())
     }
 
@@ -78,7 +80,7 @@ internal abstract class LiveRideState(protected val context: Context,
                                                       PendingIntent.FLAG_CANCEL_CURRENT)
 
         val notificationBuilder = CycleStreetsNotifications.getBuilder(context, CHANNEL_LIVERIDE_ID)
-                .setSmallIcon(R.drawable.baseline_directions_bike_24)
+                .setSmallIcon(IconicsHelper.materialIcon(context = context, icon = GoogleMaterial.Icon.gmd_directions_bike).toAndroidIconCompat().toIcon())
                 .setTicker(ticker)
                 .setWhen(System.currentTimeMillis())
                 .setAutoCancel(true)

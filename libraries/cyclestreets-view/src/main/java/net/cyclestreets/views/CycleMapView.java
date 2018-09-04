@@ -42,6 +42,7 @@ public class CycleMapView extends FrameLayout
 {
   public static final int DEFAULT_ZOOM_LEVEL = 14;
   public static final int FINDPLACE_ZOOM_LEVEL = 16;
+  public static final int ITEM_ZOOM_LEVEL = 16;
   public static final int MAX_ZOOM_LEVEL = 19;
   private static final String TAG = Logging.getTag(CycleMapView.class);
 
@@ -228,6 +229,12 @@ public class CycleMapView extends FrameLayout
   public void centreOn(final IGeoPoint place) {
     centreOn_ = place;
     postInvalidate();
+  }
+
+  public void centreOn(final IGeoPoint place, final int minZoomLevel) {
+    centreOn(place);
+    if (this.getZoomLevel() < minZoomLevel)
+      getController().setZoom(minZoomLevel);
   }
 
   @Override

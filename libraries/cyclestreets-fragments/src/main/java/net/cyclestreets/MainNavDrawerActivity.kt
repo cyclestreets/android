@@ -61,8 +61,7 @@ abstract class MainNavDrawerActivity : AppCompatActivity(), OnNavigationItemSele
         setContentView(R.layout.main_navdrawer_activity)
 
         val (burgerIcon, addPhotoIcon, blogIcon, settingsIcon) =
-                materialIcons(context = this, size = 24,
-                              icons = listOf(Icon.gmd_menu, Icon.gmd_add_a_photo, Icon.gmd_chat, Icon.gmd_settings))
+            materialIcons(context = this, icons = listOf(Icon.gmd_menu, Icon.gmd_add_a_photo, Icon.gmd_chat, Icon.gmd_settings))
         burgerIcon.setTint(resources.getColor(R.color.cs_primary_material_light, null))
 
         drawerLayout = findViewById(R.id.drawer_layout)
@@ -117,6 +116,7 @@ abstract class MainNavDrawerActivity : AppCompatActivity(), OnNavigationItemSele
         val ft = this.supportFragmentManager.beginTransaction()
         ft.replace(R.id.content_frame, instantiateFragmentFor(menuItem))
         ft.commit()
+        saveCurrentMenuSelection()
         return true
     }
 
@@ -152,19 +152,17 @@ abstract class MainNavDrawerActivity : AppCompatActivity(), OnNavigationItemSele
     fun showPage(menuItemId: Int): Boolean {
         val menuItem = navigationView.menu.findItem(menuItemId)
         if (menuItem != null) {
-            Log.d(TAG, "Loading page with menuItemId=${menuItemId} (${menuItem.title})")
+            Log.d(TAG, "Loading page with menuItemId=$menuItemId (${menuItem.title})")
             onNavigationItemSelected(menuItem)
             return true
         }
-        Log.d(TAG, "Page with menuItemId=${menuItemId} could not be found")
+        Log.d(TAG, "Page with menuItemId=$menuItemId could not be found")
         return false
     }
 
     public override fun onResume() {
         val selectedItem = prefs().getInt(DRAWER_ITEMID_SELECTED_KEY, R.id.nav_journey_planner)
-        if (showPage(selectedItem)) {
-            this.selectedItem = selectedItem
-        }
+        showPage(selectedItem)
         super.onResume()
         Route.registerListener(this)
         setBlogStateTitle()
@@ -172,12 +170,14 @@ abstract class MainNavDrawerActivity : AppCompatActivity(), OnNavigationItemSele
 
     public override fun onPause() {
         Route.unregisterListener(this)
+        saveCurrentMenuSelection()
+        super.onPause()
+    }
 
+    private fun saveCurrentMenuSelection() {
         val edit = prefs().edit()
         edit.putInt(DRAWER_ITEMID_SELECTED_KEY, selectedItem)
         edit.apply()
-
-        super.onPause()
     }
 
     private fun prefs(): SharedPreferences {

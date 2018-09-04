@@ -10,6 +10,7 @@ interface CycleStreetsApi {
     fun getJourneyJson(plan: String, leaving: String?, arriving: String?, speed: Int, lonLat: DoubleArray): String
     fun getJourneyJson(plan: String, itineraryId: Long): String
     fun getPhotomapCategories(): PhotomapCategories
+    fun getPhoto(photoId: Long): Photos
     fun getPhotos(lonW: Double, latS: Double, lonE: Double, latN: Double): Photos
     fun getUserJourneys(username: String): UserJourneys
     fun geoCoder(search: String, lonW: Double, latS: Double, lonE: Double, latN: Double): GeoPlaces
@@ -91,6 +92,9 @@ object ApiClient : CycleStreetsApi {
     override fun getPhotomapCategories(): PhotomapCategories {
         return delegate.getPhotomapCategories()
     }
+    override fun getPhoto(photoId: Long): Photos {
+        return delegate.getPhoto(photoId)
+    }
     override fun getPhotos(lonW: Double, latS: Double, lonE: Double, latN: Double): Photos {
         return delegate.getPhotos(lonW, latS, lonE, latN)
     }
@@ -127,7 +131,7 @@ object ApiClient : CycleStreetsApi {
 
 }
 
-private class ApiClientImpl(val retrofitApiClient: RetrofitApiClient): CycleStreetsApi {
+class ApiClientImpl(private val retrofitApiClient: RetrofitApiClient): CycleStreetsApi {
     override fun getJourneyJson(plan: String,
                                 leaving: String?,
                                 arriving: String?,
@@ -144,6 +148,10 @@ private class ApiClientImpl(val retrofitApiClient: RetrofitApiClient): CycleStre
 
     override fun getPhotomapCategories(): PhotomapCategories {
         return retrofitApiClient.photomapCategories
+    }
+
+    override fun getPhoto(photoId: Long): Photos {
+        return retrofitApiClient.getPhoto(photoId)
     }
 
     override fun getPhotos(lonW: Double,

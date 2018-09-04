@@ -19,8 +19,8 @@ public abstract class Segment {
   protected final String turnInstruction;
   protected final boolean walk_;
   protected final String running_time_;
-  protected final int distance_;
-  protected final int running_distance_;
+  public final int distance;
+  public final int cumulativeDistance; // up to the *END* of the segment
   protected final List<IGeoPoint> points_;
 
   public static DistanceFormatter formatter = DistanceFormatter.formatter(CycleStreetsPreferences.units());
@@ -32,7 +32,7 @@ public abstract class Segment {
           final boolean walk,
           final int time,
           final int distance,
-          final int running_distance,
+          final int cumulativeDistance,
           final List<IGeoPoint> points,
           final boolean terminal) {
     this(name,
@@ -42,7 +42,7 @@ public abstract class Segment {
          walk,
          formatTime(time, terminal),
          distance,
-         running_distance,
+         cumulativeDistance,
          points,
          terminal);
   }
@@ -54,7 +54,7 @@ public abstract class Segment {
           final boolean walk,
           final String running_time,
           final int distance,
-          final int running_distance,
+          final int cumulativeDistance,
           final List<IGeoPoint> points,
           final boolean terminal) {
     name_ = name;
@@ -63,8 +63,8 @@ public abstract class Segment {
     this.turnInstruction = initCap(turnInstruction);
     walk_ = walk;
     running_time_ = running_time;
-    distance_ = distance;
-    running_distance_ = running_distance;
+    this.distance = distance;
+    this.cumulativeDistance = cumulativeDistance;
     points_ = points;
   }
 
@@ -219,8 +219,8 @@ public abstract class Segment {
   public String turnInstruction() { return turnInstruction; }
   public boolean walk() { return walk_; }
   public String runningTime() { return running_time_; }
-  public String distance() { return formatter.distance(distance_); }
-  public String runningDistance() { return formatter.total_distance(running_distance_); }
+  public String formattedDistance() { return formatter.distance(distance); }
+  public String runningDistance() { return formatter.total_distance(cumulativeDistance); }
   public String extraInfo() { return ""; }
   public IterableIterator<IGeoPoint> points() { return new IterableIterator<>(points_.iterator()); }
 
@@ -260,7 +260,7 @@ public abstract class Segment {
     public String street() {
       return String.format("%s\n%s route : %s\nJourney time : %s", super.street(), initCap(plan_), super.runningDistance(), super.runningTime());
     }
-    public String distance() { return ""; }
+    public String formattedDistance() { return ""; }
     public String runningDistance() { return ""; }
     public String runningTime() { return ""; }
     public String totalTime() { return super.runningTime(); }
@@ -295,7 +295,7 @@ public abstract class Segment {
     }
 
     public String toString() { return street(); }
-    public String distance() { return ""; }
+    public String formattedDistance() { return ""; }
     public int total_distance() { return total_distance_; }
   }
 
@@ -328,8 +328,8 @@ public abstract class Segment {
             turnInstruction,
             s1.walk_ || s2.walk_,
             s2.running_time_,
-            s1.distance_ + s2.distance_,
-            s2.running_distance_,
+            s1.distance + s2.distance,
+            s2.cumulativeDistance,
             Collections.concatenate(s1.points_, s2.points_),
             false);
     }
@@ -351,7 +351,7 @@ public abstract class Segment {
             false);
     }
 
-    public String distance() { return ""; }
+    public String formattedDistance() { return ""; }
     public String toString() { return street(); }
   }
 }
