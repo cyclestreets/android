@@ -9,14 +9,12 @@ import net.cyclestreets.routing.Route;
 import net.cyclestreets.routing.Segment;
 import net.cyclestreets.routing.Segments;
 import net.cyclestreets.routing.Waypoints;
-import net.cyclestreets.routing.Route.Listener;
 
 import org.osmdroid.api.IGeoPoint;
 import org.osmdroid.views.MapView;
 import org.osmdroid.api.IProjection;
 import org.osmdroid.views.overlay.Overlay;
 
-import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.graphics.Canvas;
@@ -25,7 +23,7 @@ import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.Point;
 
-public class RouteOverlay extends Overlay implements PauseResumeListener, Listener
+public class RouteOverlay extends Overlay implements PauseResumeListener, Route.Listener
 {
   private static int ROUTE_COLOUR = 0x80ff00ff;
   private static int HIGHLIGHT_COLOUR = 0xA000ff00;

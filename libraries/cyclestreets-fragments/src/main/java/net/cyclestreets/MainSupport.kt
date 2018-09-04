@@ -10,6 +10,7 @@ import net.cyclestreets.routing.Route
 import net.cyclestreets.util.Logging
 import net.cyclestreets.util.MapPack
 import net.cyclestreets.LaunchIntent.Type.*
+import net.cyclestreets.photos.IndividualPhoto
 
 private val TAG = Logging.getTag(MainSupport::class.java)
 
@@ -40,7 +41,7 @@ object MainSupport {
             LOCATION -> {
                 Log.d(TAG, "Loading location #${launchIntent.id}")
                 (activity as PhotoMapActivity).showPhotoMap()
-                TODO()
+                IndividualPhoto.fetchPhoto(launchIntent.id)
             }
         }
         return true
