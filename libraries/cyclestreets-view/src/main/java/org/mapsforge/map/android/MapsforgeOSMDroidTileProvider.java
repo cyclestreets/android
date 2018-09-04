@@ -1,4 +1,4 @@
-package org.mapsforge.android.maps;
+package org.mapsforge.map.android;
 
 import java.io.ByteArrayInputStream;
 import java.net.UnknownHostException;

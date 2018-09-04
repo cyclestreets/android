@@ -5,13 +5,14 @@ import android.content.DialogInterface;
 import android.support.v7.preference.ListPreference;
 
 import net.cyclestreets.CycleStreetsPreferences;
+import net.cyclestreets.util.Logging;
 import net.cyclestreets.util.MapPack;
 import net.cyclestreets.util.MessageBox;
 import net.cyclestreets.util.Screen;
 import net.cyclestreets.view.R;
 import net.cyclestreets.views.CycleMapView;
 
-import org.mapsforge.android.maps.MapsforgeOSMTileSource;
+import org.mapsforge.map.android.MapsforgeOSMTileSource;
 import org.osmdroid.tileprovider.MapTileProviderBase;
 import org.osmdroid.tileprovider.tilesource.ITileSource;
 import org.osmdroid.tileprovider.tilesource.XYTileSource;
@@ -19,7 +20,12 @@ import org.osmdroid.tileprovider.tilesource.XYTileSource;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.util.Log;
+
 public class TileSource {
+
+  private static final String TAG = Logging.getTag(TileSource.class);
+
   public static String mapAttribution() {
     try {
       return source(CycleStreetsPreferences.mapstyle()).attribution();
@@ -56,8 +62,10 @@ public class TileSource {
       return renderer;
     }
     catch (Exception e) {
+      Log.d(TAG, e.getMessage());
       // oh dear
     }
+    CycleStreetsPreferences.resetMapstyle();
     return source(DEFAULT_RENDERER).renderer();
   }
 
@@ -172,7 +180,8 @@ public class TileSource {
                                      "https://c.tile.cyclestreets.net/osopendata/");
 
     final MapsforgeOSMTileSource MAPSFORGE =
-            new MapsforgeOSMTileSource(CycleStreetsPreferences.MAPSTYLE_MAPSFORGE,
+            new MapsforgeOSMTileSource(context,
+                                       CycleStreetsPreferences.MAPSTYLE_MAPSFORGE,
                                        DEFAULT_ATTRIBUTION,
                                        Screen.isHighDensity(context));
 
