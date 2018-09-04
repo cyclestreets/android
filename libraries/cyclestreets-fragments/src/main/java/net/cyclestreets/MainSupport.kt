@@ -70,10 +70,15 @@ private fun extractLaunchIntent(launchUri: Uri): LaunchIntent {
             id = path.drop(1).toLong()
         }
         "m.cyclestreets.net" -> {
-            // e.g. https://m.cyclestreets.net/journey/#57201887/balanced
+            // e.g. https://m.cyclestreets.net/journey/#57201887/balanced or https://m.cyclestreets.net/location/#4444
             val frag = launchUri.fragment!! // everything after the #
-            intentType = JOURNEY
-            id = frag.substring(0, frag.indexOf('/')).toLong()
+            if (path.startsWith("journey")) {
+                intentType = JOURNEY
+                id = frag.substring(0, frag.indexOf('/')).toLong()
+            } else {
+                intentType = LOCATION
+                id = frag.toLong()
+            }
         }
         "cyclestreets.net", "www.cyclestreets.net" -> {
             // e.g. http(s)://(www.)cyclestreets.net/journey/61207326(/#balanced) or .../location/93348
