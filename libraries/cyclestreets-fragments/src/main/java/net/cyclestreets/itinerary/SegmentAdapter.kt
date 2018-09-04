@@ -55,7 +55,7 @@ internal class SegmentAdapter(context: Context) : BaseAdapter() {
         if (position == 0) {
             fillInOverview(Route.journey(), view, routeString)
         }
-        setText(R.id.segment_distance, seg.distance(), highlight)
+        setText(R.id.segment_distance, seg.formattedDistance(), highlight)
         setText(R.id.segment_cumulative_distance, seg.runningDistance(), highlight)
         setText(R.id.segment_time, seg.runningTime(), highlight)
 
