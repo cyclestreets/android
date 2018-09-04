@@ -6,7 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
-import android.widget.TextView
 
 import com.jjoe64.graphview.GraphView
 import com.jjoe64.graphview.GridLabelRenderer
@@ -15,20 +14,13 @@ import com.jjoe64.graphview.Viewport
 import com.jjoe64.graphview.series.DataPoint
 import com.jjoe64.graphview.series.LineGraphSeries
 
-import net.cyclestreets.CycleStreetsPreferences
-import net.cyclestreets.api.DistanceFormatter
 import net.cyclestreets.fragments.R
-import net.cyclestreets.routing.Elevation
 import net.cyclestreets.routing.ElevationFormatter
 import net.cyclestreets.routing.Journey
 import net.cyclestreets.routing.Route
-import net.cyclestreets.routing.Segment
 import net.cyclestreets.routing.Waypoints
 
 import java.util.ArrayList
-import java.util.Locale
-
-import net.cyclestreets.util.StringUtils.initCap
 
 class ElevationProfileFragment : Fragment(), Route.Listener {
     private lateinit var graphHolder: LinearLayout
@@ -63,14 +55,21 @@ class ElevationProfileFragment : Fragment(), Route.Listener {
         val graphView = GraphView(context)
         val formatter = elevationFormatter()
 
-        val data = ArrayList<DataPoint>()
+        // The elevation data series for the whole route
+        val elevationData = ArrayList<DataPoint>()
         for (elevation in journey.elevation().profile())
-            data.add(DataPoint(elevation.distance().toDouble(), elevation.elevation().toDouble()))
+            elevationData.add(DataPoint(elevation.distance().toDouble(), elevation.elevation().toDouble()))
+        val elevationSeries = LineGraphSeries(elevationData.toTypedArray())
+        elevationSeries.isDrawBackground = true
+        graphView.addSeries(elevationSeries)
 
-        val graphSeries = LineGraphSeries(data.toTypedArray())
-        graphSeries.isDrawBackground = true
-
-        graphView.addSeries(graphSeries)
+        // The elevation data series for the current segment - highlight
+        val segmentEndDistance = journey.activeSegment().cumulativeDistance
+        val segmentStartDistance = segmentEndDistance - journey.activeSegment().distance
+        val segmentElevationData = elevationData.slice(IntRange(
+            elevationData.indexOfFirst { dp -> dp.x >= segmentStartDistance },
+            elevationData.indexOfLast { dp -> dp.x <= segmentEndDistance }))
+        graphView.addSeries(LineGraphSeries(segmentElevationData.toTypedArray()))
 
         // Allow zooming & scrolling on the x-axis (y-axis remains fixed)
         val viewport = graphView.viewport

@@ -50,14 +50,14 @@ internal abstract class LiveRideState(protected val context: Context,
     abstract fun arePedalling(): Boolean
 
     protected fun notify(seg: Segment) {
-        notification(seg.street() + " " + seg.distance(), seg.toString())
+        notification(seg.street() + " " + seg.formattedDistance(), seg.toString())
 
         val instruction = StringBuilder()
         if (seg.turnInstruction().isNotEmpty())
             instruction.append(seg.turnInstruction()).append(" into ")
         instruction.append(seg.street().replace("un-", "un").replace("Un-", "un"))
         if (seg.turnInstruction().isNotEmpty())
-            instruction.append(". Continue ").append(seg.distance())
+            instruction.append(". Continue ").append(seg.formattedDistance())
         speak(instruction.toString())
     }
 
