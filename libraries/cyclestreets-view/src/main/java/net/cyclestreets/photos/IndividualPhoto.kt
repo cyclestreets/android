@@ -14,11 +14,11 @@ object IndividualPhoto {
     }
 
     private val listeners = ArrayList<Listener>()
-    fun register(listener: Listener) {
+    fun registerListener(listener: Listener) {
         if (!listeners.contains(listener))
             listeners.add(listener)
     }
-    fun unregister(listener: Listener) {
+    fun unregisterListener(listener: Listener) {
         listeners.remove(listener)
     }
     fun onPhotoLoaded(photo: Photo) {
