@@ -2,21 +2,7 @@ package net.cyclestreets.api.client;
 
 import android.content.Context;
 
-import net.cyclestreets.api.ApiClient;
-import net.cyclestreets.api.Blog;
-import net.cyclestreets.api.GeoPlace;
-import net.cyclestreets.api.GeoPlaces;
-import net.cyclestreets.api.POI;
-import net.cyclestreets.api.POICategories;
-import net.cyclestreets.api.POICategory;
-import net.cyclestreets.api.Photo;
-import net.cyclestreets.api.PhotomapCategories;
-import net.cyclestreets.api.Photos;
-import net.cyclestreets.api.Result;
-import net.cyclestreets.api.Signin;
-import net.cyclestreets.api.Upload;
-import net.cyclestreets.api.UserJourney;
-import net.cyclestreets.api.UserJourneys;
+import net.cyclestreets.api.*;
 import net.cyclestreets.core.R;
 
 import org.apache.commons.io.IOUtils;
@@ -67,10 +53,7 @@ public class RetrofitApiClientIntegrationTest {
     when(testContext.getString(R.string.signin_default_error)).thenReturn("Could not sign into CycleStreets.  Please check your username and password.");
     when(testContext.getString(R.string.upload_ok)).thenReturn("Your photo was uploaded successfully.");
     when(testContext.getString(R.string.upload_error_prefix)).thenReturn("There was a problem uploading your photo: \n");
-    // Use reflection to set context without doing full initialise
-    Field contextField = ApiClient.class.getDeclaredField("context");
-    contextField.setAccessible(true);
-    contextField.set(ApiClient.class, testContext);
+    ApiClient.INSTANCE.initialiseForTests(testContext, new ApiClientImpl(apiClient));
   }
 
   private String getApiKey() throws IOException {
@@ -118,6 +101,14 @@ public class RetrofitApiClientIntegrationTest {
   public void hitGetPOIsByRadiusApi() throws Exception {
     List<POI> pois = apiClient.getPOIs("bikeshops", -1, 54, 100);
     System.out.println(pois);
+  }
+
+  @Test
+  public void hitGetPhotoApi() throws Exception {
+    Photos photos = apiClient.getPhoto(93348);
+    for (Photo photo : photos) {
+      System.out.println(photo);
+    }
   }
 
   @Test

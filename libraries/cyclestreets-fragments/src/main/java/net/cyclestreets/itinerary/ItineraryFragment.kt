@@ -34,7 +34,7 @@ class ItineraryFragment : ListFragment(), Route.Listener {
 
         journey.setActiveSegmentIndex(position)
         try {
-            (activity as RouteMapActivity).showMap()
+            (activity as RouteMapActivity).showRouteMap()
         } catch (e: Exception) {}
     }
 
