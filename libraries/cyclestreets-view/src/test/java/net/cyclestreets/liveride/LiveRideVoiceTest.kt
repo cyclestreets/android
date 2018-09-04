@@ -128,7 +128,7 @@ class LiveRideVoiceTest {
     private fun loadJourneyFrom(domainJsonFile: String) {
         val rawJson = TestUtils.fromResourceFile(domainJsonFile)
         val routeData = RouteData(rawJson, null, "test route")
-        assertThat(Route.onNewJourney(routeData)).isTrue()
+        Route.onNewJourney(routeData)
         journey = Route.journey()
     }
 
