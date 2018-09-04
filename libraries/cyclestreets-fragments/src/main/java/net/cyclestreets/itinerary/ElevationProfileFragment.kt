@@ -1,5 +1,6 @@
 package net.cyclestreets.itinerary
 
+import android.graphics.Color
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.view.LayoutInflater
@@ -19,6 +20,7 @@ import net.cyclestreets.routing.ElevationFormatter
 import net.cyclestreets.routing.Journey
 import net.cyclestreets.routing.Route
 import net.cyclestreets.routing.Waypoints
+import net.cyclestreets.util.Theme
 
 import java.util.ArrayList
 
@@ -67,9 +69,13 @@ class ElevationProfileFragment : Fragment(), Route.Listener {
         val segmentEndDistance = journey.activeSegment().cumulativeDistance
         val segmentStartDistance = segmentEndDistance - journey.activeSegment().distance
         val segmentElevationData = elevationData.slice(IntRange(
-            elevationData.indexOfFirst { dp -> dp.x >= segmentStartDistance },
-            elevationData.indexOfLast { dp -> dp.x <= segmentEndDistance }))
-        graphView.addSeries(LineGraphSeries(segmentElevationData.toTypedArray()))
+            elevationData.indexOfFirst { dp -> dp.x >= segmentStartDistance.toDouble() },
+            elevationData.indexOfLast { dp -> dp.x <= segmentEndDistance.toDouble() }))
+        val segmentElevationSeries = LineGraphSeries(segmentElevationData.toTypedArray())
+        segmentElevationSeries.color = Theme.highlightColor(context)
+        segmentElevationSeries.backgroundColor = Color.argb(153, 0, 152, 0) //0x99009800
+        segmentElevationSeries.isDrawBackground = true
+        graphView.addSeries(segmentElevationSeries)
 
         // Allow zooming & scrolling on the x-axis (y-axis remains fixed)
         val viewport = graphView.viewport
