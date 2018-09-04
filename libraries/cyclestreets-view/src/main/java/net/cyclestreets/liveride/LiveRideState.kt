@@ -1,11 +1,17 @@
 package net.cyclestreets.liveride
 
 import net.cyclestreets.CycleStreetsNotifications
+import net.cyclestreets.CycleStreetsNotifications.CHANNEL_LIVERIDE_ID
 import net.cyclestreets.LiveRideActivity
+import net.cyclestreets.iconics.IconicsHelper
 import net.cyclestreets.routing.Journey
 import net.cyclestreets.routing.Segment
+import net.cyclestreets.util.Logging
+import net.cyclestreets.view.R
 
+import com.mikepenz.google_material_typeface_library.GoogleMaterial
 import org.osmdroid.util.GeoPoint
+import ru.ztrap.iconics.kt.toAndroidIconCompat
 
 import android.app.NotificationManager
 import android.app.PendingIntent
@@ -14,10 +20,6 @@ import android.content.Intent
 import android.graphics.drawable.Icon
 import android.speech.tts.TextToSpeech
 import android.util.Log
-
-import net.cyclestreets.CycleStreetsNotifications.CHANNEL_LIVERIDE_ID
-import net.cyclestreets.util.Logging
-import net.cyclestreets.view.R
 
 internal fun initialState(context: Context, tts: TextToSpeech): LiveRideState {
     return LiveRideStart(context, tts)
@@ -78,7 +80,7 @@ internal abstract class LiveRideState(protected val context: Context,
                                                       PendingIntent.FLAG_CANCEL_CURRENT)
 
         val notificationBuilder = CycleStreetsNotifications.getBuilder(context, CHANNEL_LIVERIDE_ID)
-                .setSmallIcon(R.drawable.baseline_directions_bike_24)
+                .setSmallIcon(IconicsHelper.materialIcon(context = context, icon = GoogleMaterial.Icon.gmd_directions_bike).toAndroidIconCompat().toIcon())
                 .setTicker(ticker)
                 .setWhen(System.currentTimeMillis())
                 .setAutoCancel(true)
