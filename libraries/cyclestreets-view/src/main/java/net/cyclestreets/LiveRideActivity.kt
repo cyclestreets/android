@@ -56,6 +56,7 @@ class LiveRideActivity : Activity(), ServiceConnection, LiveRideOverlay.Locator 
     }
 
     public override fun onDestroy() {
+        liveride.stopRiding()
         this.unbindService(this)
         super.onDestroy()
     }
