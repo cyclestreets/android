@@ -30,6 +30,9 @@
         <data android:scheme="http"
               android:host="cycle.st"
               android:pathPrefix="/j" />
+        <data android:scheme="https"
+              android:host="cycle.st"
+              android:pathPrefix="/j" />
         <data android:scheme="http"
               android:host="cyclestreets.net"
               android:pathPrefix="/journey/" />
@@ -44,6 +47,9 @@
               android:pathPrefix="/journey/" />
         <!-- Location URLs -->
         <data android:scheme="http"
+              android:host="cycle.st"
+              android:pathPrefix="/p" />
+        <data android:scheme="https"
               android:host="cycle.st"
               android:pathPrefix="/p" />
         <data android:scheme="http"
