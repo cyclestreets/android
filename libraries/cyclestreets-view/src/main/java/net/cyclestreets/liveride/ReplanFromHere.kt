@@ -24,8 +24,8 @@ internal class ReplanFromHere(previous: LiveRideState, whereIam: GeoPoint) : Liv
         val remainingWaypoints: Waypoints = when (activeSegment) {
             is Segment.Start ->  Route.waypoints().startingWith(whereIam)
             is Segment.End -> Waypoints.fromTo(whereIam, Route.waypoints().last())
-            is Segment.Waymark -> Route.waypoints().from(activeSegment.legNumber()).startingWith(whereIam)
-            is Segment.Step -> Route.waypoints().from(activeSegment.legNumber()).startingWith(whereIam)
+            is Segment.Waymark -> Route.waypoints().fromLeg(activeSegment.legNumber()).startingWith(whereIam)
+            is Segment.Step -> Route.waypoints().fromLeg(activeSegment.legNumber()).startingWith(whereIam)
             else -> {
                 Log.w(TAG, "Unexpected segment type ${activeSegment?.javaClass ?: "'null'"}")
                 throw IllegalStateException("Unexpected segment type ${activeSegment?.javaClass ?: "'null'"}")

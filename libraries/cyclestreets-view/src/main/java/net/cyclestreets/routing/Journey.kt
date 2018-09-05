@@ -20,7 +20,7 @@ import org.osmdroid.api.IGeoPoint
 private val TAG = Logging.getTag(Journey::class.java)
 
 class Journey private constructor(wp: Waypoints? = null) {
-    val waypoints: Waypoints = wp ?: Waypoints()
+    val waypoints: Waypoints = wp ?: Waypoints.none()
     val segments: Segments = Segments()
     val elevation: ElevationProfile = ElevationProfile()
     private var activeSegment: Int = 0
