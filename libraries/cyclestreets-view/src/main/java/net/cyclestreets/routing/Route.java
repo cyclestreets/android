@@ -76,6 +76,14 @@ public class Route
     query.execute(waypoints);
   }
 
+  public static void LiveReplanRoute(final String plan,
+                                     final int speed,
+                                     final Context context,
+                                     final Waypoints waypoints) {
+    final LiveRideReplanRoutingTask query = new LiveRideReplanRoutingTask(plan, speed, context);
+    query.execute(waypoints);
+  }
+
   public static void FetchRoute(final String plan,
                                 final long itinerary,
                                 final int speed,

@@ -32,12 +32,10 @@ internal class ReplanFromHere(previous: LiveRideState, whereIam: GeoPoint) : Liv
             }
         }
         Route.softRegisterListener(this)
-        Route.PlotRoute(
-            CycleStreetsPreferences.routeType(),
-            CycleStreetsPreferences.speed(),
-            context,
-            remainingWaypoints
-        )
+        Route.LiveReplanRoute(CycleStreetsPreferences.routeType(),
+                              CycleStreetsPreferences.speed(),
+                              context,
+                              remainingWaypoints)
     }
 
     override fun update(journey: Journey, whereIam: GeoPoint, accuracy: Int): LiveRideState {

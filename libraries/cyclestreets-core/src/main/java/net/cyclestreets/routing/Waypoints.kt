@@ -3,12 +3,16 @@ package net.cyclestreets.routing
 import java.util.*
 import org.osmdroid.api.IGeoPoint
 import org.osmdroid.util.GeoPoint
+import kotlin.collections.ArrayList
 
 val NULL_WAYPOINTS = Waypoints.none()
 
 class Waypoints(points: List<IGeoPoint>) : Iterable<IGeoPoint> {
-
     private val waypoints = LinkedList<IGeoPoint>(points)
+    // Allows us to track that the first waypoint is ephemeral, i.e.:
+    // -  it was created as part of a LiveRide on-the-fly replan
+    // -  it shouldn't be included in any subsequent replans
+    var firstWaypointEphemeral: Boolean = false
 
     fun count(): Int { return waypoints.size }
     fun isEmpty(): Boolean { return waypoints.isEmpty() }
@@ -39,8 +43,8 @@ class Waypoints(points: List<IGeoPoint>) : Iterable<IGeoPoint> {
     }
 
     fun startingWith(geoPoint: IGeoPoint): Waypoints {
-        waypoints.addFirst(geoPoint)
-        return this
+        val newWp = listOf(geoPoint) + if (firstWaypointEphemeral) waypoints.drop(1) else waypoints
+        return Waypoints(newWp)
     }
 
     companion object {
