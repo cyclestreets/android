@@ -5,7 +5,6 @@ import net.cyclestreets.CycleStreetsPreferences
 import net.cyclestreets.TestUtils
 import net.cyclestreets.api.ApiClient
 import net.cyclestreets.api.CycleStreetsApi
-import net.cyclestreets.api.client.RetrofitApiClient
 import net.cyclestreets.content.RouteData
 import net.cyclestreets.routing.Journey
 import net.cyclestreets.routing.Route
@@ -46,8 +45,8 @@ class ReplanFromHereTest {
     fun remainingIntermediateWaypointsAreKeptWhenReplanning() {
         loadJourneyFrom("journey-domain.json")
         journey.setActiveSegmentIndex(13)
-        assertThat(journey.activeSegment().street()).isEqualTo("lcn (unknown cycle network)")
-        assertThat(journey.activeSegment().legNumber()).isEqualTo(1)
+        assertThat(journey.activeSegment()!!.street()).isEqualTo("lcn (unknown cycle network)")
+        assertThat(journey.activeSegment()!!.legNumber()).isEqualTo(1)
 
         liveRideState = ReplanFromHere(liveRideState, GeoPoint(52.0, 0.0))
 
@@ -59,8 +58,8 @@ class ReplanFromHereTest {
     fun ifNoRemainingIntermediateWaypointsThenHeadForTheFinish() {
         loadJourneyFrom("journey-domain.json")
         journey.setActiveSegmentIndex(34)
-        assertThat(journey.activeSegment().street()).isEqualTo("Pye Alley")
-        assertThat(journey.activeSegment().legNumber()).isEqualTo(2)
+        assertThat(journey.activeSegment()!!.street()).isEqualTo("Pye Alley")
+        assertThat(journey.activeSegment()!!.legNumber()).isEqualTo(2)
 
         liveRideState = ReplanFromHere(liveRideState, GeoPoint(52.0, 0.0))
 
@@ -72,10 +71,10 @@ class ReplanFromHereTest {
     fun replanFromStartKeepsAllOriginalWaypoints() {
         loadJourneyFrom("journey-domain.json")
         journey.setActiveSegmentIndex(0)
-        assertThat(journey.activeSegment().street()).isEqualTo("""test route
+        assertThat(journey.activeSegment()!!.street()).isEqualTo("""test route
 Quietest route : 6.25km
 Journey time : 26 minutes""")
-        assertThat(journey.activeSegment().legNumber()).isEqualTo(Int.MIN_VALUE)
+        assertThat(journey.activeSegment()!!.legNumber()).isEqualTo(Int.MIN_VALUE)
 
         liveRideState = ReplanFromHere(liveRideState, GeoPoint(52.0, 0.0))
         val expectedWaypoints: DoubleArray = doubleArrayOf(0.0, 52.0, 0.11783, 52.20530, 0.13140, 52.22105, 0.14744, 52.19962)
@@ -86,8 +85,8 @@ Journey time : 26 minutes""")
     fun replanFromWaymarkKeepsAllWaypointsFromTheCurrentOne() {
         loadJourneyFrom("journey-domain.json")
         journey.setActiveSegmentIndex(32)
-        assertThat(journey.activeSegment().street()).isEqualTo("Waypoint 1")
-        assertThat(journey.activeSegment().legNumber()).isEqualTo(1)
+        assertThat(journey.activeSegment()!!.street()).isEqualTo("Waypoint 1")
+        assertThat(journey.activeSegment()!!.legNumber()).isEqualTo(1)
 
         liveRideState = ReplanFromHere(liveRideState, GeoPoint(52.0, 0.0))
         val expectedWaypoints: DoubleArray = doubleArrayOf(0.0, 52.0, 0.13140, 52.22105, 0.14744, 52.19962)
@@ -97,9 +96,9 @@ Journey time : 26 minutes""")
     @Test
     fun replanFromEndJustAimsForTheArrivee() {
         loadJourneyFrom("journey-domain.json")
-        journey.setActiveSegmentIndex(journey.segments().count() - 1)
-        assertThat(journey.activeSegment().street()).isEqualTo("Destination Thoday+Street")
-        assertThat(journey.activeSegment().legNumber()).isEqualTo(Int.MAX_VALUE)
+        journey.setActiveSegmentIndex(journey.segments.count() - 1)
+        assertThat(journey.activeSegment()!!.street()).isEqualTo("Destination Thoday+Street")
+        assertThat(journey.activeSegment()!!.legNumber()).isEqualTo(Int.MAX_VALUE)
 
         liveRideState = ReplanFromHere(liveRideState, GeoPoint(52.0, 0.0))
         val expectedWaypoints: DoubleArray = doubleArrayOf(0.0, 52.0, 0.14744, 52.19962)

@@ -59,30 +59,33 @@ class ElevationProfileFragment : Fragment(), Route.Listener {
 
         // The elevation data series for the whole route
         val elevationData = ArrayList<DataPoint>()
-        for (elevation in journey.elevation().profile())
+        for (elevation in journey.elevation.profile())
             elevationData.add(DataPoint(elevation.distance().toDouble(), elevation.elevation().toDouble()))
         val elevationSeries = LineGraphSeries(elevationData.toTypedArray())
         elevationSeries.isDrawBackground = true
         graphView.addSeries(elevationSeries)
 
         // The elevation data series for the current segment - highlight
-        val segmentEndDistance = journey.activeSegment().cumulativeDistance
-        val segmentStartDistance = segmentEndDistance - journey.activeSegment().distance
-        val segmentElevationData = elevationData.slice(IntRange(
-            elevationData.indexOfFirst { dp -> dp.x >= segmentStartDistance.toDouble() },
-            elevationData.indexOfLast { dp -> dp.x <= segmentEndDistance.toDouble() }))
-        val segmentElevationSeries = LineGraphSeries(segmentElevationData.toTypedArray())
-        segmentElevationSeries.color = Theme.highlightColor(context)
-        segmentElevationSeries.backgroundColor = Color.argb(153, 0, 152, 0) //0x99009800
-        segmentElevationSeries.isDrawBackground = true
-        graphView.addSeries(segmentElevationSeries)
+        journey.activeSegment()?.let { segment ->
+            val segmentEndDistance = segment.cumulativeDistance
+            val segmentStartDistance = segmentEndDistance - segment.distance
+            val segmentElevationData = elevationData.slice(IntRange(
+                elevationData.indexOfFirst { dp -> dp.x >= segmentStartDistance.toDouble() },
+                elevationData.indexOfLast { dp -> dp.x <= segmentEndDistance.toDouble() }
+            ))
+            val segmentElevationSeries = LineGraphSeries(segmentElevationData.toTypedArray())
+            segmentElevationSeries.color = Theme.highlightColor(context)
+            segmentElevationSeries.backgroundColor = Color.argb(153, 0, 152, 0) //0x99009800
+            segmentElevationSeries.isDrawBackground = true
+            graphView.addSeries(segmentElevationSeries)
+        }
 
         // Allow zooming & scrolling on the x-axis (y-axis remains fixed)
         val viewport = graphView.viewport
         viewport.isScalable = true
         viewport.isYAxisBoundsManual = true
-        viewport.setMinY(formatter.roundHeightBelow(journey.elevation().minimum()))
-        viewport.setMaxY(formatter.roundHeightAbove(journey.elevation().maximum()))
+        viewport.setMinY(formatter.roundHeightBelow(journey.elevation.minimum()))
+        viewport.setMaxY(formatter.roundHeightAbove(journey.elevation.maximum()))
 
         val gridLabelRenderer = graphView.gridLabelRenderer
         gridLabelRenderer.gridStyle = GridLabelRenderer.GridStyle.BOTH

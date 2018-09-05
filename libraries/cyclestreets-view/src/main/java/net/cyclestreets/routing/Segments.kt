@@ -50,7 +50,7 @@ class Segments : Iterable<Segment> {
             }
 
             // Meld bridges
-            if (previous.distance < 100 && "Bridge".equals(previous.name_, ignoreCase = true) && Turn.STRAIGHT_ON === seg.turn) {
+            if (previous.distance < 100 && "Bridge".equals(previous.name, ignoreCase = true) && Turn.STRAIGHT_ON === seg.turn) {
                 segments.remove(previous)
                 segments.add(Segment.Step(previous, seg, previous.turn, previous.turnInstruction + " over Bridge"))
                 return

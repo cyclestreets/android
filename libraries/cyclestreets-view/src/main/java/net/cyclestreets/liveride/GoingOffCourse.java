@@ -18,7 +18,7 @@ final class GoingOffCourse extends LiveRideState
     Segment nearestSeg = null;
     int distance = Integer.MAX_VALUE;
 
-    for (final Segment seg : journey.segments()) {
+    for (final Segment seg : journey.getSegments()) {
       int from = seg.distanceFrom(whereIam);
       if (from < distance) {
         distance = from;
