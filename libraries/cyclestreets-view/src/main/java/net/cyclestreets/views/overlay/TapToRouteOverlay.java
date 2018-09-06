@@ -58,7 +58,7 @@ import com.mikepenz.iconics.IconicsDrawable;
 import static net.cyclestreets.util.MenuHelper.createMenuItem;
 import static net.cyclestreets.util.MenuHelper.showMenuItem;
 
-public class TapToRouteOverlay extends Overlay
+public class TapToRouteOverlay extends WaymarkOverlay
                                implements TapListener,
                                           ContextMenuListener,
                                           Undoable,
@@ -77,13 +77,6 @@ public class TapToRouteOverlay extends Overlay
       put(R.string.route_menu_change_replan_shortest, RoutePlans.PLAN_SHORTEST);
     }};
   private static final int MAX_WAYPOINTS = 30;
-
-  private final Drawable greenWisp;
-  private final Drawable orangeWisp;
-  private final Drawable redWisp;
-  private final Point screenPos = new Point();
-  private final Matrix bitmapTransform = new Matrix();
-  private final Paint bitmapPaint = new Paint();
 
   private final Button routingInfoRect;
   private final ImageView routeNowIcon;
@@ -106,15 +99,10 @@ public class TapToRouteOverlay extends Overlay
   private OverlayHelper overlays;
 
   public TapToRouteOverlay(final CycleMapView mapView) {
-    super();
+    super(mapView);
 
     context = mapView.getContext();
     this.mapView = mapView;
-
-    final Resources res = context.getResources();
-    greenWisp = ResourcesCompat.getDrawable(res, R.drawable.green_wisp, null);
-    orangeWisp = ResourcesCompat.getDrawable(res, R.drawable.orange_wisp, null);
-    redWisp = ResourcesCompat.getDrawable(res, R.drawable.red_wisp, null);
 
     shareDrawable = new IconicsDrawable(context)
             .icon(GoogleMaterial.Icon.gmd_share)
@@ -149,85 +137,14 @@ public class TapToRouteOverlay extends Overlay
     return overlays.controller();
   }
 
-  private void setRoute(final Waypoints waypoints, final boolean complete) {
-    resetRoute();
-
-    for (final IGeoPoint waypoint : waypoints) {
-      addWaypoint(waypoint);
-      tapState = tapState.next(waymarkersCount());
-    }
-
-    if (!complete)
-      return;
+  private void setRoute(final boolean complete) {
+    tapState = complete ? TapToRoute.ALL_DONE : tapState.reset();
     controller().flushUndo(this);
-    tapState = TapToRoute.ALL_DONE;
   }
 
   private void resetRoute() {
-    waymarkers.clear();
     tapState = tapState.reset();
     controller().flushUndo(this);
-  }
-
-  private int waymarkersCount() {
-    return waymarkers.size();
-  }
-
-  public Waypoints waypoints() {
-    final List<IGeoPoint> geoPoints = new ArrayList<>();
-    for (final OverlayItem o : waymarkers)
-      geoPoints.add(o.getPoint());
-    return new Waypoints(geoPoints);
-  }
-
-  private IGeoPoint finish() {
-    return waymarkersCount() > 1 ? waymarkers.get(waymarkersCount()-1).getPoint() : null;
-  }
-
-  private void addWaypoint(final IGeoPoint point) {
-    if (point == null)
-      return;
-    switch(waymarkersCount()) {
-    case 0:
-      waymarkers.add(addMarker(point, "start", greenWisp));
-      break;
-    case 1:
-      waymarkers.add(addMarker(point, "finish", redWisp));
-      break;
-    default:  {
-        final IGeoPoint prevFinished = finish();
-        waymarkers.remove(waymarkersCount() - 1);
-        waymarkers.add(addMarker(prevFinished, "waypoint", orangeWisp));
-        waymarkers.add(addMarker(point, "finish", redWisp));
-      }
-    }
-  }
-
-  private void removeWaypoint() {
-    switch(waymarkersCount()) {
-    case 0:
-        break;
-    case 1:
-    case 2:
-        waymarkers.remove(waymarkersCount() - 1);
-        break;
-    default:  {
-        waymarkers.remove(waymarkersCount() - 1);
-        final IGeoPoint prevFinished = finish();
-        waymarkers.remove(waymarkersCount() - 1);
-        waymarkers.add(addMarker(prevFinished, "finish", redWisp));
-      }
-    }
-  }
-
-  private OverlayItem addMarker(final IGeoPoint point, final String label, final Drawable icon) {
-    if (point == null)
-      return null;
-    controller().pushUndo(this);
-    final OverlayItem marker = new OverlayItem(label, label, new GeoPoint(point.getLatitude(), point.getLongitude()));
-    marker.setMarker(icon);
-    marker.setMarkerHotspot(OverlayItem.HotspotPlace.BOTTOM_CENTER);
-    return marker;
   }
 
   private void onRouteNow(final Waypoints waypoints) {
@@ -313,9 +230,7 @@ public class TapToRouteOverlay extends Overlay
   ////////////////////////////////////////////
   @Override
   public void draw(final Canvas canvas, final MapView mapView, final boolean shadow) {
-    final IProjection projection = mapView.getProjection();
-    for (final OverlayItem waypoint : waymarkers)
-      drawMarker(canvas, projection, waypoint);
+    super.draw(canvas, mapView, shadow);
 
     drawRoutingInfoRect();
     drawRestartButton();
@@ -348,27 +263,6 @@ public class TapToRouteOverlay extends Overlay
     routingInfoRect.setText(tapState.actionDescription);
     routingInfoRect.setEnabled(tapState == TapToRoute.WAITING_FOR_NEXT ||
                                tapState == TapToRoute.WAITING_TO_ROUTE);
-  }
-
-  private void drawMarker(final Canvas canvas,
-                          final IProjection projection,
-                          final OverlayItem marker) {
-    if (marker == null)
-      return;
-
-    projection.toPixels(marker.getPoint(), screenPos);
-
-    Matrix transform = mapView.getMatrix();
-    float[] transformValues = new float[9];
-    transform.getValues(transformValues);
-
-    final BitmapDrawable thingToDraw = (BitmapDrawable)marker.getDrawable();
-    final int halfWidth = thingToDraw.getIntrinsicWidth()/2;
-    final int halfHeight = thingToDraw.getIntrinsicHeight()/2;
-    bitmapTransform.setTranslate(-halfWidth, -halfHeight);
-    bitmapTransform.postScale(1/ transformValues[Matrix.MSCALE_X], 1/ transformValues[Matrix.MSCALE_Y]);
-    bitmapTransform.postTranslate(screenPos.x, screenPos.y);
-    canvas.drawBitmap(thingToDraw.getBitmap(), bitmapTransform, bitmapPaint);
   }
 
   //////////////////////////////////////////////
@@ -438,6 +332,7 @@ public class TapToRouteOverlay extends Overlay
     }
 
     addWaypoint(point);
+    controller().pushUndo(this);
     tapState = tapState.next(waymarkersCount());
     mapView.invalidate();
   }
@@ -509,22 +404,14 @@ public class TapToRouteOverlay extends Overlay
   }
 
   @Override
-  public void onResume(SharedPreferences prefs) {
-    Route.registerListener(this);
-  }
-
-  @Override
-  public void onPause(Editor prefs) {
-    Route.unregisterListener(this);
-  }
-
-  @Override
   public void onNewJourney(final Journey journey, final Waypoints waypoints) {
-    setRoute(waypoints, !journey.isEmpty());
+    super.onNewJourney(journey, waypoints);
+    setRoute(!journey.isEmpty());
   }
 
   @Override
   public void onResetJourney() {
+    super.onResetJourney();
     resetRoute();
   }
 }
