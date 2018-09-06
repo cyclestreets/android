@@ -174,10 +174,10 @@ public class TapToRouteOverlay extends Overlay
   }
 
   public Waypoints waypoints() {
-    final Waypoints p = new Waypoints();
+    final List<IGeoPoint> geoPoints = new ArrayList<>();
     for (final OverlayItem o : waymarkers)
-      p.add(o.getPoint());
-    return p;
+      geoPoints.add(o.getPoint());
+    return new Waypoints(geoPoints);
   }
 
   private IGeoPoint finish() {
@@ -288,7 +288,7 @@ public class TapToRouteOverlay extends Overlay
       }
 
       final GeoPoint from = new GeoPoint(lastFix.getLatitude(), lastFix.getLongitude());
-      onRouteNow(Waypoints.fromTo(from, finish()));
+      onRouteNow(Waypoints.Companion.fromTo(from, finish()));
     }
     if (R.string.route_menu_change_reverse == menuId) {
       onRouteNow(waypoints().reversed());

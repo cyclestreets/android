@@ -31,7 +31,7 @@ public class Route
       if (!doRegister(listener))
         return;
 
-      if ((Route.journey() != Journey.Companion.getNULL_JOURNEY()) || (Route.waypoints() != Waypoints.NULL_WAYPOINTS))
+      if ((Route.journey() != Journey.Companion.getNULL_JOURNEY()) || (Route.waypoints() != WaypointsKt.getNULL_WAYPOINTS()))
         listener.onNewJourney(Route.journey(), Route.waypoints());
       else
         listener.onResetJourney();
@@ -73,6 +73,14 @@ public class Route
                                final Context context,
                                final Waypoints waypoints) {
     final CycleStreetsRoutingTask query = new CycleStreetsRoutingTask(plan, speed, context);
+    query.execute(waypoints);
+  }
+
+  public static void LiveReplanRoute(final String plan,
+                                     final int speed,
+                                     final Context context,
+                                     final Waypoints waypoints) {
+    final LiveRideReplanRoutingTask query = new LiveRideReplanRoutingTask(plan, speed, context);
     query.execute(waypoints);
   }
 
@@ -155,7 +163,7 @@ public class Route
   private static void doOnNewJourney(final RouteData route) {
     if (route == null) {
       plannedRoute_ = Journey.Companion.getNULL_JOURNEY();
-      waypoints_ = Waypoints.NULL_WAYPOINTS;
+      waypoints_ = WaypointsKt.getNULL_WAYPOINTS();
       listeners_.onReset();
       clearRoutePref();
       return;
