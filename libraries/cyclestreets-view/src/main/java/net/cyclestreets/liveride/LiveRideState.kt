@@ -18,7 +18,14 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.graphics.drawable.Icon
+import android.media.AudioAttributes.CONTENT_TYPE_SPEECH
+import android.media.AudioAttributes.USAGE_ASSISTANCE_NAVIGATION_GUIDANCE
+import android.media.AudioFocusRequest
+import android.media.AudioManager
+import android.media.AudioManager.AUDIOFOCUS_GAIN_TRANSIENT_MAY_DUCK
+import android.os.Build
 import android.speech.tts.TextToSpeech
+import android.speech.tts.UtteranceProgressListener
 import android.util.Log
 
 internal fun initialState(context: Context, tts: TextToSpeech): LiveRideState {
@@ -31,12 +38,20 @@ internal fun stoppedState(context: Context): LiveRideState {
 
 private val TAG = Logging.getTag(LiveRideState::class.java)
 private const val NOTIFICATION_ID = 1
+private val AUDIO_ATTRIBUTES = android.media.AudioAttributes.Builder()
+    .setUsage(USAGE_ASSISTANCE_NAVIGATION_GUIDANCE)
+    .setContentType(CONTENT_TYPE_SPEECH)
+    .build()
 
 internal abstract class LiveRideState(protected val context: Context,
                                       val tts: TextToSpeech?,
-                                      private val title: String) {
+                                      private val title: String) : UtteranceProgressListener(), AudioManager.OnAudioFocusChangeListener {
+    private val am: AudioManager = context.getSystemService(Context.AUDIO_SERVICE) as AudioManager
+    private var afr: AudioFocusRequest? = null
+
     init {
         Log.d(TAG, "New State: " + this.javaClass.simpleName)
+        tts?.setOnUtteranceProgressListener(this)
     }
 
     protected constructor(context: Context, tts: TextToSpeech?):
@@ -112,5 +127,33 @@ internal abstract class LiveRideState(protected val context: Context,
         return words
                 .replace("LiveRide", "Live Ride")
                 .replace(Arrivee.ARRIVEE, "arreev eh")
+    }
+
+    @Suppress("deprecation")
+    override fun onStart(utteranceId: String?) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            afr = AudioFocusRequest.Builder(AUDIOFOCUS_GAIN_TRANSIENT_MAY_DUCK).setAudioAttributes(AUDIO_ATTRIBUTES).build()
+            am.requestAudioFocus(afr!!)
+        } else {
+            am.requestAudioFocus(this, CONTENT_TYPE_SPEECH, AUDIOFOCUS_GAIN_TRANSIENT_MAY_DUCK)
+        }
+    }
+
+    @Suppress("deprecation")
+    override fun onDone(utteranceId: String?) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            am.abandonAudioFocusRequest(afr!!)
+        } else {
+            am.abandonAudioFocus(this)
+        }
+    }
+
+    @Deprecated("")
+    override fun onError(utteranceId: String?) {
+        // Nothing to do - it's not the end of the world if we can't get audio focus
+    }
+
+    override fun onAudioFocusChange(focusChange: Int) {
+        // Nothing to do - it's not the end of the world if we can't get audio focus
     }
 }
