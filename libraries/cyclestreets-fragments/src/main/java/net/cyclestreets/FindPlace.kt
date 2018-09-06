@@ -10,6 +10,7 @@ import net.cyclestreets.views.place.PlaceView
 import android.app.AlertDialog
 import android.content.Context
 import android.view.View
+import android.view.inputmethod.EditorInfo
 import android.widget.Toast
 import net.cyclestreets.views.place.PlaceViewBase
 
@@ -44,6 +45,15 @@ private class FindPlaceCallbacks(private val context: Context,
 
         placeView = layout.findViewById(R.id.place)
         placeView.setBounds(boundingBox)
+        placeView.textView.setOnEditorActionListener { view, actionId, _ ->
+            return@setOnEditorActionListener when (actionId) {
+                EditorInfo.IME_ACTION_SEARCH -> {
+                    onClick(view)
+                    true
+                }
+                else -> false
+            }
+        }
     }
 
     fun setDialog(ad: AlertDialog) {
@@ -61,7 +71,7 @@ private class FindPlaceCallbacks(private val context: Context,
     }
 
     override fun onClick(view: View) {
-            if (placeView.getText()!!.isEmpty()) {
+        if (placeView.getText()!!.isEmpty()) {
             Toast.makeText(context, R.string.lbl_choose_place, Toast.LENGTH_LONG).show()
             return
         }

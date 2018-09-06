@@ -35,7 +35,7 @@ internal val TAG: String = Logging.getTag(PlaceViewBase::class.java)
 open class PlaceViewBase protected constructor(private val context_: Context, layout: Int, attrs: AttributeSet?) :
             LinearLayout(context_, attrs), OnClickListener, DialogInterface.OnClickListener {
 
-    private val textView: PlaceAutoCompleteTextView
+    val textView: PlaceAutoCompleteTextView
     private val allowedPlaces = ArrayList<GeoPlace>()
     private val savedLocations: List<SavedLocation> = LocationDatabase(context_).savedLocations()
     private val options: MutableList<String> = ArrayList()
