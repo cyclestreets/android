@@ -139,7 +139,7 @@ class RouteMapFragment : CycleMapFragment(), Route.Listener {
     }
 
     override fun onNewJourney(journey: Journey, waypoints: Waypoints) {
-        if (!waypoints.isEmpty) {
+        if (!waypoints.isEmpty()) {
             Log.d(TAG, "Setting map centre to " + waypoints.first()!!)
             mapView().controller.setCenter(waypoints.first())
         }
