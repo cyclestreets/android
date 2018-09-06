@@ -135,7 +135,7 @@ open class CycleMapFragment : Fragment(), Undoable {
     }
 
     private fun launchFindDialog() {
-        FindPlace.launch(activity, map!!.boundingBox) { place ->
+        FindPlace.launch(context!!, map!!.boundingBox) { place ->
             map!!.centreOn(place, FINDPLACE_ZOOM_LEVEL)
         }
     }

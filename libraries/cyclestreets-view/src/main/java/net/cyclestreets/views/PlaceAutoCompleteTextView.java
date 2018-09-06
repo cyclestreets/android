@@ -103,7 +103,7 @@ public class PlaceAutoCompleteTextView extends AppCompatAutoCompleteTextView
   @Override
   public void onFilterComplete(int count) {
     if (hasFocus() && hasWindowFocus() && (place_ == null))
-      showDropDown();
+      doShowDropDown();
     else
       dismissDropDown();
   }
@@ -111,6 +111,11 @@ public class PlaceAutoCompleteTextView extends AppCompatAutoCompleteTextView
   @Override
   public void onClick(View v) {
     performFiltering(null, KeyEvent.KEYCODE_FOCUS);
+    doShowDropDown();
+  }
+
+  private void doShowDropDown() {
+    setDropDownWidth((int)(getWidth() * 0.9));
     showDropDown();
   }
 
