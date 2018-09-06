@@ -60,6 +60,7 @@ class LiveRideService : Service(), LocationListener, TextToSpeech.OnInitListener
         }
 
         val tts = TextToSpeech(this, this)
+        tts.setOnUtteranceProgressListener(AudioFocuser(this))
         stage = initialState(this, tts)
         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, UPDATE_TIME, UPDATE_DISTANCE, this)
         Log.d(TAG, "startRiding")
