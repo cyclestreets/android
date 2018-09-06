@@ -62,6 +62,7 @@ class LiveRideService : Service(), LocationListener, TextToSpeech.OnInitListener
         val tts = TextToSpeech(this, this)
         stage = initialState(this, tts)
         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, UPDATE_TIME, UPDATE_DISTANCE, this)
+        Log.d(TAG, "startRiding")
     }
 
     fun stopRiding() {
@@ -71,6 +72,7 @@ class LiveRideService : Service(), LocationListener, TextToSpeech.OnInitListener
         stage!!.tts!!.shutdown()
         stage = stoppedState(this)
         locationManager.removeUpdates(this)
+        Log.d(TAG, "stopRiding")
     }
 
     inner class Binding : Binder() {

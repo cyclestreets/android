@@ -1,15 +1,22 @@
 package net.cyclestreets
 
 import android.Manifest
+import net.cyclestreets.liveride.LiveRideService
 import net.cyclestreets.util.GPS
 import net.cyclestreets.util.MessageBox
 import net.cyclestreets.views.CycleMapView
+
 import net.cyclestreets.views.overlay.LiveRideOverlay
 import net.cyclestreets.views.overlay.LockScreenOnOverlay
 import net.cyclestreets.views.overlay.RouteOverlay
 import android.app.Activity
+import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
+import android.content.ServiceConnection
+import android.location.Location
+import android.os.Bundle
+import android.os.IBinder
 import android.util.Log
 import android.widget.RelativeLayout
 
@@ -19,15 +26,40 @@ import net.cyclestreets.util.hasPermission
 
 private val TAG = Logging.getTag(LiveRideActivity::class.java)
 
-class LiveRideActivity : Activity() {
+class LiveRideActivity : Activity(), ServiceConnection, LiveRideOverlay.Locator {
     private lateinit var map: CycleMapView
+    private lateinit var liveride: LiveRideService.Binding
 
     override fun attachBaseContext(newBase: Context) {
         // Allows the use of Material icon library, see https://github.com/mikepenz/Android-Iconics
         super.attachBaseContext(IconicsContextWrapper.wrap(newBase))
     }
 
-    // No need to override onCreate - the map is initialized in onResume
+    override fun onServiceConnected(className: ComponentName, binder: IBinder) {
+        liveride = binder as LiveRideService.Binding
+
+        if (!liveride.areRiding())
+            liveride.startRiding()
+    }
+
+    override fun onServiceDisconnected(className: ComponentName) {}
+
+    override fun lastLocation(): Location? {
+        return liveride.lastLocation()
+    }
+
+    public override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        val intent = Intent(this, LiveRideService::class.java)
+        this.bindService(intent, this, Context.BIND_AUTO_CREATE)
+    }
+
+    public override fun onDestroy() {
+        liveride.stopRiding()
+        this.unbindService(this)
+        super.onDestroy()
+    }
 
     public override fun onPause() {
         map.disableFollowLocation()
@@ -48,7 +80,7 @@ class LiveRideActivity : Activity() {
         map = CycleMapView(this, this.javaClass.name).apply {
             overlayPushBottom(RouteOverlay())
             overlayPushTop(LockScreenOnOverlay(this@LiveRideActivity, this))
-            overlayPushTop(LiveRideOverlay(this@LiveRideActivity, this))
+            overlayPushTop(LiveRideOverlay(this@LiveRideActivity, this@LiveRideActivity))
             lockOnLocation()
             hideLocationButton()
         }
