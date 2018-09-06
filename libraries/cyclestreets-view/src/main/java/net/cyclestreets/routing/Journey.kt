@@ -39,7 +39,7 @@ class Journey private constructor(wp: Waypoints? = null) {
     private fun start(): Segment.Start { return segments.first() }
     private fun end(): Segment.End { return segments.last() }
 
-    fun url(): String { return "http://cycle.st/j" + itinerary() }
+    fun url(): String { return "https://cycle.st/j" + itinerary() }
     fun itinerary(): Int { return start().itinerary() }
     fun name(): String { return start().name() }
     fun plan(): String { return start().plan() }
