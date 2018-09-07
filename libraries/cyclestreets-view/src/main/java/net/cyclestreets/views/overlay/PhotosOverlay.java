@@ -3,6 +3,7 @@ package net.cyclestreets.views.overlay;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.cyclestreets.photos.DisplayPhotoKt;
 import org.osmdroid.api.IGeoPoint;
 import org.osmdroid.util.BoundingBox;
 import org.osmdroid.views.overlay.OverlayItem;
@@ -13,7 +14,6 @@ import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 
-import net.cyclestreets.DisplayPhoto;
 import net.cyclestreets.api.Photo;
 import net.cyclestreets.api.PhotoMarkers;
 import net.cyclestreets.api.Photos;
@@ -94,7 +94,7 @@ public class PhotosOverlay extends LiveItemOverlay<PhotosOverlay.PhotoItem> impl
   @Override
   public void onPhotoLoaded(@NonNull Photo photo) {
     centreOn(photo.position());
-    DisplayPhoto.launch(photo, context_);
+    DisplayPhotoKt.displayPhoto(photo, context_);
   }
 
   ///////////////////////////////////////////////////
@@ -111,7 +111,7 @@ public class PhotosOverlay extends LiveItemOverlay<PhotosOverlay.PhotoItem> impl
   }
 
   private void showPhoto(final PhotoItem item) {
-    DisplayPhoto.launch(item.photo(), context_);
+    DisplayPhotoKt.displayPhoto(item.photo(), context_);
   }
 
   ///////////////////////////////////////////////////

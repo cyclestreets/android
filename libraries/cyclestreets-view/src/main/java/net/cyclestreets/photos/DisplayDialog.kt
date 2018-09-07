@@ -12,10 +12,6 @@ import android.widget.TextView
 import net.cyclestreets.api.Photo
 import net.cyclestreets.view.R
 
-internal interface ImageDisplay {
-    fun show()
-}
-
 internal abstract class DisplayDialog protected constructor(protected val photo: Photo,
                                                             protected val context: Context) : ImageDisplay, View.OnTouchListener, GestureDetector.OnGestureListener {
     private val gD: GestureDetector = GestureDetector(context, this)

@@ -10,7 +10,7 @@ import net.cyclestreets.api.Photo
 import net.cyclestreets.util.ImageDownloader
 import net.cyclestreets.view.R
 
-internal class PhotoDisplay internal constructor(photo: Photo, context: Context) : DisplayDialog(photo, context) {
+internal class PhotoDisplayDialog internal constructor(photo: Photo, context: Context) : DisplayDialog(photo, context) {
     private lateinit var imageView: ImageView
 
     override fun title(): String {

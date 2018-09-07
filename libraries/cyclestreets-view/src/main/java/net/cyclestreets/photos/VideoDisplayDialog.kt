@@ -11,7 +11,7 @@ import android.widget.VideoView
 import net.cyclestreets.api.Photo
 import net.cyclestreets.view.R
 
-internal class VideoDisplay internal constructor(photo: Photo, context: Context) : DisplayDialog(photo, context), MediaPlayer.OnPreparedListener {
+internal class VideoDisplayDialog internal constructor(photo: Photo, context: Context) : DisplayDialog(photo, context), MediaPlayer.OnPreparedListener {
     private lateinit var videoView: VideoView
     private lateinit var controller: VideoControllerView
     private var progress: ProgressDialog? = null
@@ -40,7 +40,7 @@ internal class VideoDisplay internal constructor(photo: Photo, context: Context)
             setZOrderOnTop(true)
             requestFocus()
             start()
-            setOnPreparedListener(this@VideoDisplay)
+            setOnPreparedListener(this@VideoDisplayDialog)
         }
 
         progress = ProgressDialog(dialog.context).apply {
