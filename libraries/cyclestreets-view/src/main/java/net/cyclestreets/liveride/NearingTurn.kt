@@ -12,7 +12,7 @@ internal class NearingTurn(previous: LiveRideState, journey: Journey) :
         val segment = journey.segments.get(journey.activeSegmentIndex() + 1)
 
         if (!segment.turnInstruction().isNullOrEmpty()) {
-            notify("Get ready to ${segment.turnInstruction()}", TurnIcons.iconId(segment.turn()))
+            notify("Get ready to ${turnInto(segment)}", TurnIcons.iconId(segment.turn()))
         } else {
             notify("You are approaching the ${Arrivee.ARRIVEE}")
         }
