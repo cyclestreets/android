@@ -267,7 +267,7 @@ class TapToRouteOverlay(private val mapView: CycleMapView) : Overlay(), TapListe
     }
 
     private fun tapAction(point: IGeoPoint) {
-        if (tapState.canAddWaypoint()) {
+        if (tapState.noFurtherWaypoints()) {
             return
         }
 
@@ -311,7 +311,7 @@ class TapToRouteOverlay(private val mapView: CycleMapView) : Overlay(), TapListe
         fun canRoute(): Boolean {
             return this == TapToRoute.WAITING_FOR_NEXT || this == TapToRoute.WAITING_TO_ROUTE
         }
-        fun canAddWaypoint(): Boolean {
+        fun noFurtherWaypoints(): Boolean {
             return this == TapToRoute.WAITING_TO_ROUTE || this == TapToRoute.ALL_DONE
         }
         fun routeIsPlanned(): Boolean {
