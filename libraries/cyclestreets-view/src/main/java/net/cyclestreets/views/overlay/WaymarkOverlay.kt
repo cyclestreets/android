@@ -1,43 +1,21 @@
 package net.cyclestreets.views.overlay
 
-import android.content.Context
-import android.content.Intent
 import android.content.SharedPreferences
 import android.content.SharedPreferences.Editor
-import android.content.res.Resources
 import android.graphics.Canvas
 import android.graphics.Matrix
 import android.graphics.Paint
 import android.graphics.Point
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
-import android.location.Location
-import android.support.design.widget.FloatingActionButton
 import android.support.v4.content.res.ResourcesCompat
-import android.util.Log
-import android.view.ContextMenu
-import android.view.Gravity
-import android.view.Menu
-import android.view.MenuItem
-import android.view.MotionEvent
-import android.view.View
-import android.widget.Button
-import android.widget.ImageView
-import android.widget.Toast
 
 import com.mikepenz.google_material_typeface_library.GoogleMaterial
 import com.mikepenz.iconics.IconicsDrawable
 
-import net.cyclestreets.CycleStreetsPreferences
-import net.cyclestreets.FeedbackActivity
-import net.cyclestreets.RoutePlans
-import net.cyclestreets.Undoable
 import net.cyclestreets.routing.Journey
 import net.cyclestreets.routing.Route
 import net.cyclestreets.routing.Waypoints
-import net.cyclestreets.util.Logging
-import net.cyclestreets.util.MessageBox
-import net.cyclestreets.util.Share
 import net.cyclestreets.util.Theme
 import net.cyclestreets.view.R
 import net.cyclestreets.views.CycleMapView
@@ -50,10 +28,6 @@ import org.osmdroid.views.overlay.Overlay
 import org.osmdroid.views.overlay.OverlayItem
 
 import java.util.ArrayList
-import java.util.HashMap
-
-import net.cyclestreets.util.MenuHelper.createMenuItem
-import net.cyclestreets.util.MenuHelper.showMenuItem
 
 open class WaymarkOverlay(private val mapView: CycleMapView) : Overlay(), PauseResumeListener, Route.Listener {
 

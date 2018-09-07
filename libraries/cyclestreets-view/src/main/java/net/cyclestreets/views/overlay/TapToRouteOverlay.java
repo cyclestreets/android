@@ -89,8 +89,6 @@ public class TapToRouteOverlay extends WaymarkOverlay
   private final Drawable shareDrawable;
   private final Drawable commentDrawable;
 
-  private List<OverlayItem> waymarkers;
-
   private int highlightColour;
   private int lowlightColour;
 
@@ -125,8 +123,6 @@ public class TapToRouteOverlay extends WaymarkOverlay
 
     lowlightColour = Theme.lowlightColor(context) | 0xFF000000;
     highlightColour = Theme.highlightColor(context) | 0xFF000000;
-
-    waymarkers = new ArrayList<>();
 
     tapState = TapToRoute.start();
 
