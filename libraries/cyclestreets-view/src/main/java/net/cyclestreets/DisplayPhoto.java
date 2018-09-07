@@ -1,12 +1,12 @@
 package net.cyclestreets;
 
 import net.cyclestreets.api.Photo;
+import net.cyclestreets.util.ImageDownloader;
+import net.cyclestreets.util.ProgressDialog;
 import net.cyclestreets.util.Screen;
 import net.cyclestreets.view.R;
-import net.cyclestreets.util.ImageDownloader;
 
 import android.app.AlertDialog;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
