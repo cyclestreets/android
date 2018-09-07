@@ -10,13 +10,9 @@ import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.support.v4.content.res.ResourcesCompat
 
-import com.mikepenz.google_material_typeface_library.GoogleMaterial
-import com.mikepenz.iconics.IconicsDrawable
-
 import net.cyclestreets.routing.Journey
 import net.cyclestreets.routing.Route
 import net.cyclestreets.routing.Waypoints
-import net.cyclestreets.util.Theme
 import net.cyclestreets.view.R
 import net.cyclestreets.views.CycleMapView
 
@@ -38,41 +34,17 @@ class WaymarkOverlay(private val mapView: CycleMapView) : Overlay(), PauseResume
     private val bitmapTransform = Matrix()
     private val bitmapPaint = Paint()
 
-    private val shareDrawable: Drawable
-    private val commentDrawable: Drawable
-
     private val waymarkers: MutableList<OverlayItem>
 
     init {
-        val context = mapView.context
+        val res = mapView.context.resources
+        val makeWisp = { drawable: Int -> ResourcesCompat.getDrawable(res, drawable, null) }
 
-        val res = context.resources
-        greenWisp = ResourcesCompat.getDrawable(res, R.drawable.green_wisp, null)
-        orangeWisp = ResourcesCompat.getDrawable(res, R.drawable.orange_wisp, null)
-        redWisp = ResourcesCompat.getDrawable(res, R.drawable.red_wisp, null)
-
-        shareDrawable = IconicsDrawable(context)
-                .icon(GoogleMaterial.Icon.gmd_share)
-                .color(Theme.lowlightColorInverse(context))
-                .sizeDp(24)
-        commentDrawable = IconicsDrawable(context)
-                .icon(GoogleMaterial.Icon.gmd_comment)
-                .color(Theme.lowlightColorInverse(context))
-                .sizeDp(24)
+        greenWisp = makeWisp(R.drawable.green_wisp)
+        orangeWisp = makeWisp(R.drawable.orange_wisp)
+        redWisp = makeWisp(R.drawable.red_wisp)
 
         waymarkers = ArrayList()
-    }
-
-    private fun setWaypoints(waypoints: Waypoints) {
-        resetWaypoints()
-
-        for (waypoint in waypoints) {
-            addWaypoint(waypoint)
-        }
-    }
-
-    private fun resetWaypoints() {
-        waymarkers.clear()
     }
 
     fun waymarkersCount(): Int {
@@ -80,57 +52,61 @@ class WaymarkOverlay(private val mapView: CycleMapView) : Overlay(), PauseResume
     }
 
     fun waypoints(): Waypoints {
-        val p = ArrayList<IGeoPoint>()
-        for (o in waymarkers)
-            p.add(o.point)
-        return Waypoints(p)
+        return Waypoints(waymarkers.map { wp -> wp.point })
     }
 
     fun finish(): IGeoPoint {
-        return waymarkers[waymarkersCount() - 1].point
+        return waymarkers.last().point
     }
 
     fun addWaypoint(point: IGeoPoint?) {
         if (point == null)
             return
         when (waymarkersCount()) {
-            0 -> waymarkers.add(addMarker(point, "start", greenWisp))
-            1 -> waymarkers.add(addMarker(point, "finish", redWisp))
+            0 -> pushMarker(point, "start", greenWisp)
+            1 -> pushMarker(point, "finish", redWisp)
             else -> {
                 val prevFinished = finish()
-                waymarkers.removeAt(waymarkersCount() - 1)
-                waymarkers.add(addMarker(prevFinished, "waypoint", orangeWisp))
-                waymarkers.add(addMarker(point, "finish", redWisp))
+                popMarker()
+                pushMarker(prevFinished, "waypoint", orangeWisp)
+                pushMarker(point, "finish", redWisp)
             }
         }
     }
 
     fun removeWaypoint() {
         when (waymarkersCount()) {
-            0 -> {
-            }
-            1, 2 -> waymarkers.removeAt(waymarkersCount() - 1)
+            0 -> { }
+            1, 2 -> popMarker()
             else -> {
-                waymarkers.removeAt(waymarkersCount() - 1)
+                popMarker()
                 val prevFinished = finish()
-                waymarkers.removeAt(waymarkersCount() - 1)
-                waymarkers.add(addMarker(prevFinished, "finish", redWisp))
+                popMarker()
+                pushMarker(prevFinished, "finish", redWisp)
             }
         }
     }
 
-    private fun addMarker(point: IGeoPoint, label: String, icon: Drawable?): OverlayItem {
-        val marker = OverlayItem(label, label, GeoPoint(point.latitude, point.longitude))
-        marker.setMarker(icon)
-        marker.markerHotspot = OverlayItem.HotspotPlace.BOTTOM_CENTER
-        return marker
+    private fun pushMarker(point: IGeoPoint, label: String, icon: Drawable?) {
+        waymarkers.add(makeMarker(point, label, icon))
+    }
+
+    private fun popMarker() {
+        waymarkers.removeAt(waymarkers.lastIndex)
+    }
+
+    private fun makeMarker(point: IGeoPoint, label: String, icon: Drawable?): OverlayItem {
+        return OverlayItem(label, label, GeoPoint(point.latitude, point.longitude)).apply {
+            setMarker(icon)
+            markerHotspot = OverlayItem.HotspotPlace.BOTTOM_CENTER
+        }
     }
 
     ////////////////////////////////////////////
     override fun draw(canvas: Canvas, mapView: MapView, shadow: Boolean) {
         val projection = mapView.projection
-        for (waypoint in waymarkers)
-            drawMarker(canvas, projection, waypoint)
+
+        waymarkers.forEach { wp -> drawMarker(canvas, projection, wp) }
     }
 
     private fun drawMarker(canvas: Canvas,
@@ -145,10 +121,23 @@ class WaymarkOverlay(private val mapView: CycleMapView) : Overlay(), PauseResume
         val thingToDraw = marker.drawable as BitmapDrawable
         val halfWidth = thingToDraw.intrinsicWidth / 2
         val halfHeight = thingToDraw.intrinsicHeight / 2
-        bitmapTransform.setTranslate((-halfWidth).toFloat(), (-halfHeight).toFloat())
-        bitmapTransform.postScale(1 / transformValues[Matrix.MSCALE_X], 1 / transformValues[Matrix.MSCALE_Y])
-        bitmapTransform.postTranslate(screenPos.x.toFloat(), screenPos.y.toFloat())
+        bitmapTransform.apply {
+            setTranslate((-halfWidth).toFloat(), (-halfHeight).toFloat())
+            postScale(1 / transformValues[Matrix.MSCALE_X], 1 / transformValues[Matrix.MSCALE_Y])
+            postTranslate(screenPos.x.toFloat(), screenPos.y.toFloat())
+        }
         canvas.drawBitmap(thingToDraw.bitmap, bitmapTransform, bitmapPaint)
+    }
+
+    ////////////////////////////////////
+    private fun setWaypoints(waypoints: Waypoints) {
+        resetWaypoints()
+
+        waypoints.forEach { wp -> addWaypoint(wp) }
+    }
+
+    private fun resetWaypoints() {
+        waymarkers.clear()
     }
 
     ////////////////////////////////////
