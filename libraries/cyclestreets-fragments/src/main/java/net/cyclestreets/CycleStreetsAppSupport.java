@@ -38,7 +38,7 @@ public final class CycleStreetsAppSupport {
   }
 
   private static String version(final Context context) {
-    return "Version : " + AppInfo.version(context);
+    return "Version : " + AppInfo.INSTANCE.version(context);
   }
 
   private static boolean isFirstRun(final Context context) {
