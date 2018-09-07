@@ -81,7 +81,7 @@ class LiveRideActivity : Activity(), ServiceConnection, LiveRideOverlay.Locator 
         map = CycleMapView(this, this.javaClass.name).apply {
             overlayPushBottom(RouteOverlay())
             overlayPushTop(WaymarkOverlay(this))
-            overlayPushTop(LockScreenOnOverlay(this@LiveRideActivity, this))
+            overlayPushTop(LockScreenOnOverlay(this))
             overlayPushTop(LiveRideOverlay(this@LiveRideActivity, this@LiveRideActivity))
             lockOnLocation()
             hideLocationButton()
