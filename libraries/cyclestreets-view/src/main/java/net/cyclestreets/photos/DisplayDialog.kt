@@ -61,6 +61,7 @@ internal abstract class DisplayDialog protected constructor(protected val photo:
     protected open fun postShowSetup(dialog: AlertDialog) {}
 
     companion object {
+        @JvmStatic
         protected fun sizeView(v: View, context: Context) {
             val wm = context.getSystemService(Context.WINDOW_SERVICE) as WindowManager
             val point = Point()
