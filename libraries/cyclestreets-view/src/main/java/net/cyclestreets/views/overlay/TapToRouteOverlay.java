@@ -79,13 +79,13 @@ public class TapToRouteOverlay extends Overlay
   private final Drawable shareDrawable;
   private final Drawable commentDrawable;
 
-  private int highlightColour;
-  private int lowlightColour;
+  private final int highlightColour;
+  private final int lowlightColour;
+
+  private final WaymarkOverlay waymarks;
+  private final ControllerOverlay controller;
 
   private TapToRoute tapState;
-
-  private WaymarkOverlay waymarks;
-  private OverlayHelper overlays;
 
   public TapToRouteOverlay(final CycleMapView mapView) {
     super();
@@ -120,21 +120,17 @@ public class TapToRouteOverlay extends Overlay
 
     tapState = TapToRoute.start();
 
-    overlays = new OverlayHelper(mapView);
-  }
-
-  private ControllerOverlay controller() {
-    return overlays.controller();
+    controller = new OverlayHelper(mapView).controller();
   }
 
   private void setRoute(final boolean complete) {
     tapState = complete ? TapToRoute.ALL_DONE : tapState.reset();
-    controller().flushUndo(this);
+    controller.flushUndo(this);
   }
 
   private void resetRoute() {
     tapState = tapState.reset();
-    controller().flushUndo(this);
+    controller.flushUndo(this);
   }
 
   private void onRouteNow(final Waypoints waypoints) {
@@ -313,7 +309,7 @@ public class TapToRouteOverlay extends Overlay
   }
 
   private boolean tapMarker(final MotionEvent event) {
-    final IGeoPoint p = mapView.getProjection().fromPixels((int) event.getX(), (int)event.getY());
+    final IGeoPoint p = mapView.getProjection().fromPixels((int)event.getX(), (int)event.getY());
     tapAction(p);
     return true;
   }
@@ -329,7 +325,7 @@ public class TapToRouteOverlay extends Overlay
     }
 
     waymarks.addWaypoint(point);
-    controller().pushUndo(this);
+    controller.pushUndo(this);
     tapState = tapState.next(waypointsCount());
     mapView.invalidate();
   }
