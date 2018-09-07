@@ -1,8 +1,6 @@
 package net.cyclestreets.views.overlay;
 
 import java.util.HashMap;
-import java.util.List;
-import java.util.ArrayList;
 import java.util.Map;
 
 import net.cyclestreets.RoutePlans;
@@ -23,24 +21,16 @@ import net.cyclestreets.views.CycleMapView;
 import org.osmdroid.api.IGeoPoint;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
-import org.osmdroid.api.IProjection;
 import org.osmdroid.views.overlay.Overlay;
-import org.osmdroid.views.overlay.OverlayItem;
 
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
-import android.content.res.Resources;
 import android.graphics.Canvas;
-import android.graphics.Matrix;
-import android.graphics.Paint;
-import android.graphics.Point;
-import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v4.content.res.ResourcesCompat;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.Gravity;
@@ -58,7 +48,7 @@ import com.mikepenz.iconics.IconicsDrawable;
 import static net.cyclestreets.util.MenuHelper.createMenuItem;
 import static net.cyclestreets.util.MenuHelper.showMenuItem;
 
-public class TapToRouteOverlay extends WaymarkOverlay
+public class TapToRouteOverlay extends Overlay
                                implements TapListener,
                                           ContextMenuListener,
                                           Undoable,
@@ -94,10 +84,14 @@ public class TapToRouteOverlay extends WaymarkOverlay
 
   private TapToRoute tapState;
 
+  private WaymarkOverlay waymarks;
   private OverlayHelper overlays;
 
   public TapToRouteOverlay(final CycleMapView mapView) {
-    super(mapView);
+    super();
+
+    waymarks = new WaymarkOverlay(mapView);
+    mapView.overlayPushTop(waymarks);
 
     context = mapView.getContext();
     this.mapView = mapView;
@@ -151,6 +145,15 @@ public class TapToRouteOverlay extends WaymarkOverlay
   }
 
   ////////////////////////////////////////////
+  public Waypoints waypoints() {
+    return waymarks.waypoints();
+  }
+
+  private int waypointsCount() {
+    return waymarks.waymarkersCount();
+  }
+
+  ////////////////////////////////////////////
   @Override
   public void onCreateOptionsMenu(final Menu menu) {
     createMenuItem(menu, R.string.route_menu_change, Menu.FIRST, R.drawable.ic_menu_more);
@@ -201,7 +204,7 @@ public class TapToRouteOverlay extends WaymarkOverlay
       }
 
       final GeoPoint from = new GeoPoint(lastFix.getLatitude(), lastFix.getLongitude());
-      onRouteNow(Waypoints.Companion.fromTo(from, finish()));
+      onRouteNow(Waypoints.Companion.fromTo(from, waymarks.finish()));
     }
     if (R.string.route_menu_change_reverse == menuId) {
       onRouteNow(waypoints().reversed());
@@ -226,8 +229,6 @@ public class TapToRouteOverlay extends WaymarkOverlay
   ////////////////////////////////////////////
   @Override
   public void draw(final Canvas canvas, final MapView mapView, final boolean shadow) {
-    super.draw(canvas, mapView, shadow);
-
     drawRoutingInfoRect();
     drawRestartButton();
   }
@@ -298,14 +299,14 @@ public class TapToRouteOverlay extends WaymarkOverlay
       case WAITING_TO_ROUTE:
       case WAITING_FOR_SECOND:
       case WAITING_FOR_NEXT:
-        removeWaypoint();
+        waymarks.removeWaypoint();
         break;
       case ALL_DONE:
         Route.resetJourney();
         break;
     }
 
-    tapState = tapState.previous(waymarkersCount());
+    tapState = tapState.previous(waypointsCount());
     mapView.postInvalidate();
 
     return true;
@@ -327,9 +328,9 @@ public class TapToRouteOverlay extends WaymarkOverlay
       return;
     }
 
-    addWaypoint(point);
+    waymarks.addWaypoint(point);
     controller().pushUndo(this);
-    tapState = tapState.next(waymarkersCount());
+    tapState = tapState.next(waypointsCount());
     mapView.invalidate();
   }
 
@@ -399,15 +400,24 @@ public class TapToRouteOverlay extends WaymarkOverlay
     }
   }
 
+  ////////////////////////////////////
+  @Override
+  public void onResume(final SharedPreferences prefs) {
+    Route.registerListener(this);
+  }
+
+  @Override
+  public void onPause(final Editor edit) {
+    Route.unregisterListener(this);
+  }
+
   @Override
   public void onNewJourney(final Journey journey, final Waypoints waypoints) {
-    super.onNewJourney(journey, waypoints);
     setRoute(!journey.isEmpty());
   }
 
   @Override
   public void onResetJourney() {
-    super.onResetJourney();
     resetRoute();
   }
 }

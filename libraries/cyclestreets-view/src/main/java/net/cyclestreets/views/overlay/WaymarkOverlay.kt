@@ -29,7 +29,7 @@ import org.osmdroid.views.overlay.OverlayItem
 
 import java.util.ArrayList
 
-open class WaymarkOverlay(private val mapView: CycleMapView) : Overlay(), PauseResumeListener, Route.Listener {
+class WaymarkOverlay(private val mapView: CycleMapView) : Overlay(), PauseResumeListener, Route.Listener {
 
     private val greenWisp: Drawable?
     private val orangeWisp: Drawable?
@@ -75,7 +75,7 @@ open class WaymarkOverlay(private val mapView: CycleMapView) : Overlay(), PauseR
         waymarkers.clear()
     }
 
-    protected fun waymarkersCount(): Int {
+    fun waymarkersCount(): Int {
         return waymarkers.size
     }
 
@@ -90,7 +90,7 @@ open class WaymarkOverlay(private val mapView: CycleMapView) : Overlay(), PauseR
         return waymarkers[waymarkersCount() - 1].point
     }
 
-    protected fun addWaypoint(point: IGeoPoint?) {
+    fun addWaypoint(point: IGeoPoint?) {
         if (point == null)
             return
         when (waymarkersCount()) {
@@ -105,7 +105,7 @@ open class WaymarkOverlay(private val mapView: CycleMapView) : Overlay(), PauseR
         }
     }
 
-    protected fun removeWaypoint() {
+    fun removeWaypoint() {
         when (waymarkersCount()) {
             0 -> {
             }
