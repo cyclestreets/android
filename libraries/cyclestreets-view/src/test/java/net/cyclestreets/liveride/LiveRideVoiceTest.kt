@@ -138,7 +138,7 @@ class LiveRideVoiceTest {
 
     private fun verify(expectedSpeech: String) {
         try {
-            inOrder.verify(mockTts, times(1)).speak(eq(expectedSpeech), eq(TextToSpeech.QUEUE_ADD), isNull(), isNull())
+            inOrder.verify(mockTts, times(1)).speak(eq(expectedSpeech), eq(TextToSpeech.QUEUE_ADD), isNull(), anyString())
             inOrder.verifyNoMoreInteractions()
         } catch (e: VerificationInOrderFailure) {
             System.out.println(mockingDetails(mockTts).printInvocations())

@@ -18,6 +18,8 @@ import android.os.Binder
 import android.os.Bundle
 import android.os.IBinder
 import android.speech.tts.TextToSpeech
+import android.speech.tts.TextToSpeech.ERROR
+import android.speech.tts.TextToSpeech.SUCCESS
 
 private const val UPDATE_DISTANCE = 5f  // metres
 private const val UPDATE_TIME = 500L    // milliseconds
@@ -60,6 +62,7 @@ class LiveRideService : Service(), LocationListener, TextToSpeech.OnInitListener
         }
 
         val tts = TextToSpeech(this, this)
+        tts.setOnUtteranceProgressListener(AudioFocuser(this))
         stage = initialState(this, tts)
         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, UPDATE_TIME, UPDATE_DISTANCE, this)
         Log.d(TAG, "startRiding")
@@ -86,7 +89,7 @@ class LiveRideService : Service(), LocationListener, TextToSpeech.OnInitListener
     // TextToSpeech init listener
     @SuppressLint("MissingPermission")
     override fun onInit(status: Int) {
-        Log.i(TAG, "TextToSpeech init returned $status (where 0 = SUCCESS)")
+        Log.i(TAG, "TextToSpeech init returned $status ($SUCCESS=success, $ERROR=error)")
         locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER)?.let { onLocationChanged(it) }
     }
 

@@ -224,6 +224,7 @@ public class CycleMapView extends FrameLayout
   public void enableAndFollowLocation() { location_.enableAndFollowLocation(true); }
   public void lockOnLocation() { location_.lockOnLocation(); }
   public void hideLocationButton() { location_.hideButton(); }
+  public void shiftAttributionRight() { controllerOverlay_.setAttributionShiftedRight(); }
 
   ///////////////////////////////////////////////////////
   public void centreOn(final IGeoPoint place) {
