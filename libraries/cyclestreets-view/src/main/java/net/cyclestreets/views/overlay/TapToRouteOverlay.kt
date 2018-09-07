@@ -130,13 +130,13 @@ class TapToRouteOverlay(private val mapView: CycleMapView) : Overlay(), TapListe
     }
 
     override fun onPrepareOptionsMenu(menu: Menu) {
-        showMenuItem(menu, R.string.route_menu_change, tapState == TapToRoute.ALL_DONE)
-        showMenuItem(menu, R.string.route_menu_change_share, tapState == TapToRoute.ALL_DONE)
-        showMenuItem(menu, R.string.route_menu_change_comment, tapState == TapToRoute.ALL_DONE)
+        showMenuItem(menu, R.string.route_menu_change, tapState.routeIsPlanned())
+        showMenuItem(menu, R.string.route_menu_change_share, tapState.routeIsPlanned())
+        showMenuItem(menu, R.string.route_menu_change_comment, tapState.routeIsPlanned())
     }
 
     override fun onCreateContextMenu(menu: ContextMenu) {
-        if (tapState != TapToRoute.ALL_DONE)
+        if (!tapState.routeIsPlanned())
             return
 
         val currentPlan = Route.journey().plan()
@@ -185,8 +185,9 @@ class TapToRouteOverlay(private val mapView: CycleMapView) : Overlay(), TapListe
             return true
         }
         if (R.string.route_menu_change_comment == menuId) {
-            val context = mapView.context
-            context.startActivity(Intent(context, FeedbackActivity::class.java))
+            mapView.context.apply {
+                startActivity(Intent(this, FeedbackActivity::class.java))
+            }
             return true
         }
 
@@ -200,7 +201,7 @@ class TapToRouteOverlay(private val mapView: CycleMapView) : Overlay(), TapListe
     }
 
     private fun drawRestartButton() {
-        if (tapState == TapToRoute.ALL_DONE) {
+        if (tapState.routeIsPlanned()) {
             restartButton.show()
         } else {
             restartButton.hide()
@@ -208,25 +209,18 @@ class TapToRouteOverlay(private val mapView: CycleMapView) : Overlay(), TapListe
     }
 
     private fun drawRoutingInfoRect() {
-        if (tapState == TapToRoute.ALL_DONE) {
+        if (tapState.routeIsPlanned()) {
             // In this case, populating the routing info is done by the RouteHighlightOverlay
             return
         }
 
-        routeNowIcon.visibility = if (tapState == TapToRoute.WAITING_FOR_NEXT || tapState == TapToRoute.WAITING_TO_ROUTE)
-            View.VISIBLE
-        else
-            View.INVISIBLE
+        routeNowIcon.visibility = if (tapState.canRoute()) View.VISIBLE else View.INVISIBLE
 
-        val bgColour = if (tapState == TapToRoute.WAITING_FOR_START || tapState == TapToRoute.WAITING_FOR_SECOND)
-            lowlightColour
-        else
-            highlightColour
         routingInfoRect.apply {
-            setBackgroundColor(bgColour)
+            setBackgroundColor(if (tapState.canRoute()) highlightColour else lowlightColour)
             gravity = Gravity.CENTER
             text = tapState.actionDescription
-            isEnabled = tapState == TapToRoute.WAITING_FOR_NEXT || tapState == TapToRoute.WAITING_TO_ROUTE
+            isEnabled = tapState.canRoute()
         }
     }
 
@@ -260,7 +254,9 @@ class TapToRouteOverlay(private val mapView: CycleMapView) : Overlay(), TapListe
 
         when (tapState) {
             TapToRoute.WAITING_FOR_START -> return true
-            TapToRoute.WAITING_TO_ROUTE, TapToRoute.WAITING_FOR_SECOND, TapToRoute.WAITING_FOR_NEXT -> waymarks.removeWaypoint()
+            TapToRoute.WAITING_TO_ROUTE,
+                TapToRoute.WAITING_FOR_SECOND,
+                TapToRoute.WAITING_FOR_NEXT -> waymarks.removeWaypoint()
             TapToRoute.ALL_DONE -> Route.resetJourney()
         }
 
@@ -281,8 +277,7 @@ class TapToRouteOverlay(private val mapView: CycleMapView) : Overlay(), TapListe
     }
 
     private fun tapAction(point: IGeoPoint) {
-        if (tapState == TapToRoute.WAITING_TO_ROUTE || tapState == TapToRoute.ALL_DONE) {
-            // Any taps that hit the overlay shouldn't do anything - we can't accept more waypoints
+        if (tapState.canAddWaypoint()) {
             return
         }
 
@@ -321,6 +316,16 @@ class TapToRouteOverlay(private val mapView: CycleMapView) : Overlay(), TapListe
             }
             Log.d(TAG, "Moving to next TapToRoute state=" + next.name + " with waypoints=" + count)
             return next
+        }
+
+        fun canRoute(): Boolean {
+            return this == TapToRoute.WAITING_FOR_NEXT || this == TapToRoute.WAITING_TO_ROUTE
+        }
+        fun canAddWaypoint(): Boolean {
+            return this == TapToRoute.WAITING_TO_ROUTE || this == TapToRoute.ALL_DONE
+        }
+        fun routeIsPlanned(): Boolean {
+            return this == TapToRoute.ALL_DONE
         }
     }
 
