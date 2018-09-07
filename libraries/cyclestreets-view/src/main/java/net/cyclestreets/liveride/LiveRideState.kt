@@ -53,13 +53,18 @@ internal abstract class LiveRideState(protected val context: Context,
     protected fun notify(seg: Segment) {
         notification(seg.street() + " " + seg.formattedDistance(), seg.toString())
 
+        val instruction = turnInto(seg);
+        if (seg.turnInstruction().isNotEmpty())
+            instruction.append(". Continue ").append(seg.formattedDistance())
+        speak(instruction.toString())
+    }
+
+    protected fun turnInto(seg: Segment): StringBuilder {
         val instruction = StringBuilder()
         if (seg.turnInstruction().isNotEmpty())
             instruction.append(seg.turnInstruction()).append(" into ")
         instruction.append(seg.street().replace("un-", "un").replace("Un-", "un"))
-        if (seg.turnInstruction().isNotEmpty())
-            instruction.append(". Continue ").append(seg.formattedDistance())
-        speak(instruction.toString())
+        return instruction
     }
 
     protected fun notify(text: String, directionIcon: Int) {
