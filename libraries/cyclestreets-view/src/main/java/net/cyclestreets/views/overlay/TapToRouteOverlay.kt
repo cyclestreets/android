@@ -153,45 +153,35 @@ class TapToRouteOverlay(private val mapView: CycleMapView) : Overlay(), TapListe
     override fun onMenuItemSelected(featureId: Int, item: MenuItem): Boolean {
         val menuId = item.itemId
 
-        if (menuId == R.string.route_menu_change) {
-            mapView.showContextMenu()
-            return true
+        when (menuId) {
+            R.string.route_menu_change ->
+                mapView.showContextMenu()
+            R.string.route_menu_change_reroute_from_here ->
+                mapView.lastFix.apply {
+                    if (this == null)
+                        Toast.makeText(mapView.context, R.string.route_no_location, Toast.LENGTH_LONG).show()
+                    else
+                        onRouteNow(Waypoints.fromTo(GeoPoint(latitude, longitude), waymarks.finish()))
+                }
+            R.string.route_menu_change_reverse ->
+                onRouteNow(waypoints().reversed())
+            R.string.route_menu_change_share ->
+                Share.Url(mapView,
+                          Route.journey().url(),
+                          Route.journey().name(),
+                          "CycleStreets journey")
+            R.string.route_menu_change_comment ->
+                mapView.context.apply {
+                    startActivity(Intent(this, FeedbackActivity::class.java))
+                }
+            else ->
+                if (REPLAN_MENU_PLANS.containsKey(menuId))
+                    Route.RePlotRoute(REPLAN_MENU_PLANS[menuId], context)
+                else
+                    return false
         }
 
-        if (REPLAN_MENU_PLANS.containsKey(menuId)) {
-            Route.RePlotRoute(REPLAN_MENU_PLANS[menuId], context)
-            return true
-        }
-
-        if (R.string.route_menu_change_reroute_from_here == menuId) {
-            val lastFix = mapView.lastFix
-            if (lastFix == null) {
-                Toast.makeText(mapView.context, R.string.route_no_location, Toast.LENGTH_LONG).show()
-                return true
-            }
-
-            val from = GeoPoint(lastFix.latitude, lastFix.longitude)
-            onRouteNow(Waypoints.fromTo(from, waymarks.finish()))
-        }
-        if (R.string.route_menu_change_reverse == menuId) {
-            onRouteNow(waypoints().reversed())
-            return true
-        }
-        if (R.string.route_menu_change_share == menuId) {
-            Share.Url(mapView,
-                    Route.journey().url(),
-                    Route.journey().name(),
-                    "CycleStreets journey")
-            return true
-        }
-        if (R.string.route_menu_change_comment == menuId) {
-            mapView.context.apply {
-                startActivity(Intent(this, FeedbackActivity::class.java))
-            }
-            return true
-        }
-
-        return false
+        return true // we handled it!
     }
 
     ////////////////////////////////////////////
@@ -255,8 +245,8 @@ class TapToRouteOverlay(private val mapView: CycleMapView) : Overlay(), TapListe
         when (tapState) {
             TapToRoute.WAITING_FOR_START -> return true
             TapToRoute.WAITING_TO_ROUTE,
-                TapToRoute.WAITING_FOR_SECOND,
-                TapToRoute.WAITING_FOR_NEXT -> waymarks.removeWaypoint()
+            TapToRoute.WAITING_FOR_SECOND,
+            TapToRoute.WAITING_FOR_NEXT -> waymarks.removeWaypoint()
             TapToRoute.ALL_DONE -> Route.resetJourney()
         }
 
