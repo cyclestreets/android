@@ -57,8 +57,8 @@ internal abstract class DisplayDialog protected constructor(protected val photo:
     protected abstract fun caption(): String
     protected abstract fun loadLayout(): View
 
-    protected fun preShowSetup(builder: AlertDialog.Builder) {}
-    protected fun postShowSetup(dialog: AlertDialog) {}
+    protected open fun preShowSetup(builder: AlertDialog.Builder) {}
+    protected open fun postShowSetup(dialog: AlertDialog) {}
 
     companion object {
         protected fun sizeView(v: View, context: Context) {

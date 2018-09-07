@@ -158,42 +158,7 @@ public final class DisplayPhoto {
   return new PhotoDisplay(photo, context);
   }
 
-  private static class PhotoDisplay extends DisplayDialog {
-    private ImageView iv_;
 
-    PhotoDisplay(final Photo photo, final Context context) {
-      super(photo, context);
-    }
-
-    @Override
-    protected String title() { return String.format("Photo #%d", photo_.id()); }
-    @Override
-    protected String caption() { return photo_.caption(); }
-    @Override
-    protected View loadLayout() {
-      final View layout = View.inflate(context_, R.layout.showphoto, null);
-      iv_ = (ImageView)layout.findViewById(R.id.photo);
-
-      //sizeView(iv_, context_);
-      iv_.startAnimation(AnimationUtils.loadAnimation(context_, R.anim.spinner));
-
-      final String thumbnailUrl = photo_.thumbnailUrl();
-      ImageDownloader.get(thumbnailUrl, iv_);
-
-      return layout;
-    }
-
-    @Override
-    protected void preShowSetup(AlertDialog.Builder builder) {
-      builder.setOnCancelListener(new DialogInterface.OnCancelListener() {
-        @Override
-        public void onCancel(DialogInterface dialogInterface) {
-          final Bitmap photo = ((BitmapDrawable)iv_.getDrawable()).getBitmap();
-          photo.recycle();
-        }
-      });
-    }
-  }
 
   /////////////////////////////////////////////////////////////////////////////////////
   private static class VideoControllerView {
