@@ -20,6 +20,7 @@ import android.content.Intent
 import android.graphics.drawable.Icon
 import android.speech.tts.TextToSpeech
 import android.util.Log
+import java.util.UUID
 
 internal fun initialState(context: Context, tts: TextToSpeech): LiveRideState {
     return LiveRideStart(context, tts)
@@ -105,7 +106,7 @@ internal abstract class LiveRideState(protected val context: Context,
     }
 
     private fun speak(words: String) {
-        tts?.speak(speechify(words), TextToSpeech.QUEUE_ADD, null, null)
+        tts?.speak(speechify(words), TextToSpeech.QUEUE_ADD, null, UUID.randomUUID().toString())
     }
 
     private fun speechify(words: String): String {
