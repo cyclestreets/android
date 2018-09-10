@@ -1,10 +1,10 @@
 package net.cyclestreets.views.place
 
-import android.app.ProgressDialog
 import android.os.AsyncTask
 import net.cyclestreets.contacts.Contact
 import net.cyclestreets.contacts.Contacts
 import net.cyclestreets.util.Dialog
+import net.cyclestreets.util.ProgressDialog
 import net.cyclestreets.view.R
 
 internal class AsyncContactLoad(private val view: PlaceViewBase) : AsyncTask<Void, Void, List<Contact>>() {

@@ -1,6 +1,5 @@
 package net.cyclestreets.routing
 
-import android.app.ProgressDialog
 import android.content.Context
 import android.os.AsyncTask
 import android.widget.Toast
@@ -8,6 +7,7 @@ import android.widget.Toast
 import net.cyclestreets.api.JourneyPlanner
 import net.cyclestreets.content.RouteData
 import net.cyclestreets.util.Dialog
+import net.cyclestreets.util.ProgressDialog
 
 abstract class RoutingTask<Params> protected constructor(private val initialMsg: String,
                                                          private val context: Context) : AsyncTask<Params, Int, RouteData>() {

@@ -29,7 +29,7 @@ class CycleMapTileProvider extends MapTileProviderArray implements IMapTileProvi
                                final IRegisterReceiver registerReceiver) {
     super(tileSource, registerReceiver);
 
-    Interceptor interceptor = new UserAgentInterceptor(AppInfo.version(context));
+    Interceptor interceptor = new UserAgentInterceptor(AppInfo.INSTANCE.version(context));
 
     final MapTileFilesystemProvider fileSystemProvider =
         new MapTileFilesystemProvider(registerReceiver, tileSource);

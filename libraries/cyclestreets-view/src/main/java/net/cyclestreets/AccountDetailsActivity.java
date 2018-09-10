@@ -1,13 +1,13 @@
 package net.cyclestreets;
 
+import net.cyclestreets.api.Registration;
 import net.cyclestreets.api.Result;
-import net.cyclestreets.view.R;
+import net.cyclestreets.api.Signin;
 import net.cyclestreets.util.Dialog;
 import net.cyclestreets.util.MessageBox;
-import net.cyclestreets.api.Registration;
-import net.cyclestreets.api.Signin;
+import net.cyclestreets.util.ProgressDialog;
+import net.cyclestreets.view.R;
 import android.app.Activity;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.AsyncTask;
