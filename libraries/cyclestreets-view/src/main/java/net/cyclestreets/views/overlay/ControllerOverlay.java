@@ -19,7 +19,6 @@ import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Rect;
-import android.util.Log;
 import android.view.ContextMenu;
 import android.view.GestureDetector;
 import android.view.Menu;
@@ -36,6 +35,7 @@ public class ControllerOverlay extends Overlay implements OnDoubleTapListener, O
   private final CycleMapView mapView_;
   private final Paint textBrush_;
   private List<Undoable> undoStack_;
+  private boolean attributionShiftedRight;
 
   public ControllerOverlay(final CycleMapView mapView) {
     super();
@@ -157,10 +157,15 @@ public class ControllerOverlay extends Overlay implements OnDoubleTapListener, O
 
   private void drawUnskewed(final Canvas canvas) {
     final Rect screen = canvas.getClipBounds();
+    final int x = attributionShiftedRight ? screen.centerX() * 3 / 2 : screen.centerX();
     canvas.drawText(mapView_.mapAttribution(),
-        screen.centerX(),
+        x,
         screen.bottom-(textBrush_.descent()+2),
         textBrush_);
+  }
+
+  public void setAttributionShiftedRight() {
+    this.attributionShiftedRight = true;
   }
 
   @Override

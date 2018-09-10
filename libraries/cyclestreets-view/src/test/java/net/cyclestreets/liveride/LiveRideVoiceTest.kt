@@ -51,13 +51,13 @@ class LiveRideVoiceTest {
         assertThat(journey.activeSegment()!!.street()).isEqualTo("lcn (unknown cycle network)")
 
         move(0.126, 52.212)
-        verify("Get ready to Straight on")
+        verify("Get ready to Straight on into lcn (unknown cycle network) continuation")
         move(0.12634, 52.21207)
         verify("Straight on into lcn (unknown cycle network) continuation. Continue 5m")
         move(0.12634, 52.21207)
         // AdvanceToSegment advances the segment; we need another location update to trigger the next NearingTurn
         move(0.12634, 52.21207)
-        verify("Get ready to Straight on")
+        verify("Get ready to Straight on into lcn (unknown cycle network)")
         move(0.12634, 52.21207)
         verify("Straight on into lcn (unknown cycle network). Continue 85m")
     }
@@ -83,7 +83,7 @@ class LiveRideVoiceTest {
         assertThat(journey.activeSegment()!!.street()).isEqualTo("Link with A38")
 
         move(-3.33022, 50.92086)
-        verify("Get ready to Turn right then turn left")
+        verify("Get ready to Turn right then turn left into Broad Path")
         move(-3.33019, 50.92081)
         verify("Turn right then turn left into Broad Path. Continue 1000m")
     }
@@ -95,7 +95,7 @@ class LiveRideVoiceTest {
         assertThat(journey.activeSegment()!!.street()).isEqualTo("London Road, A413")
 
         move(-0.56665, 51.63393)
-        verify("Get ready to Bear left then bear right")
+        verify("Get ready to Bear left then bear right into London Road, A413")
         move(-0.56667, 51.63401)
         verify("Bear left then bear right into London Road, A413. Continue 1330m")
     }
@@ -107,12 +107,12 @@ class LiveRideVoiceTest {
         assertThat(journey.activeSegment()!!.street()).isEqualTo("Link with B3390")
 
         move(-2.26018, 50.74097)
-        verify("Get ready to Straight on over Bridge")
+        verify("Get ready to Straight on over Bridge into Short unnamed link")
         move(-2.26058, 50.74058)
         verify("Straight on over Bridge into Short unnamed link. Continue 95m")
         move(-2.2612, 50.74025)
         move(-2.2612, 50.74025)
-        verify("Get ready to Bear left over Bridge")
+        verify("Get ready to Bear left over Bridge into Link with The Hollow")
         move(-2.26148, 50.73993)
         verify("Bear left over Bridge into Link with The Hollow. Continue 195m")
     }
@@ -138,7 +138,7 @@ class LiveRideVoiceTest {
 
     private fun verify(expectedSpeech: String) {
         try {
-            inOrder.verify(mockTts, times(1)).speak(eq(expectedSpeech), eq(TextToSpeech.QUEUE_ADD), isNull(), isNull())
+            inOrder.verify(mockTts, times(1)).speak(eq(expectedSpeech), eq(TextToSpeech.QUEUE_ADD), isNull(), anyString())
             inOrder.verifyNoMoreInteractions()
         } catch (e: VerificationInOrderFailure) {
             System.out.println(mockingDetails(mockTts).printInvocations())

@@ -20,6 +20,7 @@ import android.content.Intent
 import android.graphics.drawable.Icon
 import android.speech.tts.TextToSpeech
 import android.util.Log
+import java.util.UUID
 
 internal fun initialState(context: Context, tts: TextToSpeech): LiveRideState {
     return LiveRideStart(context, tts)
@@ -52,13 +53,18 @@ internal abstract class LiveRideState(protected val context: Context,
     protected fun notify(seg: Segment) {
         notification(seg.street() + " " + seg.formattedDistance(), seg.toString())
 
+        val instruction = turnInto(seg);
+        if (seg.turnInstruction().isNotEmpty())
+            instruction.append(". Continue ").append(seg.formattedDistance())
+        speak(instruction.toString())
+    }
+
+    protected fun turnInto(seg: Segment): StringBuilder {
         val instruction = StringBuilder()
         if (seg.turnInstruction().isNotEmpty())
             instruction.append(seg.turnInstruction()).append(" into ")
         instruction.append(seg.street().replace("un-", "un").replace("Un-", "un"))
-        if (seg.turnInstruction().isNotEmpty())
-            instruction.append(". Continue ").append(seg.formattedDistance())
-        speak(instruction.toString())
+        return instruction
     }
 
     protected fun notify(text: String, directionIcon: Int) {
@@ -105,7 +111,7 @@ internal abstract class LiveRideState(protected val context: Context,
     }
 
     private fun speak(words: String) {
-        tts?.speak(speechify(words), TextToSpeech.QUEUE_ADD, null, null)
+        tts?.speak(speechify(words), TextToSpeech.QUEUE_ADD, null, UUID.randomUUID().toString())
     }
 
     private fun speechify(words: String): String {
