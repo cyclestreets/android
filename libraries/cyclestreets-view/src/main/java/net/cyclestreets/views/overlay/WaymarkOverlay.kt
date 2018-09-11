@@ -27,26 +27,20 @@ import java.util.ArrayList
 
 class WaymarkOverlay(private val mapView: CycleMapView) : Overlay(), PauseResumeListener, Route.Listener {
 
-    private val greenWisp: Drawable?
-    private val orangeWisp: Drawable?
-    private val redWisp: Drawable?
+    private val greenWisp = makeWisp(R.drawable.green_wisp)
+    private val orangeWisp = makeWisp(R.drawable.orange_wisp)
+    private val redWisp = makeWisp(R.drawable.red_wisp)
     private val screenPos = Point()
     private val bitmapTransform = Matrix()
     private val bitmapPaint = Paint()
 
-    private val waymarkers: MutableList<OverlayItem>
+    private val waymarkers = ArrayList<OverlayItem>()
 
-    init {
-        val res = mapView.context.resources
-        val makeWisp = { drawable: Int -> ResourcesCompat.getDrawable(res, drawable, null) }
-
-        greenWisp = makeWisp(R.drawable.green_wisp)
-        orangeWisp = makeWisp(R.drawable.orange_wisp)
-        redWisp = makeWisp(R.drawable.red_wisp)
-
-        waymarkers = ArrayList()
+    private fun makeWisp(drawable: Int) : Drawable? {
+        return ResourcesCompat.getDrawable(mapView.context.resources, drawable, null)
     }
 
+    //////////////////////////////////////
     fun waymarkersCount(): Int {
         return waymarkers.size
     }

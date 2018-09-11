@@ -22,13 +22,10 @@ import org.osmdroid.util.GeoPoint
 import org.osmdroid.views.MapView
 import org.osmdroid.views.overlay.Overlay
 
-import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.content.SharedPreferences.Editor
 import android.graphics.Canvas
-import android.graphics.drawable.Drawable
-import android.location.Location
 import android.support.design.widget.FloatingActionButton
 import android.util.Log
 import android.view.ContextMenu
@@ -53,13 +50,19 @@ class TapToRouteOverlay(private val mapView: CycleMapView) : Overlay(), TapListe
     private val routeNowIcon: ImageView
     private val restartButton: FloatingActionButton
 
-    private val context: Context
+    private val context = mapView.context
 
-    private val shareDrawable: Drawable
-    private val commentDrawable: Drawable
+    private val shareDrawable = IconicsDrawable(context)
+                                    .icon(GoogleMaterial.Icon.gmd_share)
+                                    .color(Theme.lowlightColorInverse(context))
+                                    .sizeDp(24)
+    private val commentDrawable = IconicsDrawable(context)
+                                    .icon(GoogleMaterial.Icon.gmd_comment)
+                                    .color(Theme.lowlightColorInverse(context))
+                                    .sizeDp(24)
 
-    private val highlightColour: Int
-    private val lowlightColour: Int
+    private val highlightColour = Theme.highlightColor(context) or 0xFF000000.toInt()
+    private val lowlightColour = Theme.lowlightColor(context) or 0xFF000000.toInt()
 
     private val waymarks = WaymarkOverlay(mapView)
     private val controller = OverlayHelper(mapView).controller()
@@ -68,17 +71,6 @@ class TapToRouteOverlay(private val mapView: CycleMapView) : Overlay(), TapListe
 
     init {
         mapView.overlayPushTop(waymarks)
-
-        context = mapView.context
-
-        shareDrawable = IconicsDrawable(context)
-                .icon(GoogleMaterial.Icon.gmd_share)
-                .color(Theme.lowlightColorInverse(context))
-                .sizeDp(24)
-        commentDrawable = IconicsDrawable(context)
-                .icon(GoogleMaterial.Icon.gmd_comment)
-                .color(Theme.lowlightColorInverse(context))
-                .sizeDp(24)
 
         // The view is shared, and has already been added by the RouteHighlightOverlay.
         // So find that, and don't inflate a second copy.
@@ -91,9 +83,6 @@ class TapToRouteOverlay(private val mapView: CycleMapView) : Overlay(), TapListe
         restartButton.setOnClickListener { _ -> tapRestart() }
 
         routeNowIcon = routeView.findViewById(R.id.route_now_icon)
-
-        lowlightColour = Theme.lowlightColor(context) or -0x1000000
-        highlightColour = Theme.highlightColor(context) or -0x1000000
     }
 
     private fun setRoute(empty: Boolean) {
@@ -159,7 +148,7 @@ class TapToRouteOverlay(private val mapView: CycleMapView) : Overlay(), TapListe
             R.string.route_menu_change_reroute_from_here ->
                 mapView.lastFix.apply {
                     if (this == null)
-                        Toast.makeText(mapView.context, R.string.route_no_location, Toast.LENGTH_LONG).show()
+                        Toast.makeText(context, R.string.route_no_location, Toast.LENGTH_LONG).show()
                     else
                         onRouteNow(Waypoints.fromTo(GeoPoint(latitude, longitude), waymarks.finish()))
                 }
@@ -171,9 +160,7 @@ class TapToRouteOverlay(private val mapView: CycleMapView) : Overlay(), TapListe
                           Route.journey().name(),
                           "CycleStreets journey")
             R.string.route_menu_change_comment ->
-                mapView.context.apply {
-                    startActivity(Intent(this, FeedbackActivity::class.java))
-                }
+                context.startActivity(Intent(context, FeedbackActivity::class.java))
             else ->
                 if (REPLAN_MENU_PLANS.containsKey(menuId))
                     Route.RePlotRoute(REPLAN_MENU_PLANS[menuId], context)
