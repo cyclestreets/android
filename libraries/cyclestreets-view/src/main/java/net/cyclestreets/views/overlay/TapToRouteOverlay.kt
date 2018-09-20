@@ -88,6 +88,7 @@ class TapToRouteOverlay(private val mapView: CycleMapView) : Overlay(), TapListe
     private fun setRoute(noJourney: Boolean, waypointCount: Int) {
         tapState = if (noJourney) TapToRoute.fromCount(waypointCount) else TapToRoute.ALL_DONE
         controller.flushUndo(this)
+        for (i in 1..waypointCount) controller.pushUndo(this)
     }
 
     private fun resetRoute() {
