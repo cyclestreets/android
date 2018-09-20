@@ -85,8 +85,8 @@ class TapToRouteOverlay(private val mapView: CycleMapView) : Overlay(), TapListe
         routeNowIcon = routeView.findViewById(R.id.route_now_icon)
     }
 
-    private fun setRoute(empty: Boolean) {
-        tapState = if (empty) TapToRoute.WAITING_FOR_START else TapToRoute.ALL_DONE
+    private fun setRoute(noJourney: Boolean, waypointCount: Int) {
+        tapState = if (noJourney) TapToRoute.fromCount(waypointCount) else TapToRoute.ALL_DONE
         controller.flushUndo(this)
     }
 
@@ -304,6 +304,20 @@ class TapToRouteOverlay(private val mapView: CycleMapView) : Overlay(), TapListe
         fun routeIsPlanned(): Boolean {
             return this == TapToRoute.ALL_DONE
         }
+
+        companion object {
+            fun fromCount(count: Int): TapToRoute {
+                val next: TapToRoute
+                when (count) {
+                    0 -> next = WAITING_FOR_START
+                    1 -> next = WAITING_FOR_SECOND
+                    MAX_WAYPOINTS -> next = WAITING_TO_ROUTE
+                    else -> next = WAITING_FOR_NEXT
+                }
+                Log.d(TAG, "Restoring to TapToRoute state=" + next.name + " with waypoints=" + count)
+                return next
+            }
+        }
     }
 
     ////////////////////////////////////
@@ -316,7 +330,7 @@ class TapToRouteOverlay(private val mapView: CycleMapView) : Overlay(), TapListe
     }
 
     override fun onNewJourney(journey: Journey, waypoints: Waypoints) {
-        setRoute(journey.isEmpty())
+        setRoute(journey.isEmpty(), waypoints.count())
     }
 
     override fun onResetJourney() {
