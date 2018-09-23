@@ -5,7 +5,7 @@ import android.os.Bundle
 
 class CycleStreets : MainNavDrawerActivity(), RouteMapActivity, PhotoMapActivity {
     public override fun onCreate(savedInstanceState: Bundle?) {
-        MainSupport.switchMapFile(intent)
+        MainSupport.switchMapFile(intent, this)
 
         super.onCreate(savedInstanceState)
 

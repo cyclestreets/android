@@ -13,6 +13,8 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Environment;
 
+import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
+
 public class MapPack
 {
   private static final String MAPSFORGE_FILE_FORMAT_VERSION = "0.4.0";
@@ -23,8 +25,11 @@ public class MapPack
     context.startActivity(play);
   }
 
-  public static List<MapPack> availableMapPacks() {
+  public static List<MapPack> availableMapPacks(Context context) {
     final List<MapPack> packs = new ArrayList<>();
+
+    if (!PermissionsKt.hasPermission(context, READ_EXTERNAL_STORAGE))
+      return packs;
 
     final File obbDir = new File(Environment.getExternalStorageDirectory(), "Android/obb");
     if (!obbDir.exists())
@@ -44,8 +49,8 @@ public class MapPack
     return packs;
   }
 
-  public static MapPack findByPackage(final String packageName) {
-    for (final MapPack pack : availableMapPacks())
+  public static MapPack findByPackage(final Context context, final String packageName) {
+    for (final MapPack pack : availableMapPacks(context))
       if (pack.path().contains(packageName))
         return pack;
     return null;
