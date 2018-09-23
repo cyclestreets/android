@@ -16,9 +16,9 @@ private val TAG = Logging.getTag(MainSupport::class.java)
 
 object MainSupport {
 
-    fun switchMapFile(intent: Intent): Boolean {
+    fun switchMapFile(intent: Intent, context: Context): Boolean {
         val mapPackage = intent.getStringExtra("mapfile") ?: return false
-        val pack = MapPack.findByPackage(mapPackage) ?: return false
+        val pack = MapPack.findByPackage(context, mapPackage) ?: return false
         CycleStreetsPreferences.enableMapFile(pack.path())
         return true
     }

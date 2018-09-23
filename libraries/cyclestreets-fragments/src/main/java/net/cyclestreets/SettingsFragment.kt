@@ -71,7 +71,7 @@ class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedP
         findPreference(CycleStreetsPreferences.PREF_MAPSTYLE_KEY)?.apply {
             val pref = this as ListPreference
 
-            if (pref.value == CycleStreetsPreferences.MAPSTYLE_MAPSFORGE && MapPack.availableMapPacks().isEmpty()) {
+            if (pref.value == CycleStreetsPreferences.MAPSTYLE_MAPSFORGE && MapPack.availableMapPacks(context).isEmpty()) {
                 Log.i(TAG, "Offline Vector Maps were selected, but there are no available map packs; default to OSM")
                 pref.value = CycleStreetsPreferences.MAPSTYLE_OSM
             }
@@ -87,8 +87,8 @@ class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedP
     }
 
     private fun populateMapFileList(mapfilePref: ListPreference) {
-        val names = MapPack.availableMapPacks().map { pack: MapPack -> pack.name() }
-        val files = MapPack.availableMapPacks().map { pack: MapPack -> pack.path() }
+        val names = MapPack.availableMapPacks(context).map { pack: MapPack -> pack.name() }
+        val files = MapPack.availableMapPacks(context).map { pack: MapPack -> pack.path() }
         mapfilePref.entries = names.toTypedArray()
         mapfilePref.entryValues = files.toTypedArray()
     }
