@@ -15,6 +15,7 @@ import org.junit.runner.RunWith;
 import java.io.*;
 
 import static net.cyclestreets.content.DatabaseHelper.*;
+import static org.assertj.core.api.Assertions.assertThat;
 
 @RunWith(AndroidJUnit4.class)
 @LargeTest
@@ -49,8 +50,8 @@ public class DatabaseUpgradeTest {
     }
 
     // After upgrading the DB, uncomment these lines and grab the next version so future testing can be perfornmed!
-     Log.i(TAG, "Sleeping to give a chance to run: ./adb pull /data/data/net.cyclestreets/databases/cyclestreets.db");
-     Thread.sleep(240000L);
+    Log.i(TAG, "Sleeping to give a chance to run: ./adb pull /data/data/net.cyclestreets/databases/cyclestreets.db");
+    Thread.sleep(240000L);
   }
 
   private void copyDatabase(int version) throws IOException {
@@ -60,9 +61,11 @@ public class DatabaseUpgradeTest {
     InputStream mInput = InstrumentationRegistry.getContext().getAssets().open(dbName);
 
     File db = new File(dbPath);
-    if (!db.exists()){
-      db.getParentFile().mkdirs();
-      db.createNewFile();
+    if (db.exists()) {
+      Log.i(TAG, "DB file " + dbPath + " already exists and is of size " + db.length() + " bytes");
+    } else {
+      assertThat(db.getParentFile().mkdirs()).isTrue();
+      assertThat(db.createNewFile()).isTrue();
     }
     OutputStream mOutput = new FileOutputStream(dbPath);
     byte[] mBuffer = new byte[1024];
@@ -73,5 +76,6 @@ public class DatabaseUpgradeTest {
     mOutput.flush();
     mOutput.close();
     mInput.close();
+    Log.i(TAG, "DB file " + dbPath + " now has size " + db.length() + " bytes");
   }
 }
