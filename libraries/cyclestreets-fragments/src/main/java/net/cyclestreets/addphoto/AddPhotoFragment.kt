@@ -637,7 +637,7 @@ class AddPhotoFragment : Fragment(), View.OnClickListener, Undoable, ThereOverla
 
         override fun onPostExecute(result: Upload.Result) {
             if (smallImage)
-                File(filename).delete()
+                AsyncDelete().execute(File(filename))
             progress.dismiss()
 
             if (result.ok())

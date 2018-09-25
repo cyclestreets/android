@@ -43,7 +43,7 @@ public class TileSource {
 
       if (renderer instanceof MapsforgeOSMTileSource) {
         final String mapFile = CycleStreetsPreferences.mapfile();
-        final MapPack pack = MapPack.findByPackage(mapFile);
+        final MapPack pack = MapPack.findByPackage(context, mapFile);
         if (pack.current())
           ((MapsforgeOSMTileSource)renderer).setMapFile(mapFile);
         else {

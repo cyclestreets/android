@@ -14,6 +14,7 @@ import android.util.Log
 import android.view.View
 import android.widget.Button
 import net.cyclestreets.fragments.R
+import net.cyclestreets.util.AsyncDelete
 import org.osmdroid.util.GeoPoint
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -59,10 +60,7 @@ internal fun createImageFile(context: Context?): File {
 
 private fun deletePreviouslyCapturedImages(context: Context?) {
     val files = storageDir(context).listFiles { _, filename -> filename.matches(Regex("$PHOTO_FILE_PREFIX.*")) }
-    files.forEach {
-        Log.i(TAG, "Deleting previously captured image ${it.absolutePath}")
-        it.delete()
-    }
+    AsyncDelete().execute(*files)
 }
 
 private fun storageDir(context: Context?): File {
