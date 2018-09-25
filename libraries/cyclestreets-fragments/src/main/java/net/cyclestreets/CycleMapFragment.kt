@@ -14,6 +14,7 @@ import android.view.View
 import android.view.ViewGroup
 
 import net.cyclestreets.fragments.R
+import net.cyclestreets.util.AsyncDelete
 import net.cyclestreets.util.Logging
 import net.cyclestreets.util.MenuHelper.createMenuItem
 import net.cyclestreets.util.MenuHelper.enableMenuItem
@@ -78,7 +79,7 @@ open class CycleMapFragment : Fragment(), Undoable {
                 Log.i(TAG, "Permission ${Manifest.permission.WRITE_EXTERNAL_STORAGE} granted; update OSMDroid cache " +
                            "location from ${oldCacheLocation.absolutePath} to ${newCacheLocation.absolutePath}")
                 if (newCacheLocation.absolutePath != oldCacheLocation.absolutePath)
-                    oldCacheLocation.delete()
+                    AsyncDelete().execute(oldCacheLocation)
             }
         }
     }
