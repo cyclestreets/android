@@ -1,11 +1,11 @@
 buildscript {
-  ext.kotlinVersion = '1.2.60'
+  ext.kotlinVersion = '1.2.71'
   repositories {
     google()
     jcenter()
   }
   dependencies {
-    classpath 'com.android.tools.build:gradle:3.1.4'
+    classpath 'com.android.tools.build:gradle:3.2.0'
     classpath 'com.github.triplet.gradle:play-publisher:1.2.2'
     classpath 'org.ajoberstar:grgit:2.3.0'
     classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
@@ -73,9 +73,11 @@ subprojects {
       exclude 'META-INF/NOTICE.txt'
     }
 
-    // Required due to strictness of the Android developer tools.  See lint.xml for full details.
     lintOptions {
+      // Required due to strictness of the Android developer tools.  See lint.xml for full details.
       lintConfig rootProject.file('gradle/lint.xml')
+
+      check 'Interoperability'
     }
   }
 }
