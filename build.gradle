@@ -77,7 +77,8 @@ subprojects {
       // Required due to strictness of the Android developer tools.  See lint.xml for full details.
       lintConfig rootProject.file('gradle/lint.xml')
 
-      check 'Interoperability'
+      // Kotlin (nullability) interop check - potentially useful but quite noisy
+      // check 'Interoperability'
     }
   }
 }
