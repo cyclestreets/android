@@ -1,0 +1,247 @@
+[
+  {
+    "path": "albania.map",
+    "lastModified": "2018-08-12",
+    "sizeMb": 19
+  },
+  {
+    "path": "alps.map",
+    "lastModified": "2018-07-13",
+    "sizeMb": 1536
+  },
+  {
+    "path": "andorra.map",
+    "lastModified": "2018-08-12",
+    "sizeMb": 1
+  },
+  {
+    "path": "austria.map",
+    "lastModified": "2018-07-13",
+    "sizeMb": 358
+  },
+  {
+    "path": "azores.map",
+    "lastModified": "2018-08-12",
+    "sizeMb": 10
+  },
+  {
+    "path": "belarus.map",
+    "lastModified": "2018-07-13",
+    "sizeMb": 161
+  },
+  {
+    "path": "belgium.map",
+    "lastModified": "2018-01-06",
+    "sizeMb": 224
+  },
+  {
+    "path": "bosnia-herzegovina.map",
+    "lastModified": "2018-08-12",
+    "sizeMb": 56
+  },
+  {
+    "path": "bulgaria.map",
+    "lastModified": "2018-08-12",
+    "sizeMb": 77
+  },
+  {
+    "path": "croatia.map",
+    "lastModified": "2018-08-12",
+    "sizeMb": 90
+  },
+  {
+    "path": "cyprus.map",
+    "lastModified": "2018-08-12",
+    "sizeMb": 9
+  },
+  {
+    "path": "czech-republic.map",
+    "lastModified": "2018-07-13",
+    "sizeMb": 443
+  },
+  {
+    "path": "denmark.map",
+    "lastModified": "2018-08-12",
+    "sizeMb": 177
+  },
+  {
+    "path": "estonia.map",
+    "lastModified": "2018-08-12",
+    "sizeMb": 68
+  },
+  {
+    "path": "faroe-islands.map",
+    "lastModified": "2018-08-12",
+    "sizeMb": 2
+  },
+  {
+    "path": "finland.map",
+    "lastModified": "2018-07-13",
+    "sizeMb": 309
+  },
+  {
+    "path": "france.map",
+    "lastModified": "2018-07-16",
+    "sizeMb": 2458
+  },
+  {
+    "path": "georgia.map",
+    "lastModified": "2018-08-12",
+    "sizeMb": 34
+  },
+  {
+    "path": "germany.map",
+    "lastModified": "2018-07-18",
+    "sizeMb": 2048
+  },
+  {
+    "path": "great-britain.map",
+    "lastModified": "2018-08-12",
+    "sizeMb": 711
+  },
+  {
+    "path": "greece.map",
+    "lastModified": "2018-08-12",
+    "sizeMb": 131
+  },
+  {
+    "path": "hungary.map",
+    "lastModified": "2018-08-12",
+    "sizeMb": 117
+  },
+  {
+    "path": "iceland.map",
+    "lastModified": "2018-08-12",
+    "sizeMb": 48
+  },
+  {
+    "path": "ireland-and-northern-ireland.map",
+    "lastModified": "2018-08-12",
+    "sizeMb": 102
+  },
+  {
+    "path": "isle-of-man.map",
+    "lastModified": "2018-08-20",
+    "sizeMb": 2
+  },
+  {
+    "path": "italy.map",
+    "lastModified": "2018-01-12",
+    "sizeMb": 899
+  },
+  {
+    "path": "kosovo.map",
+    "lastModified": "2018-08-20",
+    "sizeMb": 9
+  },
+  {
+    "path": "latvia.map",
+    "lastModified": "2018-08-20",
+    "sizeMb": 51
+  },
+  {
+    "path": "liechtenstein.map",
+    "lastModified": "2018-08-20",
+    "sizeMb": 2
+  },
+  {
+    "path": "lithuania.map",
+    "lastModified": "2018-08-20",
+    "sizeMb": 89
+  },
+  {
+    "path": "luxembourg.map",
+    "lastModified": "2018-08-20",
+    "sizeMb": 15
+  },
+  {
+    "path": "macedonia.map",
+    "lastModified": "2018-08-20",
+    "sizeMb": 13
+  },
+  {
+    "path": "malta.map",
+    "lastModified": "2018-08-20",
+    "sizeMb": 3
+  },
+  {
+    "path": "moldova.map",
+    "lastModified": "2018-08-20",
+    "sizeMb": 25
+  },
+  {
+    "path": "monaco.map",
+    "lastModified": "2018-08-20",
+    "sizeMb": 1
+  },
+  {
+    "path": "montenegro.map",
+    "lastModified": "2018-08-20",
+    "sizeMb": 15
+  },
+  {
+    "path": "netherlands.map",
+    "lastModified": "2018-01-23",
+    "sizeMb": 660
+  },
+  {
+    "path": "norway.map",
+    "lastModified": "2018-01-27",
+    "sizeMb": 955
+  },
+  {
+    "path": "poland.map",
+    "lastModified": "2018-01-13",
+    "sizeMb": 740
+  },
+  {
+    "path": "portugal.map",
+    "lastModified": "2018-08-20",
+    "sizeMb": 159
+  },
+  {
+    "path": "romania.map",
+    "lastModified": "2018-08-20",
+    "sizeMb": 165
+  },
+  {
+    "path": "serbia.map",
+    "lastModified": "2018-08-20",
+    "sizeMb": 53
+  },
+  {
+    "path": "slovakia.map",
+    "lastModified": "2018-08-20",
+    "sizeMb": 134
+  },
+  {
+    "path": "slovenia.map",
+    "lastModified": "2018-08-20",
+    "sizeMb": 169
+  },
+  {
+    "path": "spain.map",
+    "lastModified": "2018-01-29",
+    "sizeMb": 458
+  },
+  {
+    "path": "sweden.map",
+    "lastModified": "2018-01-30",
+    "sizeMb": 365
+  },
+  {
+    "path": "switzerland.map",
+    "lastModified": "2018-07-20",
+    "sizeMb": 195
+  },
+  {
+    "path": "turkey.map",
+    "lastModified": "2018-07-20",
+    "sizeMb": 214
+  },
+  {
+    "path": "ukraine.map",
+    "lastModified": "2018-02-08",
+    "sizeMb": 403
+  }
+]

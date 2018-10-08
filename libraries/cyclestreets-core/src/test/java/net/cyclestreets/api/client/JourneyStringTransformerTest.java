@@ -14,6 +14,7 @@ import org.skyscreamer.jsonassert.JSONCompareMode;
 
 import java.io.IOException;
 
+@Ignore
 @Config(manifest= Config.NONE, sdk = 23)
 @RunWith(RobolectricTestRunner.class)
 public class JourneyStringTransformerTest {

@@ -29,6 +29,9 @@ dependencies {
   api 'com.fasterxml.jackson.core:jackson-core:2.9.6'
   api 'com.fasterxml.jackson.core:jackson-databind:2.9.6'
 
+  // Resumable downloads - for map packs
+  api "com.tonyodev.fetch2:fetch2:2.2.0-RC14"
+
   // XML / JSON conversion utilities
   implementation 'com.github.smart-fun:XmlToJson:1.4.4'
   implementation 'com.bazaarvoice.jolt:jolt-core:0.1.1'

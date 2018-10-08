@@ -1,5 +1,14 @@
 [![Build Status](https://travis-ci.org/cyclestreets/android.svg?branch=master)](https://travis-ci.org/cyclestreets/android)
 
+# Design notes for offline maps
+
+###  Settings -> Maps display
+Replace "Vector mapfile" with "Offline maps"
+This can be a new Activity (like e.g. LocationsActivity)
+Contains a list of available map packs and their sizes, with last-updated 
+Need a simple script to parse  
+
+
 # Cyclestreets Android App
 
 ## What is it?

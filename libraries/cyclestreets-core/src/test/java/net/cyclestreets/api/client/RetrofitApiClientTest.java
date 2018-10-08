@@ -25,6 +25,7 @@ import net.cyclestreets.core.R;
 
 import org.apache.commons.io.FileUtils;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -57,6 +58,7 @@ import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+@Ignore
 @Config(manifest=Config.NONE, sdk = 23)
 @RunWith(RobolectricTestRunner.class)
 public class RetrofitApiClientTest {
