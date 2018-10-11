@@ -87,26 +87,8 @@ public class TileSource {
   }
 
   public static void addTileSource(final String friendlyName,
-                                   final ITileSource source) {
-    addTileSource(friendlyName, source, false);
-  }
-  public static void addTileSource(final String friendlyName,
-                                   final ITileSource tileSource,
-                                   final boolean setAsDefault) {
-    final Source source =
-        new Source(friendlyName, tileSource);
-
-    if (setAsDefault) {
-      DEFAULT_RENDERER = tileSource.name();
-
-      if (CycleStreetsPreferences.mapstyle().equals(CycleStreetsPreferences.NOT_SET))
-        CycleStreetsPreferences.setMapstyle(tileSource.name());
-    }
-
-    if (setAsDefault)
-      addDefaultSource(source);
-    else
-      addSource(source);
+                                   final ITileSource tileSource) {
+    addSource(new Source(friendlyName, tileSource));
   }
 
   public static ITileSource createDensityAwareTileSource(final Context context,
@@ -139,7 +121,6 @@ public class TileSource {
   private static final List<Source> availableSources_ = new ArrayList<>();
 
   private static Iterable<Source> allSources() { return availableSources_; }
-  private static void addDefaultSource(final Source source) { availableSources_.add(0, source); }
   private static void addSource(final Source source) { availableSources_.add(source); }
   private static Source source(final String tileSourceName) {
     for (Source s : allSources())
