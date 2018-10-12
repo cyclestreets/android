@@ -10,7 +10,9 @@ class OfflineMapDatabase(context: Context) {
     fun offlineMaps(): List<OfflineMap> {
         return listOf(
             OfflineMap("Albania", "host://albania.map", "2018-08-12", 19),
-            OfflineMap("Andorra", "host://andorra.map", "2018-09-17", 1)
+            OfflineMap("Andorra", "host://andorra.map", "2018-09-17", 1),
+            OfflineMap("Isle of Man", "host://isle-of-man.map", "2018-09-17", 5),
+            OfflineMap("Monaco", "host://monaco.map", "2018-09-17", 3)
         )
     }
 

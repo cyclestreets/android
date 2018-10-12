@@ -9,10 +9,10 @@
         android:title="Map source/style"
         android:summary="OpenStreetMap"
         android:defaultValue="CycleStreets-OSM" />
-    <ListPreference
+    <PreferenceScreen
         android:title="Manage offline maps">
-        <intent android:action="net.cyclestreets.ManageOfflineMapsActivity" />
-    </ListPreference>
+        <intent android:action="net.cyclestreets.settings.ManageOfflineMapsActivity" />
+    </PreferenceScreen>
     <CheckBoxPreference
         android:key="confirm-new-route"
         android:title="Confirm start new route"

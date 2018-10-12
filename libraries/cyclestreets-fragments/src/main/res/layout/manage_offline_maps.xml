@@ -1,25 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent">
-    <TextView
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/all_blank" />
-    <TextView android:id="@+id/addphoto_text"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="Offline maps below" />
-    <TextView
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/all_blank" />
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/scroll"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
     <LinearLayout
-        android:id="@+id/offline_map_list"
         android:orientation="vertical"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/all_blank" /> <!-- Container for dynamically created instances of `offline_map.xml` layouts -->
-</LinearLayout>
+        android:layout_height="wrap_content">
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/all_blank" />
+        <TextView android:id="@+id/addphoto_text"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textAppearance="@android:style/TextAppearance.Material.Title"
+            android:text="Manage offline maps" />
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/all_blank" />
+        <LinearLayout
+            android:id="@+id/offline_map_list"
+            android:orientation="vertical"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/all_blank" /> <!-- Container for dynamically created instances of `offline_map.xml` layouts -->
+
+    </LinearLayout>
+
+</ScrollView>

@@ -5,5 +5,13 @@
   <application android:supportsRtl="false">
     <activity android:name="net.cyclestreets.LocationEditorActivity"
               android:label="CycleStreets" />
+    <activity android:name="net.cyclestreets.settings.ManageOfflineMapsActivity"
+              android:label="Manage Offline Maps">
+      <intent-filter>
+        <action android:name="net.cyclestreets.settings.ManageOfflineMapsActivity" />
+        <category android:name="android.intent.category.DEFAULT" />
+      </intent-filter>
+    </activity>
+
   </application>
 </manifest>

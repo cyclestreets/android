@@ -1,12 +1,19 @@
 package net.cyclestreets.offline
 
 import android.os.AsyncTask
+import android.widget.ProgressBar
+import android.widget.TextView
 import okio.Okio
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import java.io.File
+import java.lang.ref.WeakReference
 
-class OfflineMapDownloadTask(private val url: String, private val destFile: File) : AsyncTask<Void, Int, Boolean>() {
+class OfflineMapDownloadTask(private val url: String,
+                             private val destFile: File,
+                             val progressBar: WeakReference<ProgressBar>,
+                             val localInfo: WeakReference<TextView>,
+                             val localDelete: WeakReference<TextView>) : AsyncTask<Void, Int, Boolean>() {
 
     override fun doInBackground(vararg params: Void?): Boolean {
         val request = Request.Builder().url(url).build()
