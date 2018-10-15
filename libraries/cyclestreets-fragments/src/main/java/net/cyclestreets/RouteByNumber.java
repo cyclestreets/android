@@ -9,11 +9,12 @@ import net.cyclestreets.views.RouteType;
 
 import android.app.AlertDialog;
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.view.View;
 import android.widget.AutoCompleteTextView;
 
 public class RouteByNumber {
-  public static void launch(final Context context) {
+  public static void launch(@NonNull final Context context) {
     final AlertDialog.Builder builder = new AlertDialog.Builder(context)
             .setTitle(R.string.menu_route_by_number)
             .setMessage(R.string.routenumber_desc);
