@@ -92,9 +92,8 @@ public class PlaceAutoCompleteTextView extends AppCompatAutoCompleteTextView
   /////////////////////////////////////
   @Override
   public void onItemClick(AdapterView<?> arg0, View arg1, int position, long id) {
-    if (adapter_ == null)
-      return;
-    setGeoPlace(adapter_.getItem(position));
+    if (adapter_ != null && position < adapter_.getCount())
+      setGeoPlace(adapter_.getItem(position));
   }
 
   @Override
