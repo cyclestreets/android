@@ -67,7 +67,7 @@ private fun requestPermission(fragment: Fragment, permission: String) {
     try {
         fragment.requestPermissions(arrayOf(permission), 1)
     } catch (e: IllegalStateException) {
-        Log.w(TAG, "Unable to request permission from fragment $fragment", e)
+        Log.w(TAG, "Unable to request permission $permission from fragment $fragment", e)
     }
 }
 
