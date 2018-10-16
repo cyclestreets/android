@@ -186,6 +186,10 @@ public class CycleStreetsPreferences
   }
 
   private static String getString(final String key, final String defVal) {
+    if (context_ == null) {
+      // Protect against a potential race condition on resume
+      return defVal;
+    }
     final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context_);
     return prefs.getString(key, defVal);
   }

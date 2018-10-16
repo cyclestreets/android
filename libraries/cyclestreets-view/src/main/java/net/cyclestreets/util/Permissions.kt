@@ -6,8 +6,11 @@ import android.content.Context
 import android.content.ContextWrapper
 import android.content.pm.PackageManager
 import android.support.v4.app.Fragment
+import android.util.Log
 import net.cyclestreets.util.Permissions.justifications
 import net.cyclestreets.view.R
+
+private val TAG = Logging.getTag(Permissions::class.java)
 
 // Check for permissions
 fun hasPermission(context: Context, permission: String): Boolean {
@@ -61,7 +64,11 @@ private fun requestPermission(activity: Activity, permission: String) {
     activity.requestPermissions(arrayOf(permission), 1)
 }
 private fun requestPermission(fragment: Fragment, permission: String) {
-    fragment.requestPermissions(arrayOf(permission), 1)
+    try {
+        fragment.requestPermissions(arrayOf(permission), 1)
+    } catch (e: IllegalStateException) {
+        Log.w(TAG, "Unable to request permission $permission from fragment $fragment", e)
+    }
 }
 
 private fun justification(context: Context, permission: String): String {
