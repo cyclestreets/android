@@ -23,6 +23,7 @@ import android.widget.RelativeLayout
 import com.mikepenz.iconics.context.IconicsContextWrapper
 import net.cyclestreets.util.Logging
 import net.cyclestreets.util.hasPermission
+import net.cyclestreets.views.overlay.WaymarkOverlay
 
 private val TAG = Logging.getTag(LiveRideActivity::class.java)
 
@@ -79,7 +80,8 @@ class LiveRideActivity : Activity(), ServiceConnection, LiveRideOverlay.Locator 
     private fun initializeMapView() {
         map = CycleMapView(this, this.javaClass.name).apply {
             overlayPushBottom(RouteOverlay())
-            overlayPushTop(LockScreenOnOverlay(this@LiveRideActivity, this))
+            overlayPushTop(WaymarkOverlay(this))
+            overlayPushTop(LockScreenOnOverlay(this))
             overlayPushTop(LiveRideOverlay(this@LiveRideActivity, this@LiveRideActivity))
             lockOnLocation()
             hideLocationButton()
