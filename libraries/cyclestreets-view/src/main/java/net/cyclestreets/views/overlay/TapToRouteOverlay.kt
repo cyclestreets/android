@@ -215,9 +215,7 @@ class TapToRouteOverlay(private val mapView: CycleMapView) : Overlay(), TapListe
         if (!CycleStreetsPreferences.confirmNewRoute())
             return stepBack(true)
 
-        MessageBox.YesNo(mapView,
-                "Start a new route?"
-        ) { _, _ -> stepBack(true) }
+        MessageBox.YesNo(mapView, "Start a new route?") { _, _ -> stepBack(true) }
 
         return true
     }
@@ -280,7 +278,7 @@ class TapToRouteOverlay(private val mapView: CycleMapView) : Overlay(), TapListe
                 WAITING_FOR_NEXT -> previous = if (count == 1) WAITING_FOR_SECOND else WAITING_FOR_NEXT
                 WAITING_TO_ROUTE -> previous = WAITING_FOR_NEXT
             }
-            Log.d(TAG, "Moving to previous TapToRoute state=" + previous.name + " with waypoints=" + count)
+            Log.d(TAG, "Moving to previous TapToRoute state=${previous.name} with waypoints=$count")
             return previous
         }
 
@@ -292,7 +290,7 @@ class TapToRouteOverlay(private val mapView: CycleMapView) : Overlay(), TapListe
                 WAITING_FOR_NEXT -> next = if (count == MAX_WAYPOINTS) WAITING_TO_ROUTE else WAITING_FOR_NEXT
                 WAITING_TO_ROUTE, ALL_DONE -> next = ALL_DONE
             }
-            Log.d(TAG, "Moving to next TapToRoute state=" + next.name + " with waypoints=" + count)
+            Log.d(TAG, "Moving to next TapToRoute state=${next.name} with waypoints=$count")
             return next
         }
 
@@ -340,15 +338,18 @@ class TapToRouteOverlay(private val mapView: CycleMapView) : Overlay(), TapListe
 
     companion object {
         private val TAG = Logging.getTag(TapToRouteOverlay::class.java)
-        private val REPLAN_MENU_IDS = intArrayOf(R.string.route_menu_change_replan_quietest, R.string.route_menu_change_replan_balanced, R.string.route_menu_change_replan_fastest, R.string.route_menu_change_replan_shortest)
-        private val REPLAN_MENU_PLANS = object : HashMap<Int, String>() {
-            init {
-                put(R.string.route_menu_change_replan_quietest, RoutePlans.PLAN_QUIETEST)
-                put(R.string.route_menu_change_replan_balanced, RoutePlans.PLAN_BALANCED)
-                put(R.string.route_menu_change_replan_fastest, RoutePlans.PLAN_FASTEST)
-                put(R.string.route_menu_change_replan_shortest, RoutePlans.PLAN_SHORTEST)
-            }
-        }
+        private val REPLAN_MENU_IDS = arrayOf(
+            R.string.route_menu_change_replan_quietest,
+            R.string.route_menu_change_replan_balanced,
+            R.string.route_menu_change_replan_fastest,
+            R.string.route_menu_change_replan_shortest
+        )
+        private val REPLAN_MENU_PLANS = mapOf(
+            R.string.route_menu_change_replan_quietest to RoutePlans.PLAN_QUIETEST,
+            R.string.route_menu_change_replan_balanced to RoutePlans.PLAN_BALANCED,
+            R.string.route_menu_change_replan_fastest to RoutePlans.PLAN_FASTEST,
+            R.string.route_menu_change_replan_shortest to RoutePlans.PLAN_SHORTEST
+        )
         private const val MAX_WAYPOINTS = 30
     }
 }
