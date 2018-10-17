@@ -50,6 +50,9 @@ abstract class MainNavDrawerActivity : AppCompatActivity(), OnNavigationItemSele
             put(R.id.nav_settings, SettingsFragment::class.java)
         }
     }
+    // The Journey Planner and Photomap are the 'heart' of the app.  Pressing 'back' on any other
+    // fragment should eventually return you to whichever of those you were using.
+    private val backOutableItems = setOf(R.id.nav_itinerary, R.id.nav_addphoto, R.id.nav_blog, R.id.nav_settings)
 
     override fun attachBaseContext(newBase: Context) {
         // Allows the use of Material icon library, see https://github.com/mikepenz/Android-Iconics
@@ -115,6 +118,8 @@ abstract class MainNavDrawerActivity : AppCompatActivity(), OnNavigationItemSele
         // Swap UI fragments based on the selection
         val ft = this.supportFragmentManager.beginTransaction()
         ft.replace(R.id.content_frame, instantiateFragmentFor(menuItem))
+        if (backOutableItems.contains(menuItem.itemId))
+            ft.addToBackStack(null)
         ft.commit()
         saveCurrentMenuSelection()
         return true
