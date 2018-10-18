@@ -25,6 +25,7 @@ import net.cyclestreets.util.Logging
 
 import android.support.design.widget.NavigationView.OnNavigationItemSelectedListener
 import android.support.transition.Fade
+import android.support.v4.app.FragmentManager.OnBackStackChangedListener
 import net.cyclestreets.addphoto.AddPhotoFragment
 import net.cyclestreets.iconics.IconicsHelper.materialIcons
 import net.cyclestreets.itinerary.ItineraryAndElevationFragment
@@ -32,7 +33,7 @@ import net.cyclestreets.itinerary.ItineraryAndElevationFragment
 private val TAG = Logging.getTag(MainNavDrawerActivity::class.java)
 private const val DRAWER_ITEMID_SELECTED_KEY = "DRAWER_ITEM_SELECTED"
 
-abstract class MainNavDrawerActivity : AppCompatActivity(), OnNavigationItemSelectedListener, Route.Listener {
+abstract class MainNavDrawerActivity : AppCompatActivity(), OnNavigationItemSelectedListener, Route.Listener, OnBackStackChangedListener {
 
     private lateinit var drawerLayout: DrawerLayout
     private lateinit var navigationView: NavigationView
@@ -40,7 +41,7 @@ abstract class MainNavDrawerActivity : AppCompatActivity(), OnNavigationItemSele
     private var selectedItem: Int = 0
     private var currentFragment: Fragment? = null
 
-    private val itemToFragment = object : SparseArray<Class<out Fragment>>() {
+    private val menuItemIdToFragment = object : SparseArray<Class<out Fragment>>() {
         init {
             put(R.id.nav_journey_planner, RouteMapFragment::class.java)
             put(R.id.nav_itinerary, ItineraryAndElevationFragment::class.java)
@@ -50,6 +51,22 @@ abstract class MainNavDrawerActivity : AppCompatActivity(), OnNavigationItemSele
             put(R.id.nav_settings, SettingsFragment::class.java)
         }
     }
+
+    private val fragmentToMenuItemId = mapOf(
+        RouteMapFragment::class.java to R.id.nav_journey_planner,
+        ItineraryAndElevationFragment::class.java to R.id.nav_itinerary,
+        PhotoMapFragment::class.java to R.id.nav_photomap,
+        AddPhotoFragment::class.java to R.id.nav_addphoto,
+        BlogFragment::class.java to R.id.nav_blog,
+        SettingsFragment::class.java to R.id.nav_settings
+    )
+
+    // The Journey Planner and Photomap are the 'heart' of the app.  Pressing 'back' on any other
+    // fragment should eventually return you to whichever of those you were using.
+    private val backOutableFragments = setOf(R.id.nav_itinerary, R.id.nav_addphoto, R.id.nav_blog, R.id.nav_settings)
+
+    // If you're in one of these fragments at pause, then you'll be returned to it on resume.
+    private val resumableFragments = setOf(R.id.nav_journey_planner, R.id.nav_photomap, R.id.nav_addphoto)
 
     override fun attachBaseContext(newBase: Context) {
         // Allows the use of Material icon library, see https://github.com/mikepenz/Android-Iconics
@@ -81,6 +98,8 @@ abstract class MainNavDrawerActivity : AppCompatActivity(), OnNavigationItemSele
             setHomeAsUpIndicator(burgerIcon)
         }
 
+        supportFragmentManager.addOnBackStackChangedListener(this)
+
         if (CycleStreetsAppSupport.isFirstRun())
             onFirstRun()
         else if (CycleStreetsAppSupport.isNewVersion())
@@ -101,27 +120,42 @@ abstract class MainNavDrawerActivity : AppCompatActivity(), OnNavigationItemSele
 
     //////////// OnNavigationItemSelectedListener method implementation
     override fun onNavigationItemSelected(menuItem: MenuItem): Boolean {
+        // Swap UI fragments based on the selection
+        this.supportFragmentManager.beginTransaction().let { ft ->
+            ft.replace(R.id.content_frame, instantiateFragmentFor(menuItem))
+            if (backOutableFragments.contains(menuItem.itemId))
+                ft.addToBackStack(null)
+            ft.commit()
+        }
+
+        updateMenuDisplayFor(menuItem)
+
+        return true
+    }
+
+    override fun onBackStackChanged() {
+        val menuItem = navigationView.menu.findItem(currentMenuItemId())
+        updateMenuDisplayFor(menuItem)
+    }
+
+    private fun currentMenuItemId(): Int {
+        val currentFragment = this.supportFragmentManager.findFragmentById(R.id.content_frame)
+        return fragmentToMenuItemId[currentFragment.javaClass]!!
+    }
+
+    private fun updateMenuDisplayFor(menuItem: MenuItem) {
         // set item as selected to persist highlight
         menuItem.isChecked = true
         // close drawer when item is tapped
         drawerLayout.closeDrawers()
-
         // Save which item is selected
         selectedItem = menuItem.itemId
-
         // Update the ActionBar title to be the title of the chosen fragment
         toolbar.title = menuItem.title
-
-        // Swap UI fragments based on the selection
-        val ft = this.supportFragmentManager.beginTransaction()
-        ft.replace(R.id.content_frame, instantiateFragmentFor(menuItem))
-        ft.commit()
-        saveCurrentMenuSelection()
-        return true
     }
 
     private fun instantiateFragmentFor(menuItem: MenuItem): Fragment {
-        val fragmentClass = itemToFragment.get(menuItem.itemId)
+        val fragmentClass = menuItemIdToFragment.get(menuItem.itemId)
         try {
             return fragmentClass.newInstance().apply {
                 enterTransition = Fade()
@@ -170,14 +204,16 @@ abstract class MainNavDrawerActivity : AppCompatActivity(), OnNavigationItemSele
 
     public override fun onPause() {
         Route.unregisterListener(this)
-        saveCurrentMenuSelection()
+        saveCurrentMenuSelection(currentMenuItemId())
         super.onPause()
     }
 
-    private fun saveCurrentMenuSelection() {
-        val edit = prefs().edit()
-        edit.putInt(DRAWER_ITEMID_SELECTED_KEY, selectedItem)
-        edit.apply()
+    private fun saveCurrentMenuSelection(menuItemId: Int) {
+        if (backOutableFragments.contains(menuItemId))
+            prefs().edit().let {
+                it.putInt(DRAWER_ITEMID_SELECTED_KEY, selectedItem)
+                it.apply()
+            }
     }
 
     private fun prefs(): SharedPreferences {
