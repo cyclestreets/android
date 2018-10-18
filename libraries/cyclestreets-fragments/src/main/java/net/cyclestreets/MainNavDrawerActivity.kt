@@ -63,7 +63,7 @@ abstract class MainNavDrawerActivity : AppCompatActivity(), OnNavigationItemSele
 
     // The Journey Planner and Photomap are the 'heart' of the app.  Pressing 'back' on any other
     // fragment should eventually return you to whichever of those you were using.
-    private val backOutableItems = setOf(R.id.nav_itinerary, R.id.nav_addphoto, R.id.nav_blog, R.id.nav_settings)
+    private val menuItemIdsForCoreFragments = setOf(R.id.nav_journey_planner, R.id.nav_photomap)
 
     override fun attachBaseContext(newBase: Context) {
         // Allows the use of Material icon library, see https://github.com/mikepenz/Android-Iconics
@@ -120,7 +120,7 @@ abstract class MainNavDrawerActivity : AppCompatActivity(), OnNavigationItemSele
         // Swap UI fragments based on the selection
         this.supportFragmentManager.beginTransaction().let { ft ->
             ft.replace(R.id.content_frame, instantiateFragmentFor(menuItem))
-            if (backOutableItems.contains(menuItem.itemId))
+            if (!menuItemIdsForCoreFragments.contains(menuItem.itemId))
                 ft.addToBackStack(null)
             ft.commit()
         }
@@ -131,10 +131,13 @@ abstract class MainNavDrawerActivity : AppCompatActivity(), OnNavigationItemSele
     }
 
     override fun onBackStackChanged() {
-        val currentFragment = this.supportFragmentManager.findFragmentById(R.id.content_frame)
-        val menuItemId = fragmentToMenuItemId[currentFragment.javaClass]!!
-        val menuItem = navigationView. menu.findItem(menuItemId)
+        val menuItem = navigationView.menu.findItem(currentMenuItemId())
         updateMenuDisplayFor(menuItem)
+    }
+
+    private fun currentMenuItemId(): Int {
+        val currentFragment = this.supportFragmentManager.findFragmentById(R.id.content_frame)
+        return fragmentToMenuItemId[currentFragment.javaClass]!!
     }
 
     private fun updateMenuDisplayFor(menuItem: MenuItem) {
@@ -147,7 +150,7 @@ abstract class MainNavDrawerActivity : AppCompatActivity(), OnNavigationItemSele
         // Update the ActionBar title to be the title of the chosen fragment
         toolbar.title = menuItem.title
 
-        if (!backOutableItems.contains(menuItem.itemId))
+        if (menuItemIdsForCoreFragments.contains(menuItem.itemId))
             saveCurrentMenuSelection()
     }
 
@@ -201,7 +204,8 @@ abstract class MainNavDrawerActivity : AppCompatActivity(), OnNavigationItemSele
 
     public override fun onPause() {
         Route.unregisterListener(this)
-        saveCurrentMenuSelection()
+        if (menuItemIdsForCoreFragments.contains(currentMenuItemId()))
+            saveCurrentMenuSelection()
         super.onPause()
     }
 
