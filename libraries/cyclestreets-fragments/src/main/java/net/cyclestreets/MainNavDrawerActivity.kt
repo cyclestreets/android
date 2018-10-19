@@ -134,13 +134,17 @@ abstract class MainNavDrawerActivity : AppCompatActivity(), OnNavigationItemSele
     }
 
     override fun onBackStackChanged() {
-        val menuItem = navigationView.menu.findItem(currentMenuItemId())
-        updateMenuDisplayFor(menuItem)
+        currentMenuItemId()?.let { id ->
+            navigationView.menu.findItem(id)
+        } ?.let { menuItem ->
+            updateMenuDisplayFor(menuItem)
+        }
     }
 
-    private fun currentMenuItemId(): Int {
-        val currentFragment = this.supportFragmentManager.findFragmentById(R.id.content_frame)
-        return fragmentToMenuItemId[currentFragment.javaClass]!!
+    private fun currentMenuItemId(): Int? {
+        return this.supportFragmentManager.findFragmentById(R.id.content_frame)?.javaClass?.let {
+            fragmentToMenuItemId[it]
+        }
     }
 
     private fun updateMenuDisplayFor(menuItem: MenuItem) {
@@ -204,7 +208,9 @@ abstract class MainNavDrawerActivity : AppCompatActivity(), OnNavigationItemSele
 
     public override fun onPause() {
         Route.unregisterListener(this)
-        saveCurrentMenuSelection(currentMenuItemId())
+        currentMenuItemId()?.let {
+            saveCurrentMenuSelection(it)
+        }
         super.onPause()
     }
 
