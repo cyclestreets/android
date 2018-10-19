@@ -215,7 +215,7 @@ abstract class MainNavDrawerActivity : AppCompatActivity(), OnNavigationItemSele
     }
 
     private fun saveCurrentMenuSelection(menuItemId: Int) {
-        if (backOutableFragments.contains(menuItemId))
+        if (resumableFragments.contains(menuItemId))
             prefs().edit().let {
                 it.putInt(DRAWER_ITEMID_SELECTED_KEY, selectedItem)
                 it.apply()
