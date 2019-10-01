@@ -20,8 +20,7 @@ caters to the needs of both confident and less confident cyclists.
 
 ## The Latest Version
 
-- Latest version
-<a href="https://play.google.com/store/apps/details?id=net.cyclestreets" title="Image from pluspng.com"><img src="http://pluspng.com/img-png/get-it-on-google-play-png-get-it-on-google-play-646.png" alt="Get It On Google Play PNG"></a>
+<a href="https://play.google.com/store/apps/details?id=net.cyclestreets" title="net.cyclestreets"><img src="http://pluspng.com/img-png/get-it-on-google-play-png-get-it-on-google-play-646.png" alt="Get It On Google Play PNG" width ="150" height ="65" ></a>
 
 - Source at http://www.cyclestreets.net/mobile/android/
 
