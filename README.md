@@ -26,22 +26,22 @@ caters to the needs of both confident and less confident cyclists.
 
 ## Screenshots
 <p>
-	<img src="https://www.cyclestreets.net/mobile/android/images/mobile/android/menu.png" title="Main menu" width="220" height="400" alt="Android screenshot" class="shadow" />
-	<img src="https://www.cyclestreets.net/mobile/android/images/mobile/android/map.png" title="Map view" width="220" height="400" alt="Android screenshot" class="shadow" /> &nbsp; &nbsp; 
-	<img src="https://www.cyclestreets.net/mobile/android/images/mobile/android/satnav.png" title="Live Ride - satnav mode" width="220" height="400" alt="Android screenshot" class="shadow" />
+	<img src="https://www.cyclestreets.net/images/mobile/android/menu.png" title="Main menu" width="220" height="400" alt="Android screenshot" class="shadow" />
+	<img src="https://www.cyclestreets.net/images/mobile/android/map.png" title="Map view" width="220" height="400" alt="Android screenshot" class="shadow" /> &nbsp; &nbsp; 
+	<img src="https://www.cyclestreets.net/images/mobile/android/satnav.png" title="Live Ride - satnav mode" width="220" height="400" alt="Android screenshot" class="shadow" />
 </p>
 <p>
-	<img src="https://www.cyclestreets.net/mobile/android/images/mobile/android/waypoints.png" title="Waypoints" width="220" height="400" alt="Android screenshot" class="shadow" /> &nbsp; &nbsp; 
-	<img src="https://www.cyclestreets.net/mobile/android/images/mobile/android/elevation.png" title="Elevation chart" width="220" height="400" alt="Android screenshot" class="shadow" /> &nbsp; &nbsp; 
-	<img src="https://www.cyclestreets.net/mobile/android/images/mobile/android/directions.png" title="Directions" width="220" height="400" alt="Android screenshot" class="shadow" />
+	<img src="https://www.cyclestreets.net/images/mobile/android/waypoints.png" title="Waypoints" width="220" height="400" alt="Android screenshot" class="shadow" /> &nbsp; &nbsp; 
+	<img src="https://www.cyclestreets.net/images/mobile/android/elevation.png" title="Elevation chart" width="220" height="400" alt="Android screenshot" class="shadow" /> &nbsp; &nbsp; 
+	<img src="https://www.cyclestreets.net/images/mobile/android/directions.png" title="Directions" width="220" height="400" alt="Android screenshot" class="shadow" />
 </p>
 <p>
-	<img src="https://www.cyclestreets.net/mobile/android/images/mobile/android/photomap.png" title="Photomap" width="220" height="400" alt="Android screenshot" class="shadow" /> &nbsp; &nbsp; 
-	<img src="https://www.cyclestreets.net/mobile/android/images/mobile/android/photo.png" title="Photo" width="220" height="400" alt="Android screenshot" class="shadow" />
+	<img src="https://www.cyclestreets.net/images/mobile/android/photomap.png" title="Photomap" width="220" height="400" alt="Android screenshot" class="shadow" /> &nbsp; &nbsp; 
+	<img src="https://www.cyclestreets.net/images/mobile/android/photo.png" title="Photo" width="220" height="400" alt="Android screenshot" class="shadow" />
 </p>
 <p>
-	<img src="https://www.cyclestreets.net/mobile/android/images/mobile/android/poislist.png" title="Types of points of interest" width="220" height="400" alt="Android screenshot" class="shadow" /> &nbsp; &nbsp; 
-	<img src="https://www.cyclestreets.net/mobile/android/images/mobile/android/pois.png" title="Points of interest" width="220" height="400" alt="Android screenshot" class="shadow" />
+	<img src="https://www.cyclestreets.net/images/mobile/android/poislist.png" title="Types of points of interest" width="220" height="400" alt="Android screenshot" class="shadow" /> &nbsp; &nbsp; 
+	<img src="https://www.cyclestreets.net/images/mobile/android/pois.png" title="Points of interest" width="220" height="400" alt="Android screenshot" class="shadow" />
 </p>
 
 <h2>Beta testers</h2>
@@ -58,9 +58,9 @@ caters to the needs of both confident and less confident cyclists.
 <p>Note that this will replace the released version of the app with the latest beta version.</p>
 
 <p>
-	<img src="https://www.cyclestreets.net/mobile/android/images/mobile/android/betasignup1.png" width="200" alt="Android beta signup screen" /> &nbsp; &nbsp; 
-	<img src="https://www.cyclestreets.net/mobile/android/images/mobile/android/betasignup2.png" width="200" alt="Android beta signup screen" /> &nbsp; &nbsp; 
-	<img src="https://www.cyclestreets.net/mobile/android/images/mobile/android/betasignup3.png" width="200" alt="Android beta signup screen" />
+	<img src="https://www.cyclestreets.net/images/mobile/android/betasignup1.png" width="200" alt="Android beta signup screen" /> &nbsp; &nbsp; 
+	<img src="https://www.cyclestreets.net/images/mobile/android/betasignup2.png" width="200" alt="Android beta signup screen" /> &nbsp; &nbsp; 
+	<img src="https://www.cyclestreets.net/images/mobile/android/betasignup3.png" width="200" alt="Android beta signup screen" />
 </p>
 
 ## Contribute!
