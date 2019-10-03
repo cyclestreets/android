@@ -25,8 +25,43 @@ caters to the needs of both confident and less confident cyclists.
 - Source at http://www.cyclestreets.net/mobile/android/
 
 ## Screenshots
-<img src="/imgs/1.png" alt="Screenshots" height = 400>  <img src="/imgs/2.png" alt="Screenshots" height = 400>  <img src="/imgs/3.png" alt="Screenshots" height = 400>  <img src="/imgs/4.png" alt="Screenshots" height = 400>  <img src="/imgs/5.png" alt="Screenshots" height = 400>  <img src="/imgs/6.png" alt="Screenshots" height = 400>
+<p>
+	<img src="https://www.cyclestreets.net/mobile/android/images/mobile/android/menu.png" title="Main menu" width="220" height="400" alt="Android screenshot" class="shadow" />
+	<img src="https://www.cyclestreets.net/mobile/android/images/mobile/android/map.png" title="Map view" width="220" height="400" alt="Android screenshot" class="shadow" /> &nbsp; &nbsp; 
+	<img src="https://www.cyclestreets.net/mobile/android/images/mobile/android/satnav.png" title="Live Ride - satnav mode" width="220" height="400" alt="Android screenshot" class="shadow" />
+</p>
+<p>
+	<img src="https://www.cyclestreets.net/mobile/android/images/mobile/android/waypoints.png" title="Waypoints" width="220" height="400" alt="Android screenshot" class="shadow" /> &nbsp; &nbsp; 
+	<img src="https://www.cyclestreets.net/mobile/android/images/mobile/android/elevation.png" title="Elevation chart" width="220" height="400" alt="Android screenshot" class="shadow" /> &nbsp; &nbsp; 
+	<img src="https://www.cyclestreets.net/mobile/android/images/mobile/android/directions.png" title="Directions" width="220" height="400" alt="Android screenshot" class="shadow" />
+</p>
+<p>
+	<img src="https://www.cyclestreets.net/mobile/android/images/mobile/android/photomap.png" title="Photomap" width="220" height="400" alt="Android screenshot" class="shadow" /> &nbsp; &nbsp; 
+	<img src="https://www.cyclestreets.net/mobile/android/images/mobile/android/photo.png" title="Photo" width="220" height="400" alt="Android screenshot" class="shadow" />
+</p>
+<p>
+	<img src="https://www.cyclestreets.net/mobile/android/images/mobile/android/poislist.png" title="Types of points of interest" width="220" height="400" alt="Android screenshot" class="shadow" /> &nbsp; &nbsp; 
+	<img src="https://www.cyclestreets.net/mobile/android/images/mobile/android/pois.png" title="Points of interest" width="220" height="400" alt="Android screenshot" class="shadow" />
+</p>
 
+<h2>Beta testers</h2>
+
+<p>You can also sign up as a beta-tester for our Android app, simply by opting into the beta programme in the Google Play Store. This enables you to get the latest improvements and give feedback before they are released officially.</p>
+<p>The app is <a href="https://github.com/cyclestreets/android/">open source</a> and we very much welcome new contributions of code, bug reports, etc.</p>
+<p>To switch to the beta app:</p>
+<ol>
+	<li>On your phone, go to the <a href="https://play.google.com/store/apps/details?id=net.cyclestreets">CycleStreets page in the Google Play Store</a>.</li>
+	<li>Scroll down to the bottom of the page, and find the "Become a beta tester" box, and click on "I'm in".</li>
+	<li>This will then show "Beta sign-up in progress&hellip;".</li>
+	<li>After, when you click "Install" at the top of the page, that will install the beta app.</li>
+</ol>
+<p>Note that this will replace the released version of the app with the latest beta version.</p>
+
+<p>
+	<img src="https://www.cyclestreets.net/mobile/android/images/mobile/android/betasignup1.png" width="200" alt="Android beta signup screen" /> &nbsp; &nbsp; 
+	<img src="https://www.cyclestreets.net/mobile/android/images/mobile/android/betasignup2.png" width="200" alt="Android beta signup screen" /> &nbsp; &nbsp; 
+	<img src="https://www.cyclestreets.net/mobile/android/images/mobile/android/betasignup3.png" width="200" alt="Android beta signup screen" />
+</p>
 
 ## Contribute!
 
