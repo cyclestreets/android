@@ -1,11 +1,12 @@
 buildscript {
-  ext.kotlinVersion = '1.2.71'
+  /* ext.kotlinVersion = '1.2.71'    HN 19/01/2020   */
+  ext.kotlinVersion = '1.3.10'  //   HN 19/01/2020
   repositories {
     google()
     jcenter()
   }
   dependencies {
-    classpath 'com.android.tools.build:gradle:3.2.0'
+    classpath 'com.android.tools.build:gradle:3.5.3'
     classpath 'com.github.triplet.gradle:play-publisher:1.2.2'
     classpath 'org.ajoberstar:grgit:2.3.0'
     classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"

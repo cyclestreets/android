@@ -43,8 +43,8 @@ public interface V2Api {
   @GET("/v2/photomap.location?fields=id,caption,categoryId,metacategoryId,hasVideo,videoFormats,thumbnailUrl,shortlink&limit=45&thumbnailsize=640")
   Call<FeatureCollection> getPhoto(@Query("id") long id);
 
-  @GET("/v2/photomap.locations?fields=id,caption,categoryId,metacategoryId,hasVideo,videoFormats,thumbnailUrl,shortlink&limit=45&thumbnailsize=640")
-  Call<FeatureCollection> getPhotos(@Query("bbox") String bbox);
+  @GET("/v2/photomap.locations?fields=id,caption,datetime,categoryId,metacategoryId,hasVideo,videoFormats,thumbnailUrl,shortlink&limit=45&thumbnailsize=640")
+  Call<FeatureCollection> getPhotos(@Query("bbox") String bbox);      // HN #354 Add date
 
   @GET("/v2/journeys.user?format=flat&datetime=friendly")
   Call<UserJourneysDto> getUserJourneys(@Query("username") String username);
