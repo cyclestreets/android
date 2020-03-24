@@ -10,6 +10,7 @@
       "properties": {
         "id": 60141,
         "caption": "'One of the closest near misses'\n\nhttp://www.bbc.co.uk/news/uk-england-cambridgeshire-24562951\n\nI wonder if one reason this happened was that she regularly took a risk here and became de-sensitized to the danger?",
+        "datetime": 123,
         "categoryId": "road",
         "metacategoryId": "other",
         "hasVideo": false,
@@ -30,6 +31,7 @@
       "properties": {
         "id": 80565,
         "caption": "More cycle parking for another 60 bikes added at Longstanton Park & Ride",
+        "datetime": 123,
         "categoryId": "general",
         "metacategoryId": "other",
         "hasVideo": false,
@@ -50,6 +52,7 @@
       "properties": {
         "id": 81980,
         "caption": "These branches need trimming before they knock someone off. When wet they hang lower than shoulder height across most of the path.\n\nUPDATE: Path cleared within 24 hours of making this report on the Cambs website!",
+        "datetime": 123,
         "categoryId": "cycleways",
         "metacategoryId": "bad",
         "hasVideo": false,
@@ -70,6 +73,7 @@
       "properties": {
         "id": 82169,
         "caption": "Link from Clerk Maxwell Road to the West Cambridge site",
+        "datetime": 1466693269,
         "categoryId": "cycleways",
         "metacategoryId": "other",
         "hasVideo": true,

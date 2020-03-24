@@ -260,6 +260,7 @@ public class RetrofitApiClientTest {
 
     assertThat(photo4.id(), is(82169));
     assertThat(photo4.caption(), is("Link from Clerk Maxwell Road to the West Cambridge site"));
+    assertThat(photo4.datetime(), is(1466693269L));
     assertThat(photo4.category(), is("cycleways"));
     assertThat(photo4.metacategory(), is("other"));
     assertThat(photo4.thumbnailUrl(), is("https://www.cyclestreets.net/location/82169/cyclestreets82169-size640.jpg"));
