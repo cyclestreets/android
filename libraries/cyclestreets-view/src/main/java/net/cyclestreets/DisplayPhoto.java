@@ -31,6 +31,7 @@ import android.widget.TextView;
 import android.widget.VideoView;
 
 import java.lang.ref.WeakReference;
+import java.text.DateFormat;
 
 public final class DisplayPhoto {
   public static void launch(final Photo photo, final Context context) {
@@ -65,6 +66,8 @@ public final class DisplayPhoto {
     protected String title() { return String.format("Video #%d", photo_.id()); }
     @Override
     protected String caption() { return photo_.caption().replace('\n', ' '); }
+    @Override
+    protected long datetime() {return photo_.datetime();}
     @Override
     protected View loadLayout() {
       final View layout = View.inflate(context_, R.layout.showvideo, null);
@@ -170,6 +173,8 @@ public final class DisplayPhoto {
     @Override
     protected String caption() { return photo_.caption(); }
     @Override
+    protected long datetime() { return photo_.datetime(); }
+    @Override
     protected View loadLayout() {
       final View layout = View.inflate(context_, R.layout.showphoto, null);
       iv_ = (ImageView)layout.findViewById(R.id.photo);
@@ -222,6 +227,13 @@ public final class DisplayPhoto {
       final TextView text = (TextView)layout.findViewById(R.id.caption);
       text.setText(caption());
 
+      final TextView textDate = (TextView)layout.findViewById(R.id.datetime);
+      String stringDate = "";
+      if (datetime() != -1) {
+        stringDate = DateFormat.getDateInstance().format(datetime() * 1000);
+      }
+      textDate.setText(stringDate);
+
       preShowSetup(builder);
 
       ad_ = builder.create();
@@ -251,6 +263,7 @@ public final class DisplayPhoto {
 
     protected abstract String title();
     protected abstract String caption();
+    protected abstract long datetime();
     protected abstract View loadLayout();
 
     protected void preShowSetup(AlertDialog.Builder builder) { }

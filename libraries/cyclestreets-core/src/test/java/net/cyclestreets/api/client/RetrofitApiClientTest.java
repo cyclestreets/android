@@ -245,7 +245,7 @@ public class RetrofitApiClientTest {
     // then
     verify(getRequestedFor(urlPathEqualTo("/v2/photomap.locations"))
             .withQueryParam("bbox", equalTo("0.1,52.2,0.2,52.3"))
-            .withQueryParam("fields", equalTo("id,caption,categoryId,metacategoryId,hasVideo,videoFormats,thumbnailUrl,shortlink"))
+            .withQueryParam("fields", equalTo("id,caption,datetime,categoryId,metacategoryId,hasVideo,videoFormats,thumbnailUrl,shortlink"))
             .withQueryParam("thumbnailsize", equalTo("640"))
             .withQueryParam("limit", equalTo("45"))
             .withQueryParam("key", equalTo("myApiKey")));
