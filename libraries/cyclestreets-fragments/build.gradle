@@ -1,4 +1,32 @@
+plugins {
+  id 'com.android.library'
+  id 'kotlin-android'
+}
+
 evaluationDependsOn(':libraries:cyclestreets-view')
+
+android {
+  compileSdkVersion rootProject.ext.compileSdkVersion
+  buildToolsVersion rootProject.ext.buildToolsVersion
+
+  compileOptions {
+    sourceCompatibility rootProject.ext.javaVersion
+    targetCompatibility rootProject.ext.javaVersion
+  }
+
+  defaultConfig {
+    minSdkVersion rootProject.ext.minSdkVersion
+    targetSdkVersion rootProject.ext.targetSdkVersion
+  }
+
+  lintOptions {
+    // Required due to strictness of the Android developer tools.  See lint.xml for full details.
+    lintConfig rootProject.file('gradle/lint.xml')
+
+    // Kotlin (nullability) interop check - potentially useful but quite noisy
+    // check 'Interoperability'
+  }
+}
 
 dependencies {
   api project(':libraries:cyclestreets-view')
@@ -6,5 +34,5 @@ dependencies {
 
   testImplementation 'junit:junit:4.12'
   testImplementation 'org.robolectric:robolectric:3.8'
-  testImplementation 'org.assertj:assertj-core:3.11.0'
+  testImplementation "org.assertj:assertj-core:${rootProject.ext.assertjVersion}"
 }
