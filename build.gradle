@@ -32,14 +32,13 @@ ext {
 
   supportLibraryVersion='27.1.1'
 
-  // manage some other dependencies
-  javaVersion = JavaVersion.VERSION_1_8
+  // centrally manage some other dependencies
   assertjVersion = '3.15.0'
   mockitoVersion = '2.28.2'
 }
 
-
-allprojects {
+// Configure common settings in all projects
+subprojects {
   if (!file("${projectDir}/build.gradle").exists())
     return
 
@@ -48,15 +47,48 @@ allprojects {
       options.compilerArgs << "-Xlint:unchecked" << "-Xlint:deprecation"
     }
   }
+
   buildscript {
     repositories {
       google()
       jcenter()
     }
   }
+
   repositories {
     google()
     jcenter()
     maven { url "https://jitpack.io" }
+  }
+
+  if (projectDir.getName().equals('cyclestreets.app')) {
+    apply plugin: 'com.android.application'
+  } else {
+    apply plugin: 'com.android.library'
+  }
+
+  apply plugin: 'kotlin-android'
+
+  android {
+    compileSdkVersion rootProject.ext.compileSdkVersion
+    buildToolsVersion rootProject.ext.buildToolsVersion
+
+    compileOptions {
+      sourceCompatibility JavaVersion.VERSION_1_8
+      targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    defaultConfig {
+      minSdkVersion rootProject.ext.minSdkVersion
+      targetSdkVersion rootProject.ext.targetSdkVersion
+    }
+
+    lintOptions {
+      // Required due to strictness of the Android developer tools.  See lint.xml for full details.
+      lintConfig rootProject.file('gradle/lint.xml')
+
+      // Kotlin (nullability) interop check - potentially useful but quite noisy
+      // check 'Interoperability'
+    }
   }
 }

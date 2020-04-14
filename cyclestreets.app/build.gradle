@@ -5,9 +5,7 @@ buildscript {
 }
 
 plugins {
-  id 'com.android.application'
   id 'com.github.triplet.play' version '2.5.0'
-  id 'kotlin-android'
 }
 
 // Use a plugin to derive a version name (e.g. 3.7) and monotonically increasing version code (e.g. 1372)
@@ -30,31 +28,12 @@ def keystoreProperties = new Properties()
 keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
 
 android {
-  compileSdkVersion rootProject.ext.compileSdkVersion
-  buildToolsVersion rootProject.ext.buildToolsVersion
-
-  compileOptions {
-    sourceCompatibility rootProject.ext.javaVersion
-    targetCompatibility rootProject.ext.javaVersion
-  }
-
   defaultConfig {
-    minSdkVersion rootProject.ext.minSdkVersion
-    targetSdkVersion rootProject.ext.targetSdkVersion
-
     testInstrumentationRunner 'android.support.test.runner.AndroidJUnitRunner'
 
     applicationId 'net.cyclestreets'
     versionName advancedVersioning.versionName
     versionCode advancedVersioning.versionCode
-  }
-
-  lintOptions {
-    // Required due to strictness of the Android developer tools.  See lint.xml for full details.
-    lintConfig rootProject.file('gradle/lint.xml')
-
-    // Kotlin (nullability) interop check - potentially useful but quite noisy
-    // check 'Interoperability'
   }
 
   packagingOptions {
