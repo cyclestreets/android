@@ -3,6 +3,10 @@
 sudo: false
 dist: trusty
 
+branches:
+  only:
+    - master
+
 # Get the full commit history (required to derive our version code, see the root build.gradle)
 git:
   depth: false
