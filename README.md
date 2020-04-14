@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/cyclestreets/android.svg?branch=master)](https://travis-ci.org/cyclestreets/android)
+[![Build Status](https://travis-ci.com/cyclestreets/android.svg?branch=master)](https://travis-ci.com/cyclestreets/android)
 
 # Cyclestreets Android App
 
