@@ -24,14 +24,6 @@ import android.speech.tts.TextToSpeech
 import android.util.Log
 import java.util.UUID
 
-internal fun initialState(service: LiveRideService, tts: TextToSpeech): LiveRideState {
-    return LiveRideStart(service, tts)
-}
-
-internal fun stoppedState(context: Context): LiveRideState {
-    return Stopped(context)
-}
-
 private val TAG = Logging.getTag(LiveRideState::class.java)
 private const val NOTIFICATION_ID = 1
 
@@ -48,8 +40,8 @@ internal abstract class LiveRideState(protected val context: Context,
     protected constructor(state: LiveRideState):
         this(state.context, state.tts, state.title)
 
-    abstract fun update(journey: Journey, whereIam: GeoPoint, accuracy: Int): LiveRideState
-    abstract val isStopped: Boolean
+    abstract fun update(journey: Journey, myLocation: GeoPoint, accuracy: Int): LiveRideState
+    abstract fun isStopped(): Boolean
     abstract fun arePedalling(): Boolean
 
     protected fun notify(seg: Segment) {
