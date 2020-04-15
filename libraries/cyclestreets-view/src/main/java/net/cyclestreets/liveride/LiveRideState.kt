@@ -1,5 +1,6 @@
 package net.cyclestreets.liveride
 
+import android.app.Notification
 import net.cyclestreets.CycleStreetsNotifications
 import net.cyclestreets.CycleStreetsNotifications.CHANNEL_LIVERIDE_ID
 import net.cyclestreets.LiveRideActivity
@@ -15,6 +16,7 @@ import ru.ztrap.iconics.kt.toAndroidIconCompat
 
 import android.app.NotificationManager
 import android.app.PendingIntent
+import android.app.Service
 import android.content.Context
 import android.content.Intent
 import android.graphics.drawable.Icon
@@ -22,8 +24,8 @@ import android.speech.tts.TextToSpeech
 import android.util.Log
 import java.util.UUID
 
-internal fun initialState(context: Context, tts: TextToSpeech): LiveRideState {
-    return LiveRideStart(context, tts)
+internal fun initialState(service: LiveRideService, tts: TextToSpeech): LiveRideState {
+    return LiveRideStart(service, tts)
 }
 
 internal fun stoppedState(context: Context): LiveRideState {
@@ -53,16 +55,18 @@ internal abstract class LiveRideState(protected val context: Context,
     protected fun notify(seg: Segment) {
         notification(seg.street() + " " + seg.formattedDistance(), seg.toString())
 
-        val instruction = turnInto(seg);
-        if (seg.turnInstruction().isNotEmpty())
+        val instruction = turnInto(seg)
+        if (seg.turnInstruction().isNotEmpty()) {
             instruction.append(". Continue ").append(seg.formattedDistance())
+        }
         speak(instruction.toString())
     }
 
     protected fun turnInto(seg: Segment): StringBuilder {
         val instruction = StringBuilder()
-        if (seg.turnInstruction().isNotEmpty())
+        if (seg.turnInstruction().isNotEmpty()) {
             instruction.append(seg.turnInstruction()).append(" into ")
+        }
         instruction.append(seg.street().replace("un-", "un").replace("Un-", "un"))
         return instruction
     }
@@ -78,12 +82,20 @@ internal abstract class LiveRideState(protected val context: Context,
         speak(text)
     }
 
+    protected fun notifyAndSetServiceForeground(service: Service, text: String) {
+        val notification = getNotification(text, text, null)
+        service.startForeground(NOTIFICATION_ID, notification)
+        speak(text)
+    }
+
     private fun notification(text: String, ticker: String, directionIcon: Int? = null) {
+        val notification = getNotification(text, ticker, directionIcon)
+        nm().notify(NOTIFICATION_ID, notification)
+    }
+
+    private fun getNotification(text: String, ticker: String, directionIcon: Int? = null): Notification {
         val notificationIntent = Intent(context, LiveRideActivity::class.java)
-        val contentIntent = PendingIntent.getActivity(context,
-                                                      0,
-                                                      notificationIntent,
-                                                      PendingIntent.FLAG_CANCEL_CURRENT)
+        val contentIntent = PendingIntent.getActivity(context, 0, notificationIntent, PendingIntent.FLAG_CANCEL_CURRENT)
 
         val notificationBuilder = CycleStreetsNotifications.getBuilder(context, CHANNEL_LIVERIDE_ID)
                 .setSmallIcon(IconicsHelper.materialIcon(context = context, icon = GoogleMaterial.Icon.gmd_directions_bike).toAndroidIconCompat().toIcon())
@@ -99,7 +111,7 @@ internal abstract class LiveRideState(protected val context: Context,
             notificationBuilder.setLargeIcon(Icon.createWithResource(context, it))
         }
 
-        nm().notify(NOTIFICATION_ID, notificationBuilder.build())
+        return notificationBuilder.build()
     }
 
     protected fun cancelNotification() {

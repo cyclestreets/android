@@ -4,14 +4,13 @@ import net.cyclestreets.routing.Journey;
 
 import org.osmdroid.util.GeoPoint;
 
-import android.content.Context;
 import android.speech.tts.TextToSpeech;
 
 final class LiveRideStart extends LiveRideState
 {
-  LiveRideStart(final Context context, final TextToSpeech tts) {
-    super(context, tts);
-    notify("Starting LiveRide", "Starting LiveRide");
+  LiveRideStart(final LiveRideService liveRideService, final TextToSpeech tts) {
+    super(liveRideService, tts);
+    notifyAndSetServiceForeground(liveRideService, "Starting LiveRide");
   }
 
   @Override

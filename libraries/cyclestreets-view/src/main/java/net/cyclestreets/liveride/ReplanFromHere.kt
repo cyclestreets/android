@@ -44,6 +44,7 @@ internal class ReplanFromHere(previous: LiveRideState, whereIam: GeoPoint) : Liv
 
     override val isStopped: Boolean
         get() = false
+
     override fun arePedalling(): Boolean {
         return true
     }
