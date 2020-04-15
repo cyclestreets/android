@@ -3,6 +3,10 @@
 sudo: false
 dist: trusty
 
+branches:
+  only:
+    - master
+
 # Get the full commit history (required to derive our version code, see the root build.gradle)
 git:
   depth: false
@@ -12,7 +16,7 @@ jdk:
   - oraclejdk8
 env:
   global:
-    # Remember to keep these four values in sync with config.properties
+    # Remember to keep these four values in sync with values in the root build.gradle file
     - compileSdkVersion=28
     - minSdkVersion=23
     - targetSdkVersion=26
