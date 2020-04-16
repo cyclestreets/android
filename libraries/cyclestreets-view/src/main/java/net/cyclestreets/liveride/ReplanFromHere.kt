@@ -38,15 +38,12 @@ internal class ReplanFromHere(previous: LiveRideState, whereIam: GeoPoint) : Liv
                               remainingWaypoints)
     }
 
-    override fun update(journey: Journey, whereIam: GeoPoint, accuracy: Int): LiveRideState {
+    override fun update(journey: Journey, myLocation: GeoPoint, accuracy: Int): LiveRideState {
         return next!!
     }
 
-    override val isStopped: Boolean
-        get() = false
-    override fun arePedalling(): Boolean {
-        return true
-    }
+    override fun isStopped(): Boolean { return false }
+    override fun arePedalling(): Boolean { return true }
 
     override fun onNewJourney(journey: Journey, waypoints: Waypoints) {
         next = HuntForSegment(this)
