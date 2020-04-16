@@ -27,7 +27,7 @@ ext {
   // Remember to keep these values in sync with .travis.yml
   compileSdkVersion=28
   minSdkVersion=23
-  targetSdkVersion=26
+  targetSdkVersion=28
   buildToolsVersion='28.0.3'
 
   supportLibraryVersion='27.1.1'

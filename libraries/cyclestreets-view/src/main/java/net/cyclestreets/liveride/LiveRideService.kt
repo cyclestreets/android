@@ -34,7 +34,7 @@ class LiveRideService : Service(), LocationListener, TextToSpeech.OnInitListener
     override fun onCreate() {
         binder = Binding()
         locationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
-        stage = stoppedState(this)
+        stage = Stopped(this)
     }
 
     override fun onStartCommand(intent: Intent, flags: Int, startId: Int): Int {
@@ -52,7 +52,7 @@ class LiveRideService : Service(), LocationListener, TextToSpeech.OnInitListener
 
     @SuppressLint("MissingPermission") // We handle this with the hasPermission() check
     fun startRiding() {
-        if (!stage!!.isStopped)
+        if (!stage!!.isStopped())
             return
 
         if (!hasPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)) {
@@ -63,17 +63,17 @@ class LiveRideService : Service(), LocationListener, TextToSpeech.OnInitListener
 
         val tts = TextToSpeech(this, this)
         tts.setOnUtteranceProgressListener(AudioFocuser(this))
-        stage = initialState(this, tts)
+        stage = LiveRideStart(this, tts).setServiceForeground(this)
         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, UPDATE_TIME, UPDATE_DISTANCE, this)
         Log.d(TAG, "startRiding")
     }
 
     fun stopRiding() {
-        if (stage!!.isStopped)
+        if (stage!!.isStopped())
             return
         stage!!.tts!!.stop()
         stage!!.tts!!.shutdown()
-        stage = stoppedState(this)
+        stage = Stopped(this)
         locationManager.removeUpdates(this)
         Log.d(TAG, "stopRiding")
     }
