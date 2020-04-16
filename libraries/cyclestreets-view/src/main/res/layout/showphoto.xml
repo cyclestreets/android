@@ -27,6 +27,7 @@
         android:paddingBottom="12dp" />
     <TextView
         android:id="@+id/datetime"
+        android:gravity="center"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingLeft="9dp"
