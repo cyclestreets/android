@@ -38,6 +38,7 @@ public class PhotosFactory extends AbstractObjectFactory {
                      propertyOrDefault(feature, "categoryId", "Not known"),
                      propertyOrDefault(feature, "metacategoryId", "Not known"),
                      feature.getProperty("caption"),
+                     propertyOrDefault(feature, "datetime",-1),
                      feature.getProperty("shortlink"),
                      feature.getProperty("thumbnailUrl"),
                      geoPoint,

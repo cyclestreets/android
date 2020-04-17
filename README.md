@@ -54,7 +54,8 @@ along with this program.  If not, see https://www.gnu.org/licenses/
 
 Android App written by Jez Higgins and Oliver Lockwood, with contributions
 from Christopher Fraser, Jonathan Gray, Theodore Hong, Farid Kurbanov,
-kyegupov, Shaun McDonald, Simon Nuttall, John Singleton, Colin Watson.
+kyegupov, Shaun McDonald, Hilary Newmark, Simon Nuttall, John Singleton,
+Colin Watson.
 
 CycleStreets contacts details:
 https://www.cyclestreets.org/contacts/
