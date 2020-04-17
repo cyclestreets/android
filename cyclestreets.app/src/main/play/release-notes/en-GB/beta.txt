@@ -1,4 +1,5 @@
 Handle CycleStreets photomap location URLs.
+Waypoints shown during LiveRide.
 Dates included on photo display dialog.
 
 Work in progress: upgrading the offline map integration; offline maps may not work properly for a few beta releases.
