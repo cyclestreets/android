@@ -1,2 +1,4 @@
+Handle CycleStreets photomap location URLs.
+Dates included on photo display dialog.
+
 Work in progress: upgrading the offline map integration; offline maps may not work properly for a few beta releases.
-Handle CycleStreets photomap location URLs
