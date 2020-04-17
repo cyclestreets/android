@@ -1,5 +1,6 @@
 package net.cyclestreets;
 
+
 import net.cyclestreets.api.Photo;
 import net.cyclestreets.util.ImageDownloader;
 import net.cyclestreets.util.ProgressDialog;
@@ -224,13 +225,13 @@ public final class DisplayPhoto {
       final View layout = loadLayout();
       builder.setView(layout);
 
-      final TextView text = (TextView)layout.findViewById(R.id.caption);
+      final TextView text = layout.findViewById(R.id.caption);
       text.setText(caption());
 
-      final TextView textDate = (TextView)layout.findViewById(R.id.datetime);
+      final TextView textDate = layout.findViewById(R.id.datetime);
       String stringDate = "";
       if (datetime() != -1) {
-        stringDate = DateFormat.getDateInstance().format(datetime() * 1000);
+        stringDate = DateFormat.getDateInstance(DateFormat.LONG).format(datetime() * 1000);
       }
       textDate.setText(stringDate);
 
