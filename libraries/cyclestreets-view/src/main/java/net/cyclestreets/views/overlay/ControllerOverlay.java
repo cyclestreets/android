@@ -43,7 +43,7 @@ public class ControllerOverlay extends Overlay implements OnDoubleTapListener, O
     mapView_ = mapView;
 
     final Context context = mapView_.getContext();
-    textBrush_ = Brush.createTextBrush(DrawingHelper.offset(context)/2);
+    textBrush_ = Brush.createTextBrush(DrawingHelperKt.offset(context)/2);
     textBrush_.setColor(Color.BLACK);
 
     gestureDetector_ = new GestureDetector(context, this);

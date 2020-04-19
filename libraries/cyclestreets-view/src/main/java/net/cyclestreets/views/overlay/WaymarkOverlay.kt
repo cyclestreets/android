@@ -6,16 +6,13 @@ import android.graphics.Canvas
 import android.graphics.Matrix
 import android.graphics.Paint
 import android.graphics.Point
-import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.support.v4.content.res.ResourcesCompat
-
 import net.cyclestreets.routing.Journey
 import net.cyclestreets.routing.Route
 import net.cyclestreets.routing.Waypoints
 import net.cyclestreets.view.R
 import net.cyclestreets.views.CycleMapView
-
 import org.osmdroid.api.IGeoPoint
 import org.osmdroid.api.IProjection
 import org.osmdroid.util.GeoPoint
@@ -27,9 +24,9 @@ import java.util.ArrayList
 
 class WaymarkOverlay(private val mapView: CycleMapView) : Overlay(), PauseResumeListener, Route.Listener {
 
-    private val greenWisp = makeWisp(R.drawable.green_wisp)
-    private val orangeWisp = makeWisp(R.drawable.orange_wisp)
-    private val redWisp = makeWisp(R.drawable.red_wisp)
+    private val wispWpStart = makeWisp(R.drawable.wp_start)
+    private val wispWpMid = makeWisp(R.drawable.wp_mid)
+    private val wispWpFinish = makeWisp(R.drawable.wp_finish)
     private val screenPos = Point()
     private val bitmapTransform = Matrix()
     private val bitmapPaint = Paint()
@@ -57,13 +54,13 @@ class WaymarkOverlay(private val mapView: CycleMapView) : Overlay(), PauseResume
         if (point == null)
             return
         when (waymarkersCount()) {
-            0 -> pushMarker(point, "start", greenWisp)
-            1 -> pushMarker(point, "finish", redWisp)
+            0 -> pushMarker(point, "start", wispWpStart)
+            1 -> pushMarker(point, "finish", wispWpFinish)
             else -> {
                 val prevFinished = finish()
                 popMarker()
-                pushMarker(prevFinished, "waypoint", orangeWisp)
-                pushMarker(point, "finish", redWisp)
+                pushMarker(prevFinished, "waypoint", wispWpMid)
+                pushMarker(point, "finish", wispWpFinish)
             }
         }
     }
@@ -76,7 +73,7 @@ class WaymarkOverlay(private val mapView: CycleMapView) : Overlay(), PauseResume
                 popMarker()
                 val prevFinished = finish()
                 popMarker()
-                pushMarker(prevFinished, "finish", redWisp)
+                pushMarker(prevFinished, "finish", wispWpFinish)
             }
         }
     }
@@ -112,15 +109,18 @@ class WaymarkOverlay(private val mapView: CycleMapView) : Overlay(), PauseResume
         val transformValues = FloatArray(9)
         transform.getValues(transformValues)
 
-        val thingToDraw = marker.drawable as BitmapDrawable
-        val halfWidth = thingToDraw.intrinsicWidth / 2
-        val halfHeight = thingToDraw.intrinsicHeight / 2
+        val drawable = marker.drawable;
+        val bitmap = getBitmapFromDrawable(drawable, WAYPOINT_SIZE)
+
+        val halfWidth = bitmap.width / 2
+        val halfHeight = bitmap.height / 2
+
         bitmapTransform.apply {
             setTranslate((-halfWidth).toFloat(), (-halfHeight).toFloat())
             postScale(1 / transformValues[Matrix.MSCALE_X], 1 / transformValues[Matrix.MSCALE_Y])
             postTranslate(screenPos.x.toFloat(), screenPos.y.toFloat())
         }
-        canvas.drawBitmap(thingToDraw.bitmap, bitmapTransform, bitmapPaint)
+        canvas.drawBitmap(bitmap, bitmapTransform, bitmapPaint)
     }
 
     ////////////////////////////////////
