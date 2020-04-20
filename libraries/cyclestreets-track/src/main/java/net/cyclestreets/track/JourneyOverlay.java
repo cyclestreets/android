@@ -51,8 +51,8 @@ public class JourneyOverlay extends Overlay {
     rideBrush_ = createBrush(ROUTE_COLOUR);
 
     final Resources res = context.getResources();
-    wispWpStart = (BitmapDrawable)ResourcesCompat.getDrawable(res, R.drawable.wp_start, null);
-    wispWpFinish = (BitmapDrawable)ResourcesCompat.getDrawable(res, R.drawable.wp_finish, null);
+    wispWpStart = (BitmapDrawable)ResourcesCompat.getDrawable(res, R.drawable.green_wisp, null);
+    wispWpFinish = (BitmapDrawable)ResourcesCompat.getDrawable(res, R.drawable.red_wisp, null);
   }
 
   @Override
