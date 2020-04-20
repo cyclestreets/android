@@ -6,10 +6,11 @@ import android.graphics.Canvas
 import android.graphics.Paint
 import android.graphics.Rect
 import android.graphics.RectF
+import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 
+
 const val DEFAULT_DRAWABLE_SIZE = -1
-const val WAYPOINT_SIZE = 50
 
 fun offset(context: Context): Int {
     return (8 * context.resources.displayMetrics.density).toInt()
@@ -35,7 +36,11 @@ fun drawRoundRect(canvas: Canvas,
  * @return The Bitmap associated to the Drawable or null if the drawable was null.
  * @see <html>[Stackoverflow answer](https://stackoverflow.com/a/10600736/1827254)</html>
  */
-fun getBitmapFromDrawable(drawable: Drawable, expectSize: Int): Bitmap {
+fun getBitmapFromDrawable(drawable: Drawable, expectSize: Int = DEFAULT_DRAWABLE_SIZE): Bitmap {
+
+    if (drawable is BitmapDrawable) {
+        return drawable.bitmap
+    }
 
     val ratio = if (expectSize == DEFAULT_DRAWABLE_SIZE) 1f else {
         calculateRatio(drawable.intrinsicWidth, drawable.intrinsicHeight, expectSize)
