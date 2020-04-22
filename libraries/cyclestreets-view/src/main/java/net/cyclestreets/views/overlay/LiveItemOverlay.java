@@ -48,8 +48,8 @@ public abstract class LiveItemOverlay<T extends OverlayItem>
     showLoading_ = showLoading;
 
     final Context context = mapView_.getContext();
-    offset_ = DrawingHelper.offset(context);
-    radius_ = DrawingHelper.cornerRadius(context);
+    offset_ = DrawingHelperKt.offset(context);
+    radius_ = DrawingHelperKt.cornerRadius(context);
     textBrush_ = Brush.createTextBrush(offset_);
 
     mapView_.setMapListener(new DelayedMapListener(this));
@@ -84,7 +84,7 @@ public abstract class LiveItemOverlay<T extends OverlayItem>
     canvas.save();
     canvas.concat(unscaled);
 
-    DrawingHelper.drawRoundRect(canvas, screen, cornerRadius(), Brush.Grey);
+    DrawingHelperKt.drawRoundRect(canvas, screen, cornerRadius(), Brush.Grey);
     canvas.drawText(LOADING, screen.centerX(), screen.centerY() + bounds.bottom, textBrush());
 
     canvas.restore();

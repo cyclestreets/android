@@ -35,8 +35,8 @@ public class JourneyOverlay extends Overlay {
   private Path ridePath_;
   private int zoomLevel_ = -1;
   private IGeoPoint mapCentre_;
-  private final BitmapDrawable greenWisp_;
-  private final BitmapDrawable redWisp_;
+  private final BitmapDrawable wispWpStart;
+  private final BitmapDrawable wispWpFinish;
   private final Matrix bitmapTransform_ = new Matrix();
   private final Paint bitmapPaint_ = new Paint();
 
@@ -51,8 +51,8 @@ public class JourneyOverlay extends Overlay {
     rideBrush_ = createBrush(ROUTE_COLOUR);
 
     final Resources res = context.getResources();
-    greenWisp_ = (BitmapDrawable)ResourcesCompat.getDrawable(res, R.drawable.green_wisp, null);
-    redWisp_ = (BitmapDrawable)ResourcesCompat.getDrawable(res, R.drawable.red_wisp, null);
+    wispWpStart = (BitmapDrawable)ResourcesCompat.getDrawable(res, R.drawable.green_wisp, null);
+    wispWpFinish = (BitmapDrawable)ResourcesCompat.getDrawable(res, R.drawable.red_wisp, null);
   }
 
   @Override
@@ -76,8 +76,8 @@ public class JourneyOverlay extends Overlay {
       ridePath_ = journeyPath(mapView.getProjection());
 
     canvas.drawPath(ridePath_, rideBrush_);
-    drawMarker(canvas, mapView.getProjection(), trip_.startLocation(), greenWisp_);
-    drawMarker(canvas, mapView.getProjection(), trip_.endLocation(), redWisp_);
+    drawMarker(canvas, mapView.getProjection(), trip_.startLocation(), wispWpStart);
+    drawMarker(canvas, mapView.getProjection(), trip_.endLocation(), wispWpFinish);
 
     if (initial_) {
       mapView_.zoomToBoundingBox(trip_.boundingBox());
