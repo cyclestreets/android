@@ -2,9 +2,9 @@ Handle CycleStreets photomap location URLs.
 Waypoints shown during LiveRide.
 Dates included on photo display dialog.
 Active segment now highlighted on the elevation graph.
-Modernisation of some icons, using vector graphics for better resolution and smaller install size.
-LiveRide now requests audio focus which should improve the experience e.g. when also playing music.
-Target streets are now described as part of instructions - e.g. "Get ready to turn right" becomes "Get ready to turn right onto [street name]".
+Modernisation of some icons.
+LiveRide now requests audio focus over e.g. music.
+"Get ready to turn right" becomes "Get ready to turn right onto [street name]".
 Pressing "back" now takes you back to your previous view, so you don't accidentally minimise the app so often.
 
 Numerous bug fixes.
