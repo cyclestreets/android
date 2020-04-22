@@ -1,12 +1,29 @@
 <!-- This needs to be kept in sync with the 'beta.txt' and 'production.txt' files which are
      uploaded to the Play store as part of our build publication process. -->
+
+<!-- This deferred to a subsequent release:
+     <li>Work in progress: upgrading the offline map integration; offline maps may not work properly for a few beta releases. Sign up as a <a href='https://play.google.com/store/apps/details?id=net.cyclestreets.maps.uk'>Beta tester of the Map Pack</a> to get the latest map.</li>
+  -->
+
   <h3>Release 3.7 (BETA)</h3>
   <strong>Features:</strong>
   <ul>
     <li>Handle CycleStreets photomap location URLs.</li>
     <li>Waypoints shown during LiveRide.</li>
     <li>Dates included on photo display dialog.</li>
-    <li>Work in progress: upgrading the offline map integration; offline maps may not work properly for a few beta releases. Sign up as a <a href='https://play.google.com/store/apps/details?id=net.cyclestreets.maps.uk'>Beta tester of the Map Pack</a> to get the latest map.</li>
+    <li>Active segment now highlighted on the elevation graph.</li>
+    <li>Modernisation of some icons, using vector graphics for better resolution and smaller install size.</li>
+    <li>LiveRide now requests audio focus which should improve the experience e.g. when also playing music.</li>
+    <li>Target streets are now described as part of instructions - e.g. "Get ready to turn right" becomes "Get ready to turn right onto [street name]".</li>
+    <li>Pressing "back" now takes you back to your previous view, so you don't accidentally minimise the app so often.</li>
+  </ul>
+  <strong>Bug fixes:</strong>
+  <ul>
+    <li>LiveRide no longer restarts on wake, so the annoying torrent of instructions is gone.</li>
+    <li>Waypoint icons in Android 10 no longer appear ridiculously small and in the wrong place.</li>
+    <li>Extra start waypoint added when replanning the journey does not persist, so multiple replans are dealt with more logically.</li>
+    <li>A number of crash scenarios fixed.</li>
+    <li>LiveRide now makes itself a foreground service, which fixes some scenarios where it previously wouldn't work (e.g. low available memory)</li>
   </ul>
 
   <h3>Release 3.6</h3>
@@ -25,7 +42,7 @@
   </ul>
   <strong>Bug fixes:</strong>
   <ul>
-    <li>Live ride replanning (if you go off track) now keeps intermediate waypoints.</li>
+    <li>LiveRide replanning (if you go off track) now keeps intermediate waypoints.</li>
     <li>Take Photo functionality now more widely supported.</li>
     <li>Map location no longer lost on app reload / orientation change.</li>
     <li>If you previously had planned routes, but deleted all of them, don't crash on startup.</li>
