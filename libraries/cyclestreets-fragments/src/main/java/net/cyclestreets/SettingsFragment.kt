@@ -38,8 +38,8 @@ class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedP
 
     override fun onCreatePreferences(savedInstance: Bundle?, rootKey: String?) {
         if (arguments != null) {
-            Log.d(TAG, "Creating preferences subscreen with key $rootKey")
             val key = arguments!!.getString(PREFERENCE_SCREEN_ARG)
+            Log.d(TAG, "Creating preferences subscreen with key $key")
             setPreferencesFromResource(R.xml.prefs, key)
         } else {
             Log.d(TAG, "Creating root preferences page")
@@ -60,11 +60,11 @@ class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedP
         this.enterTransition = Fade()
         this.exitTransition = Fade()
 
-        fragmentManager!!
-            .beginTransaction()
-            .replace(id, settingsSubScreen)
-            .addToBackStack(null)
-            .commit()
+        fragmentManager!!.beginTransaction().let { ft ->
+            ft.replace(id, settingsSubScreen)
+            Log.w(TAG, "Adding settings fragment ${preferenceScreen.key} to back stack")
+            ft.addToBackStack("settings-${preferenceScreen.key}").commit()
+        }
     }
 
     private fun setupMapStyles() {

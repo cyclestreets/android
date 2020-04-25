@@ -4,31 +4,30 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.support.design.widget.NavigationView
+import android.support.design.widget.NavigationView.OnNavigationItemSelectedListener
+import android.support.transition.Fade
 import android.support.v4.app.Fragment
+import android.support.v4.app.FragmentManager
+import android.support.v4.app.FragmentManager.OnBackStackChangedListener
+import android.support.v4.widget.DrawerLayout
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
 import android.util.Log
 import android.util.SparseArray
-import android.support.v4.widget.DrawerLayout
 import android.view.Gravity
 import android.view.MenuItem
-
 import android.view.View
 import com.mikepenz.google_material_typeface_library.GoogleMaterial.Icon
 import com.mikepenz.iconics.context.IconicsContextWrapper
-
+import net.cyclestreets.addphoto.AddPhotoFragment
 import net.cyclestreets.fragments.R
+import net.cyclestreets.iconics.IconicsHelper.materialIcons
+import net.cyclestreets.itinerary.ItineraryAndElevationFragment
 import net.cyclestreets.routing.Journey
 import net.cyclestreets.routing.Route
 import net.cyclestreets.routing.Waypoints
 import net.cyclestreets.util.Logging
 
-import android.support.design.widget.NavigationView.OnNavigationItemSelectedListener
-import android.support.transition.Fade
-import android.support.v4.app.FragmentManager.OnBackStackChangedListener
-import net.cyclestreets.addphoto.AddPhotoFragment
-import net.cyclestreets.iconics.IconicsHelper.materialIcons
-import net.cyclestreets.itinerary.ItineraryAndElevationFragment
 
 private val TAG = Logging.getTag(MainNavDrawerActivity::class.java)
 private const val DRAWER_ITEMID_SELECTED_KEY = "DRAWER_ITEM_SELECTED"
@@ -120,11 +119,36 @@ abstract class MainNavDrawerActivity : AppCompatActivity(), OnNavigationItemSele
 
     //////////// OnNavigationItemSelectedListener method implementation
     override fun onNavigationItemSelected(menuItem: MenuItem): Boolean {
+
+        Log.w(TAG, "Menu item selected ${menuItem.itemId} = ${menuItemIdToFragment.get(menuItem.itemId)}")
+
+        val fm = this.supportFragmentManager
+
         // Swap UI fragments based on the selection
-        this.supportFragmentManager.beginTransaction().let { ft ->
+        fm.beginTransaction().let { ft ->
+
+            // if leaving Settings, clear any Settings-related back stack entries, to avoid issue #364
+            currentMenuItemId()?.let { id ->
+                if (id == R.id.nav_settings && fm.backStackEntryCount > 0) {
+                    do {
+                        val entry = fm.getBackStackEntryAt(fm.backStackEntryCount - 1)
+                        Log.w(TAG, "found back stack entry ${entry.name}")
+                        if (entry.name != null && entry.name.startsWith("settings-")) {
+                            Log.w(TAG, "Dropping settings fragment ${entry.name} from back stack")
+                            fm.popBackStackImmediate(entry.id, FragmentManager.POP_BACK_STACK_INCLUSIVE)
+                        } else {
+                            break;
+                        }
+                    } while (fm.backStackEntryCount > 0)
+                }
+            }
+
+            // Instantiate the new fragment; add it to the back-stack if appropriate
             ft.replace(R.id.content_frame, instantiateFragmentFor(menuItem))
-            if (backOutableFragments.contains(menuItem.itemId))
-                ft.addToBackStack(null)
+            if (backOutableFragments.contains(menuItem.itemId)) {
+                Log.w(TAG, "Adding fragment ${menuItem.itemId} to back stack")
+                ft.addToBackStack("menu-${menuItem.itemId}")
+            }
             ft.commit()
         }
 
