@@ -60,10 +60,12 @@ class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedP
         this.enterTransition = Fade()
         this.exitTransition = Fade()
 
-        fragmentManager!!.beginTransaction().let { ft ->
+        val fm = fragmentManager!!
+        fm.beginTransaction().let { ft ->
             ft.replace(id, settingsSubScreen)
-            Log.d(TAG, "Adding settings fragment ${preferenceScreen.key} to back stack on top of ${fragmentManager!!.backStackEntryCount} existing entries")
-            ft.addToBackStack("Settings-${preferenceScreen.key}").commit()
+            Log.d(TAG, "Adding settings fragment ${preferenceScreen.key} to back stack on top of ${fm.backStackEntryCount} existing entries")
+            ft.addToBackStack("Settings-${preferenceScreen.key}")
+              .commit()
         }
     }
 
