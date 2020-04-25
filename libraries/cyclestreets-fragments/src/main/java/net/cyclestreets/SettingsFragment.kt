@@ -62,8 +62,8 @@ class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedP
 
         fragmentManager!!.beginTransaction().let { ft ->
             ft.replace(id, settingsSubScreen)
-            Log.w(TAG, "Adding settings fragment ${preferenceScreen.key} to back stack")
-            ft.addToBackStack("settings-${preferenceScreen.key}").commit()
+            Log.d(TAG, "Adding settings fragment ${preferenceScreen.key} to back stack on top of ${fragmentManager!!.backStackEntryCount} existing entries")
+            ft.addToBackStack("Settings-${preferenceScreen.key}").commit()
         }
     }
 

@@ -120,9 +120,9 @@ abstract class MainNavDrawerActivity : AppCompatActivity(), OnNavigationItemSele
     //////////// OnNavigationItemSelectedListener method implementation
     override fun onNavigationItemSelected(menuItem: MenuItem): Boolean {
 
-        Log.w(TAG, "Menu item selected ${menuItem.itemId} = ${menuItemIdToFragment.get(menuItem.itemId)}")
-
         val fm = this.supportFragmentManager
+        val menuItemClass = menuItemIdToFragment.get(menuItem.itemId);
+        Log.d(TAG, "Menu item selected ${menuItem.itemId} (${menuItemClass})")
 
         // Swap UI fragments based on the selection
         fm.beginTransaction().let { ft ->
@@ -130,24 +130,31 @@ abstract class MainNavDrawerActivity : AppCompatActivity(), OnNavigationItemSele
             // if leaving Settings, clear any Settings-related back stack entries, to avoid issue #364
             currentMenuItemId()?.let { id ->
                 if (id == R.id.nav_settings && fm.backStackEntryCount > 0) {
-                    do {
-                        val entry = fm.getBackStackEntryAt(fm.backStackEntryCount - 1)
-                        Log.w(TAG, "found back stack entry ${entry.name}")
-                        if (entry.name != null && entry.name.startsWith("settings-")) {
-                            Log.w(TAG, "Dropping settings fragment ${entry.name} from back stack")
-                            fm.popBackStackImmediate(entry.id, FragmentManager.POP_BACK_STACK_INCLUSIVE)
-                        } else {
-                            break;
+                    Log.d(TAG, "Leaving Settings menu; back-stack has ${fm.backStackEntryCount} entries")
+                    var oldestSettingsBackStackFragment: FragmentManager.BackStackEntry? = null;
+
+                    for (ii in (fm.backStackEntryCount - 1) downTo 0) {
+                        val entry = fm.getBackStackEntryAt(ii)
+                        Log.d(TAG, "Found back stack entry ${entry.id}:${entry.name}")
+                        entry.name?.let { entryName ->
+                            // this matches both settings preference screens and the root Settings fragment
+                            if (entryName.contains("Settings")) {
+                                oldestSettingsBackStackFragment = entry;
+                            }
                         }
-                    } while (fm.backStackEntryCount > 0)
+                    }
+                    oldestSettingsBackStackFragment?.let { entry ->
+                        Log.d(TAG, "Dropping all settings fragments down to and including ${entry.id}:${entry.name} from back stack")
+                        fm.popBackStackImmediate(entry.id, FragmentManager.POP_BACK_STACK_INCLUSIVE)
+                    }
                 }
             }
 
             // Instantiate the new fragment; add it to the back-stack if appropriate
             ft.replace(R.id.content_frame, instantiateFragmentFor(menuItem))
             if (backOutableFragments.contains(menuItem.itemId)) {
-                Log.w(TAG, "Adding fragment ${menuItem.itemId} to back stack")
-                ft.addToBackStack("menu-${menuItem.itemId}")
+                Log.d(TAG, "Adding fragment $menuItemClass to back stack on top of ${fm.backStackEntryCount} existing entries")
+                ft.addToBackStack("Menu-${menuItemClass}")
             }
             ft.commit()
         }
