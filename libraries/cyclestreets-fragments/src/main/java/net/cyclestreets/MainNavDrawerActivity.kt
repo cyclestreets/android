@@ -39,7 +39,6 @@ abstract class MainNavDrawerActivity : AppCompatActivity(), OnNavigationItemSele
     private lateinit var navigationView: NavigationView
     private lateinit var toolbar: Toolbar
     private var selectedItem: Int = 0
-    private var currentFragment: Fragment? = null
 
     private val menuItemIdToFragment = object : SparseArray<Class<out Fragment>>() {
         init {
@@ -60,10 +59,6 @@ abstract class MainNavDrawerActivity : AppCompatActivity(), OnNavigationItemSele
         BlogFragment::class.java to R.id.nav_blog,
         SettingsFragment::class.java to R.id.nav_settings
     )
-
-    // The Journey Planner and Photomap are the 'heart' of the app.  Pressing 'back' on any other
-    // fragment should eventually return you to whichever of those you were using.
-    private val backOutableFragments = setOf(R.id.nav_itinerary, R.id.nav_addphoto, R.id.nav_blog, R.id.nav_settings)
 
     // If you're in one of these fragments at pause, then you'll be returned to it on resume.
     private val resumableFragments = setOf(R.id.nav_journey_planner, R.id.nav_photomap, R.id.nav_addphoto)
@@ -123,8 +118,7 @@ abstract class MainNavDrawerActivity : AppCompatActivity(), OnNavigationItemSele
         // Swap UI fragments based on the selection
         this.supportFragmentManager.beginTransaction().let { ft ->
             ft.replace(R.id.content_frame, instantiateFragmentFor(menuItem))
-            if (backOutableFragments.contains(menuItem.itemId))
-                ft.addToBackStack(null)
+            ft.addToBackStack(null)
             ft.commit()
         }
 
@@ -164,7 +158,6 @@ abstract class MainNavDrawerActivity : AppCompatActivity(), OnNavigationItemSele
             return fragmentClass.newInstance().apply {
                 enterTransition = Fade()
                 exitTransition = Fade()
-                currentFragment = this
             }
         }
         catch (e: InstantiationException) { throw RuntimeException(e) }
@@ -176,12 +169,21 @@ abstract class MainNavDrawerActivity : AppCompatActivity(), OnNavigationItemSele
             drawerLayout.closeDrawers()
             return
         }
-        currentFragment?.let {
+
+
+        visibleFragment()?.let {
             if (it is Undoable && it.onBackPressed())
                 return
         }
 
         super.onBackPressed()
+    }
+
+    private fun visibleFragment(): Fragment? {
+        for (fragment in supportFragmentManager.fragments)
+            if (fragment?.isVisible() == true)
+                return fragment
+        return null
     }
 
     protected open fun onFirstRun() {}
