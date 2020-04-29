@@ -62,7 +62,7 @@ abstract class MainNavDrawerActivity : AppCompatActivity(), OnNavigationItemSele
     )
 
     // If you're in one of these fragments at pause, then you'll be returned to it on resume.
-    private val resumableFragments = setOf(R.id.nav_journey_planner, R.id.nav_photomap, R.id.nav_addphoto)
+    private val resumableFragments = setOf(R.id.nav_journey_planner, R.id.nav_photomap, R.id.nav_addphoto, R.id.nav_settings)
 
     override fun attachBaseContext(newBase: Context) {
         // Allows the use of Material icon library, see https://github.com/mikepenz/Android-Iconics
