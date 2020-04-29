@@ -27,6 +27,7 @@ import android.support.design.widget.NavigationView.OnNavigationItemSelectedList
 import android.support.transition.Fade
 import android.support.v4.app.FragmentManager.OnBackStackChangedListener
 import net.cyclestreets.addphoto.AddPhotoFragment
+import net.cyclestreets.api.JourneyPlanner
 import net.cyclestreets.iconics.IconicsHelper.materialIcons
 import net.cyclestreets.itinerary.ItineraryAndElevationFragment
 
@@ -118,7 +119,6 @@ abstract class MainNavDrawerActivity : AppCompatActivity(), OnNavigationItemSele
         // Swap UI fragments based on the selection
         this.supportFragmentManager.beginTransaction().let { ft ->
             ft.replace(R.id.content_frame, instantiateFragmentFor(menuItem))
-            ft.addToBackStack(null)
             ft.commit()
         }
 
@@ -170,10 +170,13 @@ abstract class MainNavDrawerActivity : AppCompatActivity(), OnNavigationItemSele
             return
         }
 
-
         visibleFragment()?.let {
             if (it is Undoable && it.onBackPressed())
                 return
+            if (it !is RouteMapFragment) {
+                showPage(R.id.nav_journey_planner)
+                return
+            }
         }
 
         super.onBackPressed()
