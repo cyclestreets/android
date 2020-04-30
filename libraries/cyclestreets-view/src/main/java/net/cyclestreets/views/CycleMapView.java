@@ -237,7 +237,7 @@ public class CycleMapView extends FrameLayout
   public void centreOn(final IGeoPoint place, final int minZoomLevel) {
     centreOn(place);
     if (this.getZoomLevel() < minZoomLevel)
-      getController().setZoom(minZoomLevel);
+      getController().setZoom((double)minZoomLevel);
   }
 
   @Override
