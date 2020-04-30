@@ -192,11 +192,11 @@ public class TripData {
     if (gpspoints.size() > 1) {
       CyclePoint gp = gpspoints.get(gpspoints.size()-1);
 
-      float segmentDistance = gp.distanceTo(pt);
+      double segmentDistance = gp.distanceToAsDouble(pt);
       if (segmentDistance == 0)
         return; // we haven't gone anywhere
 
-      distance += segmentDistance;
+      distance += (float)segmentDistance;
     }
 
     gpspoints.add(pt);

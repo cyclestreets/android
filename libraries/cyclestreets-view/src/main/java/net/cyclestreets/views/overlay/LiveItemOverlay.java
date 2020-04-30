@@ -100,7 +100,7 @@ public abstract class LiveItemOverlay<T extends OverlayItem>
   public boolean onZoom(final ZoomEvent event) {
     if (event.getZoomLevel() < zoomLevel_)
       items().clear();
-    zoomLevel_ = event.getZoomLevel();
+    zoomLevel_ = (int)event.getZoomLevel();
     refreshItems();
     return true;
   }

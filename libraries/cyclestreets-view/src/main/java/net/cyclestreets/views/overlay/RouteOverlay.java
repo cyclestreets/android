@@ -90,11 +90,11 @@ public class RouteOverlay extends Overlay implements PauseResumeListener, Route.
 
     final IGeoPoint centre = mapView.getMapCenter();
 
-    if (zoomLevel_ != mapView.getZoomLevel() ||
+    if (zoomLevel_ != (int)mapView.getZoomLevelDouble() ||
        highlight_ != Route.journey().activeSegment() ||
        !centre.equals(mapCentre_)) {
       ridePath_ = null;
-      zoomLevel_ = mapView.getProjection().getZoomLevel();
+      zoomLevel_ = (int)mapView.getProjection().getZoomLevel();
       highlight_ = Route.journey().activeSegment();
       mapCentre_ = centre;
     }
