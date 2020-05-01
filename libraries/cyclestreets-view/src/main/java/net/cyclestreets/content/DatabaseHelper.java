@@ -136,7 +136,7 @@ class DatabaseHelper extends SQLiteOpenHelper {
           final String v1ApiJourneyXml = cursor.getString(1);
           final String journeyJson = JourneyStringTransformerKt.fromV1ApiXml(v1ApiJourneyXml);
           final String e6Waypoints = cursor.getString(2);
-          final String newWaypoints = serializeWaypoints(deserializeE6Waypoints(e6Waypoints));
+          final String newWaypoints = RouteDatabase.serializeWaypoints(deserializeE6Waypoints(e6Waypoints));
 
           final String updateStmt = "UPDATE " + ROUTE_TABLE + " SET journey_json = ?, waypoints = ? " +
               " WHERE " + BaseColumns._ID + " = " + cursor.getInt(0);
@@ -211,32 +211,6 @@ class DatabaseHelper extends SQLiteOpenHelper {
       } while (allRows.moveToNext());
     }
     allRows.close();
-  }
-
-  static String serializeWaypoints(Iterable<IGeoPoint> waypoints) {
-    final StringBuilder sb = new StringBuilder();
-    for (final IGeoPoint waypoint : waypoints) {
-      if (sb.length() != 0)
-        sb.append('|');
-      sb.append(waypoint.getLatitude())
-        .append(",")
-        .append(waypoint.getLongitude());
-    }
-    String wpString = sb.toString();
-    Log.d(TAG, "sW: " + wpString);
-    return wpString;
-  }
-
-  static List<IGeoPoint> deserializeWaypoints(String serializedWaypoints) {
-    List<IGeoPoint> waypoints = new ArrayList<>();
-    for (final String coords : serializedWaypoints.split("\\|")) {
-      final String[] latlon = coords.split(",", 2);
-      double lat = Double.parseDouble(latlon[0]);
-      double lon = Double.parseDouble(latlon[1]);
-      Log.d(TAG, "dW: lat=" + lat + ", lon=" + lon);
-      waypoints.add(new GeoPoint(lat, lon));
-    }
-    return waypoints;
   }
 
   private static List<IGeoPoint> deserializeE6Waypoints(String serializedWaypoints) {

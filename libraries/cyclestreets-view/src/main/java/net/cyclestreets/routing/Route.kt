@@ -89,7 +89,10 @@ object Route {
     fun initialise(context: Context) {
         context_ = context
         db_ = RouteDatabase(context)
-        if (isLoaded) loadLastJourney()
+        if (isLoaded)
+            loadLastJourney()
+        else
+            restoreWaypoints()
     }
 
     fun resetJourney() {
@@ -97,7 +100,10 @@ object Route {
     }
 
     fun onPause(waypoints: Waypoints) {
-        waypoints_ = waypoints
+        if (!isLoaded) {
+            waypoints_ = waypoints
+            stashWaypoints()
+        }
     }
 
     fun onResume() {
@@ -165,18 +171,32 @@ object Route {
     }
 
     private fun setRouteLoaded() {
-        prefs().edit().putBoolean(routeLoadedPref, true).commit()
-
+        prefs()
+                .edit()
+                .putBoolean(routeLoadedPref, true)
+                .remove(waypointsInProgressPref)
+                .commit()
     }
-
     private fun clearRouteLoaded() {
         prefs().edit().remove(routeLoadedPref).commit()
+    }
+
+    private fun stashWaypoints() {
+        val stash = RouteDatabase.serializeWaypoints(waypoints_)
+        prefs().edit().putString(waypointsInProgressPref, stash).commit()
+    }
+    private fun restoreWaypoints() {
+        val stash = prefs().getString(waypointsInProgressPref, null)
+        stash?.let {
+            waypoints_ = Waypoints(RouteDatabase.deserializeWaypoints(it))
+        }
     }
 
     private val isLoaded: Boolean
         get() = prefs().getBoolean(routeLoadedPref, false)
 
     private const val routeLoadedPref = "route"
+    private const val waypointsInProgressPref = "waypoints-in-progress"
     private fun prefs(): SharedPreferences {
         return context_.getSharedPreferences("net.cyclestreets.CycleStreets", Context.MODE_PRIVATE)
     }
