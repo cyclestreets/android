@@ -16,7 +16,7 @@
         "hasVideo": false,
         "videoFormats": null,
         "thumbnailUrl": "https://www.cyclestreets.net/location/60141/cyclestreets60141-size640.jpg",
-        "shortlink": "http://cycle.st/p60141"
+        "shortlink": "https://cycle.st/p60141"
       },
       "geometry": {
         "type": "Point",
@@ -37,7 +37,7 @@
         "hasVideo": false,
         "videoFormats": null,
         "thumbnailUrl": "https://www.cyclestreets.net/location/80565/cyclestreets80565-size640.jpg",
-        "shortlink": "http://cycle.st/p80565"
+        "shortlink": "https://cycle.st/p80565"
       },
       "geometry": {
         "type": "Point",
@@ -58,7 +58,7 @@
         "hasVideo": false,
         "videoFormats": null,
         "thumbnailUrl": "https://www.cyclestreets.net/location/81980/cyclestreets81980-size640.jpg",
-        "shortlink": "http://cycle.st/p81980"
+        "shortlink": "https://cycle.st/p81980"
       },
       "geometry": {
         "type": "Point",
@@ -79,20 +79,20 @@
         "hasVideo": true,
         "videoFormats": {
           "mov": {
-            "url": "http://www.cyclestreets.net/location/20588/cyclestreets20588.mov",
+            "url": "https://www.cyclestreets.net/location/20588/cyclestreets20588.mov",
             "location": "/location/20588/cyclestreets20588.mov",
             "sizeBytes": 25152682,
             "sizeBytesFormatted": "24MB"
           },
           "flv": {
-            "url": "http://www.cyclestreets.net/location/20588/cyclestreets20588.flv",
+            "url": "https://www.cyclestreets.net/location/20588/cyclestreets20588.flv",
             "location": "/location/20588/cyclestreets20588.flv",
             "sizeBytes": 1382820,
             "sizeBytesFormatted": "1MB"
           }
         },
         "thumbnailUrl": "https://www.cyclestreets.net/location/82169/cyclestreets82169-size640.jpg",
-        "shortlink": "http://cycle.st/p82169"
+        "shortlink": "https://cycle.st/p82169"
       },
       "geometry": {
         "type": "Point",

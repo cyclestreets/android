@@ -51,7 +51,7 @@ class MainSupportTest {
 
     @Test
     fun cycleStreetsNetLocation() {
-        val launchIntent = determineLaunchIntent(Uri.parse("http://www.cyclestreets.net/location/1234"))!!
+        val launchIntent = determineLaunchIntent(Uri.parse("https://www.cyclestreets.net/location/1234"))!!
         assertThat(launchIntent.type).isEqualTo(LOCATION)
         assertThat(launchIntent.id).isEqualTo(1234)
     }

@@ -1,300 +1,440 @@
 <?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
-                                           xmlns:content="http://purl.org/rss/1.0/modules/content/"
-                                           xmlns:wfw="http://wellformedweb.org/CommentAPI/"
-                                           xmlns:dc="http://purl.org/dc/elements/1.1/"
-                                           xmlns:atom="http://www.w3.org/2005/Atom"
-                                           xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
-                                           xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+    xmlns:content="http://purl.org/rss/1.0/modules/content/"
+    xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+    xmlns:dc="http://purl.org/dc/elements/1.1/"
+    xmlns:atom="http://www.w3.org/2005/Atom"
+    xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+    xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
 >
 
     <channel>
-        <title>CycleStreets blog</title>
-        <atom:link href="https://www.cyclestreets.net/blog/feed/?key=f2568fc87a54c48d" rel="self" type="application/rss+xml" />
-        <link>https://www.cyclestreets.net/blog</link>
-        <description>News from CycleStreets</description>
-        <lastBuildDate>Sun, 24 Apr 2016 08:00:54 +0000</lastBuildDate>
+        <title>News &#8211; CycleStreets</title>
+        <atom:link href="https://www.cyclestreets.org/news/feed/" rel="self" type="application/rss+xml" />
+        <link>https://www.cyclestreets.org</link>
+        <description></description>
+        <lastBuildDate>Wed, 15 Apr 2020 12:12:24 +0000</lastBuildDate>
         <language>en-GB</language>
-        <sy:updatePeriod>hourly</sy:updatePeriod>
-        <sy:updateFrequency>1</sy:updateFrequency>
-        <generator>https://wordpress.org/?v=4.5.3</generator>
-        <item>
-            <title>CycleHack Cambridge 2016</title>
-            <link>https://www.cyclestreets.net/blog/2016/04/10/cyclehack-cambridge-2016/</link>
-            <pubDate>Sun, 10 Apr 2016 18:39:49 +0000</pubDate>
-            <dc:creator><![CDATA[Martin]]></dc:creator>
-            <category><![CDATA[API]]></category>
-            <category><![CDATA[Community]]></category>
-            <category><![CDATA[Developers]]></category>
-            <category><![CDATA[Open data]]></category>
-            <category><![CDATA[Uncategorized]]></category>
+        <sy:updatePeriod>
+            hourly	</sy:updatePeriod>
+        <sy:updateFrequency>
+            1	</sy:updateFrequency>
+        <generator>https://wordpress.org/?v=5.4.1</generator>
 
-            <guid isPermaLink="false">http://www.cyclestreets.net/blog/?p=3094</guid>
-            <description><![CDATA[CycleHack is a 48-hour event aiming to make cities cycle-friendly through reducing the barriers to cycling and prototyping new ideas to improve the cycling experience and encourage more and safer cycling. More than 40 other cities around the world have signed up to host CycleHack events in their communities over the weekend of 24 to [&#8230;]]]></description>
-            <content:encoded><![CDATA[<p><em>CycleHack</em> is a 48-hour event aiming to make cities cycle-friendly through reducing the barriers to cycling and prototyping new ideas to improve the cycling experience and encourage more and safer cycling. More than 40 other cities around the world have signed up to host CycleHack events in their communities over the weekend of 24 to 25 June, 2016.</p>
-<p><img class="alignnone size-full wp-image-3098" src="/blog/wp-content/uploads/cyclehackcambridgemontage.jpg" alt="Cyclehack" width="557" height="254" srcset="https://www.cyclestreets.net/blog/wp-content/uploads/cyclehackcambridgemontage.jpg 557w, https://www.cyclestreets.net/blog/wp-content/uploads/cyclehackcambridgemontage-150x68.jpg 150w, https://www.cyclestreets.net/blog/wp-content/uploads/cyclehackcambridgemontage-300x137.jpg 300w" sizes="(max-width: 557px) 100vw, 557px" /></p>
-<p>Cambridge, home of CycleStreets, will be joining cities around the world for a weekend-long CycleHack event, which will be held at Anglia Ruskin University and other locations where specialist equipment may be required. Participants will be encouraged to test their ideas and prototypes around town during the event.</p>
-<p>CycleHack was launched in 2014 in Glasgow and has since grown to a global event. In 2015 CycleHack had more than 600 participants from over 25 countries across five continents. 67% of participants were inspired to cycle more. In 2016 the event is set to be even bigger with more than 40 cities already registered.</p>
-<p><img class="alignright size-full wp-image-3096" src="/blog/wp-content/uploads/cyclehackcambridgelogo-1.jpg" alt="Cyclehack Cambridge" width="334" height="323" align="right" srcset="https://www.cyclestreets.net/blog/wp-content/uploads/cyclehackcambridgelogo-1.jpg 334w, https://www.cyclestreets.net/blog/wp-content/uploads/cyclehackcambridgelogo-1-150x145.jpg 150w, https://www.cyclestreets.net/blog/wp-content/uploads/cyclehackcambridgelogo-1-300x290.jpg 300w" sizes="(max-width: 334px) 100vw, 334px" />CycleHack Cambridge is hoping to attract a whole range of people from developers, makers and data scientists to non-technical artists, designers and those who are interested in cycling and have some great ideas. We also want to include representation from all corners of our diverse cycling community and want to see lots of students and young people taking part. This event will bring together the key elements of our Cambridge culture: cycling, innovation and technology.</p>
-<p>The event encourages participants to prototype and test their ideas during the weekend to see how they will work in their intended context. Solutions can fall into one of the five CycleHack categories; digital, physical, policy, local plan, event/campaign. Hacks will be loaded to the online open source catalogue to show how the ideas can be replicated. Prizes will be awarded to the best hacks.</p>
-<p>CycleStreets is one of the partners organising the event. We&#8217;ll be on hand to help out and give advice to people considering doing a digital hack. Perhaps you&#8217;ve never used an API (a data interface &#8211; like the <a href="/api/">CycleStreets API</a> for instance) before or don&#8217;t know what it is? We can help you get started.</p>
-<p><a href="https://www.camcycle.org.uk/" target="_blank">Cambridge Cycling Campaign</a> is the main organiser of the event. Other partners include the Smart Cambridge Programme (Cambridge County Council) and CoDE Research Institute at Anglia Ruskin University.</p>
-<p>There are more details on the <a href="https://www.facebook.com/CycleHackCambridge" target="_blank">Facebook event page about the event</a>, and you can <strong><a href="https://www.eventbrite.co.uk/e/cyclehack-cambridge-tickets-24490725419" target="_blank">register online</a></strong>.</p>
-]]></content:encoded>
-        </item>
+        <image>
+            <url>https://www.cyclestreets.org/wp-content/uploads/favicon.ico</url>
+            <title>News &#8211; CycleStreets</title>
+            <link>https://www.cyclestreets.org</link>
+            <width>32</width>
+            <height>32</height>
+        </image>
         <item>
-            <title>Urban Cycle Parking website goes live across London</title>
-            <link>https://www.cyclestreets.net/blog/2016/03/21/urban-cycle-parking/</link>
-            <comments>https://www.cyclestreets.net/blog/2016/03/21/urban-cycle-parking/#comments</comments>
-            <pubDate>Mon, 21 Mar 2016 10:31:30 +0000</pubDate>
-            <dc:creator><![CDATA[Martin]]></dc:creator>
-            <category><![CDATA[API]]></category>
-            <category><![CDATA[Branded versions]]></category>
-            <category><![CDATA[Open data]]></category>
-            <category><![CDATA[Photomap]]></category>
+            <title>Cyclescape website redesign coming soon</title>
+            <link>https://www.cyclestreets.org/news/2020/01/02/cyclescape-website-redesign/</link>
+            <comments>https://www.cyclestreets.org/news/2020/01/02/cyclescape-website-redesign/#respond</comments>
 
-            <guid isPermaLink="false">http://www.cyclestreets.net/blog/?p=3074</guid>
-            <description><![CDATA[A new website, Urban Cycle Parking, built by CycleStreets, has been launched by London Cycling Campaign and Transport for London, aiming to outline where existing bike parking facilities are available in and around the capital and invites people to highlight existing facilities as well as outlining where more is needed. The site builds on the crowdsourcing components of our [&#8230;]]]></description>
-            <content:encoded><![CDATA[<p>A new website, <a href="http://www.urbancycleparking.org.uk/">Urban Cycle Parking</a>, built by CycleStreets, has been launched by <a href="http://lcc.org.uk/">London Cycling Campaign</a> and <a href="https://tfl.gov.uk/modes/cycling/">Transport for London</a>, aiming to outline where existing bike parking facilities are available in and around the capital and invites people to highlight existing facilities as well as outlining where more is needed.</p>
-<p>The site builds on the crowdsourcing components of our <a href="http://www.cyclestreets.net/api/v2/">data API</a>, which had various enhancements made to enable auditing facilities.</p>
-<p><a href="http://www.urbancycleparking.org.uk/" rel="attachment wp-att-3077"><img class="alignnone size-full wp-image-3077" style="max-width: 924px;" src="/blog/wp-content/uploads/urbancycleparking.jpg" alt="urbancycleparking" width="100%" srcset="https://www.cyclestreets.net/blog/wp-content/uploads/urbancycleparking.jpg 924w, https://www.cyclestreets.net/blog/wp-content/uploads/urbancycleparking-150x109.jpg 150w, https://www.cyclestreets.net/blog/wp-content/uploads/urbancycleparking-300x219.jpg 300w, https://www.cyclestreets.net/blog/wp-content/uploads/urbancycleparking-768x559.jpg 768w" sizes="(max-width: 924px) 100vw, 924px" /><br />
-</a><em>Image credit: Primary Image</em></p>
-<p>London Cycling Campaign&#8217;s Chief Executive Ashok Sinha commented:</p>
-<blockquote><p>&#8220;Substantially more high quality cycle parking at stations and on streets is vital to sustain the welcome growth in cycle use.</p>
-<p>&#8220;The launch of this interactive Urban Cycle Parking website is a great opportunity for London cyclists to play an active role in improving cycling provision and to suggest the right places to install cycle stands.&#8221;</p></blockquote>
-<p>Cyclists just need to click on the map, or take a photo (which will auto-locate the image on a modern phone), and add a few details, such as the number of stands which would be useful. After agreeing to the open data license, the location is added, so that TfL can consider the suggestions.</p>
-<p><a href="http://www.urbancycleparking.org.uk/suggest/" rel="attachment wp-att-3078"><img class="alignnone size-full wp-image-3078" style="max-width: 782px;" src="/blog/wp-content/uploads/urbancycleparking.png" alt="Urban Cycle Parking" width="100%" srcset="https://www.cyclestreets.net/blog/wp-content/uploads/urbancycleparking.png 782w, https://www.cyclestreets.net/blog/wp-content/uploads/urbancycleparking-150x148.png 150w, https://www.cyclestreets.net/blog/wp-content/uploads/urbancycleparking-300x297.png 300w, https://www.cyclestreets.net/blog/wp-content/uploads/urbancycleparking-768x759.png 768w" sizes="(max-width: 782px) 100vw, 782px" /></a></p>
-<p>The site has been in public beta for several boroughs. Various improvements have been made to the site during this period to enable a wider rollout.</p>
-<p>The visual design of the site, which is mobile-friendly, was created by Mike from <a href="http://www.primaryimage.com/portfolio-item/urban-cycle-parking-web-design/">Primary Image</a>, who was a pleasure to work with. We then worked with this design to implement the functionality.</p>
-<p>The Urban Cycle Parking site replaces the previous Cycle Parking 4 London site that we <a href="http://www.cyclestreets.net/blog/2010/10/19/cycleparking4london/">created</a> several years ago for LCC.</p>
-]]></content:encoded>
-            <wfw:commentRss>https://www.cyclestreets.net/blog/2016/03/21/urban-cycle-parking/feed/</wfw:commentRss>
-            <slash:comments>1</slash:comments>
-        </item>
-        <item>
-            <title>Students: Get paid to write code for CycleStreets/OpenStreetMap this summer with GSOC 2016</title>
-            <link>https://www.cyclestreets.net/blog/2016/03/19/gsoc-2016-projects/</link>
-            <pubDate>Sat, 19 Mar 2016 18:14:27 +0000</pubDate>
             <dc:creator><![CDATA[Martin]]></dc:creator>
-            <category><![CDATA[Community]]></category>
-            <category><![CDATA[Developers]]></category>
-
-            <guid isPermaLink="false">http://www.cyclestreets.net/blog/?p=3068</guid>
-            <description><![CDATA[Each year, Google runs a summer programme called Google Summer of Code (GSOC), where students get involved in coding for open source projects like ours and are paid for their time. We (CycleStreets) have created a project ideas list, which would be undertaken under the umbrella of the OpenStreetMap organisation, and are willing to mentor a student [&#8230;]]]></description>
-            <content:encoded><![CDATA[<p><a href="https://developers.google.com/open-source/gsoc/"><img class="alignright wp-image-3069 size-full" src="/blog/wp-content/uploads/gsoc2016.png" alt="GSOC 2016" width="97" height="97" align="right" /></a>Each year, Google runs a summer programme called <a href="https://developers.google.com/open-source/gsoc/">Google Summer of Code (GSOC)</a>, where students get involved in coding for <a href="https://github.com/cyclestreets">open source projects like ours</a> and are paid for their time.</p>
-<p>We (CycleStreets) have created a <strong><a href="http://www.cyclestreets.net/developers/projects/">project ideas list</a></strong>, which would be undertaken under the umbrella of the OpenStreetMap organisation, and are willing to mentor a student or students on these.</p>
-<p><a href="http://www.cyclestreets.net/developers/projects/"><img class="alignleft" src="/images/logo/logo.png" alt="" width="150" height="81" align="left" /></a>By way of background, CycleStreets is a social enterprise based in Cambridge, UK. We run the cycle journey planner website at <a href="http://www.cyclestreets.net/">www.cyclestreets.net</a>, provide a leading bicycle routing <a href="/api/">API data interface</a> used by a range of <a href="/mobile/">third-party apps and websites</a>, and run a <a href="/photomap/">number</a> <a href="http://www.urbancycleparking.org.uk/">of</a> <a href="http://www.cyclescape.org/">projects</a> in the field of cycling advocacy. Many of our projects are <a href="https://github.com/cyclestreets">open source</a>.</p>
-<p><img class="size-full wp-image-3070 alignright" src="/blog/wp-content/uploads/openstreetmaplogo.png" alt="openstreetmaplogo" width="150" height="150" align="right" />We use open data from <a href="http://www.openstreetmap.org/">OpenStreetMap</a> (sometimes referred to as a kind of &#8216;wikipedia for maps&#8217;). OSM is a community/ecosystem doing a lot of leading-edge work in the area of open geo data, and there are many fields within it that could interest computer science students, engineering students, and others.</p>
-<p>As well as our <a href="http://www.cyclestreets.net/developers/projects/">own project list</a>, there are are <a href="http://wiki.openstreetmap.org/wiki/Google_Summer_of_Code/2016/Project_Ideas">other project ideas</a> from elsewhere within the OpenStreetMap community that we&#8217;d also strongly encourage students to consider too.</p>
-<p>Students must <a href="https://developers.google.com/open-source/gsoc/">apply via the GSOC website</a> by Friday 25th March, 7pm GMT, but it&#8217;s very important to work via the <a href="http://wiki.openstreetmap.org/wiki/Google_Summer_of_Code/2016">process given in the OpenStreetMap GSOC 2016 page</a>.</p>
-<p>Please note that GSOC is a highly competitive process, and only those students who come up with the best proposals that will assist OpenStreetMap are likely to be accepted.</p>
-<p>We&#8217;d be very happy to meet in central Cambridge (UK) (or via Skype if you&#8217;re not based here) to discuss potential projects, and/or to provide some background to OpenStreetMap, whether you are thinking about one of our (CycleStreets) projects or another project listed on the OSM project ideas page. Please do <a href="/contacts/">get in touch</a> with us in the first instance.</p>
-]]></content:encoded>
-        </item>
-        <item>
-            <title>TransportHack @ Smarter Travel LIVE!</title>
-            <link>https://www.cyclestreets.net/blog/2016/03/14/transporthack-smarter-travel-live/</link>
-            <pubDate>Mon, 14 Mar 2016 16:13:32 +0000</pubDate>
-            <dc:creator><![CDATA[Martin]]></dc:creator>
-            <category><![CDATA[API]]></category>
-            <category><![CDATA[Community]]></category>
-            <category><![CDATA[Local Authorities]]></category>
-            <category><![CDATA[Open data]]></category>
-
-            <guid isPermaLink="false">http://www.cyclestreets.net/blog/?p=3054</guid>
-            <description><![CDATA[Matt Whittle writes: This weekend we attended the Smarter Travel Live hack weekend. The aim of the hack event was to produce an output to support one of five challenges set by various organisations. We chose to tackle the Carplus challenge which was to try and find a way to reduce the use of cars as the primary [&#8230;]]]></description>
-            <content:encoded><![CDATA[<p><em><a href="https://twitter.com/mwhittle91">Matt Whittle</a> writes:</em></p>
-<p>This weekend we attended the <a href="http://www.landor.co.uk/smartertravel/2016/hackathon.php">Smarter Travel Live hack weekend</a>. The aim of the hack event was to produce an output to support one of five challenges set by various organisations. We chose to tackle the Carplus challenge which was to try and find a way to reduce the use of cars as the primary transport means around the Lake District.</p>
-<p>To begin the challenge we brainstormed several possible ways in which provisions could be made to facilitate the ease of switching peoples mode of transport, these included:</p>
-<ul>
-<li>Increasing cycling space on trains and buses</li>
-<li>Car sharing schemes</li>
-<li>Bike hire and sharing scheme</li>
-</ul>
-<p>It soon became apparent that as a group we felt that a hire and sharing scheme would work best for the area, therefore we set off to try and gather evidence of how popular the scheme could potentially be as well as providing evidence to where the scheme would best be suited.</p>
-<p>We were provided with a travel survey which listed the origins and destinations of c. 8,000 visitors to the park, this listed the mode of transport as well as the number of people making the journey. From this data we were able to visualize the flows of people to the park as shown below.</p>
-<p><img class="alignnone size-full wp-image-158" src="/blog/wp-content/uploads/flows.jpg" alt="flows" width="700" /></p>
-<p>From this data we then began to summarize what the most popular locations were in the region. For this we set out a criteria that popular locations had to attract more than 100 visitors from the data. The results can be seen below.</p>
-<p><img class="alignnone size-full wp-image-192" src="/blog/wp-content/uploads/loc.jpg" alt="loc.JPG" width="700" /></p>
-<p>This then lead to the question, where do current cyclists cycle in the Lake district? By using the flow data and some clever use of <a href="/api/">CycleStreets API</a> we were then able to allocate all of the current cycle flows to the route network.</p>
-<p>The approach, using origin-destination data routed to the on and off road travel network using CycleStreets.net, is similar to that used in the <a href="https://www.cdrc.ac.uk/research/npct/">Propensity to Cycle Tool (PCT)</a>. An <a href="http://arxiv.org/abs/1509.04425">early draft of a report</a> describing the methods in more detail is available.</p>
-<p><img class="alignnone size-full wp-image-162" src="/blog/wp-content/uploads/cycling.jpg" alt="cycling" width="700" /></p>
-<p>The analysis showed the the current popular cycle network had one main entry point to the lake the district, the thick red line flowing from Milnthorpe, through Kendal and out to Windermere. Beyond the corridor the data supported evidence that flows up to Ambleside, Grasmere, Coniston and Hawkshead were also popular.</p>
-<p>The next question to answer we decided to answer involved trying to discover which car journeys could potentially be replaced by cycle journeys. Using the flow data and R code we managed to find all of the car journeys in the data set that were under 10km. Once again, using the <a href="/api/">CycleStreets API</a> these were allocated to the road network and then visualized.</p>
-<p><img class="alignnone wp-image-169" src="/blog/wp-content/uploads/cars.jpg" alt="cars" width="678" height="694" /></p>
-<p>This visualisation supports the idea developed in from the cycling data that cycling could be popular in the north Windermere area. A 10km journey would take an estimated 30 mins when travelling at a reasonable cycling speed of 12mph (19kmh).</p>
-<p>These two visualizations therefore supported out idea that cycling could be a popular activity in the north Windermere/ Kendal corridor area. However what we had overseen was where should this system be implemented e.g. hire locations and how should it be carried out e.g. new infrastructure or rework existing infrastructure. Some research into cycle hire in the Lake District was carried out and we discovered that there was already a fairly large economy in the region, however the system does not support A to B trips, it is primarily for users to hire bikes from a location and drop off at the same location. Plans have already been suggested for <a href="http://www.thewestmorlandgazette.co.uk/news/13520713.Innovative_plans_to_boost_cycling_in_Kendal/" target="_blank">cycle hire in Kendal</a>. What we therefore propose is that a cycle hire system could work by working with the current bicycle hire network (see below, these are current e-bike cycle hire locations from <a href="http://www.electricbicyclenetwork.com/" target="_blank">electric bicycle network</a>) to support A to B transportation by bicycle.</p>
-<p><img class="alignnone size-full wp-image-182" src="/blog/wp-content/uploads/ebikes.jpg" alt="ebikes" width="700" /></p>
-<p>Using all of this analysis we then created a ‘core’ cycle network based on the popular destinations, current cycling, car journeys less than 10km and the existing hire locations. This is where we suggest cycling infrastructure should be placed initially. Once this is built extentsions could be built to Grasmere, Coniston, Troutbeck and Grizedale in order to link up to other popular locations.</p>
-<p><img class="alignnone size-full wp-image-196" src="/blog/wp-content/uploads/network.jpg" alt="network" width="700" /></p>
-<p>Our hack has therefore provided evidence to support a cycle hire network in the Lake District. The analysis has suggested that cycle journeys could replace a large amount of car journeys in the region, therefore reducing congestion. The initial brief stated that people wanted to get out of their cars when they were visiting the Lake District, this has provided a potential solution to that need.</p>
-<p>We put <a href="https://github.com/cyclestreets/transporthack" target="_blank">all of our data, code and visualisations</a> on Github.</p>
-<p>You can view <a href="http://transporthack.cyclestreets.net/leaflet/" target="_blank">the map of all the spatial data created for the project</a>.</p>
-<p>Thanks to <a href="https://www.transportxtra.com/" target="_blank">Landor</a> and <a href="http://www.transportapi.com/" target="_blank">Transport API</a> for organising such a great event.</p>
-]]></content:encoded>
-        </item>
-        <item>
-            <title>Cycle North Staffs app created by CycleStreets</title>
-            <link>https://www.cyclestreets.net/blog/2016/02/06/cycle-north-staffs-app/</link>
-            <comments>https://www.cyclestreets.net/blog/2016/02/06/cycle-north-staffs-app/#comments</comments>
-            <pubDate>Sat, 06 Feb 2016 23:47:30 +0000</pubDate>
-            <dc:creator><![CDATA[Martin]]></dc:creator>
-            <category><![CDATA[Branded versions]]></category>
-            <category><![CDATA[Local Authorities]]></category>
-            <category><![CDATA[Mobile]]></category>
-
-            <guid isPermaLink="false">http://www.cyclestreets.net/blog/?p=3039</guid>
-            <description><![CDATA[We&#8217;ve created a new cycling app for Stoke-on-Trent City Council. The Cycle North Staffs app, developed by CycleStreets, is here to help you to get the most out of your cycling. The app is packed with routes across Stoke-on-Trent and Newcastle-under-Lyme to get you to school, to work, or for leisure. It&#8217;s suitable for all [&#8230;]]]></description>
-            <content:encoded><![CDATA[<p>We&#8217;ve created a new cycling app for Stoke-on-Trent City Council.</p>
-<p>The Cycle North Staffs app, developed by CycleStreets, is here to help you to get the most out of your cycling. The app is packed with routes across Stoke-on-Trent and Newcastle-under-Lyme to get you to school, to work, or for leisure. It&#8217;s suitable for all ages and abilities.</p>
-<p>The app is available for both <a href="https://itunes.apple.com/gb/app/cycle-north-staffs/id1011239042">iPhone</a> and <a href="https://play.google.com/store/apps/details?id=uk.gov.stoke">Android</a>, and is available free of charge:</p>
-<p><a href="https://itunes.apple.com/gb/app/cycle-north-staffs/id1011239042"><img class="ios" src="/images/mobile/appstore.png" alt="" /></a>   <a href="https://play.google.com/store/apps/details?id=uk.gov.stoke"><img class="android" src="/images/mobile/google-play.png" alt="" /></a></p>
-<p>The app has a wide range of features:</p>
-<ul>
-<li>Plan cycle routes from A-B</li>
-<li>Gives a choice of routes: fastest, quietest, and balanced option</li>
-<li>Browse leisure routes – fancy a pleasant hour’s ride somewhere nice?</li>
-<li>Browse points of interest, such as bike shops or tourist attractions</li>
-<li>Shows time, distance and quietness level</li>
-<li>Shows how many calories you would use</li>
-<li>Avoids hills automatically where possible, and shows the elevation profile</li>
-<li>Calculates CO2 saving compared to a car</li>
-<li>Browse photos and videos of cycle facilities in the area</li>
-<li>Save your favourite places for easy access</li>
-</ul>
-<p><a href="https://itunes.apple.com/gb/app/cycle-north-staffs/id1011239042"><img class="alignnone" src="/images/services/customapps/leisureroutes2.png" alt="Leisure routes" width="250" height="444" /></a>   <a href="https://itunes.apple.com/gb/app/cycle-north-staffs/id1011239042"><img class="alignnone" src="/images/services/customapps/information1.png" alt="Local area information" width="250" height="444" /></a></p>
-<p><a href="https://itunes.apple.com/gb/app/cycle-north-staffs/id1011239042"><img class="alignnone" src="/images/services/customapps/pois1.png" alt="Points of interest" width="250" height="444" /></a>   <a href="https://itunes.apple.com/gb/app/cycle-north-staffs/id1011239042"><img class="alignnone" src="/images/services/customapps/photos1.png" alt="Photos and videos of the area" width="250" height="444" /></a></p>
-<p>The app makes use of our open-source <a href="https://github.com/cyclestreets/ios" target="_blank">iOS</a> and <a href="https://github.com/cyclestreets/android" target="_blank">Android</a> codebases, helping lower costs to the Council and providing a well-tested codebase.</p>
-<p>We are able to create <a href="http://www.cyclestreets.net/services/customapps/">custom cycle apps</a> and <a href="http://www.cyclestreets.net/services/whitelabelsites/">embedded cycle journey planner websites</a> for Local Authorities, companies and others. Do <a href="/contacts/">get in touch</a> if this might be of interest to your organisation.</p>
-<p>The apps have been possible thanks to the great work of our developers Neil and Jez.</p>
-]]></content:encoded>
-            <wfw:commentRss>https://www.cyclestreets.net/blog/2016/02/06/cycle-north-staffs-app/feed/</wfw:commentRss>
-            <slash:comments>1</slash:comments>
-        </item>
-        <item>
-            <title>Cycle commuting analysis of Bristol</title>
-            <link>https://www.cyclestreets.net/blog/2015/12/19/bristol-msc-research/</link>
-            <pubDate>Sat, 19 Dec 2015 21:03:18 +0000</pubDate>
-            <dc:creator><![CDATA[Martin]]></dc:creator>
-            <category><![CDATA[API]]></category>
-            <category><![CDATA[Research]]></category>
-
-            <guid isPermaLink="false">http://www.cyclestreets.net/blog/?p=3029</guid>
-            <description><![CDATA[We love it when our API comes in useful for academic purposes. This is a guest post by Richard Thomas. Bristol: Typical cycle commute time For my MSc dissertation, I investigated determinants of the proportion of people who choose to cycle for their daily commute. Specifically, I wanted to see whether an analysis of realistic [&#8230;]]]></description>
-            <content:encoded><![CDATA[<p><em>We love it when our <a href="/api/">API</a> comes in useful for academic purposes. This is a guest post by <a href="http://richard-thomas.github.io/">Richard Thomas</a>.</em></p>
-<div style="float: right; padding-left: 10px;"><a href="/blog/wp-content/uploads/AvTime_to_Bike_Commute.png"><br />
-<img class="map" src="/blog/wp-content/uploads/AvTime_to_Bike_Commute_thumb.png" alt="Average time to cycle commute" /></a></p>
-<p class="caption"><em>Bristol: Typical cycle commute time</em></p>
-</div>
-<p>For my MSc dissertation, I investigated determinants of the proportion of people who choose to cycle for their daily commute. Specifically, I wanted to see whether an analysis of realistic cycling routes of a representatively large sample of a city&#8217;s population could give improved predictors over existing models.</p>
-<p>From 2011 Census data, I extracted commuting origin/destination data for everyone in the Bristol built-up area in its most detailed form of aggregation (typically accurate to within 500m). I wanted to generate plausible cycling routes for these commutes, then for each of these routes to evaluate metrics (distance, hills, cycle paths, traffic). As census data is available giving the proportion of commuters living in each small area who cycle, multi-variate correlation could then be used to estimate the influence of these routing metrics, together with other known influential population measures taken from the census.</p>
-<p>So how best to perform this cycle routing and evaluate suitable metrics? On both these counts the <a href="http://www.cyclestreets.net/api/v1/journey/">CycleStreets Journey Planner API</a> proved invaluable (and made my MSc dissertation a feasible proposition!) I had considered using an existing open source routing engine (such as pgRouting or Graphhopper) operating on an extract of the OpenStreetMap database as this would allow me to directly query tags on each node of a route. However the complexity in interpreting OpenStreetMap cycle-related tags is quite daunting (as documented <a href="http://www.cyclestreets.net/journey/help/osmconversion/">here on CycleStreets.net</a>).</p>
-<p>Because the API returned not just the route, but details of routed distance, duration, &#8220;quietness&#8221;, estimated calories required and spot heights, useful metrics could be derived quickly from the JSON data using just Python scripts. It would have been good to more directly quantify dedicated cycle infrastructure along routes: although the &#8220;quietness&#8221; measure included this, it also included road traffic expectations. Given more time, this could have been done by using the actual route coordinates to interrogate the OpenStreetMap or CycleStreets databases, though this was complicated by API-returned points being only in latitude/longitude format rather than database node/segment numbers. In order to limit the amount of data to be processed (and the load on the CycleStreets API server, routing was limited to the 4 most popular routes from each area, although this still required nearly 16,000 routes to be generated and analyzed!</p>
-<div style="float: left; padding-right: 20px;"><a href="/blog/wp-content/uploads/summed_routing_overview.png"><br />
-<img class="map" src="/blog/wp-content/uploads/summed_routing_overview_thumb.png" alt="Summed routes (detail)" /></a></p>
-<p class="caption"><em>Summed cycle commute routes (Overview)</em></p>
-</div>
-<p>The most notable results of these <em>new</em> routing-based metrics (i.e. beyond the key predictor of crow-fly distance) were as follows:</p>
-<ul>
-<li><strong>Directness</strong> (Crow-fly / Routed Distance): strong indication that cycling was less popular if a reasonable (&#8220;balanced&#8221;) cycling route was particularly circuitous.</li>
-<li><strong>Max Height Increase </strong>(Maximum of sum of all hill climbs for outward or return direction): strong indication (as might be expected) that hills were a strong detractor. This metric was only developed after the MSc was completed; interestingly, in the MSc analysis, the related metric of <em>Effort Ratio</em> (calories / distance) was not a statistically significant indicator.</li>
-<li><strong>Traffic Exposure</strong> (Inverse of &#8220;Quietness&#8221;): Although this metric visually gives a good indication of cycling routes along busy roads and/or away from dedicated cycle infrastructure it was not a statistically significant predictor of cycling. Although not conclusive, this supports other research showing that cyclists are more sensitive to time taken than to pleasantness or safety when it concerns their daily commute (priorities may be different for a leisure ride).</li>
-</ul>
-<div style="float: right; padding-left: 10px;"><a href="/blog/wp-content/uploads/summed_routing_detail.png" target="_blank"><br />
-<img class="map" src="/blog/wp-content/uploads/summed_routing_detail_thumb.png" alt="Summed routes (street level detail)" /></a></p>
-<p class="caption"><em>Street level detail (OpenCycleMap)</em></p>
-</div>
-<p>&nbsp;</p>
-<p>More details of the analysis are available in the <a href="http://richard-thomas.github.io/GIS_MSc/"> full dissertation (or short synopsis)</a>. Detailed 2011 census origin/destination data (table WF02 for OA/WZ) was only made available after the end of my MSc (and then only to academics for specific projects). Thus for the MSc, synthetic data was generated based on (publicly available) census data. However, a later reworking of the full analysis using the new WF02 census data gave very similar results showing that lack of public access to detailed statistics need not be a serious impediment to analysis.</p>
-<p>Beyond the key MSc analysis, an interesting spin-off of all the cycle routing was the development of maps (see right and below) that sums the 4 most popular commute routes from the centroid of each census <em>Output Area</em>, giving a good indication of the number of cyclists along individual streets if all these people were to commute by bicycle.</p>
-<p>Thanks again to CycleStreets for making the API available to enable this research project. Data processing was done in Python and SPSS with additional processing and map rendering in the open source QGIS package.</p>
-<p style="text-align: right;">Richard Thomas</p>
-<p><em>Editor&#8217;s note: We now have a batch routing system available which we&#8217;re keen to encourage for academic use like this. It can handle millions of combinations happily &#8211; not just the 16,000 combinations noted above!</em></p>
-]]></content:encoded>
-        </item>
-        <item>
-            <title>New features added to Cyclescape</title>
-            <link>https://www.cyclestreets.net/blog/2015/12/16/new-cyclescape-features/</link>
-            <pubDate>Wed, 16 Dec 2015 19:21:28 +0000</pubDate>
-            <dc:creator><![CDATA[Martin]]></dc:creator>
+            <pubDate>Thu, 02 Jan 2020 20:25:56 +0000</pubDate>
             <category><![CDATA[Cyclescape (campaigner toolkit)]]></category>
-
-            <guid isPermaLink="false">http://www.cyclestreets.net/blog/?p=3024</guid>
-            <description><![CDATA[Lots of new features have been added to Cyclescape, our toolkit for cycling advocacy groups. Our developer, Nikolai, has been busy, working on piles of improvements and bugfixes. As featured on the Cyclescape blog, the latest updates include: Street View message replies: While it&#8217;s of course possible to navigate off-site, get a Street View link, [&#8230;]]]></description>
-            <content:encoded><![CDATA[<p>Lots of new features have been added to <a href="http://www.cyclescape.org/">Cyclescape</a>, our toolkit for cycling advocacy groups.</p>
-<p>Our developer, Nikolai, has been busy, working on piles of improvements and bugfixes.</p>
-<p>As featured on the <a href="http://blog.cyclescape.org/">Cyclescape blog</a>, the latest updates include:</p>
-<p><a href="http://blog.cyclescape.org/2015/05/03/street-view-posts/">Street View message replies</a>: While it&#8217;s of course possible to navigate off-site, get a Street View link, and return, we&#8217;ve taken out that extra stage. The Street View button also tries to find a sensible default location. In a thread, just click on Street View in the reply box, position the map where you want, add a comment and press submit.</p>
-<p><a href="http://blog.cyclescape.org/2015/05/03/street-view-posts/"><img class="alignnone" src="http://blog.cyclescape.org/images/streetview.png" alt="" width="400" border="1" /></a></p>
-<p><a href="http://blog.cyclescape.org/2015/06/17/privacy-improvements/">Privacy improvements</a>:  Some groups have told us that it is important to them that they are able to operate on the basis of member discussions using real names, so that members know who they are talking to. However, we recognise that this could be in conflict with the entirely reasonable desire not to have one&#8217;s name on the public internet if wished. Accordingly, we have worked to implement a solution to this, whereby you can set your real name which people in your groups will see, but set a display name for everyone else. Previously the display name was always used.</p>
-<p><a href="http://blog.cyclescape.org/2015/08/14/improvements-for-groups/">Improvements for groups</a>: If you didn&#8217;t already know, cycling groups are able to create their own Cyclescape space, giving a custom web address and various personalisations. You can now create a group using the &#8216;Request new group&#8217; form in the top-right of the groups gallery. Groups can now add a photo to help personalise their page, alongside information about the group.</p>
-<p><a href="http://blog.cyclescape.org/2015/08/14/improvements-for-groups/"><img class="alignnone" src="http://blog.cyclescape.org/images/groupsgallery-e1449692933681.png" alt="" width="400" border="1" /></a></p>
-<p><a href="http://blog.cyclescape.org/2015/11/11/search-system-overhauled/">Search system overhauled to give much better results</a>: We&#8217;ve replaced the search result system with a completely new engine that gives much better results. After a week of tuning the results, we think this now seems to find what you&#8217;re looking for pretty consistently. Secondly, we&#8217;ve added pagination, so you&#8217;re no longer limited to one page of results. Another long-awaited improvement is that searches within a group&#8217;s area will only return results from that area. So if you&#8217;re in, say, Camden Cyclists&#8217; Cyclescape area, you won&#8217;t get results polluted with issues from Cambridge, Sheffield, Leeds, or wherever.</p>
-<p><a href="http://blog.cyclescape.org/2015/11/11/search-system-overhauled/"><img class="alignnone" src="http://blog.cyclescape.org/images/searchresults-e1449701305122.png" alt="" width="400" border="1" /></a></p>
-<p><a href="http://blog.cyclescape.org/2015/11/15/email-improvements/">Getting discussions by e-mail now better</a>: Did you know that you can also get Cyclescape discussions by e-mail? In fact, Cyclescape can be used like lots of mini e-mail lists, which you can choose to subscribe/unsubscribe to on a per-thread basis. We&#8217;ve made a number of improvements. Firstly, you can now enable digests, so you can read what&#8217;s happening by getting a single e-mail a day. Next, e-mails are now properly threaded. Also, we&#8217;ve added deadline reminders, so you&#8217;ll get a reminder a day or two before a date in a thread you&#8217;re subscribed to. So fewer excuses for missing deadlines now! A further improvement is that new users, and users newly-subscribed to a group, now receive a welcome e-mail to confirm each of these.</p>
-<p><a href="http://blog.cyclescape.org/2015/11/15/email-improvements/"><img class="alignnone" src="http://blog.cyclescape.org/images/threading.png" alt="" width="400" border="1" /></a></p>
-<p><a href="http://blog.cyclescape.org/2015/11/22/deadline-management-improvements/">Deadline management improvements</a>: In case you didn&#8217;t know, your &#8216;My Cyclescape&#8217; page has a listing of all the deadlines/dates in the threads you are subscribed to. So it&#8217;s easy to get an overview of what&#8217;s coming up. We&#8217;ve added an iCal feed, so that if you use a calendaring system like Apple Calendar, Google Calendar, Outlook, etc., you can have these events appear automatically in your calendar. Also, if you have e-mail enabled, each deadline/date e-mail will now include an iCal attachment for that deadline/date. Another improvement is that you can now specify a time, rather than purely just a day, when replying in a thread.</p>
-<p><a href="http://blog.cyclescape.org/2015/11/22/deadline-management-improvements/"><img class="alignnone" src="http://blog.cyclescape.org/images/deadline.png" alt="" width="400" border="1" /></a></p>
-]]></content:encoded>
-        </item>
-        <item>
-            <title>Patrick reports back</title>
-            <link>https://www.cyclestreets.net/blog/2015/10/01/patrick-reports-back/</link>
-            <pubDate>Thu, 01 Oct 2015 12:00:43 +0000</pubDate>
-            <dc:creator><![CDATA[Martin]]></dc:creator>
-            <category><![CDATA[Developers]]></category>
-
-            <guid isPermaLink="false">http://www.cyclestreets.net/blog/?p=3103</guid>
-            <description><![CDATA[Back in July we introduced our summer intern, Patrick. Here, he reports back on his achievements over the three-month period. This summer I worked for Cyclestreets as a paid intern for three months. During this time, I became acquainted with the large codebase the site runs on, and made several structural changes to the organisation of the code. [&#8230;]]]></description>
-            <content:encoded><![CDATA[<p>Back in July we <a href="/blog/2015/07/21/welcoming-our-new-intern-patrick/">introduced</a> our summer intern, Patrick. Here, he reports back on his achievements over the three-month period.</p>
-<p><img class="alignright wp-image-3104 size-medium" src="/blog/wp-content/uploads/patrick-300x225.jpg" alt="Patrick" width="300" height="225" align="right" border="1" srcset="https://www.cyclestreets.net/blog/wp-content/uploads/patrick-300x225.jpg 300w, https://www.cyclestreets.net/blog/wp-content/uploads/patrick-150x113.jpg 150w, https://www.cyclestreets.net/blog/wp-content/uploads/patrick-768x576.jpg 768w, https://www.cyclestreets.net/blog/wp-content/uploads/patrick-1024x768.jpg 1024w" sizes="(max-width: 300px) 100vw, 300px" /></p>
-<p>This summer I worked for Cyclestreets as a paid intern for three months. During this time, I became acquainted with the large codebase the site runs on, and made several structural changes to the organisation of the code. After my work at Cyclestreets I feel much more comfortable working with sizeable codebases, and the focus on refactoring and identifying optimisable code has made a huge change in the way I approach coding my own projects.</p>
-<p>One of my main tasks as intern was to <a href="https://sourcemaking.com/refactoring">refactor</a> the existing codebase into an MVC-style layout. Building on a similar structure <a href="https://github.com/cyclestreets/cyclescape/tree/staging/app">designed into Ruby on Rails</a>, we set out to create classes with distinct personalities; views, models and controllers. Establishing rules that govern class content contributes to building a strong framework that isolates code into functioning categories. Once an MVC structure has been implemented, crosstalk between classes can easily be analysed and anomalies can be identified.</p>
-<p>Cyclestreets runs two main environments (contexts) &#8211; a <a href="http://www.cyclestreets.net/">GUI</a> environment and an <a href="http://www.cyclestreets.net/api/">API</a> environment. These two systems had become merged over time due to feature development, so re-establishing the functional dichotomy between these entities became a priority. This was a long process, as a long period of development had led to a proliferation of technical debt in the codebase.</p>
-<p>The concept of refactoring, or changing code structure without altering the code function, reverses this process. It is risky, as refactoring can introduce subtle bugs. It is also very easy, as I found out on several occasions, to dig yourself into a hole as one alteration leads to another, and another, until it is extremely hard to finalise the series of sequential refactorings. To avoid this, refactoring must be done systematically.</p>
-<p>Design patterns can be identified that provide targets for refactoring, and over the summer I became familiar with identifying duplicated code, contrived complexity, over-large classes, and long methods, to name a few of the &#8216;bad smells&#8217; I learned to identify in the code.</p>
-<p>Rolling out my changes to the main servers was always a nail-biting moment. I didn&#8217;t want to be &#8220;that guy&#8221; that brought down the system while users in London were relying on the excellent CycleStreets app to get to work during the Underground strikes that went on during summer. <em>[Ed.: Don&#8217;t worry, we deploy in dev first :) ]</em></p>
-<p>The team at CycleStreets were extremely supportive, and I thank them for the time they took to broaden my knowledge of PHP and good coding practices. It was a very enjoyable summer, one I will look back on fondly as in the years to come I design my own apps and come across the issues I learned to rectify during this internship. Thank you Martin and Simon!</p>
-<p><em>Martin and Simon thank you back, Patrick &#8211; the codebase has moved forward significantly over the summer, with several long-running problems resolved. You were a pleasure to work with, arguing your case well when there were difficult decisions to take in the code, and taking on feedback.</em></p>
-]]></content:encoded>
-        </item>
-        <item>
-            <title>Cambridge recognised in upcoming cycle planning awards</title>
-            <link>https://www.cyclestreets.net/blog/2015/09/10/cycle-planning-awards-finalist/</link>
-            <pubDate>Thu, 10 Sep 2015 23:07:11 +0000</pubDate>
-            <dc:creator><![CDATA[Martin]]></dc:creator>
-            <category><![CDATA[Uncategorized]]></category>
-
-            <guid isPermaLink="false">http://www.cyclestreets.net/blog/?p=3012</guid>
-            <description><![CDATA[The efforts of several local organisations and companies to get more people cycling in the Cambridge, the HQ of CycleStreets, has been recognised in the inaugural Cycle Planning Awards. The awards ceremony is being held in Walthamstow, London on 14th September. CycleStreets is a finalist in the ‘Best Innovation’ category for its free-to-use journey planning website. CycleStreets runs [&#8230;]]]></description>
-            <content:encoded><![CDATA[<p>The efforts of several local organisations and companies to get more people cycling in the Cambridge, the HQ of CycleStreets, has been recognised in the inaugural <a href="http://www.landor.co.uk/cycleplanningawards" target="_blank">Cycle Planning Awards</a>.</p>
-<p>The awards ceremony is being held in Walthamstow, London on 14th September.</p>
-<p>CycleStreets is a finalist in the ‘Best Innovation’ category for its free-to-use journey planning website. CycleStreets runs the <a href="/" target="_blank">UK-wide cycle journey planning website</a> and provides data feeds for a <a href="/services/whitelabelsites/" target="_blank">wide variety of journey planning websites</a> and <a href="/mobile/" target="_blank">apps</a>, as well as <a href="/photomap/" target="_blank">crowd-sourced data collection</a> and <a href="/collisions/" target="_blank">collision data viewing</a> systems. They aim to help encourage new people to cycling, by giving them information on where it is convenient and pleasant to cycle, as well as helping existing cyclists find good routes that improve on their existing journeys or help them through unfamiliar areas.</p>
-<p><img src="/location/57544/cyclestreets57544-size300.jpg" alt="" width="300" height="225" align="right" class="photo right" /></p>
-<p>Simon Nuttall from CycleStreets said:</p>
-<blockquote><p><em>“We are very pleased indeed to be shortlisted for this award. It validates the work we have put in to build a system that helps find effective cycle routes and to inform the debate about what constitutes practical infrastructure that will encourage more people to consider cycling as a viable option for some of their journeys.”</em></p></blockquote>
-<p><a href="http://www.outspokentraining.co.uk/" target="_blank">Outspoken Training</a> based in Cambridge are a finalist in the ‘Best Behaviour Change’ category for their work on a project called Bikeability Plus, which has operated in both Peterborough and in Cambridge. The overall aim of the project was to help build a better cycling culture within five primary schools and to encourage children, parents and teachers to cycle more often. The overall target was to increase those cycling to school at least once per week by 20%. The actual result was a 263% increase with more than 200 more children cycling to school each week.</p>
-<p><img class="photo left" align="left" src="/blog/wp-content/uploads/outspoken-training.png" alt="outspoken-training" width="293" height="211" align="left" />Rob King, Director of Outspoken said “To have transformed the cycling culture of a school in such a short period of time is amazing. We were particularly proud of our team of staff who made this happen through a whole host of exciting activities and challenges” One of the teachers commented: “Over the six weeks, all of our reception children learned to balance and then ride a bike. Some reduced their mums to tears having struggled previously.”</p>
-<p>Finally, <a href="https://uk.linkedin.com/pub/mike-davies/2a/a9b/281" target="_blank">Cambridgeshire County Council’s Mike Davies</a> is a finalist in the ‘Cycling Champion of the Year’ category, for his work on leading innovative cycling projects. He was nominated for the award by <a href="http://www.camcycle.org.uk/" target="_blank">Cambridge Cycling Campaign</a>. He shares the final in this category with the Mayor of Leicester, the Deputy Leader of Waltham Forest Council and the Regional Development Minister from the Northern Ireland Assembly. Mike said “I’m delighted to be a finalist in this award category. The work of many people including Council officers, Councillors, campaign groups, local businesses, cycle shops, schools and colleges, has all contributed to the success of cycling in and around Cambridge, and this is vital to ease traffic congestion and improve people’s health, independence, and ability to access employment and training in a growing city area”.</p>
-]]></content:encoded>
-        </item>
-        <item>
-            <title>Beautiful new galleries page unveiled</title>
-            <link>https://www.cyclestreets.net/blog/2015/07/27/galleries-upgrade/</link>
-            <pubDate>Mon, 27 Jul 2015 17:00:19 +0000</pubDate>
-            <dc:creator><![CDATA[Patrick Johansson]]></dc:creator>
-            <category><![CDATA[API]]></category>
             <category><![CDATA[Design]]></category>
-            <category><![CDATA[Developers]]></category>
-            <category><![CDATA[Features]]></category>
+            <guid isPermaLink="false">https://www.cyclestreets.net/blog/?p=3435</guid>
 
-            <guid isPermaLink="false">http://www.cyclestreets.net/blog/?p=2996</guid>
-            <description><![CDATA[We are pleased to unveil the new Galleries front page, which brings your beautiful photos and content to the front and centre. Galleries is a really neat feature to group cycling-related media for presentation or campaigning. There is also a lot more flexibility available while adding a new gallery &#8211; you can now navigate away from the [&#8230;]]]></description>
-            <content:encoded><![CDATA[<p>We are pleased to unveil the new <a href="http://www.cyclestreets.net/galleries/">Galleries front page</a>, which brings your beautiful photos and content to the front and centre. Galleries is a really neat feature to group cycling-related media for presentation or campaigning.</p>
-<p>There is also a lot more flexibility available while <a href="http://www.cyclestreets.net/galleries/add/">adding a new gallery</a> &#8211; you can now navigate away from the Create Gallery form to find more photos to add, and when you return all the fields will be exactly as you left them. You can even close your browser window and come back later, and the gallery creation form will still show your data as you left it.</p>
-<p>As well as the graphical front end, <a href="http://www.cyclestreets.net/blog/2015/07/21/welcoming-our-new-intern-patrick/">our intern Patrick</a> has been busy developing a new <a href="http://www.cyclestreets.net/api/#galleries">Galleries API</a> for developers, which enables API calls to <a href="http://www.cyclestreets.net/api/v2/galleries.list/">list</a> and <a href="http://www.cyclestreets.net/api/v2/galleries.show/">show</a> the content of Galleries, and <a href="http://www.cyclestreets.net/api/v2/galleries.add/">create</a> and <a href="http://www.cyclestreets.net/api/v2/galleries.update/">update</a> Galleries.</p>
-<p>We hope you enjoy browsing and adding to the Galleries.</p>
-<p><a href="http://www.cyclestreets.net/galleries/"><img class="aligncenter wp-image-2998" src="/blog/wp-content/uploads/Screen-Shot-2015-07-27-at-17.13.12-300x153.png" alt="Screen Shot 2015-07-27 at 17.13.12" width="399" height="203" srcset="https://www.cyclestreets.net/blog/wp-content/uploads/Screen-Shot-2015-07-27-at-17.13.12-300x153.png 300w, https://www.cyclestreets.net/blog/wp-content/uploads/Screen-Shot-2015-07-27-at-17.13.12-150x76.png 150w, https://www.cyclestreets.net/blog/wp-content/uploads/Screen-Shot-2015-07-27-at-17.13.12.png 936w" sizes="(max-width: 399px) 100vw, 399px" /></a></p>
+            <description><![CDATA[Cross-posted from our Cyclescape blog: Over the last five years, we&#8217;ve received lots of feedback about our Cyclescape website, which started in 2012, as well as much experience ourselves as users. As a result of funding from our new project StreetFocus, we&#8217;re pleased to announce that we will shortly be starting work on a full-scale redesign [&#8230;]]]></description>
+            <content:encoded><![CDATA[<p><em>Cross-posted from our <a href="https://blog.cyclescape.org/">Cyclescape blog</a>:</em></p>
+<p>Over the last five years, we&#8217;ve received lots of feedback about our <a href="https://www.cyclescape.org/">Cyclescape</a> website, which started in 2012, as well as much experience ourselves as users.</p>
+<p>As a result of funding from our new project <a href="https://www.streetfocus.uk/blog/">StreetFocus</a>, we&#8217;re pleased to announce that we will shortly be starting work on a full-scale redesign of the Cyclescape site. We expect the design work to be finalised in February and will then be rolling out as developer time permits shortly after that.</p>
+<p>This will be a full-scale revamp. As well as a fresh visual look and a new mobile-friendly interface, this will tackle seven key areas of usability:</p>
+<ol>
+<li>Generally, <strong>reorganising screens</strong> to reduce confusion and make the site concepts much clearer and easier to understand;</li>
+<li><strong>User onboarding process</strong> is poor &#8211; currently users have to go through far too many screens to get set up;</li>
+<li><strong>Lightweight issue reporting</strong> model, so that many more issues can be reported in a more lightweight way;</li>
+<li>The <strong>issues map</strong> is unusable when many area-wide issues present &#8211; we want the map to be a stronger focus, and much nicer;</li>
+<li>Subscription by <strong>theme</strong>, e.g. ‘cycle parking’ rather than purely by geographical area;</li>
+<li>Dealing with <strong>general chat</strong> discussions that are neither geographical nor administrative, which has always never really worked;</li>
+<li><strong>Planning application integration</strong> to add new features such as automatically linking to key documents.</li>
+</ol>
+<p><!--
+We'll be working with <a href="https://outlandish.com/">Outlandish</a>, a web development co-op who we have previously worked with on our Bikedata and recently our new StreetFocus sites.
+--></p>
+<p>Please do take the opportunity to fill in our <a href="https://blog.cyclescape.org/survey/">survey</a> to give us your thoughts on the site.</p>
+<p><img class="size-full wp-image-2893" title="" src="https://blog.cyclescape.org/images/unusablemap.png" alt="" width="388" height="245" /><br />
+<em>An unusable map &#8211; one of the many problems we plan to tackle</em></p>
 ]]></content:encoded>
+
+            <wfw:commentRss>https://www.cyclestreets.org/news/2020/01/02/cyclescape-website-redesign/feed/</wfw:commentRss>
+            <slash:comments>0</slash:comments>
+
+
+        </item>
+        <item>
+            <title>London Cycling Data</title>
+            <link>https://www.cyclestreets.org/news/2019/10/01/london-cycling-data/</link>
+            <comments>https://www.cyclestreets.org/news/2019/10/01/london-cycling-data/#respond</comments>
+
+            <dc:creator><![CDATA[Martin]]></dc:creator>
+            <pubDate>Tue, 01 Oct 2019 12:00:32 +0000</pubDate>
+            <category><![CDATA[Branded versions]]></category>
+            <category><![CDATA[Local Authorities]]></category>
+            <category><![CDATA[Open data]]></category>
+            <guid isPermaLink="false">https://www.cyclestreets.org/?p=3502</guid>
+
+            <description><![CDATA[Transport for London recently released a major new dataset detailing every piece of cycle infrastructure in Greater London. We&#8217;re proud to announce that we&#8217;re working with London Cycling Campaign (LCC) on a new project to help maintain that dataset, for TfL. This project will use LCC’s active volunteers and borough groups &#8211; the people who [&#8230;]]]></description>
+            <content:encoded><![CDATA[<p>Transport for London <a href="https://www.cyclestreets.net/blog/2019/05/10/tfl-cid/">recently released</a> a major new dataset detailing every piece of cycle infrastructure in Greater London.</p>
+<p>We&#8217;re proud to announce that we&#8217;re working with London Cycling Campaign (LCC) on a new project to help maintain that dataset, for TfL.</p>
+<p>This project will use LCC’s active volunteers and borough groups &#8211; the people who know how cycling infrastructure in London changes &#8211; to correct and update information for all London Boroughs. The database was surveyed during 2017 and 2018 and thus now needs updating to include all the improvements to cycling put in place since then (and to flag up things that have been removed or that need repair). This is a pilot project to see if large numbers of volunteers can be activated to feed data into this project alongside other partners.</p>
+<p>We&#8217;ve created a new website, <a href="https://www.londoncyclingdata.org.uk/">London Cycling Data</a>, for LCC to enable just that, and this is now live.</p>
+<p><a href="https://www.londoncyclingdata.org.uk/"><img class="alignnone size-full wp-image-3504" src="/wp-content/uploads/londoncyclingdata2-e1585504281205.png" alt="" width="600" height="575" /></a></p>
+<p>The site interacts with a new suite of data interfaces in the <a href="https://www.cyclestreets.net/api/#infrastructuredatasetauditing">CycleStreets API</a>, for infrastructure auditing.</p>
+<p>The visual design for the site is by Mike of Primary Image.</p>
+<p>You can <a href="https://lcc.org.uk/pages/london-cycling-data">read more about the site and the project as a whole</a> on LCC&#8217;s website.</p>
+<p><a href="https://www.londoncyclingdata.org.uk/"><img class="alignnone size-full wp-image-3503" src="/wp-content/uploads/londoncyclingdata1.png" alt="" width="497" height="690" srcset="https://www.cyclestreets.org/wp-content/uploads/londoncyclingdata1.png 497w, https://www.cyclestreets.org/wp-content/uploads/londoncyclingdata1-216x300.png 216w, https://www.cyclestreets.org/wp-content/uploads/londoncyclingdata1-108x150.png 108w" sizes="(max-width: 497px) 100vw, 497px" /></a></p>
+]]></content:encoded>
+
+            <wfw:commentRss>https://www.cyclestreets.org/news/2019/10/01/london-cycling-data/feed/</wfw:commentRss>
+            <slash:comments>0</slash:comments>
+
+
+        </item>
+        <item>
+            <title>Our talk at State of the Map 2019: Is the OSM data model creaking?</title>
+            <link>https://www.cyclestreets.org/news/2019/09/22/sotm2019/</link>
+            <comments>https://www.cyclestreets.org/news/2019/09/22/sotm2019/#respond</comments>
+
+            <dc:creator><![CDATA[Martin]]></dc:creator>
+            <pubDate>Sun, 22 Sep 2019 13:48:29 +0000</pubDate>
+            <category><![CDATA[Community]]></category>
+            <category><![CDATA[Developers]]></category>
+            <category><![CDATA[Open data]]></category>
+            <category><![CDATA[Routing performance/quality]]></category>
+            <guid isPermaLink="false">https://www.cyclestreets.net/blog/?p=3423</guid>
+
+            <description><![CDATA[We gave a talk at the State of the Map 2019 conference, the main annual meeting for OpenStreetMap, whose data we use for our cycle routing. Our talk was entitled &#8220;Is the OSM data model creaking?&#8221;. A video of the talk is now online: ﻿ Here are the slides from the talk: Is the OSM [&#8230;]]]></description>
+            <content:encoded><![CDATA[<p>We gave a talk at the <a href="https://2019.stateofthemap.org/">State of the Map 2019</a> conference, the main annual meeting for OpenStreetMap, whose data we use for our cycle routing.</p>
+<p>Our talk was entitled <a href="https://2019.stateofthemap.org/sessions/DW7WW8/">&#8220;Is the OSM data model creaking?&#8221;</a>.</p>
+<p>A <a href="https://media.ccc.de/v/sotm2019-1038-is-the-osm-data-model-creaking-">video of the talk</a> is now online:</p>
+<p><iframe src="https://media.ccc.de/v/sotm2019-1038-is-the-osm-data-model-creaking-/oembed" width="600" height="338" frameborder="0" allowfullscreen="allowfullscreen"><span data-mce-type="bookmark" style="display: inline-block; width: 0px; overflow: hidden; line-height: 0;" class="mce_SELRES_start">﻿</span></iframe></p>
+<p>Here are the slides from the talk:</p>
+<p><a href="/wp-content/uploads/sotm2019cyclestreets.pdf"><strong>Is the OSM data model creaking?</strong></a> (PDF, 16MB)</p>
+<p><a href="/wp-content/uploads/sotm2019cyclestreets.pdf"><img class="alignnone wp-image-3425" src="/wp-content/uploads/sotm2019.png" alt="" width="599" height="337" srcset="https://www.cyclestreets.org/wp-content/uploads/sotm2019.png 884w, https://www.cyclestreets.org/wp-content/uploads/sotm2019-150x84.png 150w, https://www.cyclestreets.org/wp-content/uploads/sotm2019-300x169.png 300w, https://www.cyclestreets.org/wp-content/uploads/sotm2019-768x432.png 768w, https://www.cyclestreets.org/wp-content/uploads/sotm2019-711x400.png 711w" sizes="(max-width: 599px) 100vw, 599px" /></a></p>
+<p>OpenStreetMap was designed to enable ordinary people to create open geodata that anyone can use and maintain easily. Traditional GIS concepts such as layers are dispensed with in order to make editing simple and accessible. In the same way that the web would never have taken off if HTML were not so accessible and tolerant of mistakes, this simplicity in OSM has meant a low barrier to involvement.</p>
+<p>However, as OSM is becoming more widely used in the mainstream, the need for accuracy and quality is becoming more and more important. Cyclists need detailed turn data to enable high-quality routing that takes full account of safety. Satnav companies, need lane data, which is difficult to represent accurately. Pedestrian routing is barely in its infancy and high quality routing for people walking or using wheelchairs is hard to achieve.</p>
+<p>At its root, OSM tries to represent spaces as flows (lines). This results in fundamental compromises and inaccuracies. What is good for routing is not always good for cartography, and vice-versa.</p>
+<p>For instance, a street containing cycleways with pavements either side is usually represented as a single line with attributes. However, it is extremely challenging to represent properly all the parts of the street, and in general people simply don&#8217;t bother: a single line with large numbers of attributes is unwieldy to edit (even when hidden by editor GUIs), and just as challenging for a router to interpret. Continual changes in the width of a street cannot be easily represented without segmenting the street heavily and creating a mess. Temporary disappearance of lanes makes editing complex. Routing ultimately ends up as a lowest common denominator result.</p>
+<p>The alternative method of representing this same street is as a series of individual lines. But this is equally problematic. In this model, the street loses its coherence as a single entity &#8211; humans think of it as a street with multiple uses (walking, cycling, driving, trees). Where people have done this, attributes such as street names need to be kept in sync, and in practice separate pavements often fail to have names attached. Concepts such as the ability to cross from one side of the road to the other (or even switch lanes) are not modelled, with the result that a router may take the user to the end of the street then back down. And cartography ends up showing a series of parallel lines which looks messy and does not match the human perception of a street.</p>
+<p>The bicycle tagging page on OSM provides a perfect demonstration of the current problem: https://wiki.openstreetmap.org/wiki/Bicycle It shows the complexity of representing many common scenarios, with increasingly incomprehensible tagging combinations. No router implements anything like all of this, and even expert OSM contributors would shy away at bothering to add this data.</p>
+<p>Cycleways indeed are a good general example of inconsistent tagging. Cycleways separate to a road are sometimes tagged as an attribute of the street and sometimes as a separate geometry. What about a hybrid/stepped cycle lane of the kind seen in Copenhagen &#8211; is that a cycle lane or a cycleway? Do lane counts include cycle lanes or not? How is obstructive car parking represented? Is the one-way indication applicable to the cycle lane on the road? And so on.</p>
+<p>Another example is junctions. Should traffic signals be treated spatially (i.e. represent the location of the traffic heads), or should they be treated linearly so that routing works properly? How should the linear model work accurately when there is only a single geometry for multiple directions? Have a look at the roads around the Arc De Triomphe in Paris &#8211; it is completely impossible for a routing engine to work out exactly how many signal delays should actually be attributed based on the presence of the marking of traffic signals in the data: https://www.openstreetmap.org/#map=17/48.87391/2.29536</p>
+<p>This talk will discuss these cases, and provide a starting point for discussion on what should be done to improve the situation. As people are ever keener to add more detail to the map, and as more and more mainstream users look to OSM, we have to ask whether the current model is arguably creaking too heavily. Is there a way that we can represent spaces as a set of interconnected flows in some way?</p>
+<p>The speaker, Martin Lucas-Smith, is one of the developers of CycleStreets, one of the earliest and most established dedicated cycle routing engines. As such, he has spent many years considering the kinds of tradeoffs represented by the current OSM data model.</p>
+]]></content:encoded>
+
+            <wfw:commentRss>https://www.cyclestreets.org/news/2019/09/22/sotm2019/feed/</wfw:commentRss>
+            <slash:comments>0</slash:comments>
+
+
+        </item>
+        <item>
+            <title>TfL Cycling Infrastructure Database</title>
+            <link>https://www.cyclestreets.org/news/2019/05/10/tfl-cid/</link>
+            <comments>https://www.cyclestreets.org/news/2019/05/10/tfl-cid/#comments</comments>
+
+            <dc:creator><![CDATA[Martin]]></dc:creator>
+            <pubDate>Fri, 10 May 2019 16:01:11 +0000</pubDate>
+            <category><![CDATA[Community]]></category>
+            <category><![CDATA[Open data]]></category>
+            <guid isPermaLink="false">https://www.cyclestreets.net/blog/?p=3413</guid>
+
+            <description><![CDATA[Transport for London (TfL) have created a new database of cycling infrastructure, containing 240,000 assets, covering all of Greater London. This is proposed to be released as open data. This groundbreaking database contains every cycle infrastructure asset within Greater London, including assets on and off-carriageway. The assets surveyed are: cycle parking; signals; signage; traffic calming measures; [&#8230;]]]></description>
+            <content:encoded><![CDATA[<p><a href="https://tflcid.cyclestreets.net/"><img class="alignright size-medium wp-image-3417" src="/wp-content/uploads/tflcid_cycle_parking-300x202.png" alt="TfL CID" width="300" height="202" align="right" srcset="https://www.cyclestreets.org/wp-content/uploads/tflcid_cycle_parking-300x202.png 300w, https://www.cyclestreets.org/wp-content/uploads/tflcid_cycle_parking-150x101.png 150w, https://www.cyclestreets.org/wp-content/uploads/tflcid_cycle_parking-768x517.png 768w, https://www.cyclestreets.org/wp-content/uploads/tflcid_cycle_parking-594x400.png 594w, https://www.cyclestreets.org/wp-content/uploads/tflcid_cycle_parking.png 862w" sizes="(max-width: 300px) 100vw, 300px" /></a></p>
+<p><a class="external text" href="https://tfl.gov.uk/" rel="nofollow">Transport for London (TfL)</a> have created a new database of cycling infrastructure, containing 240,000 assets, covering all of Greater London. This is proposed to be released as open data.</p>
+<p>This groundbreaking database contains every cycle infrastructure asset within Greater London, including assets on and off-carriageway. The assets surveyed are: cycle parking; signals; signage; traffic calming measures; restricted points (e.g. steps); advanced stop lines; crossings; cycle lanes/tracks; and restricted routes (e.g. pedestrian only routes).</p>
+<p><i>“The world’s first Cycling Infrastructure Database will be the most comprehensive database of cycling infrastructure ever collected in London. Over the past 18 months, TfL has amassed data on every street in London, cataloguing almost 146,000 cycle parking spaces, 2,000 km of cycle lanes and more than 58,000 cycle signs and street markings. This information will be released as open data alongside a new digital map of cycle routes, will make journey planning and cycle parking much easier, as well as offering valuable information to TfL and the boroughs for planning future investment in cycling.”</i></p>
+<p>TfL is keen to make this available to the <a href="https://www.openstreetmap.org/">OpenStreetMap</a> community under a compatible open license, to ensure maximum use of the CID. TfL is also potentially willing to consider tool development to help facilitate sensitive merging in of this data. OpenStreetMap is the street data on which CycleStreets is built, so the better data available to OSM, the better our routing can become.</p>
+<h3>Demonstrator map</h3>
+<p>We&#8217;ve created a <strong><a href="https://tflcid.cyclestreets.net/">demonstrator map</a></strong>, <b>for the purposes only of evaluation</b> by the OSM community at this stage.</p>
+<p>This demonstrator map contains only <b>one of the 25 areas</b> that have been surveyed.</p>
+<p>We are specifically seeking comments on data quality and usefulness of this data from the OSM community. Initial analysis by CycleStreets is that the data is of excellent quality, and very suitable for conflation into OSM, to increase both comprehensiveness and metadata quality.</p>
+<p><a href="https://tflcid.cyclestreets.net/"><img class="size-full wp-image-3415 alignnone" src="/wp-content/uploads/tflcid_cycle_track.png" alt="TfL CID" width="100%" srcset="https://www.cyclestreets.org/wp-content/uploads/tflcid_cycle_track.png 860w, https://www.cyclestreets.org/wp-content/uploads/tflcid_cycle_track-150x102.png 150w, https://www.cyclestreets.org/wp-content/uploads/tflcid_cycle_track-300x203.png 300w, https://www.cyclestreets.org/wp-content/uploads/tflcid_cycle_track-768x520.png 768w, https://www.cyclestreets.org/wp-content/uploads/tflcid_cycle_track-591x400.png 591w" sizes="(max-width: 860px) 100vw, 860px" /></a></p>
+<p><b>Usage notes:</b> The controls on the right of the map allow the different feature types to be selected. The OSM layer (available at zoom level 19+) also provides a live feed from the OSM API, to enable quick comparisons. The two photos of each asset are in the process of being supplied; those already available and cleared in GDPR terms are included in the popup.</p>
+<p>It is stressed that at this point, no permission is given for re-use of the data in any way, but TfL strongly intends to make this available in future. All 25 areas would be covered in the final data release, not merely the one shown currently in the demonstrator map.</p>
+<h3>Feedback</h3>
+<p>Feedback is very strongly encouraged, as soon as possible.</p>
+<p>Please do discuss the data and related aspects noted above on the <a class="external text" href="https://lists.openstreetmap.org/listinfo/talk-gb" rel="nofollow">talk-gb mailing list</a>.</p>
+<p>Feedback and questions can also be <a href="/contacts/">e-mailed</a> us.</p>
+<p>We are happy to provide any clarifications, which will be added to this page, as a central repository of information about the project.</p>
+<h2>More detail</h2>
+<p>We&#8217;ve set up a new <a href="https://wiki.openstreetmap.org/wiki/TfL_Cycling_Infrastructure_Database"><strong>TfL CID project</strong> wiki page</a> on the OpenStreetMap Wiki.</p>
+]]></content:encoded>
+
+            <wfw:commentRss>https://www.cyclestreets.org/news/2019/05/10/tfl-cid/feed/</wfw:commentRss>
+            <slash:comments>2</slash:comments>
+
+
+        </item>
+        <item>
+            <title>Android app beta programme</title>
+            <link>https://www.cyclestreets.org/news/2018/08/31/android-app-beta-programme/</link>
+            <comments>https://www.cyclestreets.org/news/2018/08/31/android-app-beta-programme/#respond</comments>
+
+            <dc:creator><![CDATA[Martin]]></dc:creator>
+            <pubDate>Fri, 31 Aug 2018 16:04:21 +0000</pubDate>
+            <category><![CDATA[Developers]]></category>
+            <category><![CDATA[Mobile]]></category>
+            <guid isPermaLink="false">https://www.cyclestreets.net/blog/?p=3391</guid>
+
+            <description><![CDATA[You can now sign up as a beta-tester for our Android app, simply by opting into the beta programme in the Google Play Store. This enables you to get the latest improvements and give feedback before they are released officially. We&#8217;re currently making lots of changes to the app (thanks to the great work of [&#8230;]]]></description>
+            <content:encoded><![CDATA[<p>You can now sign up as a beta-tester for our Android app, simply by opting into the beta programme in the Google Play Store. This enables you to get the latest improvements and give feedback before they are released officially.</p>
+<p>We&#8217;re currently making lots of changes to the app (thanks to the great work of our devs Oliver Lockwood and Jez Higgins), with lots of bug-fixes, improvements, and a new design coming.</p>
+<p>The app is <a href="https://github.com/cyclestreets/android/">open source</a> and we very much welcome new contributions of code, bug reports, etc.</p>
+<h3>Install our Android beta app</h3>
+<p>1. On your phone, go to the <a href="https://play.google.com/store/apps/details?id=net.cyclestreets">CycleStreets page in the Google Play Store</a>.</p>
+<table class="lines">
+<tbody>
+<tr>
+<td width="250">2. Scroll down to the bottom of the page, and find the &#8220;Become a beta tester&#8221; box, and click on &#8220;I&#8217;m in&#8221;:</td>
+<td><img class="alignnone size-medium wp-image-3393" src="/wp-content/uploads/betasignup1-169x300.png" alt="" width="169" height="300" srcset="https://www.cyclestreets.org/wp-content/uploads/betasignup1-169x300.png 169w, https://www.cyclestreets.org/wp-content/uploads/betasignup1-84x150.png 84w, https://www.cyclestreets.org/wp-content/uploads/betasignup1-576x1024.png 576w, https://www.cyclestreets.org/wp-content/uploads/betasignup1-225x400.png 225w, https://www.cyclestreets.org/wp-content/uploads/betasignup1.png 720w" sizes="(max-width: 169px) 100vw, 169px" /></td>
+</tr>
+<tr>
+<td>3. This will then show &#8220;Beta sign-up in progress&#8230;&#8221;:</td>
+<td><img class="alignnone size-medium wp-image-3394" src="/wp-content/uploads/betasignup2-169x300.png" alt="" width="169" height="300" srcset="https://www.cyclestreets.org/wp-content/uploads/betasignup2-169x300.png 169w, https://www.cyclestreets.org/wp-content/uploads/betasignup2-84x150.png 84w, https://www.cyclestreets.org/wp-content/uploads/betasignup2-576x1024.png 576w, https://www.cyclestreets.org/wp-content/uploads/betasignup2-225x400.png 225w, https://www.cyclestreets.org/wp-content/uploads/betasignup2.png 720w" sizes="(max-width: 169px) 100vw, 169px" /></td>
+</tr>
+<tr>
+<td>4. After, when you click &#8220;Install&#8221; at the top of the page, that will install the beta app:</td>
+<td><img class="alignnone size-medium wp-image-3395" src="/wp-content/uploads/betasignup3-169x300.png" alt="" width="169" height="300" srcset="https://www.cyclestreets.org/wp-content/uploads/betasignup3-169x300.png 169w, https://www.cyclestreets.org/wp-content/uploads/betasignup3-84x150.png 84w, https://www.cyclestreets.org/wp-content/uploads/betasignup3-576x1024.png 576w, https://www.cyclestreets.org/wp-content/uploads/betasignup3-225x400.png 225w, https://www.cyclestreets.org/wp-content/uploads/betasignup3.png 720w" sizes="(max-width: 169px) 100vw, 169px" /></td>
+</tr>
+</tbody>
+</table>
+<p>&nbsp;</p>
+<p>Note that this will replace the released version of the app with the latest beta version.</p>
+<p><img class="alignnone size-medium wp-image-3398" src="/wp-content/uploads/betasignup4-169x300.png" alt="" width="169" height="300" srcset="https://www.cyclestreets.org/wp-content/uploads/betasignup4-169x300.png 169w, https://www.cyclestreets.org/wp-content/uploads/betasignup4-84x150.png 84w, https://www.cyclestreets.org/wp-content/uploads/betasignup4-225x400.png 225w, https://www.cyclestreets.org/wp-content/uploads/betasignup4.png 447w" sizes="(max-width: 169px) 100vw, 169px" /></p>
+]]></content:encoded>
+
+            <wfw:commentRss>https://www.cyclestreets.org/news/2018/08/31/android-app-beta-programme/feed/</wfw:commentRss>
+            <slash:comments>0</slash:comments>
+
+
+        </item>
+        <item>
+            <title>PhD studentship with University of Leeds: Towards data-driven policy development: the case of London’s built cycling infrastructure</title>
+            <link>https://www.cyclestreets.org/news/2018/05/08/phd-studentship-with-leeds/</link>
+            <comments>https://www.cyclestreets.org/news/2018/05/08/phd-studentship-with-leeds/#respond</comments>
+
+            <dc:creator><![CDATA[Martin]]></dc:creator>
+            <pubDate>Tue, 08 May 2018 12:00:16 +0000</pubDate>
+            <category><![CDATA[Open data]]></category>
+            <category><![CDATA[Research]]></category>
+            <guid isPermaLink="false">https://www.cyclestreets.net/blog/?p=3363</guid>
+
+            <description><![CDATA[An exciting PhD studentship opportunity which we are involved in, cross-posted from the Data Analytics and Society Centre for Doctoral Training website. Deadline: 3rd June 2018. Towards data-driven policy development: the case of London’s built cycling infrastructure In 2013, £913m of funds was allocated over 10 years for investment in London’s cycling infrastructure. Much of this — [&#8230;]]]></description>
+            <content:encoded><![CDATA[<p><em>An <a href="https://datacdt.org/projects/le25/">exciting PhD studentship opportunity</a> which we are involved in, cross-posted from the Data Analytics and Society Centre for Doctoral Training website. Deadline: 3rd June 2018.</em></p>
+<p><img class="wp-image-3369 size-medium alignnone" src="/wp-content/uploads/leedscdt-300x47.png" alt="" width="300" height="47" srcset="https://www.cyclestreets.org/wp-content/uploads/leedscdt-300x47.png 300w, https://www.cyclestreets.org/wp-content/uploads/leedscdt-150x24.png 150w, https://www.cyclestreets.org/wp-content/uploads/leedscdt.png 608w" sizes="(max-width: 300px) 100vw, 300px" /></p>
+<p><strong>Towards data-driven policy development: the case of London’s built cycling infrastructure</strong></p>
+<p>In 2013, £913m of funds was allocated over 10 years for investment in London’s cycling infrastructure. Much of this — including guided quietways, protected cycle superhighways and London’s crossrail for the bike — opened in summer 2016. The chief objective: to make cycling ‘a normal part of everyday life  […] something people hardly think about […and] something everyone feels comfortable doing’ (Greater London Authority 2013).</p>
+<p>Traditionally, attempts to evaluate such interventions might rely on survey data describing changes in *claimed* behaviour or high-level data from Automatic Traffic Counters describing infrastructure occupancy. The former are often expensive to collect and suffer from numerous (well-documented) biases and the latter are too high-level to capture more subtle changes in behaviour.</p>
+<p>This project will instead use new, large-scale observational datasets – from London’s bikeshare, underground and bus network, from route planning services (CycleStreets.net), user-contributed and social media data —  to describe changes in city-wide cycling behaviours pre- and post- the intervention. Crucially, it will identify rich detail around the impact of current investment on behaviour and contribute quantified estimates, under uncertainty, around the impact of future investment.</p>
+<p>Applications are welcomed from those wishing to develop expertise in statistical model building, geospatial data and information visualisation.</p>
+<p><em>Start Date: </em>October 2018<em><br />
+Lead Supervisor</em>: Roger Beecham (University of Leeds)<br />
+<em>Other Supervisors</em>: Robert Aykroyd, Robin Lovelace, Stuart Barber<br />
+<em>Partners</em>: University of Leeds<br />
+<em>External partners</em>: CycleStreets.net</p>
+<p><a href="https://datacdt.org/projects/le25/">Read more and apply online here.</a></p>
+<p><img class="alignnone wp-image-3365 size-thumbnail" src="/wp-content/uploads/ersc-150x126.png" alt="" height="150" srcset="https://www.cyclestreets.org/wp-content/uploads/ersc-150x126.png 150w, https://www.cyclestreets.org/wp-content/uploads/ersc-300x251.png 300w, https://www.cyclestreets.org/wp-content/uploads/ersc.png 442w" sizes="(max-width: 150px) 100vw, 150px" /></p>
+]]></content:encoded>
+
+            <wfw:commentRss>https://www.cyclestreets.org/news/2018/05/08/phd-studentship-with-leeds/feed/</wfw:commentRss>
+            <slash:comments>0</slash:comments>
+
+
+        </item>
+        <item>
+            <title>DfT cycling data for research/OpenStreetMap use &#8211; as GeoJSON</title>
+            <link>https://www.cyclestreets.org/news/2018/05/07/dft-cycling-data-for-osm/</link>
+            <comments>https://www.cyclestreets.org/news/2018/05/07/dft-cycling-data-for-osm/#respond</comments>
+
+            <dc:creator><![CDATA[Martin]]></dc:creator>
+            <pubDate>Mon, 07 May 2018 21:11:41 +0000</pubDate>
+            <category><![CDATA[Local Authorities]]></category>
+            <category><![CDATA[Open data]]></category>
+            <guid isPermaLink="false">https://www.cyclestreets.net/blog/?p=3384</guid>
+
+            <description><![CDATA[A techie post, about some cycling data which may be of use to people researching cycling. Back in 2011, we were involved in a project to convert some newly-collected cycling data from the UK&#8217;s Department for Transport for use in OpenStreetMap. The data was originally collected for the DfT&#8217;s Transport Direct project (which has since [&#8230;]]]></description>
+            <content:encoded><![CDATA[<p><em>A techie post, about some cycling data which may be of use to people researching cycling.</em></p>
+<p>Back in 2011, we were involved in a <a href="https://wiki.openstreetmap.org/wiki/England_Cycling_Data_project">project to convert some newly-collected cycling data</a> from the UK&#8217;s Department for Transport for use in OpenStreetMap.</p>
+<p>The data was originally collected for the DfT&#8217;s Transport Direct project (which has since ceased operation), which was an early attempt to create a government cycle journey planner, launching on almost the same day as CycleStreets itself. In order to ensure that taxpayer value for this expensive (£2.4m) dataset was not lost as Transport Direct fell into disuse, CycleStreets successfully encouraged the DfT to release the data openly and to do so in a way which would encourage use in OpenStreetMap. We helped with that process, and data for cities started to be merged in from 2011.</p>
+<p>The data consists of the cycle network as of 2011 in each city of over 30,000 people. This does however <em>not</em> represent all cycle infrastructure &#8211; only where signage is present. Additionally, collection included the Sustrans NCN network.</p>
+<p>Since that time, things have moved on. OpenStreetMap has become the go-to datasource for cycling data internationally. GeoJSON has become the de-facto format for open geographical data. Similarly, Github has become the de-facto location to distribute open data like this.</p>
+<p>As part of a project we have been working on with Leeds University, the <a href="https://www.cyipt.bike/">Cycling Infrastructure Prioritisation Toolkit (CyIPT)</a> (which we will report on soon), we needed historical data from 2011, and this DfT data was a perfect candidate.</p>
+<p>Accordingly, we have taken the opportunity to recover the data from 2011, and convert it to GeoJSON and republish it, in the hope it might be useful for some people. It is an OpenStreetMap-orientated version of the data published on data.gov.uk. As such it is subject to OSM licensing conditions.</p>
+<p><a href="https://github.com/cyclestreets/dft-england-cycling-data-2011"><strong>DfT England Cycling Data 2011</strong></a></p>
+<p>We would stress that, for almost all uses, CycleStreets instead <strong>strongly</strong> recommends downloading data from <strong>OpenStreetMap</strong>, which is topographically routable and is maintained and has far greater geographical coverage. Moreover, the cycle network has changed from 2011-18. However, the data in this repository contains attributes on each geometry which remain often more detailed than OSM. Accordingly, the data is most useful for research purposes and for <strong>manual merging into OSM</strong>, which is encouraged.</p>
+<p><a href="https://github.com/cyclestreets/dft-england-cycling-data-2011">Full details</a> about the data are given in the README which can be found on the main repository page.</p>
+<p><em>Coverage:</em></p>
+<p><a href="https://github.com/cyclestreets/dft-england-cycling-data-2011"><img class="alignnone size-full wp-image-3385" src="/wp-content/uploads/coverage.png" alt="" width="535" height="659" srcset="https://www.cyclestreets.org/wp-content/uploads/coverage.png 535w, https://www.cyclestreets.org/wp-content/uploads/coverage-122x150.png 122w, https://www.cyclestreets.org/wp-content/uploads/coverage-244x300.png 244w" sizes="(max-width: 535px) 100vw, 535px" /></a></p>
+<p><em>Example area &#8211; Cambridge:</em></p>
+<p><a href="https://github.com/cyclestreets/dft-england-cycling-data-2011"><img class="alignnone size-full wp-image-3386" src="/wp-content/uploads/cambridge-1.png" alt="" width="690" height="680" srcset="https://www.cyclestreets.org/wp-content/uploads/cambridge-1.png 690w, https://www.cyclestreets.org/wp-content/uploads/cambridge-1-150x148.png 150w, https://www.cyclestreets.org/wp-content/uploads/cambridge-1-300x296.png 300w, https://www.cyclestreets.org/wp-content/uploads/cambridge-1-406x400.png 406w" sizes="(max-width: 690px) 100vw, 690px" /></a></p>
+]]></content:encoded>
+
+            <wfw:commentRss>https://www.cyclestreets.org/news/2018/05/07/dft-cycling-data-for-osm/feed/</wfw:commentRss>
+            <slash:comments>0</slash:comments>
+
+
+        </item>
+        <item>
+            <title>Intern vacancies Summer 2018</title>
+            <link>https://www.cyclestreets.org/news/2018/04/11/intern-2018/</link>
+            <comments>https://www.cyclestreets.org/news/2018/04/11/intern-2018/#comments</comments>
+
+            <dc:creator><![CDATA[Martin]]></dc:creator>
+            <pubDate>Wed, 11 Apr 2018 12:06:15 +0000</pubDate>
+            <category><![CDATA[Developers]]></category>
+            <category><![CDATA[Vacancies]]></category>
+            <guid isPermaLink="false">https://www.cyclestreets.net/blog/?p=3299</guid>
+
+            <description><![CDATA[CycleStreets is seeking one or more paid interns to work on a variety of projects this summer. About CycleStreets CycleStreets is a social enterprise based in Cambridge, working to help get more people cycling by the provision of information on cycle-friendly routes, and various tools for use by cycle advocacy groups. We are best known for our journey [&#8230;]]]></description>
+            <content:encoded><![CDATA[<p>CycleStreets is seeking one or more paid interns to work on a variety of projects this summer.</p>
+<h3 class="p1">About CycleStreets</h3>
+<p><img class="diagram alignright right wp-image-3375" src="/wp-content/uploads/internship2018.png" alt="" width="350" height="400" align="right" srcset="https://www.cyclestreets.org/wp-content/uploads/internship2018.png 620w, https://www.cyclestreets.org/wp-content/uploads/internship2018-131x150.png 131w, https://www.cyclestreets.org/wp-content/uploads/internship2018-263x300.png 263w, https://www.cyclestreets.org/wp-content/uploads/internship2018-350x400.png 350w" sizes="(max-width: 350px) 100vw, 350px" /></p>
+<p class="p1">CycleStreets is a social enterprise based in Cambridge, working to help get more people cycling by the provision of information on cycle-friendly routes, and various tools for use by cycle advocacy groups.</p>
+<p>We are best known for our <a href="/">journey planner</a>, aimed at finding practical cycle routes in urban environments. To do that effectively requires collating data from a variety of sources and configuring a routing engine to make the same decisions a knowledgeable cyclist would make to find a route to their destination. We are aiming to provide the highest quality cycle routing in the world that tries to &#8216;think like a cyclist&#8217;.</p>
+<p>Our bike routing is used by our own <a href="/">website</a> and apps, as well as in a range of <a href="/mobile/">third-party apps</a> (such as <a href="https://citymapper.com/">Citymapper</a>, <a href="https://www.cyclestreets.net/blog/2016/12/18/bike-hub-app-relaunched/">Bike Hub</a>, London cycle hire apps, etc.), as well as a variety of transport companies (SDG, Virgin East Coast, mxdata, Traveline Wales/Scotland, etc.). It is also being used for <a href="https://www.cyclestreets.net/blog/2015/12/19/bristol-msc-research/">academic research</a> and transport planning, e.g. the <a href="https://www.cyclestreets.net/blog/2016/12/21/propensity-to-cycle-tool/">Propensity to Cycle Tool</a> and <a href="https://www.cyipt.bike/">CyIPT</a> projects.</p>
+<p>The website also includes our <a href="/photomap/">Photomap</a> &#8211; around 80,000 user-contributed photos of cycling related infrastructure from around the UK and beyond. These are used by activists to promote good practice and highlight problems to avoid in future. The Photomap also powers Local Authority websites such as the <a href="http://www.urbancycleparking.org.uk/">Urban Cycle Parking</a> website for TfL. Further tools that present <a href="http://bikedata.cyclestreets.net/">transport data</a> that affects cycling are also in development.</p>
+<p>CycleStreets also manages <a href="https://www.cyclescape.org/">Cyclescape</a>, a geographically-based discussion forum increasingly used by cycling campaign groups across the UK.</p>
+<p>With our limited resources given over to focussing on keeping the core services up-to-date and responsive several areas have been left lagging and with work to do. We have a powerful API suite, but the front-end website and apps do not currently reflect its abilities in design and UI terms.</p>
+<h3>A wide range of potential development areas</h3>
+<p>Although improvements to our main codebase &#8211; the website &#8211; is our ideal focus, we&#8217;re happy to see work on any of our projects &#8211; routing engine, mobile apps, Cyclescape, etc.</p>
+<p>The codebase for the main website is a rich collection of page-generation code, database procedures and webpage classes, system configuration scripts, and a low-level routing engine implementation &#8211; all written in commonly used mainstream languages. The codebase has been reorganised thanks to help from a previous year&#8217;s intern. This codebase primarily consists of over 200 PHP classes, using traditional inheritance/loading techniques, arranged as a fairly purist MVC structure. Much of the core functionality has been converted to a <a href="https://www.cyclestreets.net/api/v2/">public API</a> (with over 40 calls in total) that powers the website and third-party apps/sites.</p>
+<p>Much of <a href="https://github.com/cyclestreets/">our code is on Github</a> and we are trying to get the main website there too.</p>
+<p>Some specific areas which we would welcome help with (though this is not exhaustive) include:</p>
+<p><em>1. System coding and refactoring</em></p>
+<p>Ours is a large codebase, with large amounts of functionality. There is always plenty of development that can be done throughout the system. Our previous intern&#8217;s work on refactoring was particularly beneficial and further work can be done; new functionality is also very welcome.</p>
+<p><em>2. Overall website design, including integration with mobile</em></p>
+<p>There&#8217;s an opportunity to update how CycleStreets presents itself to give the service a &#8216;personality&#8217; &#8211; particularly on mobile. Here we&#8217;re mainly thinking about the look and feel but also what can be done with it. The codebase can serve webpages based on templates, and these are ready to be used by responsive stylesheets that will work on a variety of screen widths. Developments in this area could provide a major benefit to users on mobile In general, we are aiming to unify our various interfaces into a single implementation.</p>
+<p><em>3. Usability</em></p>
+<p>Interaction with the journey planner works smoothest on desktop but there is a lot of scope for improving mobile interactivity. Interaction of the journey planner with the map is one area that needs work, but there a lot of small things that would help such as, for instance prompting users&#8217; frequently used locations when they search.</p>
+<p><em>4. Cycle route quality</em></p>
+<p>Changes to the cycle routing engine are perhaps beyond the scope of a summer intern, unless you are starting from a more advanced base of knowledge. A major challenge is how to know if the suggested cycle route is good &#8211; and whether changes to input data or configuration parameters produce a better route or not. Ideas and developments of the testing regime could make a significant difference to route quality.</p>
+<p><em>5. Elevation data</em></p>
+<p>The routing engine takes into account the cost of hill climbing and that depends on accurate elevation data. There&#8217;s scope for adding to our library of data provided by countries such as Australia and Finland.</p>
+<p><em>6. Geocoding</em></p>
+<p>Maintaining an up-to-date way of translating text into a location has proven quite a distraction over the years. We&#8217;d really like to get on top of this issue and resolve it once and for all. It&#8217;s quite a well-defined isolated project, primarily involving sysadmin and code integration work.</p>
+<p><em>7. Work on our mobile apps</em></p>
+<p>If you have skills in Java for Android or Objective-C/Swift, we would also be willing to consider work on these also. The apps have been created by colleagues rather than the two of us who will be running the internship; accordingly we can&#8217;t provide training on the actual programming languages, but things like code structure and UI would be possible to be covered. A new design has been created and is almost ready to be implemented.</p>
+<p><em>8. Bikedata site</em></p>
+<p>We&#8217;ve been working to get lots of public data on our new Bikedata site. There are many ideas for development here &#8211; new layers, new features, graphing, visualisations, API improvements, etc.</p>
+<h3>About the internship</h3>
+<p>This is an opportunity to get involved with a live and dynamic project that faces continual resource challenges. The successful candidate will have a choice of which projects to work on based on their own preferences and ideas. We&#8217;ll provide supervision and work together to define goals and help solve problems.</p>
+<p>As an intern, you will be a proper part of the CycleStreets team, as a fully-paid employee over the summer period, with daily training and co-working.</p>
+<p><a href="https://www.cyclestreets.net/blog/2015/10/01/patrick-reports-back/">Read about how our previous intern, Patrick, found the process.</a></p>
+<p>The intern will be hired as an proper salaried employee. Our intern(s) will earn £400 per week, are regarded as part of the team from day one, and the internships last for 10 weeks. We will also come to a flexible arrangement regarding working locations and/or expenses for public area working to ensure that the successful employee is never out-of-pocket.</p>
+<p>The paid internship will be based in Cambridge (UK). This is because we feel it is important that there is daily contact as this is aimed to be a two-way process providing lots of training.</p>
+<p>As our two current employees work mainly from home, we&#8217;ll expect the intern to find their own workspace as we cannot provide an office environment. We&#8217;ll meet with you to discuss and plan your work schedule and ideas at internet cafés or meeting rooms in Cambridge, as well as online.</p>
+<p>We are not expecting someone with many years of development experience, as such a person would be in a stable job, and the salary level is not intended to reflect this. What is more important to us is someone with the right mindset, a fast learner, who can work at a good rate. Being an internship, this will be a two-way arrangement, with us helping give the student knowledge of working in a large codebase and the challenges this brings – though we do want someone who is a self-starter.</p>
+<h3>How to apply</h3>
+<p>To apply, all we need is your CV and a covering letter, <a href="/contacts/">sent via e-mail</a> by the end of <strong>Monday 30th April 2018. </strong>Your covering letter should explain your interests, and include some thoughts on our site (such as a critical analysis, max 1 page), and point us to any code you have written (public code on Github is always a good sign). Feel free to contact us if you have any questions.</p>
+<p>We will contact all applicants by the end of Tuesday 1st May.</p>
+<p>Interviews will take place on either 2nd/3rd May, according to your availability.</p>
+]]></content:encoded>
+
+            <wfw:commentRss>https://www.cyclestreets.org/news/2018/04/11/intern-2018/feed/</wfw:commentRss>
+            <slash:comments>1</slash:comments>
+
+
+        </item>
+        <item>
+            <title>Every GB road collision &#8211; mapped</title>
+            <link>https://www.cyclestreets.org/news/2017/10/01/every-road-collision-mapped/</link>
+            <comments>https://www.cyclestreets.org/news/2017/10/01/every-road-collision-mapped/#respond</comments>
+
+            <dc:creator><![CDATA[Martin]]></dc:creator>
+            <pubDate>Sun, 01 Oct 2017 00:06:14 +0000</pubDate>
+            <category><![CDATA[API]]></category>
+            <category><![CDATA[Bikedata site]]></category>
+            <category><![CDATA[Open data]]></category>
+            <guid isPermaLink="false">https://www.cyclestreets.net/blog/?p=3280</guid>
+
+            <description><![CDATA[As campaigners for getting more people cycling, a crucial issue for us is safety of our streets. Safer streets means more people cycling &#8211; as places like the Netherlands and other European cities show. Every year, the Department for Transport issues a massive data release, detailing every reported road collision in Great Britain, what vehicles [&#8230;]]]></description>
+            <content:encoded><![CDATA[<p><img class="alignright wp-image-3289 size-medium" src="/wp-content/uploads/filter-142x300.png" alt="" width="142" height="300" align="right" /></p>
+<p>As campaigners for getting more people cycling, a crucial issue for us is safety of our streets. Safer streets means more people cycling &#8211; as places like the Netherlands and other European cities show.</p>
+<p>Every year, the Department for Transport issues a massive data release, detailing every reported road collision in Great Britain, what vehicles were involved, and the outcome in injury terms. Known as STATS19, the data contains around 60 pieces of information for every collision &#8211; whether slight, serious or fatal. This is excellent work by the DfT who collate this.</p>
+<p><a href="https://bikedata.cyclestreets.net/collisions/">We&#8217;ve plotted every collision</a>, and made available the full details, on a map on our new Bikedata website.</p>
+<p>The data for 2016 has just been released &#8211; we got it online within a few hours of its release.</p>
+<p>The site is a beta &#8211; the two things we want to improve are removing the jumpiness of the icons, and dealing with the question of how to show large numbers of collisions when zoomed out &#8211; currently a limit is applied. Zooming in shows all.</p>
+<p><a href="https://bikedata.cyclestreets.net/collisions/"><img class="alignnone size-full wp-image-3286" src="/wp-content/uploads/collisions-e1506813096296.png" alt="" width="600" height="423" /></a></p>
+<p>Since the data was first made live, we&#8217;ve fixed a few issues. The latitude/longitude values in the original data were incorrect, so we&#8217;ve reprojected these from the northings/eastings values which are the original data. Some data in London was also misnumbered, which the DfT have corrected after we pointed this out. Our interface also was not filtering correctly for car occupants &#8211; now fixed.</p>
+<p>For every collision, you can click to get full details &#8211; available openly without charge.</p>
+<p><img class="alignnone wp-image-3287 size-full" src="/wp-content/uploads/draw-e1506814250605.png" alt="" width="354" height="250" /> .  <img class="alignnone wp-image-3288 size-full" src="/wp-content/uploads/report-e1506814312538.png" alt="" width="170" height="250" /></p>
+<p>Behind every one of these is a human story:</p>
+<p>https://twitter.com/KirstyLewin/status/914219899538591746</p>
+<p>Users of the site are finding that the visual display enables patterns to be spotted &#8211; such as the way that the typical British roundabout design fails cyclists:</p>
+<blockquote class="twitter-tweet" data-width="550" data-dnt="true">
+<p lang="en" dir="ltr">This is incredible. Every driver-bike incident in the UK 2005-2016 mapped. Roundabouts are terrible for cyclists, turns out. Data at <a href="https://t.co/yRhStvpvIW">https://t.co/yRhStvpvIW</a> <a href="https://t.co/l8ktNe3dX6">pic.twitter.com/l8ktNe3dX6</a></p>
+<p>&mdash; Kat Young (@KEYoung29) <a href="https://twitter.com/KEYoung29/status/913898194496622592?ref_src=twsrc%5Etfw">September 29, 2017</a></p></blockquote>
+<p><script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script></p>
+<p>as do junctions more generally:</p>
+<blockquote class="twitter-tweet" data-width="550" data-dnt="true">
+<p lang="en" dir="ltr">Just checked my local area and cycling route. Every accident is at a junction or roundabout. Every single one without exception.</p>
+<p>&mdash; Kevin Lynch (@aikiwolfie) <a href="https://twitter.com/aikiwolfie/status/914210543552143360?ref_src=twsrc%5Etfw">September 30, 2017</a></p></blockquote>
+<p><script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script></p>
+<p>We&#8217;re now working to add new comparison facilities &#8211; we want to bring out the policy implications hidden in this data.</p>
+<p>For instance, how do different Local Authorities compare? What happens when streets are upgraded to add safe, segregated infrastructure? How can we most easily demonstrate that allowing two-way cycling in one-way streets is a perfectly safe improvement.</p>
+<p>We&#8217;ve also wanted for a long time to link these to newspaper reports and are considering methods to enable people to do that.</p>
+<p><a href="/feedback/">Let us know</a> what you&#8217;d find useful.</p>
+]]></content:encoded>
+
+            <wfw:commentRss>https://www.cyclestreets.org/news/2017/10/01/every-road-collision-mapped/feed/</wfw:commentRss>
+            <slash:comments>0</slash:comments>
+
+
+        </item>
+        <item>
+            <title>Developers &#8211; need cycle parking in your app? Use our Cycle parking API</title>
+            <link>https://www.cyclestreets.org/news/2017/08/29/cycle-parking-api/</link>
+            <comments>https://www.cyclestreets.org/news/2017/08/29/cycle-parking-api/#respond</comments>
+
+            <dc:creator><![CDATA[Martin]]></dc:creator>
+            <pubDate>Tue, 29 Aug 2017 14:05:24 +0000</pubDate>
+            <category><![CDATA[API]]></category>
+            <category><![CDATA[Bikedata site]]></category>
+            <category><![CDATA[Developers]]></category>
+            <category><![CDATA[Mobile]]></category>
+            <category><![CDATA[Open data]]></category>
+            <guid isPermaLink="false">https://www.cyclestreets.net/blog/?p=3262</guid>
+
+            <description><![CDATA[This is a post for app developers. So it contains some techy stuff which probably won&#8217;t be of interest to our cycle routing users. Knowing where you can find cycle parking as a cyclist, especially in cities, is helpful in avoiding theft, as well as helping keeping busy streets tidy. By providing information on where [&#8230;]]]></description>
+            <content:encoded><![CDATA[<p><em>This is a post for app developers. So it contains some techy stuff which probably won&#8217;t be of interest to our cycle routing users.</em></p>
+<p>Knowing where you can find cycle parking as a cyclist, especially in cities, is helpful in avoiding theft, as well as helping keeping busy streets tidy.</p>
+<p>By providing information on where cycle parking exists, developers of apps can easily help people find cycle parking before they even reach their destination.</p>
+<p>CycleStreets provides a <a href="https://www.cyclestreets.net/api/v2/pois.locations/">Cycle parking API</a> as one of the points of interest (POI) types that can be retrieved in our extensive <a href="https://www.cyclestreets.net/api/">cycling API suite</a>. Developers can embed this in our app &#8211; either by making realtime calls or obtaining the data en-batch using the CSV export mode.</p>
+<p>You can see an <a href="http://bikedata.cyclestreets.net/cycleparking/">example implementation</a> on our new Bikedata website:</p>
+<p><a href="http://bikedata.cyclestreets.net/cycleparking/"><img class="alignnone wp-image-3265 size-full" src="/wp-content/uploads/cycleparking-1-e1504014605866.png" alt="" width="601" height="296" /></a></p>
+<p>The API provides the following data:</p>
+<ul>
+<li>Locations of all cycle parking in the UK and other areas that we support (much of northern Europe and various cities around the world &#8211; contact us if you need other areas)</li>
+<li>Whether the parking is public or private</li>
+<li>Number of bikes that can be parked (where data is available)</li>
+<li>Details of whether the cycle parking is covered, what type of stands, etc. (where data is available)</li>
+<li>The location of the entrance point rather than the centre point (for larger installations, where data available)</li>
+<li>(Coming soon) Large areas of parking to be available as areas rather than (entrance) point</li>
+</ul>
+<p>By default, all locations (whether public or private) come through, but you can specify a filtering option (as <a href="http://bikedata.cyclestreets.net/cycleparking/">seen in the Bikedata example</a>) if you wish.</p>
+<p>We perform a range of pre-processing to enhance the raw data:</p>
+<ul>
+<li>If the location is on private land, but the parking itself is not marked as such, we pre-process the data to mark it as private</li>
+<li>For larger installations such as <a href="https://www.cyclestreets.net/location/74187/">cycle parks</a>, we use the entrance point as its location, rather than the centre-point</li>
+<li>We convert data defined as either points or areas into a unified set of points</li>
+</ul>
+<p><a href="https://www.cyclestreets.net/location/74187/"><img class="alignnone size-full wp-image-3266" src="/wp-content/uploads/cyclepark-e1504015502778.jpg" alt="" width="601" height="202" /></a></p>
+<p>This data is all possible thanks to the power of OpenStreetMap. We regularly import OSM data, perform a range of processing on it (e.g. convert locations on private land into private POIs, determining entrance points, etc.), and turn this into an indexed API.</p>
+<p>Our API is a flexible, robust and well-maintained interface (it has been running since 2010). If you need a Service Level Agreement, or are likely to require high volumes of requests, we can also provide the API on a contractual basis.</p>
+<p>To get started, just <a href="https://www.cyclestreets.net/api/apply/">obtain an API key</a>, and set your application to make API calls to the <a href="https://www.cyclestreets.net/api/v2/pois.locations/">POIs API</a> and render the GeoJSON response on your map.</p>
+<p>If you would like to request any enhancements to the API, to cover your use-case, do <a href="/contacts/">get in touch</a>.</p>
+<p>Also, if you have any existing cycle parking data, we are happy to provide advice on how to make it available.</p>
+]]></content:encoded>
+
+            <wfw:commentRss>https://www.cyclestreets.org/news/2017/08/29/cycle-parking-api/feed/</wfw:commentRss>
+            <slash:comments>0</slash:comments>
+
+
         </item>
     </channel>
 </rss>

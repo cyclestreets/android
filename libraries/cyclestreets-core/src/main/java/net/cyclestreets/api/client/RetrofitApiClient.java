@@ -47,9 +47,10 @@ public class RetrofitApiClient {
 
   private final V1Api v1Api;
   private final V2Api v2Api;
+  private final BlogApi blogApi;
   private final Context context;
 
-  // ~30KB covers /blog/feed/, /v2/pois.types and /v2/photomap.categories - allow 200KB for headroom
+  // ~30KB covers /news/feed/, /v2/pois.types and /v2/photomap.categories - allow 200KB for headroom
   private static final int CACHE_MAX_SIZE_BYTES = 200 * 1024;
   private static final String CACHE_DIR_NAME = "RetrofitApiClientCache";
 
@@ -87,6 +88,14 @@ public class RetrofitApiClient {
         .baseUrl(builder.v2Host)
         .build();
     v2Api = retrofitV2.create(V2Api.class);
+
+    Retrofit retrofitBlog = new Retrofit.Builder()
+        .client(client)
+        .addConverterFactory(ScalarsConverterFactory.create())
+        .addConverterFactory(retrofit2.converter.simplexml.SimpleXmlConverterFactory.createNonStrict())
+        .baseUrl(builder.blogHost)
+        .build();
+    blogApi = retrofitBlog.create(BlogApi.class);
   }
 
   public static class Builder {
@@ -94,6 +103,7 @@ public class RetrofitApiClient {
     private String apiKey;
     private String v1Host;
     private String v2Host;
+    private String blogHost;
 
     public Builder withContext(Context context) {
       this.context = context;
@@ -111,6 +121,11 @@ public class RetrofitApiClient {
 
     public Builder withV2Host(String v2Host) {
       this.v2Host = v2Host;
+      return this;
+    }
+
+    public Builder withBlogHost(String blogHost) {
+      this.blogHost = blogHost;
       return this;
     }
 
@@ -142,7 +157,7 @@ public class RetrofitApiClient {
   }
 
   public Blog getBlogEntries() throws IOException {
-    Response<BlogFeedDto> response = v1Api.getBlogEntries().execute();
+    Response<BlogFeedDto> response = blogApi.getBlogEntries().execute();
     return response.body().toBlog();
   }
 

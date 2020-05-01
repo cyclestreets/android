@@ -65,7 +65,7 @@ private fun extractLaunchIntent(launchUri: Uri): LaunchIntent {
 
     when(host) {
         "cycle.st" -> {
-            // e.g. http://cycle.st/j61207326 or http://cycle.st/p93348
+            // e.g. https://cycle.st/j61207326 or https://cycle.st/p93348
             intentType = if (path.startsWith("j")) JOURNEY else LOCATION
             id = path.drop(1).toLong()
         }
