@@ -21,7 +21,6 @@ import org.mapsforge.map.rendertheme.XmlRenderTheme;
 import org.mapsforge.map.rendertheme.rule.RenderThemeFuture;
 import org.mapsforge.map.rendertheme.InternalRenderTheme;
 import org.osmdroid.tileprovider.ExpirableBitmapDrawable;
-import org.osmdroid.tileprovider.MapTile;
 import org.osmdroid.tileprovider.tilesource.BitmapTileSourceBase.LowMemoryException;
 import org.osmdroid.tileprovider.tilesource.ITileSource;
 
@@ -173,7 +172,7 @@ public class MapsforgeOSMTileSource implements ITileSource {
   @Override
   public Drawable getDrawable(InputStream arg0) throws LowMemoryException { return null; }
   @Override
-  public String getTileRelativeFilenameString(final MapTile tile) { return null; }
+  public String getTileRelativeFilenameString(final long pMapTileIndex) { return null; }
 
   ///////////
   private static int lon2XTile(final double lon, final int zoom) {

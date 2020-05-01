@@ -5,7 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 
-private const val CYCLE_STREETS_BLOG_URL = "https://www.cyclestreets.net/blog/"
+private const val CYCLE_STREETS_BLOG_URL = "https://www.cyclestreets.org/news/"
 
 class BlogFragment : WebPageFragment(CYCLE_STREETS_BLOG_URL) {
 

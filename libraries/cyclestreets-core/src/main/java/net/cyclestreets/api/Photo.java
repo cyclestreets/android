@@ -13,6 +13,7 @@ public class Photo implements Parcelable {
   private final String category;
   private final String metaCategory;
   private final String caption;
+  private final long datetime;
   private final String url;
   private final String thumbnailUrl;
   private final GeoPoint position;
@@ -22,6 +23,7 @@ public class Photo implements Parcelable {
                String feature,
                String metaCategory,
                String caption,
+               long datetime,
                String url,
                String thumbnailUrl,
                GeoPoint position,
@@ -30,6 +32,7 @@ public class Photo implements Parcelable {
     category = feature;
     this.metaCategory = metaCategory;
     this.caption = caption;
+    this.datetime = datetime;
     this.url = url;
     this.thumbnailUrl = thumbnailUrl;
     this.position = position;
@@ -41,6 +44,7 @@ public class Photo implements Parcelable {
   public String category() { return category; }
   public String metacategory() { return metaCategory; }
   public String caption() { return caption; }
+  public long datetime() { return datetime; }
   public String url() { return url; }
   public String thumbnailUrl() { return thumbnailUrl; }
   public GeoPoint position() { return position; }
@@ -117,6 +121,7 @@ public class Photo implements Parcelable {
       final String feature = source.readString();
       final String metaCategory = source.readString();
       final String caption = source.readString();
+      final long datetime = source.readLong();
       final String url = source.readString();
       final String thumbnailUrl = source.readString();
 
@@ -136,6 +141,7 @@ public class Photo implements Parcelable {
           feature,
           metaCategory,
           caption,
+          datetime,
           url,
           thumbnailUrl,
           new GeoPoint(latitude, longitude),

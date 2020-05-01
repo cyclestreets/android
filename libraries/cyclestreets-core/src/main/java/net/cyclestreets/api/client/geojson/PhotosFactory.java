@@ -37,9 +37,10 @@ public class PhotosFactory extends AbstractObjectFactory {
     return new Photo(propertyOrDefault(feature, "id", -1),
                      propertyOrDefault(feature, "categoryId", "Not known"),
                      propertyOrDefault(feature, "metacategoryId", "Not known"),
-                     (String)feature.getProperty("caption"),
-                     (String)feature.getProperty("shortlink"),
-                     (String)feature.getProperty("thumbnailUrl"),
+                     feature.getProperty("caption"),
+                     propertyOrDefault(feature, "datetime",-1),
+                     feature.getProperty("shortlink"),
+                     feature.getProperty("thumbnailUrl"),
                      geoPoint,
                      toVideos(propertyOrDefault(feature, "videoFormats", Collections.<String, Object>emptyMap())));
   }

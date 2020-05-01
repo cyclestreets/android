@@ -10,6 +10,7 @@ import net.cyclestreets.util.TurnIcons
 import net.cyclestreets.view.BuildConfig
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Before
+import org.junit.Ignore
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mockito
@@ -21,6 +22,7 @@ import org.robolectric.shadows.ShadowApplication
 import org.mockito.Mockito.mockingDetails
 import org.mockito.exceptions.verification.VerificationInOrderFailure
 
+@Ignore("due to https://github.com/robolectric/robolectric/issues/4690 - handle later with AndroidX upgrade")
 @Config(constants = BuildConfig::class, manifest = Config.NONE, sdk = [27])
 @RunWith(RobolectricTestRunner::class)
 class LiveRideVoiceTest {

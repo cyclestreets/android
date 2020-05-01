@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 99 99">
+  <defs>
+    <style>
+      path.blade {stroke:green; stroke-width:5; stroke-linejoin:round; fill:green;}
+      path.shaft {stroke:green; stroke-width:15; stroke-linejoin:round; fill:none;}
+    </style>
+  </defs>
+  <path class="blade"
+        d="
+M 95,70 l -35,-10 25,-25 z
+" />
+  <path class="shaft"
+        d="
+M 20,100 C 20,68 26,4 72,48
+" />
+</svg>

@@ -1,6 +1,12 @@
 evaluationDependsOn(':libraries:cyclestreets-core')
 
-def supportLibraryVersion='27.1.1'
+android {
+  testOptions {
+    unitTests {
+      includeAndroidResources = true
+    }
+  }
+}
 
 dependencies {
   api project(':libraries:cyclestreets-core')
@@ -11,25 +17,17 @@ dependencies {
   api 'com.mikepenz:google-material-typeface:3.0.1.2.original@aar'
   api 'ru.ztrap.iconics:core-kt:1.0.2'
 
-  api "com.android.support:appcompat-v7:$supportLibraryVersion"
-  api "com.android.support:design:$supportLibraryVersion"
-  api "com.android.support:exifinterface:$supportLibraryVersion"
-  api "com.android.support:preference-v7:$supportLibraryVersion"
-  api "com.android.support:preference-v14:$supportLibraryVersion"
-  api "com.android.support:support-annotations:$supportLibraryVersion"
-  api "com.android.support:support-v4:$supportLibraryVersion"
+  api "com.android.support:appcompat-v7:${rootProject.ext.supportLibraryVersion}"
+  api "com.android.support:design:${rootProject.ext.supportLibraryVersion}"
+  api "com.android.support:exifinterface:${rootProject.ext.supportLibraryVersion}"
+  api "com.android.support:preference-v7:${rootProject.ext.supportLibraryVersion}"
+  api "com.android.support:preference-v14:${rootProject.ext.supportLibraryVersion}"
+  api "com.android.support:support-annotations:${rootProject.ext.supportLibraryVersion}"
+  api "com.android.support:support-v4:${rootProject.ext.supportLibraryVersion}"
 
   testImplementation 'junit:junit:4.12'
   testImplementation 'org.robolectric:robolectric:3.8'
-  testImplementation 'org.mockito:mockito-core:2.18.3'
-  testImplementation 'org.assertj:assertj-core:3.11.0'
+  testImplementation "org.mockito:mockito-core:${rootProject.ext.mockitoVersion}"
+  testImplementation "org.assertj:assertj-core:${rootProject.ext.assertjVersion}"
   testImplementation 'commons-io:commons-io:2.6'
-}
-
-android {
-  testOptions {
-    unitTests {
-      includeAndroidResources = true
-    }
-  }
 }

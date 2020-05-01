@@ -27,7 +27,7 @@ public class GeoPlacesFactory {
   private static GeoPlace toGeoPlace(Feature feature) {
     LngLatAlt coordinates = ((Point)feature.getGeometry()).getCoordinates();
     return new GeoPlace(new GeoPoint(coordinates.getLatitude(), coordinates.getLongitude()),
-                        (String)feature.getProperty("name"),
-                        (String)feature.getProperty("near"));
+                        feature.getProperty("name"),
+                        feature.getProperty("near"));
   }
 }

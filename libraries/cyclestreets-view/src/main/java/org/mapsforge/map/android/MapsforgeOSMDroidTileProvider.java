@@ -4,13 +4,13 @@ import java.io.ByteArrayInputStream;
 import java.net.UnknownHostException;
 
 import org.osmdroid.config.Configuration;
-import org.osmdroid.tileprovider.MapTile;
-import org.osmdroid.tileprovider.MapTileRequestState;
+import org.osmdroid.tileprovider.modules.CantContinueException;
 import org.osmdroid.tileprovider.modules.MapTileModuleProviderBase;
 import org.osmdroid.tileprovider.modules.NetworkAvailabliltyCheck;
 import org.osmdroid.tileprovider.tilesource.BitmapTileSourceBase.LowMemoryException;
 import org.osmdroid.tileprovider.tilesource.ITileSource;
 import org.osmdroid.tileprovider.tilesource.OnlineTileSourceBase;
+import org.osmdroid.util.MapTileIndex;
 
 import android.graphics.drawable.Drawable;
 import android.text.TextUtils;
@@ -61,7 +61,7 @@ public class MapsforgeOSMDroidTileProvider extends MapTileModuleProviderBase
   }
 
   @Override
-  protected Runnable getTileLoader() {
+  public MapTileModuleProviderBase.TileLoader getTileLoader() {
     return new TileLoader();
   }
 
@@ -74,42 +74,42 @@ public class MapsforgeOSMDroidTileProvider extends MapTileModuleProviderBase
 
   /////////////////////////////////////////////////
   private class TileLoader extends MapTileModuleProviderBase.TileLoader  {
+
     @Override
-    public Drawable loadTile(final MapTileRequestState aState) throws CantContinueException {
+    public Drawable loadTile(long pMapTileIndex) throws CantContinueException {
       if (tileSource == null)
         return null;
 
-      Drawable tile = drawMapsforgeTile(aState);
+      Drawable tile = drawMapsforgeTile(pMapTileIndex);
       if (tile == null)
-        tile = downloadTile(aState);
+        tile = downloadTile(pMapTileIndex);
       return tile;
     }
 
-    private Drawable drawMapsforgeTile(final MapTileRequestState aState) {
-      final MapTile tile = aState.getMapTile();
+    private Drawable drawMapsforgeTile(final long pTileIndex) {
       // mapsforge goes wonky at zoom <= 7
-      if (tile.getZoomLevel() <= 7)
+      if (MapTileIndex.getZoom(pTileIndex) <= 7)
         return null;
 
       try {
-        return tileSource.getDrawable(tile.getX(), tile.getY(), tile.getZoomLevel());
+        return tileSource.getDrawable(MapTileIndex.getX(pTileIndex),
+                                      MapTileIndex.getY(pTileIndex),
+                                      MapTileIndex.getZoom(pTileIndex));
       }
       catch (Exception e) {
         return null;
       }
     }
 
-    private Drawable downloadTile(final MapTileRequestState aState) throws CantContinueException {
+    private Drawable downloadTile(final long pTileIndex) throws CantContinueException {
       if (fallbackTileSource == null)
         return null;
-
-      final MapTile tile = aState.getMapTile();
 
       try {
         if (!isNetworkAvailable())
           return null;
 
-        final String tileUrl = fallbackTileSource.getTileURLString(tile);
+        final String tileUrl = fallbackTileSource.getTileURLString(pTileIndex);
         if (TextUtils.isEmpty(tileUrl))
           return null;
 
@@ -125,8 +125,7 @@ public class MapsforgeOSMDroidTileProvider extends MapTileModuleProviderBase
         if (data.length == 0)
           return null;
 
-        final Drawable result = fallbackTileSource.getDrawable(new ByteArrayInputStream(data));
-        return result;
+        return fallbackTileSource.getDrawable(new ByteArrayInputStream(data));
       } catch (final UnknownHostException | LowMemoryException e) {
         throw new CantContinueException(e);
       } catch (final Exception e) {

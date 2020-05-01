@@ -34,7 +34,7 @@ public class ShowJourney extends Activity {
     setText(R.id.journey_start, trip.fancyStart());
 
     // zoomToBoundingBox works better if setZoom first
-    mapView_.getController().setZoom(DEFAULT_ZOOM_LEVEL);
+    mapView_.getController().setZoom((double)DEFAULT_ZOOM_LEVEL);
     mapView_.overlayPushTop(JourneyOverlay.CompletedJourneyOverlay(this, mapView_, trip));
   }
 

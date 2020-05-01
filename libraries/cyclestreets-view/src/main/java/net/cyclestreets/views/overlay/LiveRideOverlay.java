@@ -50,8 +50,8 @@ public class LiveRideOverlay extends Overlay
     super();
 
     locator_ = locator;
-    offset_ = DrawingHelper.offset(context);
-    radius_ = DrawingHelper.cornerRadius(context);
+    offset_ = DrawingHelperKt.offset(context);
+    radius_ = DrawingHelperKt.cornerRadius(context);
     largeTextBrush_ = Brush.createTextBrush(offset_*4);
     largeTextBrush_.setTextAlign(Align.LEFT);
     midTextBrush_ = Brush.createTextBrush(offset_*2);
@@ -122,7 +122,7 @@ public class LiveRideOverlay extends Overlay
     final Rect wrapperBox = new Rect(distanceToBox);
     wrapperBox.bottom = nextBox.bottom;
 
-    DrawingHelper.drawRoundRect(canvas, wrapperBox, radius_, fillBrush_);
+    DrawingHelperKt.drawRoundRect(canvas, wrapperBox, radius_, fillBrush_);
     Draw.drawTextInRect(canvas, midTextBrush_, distanceToBox, distanceTo);
     Draw.drawTextInRect(canvas, smallTextBrush_, nextBox, nextStreet);
 
@@ -130,7 +130,7 @@ public class LiveRideOverlay extends Overlay
   }
 
   private void drawThenShrink(final Canvas canvas, final Rect box, final Paint brush) {
-    DrawingHelper.drawRoundRect(canvas, box, radius_, brush);
+    DrawingHelperKt.drawRoundRect(canvas, box, radius_, brush);
 
     box.left += offset_;
     box.right -= offset_;
@@ -147,7 +147,7 @@ public class LiveRideOverlay extends Overlay
     box.right = box.left + fullWidth_ + (offset_*2);
     box.top = box.bottom - (lineHeight_ + offset_*2);
 
-    DrawingHelper.drawRoundRect(canvas, box, radius_, fillBrush_);
+    DrawingHelperKt.drawRoundRect(canvas, box, radius_, fillBrush_);
 
     box.left += offset_;
     box.bottom -= offset_;

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 99 99">
+  <defs>
+    <style>
+      circle.roundabout {stroke:green; stroke-width:3; stroke-linejoin:round; fill:green;}
+      path.blade {stroke:green; stroke-width:5; stroke-linejoin:round; fill:green;}
+      path.shaft {stroke:green; stroke-width:6; stroke-linejoin:round; fill:none;}
+    </style>
+  </defs>
+<g id="roundabout">    
+    <circle class="roundabout" cx="50" cy="50" r="12"/>
+  </g>
+  <path class="blade"
+        d="
+M 50 3 l 7 13 -14 0 z
+" />
+  <path class="shaft"
+        d="
+M 50 100 L 50 73
+A 23 23 0 0 0 50 27
+L 50 16
+" />
+</svg>
