@@ -167,7 +167,7 @@ class TapToRouteOverlay(private val mapView: CycleMapView) : Overlay(), TapListe
                 context.startActivity(Intent(context, FeedbackActivity::class.java))
             else ->
                 if (REPLAN_MENU_PLANS.containsKey(menuId))
-                    Route.RePlotRoute(REPLAN_MENU_PLANS[menuId], context)
+                    Route.RePlotRoute(REPLAN_MENU_PLANS[menuId]!!, context)
                 else
                     return false
         }
