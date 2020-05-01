@@ -34,7 +34,7 @@ import net.cyclestreets.itinerary.ItineraryAndElevationFragment
 private val TAG = Logging.getTag(MainNavDrawerActivity::class.java)
 private const val DRAWER_ITEMID_SELECTED_KEY = "DRAWER_ITEM_SELECTED"
 
-abstract class MainNavDrawerActivity : AppCompatActivity(), OnNavigationItemSelectedListener, Route.Listener, OnBackStackChangedListener {
+abstract class MainNavDrawerActivity : AppCompatActivity(), OnNavigationItemSelectedListener, Route.Listener {
 
     private lateinit var drawerLayout: DrawerLayout
     private lateinit var navigationView: NavigationView
@@ -94,8 +94,6 @@ abstract class MainNavDrawerActivity : AppCompatActivity(), OnNavigationItemSele
             setHomeAsUpIndicator(burgerIcon)
         }
 
-        supportFragmentManager.addOnBackStackChangedListener(this)
-
         if (CycleStreetsAppSupport.isFirstRun())
             onFirstRun()
         else if (CycleStreetsAppSupport.isNewVersion())
@@ -125,14 +123,6 @@ abstract class MainNavDrawerActivity : AppCompatActivity(), OnNavigationItemSele
         updateMenuDisplayFor(menuItem)
 
         return true
-    }
-
-    override fun onBackStackChanged() {
-        currentMenuItemId()?.let { id ->
-            navigationView.menu.findItem(id)
-        } ?.let { menuItem ->
-            updateMenuDisplayFor(menuItem)
-        }
     }
 
     private fun currentMenuItemId(): Int? {
