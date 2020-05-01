@@ -27,6 +27,7 @@ interface CycleStreetsApi {
 object ApiClient : CycleStreetsApi {
     private const val API_HOST = "https://www.cyclestreets.net"
     private const val API_HOST_V2 = "https://api.cyclestreets.net"
+    private const val BLOG_HOST = "https://www.cyclestreets.org"
 
     private lateinit var delegate: CycleStreetsApi
     private lateinit var messages: Map<Int, String>
@@ -38,6 +39,7 @@ object ApiClient : CycleStreetsApi {
             .withApiKey(findApiKey(context))
             .withV1Host(API_HOST)
             .withV2Host(API_HOST_V2)
+            .withBlogHost(BLOG_HOST)
             .build()
         delegate = ApiClientImpl(retrofitApiClient)
 
