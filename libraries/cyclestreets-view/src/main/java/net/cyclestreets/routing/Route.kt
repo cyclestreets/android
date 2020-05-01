@@ -92,12 +92,12 @@ object Route {
         if (isLoaded) loadLastJourney()
     }
 
-    fun setWaypoints(waypoints: Waypoints) {
-        waypoints_ = waypoints
-    }
-
     fun resetJourney() {
         onNewJourney(null)
+    }
+
+    fun onPause(waypoints: Waypoints) {
+        waypoints_ = waypoints
     }
 
     fun onResume() {
@@ -131,14 +131,14 @@ object Route {
             plannedRoute_ = NULL_JOURNEY
             waypoints_ = NULL_WAYPOINTS
             listeners_.onReset()
-            clearRoutePref()
+            clearRouteLoaded()
             return
         }
         plannedRoute_ = loadFromJson(route.json(), route.points(), route.name())
         db_.saveRoute(plannedRoute_, route.json())
         waypoints_ = plannedRoute_.waypoints
         listeners_.onNewJourney(plannedRoute_, waypoints_)
-        setRoutePref()
+        setRouteLoaded()
     }
 
     fun waypoints(): Waypoints {
@@ -164,18 +164,19 @@ object Route {
         }
     }
 
-    private fun clearRoutePref() {
-        prefs().edit().remove(routePref).commit()
+    private fun setRouteLoaded() {
+        prefs().edit().putBoolean(routeLoadedPref, true).commit()
+
     }
 
-    private fun setRoutePref() {
-        prefs().edit().putBoolean(routePref, true).commit()
+    private fun clearRouteLoaded() {
+        prefs().edit().remove(routeLoadedPref).commit()
     }
 
     private val isLoaded: Boolean
-        get() = prefs().getBoolean(routePref, false)
+        get() = prefs().getBoolean(routeLoadedPref, false)
 
-    private const val routePref = "route"
+    private const val routeLoadedPref = "route"
     private fun prefs(): SharedPreferences {
         return context_.getSharedPreferences("net.cyclestreets.CycleStreets", Context.MODE_PRIVATE)
     }
