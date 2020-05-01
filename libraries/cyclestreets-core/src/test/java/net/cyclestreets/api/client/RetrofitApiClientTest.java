@@ -511,8 +511,8 @@ public class RetrofitApiClientTest {
             .withQueryParam("key", equalTo("myApiKey")));
 
     assertThat(blog, is(notNullValue()));
-    assertThat(blog.mostRecentTitle(), is("CycleHack Cambridge 2016"));
-    assertThat(blog.mostRecent(), is("Sun, 10 Apr 2016 18:39:49 +0000"));
+    assertThat(blog.mostRecentTitle(), is("Cyclescape website redesign coming soon"));
+    assertThat(blog.mostRecent(), is("Thu, 02 Jan 2020 20:25:56 +0000"));
 
     // caching should mean the REST request is only made once
     List<LoggedRequest> requests = findAll(getRequestedFor(urlPathEqualTo("/news/feed/"))
