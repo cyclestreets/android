@@ -16,7 +16,7 @@ class MainSupportTest {
 
     @Test
     fun cycleStJourney() {
-        val launchIntent = determineLaunchIntent(Uri.parse("http://cycle.st/j61207326"))!!
+        val launchIntent = determineLaunchIntent(Uri.parse("https://cycle.st/j61207326"))!!
         assertThat(launchIntent.type).isEqualTo(JOURNEY)
         assertThat(launchIntent.id).isEqualTo(61207326)
     }

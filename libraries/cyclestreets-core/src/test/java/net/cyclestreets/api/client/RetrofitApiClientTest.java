@@ -264,7 +264,7 @@ public class RetrofitApiClientTest {
     assertThat(photo4.category(), is("cycleways"));
     assertThat(photo4.metacategory(), is("other"));
     assertThat(photo4.thumbnailUrl(), is("https://www.cyclestreets.net/location/82169/cyclestreets82169-size640.jpg"));
-    assertThat(photo4.url(), is("http://cycle.st/p82169"));
+    assertThat(photo4.url(), is("https://cycle.st/p82169"));
     assertThat(photo4.position(), is(new GeoPoint(52.209908, 0.094543)));
     assertThat(photo4.isPlaceholder(), is(false));
     assertThat(photo4.hasVideos(), is(true));
