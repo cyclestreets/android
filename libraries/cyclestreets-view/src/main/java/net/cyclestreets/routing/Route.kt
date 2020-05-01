@@ -177,6 +177,7 @@ object Route {
                 .remove(waypointsInProgressPref)
                 .apply()
     }
+
     private fun clearRouteLoaded() {
         prefs()
                 .edit()
@@ -191,6 +192,7 @@ object Route {
                 .putString(waypointsInProgressPref, stash)
                 .apply()
     }
+
     private fun restoreWaypoints() {
         val stash = prefs().getString(waypointsInProgressPref, null)
         stash?.let {
@@ -214,9 +216,13 @@ object Route {
 
     private class Listeners {
         private val listeners_: MutableList<Listener> = ArrayList()
+
         fun register(listener: Listener) {
             if (!doRegister(listener)) return
-            if (journey() != NULL_JOURNEY || waypoints() != NULL_WAYPOINTS) listener.onNewJourney(journey(), waypoints()) else listener.onResetJourney()
+            if (journey() != NULL_JOURNEY || waypoints() != NULL_WAYPOINTS)
+                listener.onNewJourney(journey(), waypoints())
+            else
+                listener.onResetJourney()
         }
 
         fun softRegister(listener: Listener) {
@@ -225,6 +231,7 @@ object Route {
 
         private fun doRegister(listener: Listener): Boolean {
             if (listeners_.contains(listener)) return false
+
             listeners_.add(listener)
             return true
         }
@@ -234,11 +241,11 @@ object Route {
         }
 
         fun onNewJourney(journey: Journey, waypoints: Waypoints) {
-            for (l in listeners_) l.onNewJourney(journey, waypoints)
+            listeners_.forEach { it.onNewJourney(journey, waypoints) }
         }
 
         fun onReset() {
-            for (l in listeners_) l.onResetJourney()
+            listeners_.forEach { it.onResetJourney() }
         }
     }
 }
