@@ -4,7 +4,7 @@ dependencies {
   api project(':libraries:cyclestreets-view')
   implementation 'com.jjoe64:graphview:4.2.2'
 
-  testImplementation 'junit:junit:4.12'
+  testImplementation 'junit:junit:4.13'
   testImplementation 'org.robolectric:robolectric:3.8'
   testImplementation "org.assertj:assertj-core:${rootProject.ext.assertjVersion}"
 }
