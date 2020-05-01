@@ -79,7 +79,7 @@ public class RetrofitApiClientTest {
         .withContext(testContext)
         .withV1Host("http://localhost:8089")
         .withV2Host("http://localhost:8089")
-        .withBlogHost("http://localhost:8090")
+        .withBlogHost("http://localhost:8089")
         .build();
 
     when(testContext.getString(R.string.feedback_ok)).thenReturn("Thank you for submitting this feedback. We will get back to you when we have checked this out.");
@@ -515,7 +515,7 @@ public class RetrofitApiClientTest {
     assertThat(blog.mostRecent(), is("Sun, 10 Apr 2016 18:39:49 +0000"));
 
     // caching should mean the REST request is only made once
-    List<LoggedRequest> requests = findAll(getRequestedFor(urlPathEqualTo("/blog/feed/"))
+    List<LoggedRequest> requests = findAll(getRequestedFor(urlPathEqualTo("/news/feed/"))
             .withQueryParam("key", equalTo("myApiKey")));
     assertThat(requests, hasSize(1));
   }

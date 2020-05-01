@@ -50,7 +50,7 @@ public class RetrofitApiClient {
   private final BlogApi blogApi;
   private final Context context;
 
-  // ~30KB covers /blog/feed/, /v2/pois.types and /v2/photomap.categories - allow 200KB for headroom
+  // ~30KB covers /news/feed/, /v2/pois.types and /v2/photomap.categories - allow 200KB for headroom
   private static final int CACHE_MAX_SIZE_BYTES = 200 * 1024;
   private static final String CACHE_DIR_NAME = "RetrofitApiClientCache";
 
