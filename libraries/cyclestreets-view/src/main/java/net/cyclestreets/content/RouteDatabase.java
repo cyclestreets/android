@@ -11,12 +11,15 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteStatement;
 import android.provider.BaseColumns;
+import android.util.Log;
+import net.cyclestreets.util.Logging;
 
-import static net.cyclestreets.content.DatabaseHelper.deserializeWaypoints;
-import static net.cyclestreets.content.DatabaseHelper.serializeWaypoints;
+import org.osmdroid.api.IGeoPoint;
+import org.osmdroid.util.GeoPoint;
 
 public class RouteDatabase
 {
+  private static final String TAG = Logging.getTag(RouteDatabase.class);
   private final SQLiteDatabase db;
 
   public RouteDatabase(final Context context) {
@@ -155,5 +158,31 @@ public class RouteDatabase
       cursor.close();
 
     return r;
+  }
+
+  public static String serializeWaypoints(Iterable<IGeoPoint> waypoints) {
+    final StringBuilder sb = new StringBuilder();
+    for (final IGeoPoint waypoint : waypoints) {
+      if (sb.length() != 0)
+        sb.append('|');
+      sb.append(waypoint.getLatitude())
+              .append(",")
+              .append(waypoint.getLongitude());
+    }
+    String wpString = sb.toString();
+    Log.d(TAG, "sW: " + wpString);
+    return wpString;
+  }
+
+  public static List<IGeoPoint> deserializeWaypoints(String serializedWaypoints) {
+    List<IGeoPoint> waypoints = new ArrayList<>();
+    for (final String coords : serializedWaypoints.split("\\|")) {
+      final String[] latlon = coords.split(",", 2);
+      double lat = Double.parseDouble(latlon[0]);
+      double lon = Double.parseDouble(latlon[1]);
+      Log.d(TAG, "dW: lat=" + lat + ", lon=" + lon);
+      waypoints.add(new GeoPoint(lat, lon));
+    }
+    return waypoints;
   }
 }

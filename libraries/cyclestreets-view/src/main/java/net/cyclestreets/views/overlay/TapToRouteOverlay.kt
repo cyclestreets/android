@@ -86,9 +86,12 @@ class TapToRouteOverlay(private val mapView: CycleMapView) : Overlay(), TapListe
     }
 
     private fun setRoute(noJourney: Boolean, waypointCount: Int) {
-        tapState = if (noJourney) TapToRoute.fromCount(waypointCount) else TapToRoute.ALL_DONE
         controller.flushUndo(this)
-        for (i in 1..waypointCount) controller.pushUndo(this)
+        if (noJourney) {
+            tapState = TapToRoute.fromCount(waypointCount)
+            for (i in 1..waypointCount) controller.pushUndo(this)
+        } else
+            tapState = TapToRoute.ALL_DONE
     }
 
     private fun resetRoute() {
@@ -164,7 +167,7 @@ class TapToRouteOverlay(private val mapView: CycleMapView) : Overlay(), TapListe
                 context.startActivity(Intent(context, FeedbackActivity::class.java))
             else ->
                 if (REPLAN_MENU_PLANS.containsKey(menuId))
-                    Route.RePlotRoute(REPLAN_MENU_PLANS[menuId], context)
+                    Route.RePlotRoute(REPLAN_MENU_PLANS[menuId]!!, context)
                 else
                     return false
         }

@@ -52,7 +52,7 @@ class RouteMapFragment : CycleMapFragment(), Route.Listener {
     }
 
     override fun onPause() {
-        Route.setWaypoints(routeSetter.waypoints())
+        Route.onPause(routeSetter.waypoints())
         Route.unregisterListener(this)
         super.onPause()
     }
