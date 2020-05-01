@@ -42,6 +42,7 @@ public class RetrofitApiClientIntegrationTest {
         .withContext(testContext)
         .withV1Host("https://www.cyclestreets.net")
         .withV2Host("https://api.cyclestreets.net")
+        .withBlogHost("https://www.cyclestreets.org")
         .build();
 
     when(testContext.getString(R.string.feedback_ok)).thenReturn("Thank you for submitting this feedback. We will get back to you when we have checked this out.");

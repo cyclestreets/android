@@ -79,6 +79,7 @@ public class RetrofitApiClientTest {
         .withContext(testContext)
         .withV1Host("http://localhost:8089")
         .withV2Host("http://localhost:8089")
+        .withBlogHost("http://localhost:8090")
         .build();
 
     when(testContext.getString(R.string.feedback_ok)).thenReturn("Thank you for submitting this feedback. We will get back to you when we have checked this out.");
@@ -491,7 +492,7 @@ public class RetrofitApiClientTest {
   @Test
   public void testGetBlogEntries() throws Exception {
     // given
-    stubFor(get(urlPathEqualTo("/blog/feed/"))
+    stubFor(get(urlPathEqualTo("/news/feed/"))
             .willReturn(aResponse()
                     .withStatus(200)
                     .withHeader("Content-Type", "application/rss+xml; charset=UTF-8")
@@ -506,7 +507,7 @@ public class RetrofitApiClientTest {
     }
 
     // then
-    verify(getRequestedFor(urlPathEqualTo("/blog/feed/"))
+    verify(getRequestedFor(urlPathEqualTo("/news/feed/"))
             .withQueryParam("key", equalTo("myApiKey")));
 
     assertThat(blog, is(notNullValue()));
