@@ -175,15 +175,21 @@ object Route {
                 .edit()
                 .putBoolean(routeLoadedPref, true)
                 .remove(waypointsInProgressPref)
-                .commit()
+                .apply()
     }
     private fun clearRouteLoaded() {
-        prefs().edit().remove(routeLoadedPref).commit()
+        prefs()
+                .edit()
+                .remove(routeLoadedPref)
+                .apply()
     }
 
     private fun stashWaypoints() {
         val stash = RouteDatabase.serializeWaypoints(waypoints_)
-        prefs().edit().putString(waypointsInProgressPref, stash).commit()
+        prefs()
+                .edit()
+                .putString(waypointsInProgressPref, stash)
+                .apply()
     }
     private fun restoreWaypoints() {
         val stash = prefs().getString(waypointsInProgressPref, null)
