@@ -271,7 +271,7 @@ public class RetrofitApiClientTest {
     List<Video> videos = (List<Video>)photo4.videos();
     assertThat(videos.size(), is(2));
     Video video = videos.get(1);
-    assertThat(video.url(), is("http://www.cyclestreets.net/location/20588/cyclestreets20588.flv"));
+    assertThat(video.url(), is("https://www.cyclestreets.net/location/20588/cyclestreets20588.flv"));
     assertThat(video.format(), is("flv"));
   }
 
