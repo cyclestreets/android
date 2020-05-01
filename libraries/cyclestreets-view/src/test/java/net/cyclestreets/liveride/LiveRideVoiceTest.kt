@@ -10,6 +10,7 @@ import net.cyclestreets.util.TurnIcons
 import net.cyclestreets.view.BuildConfig
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Before
+import org.junit.Ignore
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mockito
@@ -18,9 +19,10 @@ import org.osmdroid.util.GeoPoint
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.annotation.Config
 import org.robolectric.shadows.ShadowApplication
-import org.mockito.Mockito.mockingDetails;
+import org.mockito.Mockito.mockingDetails
 import org.mockito.exceptions.verification.VerificationInOrderFailure
 
+@Ignore("due to https://github.com/robolectric/robolectric/issues/4690 - handle later with AndroidX upgrade")
 @Config(constants = BuildConfig::class, manifest = Config.NONE, sdk = [27])
 @RunWith(RobolectricTestRunner::class)
 class LiveRideVoiceTest {
@@ -48,16 +50,16 @@ class LiveRideVoiceTest {
     fun doubleStraightOn() {
         loadJourneyFrom("journey-domain.json")
         journey.setActiveSegmentIndex(13)
-        assertThat(journey.activeSegment().street()).isEqualTo("lcn (unknown cycle network)")
+        assertThat(journey.activeSegment()!!.street()).isEqualTo("lcn (unknown cycle network)")
 
         move(0.126, 52.212)
-        verify("Get ready to Straight on")
+        verify("Get ready to Straight on into lcn (unknown cycle network) continuation")
         move(0.12634, 52.21207)
         verify("Straight on into lcn (unknown cycle network) continuation. Continue 5m")
         move(0.12634, 52.21207)
         // AdvanceToSegment advances the segment; we need another location update to trigger the next NearingTurn
         move(0.12634, 52.21207)
-        verify("Get ready to Straight on")
+        verify("Get ready to Straight on into lcn (unknown cycle network)")
         move(0.12634, 52.21207)
         verify("Straight on into lcn (unknown cycle network). Continue 85m")
     }
@@ -65,8 +67,8 @@ class LiveRideVoiceTest {
     @Test
     fun arrivee() {
         loadJourneyFrom("journey-domain.json")
-        journey.setActiveSegmentIndex(journey.segments().count() - 2)
-        assertThat(journey.activeSegment().street()).isEqualTo("Thoday Street")
+        journey.setActiveSegmentIndex(journey.segments.count() - 2)
+        assertThat(journey.activeSegment()!!.street()).isEqualTo("Thoday Street")
 
         move(0.14748, 52.19967)
         verify("You are approaching the arreev eh")
@@ -80,10 +82,10 @@ class LiveRideVoiceTest {
     fun rightThenLeft() {
         loadJourneyFrom("journey-rightleft-domain.json")
         journey.setActiveSegmentIndex(1)
-        assertThat(journey.activeSegment().street()).isEqualTo("Link with A38")
+        assertThat(journey.activeSegment()!!.street()).isEqualTo("Link with A38")
 
         move(-3.33022, 50.92086)
-        verify("Get ready to Turn right then turn left")
+        verify("Get ready to Turn right then turn left into Broad Path")
         move(-3.33019, 50.92081)
         verify("Turn right then turn left into Broad Path. Continue 1000m")
     }
@@ -92,10 +94,10 @@ class LiveRideVoiceTest {
     fun bearLeftThenRight() {
         loadJourneyFrom("journey-bearleftright-domain.json")
         journey.setActiveSegmentIndex(2)
-        assertThat(journey.activeSegment().street()).isEqualTo("London Road, A413")
+        assertThat(journey.activeSegment()!!.street()).isEqualTo("London Road, A413")
 
         move(-0.56665, 51.63393)
-        verify("Get ready to Bear left then bear right")
+        verify("Get ready to Bear left then bear right into London Road, A413")
         move(-0.56667, 51.63401)
         verify("Bear left then bear right into London Road, A413. Continue 1330m")
     }
@@ -104,17 +106,25 @@ class LiveRideVoiceTest {
     fun overBridge() {
         loadJourneyFrom("journey-overbridge-domain.json")
         journey.setActiveSegmentIndex(1)
-        assertThat(journey.activeSegment().street()).isEqualTo("Link with B3390")
+        assertThat(journey.activeSegment()!!.street()).isEqualTo("Link with B3390")
 
         move(-2.26018, 50.74097)
-        verify("Get ready to Straight on over Bridge")
+        verify("Get ready to Straight on over Bridge into Short unnamed link")
         move(-2.26058, 50.74058)
         verify("Straight on over Bridge into Short unnamed link. Continue 95m")
         move(-2.2612, 50.74025)
         move(-2.2612, 50.74025)
-        verify("Get ready to Bear left over Bridge")
+        verify("Get ready to Bear left over Bridge into Link with The Hollow")
         move(-2.26148, 50.73993)
         verify("Bear left over Bridge into Link with The Hollow. Continue 195m")
+    }
+
+    @Test
+    fun longWindedRoadNameIsShortened() {
+        loadJourneyFrom("journey-longname-domain.json")
+        journey.setActiveSegmentIndex(14)
+        // Link joining Pedestrian Area, Link between Charlton Way, B210 and Pedestrian Area, Link joining Long Pond Road, General Wolfe Road, Pedestrian Area, Charlton Way, B210"
+        assertThat(journey.activeSegment()!!.street()).isEqualTo("Link joining Pedestrian Area and other streets")
     }
 
     private fun loadJourneyFrom(domainJsonFile: String) {
@@ -130,7 +140,7 @@ class LiveRideVoiceTest {
 
     private fun verify(expectedSpeech: String) {
         try {
-            inOrder.verify(mockTts, times(1)).speak(eq(expectedSpeech), eq(TextToSpeech.QUEUE_ADD), isNull(), isNull())
+            inOrder.verify(mockTts, times(1)).speak(eq(expectedSpeech), eq(TextToSpeech.QUEUE_ADD), isNull(), anyString())
             inOrder.verifyNoMoreInteractions()
         } catch (e: VerificationInOrderFailure) {
             System.out.println(mockingDetails(mockTts).printInvocations())

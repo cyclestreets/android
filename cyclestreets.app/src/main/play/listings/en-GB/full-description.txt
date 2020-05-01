@@ -1,0 +1,31 @@
+Plan routes from A to B anywhere in the UK, with a choice of routing modes to suit a range of cyclists from beginner through regular commuter to enthusiast. The Photomap lets you submit photos of infrastructure problems or good practice around the UK.
+
+PLAN BIKE NAVIGATION FROM A TO B TO C
+
+Select a start and finish point, plus intermediate waypoints, by tapping on the map, by searching for names/places/postcodes, or by using your current location, and tap to obtain the route. Uses the general street network, plus Sustrans and other routes.
+
+CHOICE OF FOUR ROUTING MODES
+
+The app produces routes that will suit most cyclists. It can optionally can find faster or quieter routes for different types of rider. Routes are fetched from the CycleStreets website.
+
+HILLS? NO PROBLEM!
+
+The journey planner knows about hills, and finds routes that take advantage of the descents and avoids the ascents where possible. It balances these against the available road types. The route can be displayed on a map with contours using the OpenCycleMap option.
+
+STAGE-BY-STAGE ITINERARY
+
+As well as the main map view, planned routes are loaded into an itinerary view, so you can follow each part of the journey. The street name, time and length are all shown, as is a detailed map for each individual stage of the journey. Routes are saved so you can also follow them again later.
+
+PHOTOMAP
+
+The Photomap is a cycling advocacy tool used by campaign groups around the country. Use it to browse examples of problems or good practice, and add your own pictures. Need more cycle parking in your favourite spot in town? Sign in with a free account and add a photo of it to the Photomap.
+
+OPENSTREETMAP
+
+Routing makes use of OpenStreetMap data, the brilliant 'geo-wiki' to which you can contribute. Note that, at present, some areas of the country have better coverage than others. Streets and paths of all kinds, including Sustrans routes and Local Authority network, are included. Routing quality is being developed all the time, with new types of cycling and street data being added and interpreted by the route planner.
+
+THANKS
+
+Android App written by our great volunteers: Jez Higgins and Oliver Lockwood, with contributions from Christopher Fraser, Jonathan Gray, Theodore Hong, Farid Kurbanov, kyegupov, Shaun McDonald, Hilary Newmark, Simon Nuttall, John Singleton, Colin Watson.
+
+Part of the development of this App has been funded by Cycling Scotland.

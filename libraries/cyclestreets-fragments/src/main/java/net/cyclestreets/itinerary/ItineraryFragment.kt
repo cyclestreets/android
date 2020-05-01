@@ -29,12 +29,12 @@ class ItineraryFragment : ListFragment(), Route.Listener {
     }
 
     override fun onListItemClick(l: ListView?, v: View?, position: Int, id: Long) {
-        if (journey.isEmpty)
+        if (journey.isEmpty())
             return
 
         journey.setActiveSegmentIndex(position)
         try {
-            (activity as RouteMapActivity).showMap()
+            (activity as RouteMapActivity).showRouteMap()
         } catch (e: Exception) {}
     }
 

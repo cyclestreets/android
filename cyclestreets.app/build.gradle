@@ -1,4 +1,80 @@
+buildscript {
+  dependencies {
+    classpath 'me.moallemi.gradle:advanced-build-version:1.7.0'
+  }
+}
+
+plugins {
+  id 'com.github.triplet.play' version '2.5.0'
+}
+
+// Use a plugin to derive a version name (e.g. 3.7) and monotonically increasing version code (e.g. 1372)
+apply plugin: 'me.moallemi.advanced-build-version'
+advancedVersioning {
+  nameOptions {
+    versionMajor 3
+    versionMinor 7
+  }
+  codeOptions {
+    versionCodeType 'GIT_COMMIT_COUNT'
+  }
+}
+
 evaluationDependsOn(':libraries:cyclestreets-fragments')
+
+// derive signing config from license.properties (decrypted from license.properties.enc by ciLicense.sh)
+def keystorePropertiesFile = file('license.properties')
+def keystoreProperties = new Properties()
+keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+
+android {
+  defaultConfig {
+    testInstrumentationRunner 'android.support.test.runner.AndroidJUnitRunner'
+
+    applicationId 'net.cyclestreets'
+    versionName advancedVersioning.versionName
+    versionCode advancedVersioning.versionCode
+  }
+
+  packagingOptions {
+    exclude 'META-INF/LICENSE'
+    exclude 'META-INF/LICENSE.txt'
+    exclude 'META-INF/DEPENDENCIES'
+    exclude 'META-INF/NOTICE'
+    exclude 'META-INF/NOTICE.txt'
+  }
+
+  signingConfigs {
+    release {
+      keyAlias keystoreProperties['key.alias']
+      keyPassword keystoreProperties['key.password']
+      storeFile file(keystoreProperties['key.store'])
+      storePassword keystoreProperties['key.password']
+    }
+  }
+
+  buildTypes {
+// If you have the decrypted keys locally, and need to use them to sign the debug variant so you can install it onto
+// a real device for testing in advance of a beta build coming out, uncomment the following lines.
+//    debug {
+//      signingConfig signingConfigs.release
+//    }
+    release {
+      signingConfig signingConfigs.release
+    }
+  }
+}
+
+play {
+  serviceAccountEmail = 'cyclestreets-android@api-7698300952134656507-752021.iam.gserviceaccount.com'
+  // credentials file decrypted from play-api-key.p12.enc by ciLicense.sh
+  serviceAccountCredentials = file('play-api-key.p12')
+
+  track = 'beta'
+
+  // Uncomment the line below if you want to update the screenshots etc.
+  // uploadImages = true
+}
 
 dependencies {
   api project(':libraries:cyclestreets-fragments')
@@ -6,12 +82,5 @@ dependencies {
   androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
   androidTestImplementation 'com.android.support.test:runner:1.0.2'
   androidTestImplementation 'com.android.support.test:rules:1.0.2'
-}
-
-android {
-  defaultConfig {
-    applicationId 'net.cyclestreets'
-
-    testInstrumentationRunner 'android.support.test.runner.AndroidJUnitRunner'
-  }
+  androidTestImplementation "org.assertj:assertj-core:${rootProject.ext.assertjVersion}"
 }

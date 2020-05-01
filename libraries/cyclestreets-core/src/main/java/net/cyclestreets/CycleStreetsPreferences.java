@@ -4,7 +4,10 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.net.ConnectivityManager;
+import android.net.Network;
+import android.net.NetworkCapabilities;
 import android.net.NetworkInfo;
+import android.os.Build;
 import android.preference.PreferenceManager;
 import android.telephony.TelephonyManager;
 
@@ -135,24 +138,44 @@ public class CycleStreetsPreferences
   }
 
   public static boolean uploadSmallImages() {
-    final String resize = uploadSize();
-    if ("640px".equals(resize))
+    if ("640px".equals(uploadSize()))
       return true;
-    if ("big".equals(resize))
+    if ("big".equals(uploadSize()))
       return false;
 
+    return !onFastConnection();
+  }
+
+  private static boolean onFastConnection() {
     final ConnectivityManager connMgr = (ConnectivityManager)context_.getSystemService(Context.CONNECTIVITY_SERVICE);
-    final NetworkInfo ni = connMgr.getActiveNetworkInfo();
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+      return onFastConnection28OrHigher(connMgr);
+    } else {
+      return onFastConnectionPre28(connMgr);
+    }
+  }
 
-    final int type = ni.getType();
-    if ((type == ConnectivityManager.TYPE_WIFI) || (type == ConnectivityManager.TYPE_WIMAX))
-      return false;
+  private static boolean onFastConnection28OrHigher(ConnectivityManager connMgr) {
+    NetworkCapabilities capabilities = connMgr.getNetworkCapabilities(connMgr.getActiveNetwork());
+    return capabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) ||
+           capabilities.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET) ||
+           onQuickMobileConnection(connMgr);
+  }
 
+  @SuppressWarnings("deprecation")
+  private static boolean onFastConnectionPre28(ConnectivityManager connMgr) {
+    final int type = connMgr.getActiveNetworkInfo().getType();
+    return type == ConnectivityManager.TYPE_WIFI ||
+           type == ConnectivityManager.TYPE_WIMAX ||
+           onQuickMobileConnection(connMgr);
+  }
+
+  private static boolean onQuickMobileConnection(ConnectivityManager connMgr) {
     // so it's mobile, but is it still quick?
-    final int subtype = ni.getSubtype();
-    return !((subtype == TelephonyManager.NETWORK_TYPE_HSDPA) ||
-             (subtype == TelephonyManager.NETWORK_TYPE_HSPA) ||
-             (subtype == TelephonyManager.NETWORK_TYPE_HSUPA));
+    final int subtype = connMgr.getActiveNetworkInfo().getSubtype();
+    return ((subtype == TelephonyManager.NETWORK_TYPE_HSDPA) ||
+            (subtype == TelephonyManager.NETWORK_TYPE_HSPA) ||
+            (subtype == TelephonyManager.NETWORK_TYPE_HSUPA));
   }
 
   public static void clearOsmdroidCacheLocation() {
@@ -163,6 +186,10 @@ public class CycleStreetsPreferences
   }
 
   private static String getString(final String key, final String defVal) {
+    if (context_ == null) {
+      // Protect against a potential race condition on resume
+      return defVal;
+    }
     final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context_);
     return prefs.getString(key, defVal);
   }

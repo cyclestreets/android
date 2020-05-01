@@ -296,7 +296,7 @@ public class RecordingService extends Service implements LocationListener {
     for (int i = points.size()-1; i != 0; --i) {
       final CyclePoint cur = points.get(i);
 
-      if (end.distanceTo(cur) > 100)
+      if (end.distanceToAsDouble(cur) > 100)
         return false;
 
       if ((end.time - cur.time) > BAIL_TIME)

@@ -3,6 +3,10 @@
 sudo: false
 dist: trusty
 
+branches:
+  only:
+    - master
+
 # Get the full commit history (required to derive our version code, see the root build.gradle)
 git:
   depth: false
@@ -12,11 +16,11 @@ jdk:
   - oraclejdk8
 env:
   global:
-    # Remember to keep these four values in sync with config.properties
+    # Remember to keep these four values in sync with values in the root build.gradle file
     - compileSdkVersion=28
     - minSdkVersion=23
-    - targetSdkVersion=26
-    - toolsVersion=28.0.2
+    - targetSdkVersion=28
+    - toolsVersion=28.0.3
 
     # For the decryption of secrets needed to sign and publish our artifacts
     - secure: "LipL0wPv0uQrKitaeGxCpoQsx5sl/Pg/DtQv4S7Bi52DxfArgvD2hPB0TWgkgYGJPfENHLEyqg+H+/v2nON3IXY+cnsd+TW+P1T03/52D56ieSKGVtVtSYUOZUgoyxIIvRZWFh/UNg+AmZIjOCTJDLitBTUxD8kWux8NjhIqZow="

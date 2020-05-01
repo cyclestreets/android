@@ -3,7 +3,7 @@ package net.cyclestreets.routing;
 public abstract class DistanceFormatter
 {
   public abstract String distance(int metres);
-  public abstract String total_distance(int metres);
+  public abstract String totalDistance(int metres);
   public abstract String speed(float metresPerSec);
   public abstract String speedUnit();
 
@@ -19,11 +19,11 @@ public abstract class DistanceFormatter
   private static class KmFormatter extends DistanceFormatter  {
     public String distance(int metres) {
       if (metres < 2000)
-        return String.format("%dm", round_distance(metres));
-      return total_distance(metres);
+        return String.format("%dm", roundDistance(metres));
+      return totalDistance(metres);
     }
 
-    public String total_distance(int metres) {
+    public String totalDistance(int metres) {
       int km = metres / 1000;
       int frackm = (int)((metres % 1000) / 10.0);
       return String.format("%d.%02dkm", km, frackm);
@@ -47,11 +47,11 @@ public abstract class DistanceFormatter
     public String distance(int metres) {
       int yards = metresToYards(metres);
       if (yards <= 750)
-        return String.format("%d yards", round_distance(yards));
-      return total_distance(metres);
+        return String.format("%d yards", roundDistance(yards));
+      return totalDistance(metres);
     }
 
-    public String total_distance(int metres) {
+    public String totalDistance(int metres) {
       int yards = metresToYards(metres);
       int miles = yards / 1760;
       int frackm = (int)((yards % 1760) / 17.6);
@@ -72,7 +72,7 @@ public abstract class DistanceFormatter
     }
   }
 
-  static protected int round_distance(int units) {
+  static protected int roundDistance(int units) {
     if (units < 500)
       return (int)
           (units/5.0) * 5;

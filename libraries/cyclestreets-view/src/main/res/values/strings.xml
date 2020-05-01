@@ -115,6 +115,10 @@
   <string name="account_pending">You have already registered an account.  Please check your email for the verification email.</string>
   <string name="account_registration_is_free_long">Registration is free and registered users can add photos. To start the registration process please enter your details in the form below.</string>
 
+  <!-- LiveRide -->
+  <string name="liveride_keep_screen_on_enabled" translatable="false">Screen will remain on while LiveRide is running</string>
+  <string name="liveride_keep_screen_on_disabled" translatable="false">Screen will timeout as normal</string>
+
   <!-- Permission justifications -->
   <string name="perm_justification_format" translatable="false"><![CDATA[
     <p>In the next dialog, you will have the opportunity to grant a permission to this app.  We would like to use this permission in order to:</p>%1$s

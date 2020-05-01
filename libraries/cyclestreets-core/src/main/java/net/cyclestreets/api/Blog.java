@@ -8,7 +8,7 @@ public class Blog
   private static final Blog NULL_BLOG;
   static {
     NULL_BLOG = new Blog(new ArrayList<BlogEntry>() {{
-      add(new BlogEntry("ERROR", "http://www.cyclestreets.net/blog/", "Could not retrieve CycleStreets blog entries", ""));
+      add(new BlogEntry("ERROR", "http://www.cyclestreets.org/news/", "Could not retrieve CycleStreets blog entries", ""));
     }});
   }
   private List<BlogEntry> entries = new ArrayList<>();
@@ -42,7 +42,7 @@ public class Blog
 
   public static Blog load() {
     try {
-      return ApiClient.getBlogEntries();
+      return ApiClient.INSTANCE.getBlogEntries();
     }
     catch (Exception e) {
       // ah

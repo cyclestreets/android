@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 51 99">
+  <defs>
+      <linearGradient id="shiny" x1="0.2" x2="0" y1="0" y2="1">
+        <stop offset="35%" stop-color="limegreen"/>
+        <stop offset="90%" stop-color="black"/>
+      </linearGradient>
+    <style>
+      path.wisp {stroke:black; stroke-width:5; stroke-linejoin:round; fill:url(#shiny);}
+    </style>
+  </defs>
+  <path class="wisp"
+        d="M 13,3
+           c -30,60   25,50   13,94
+              25,-25 -20,-40  22,-86
+             -15,8   -30,12  -34,-8 Z" />
+</svg>

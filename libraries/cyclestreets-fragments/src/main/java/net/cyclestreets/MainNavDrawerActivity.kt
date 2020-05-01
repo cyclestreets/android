@@ -25,22 +25,23 @@ import net.cyclestreets.util.Logging
 
 import android.support.design.widget.NavigationView.OnNavigationItemSelectedListener
 import android.support.transition.Fade
+import android.support.v4.app.FragmentManager.OnBackStackChangedListener
 import net.cyclestreets.addphoto.AddPhotoFragment
+import net.cyclestreets.api.JourneyPlanner
 import net.cyclestreets.iconics.IconicsHelper.materialIcons
 import net.cyclestreets.itinerary.ItineraryAndElevationFragment
 
 private val TAG = Logging.getTag(MainNavDrawerActivity::class.java)
 private const val DRAWER_ITEMID_SELECTED_KEY = "DRAWER_ITEM_SELECTED"
 
-abstract class MainNavDrawerActivity : AppCompatActivity(), OnNavigationItemSelectedListener, Route.Listener {
+abstract class MainNavDrawerActivity : AppCompatActivity(), OnNavigationItemSelectedListener, Route.Listener, OnBackStackChangedListener {
 
     private lateinit var drawerLayout: DrawerLayout
     private lateinit var navigationView: NavigationView
     private lateinit var toolbar: Toolbar
     private var selectedItem: Int = 0
-    private var currentFragment: Fragment? = null
 
-    private val itemToFragment = object : SparseArray<Class<out Fragment>>() {
+    private val menuItemIdToFragment = object : SparseArray<Class<out Fragment>>() {
         init {
             put(R.id.nav_journey_planner, RouteMapFragment::class.java)
             put(R.id.nav_itinerary, ItineraryAndElevationFragment::class.java)
@@ -50,6 +51,18 @@ abstract class MainNavDrawerActivity : AppCompatActivity(), OnNavigationItemSele
             put(R.id.nav_settings, SettingsFragment::class.java)
         }
     }
+
+    private val fragmentToMenuItemId = mapOf(
+        RouteMapFragment::class.java to R.id.nav_journey_planner,
+        ItineraryAndElevationFragment::class.java to R.id.nav_itinerary,
+        PhotoMapFragment::class.java to R.id.nav_photomap,
+        AddPhotoFragment::class.java to R.id.nav_addphoto,
+        BlogFragment::class.java to R.id.nav_blog,
+        SettingsFragment::class.java to R.id.nav_settings
+    )
+
+    // If you're in one of these fragments at pause, then you'll be returned to it on resume.
+    private val resumableFragments = setOf(R.id.nav_journey_planner, R.id.nav_photomap, R.id.nav_addphoto, R.id.nav_settings)
 
     override fun attachBaseContext(newBase: Context) {
         // Allows the use of Material icon library, see https://github.com/mikepenz/Android-Iconics
@@ -61,8 +74,7 @@ abstract class MainNavDrawerActivity : AppCompatActivity(), OnNavigationItemSele
         setContentView(R.layout.main_navdrawer_activity)
 
         val (burgerIcon, addPhotoIcon, blogIcon, settingsIcon) =
-                materialIcons(context = this, size = 24,
-                              icons = listOf(Icon.gmd_menu, Icon.gmd_add_a_photo, Icon.gmd_chat, Icon.gmd_settings))
+            materialIcons(context = this, icons = listOf(Icon.gmd_menu, Icon.gmd_add_a_photo, Icon.gmd_chat, Icon.gmd_settings))
         burgerIcon.setTint(resources.getColor(R.color.cs_primary_material_light, null))
 
         drawerLayout = findViewById(R.id.drawer_layout)
@@ -81,6 +93,8 @@ abstract class MainNavDrawerActivity : AppCompatActivity(), OnNavigationItemSele
             setDisplayHomeAsUpEnabled(true)
             setHomeAsUpIndicator(burgerIcon)
         }
+
+        supportFragmentManager.addOnBackStackChangedListener(this)
 
         if (CycleStreetsAppSupport.isFirstRun())
             onFirstRun()
@@ -102,31 +116,48 @@ abstract class MainNavDrawerActivity : AppCompatActivity(), OnNavigationItemSele
 
     //////////// OnNavigationItemSelectedListener method implementation
     override fun onNavigationItemSelected(menuItem: MenuItem): Boolean {
+        // Swap UI fragments based on the selection
+        this.supportFragmentManager.beginTransaction().let { ft ->
+            ft.replace(R.id.content_frame, instantiateFragmentFor(menuItem))
+            ft.commit()
+        }
+
+        updateMenuDisplayFor(menuItem)
+
+        return true
+    }
+
+    override fun onBackStackChanged() {
+        currentMenuItemId()?.let { id ->
+            navigationView.menu.findItem(id)
+        } ?.let { menuItem ->
+            updateMenuDisplayFor(menuItem)
+        }
+    }
+
+    private fun currentMenuItemId(): Int? {
+        return this.supportFragmentManager.findFragmentById(R.id.content_frame)?.javaClass?.let {
+            fragmentToMenuItemId[it]
+        }
+    }
+
+    private fun updateMenuDisplayFor(menuItem: MenuItem) {
         // set item as selected to persist highlight
         menuItem.isChecked = true
         // close drawer when item is tapped
         drawerLayout.closeDrawers()
-
         // Save which item is selected
         selectedItem = menuItem.itemId
-
         // Update the ActionBar title to be the title of the chosen fragment
         toolbar.title = menuItem.title
-
-        // Swap UI fragments based on the selection
-        val ft = this.supportFragmentManager.beginTransaction()
-        ft.replace(R.id.content_frame, instantiateFragmentFor(menuItem))
-        ft.commit()
-        return true
     }
 
     private fun instantiateFragmentFor(menuItem: MenuItem): Fragment {
-        val fragmentClass = itemToFragment.get(menuItem.itemId)
+        val fragmentClass = menuItemIdToFragment.get(menuItem.itemId)
         try {
             return fragmentClass.newInstance().apply {
                 enterTransition = Fade()
                 exitTransition = Fade()
-                currentFragment = this
             }
         }
         catch (e: InstantiationException) { throw RuntimeException(e) }
@@ -138,12 +169,24 @@ abstract class MainNavDrawerActivity : AppCompatActivity(), OnNavigationItemSele
             drawerLayout.closeDrawers()
             return
         }
-        currentFragment?.let {
+
+        visibleFragment()?.let {
             if (it is Undoable && it.onBackPressed())
                 return
+            if (it !is RouteMapFragment) {
+                showPage(R.id.nav_journey_planner)
+                return
+            }
         }
 
         super.onBackPressed()
+    }
+
+    private fun visibleFragment(): Fragment? {
+        for (fragment in supportFragmentManager.fragments)
+            if (fragment?.isVisible() == true)
+                return fragment
+        return null
     }
 
     protected open fun onFirstRun() {}
@@ -152,19 +195,17 @@ abstract class MainNavDrawerActivity : AppCompatActivity(), OnNavigationItemSele
     fun showPage(menuItemId: Int): Boolean {
         val menuItem = navigationView.menu.findItem(menuItemId)
         if (menuItem != null) {
-            Log.d(TAG, "Loading page with menuItemId=${menuItemId} (${menuItem.title})")
+            Log.d(TAG, "Loading page with menuItemId=$menuItemId (${menuItem.title})")
             onNavigationItemSelected(menuItem)
             return true
         }
-        Log.d(TAG, "Page with menuItemId=${menuItemId} could not be found")
+        Log.d(TAG, "Page with menuItemId=$menuItemId could not be found")
         return false
     }
 
     public override fun onResume() {
         val selectedItem = prefs().getInt(DRAWER_ITEMID_SELECTED_KEY, R.id.nav_journey_planner)
-        if (showPage(selectedItem)) {
-            this.selectedItem = selectedItem
-        }
+        showPage(selectedItem)
         super.onResume()
         Route.registerListener(this)
         setBlogStateTitle()
@@ -172,12 +213,18 @@ abstract class MainNavDrawerActivity : AppCompatActivity(), OnNavigationItemSele
 
     public override fun onPause() {
         Route.unregisterListener(this)
-
-        val edit = prefs().edit()
-        edit.putInt(DRAWER_ITEMID_SELECTED_KEY, selectedItem)
-        edit.apply()
-
+        currentMenuItemId()?.let {
+            saveCurrentMenuSelection(it)
+        }
         super.onPause()
+    }
+
+    private fun saveCurrentMenuSelection(menuItemId: Int) {
+        if (resumableFragments.contains(menuItemId))
+            prefs().edit().let {
+                it.putInt(DRAWER_ITEMID_SELECTED_KEY, selectedItem)
+                it.apply()
+            }
     }
 
     private fun prefs(): SharedPreferences {

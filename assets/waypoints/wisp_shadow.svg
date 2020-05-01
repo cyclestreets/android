@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 99 90">
+  <defs>
+      <linearGradient id="shiny" x1="0.2" x2="0" y1="0" y2="1">
+        <stop offset="0%" stop-color="transparent"/>
+        <stop offset="95%" stop-color="gray"/>
+      </linearGradient>
+    <style>
+      path.wisp-shadow {stroke:black; stroke-width:0; fill:url(#shiny);}
+    </style>
+  </defs>
+  <path class="wisp-shadow"
+        d="M 70,20
+           c -45,30  -25,50  -45,68
+              42,-25  15,-30  74,-59
+             -30,0   -30,10  -30,-10 Z" />
+</svg>

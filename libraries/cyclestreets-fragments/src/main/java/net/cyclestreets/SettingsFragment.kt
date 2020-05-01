@@ -17,7 +17,8 @@ import net.cyclestreets.util.MessageBox
 private val TAG = Logging.getTag(SettingsFragment::class.java)
 private const val PREFERENCE_SCREEN_ARG: String = "preferenceScreenArg"
 
-class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedPreferenceChangeListener {
+class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedPreferenceChangeListener, Undoable {
+    var undoable = false
 
     override fun onCreate(savedInstance: Bundle?) {
         super.onCreate(savedInstance)
@@ -41,37 +42,48 @@ class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedP
             Log.d(TAG, "Creating preferences subscreen with key $rootKey")
             val key = arguments!!.getString(PREFERENCE_SCREEN_ARG)
             setPreferencesFromResource(R.xml.prefs, key)
+            undoable = true
+            this.enterTransition = Slide(Gravity.END)
+            this.exitTransition = Slide(Gravity.END)
         } else {
             Log.d(TAG, "Creating root preferences page")
             setPreferencesFromResource(R.xml.prefs, rootKey)
+            this.enterTransition = Fade()
+            this.exitTransition = Fade()
         }
     }
 
     override fun onNavigateToScreen(preferenceScreen: PreferenceScreen) {
-        // Allow instantiation of subscreens
-        val args = Bundle()
-        args.putString(PREFERENCE_SCREEN_ARG, preferenceScreen.key)
-        val settingsSubScreen = SettingsFragment()
-        settingsSubScreen.arguments = args
+        showScreen(preferenceScreen.key)
+    }
 
-        // Make the transitions into and back out of subscreens look nice
-        settingsSubScreen.enterTransition = Slide(Gravity.END)
-        settingsSubScreen.exitTransition = Fade()
-        this.enterTransition = Fade()
-        this.exitTransition = Fade()
+    override fun onBackPressed(): Boolean {
+        if (undoable)
+            showScreen()
+        return undoable
+    }
+
+    private fun showScreen(key: String? = null) {
+        val screen = SettingsFragment()
+
+        if (key != null) {
+            val args = Bundle()
+            args.putString(PREFERENCE_SCREEN_ARG, key)
+            screen.arguments = args
+        }
 
         fragmentManager!!
-            .beginTransaction()
-            .replace(id, settingsSubScreen)
-            .addToBackStack(null)
-            .commit()
+                .beginTransaction()
+                .replace(id, screen)
+                .commit()
+
     }
 
     private fun setupMapStyles() {
         findPreference(CycleStreetsPreferences.PREF_MAPSTYLE_KEY)?.apply {
             val pref = this as ListPreference
 
-            if (pref.value == CycleStreetsPreferences.MAPSTYLE_MAPSFORGE && MapPack.availableMapPacks().isEmpty()) {
+            if (pref.value == CycleStreetsPreferences.MAPSTYLE_MAPSFORGE && MapPack.availableMapPacks(context).isEmpty()) {
                 Log.i(TAG, "Offline Vector Maps were selected, but there are no available map packs; default to OSM")
                 pref.value = CycleStreetsPreferences.MAPSTYLE_OSM
             }
@@ -87,8 +99,8 @@ class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedP
     }
 
     private fun populateMapFileList(mapfilePref: ListPreference) {
-        val names = MapPack.availableMapPacks().map { pack: MapPack -> pack.name() }
-        val files = MapPack.availableMapPacks().map { pack: MapPack -> pack.path() }
+        val names = MapPack.availableMapPacks(context).map { pack: MapPack -> pack.name() }
+        val files = MapPack.availableMapPacks(context).map { pack: MapPack -> pack.path() }
         mapfilePref.entries = names.toTypedArray()
         mapfilePref.entryValues = files.toTypedArray()
     }

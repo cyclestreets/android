@@ -2,6 +2,7 @@ package net.cyclestreets;
 
 import android.app.AlertDialog;
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -24,7 +25,7 @@ import static net.cyclestreets.util.MenuHelper.createMenuItem;
 import static net.cyclestreets.util.StringUtils.initCap;
 
 public class StoredRoutes {
-  public static void launch(final Context context) {
+  public static void launch(@NonNull final Context context) {
     RouteSummaryAdapter rsa = new RouteSummaryAdapter(context);
     AlertDialog ad = Dialog.listViewDialog(context,
         R.string.menu_saved_routes,
@@ -98,7 +99,7 @@ public class StoredRoutes {
 
       titleView.setText(summary.title());
       detailView.setText(context_.getString(R.string.storedroutes_detail_format, plan,
-                                            Segment.formatter.total_distance(summary.distance())));
+                                            Segment.formatter.totalDistance(summary.distance())));
 
       view.setOnClickListener(this);
       view.setOnLongClickListener(this);

@@ -2,7 +2,6 @@ package net.cyclestreets.addphoto
 
 import android.Manifest
 import android.app.Activity
-import android.app.ProgressDialog
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
@@ -638,7 +637,7 @@ class AddPhotoFragment : Fragment(), View.OnClickListener, Undoable, ThereOverla
 
         override fun onPostExecute(result: Upload.Result) {
             if (smallImage)
-                File(filename).delete()
+                AsyncDelete().execute(File(filename))
             progress.dismiss()
 
             if (result.ok())

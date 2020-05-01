@@ -9,6 +9,8 @@ import android.provider.BaseColumns;
 import android.util.Log;
 import net.cyclestreets.api.client.JourneyStringTransformerKt;
 import net.cyclestreets.util.Logging;
+import net.cyclestreets.view.BuildConfig;
+
 import org.osmdroid.api.IGeoPoint;
 import org.osmdroid.util.GeoPoint;
 
@@ -46,16 +48,22 @@ class DatabaseHelper extends SQLiteOpenHelper {
 
   DatabaseHelper(final Context context) {
     super(context, DATABASE_NAME, null, DATABASE_VERSION);
+
+    // From Android 9 (API version 28, SQLite version 3.22.0) Compatibility WAL is enabled by default.
+    // This breaks our testing mechanism of pasting over a new version of the database, so disable
+    // it when we're in debug mode.  See:
+    // -  https://source.android.com/devices/tech/perf/compatibility-wal
+    // -  https://www.sqlite.org/wal.html
+    // -  https://www.sqlite.org/tempfiles.html
+    if (BuildConfig.DEBUG) {
+      this.setWriteAheadLoggingEnabled(false);
+    }
   }
 
   @Override
   public void onCreate(final SQLiteDatabase db) {
     db.execSQL(ROUTE_TABLE_CREATE);
     db.execSQL(LOCATION_TABLE_CREATE);
-  }
-
-  @Override
-  public void onOpen(final SQLiteDatabase db) {
   }
 
   @Override

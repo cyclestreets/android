@@ -28,10 +28,13 @@ import android.location.Location;
 import android.os.IBinder;
 import android.view.View;
 
-public class LiveRideOverlay extends Overlay implements ServiceConnection
+public class LiveRideOverlay extends Overlay
 {
-  private final Activity activity_;
-  private LiveRideService.Binding binding_;
+  public interface Locator {
+    Location lastLocation();
+  }
+
+  private final Locator locator_;
   private final int offset_;
   private final float radius_;
   private final Paint largeTextBrush_;
@@ -43,16 +46,12 @@ public class LiveRideOverlay extends Overlay implements ServiceConnection
   private final int lineHeight_;
   private final DistanceFormatter formatter_;
 
-  public LiveRideOverlay(final Activity context, final View view) {
+  public LiveRideOverlay(final Activity context, final Locator locator) {
     super();
 
-    activity_ = context;
-
-    final Intent intent = new Intent(activity_, LiveRideService.class);
-    activity_.bindService(intent, this, Context.BIND_AUTO_CREATE);
-
-    offset_ = DrawingHelper.offset(context);
-    radius_ = DrawingHelper.cornerRadius(context);
+    locator_ = locator;
+    offset_ = DrawingHelperKt.offset(context);
+    radius_ = DrawingHelperKt.cornerRadius(context);
     largeTextBrush_ = Brush.createTextBrush(offset_*4);
     largeTextBrush_.setTextAlign(Align.LEFT);
     midTextBrush_ = Brush.createTextBrush(offset_*2);
@@ -69,15 +68,6 @@ public class LiveRideOverlay extends Overlay implements ServiceConnection
     final Rect bounds = new Rect();
     largeTextBrush_.getTextBounds("0.0", 0, 3, bounds); // Measure the text
     lineHeight_ = bounds.height();
-  }
-
-  @Override
-  public void onDetach(final MapView mapView) {
-    if (binding_ != null)
-      binding_.stopRiding();
-    activity_.unbindService(this);
-
-    super.onDetach(mapView);
   }
 
   @Override
@@ -132,7 +122,7 @@ public class LiveRideOverlay extends Overlay implements ServiceConnection
     final Rect wrapperBox = new Rect(distanceToBox);
     wrapperBox.bottom = nextBox.bottom;
 
-    DrawingHelper.drawRoundRect(canvas, wrapperBox, radius_, fillBrush_);
+    DrawingHelperKt.drawRoundRect(canvas, wrapperBox, radius_, fillBrush_);
     Draw.drawTextInRect(canvas, midTextBrush_, distanceToBox, distanceTo);
     Draw.drawTextInRect(canvas, smallTextBrush_, nextBox, nextStreet);
 
@@ -140,7 +130,7 @@ public class LiveRideOverlay extends Overlay implements ServiceConnection
   }
 
   private void drawThenShrink(final Canvas canvas, final Rect box, final Paint brush) {
-    DrawingHelper.drawRoundRect(canvas, box, radius_, brush);
+    DrawingHelperKt.drawRoundRect(canvas, box, radius_, brush);
 
     box.left += offset_;
     box.right -= offset_;
@@ -157,7 +147,7 @@ public class LiveRideOverlay extends Overlay implements ServiceConnection
     box.right = box.left + fullWidth_ + (offset_*2);
     box.top = box.bottom - (lineHeight_ + offset_*2);
 
-    DrawingHelper.drawRoundRect(canvas, box, radius_, fillBrush_);
+    DrawingHelperKt.drawRoundRect(canvas, box, radius_, fillBrush_);
 
     box.left += offset_;
     box.bottom -= offset_;
@@ -167,27 +157,14 @@ public class LiveRideOverlay extends Overlay implements ServiceConnection
     canvas.drawText(formatter_.speedUnit(), box.left, box.bottom, midTextBrush_);
   }
 
-  ///////////////////////////
-  @Override
-  public void onServiceConnected(final ComponentName className, final IBinder binder) {
-    binding_ = (LiveRideService.Binding)binder;
-
-    if (!binding_.areRiding())
-      binding_.startRiding();
-  }
-
-  @Override
-  public void onServiceDisconnected(final ComponentName className) {
-  }
-
   private Location lastLocation() {
     if (!Route.available())
       return null;
 
-    if (binding_ == null)
+    if (locator_ == null)
       return null;
 
-    final Location location = binding_.lastLocation();
+    final Location location = locator_.lastLocation();
     if (location == null)
       return null;
 

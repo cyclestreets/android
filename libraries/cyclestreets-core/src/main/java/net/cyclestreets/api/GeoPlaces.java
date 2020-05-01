@@ -2,7 +2,6 @@ package net.cyclestreets.api;
 
 import org.osmdroid.util.BoundingBox;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
@@ -32,12 +31,11 @@ public class GeoPlaces implements Iterable<GeoPlace>
 
   ///////////////////////////////////////////////
   public static GeoPlaces search(final String searchTerm,
-                                 final BoundingBox bounds)
-          throws IOException {
-    return ApiClient.geoCoder(searchTerm,
-            bounds.getLatNorth(),
-            bounds.getLatSouth(),
-            bounds.getLonEast(),
-            bounds.getLonWest());
+                                 final BoundingBox bounds) {
+    return ApiClient.INSTANCE.geoCoder(searchTerm,
+                                       bounds.getLonWest(),
+                                       bounds.getLatSouth(),
+                                       bounds.getLonEast(),
+                                       bounds.getLatNorth());
   }
 }

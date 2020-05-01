@@ -18,7 +18,7 @@ public final class CycleStreetsAppSupport {
     CycleStreetsNotifications.INSTANCE.initialise(context);
 
     Route.initialise(context);
-    ApiClient.initialise(context);
+    ApiClient.INSTANCE.initialise(context);
     BlogState.INSTANCE.initialise(context);
 
     version_ = version(context);
@@ -38,7 +38,7 @@ public final class CycleStreetsAppSupport {
   }
 
   private static String version(final Context context) {
-    return "Version : " + AppInfo.version(context);
+    return "Version : " + AppInfo.INSTANCE.version(context);
   }
 
   private static boolean isFirstRun(final Context context) {

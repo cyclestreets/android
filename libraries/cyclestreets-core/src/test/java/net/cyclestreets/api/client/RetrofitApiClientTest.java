@@ -33,7 +33,6 @@ import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 
 import java.io.File;
-import java.lang.reflect.Field;
 import java.util.Iterator;
 import java.util.List;
 
@@ -91,10 +90,8 @@ public class RetrofitApiClientTest {
     when(testContext.getString(R.string.signin_default_error)).thenReturn("Could not sign into CycleStreets.  Please check your username and password.");
     when(testContext.getString(R.string.upload_ok)).thenReturn("Your photo was uploaded successfully.");
     when(testContext.getString(R.string.upload_error_prefix)).thenReturn("There was a problem uploading your photo: \n");
-    // Use reflection to set context without doing full initialise
-    Field contextField = ApiClient.class.getDeclaredField("context");
-    contextField.setAccessible(true);
-    contextField.set(ApiClient.class, testContext);
+    // Initialise API Client messages without doing full initialise
+    ApiClient.INSTANCE.initMessages(testContext);
   }
 
   @Test
@@ -248,7 +245,7 @@ public class RetrofitApiClientTest {
     // then
     verify(getRequestedFor(urlPathEqualTo("/v2/photomap.locations"))
             .withQueryParam("bbox", equalTo("0.1,52.2,0.2,52.3"))
-            .withQueryParam("fields", equalTo("id,caption,categoryId,metacategoryId,hasVideo,videoFormats,thumbnailUrl,shortlink"))
+            .withQueryParam("fields", equalTo("id,caption,datetime,categoryId,metacategoryId,hasVideo,videoFormats,thumbnailUrl,shortlink"))
             .withQueryParam("thumbnailsize", equalTo("640"))
             .withQueryParam("limit", equalTo("45"))
             .withQueryParam("key", equalTo("myApiKey")));
@@ -263,6 +260,7 @@ public class RetrofitApiClientTest {
 
     assertThat(photo4.id(), is(82169));
     assertThat(photo4.caption(), is("Link from Clerk Maxwell Road to the West Cambridge site"));
+    assertThat(photo4.datetime(), is(1466693269L));
     assertThat(photo4.category(), is("cycleways"));
     assertThat(photo4.metacategory(), is("other"));
     assertThat(photo4.thumbnailUrl(), is("https://www.cyclestreets.net/location/82169/cyclestreets82169-size640.jpg"));

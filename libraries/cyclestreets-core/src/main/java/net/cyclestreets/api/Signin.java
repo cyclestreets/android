@@ -16,14 +16,14 @@ public class Signin {
     }
 
     private Result(String name, String email) {
-      super(ApiClient.context().getString(R.string.signin_ok));
+      super(ApiClient.INSTANCE.getMessage(R.string.signin_ok));
       this.name = name;
       this.email = email;
     }
 
     private Result(final String error) {
-      super(ApiClient.context().getString(R.string.signin_error_prefix),
-            error != null ? error : ApiClient.context().getString(R.string.signin_default_error));
+      super(ApiClient.INSTANCE.getMessage(R.string.signin_error_prefix),
+            error != null ? error : ApiClient.INSTANCE.getMessage(R.string.signin_default_error));
     }
 
     public String email() { return email; }
@@ -33,7 +33,7 @@ public class Signin {
   public static Result signin(final String username,
                               final String password) {
     try {
-      return ApiClient.signin(username, password);
+      return ApiClient.INSTANCE.signin(username, password);
     }
     catch (Exception e) {
       return new Signin.Result(e.getMessage());

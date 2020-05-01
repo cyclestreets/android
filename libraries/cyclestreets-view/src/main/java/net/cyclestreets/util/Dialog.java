@@ -2,7 +2,6 @@ package net.cyclestreets.util;
 
 import net.cyclestreets.view.R;
 import android.app.AlertDialog;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.view.View;

@@ -41,14 +41,14 @@ class RouteMapFragment : CycleMapFragment(), Route.Listener {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, saved: Bundle?): View? {
         val v = super.onCreateView(inflater, container, saved)
 
-        overlayPushBottom(RouteHighlightOverlay(activity, mapView()))
+        overlayPushBottom(RouteHighlightOverlay(context, mapView()))
         overlayPushBottom(POIOverlay(mapView()))
         overlayPushBottom(RouteOverlay())
 
         routeSetter = TapToRouteOverlay(mapView())
         overlayPushTop(routeSetter)
 
-        hasGps = GPS.deviceHasGPS(activity)
+        hasGps = GPS.deviceHasGPS(context!!)
 
         return v
     }
@@ -111,8 +111,8 @@ class RouteMapFragment : CycleMapFragment(), Route.Listener {
     }
 
     private fun startLiveRide() {
-        doOrRequestPermission(activity!!, Manifest.permission.ACCESS_FINE_LOCATION) {
-            LiveRideActivity.launch(activity!!)
+        doOrRequestPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) {
+            LiveRideActivity.launch(context!!)
         }
     }
 
@@ -121,7 +121,7 @@ class RouteMapFragment : CycleMapFragment(), Route.Listener {
     }
 
     private fun doLaunchRouteDialog() {
-        RouteByAddress.launch(activity,
+        RouteByAddress.launch(context!!,
                               mapView().boundingBox,
                               mapView().lastFix,
                               routeSetter.waypoints())
@@ -132,7 +132,7 @@ class RouteMapFragment : CycleMapFragment(), Route.Listener {
     }
 
     private fun doLaunchFetchRouteDialog() {
-        RouteByNumber.launch(activity)
+        RouteByNumber.launch(context!!)
     }
 
     private fun launchGpsFileDownloadDialog() {
@@ -145,7 +145,7 @@ class RouteMapFragment : CycleMapFragment(), Route.Listener {
     }
 
     private fun launchStoredRoutes() {
-        StoredRoutes.launch(activity)
+        StoredRoutes.launch(context!!)
     }
 
     private fun startNewRoute(listener: DialogInterface.OnClickListener) {
@@ -156,7 +156,7 @@ class RouteMapFragment : CycleMapFragment(), Route.Listener {
     }
 
     override fun onNewJourney(journey: Journey, waypoints: Waypoints) {
-        if (!waypoints.isEmpty) {
+        if (!waypoints.isEmpty()) {
             Log.d(TAG, "Setting map centre to " + waypoints.first()!!)
             mapView().controller.setCenter(waypoints.first())
         }

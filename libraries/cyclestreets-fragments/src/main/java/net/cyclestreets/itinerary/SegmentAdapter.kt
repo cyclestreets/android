@@ -26,15 +26,15 @@ internal class SegmentAdapter(context: Context) : BaseAdapter() {
     private var v: View? = null
 
     private fun hasSegments(): Boolean {
-        return !Route.journey().isEmpty
+        return !Route.journey().isEmpty()
     }
 
     override fun getCount(): Int {
-        return if (hasSegments()) Route.journey().segments().count() else 1
+        return if (hasSegments()) Route.journey().segments.count() else 1
     }
 
     override fun getItem(position: Int): Segment? {
-        return if (!hasSegments()) null else Route.journey().segments().get(position)
+        return if (!hasSegments()) null else Route.journey().segments.get(position)
     }
 
     override fun getItemId(position: Int): Long {
@@ -45,7 +45,7 @@ internal class SegmentAdapter(context: Context) : BaseAdapter() {
         if (!hasSegments())
             return inflater.inflate(R.layout.itinerary_not_available, parent, false)
 
-        val seg = Route.journey().segments().get(position)
+        val seg = Route.journey().segments.get(position)
         val layoutId = if (position != 0) R.layout.itinerary_item else R.layout.itinerary_header_item
         val view: View = inflater.inflate(layoutId, parent, false)
         v = view;
@@ -55,7 +55,7 @@ internal class SegmentAdapter(context: Context) : BaseAdapter() {
         if (position == 0) {
             fillInOverview(Route.journey(), view, routeString)
         }
-        setText(R.id.segment_distance, seg.distance(), highlight)
+        setText(R.id.segment_distance, seg.formattedDistance(), highlight)
         setText(R.id.segment_cumulative_distance, seg.runningDistance(), highlight)
         setText(R.id.segment_time, seg.runningTime(), highlight)
 

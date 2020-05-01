@@ -41,7 +41,7 @@ class Segments : Iterable<Segment> {
             }
 
             // Meld staggered crossroads
-            if (previous.distance_ < 20) {
+            if (previous.distance < 20) {
                 CROSSROAD_MELDS[Pair(previous.turn, seg.turn)]?.let {
                     segments.remove(previous)
                     segments.add(Segment.Step(previous, seg, it, it.textInstruction))
@@ -50,7 +50,7 @@ class Segments : Iterable<Segment> {
             }
 
             // Meld bridges
-            if (previous.distance_ < 100 && "Bridge".equals(previous.name_, ignoreCase = true) && Turn.STRAIGHT_ON === seg.turn) {
+            if (previous.distance < 100 && "Bridge".equals(previous.name, ignoreCase = true) && Turn.STRAIGHT_ON === seg.turn) {
                 segments.remove(previous)
                 segments.add(Segment.Step(previous, seg, previous.turn, previous.turnInstruction + " over Bridge"))
                 return

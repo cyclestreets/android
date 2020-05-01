@@ -38,7 +38,6 @@ import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
 import okhttp3.RequestBody;
-import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.jackson.JacksonConverterFactory;
@@ -63,7 +62,7 @@ public class RetrofitApiClient {
     Cache cache = new Cache(new File(context.getCacheDir(), CACHE_DIR_NAME), CACHE_MAX_SIZE_BYTES);
     OkHttpClient client = new OkHttpClient.Builder()
             .addInterceptor(new ApiKeyInterceptor(builder.apiKey))
-            .addInterceptor(new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.NONE))
+            .addInterceptor(new HttpLoggingInterceptor())
             .addNetworkInterceptor(new RewriteCacheControlInterceptor())
             .cache(cache)
             .build();
@@ -137,7 +136,7 @@ public class RetrofitApiClient {
   }
 
   public String retrievePreviousJourneyJson(final String plan,
-                                           final long itineraryId) throws IOException {
+                                            final long itineraryId) throws IOException {
     Response<String> response = v1Api.retrievePreviousJourneyJson(plan, itineraryId).execute();
     return JourneyStringTransformerKt.fromV1ApiJson(response.body());
   }
@@ -195,6 +194,11 @@ public class RetrofitApiClient {
                           final double latN) throws IOException {
     String bbox = toBboxString(lonW, latS, lonE, latN);
     Response<FeatureCollection> response = v2Api.getPhotos(bbox).execute();
+    return PhotosFactory.toPhotos(response.body());
+  }
+
+  public Photos getPhoto(final long photoId) throws IOException {
+    Response<FeatureCollection> response = v2Api.getPhoto(photoId).execute();
     return PhotosFactory.toPhotos(response.body());
   }
 

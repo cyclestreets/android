@@ -10,7 +10,8 @@
     android:layout_weight="1.0"
     android:layout_width="0.0dp"
     android:freezesText="true"
-    android:imeOptions="actionNext" />
+    android:inputType="text"
+    android:imeOptions="actionSearch" />
   <ImageButton
     android:id="@+id/optionsBtn"
     android:layout_width="40.0dp"

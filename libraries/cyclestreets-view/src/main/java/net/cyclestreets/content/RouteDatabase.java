@@ -6,8 +6,6 @@ import java.util.List;
 import net.cyclestreets.routing.Journey;
 import net.cyclestreets.routing.Waypoints;
 
-import org.osmdroid.api.IGeoPoint;
-
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -65,8 +63,8 @@ public class RouteDatabase
     insertRoute.bindLong(1, journey.itinerary());
     insertRoute.bindString(2, journey.name());
     insertRoute.bindString(3, journey.plan());
-    insertRoute.bindLong(4, journey.total_distance());
-    insertRoute.bindString(5, serializeWaypoints(journey.waypoints()));
+    insertRoute.bindLong(4, journey.totalDistance());
+    insertRoute.bindString(5, serializeWaypoints(journey.getWaypoints()));
     insertRoute.bindString(6, json);
     insertRoute.executeInsert();
   }

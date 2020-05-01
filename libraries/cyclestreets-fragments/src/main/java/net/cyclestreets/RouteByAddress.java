@@ -19,13 +19,14 @@ import org.osmdroid.util.GeoPoint;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.location.Location;
+import android.support.annotation.NonNull;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.LinearLayout;
 
 public class RouteByAddress {
-  public static void launch(final Context context,
+  public static void launch(@NonNull final Context context,
                             final BoundingBox boundingBox,
                             final Location lastFix,
                             final Waypoints waypoints) {
@@ -77,13 +78,13 @@ public class RouteByAddress {
       bounds_ = boundingBox;
       currentLoc_ = lastFix != null ? new GeoPoint(lastFix.getLatitude(), lastFix.getLongitude()) : null;
 
-      placeHolder_ = (LinearLayout) layout.findViewById(R.id.places);
+      placeHolder_ = layout.findViewById(R.id.places);
       waypoints_ = waypoints;
 
-      addWaypoint_ = (Button) layout.findViewById(R.id.addVia);
+      addWaypoint_ = layout.findViewById(R.id.addVia);
       addWaypoint_.setOnClickListener(this);
 
-      routeType_ = (RouteType)layout.findViewById(R.id.routeType);
+      routeType_ = layout.findViewById(R.id.routeType);
 
       final View from = addWaypointBox();
       addWaypointBox();
@@ -158,10 +159,10 @@ public class RouteByAddress {
     }
 
     private Waypoints asWaypoints(final List<GeoPlace> places) {
-      final Waypoints points = new Waypoints();
+      final List<IGeoPoint> geoPoints = new ArrayList<>();
       for (GeoPlace place : places)
-        points.add(place.coord());
-      return points;
+        geoPoints.add(place.coord());
+      return new Waypoints(geoPoints);
     }
 
     @Override
@@ -175,18 +176,15 @@ public class RouteByAddress {
     }
 
     private void resolvePlaces() {
-      resolveNextPlace(new ArrayList<GeoPlace>(), 0);
+      resolveNextPlace(new ArrayList<>(), 0);
     }
 
     private void resolveNextPlace(final List<GeoPlace> resolvedPlaces, final int index) {
       if (index != placeHolder_.getChildCount()) {
         final PlaceViewWithCancel pv = (PlaceViewWithCancel) placeHolder_.getChildAt(index);
-        pv.geoPlace(new PlaceViewWithCancel.OnResolveListener() {
-          @Override
-          public void onResolve(GeoPlace place) {
-            resolvedPlaces.add(place);
-            resolveNextPlace(resolvedPlaces, index + 1);
-          }
+        pv.geoPlace(place -> {
+          resolvedPlaces.add(place);
+          resolveNextPlace(resolvedPlaces, index + 1);
         });
       } else
         findRoute(resolvedPlaces);

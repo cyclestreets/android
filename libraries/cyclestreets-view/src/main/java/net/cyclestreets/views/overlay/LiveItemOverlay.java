@@ -20,13 +20,12 @@ import android.graphics.Rect;
 
 import net.cyclestreets.util.Brush;
 import net.cyclestreets.views.CycleMapView;
+import static net.cyclestreets.views.CycleMapView.ITEM_ZOOM_LEVEL;
 
 public abstract class LiveItemOverlay<T extends OverlayItem>
           extends ItemizedOverlay<T>
           implements MapListener
 {
-  /////////////////////////////////////////////////////
-  /////////////////////////////////////////////////////
   private final CycleMapView mapView_;
   private int zoomLevel_;
   private boolean loading_;
@@ -49,8 +48,8 @@ public abstract class LiveItemOverlay<T extends OverlayItem>
     showLoading_ = showLoading;
 
     final Context context = mapView_.getContext();
-    offset_ = DrawingHelper.offset(context);
-    radius_ = DrawingHelper.cornerRadius(context);
+    offset_ = DrawingHelperKt.offset(context);
+    radius_ = DrawingHelperKt.cornerRadius(context);
     textBrush_ = Brush.createTextBrush(offset_);
 
     mapView_.setMapListener(new DelayedMapListener(this));
@@ -59,6 +58,10 @@ public abstract class LiveItemOverlay<T extends OverlayItem>
   protected Paint textBrush() { return textBrush_; }
   protected int offset() { return offset_; }
   protected float cornerRadius() { return radius_; }
+
+  protected void centreOn(IGeoPoint geoPoint) {
+    mapView_.centreOn(geoPoint, ITEM_ZOOM_LEVEL);
+  }
 
   @Override
   public void draw(final Canvas canvas, final MapView mapView, final boolean shadow) {
@@ -81,7 +84,7 @@ public abstract class LiveItemOverlay<T extends OverlayItem>
     canvas.save();
     canvas.concat(unscaled);
 
-    DrawingHelper.drawRoundRect(canvas, screen, cornerRadius(), Brush.Grey);
+    DrawingHelperKt.drawRoundRect(canvas, screen, cornerRadius(), Brush.Grey);
     canvas.drawText(LOADING, screen.centerX(), screen.centerY() + bounds.bottom, textBrush());
 
     canvas.restore();
@@ -97,7 +100,7 @@ public abstract class LiveItemOverlay<T extends OverlayItem>
   public boolean onZoom(final ZoomEvent event) {
     if (event.getZoomLevel() < zoomLevel_)
       items().clear();
-    zoomLevel_ = event.getZoomLevel();
+    zoomLevel_ = (int)event.getZoomLevel();
     refreshItems();
     return true;
   }

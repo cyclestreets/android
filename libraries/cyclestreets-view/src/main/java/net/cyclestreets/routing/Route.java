@@ -31,7 +31,7 @@ public class Route
       if (!doRegister(listener))
         return;
 
-      if ((Route.journey() != Journey.NULL_JOURNEY) || (Route.waypoints() != Waypoints.NULL_WAYPOINTS))
+      if ((Route.journey() != Journey.Companion.getNULL_JOURNEY()) || (Route.waypoints() != WaypointsKt.getNULL_WAYPOINTS()))
         listener.onNewJourney(Route.journey(), Route.waypoints());
       else
         listener.onResetJourney();
@@ -76,6 +76,14 @@ public class Route
     query.execute(waypoints);
   }
 
+  public static void LiveReplanRoute(final String plan,
+                                     final int speed,
+                                     final Context context,
+                                     final Waypoints waypoints) {
+    final LiveRideReplanRoutingTask query = new LiveRideReplanRoutingTask(plan, speed, context);
+    query.execute(waypoints);
+  }
+
   public static void FetchRoute(final String plan,
                                 final long itinerary,
                                 final int speed,
@@ -105,8 +113,8 @@ public class Route
   }
 
   /////////////////////////////////////////
-  private static Journey plannedRoute_ = Journey.NULL_JOURNEY;
-  private static Waypoints waypoints_ = plannedRoute_.waypoints();
+  private static Journey plannedRoute_ = Journey.Companion.getNULL_JOURNEY();
+  private static Waypoints waypoints_ = plannedRoute_.getWaypoints();
   private static RouteDatabase db_;
   private static Context context_;
 
@@ -154,24 +162,24 @@ public class Route
 
   private static void doOnNewJourney(final RouteData route) {
     if (route == null) {
-      plannedRoute_ = Journey.NULL_JOURNEY;
-      waypoints_ = Waypoints.NULL_WAYPOINTS;
+      plannedRoute_ = Journey.Companion.getNULL_JOURNEY();
+      waypoints_ = WaypointsKt.getNULL_WAYPOINTS();
       listeners_.onReset();
       clearRoutePref();
       return;
     }
 
-    plannedRoute_ = Journey.loadFromJson(route.json(), route.points(), route.name());
+    plannedRoute_ = Journey.Companion.loadFromJson(route.json(), route.points(), route.name());
 
     db_.saveRoute(plannedRoute_, route.json());
-    waypoints_ = plannedRoute_.waypoints();
+    waypoints_ = plannedRoute_.getWaypoints();
     listeners_.onNewJourney(plannedRoute_, waypoints_);
     setRoutePref();
   }
 
   public static Waypoints waypoints() { return waypoints_; }
 
-  public static boolean available() { return plannedRoute_ != Journey.NULL_JOURNEY; }
+  public static boolean available() { return plannedRoute_ != Journey.Companion.getNULL_JOURNEY(); }
   public static Journey journey() { return plannedRoute_; }
 
   private static void loadLastJourney() {

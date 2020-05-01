@@ -20,11 +20,10 @@ public class Photos implements Iterable<Photo> {
   }
 
   /////////////////////////////////////////////////////////////
-  public static Photos load(final BoundingBox boundingBox)
-          throws IOException {
-    return ApiClient.getPhotos(boundingBox.getLonEast(),
-                               boundingBox.getLonWest(),
-                               boundingBox.getLatNorth(),
-                               boundingBox.getLatSouth());
+  public static Photos load(final BoundingBox boundingBox) {
+    return ApiClient.INSTANCE.getPhotos(boundingBox.getLonWest(),
+                                        boundingBox.getLatSouth(),
+                                        boundingBox.getLonEast(),
+                                        boundingBox.getLatNorth());
   }
 }

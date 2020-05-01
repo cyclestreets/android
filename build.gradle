@@ -1,59 +1,77 @@
 buildscript {
-  ext.kotlinVersion = '1.2.60'
+  ext.kotlinVersion = '1.3.61'
   repositories {
     google()
     jcenter()
   }
   dependencies {
-    classpath 'com.android.tools.build:gradle:3.1.4'
-    classpath 'com.github.triplet.gradle:play-publisher:1.2.2'
-    classpath 'org.ajoberstar:grgit:2.3.0'
+    classpath 'com.android.tools.build:gradle:3.6.2'
     classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
   }
 }
 
-configure(subprojects.findAll { it.path.startsWith(':custom-versions:') ||
-                                it.path.startsWith(':cyclestreets') }) {
-  if (!file("${projectDir}/build.gradle").exists())
-    return
+ext {
+  // Android 9.0         28  PIE
+  // Android 8.1         27  OREO_MR1
+  // Android 8.0         26  OREO
+  // Android 7.1.1, 7.1  25  NOUGAT_MR1
+  // Android 7.0         24  NOUGAT
+  // Android 6.0         23  MARSHMALLOW
+  // Android 5.1         22  LOLLIPOP_MR1
+  // Android 5.0         21  LOLLIPOP
+  // Android 4.4W        20  KITKAT_WATCH
+  // Android 4.4         19  KITKAT
+  // Android 4.3         18  JELLY_BEAN_MR2
+  // Android 4.2, 4.2.2  17  JELLY_BEAN_MR1
 
-  apply plugin: 'com.android.application'
-  apply plugin: 'com.github.triplet.play'
+  // Remember to keep these values in sync with .travis.yml
+  compileSdkVersion=28
+  minSdkVersion=23
+  targetSdkVersion=28
+  buildToolsVersion='28.0.3'
 
-  signingKey(it)
-  manifestProperties(it)
-  versionProperties(it)
+  supportLibraryVersion='27.1.1'
+
+  // centrally manage some other dependencies
+  assertjVersion = '3.15.0'
+  mockitoVersion = '2.28.2'
 }
 
-configure(subprojects.findAll { it.path.startsWith(':libraries:') }) {
-  if (!file("${projectDir}/build.gradle").exists())
-    return
-
-  apply plugin: 'com.android.library'
-}
-
+// Configure common settings in all projects
 subprojects {
   if (!file("${projectDir}/build.gradle").exists())
     return
-
-  apply plugin: 'kotlin-android'
 
   gradle.projectsEvaluated {
     tasks.withType(JavaCompile) {
       options.compilerArgs << "-Xlint:unchecked" << "-Xlint:deprecation"
     }
   }
+
+  buildscript {
+    repositories {
+      google()
+      jcenter()
+    }
+  }
+
   repositories {
     google()
     jcenter()
     maven { url "https://jitpack.io" }
   }
 
-  android {
-    Properties appConfig = loadProperties("${rootDir}/config.properties")
+  if (projectDir.getName().equals('cyclestreets.app')) {
+    apply plugin: 'com.android.application'
+  } else {
+    apply plugin: 'com.android.library'
+  }
 
-    compileSdkVersion appConfig['compileSdkVersion'].toInteger()
-    buildToolsVersion appConfig['toolsVersion']
+  apply plugin: 'kotlin-android'
+
+  android {
+    compileSdkVersion rootProject.ext.compileSdkVersion
+    buildToolsVersion rootProject.ext.buildToolsVersion
 
     compileOptions {
       sourceCompatibility JavaVersion.VERSION_1_8
@@ -61,113 +79,16 @@ subprojects {
     }
 
     defaultConfig {
-      minSdkVersion appConfig['minSdkVersion'].toInteger()
-      targetSdkVersion appConfig['targetSdkVersion'].toInteger()
+      minSdkVersion rootProject.ext.minSdkVersion
+      targetSdkVersion rootProject.ext.targetSdkVersion
     }
 
-    packagingOptions {
-      exclude 'META-INF/LICENSE'
-      exclude 'META-INF/LICENSE.txt'
-      exclude 'META-INF/DEPENDENCIES'
-      exclude 'META-INF/NOTICE'
-      exclude 'META-INF/NOTICE.txt'
-    }
-
-    // Required due to strictness of the Android developer tools.  See lint.xml for full details.
     lintOptions {
+      // Required due to strictness of the Android developer tools.  See lint.xml for full details.
       lintConfig rootProject.file('gradle/lint.xml')
+
+      // Kotlin (nullability) interop check - potentially useful but quite noisy
+      // check 'Interoperability'
     }
   }
-}
-
-def loadProperties(fileName) {
-  Properties props = new Properties()
-  props.load(new FileInputStream(file(fileName)))
-  return props
-}
-
-def manifestProperties(project) {
-  def cyclestreetsDetails = project.file("cyclestreets.properties")
-  if (!cyclestreetsDetails.exists()) {
-    println ":${project.name}:No cyclestreets.properties"
-    return
-  }
-
-  project.android {
-    buildTypes {
-      all {
-        manifestPlaceholders = loadProperties(cyclestreetsDetails)
-      }
-    }
-  }
-}
-
-def versionProperties(project) {
-  // Get the version name.  We increment this manually after pushing beta releases to Production.
-  def versionProperties = project.file("version.properties")
-  def vName = loadProperties(versionProperties)['versionName']
-
-  // For the numerical version code, we use the number of commits on the branch.  Since we don't
-  // intend to rewrite history on `master`, this will always be a monotonically increasing number.
-  def git = org.ajoberstar.grgit.Grgit.open()
-  def vCode = git.log().size()
-  println "Version name: ${vName}, code: ${vCode}"
-
-  project.android {
-    defaultConfig {
-      versionCode vCode
-      versionName vName
-    }
-  }
-}
-
-def signingKey(project) {
-  def licenseDetails = project.file("license.properties")
-  if (!licenseDetails.exists()) {
-    println ":${project.name}:No license.properties"
-    return
-  }
-
-  Properties props = loadProperties(licenseDetails)
-
-  project.play {
-    track = 'beta'
-  }
-
-  project.android {
-    signingConfigs {
-      release {
-        storeFile project.file(props['key.store'])
-        storePassword props['key.password']
-        keyAlias props['key.alias']
-        keyPassword props['key.password']
-      }
-    }
-
-    playAccountConfigs {
-      defaultAccountConfig {
-        serviceAccountEmail = 'cyclestreets-android@api-7698300952134656507-752021.iam.gserviceaccount.com'
-        pk12File = project.file('play-api-key.p12')
-      }
-    }
-
-    defaultConfig {
-      playAccountConfig = playAccountConfigs.defaultAccountConfig
-    }
-
-    buildTypes {
-// If you have the decrypted keys locally, and need to use them to sign the debug variant so you can install it onto
-// a real device for testing in advance of a beta build coming out, uncomment the following lines.
-//      debug {
-//        signingConfig signingConfigs.release
-//      }
-      release {
-        signingConfig signingConfigs.release
-      }
-    }
-  }
-}
-
-repositories {
-  google()
 }
