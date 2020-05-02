@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.ArrayList;
 
 import net.cyclestreets.Undoable;
+import net.cyclestreets.tiles.TileSource;
 import net.cyclestreets.util.Brush;
 import net.cyclestreets.util.Logging;
 import net.cyclestreets.views.CycleMapView;
@@ -35,7 +36,7 @@ public class ControllerOverlay extends Overlay implements OnDoubleTapListener, O
   private final CycleMapView mapView_;
   private final Paint textBrush_;
   private List<Undoable> undoStack_;
-  private boolean attributionShiftedRight;
+  private boolean attributionShifted;
 
   public ControllerOverlay(final CycleMapView mapView) {
     super();
@@ -157,15 +158,15 @@ public class ControllerOverlay extends Overlay implements OnDoubleTapListener, O
 
   private void drawUnskewed(final Canvas canvas) {
     final Rect screen = canvas.getClipBounds();
-    final int x = attributionShiftedRight ? screen.centerX() * 3 / 2 : screen.centerX();
+    final int yHeight = attributionShifted ? TileSource.getAttributionUpShift() : 0;
     canvas.drawText(mapView_.mapAttribution(),
-        x,
-        screen.bottom-(textBrush_.descent()+2),
-        textBrush_);
+            screen.centerX(),
+            screen.bottom - (textBrush_.descent()+2) - yHeight,
+            textBrush_);
   }
 
-  public void setAttributionShiftedRight() {
-    this.attributionShiftedRight = true;
+  public void setAttributionShifted() {
+    this.attributionShifted = true;
   }
 
   @Override

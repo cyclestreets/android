@@ -112,4 +112,9 @@
   <string name="account_registration_is_free_long">O cadastro é gratúito, e usuários registrados podem adicionar fotos. Para iniciar um cadastro digite seus dados no formulário abaixo.</string>
   <string name="placeview_contacts">Contatos</string>
 
+  <string name="show_remaining_time">Show remaining time</string>
+  <string name="show_ETA">Show estimated time of arrival</string>
+  <string name="remaining">Remaining</string>
+  <string name="slash_ETA">/ ETA</string>
+
 </resources>

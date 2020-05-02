@@ -113,4 +113,9 @@
   <string name="account_pending">Vous avez déjà enregistré un compte. S\'il vous plaît vérifier votre e-mail pour le message de vérification.</string>
   <string name="account_registration_is_free_long">L\'inscription est gratuite et les utilisateurs enregistrés peuvent ajouter des photos. Pour démarrer le processus d\'inscription s\'il vous plaît entrer vos coordonnées dans le formulaire ci-dessous.</string>
 
+  <string name="show_remaining_time">Show remaining time</string>
+  <string name="show_ETA">Show estimated time of arrival</string>
+  <string name="remaining">Remaining</string>
+  <string name="slash_ETA">/ ETA</string>
+
 </resources>

@@ -79,7 +79,7 @@ class LiveRideActivity : Activity(), ServiceConnection, LiveRideOverlay.Locator 
             overlayPushTop(LiveRideOverlay(this@LiveRideActivity, this@LiveRideActivity))
             lockOnLocation()
             hideLocationButton()
-            shiftAttributionRight()
+            shiftAttribution()
         }
         RelativeLayout(this).apply {
             addView(map,
