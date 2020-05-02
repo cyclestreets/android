@@ -37,6 +37,9 @@ public class CycleStreetsPreferences
   public final static String PREF_OFFTRACK_DISTANCE = "offtrack-distance";
   public final static String PREF_REPLAN_DISTANCE = "replan-distance";
 
+  public final static String PREF_SHOW_REMAINING_TIME = "show-remaining-time";
+  public final static String PREF_SHOW_ETA = "show-ETA";
+
   public final static String MAPSTYLE_OCM = "CycleStreets";
   public final static String MAPSTYLE_OSM = "CycleStreets-OSM";
   public final static String MAPSTYLE_OS = "CycleStreets-OS";
@@ -135,6 +138,14 @@ public class CycleStreetsPreferences
 
   public static int replanDistance() {
     return Integer.parseInt(getString(PREF_REPLAN_DISTANCE, "50"));
+  }
+
+    public static boolean showRemainingTime() {
+    return getBoolean(PREF_SHOW_REMAINING_TIME, true);
+  }
+
+  public static boolean showETA() {
+    return getBoolean(PREF_SHOW_ETA, true);
   }
 
   public static boolean uploadSmallImages() {

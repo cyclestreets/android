@@ -137,5 +137,9 @@
   <string name="perm_justification_read_contacts" translatable="false"><![CDATA[
     <li>&nbsp; allow you to find the addresses of your contacts on the map, and create routes to these locations</li>
   ]]></string>
+  <string name="show_remaining_time">Show remaining time</string>
+  <string name="show_ETA">Show estimated time of arrival</string>
+  <string name="remaining">Remaining</string>
+  <string name="ETA">/ ETA</string>
 
 </resources>

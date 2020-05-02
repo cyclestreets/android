@@ -19,6 +19,7 @@ public abstract class Segment {
   protected final String turnInstruction;
   protected final boolean walk;
   protected final String runningTime;
+  protected final int time;
   public final int distance;
   public final int cumulativeDistance; // up to the *END* of the segment
   protected final List<IGeoPoint> points;
@@ -41,6 +42,7 @@ public abstract class Segment {
          turnInstruction,
          walk,
          formatTime(time, terminal),
+         time,
          distance,
          cumulativeDistance,
          points,
@@ -53,6 +55,7 @@ public abstract class Segment {
           final String turnInstruction,
           final boolean walk,
           final String runningTime,
+          final int time,
           final int distance,
           final int cumulativeDistance,
           final List<IGeoPoint> points,
@@ -63,6 +66,7 @@ public abstract class Segment {
     this.turnInstruction = initCap(turnInstruction);
     this.walk = walk;
     this.runningTime = runningTime;
+    this.time = time;
     this.distance = distance;
     this.cumulativeDistance = cumulativeDistance;
     this.points = points;
@@ -72,7 +76,7 @@ public abstract class Segment {
     return s.length() != 0 ? s.substring(0,1).toUpperCase() + s.substring(1) : s;
   }
 
-  private static String formatTime(int time, boolean terminal) {
+  public static String formatTime(int time, boolean terminal) {
     if (time == 0)
       return "";
 
@@ -207,6 +211,7 @@ public abstract class Segment {
     return minIndex;
   }
 
+  // Distance of location from end of segment (finish() )
   public int distanceFromEnd(final GeoPoint location) {
     return GeoHelper.distanceBetween(finish(), location);
   }
@@ -283,6 +288,7 @@ public abstract class Segment {
 
   public static class End extends Segment  {
     final int totalDistance;
+    final int totalTime;
 
     End(final String destination,
         final int totalTime,
@@ -290,11 +296,13 @@ public abstract class Segment {
         final List<IGeoPoint> points) {
       super("Destination " + destination, Integer.MAX_VALUE, Turn.turnFor(""), "", false, totalTime, 0, totalDistance, points, true);
       this.totalDistance = totalDistance;
+      this.totalTime = totalTime;
     }
 
     public String toString() { return street(); }
     public String formattedDistance() { return ""; }
     public int totalDistance() { return totalDistance; }
+    public int totalTime() { return totalTime; }
   }
 
   public static class Step extends Segment  {
@@ -326,6 +334,7 @@ public abstract class Segment {
             turnInstruction,
             s1.walk || s2.walk,
             s2.runningTime,
+            s2.time,
             s1.distance + s2.distance,
             s2.cumulativeDistance,
             Collections.concatenate(s1.points, s2.points),

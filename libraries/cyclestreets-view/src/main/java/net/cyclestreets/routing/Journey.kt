@@ -1,5 +1,6 @@
 package net.cyclestreets.routing
 
+import android.location.Location
 import java.io.IOException
 
 import android.text.TextUtils
@@ -15,6 +16,7 @@ import net.cyclestreets.routing.domain.SegmentDomainObject
 import net.cyclestreets.util.Logging
 import net.cyclestreets.util.Turn
 import org.osmdroid.api.IGeoPoint
+import org.osmdroid.util.GeoPoint
 
 private val TAG = Logging.getTag(Journey::class.java)
 
@@ -44,6 +46,42 @@ class Journey private constructor(wp: Waypoints? = null) {
     fun plan(): String { return start().plan() }
     fun speed(): Int { return start().speed() }
     fun totalDistance(): Int { return end().totalDistance() }
+    fun totalTime(): Int { return end().totalTime() }
+
+    fun remainingDistance(distanceUntilTurn: Int): Int {
+        val actSeg = activeSegment()
+
+        if (actSeg != null) {
+            return if (activeSegment > 0) (totalDistance() - actSeg.cumulativeDistance + distanceUntilTurn)
+                // segments[0] is a summary of the whole journey and its Cumulative distance is same as Total distance
+            else (totalDistance()) // Don't try and calculate until actual segment has been found
+        }
+        else { return Int.MAX_VALUE }
+    }
+
+    fun remainingTime(distanceUntilTurn: Int): Int {
+        val actSeg = activeSegment()
+        val prevSeg = previousSegment()
+        val prevSegTime : Int
+        val timeToEndOfSeg : Int
+
+        if (prevSeg != null) {prevSegTime = prevSeg.time}
+        else {prevSegTime = 0}
+
+        if (actSeg != null) {
+            // Time to cover whole of active segment (Segment.time is cumulative time)
+            val segTime = actSeg.time - prevSegTime
+            if (actSeg.distance != 0) {
+                // This is an approximation of the time to the end of the active segment from current location
+                timeToEndOfSeg = ((segTime * distanceUntilTurn).toFloat() / actSeg.distance.toFloat()).toInt()
+            }
+            else {timeToEndOfSeg = 0}
+
+            return if (activeSegment > 0) (totalTime() - actSeg.time + timeToEndOfSeg)
+            else (totalTime()) // Don't try and calculate until actual segment has been found
+        }
+        else { return Int.MAX_VALUE }
+    }
 
     /////////////////////////////////////////
     fun setActiveSegmentIndex(index: Int) { activeSegment = index }
@@ -57,6 +95,9 @@ class Journey private constructor(wp: Waypoints? = null) {
 
     fun activeSegmentIndex(): Int { return activeSegment }
 
+    fun previousSegment(): Segment? {
+        return if (activeSegment > 1) segments[activeSegment-1] else null
+    }
     fun activeSegment(): Segment? {
         return if (activeSegment >= 0) segments[activeSegment] else null
     }
@@ -134,6 +175,7 @@ class Journey private constructor(wp: Waypoints? = null) {
                 totalTime += sdo.time
                 totalDistance += sdo.distance
                 journey.segments.add(
+                        // Format time for display in Itinerary
                     Segment.Step(
                         getStreetName(sdo.name),
                         sdo.legNumber,
