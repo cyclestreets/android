@@ -194,9 +194,9 @@ object Route {
     }
 
     private fun restoreWaypoints() {
-        val stash = prefs().getString(waypointsInProgressPref, null)
-        stash?.let {
-            waypoints_ = Waypoints(RouteDatabase.deserializeWaypoints(it))
+        val stash = prefs().getString(waypointsInProgressPref, "")
+        if (stash != null && stash.isNotEmpty()) {
+            waypoints_ = Waypoints(RouteDatabase.deserializeWaypoints(stash))
         }
     }
 
