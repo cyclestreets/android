@@ -7,6 +7,6 @@
   <string name="crash_dialog_title">CycleStreets ha smesso di funzionare</string>
   <string name="crash_dialog_text">Un error imprevisto ha costretto\n    l\'app a smettere di funzionare.Aiutaci a risolvere questo problema inviandoci i dati dell\'errore,\n    basta cliccare su \'OK\'.</string>
   <string name="crash_dialog_comment_prompt">Puoi aggiugnere commenti sul problema qui sotto:</string>
-  <string name="crash_dialog_ok_toast">Grazie !</string>
+  <string name="crash_dialog_ok_toast">Grazie!</string>
 
 </resources>
