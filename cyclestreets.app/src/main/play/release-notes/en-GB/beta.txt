@@ -1,1 +1,3 @@
-Nothing new in beta yet - the production release is up to date!
+Bug fixes:
+
+Directional location marker now visible again
