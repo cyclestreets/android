@@ -3,7 +3,7 @@ package net.cyclestreets.itinerary
 import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.Drawable
-import android.support.v4.content.res.ResourcesCompat
+import androidx.core.content.res.ResourcesCompat
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup

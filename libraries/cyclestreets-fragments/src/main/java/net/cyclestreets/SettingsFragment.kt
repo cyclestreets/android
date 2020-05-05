@@ -2,9 +2,9 @@ package net.cyclestreets
 
 import android.content.SharedPreferences
 import android.os.Bundle
-import android.support.transition.Fade
-import android.support.transition.Slide
-import android.support.v7.preference.*
+import androidx.transition.Fade
+import androidx.transition.Slide
+import androidx.preference.*
 
 import android.util.Log
 import android.view.Gravity

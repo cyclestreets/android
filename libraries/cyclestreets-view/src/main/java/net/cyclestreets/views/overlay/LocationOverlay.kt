@@ -15,7 +15,7 @@ import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Color
 import android.location.LocationManager
-import android.support.design.widget.FloatingActionButton
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.MotionEvent

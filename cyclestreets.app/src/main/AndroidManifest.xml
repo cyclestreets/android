@@ -91,7 +91,7 @@
 
     <!-- Allows CycleStreets-created files to be written into by the camera app -->
     <provider
-      android:name="android.support.v4.content.FileProvider"
+      android:name="androidx.core.content.FileProvider"
       android:authorities="net.cyclestreets.fileprovider"
       android:exported="false"
       android:grantUriPermissions="true">

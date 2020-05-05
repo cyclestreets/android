@@ -30,7 +30,7 @@ keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
 
 android {
   defaultConfig {
-    testInstrumentationRunner 'android.support.test.runner.AndroidJUnitRunner'
+    testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
 
     applicationId 'net.cyclestreets'
     versionName advancedVersioning.versionName
@@ -80,8 +80,8 @@ play {
 dependencies {
   api project(':libraries:cyclestreets-fragments')
 
-  androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
-  androidTestImplementation 'com.android.support.test:runner:1.0.2'
-  androidTestImplementation 'com.android.support.test:rules:1.0.2'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.0'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
+    androidTestImplementation 'androidx.test:rules:1.1.1'
   androidTestImplementation "org.assertj:assertj-core:${rootProject.ext.assertjVersion}"
 }

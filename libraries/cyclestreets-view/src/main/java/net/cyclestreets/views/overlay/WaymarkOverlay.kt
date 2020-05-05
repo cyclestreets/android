@@ -7,7 +7,7 @@ import android.graphics.Matrix
 import android.graphics.Paint
 import android.graphics.Point
 import android.graphics.drawable.Drawable
-import android.support.v4.content.res.ResourcesCompat
+import androidx.core.content.res.ResourcesCompat
 import net.cyclestreets.routing.Journey
 import net.cyclestreets.routing.Route
 import net.cyclestreets.routing.Waypoints

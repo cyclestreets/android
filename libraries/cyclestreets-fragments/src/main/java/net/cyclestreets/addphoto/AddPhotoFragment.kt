@@ -12,9 +12,9 @@ import android.graphics.drawable.Drawable
 import android.os.AsyncTask
 import android.os.Bundle
 import android.provider.MediaStore
-import android.support.media.ExifInterface
-import android.support.v4.app.Fragment
-import android.support.v4.content.FileProvider
+import androidx.exifinterface.media.ExifInterface
+import androidx.fragment.app.Fragment
+import androidx.core.content.FileProvider
 import android.util.Log
 import android.view.*
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT

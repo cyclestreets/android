@@ -26,7 +26,7 @@ import android.content.Intent
 import android.content.SharedPreferences
 import android.content.SharedPreferences.Editor
 import android.graphics.Canvas
-import android.support.design.widget.FloatingActionButton
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import android.util.Log
 import android.view.ContextMenu
 import android.view.Gravity
