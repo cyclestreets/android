@@ -6,12 +6,12 @@
       android:persistent="false">
     <ListPreference
         android:key="mapstyle"
-        android:title="Map style"
+        android:title="@string/map_style"
         android:summary="OpenStreetMap"
         android:defaultValue="CycleStreets-OSM" />
     <ListPreference
         android:key="mapfile"
-        android:title="Vector mapfile" />
+        android:title="@string/vector_mapfile" />
     <CheckBoxPreference
         android:key="confirm-new-route"
         android:title="Confirm start new route"
@@ -20,26 +20,26 @@
 
   <PreferenceScreen
       android:key="screen-routing-preferences"
-      android:title="Routing preferences"
+      android:title="@string/routing_preferences"
       android:persistent="false">
     <ListPreference
         android:key="routetype"
-        android:title="Route type default"
+        android:title="@string/route_type_default"
         android:summary="Balanced"
         android:defaultValue="balanced"
         android:entries="@array/routetype"
         android:entryValues="@array/routetype_values" />
     <ListPreference
         android:key="speed"
-        android:title="Cycling speed"
+        android:title="@string/cycling_speed"
         android:summary="20 km/h"
         android:defaultValue="20"
         android:entries="@array/speed"
         android:entryValues="@array/speed_values" />
     <ListPreference
         android:key="units"
-        android:title="Units"
-        android:summary="Kilometres"
+        android:title="@string/units"
+        android:summary="@string/kilometres"
         android:defaultValue="km"
         android:entries="@array/units"
         android:entryValues="@array/unit_values" />
@@ -47,25 +47,25 @@
 
   <PreferenceScreen
       android:key="screen-liveride"
-      android:title="LiveRide"
+      android:title="@string/liveride"
       android:persistent="false">
     <ListPreference
         android:key="nearing-turn-distance"
-        android:title="Turn warning distance"
+        android:title="@string/distance_nearing_turn"
         android:summary="100 m"
         android:defaultValue="100"
         android:entries="@array/distance"
         android:entryValues="@array/distance_values" />
     <ListPreference
         android:key="offtrack-distance"
-        android:title="Going off course distance"
+        android:title="@string/distance_offtrack"
         android:summary="30 m"
         android:defaultValue="30"
         android:entries="@array/distance"
         android:entryValues="@array/distance_values" />
     <ListPreference
         android:key="replan-distance"
-        android:title="Route replanning distance"
+        android:title="@string/distance_replanning"
         android:summary="50 m"
         android:defaultValue="50"
         android:entries="@array/distance"
@@ -79,25 +79,25 @@
 
   <PreferenceScreen
       android:key="screen-account"
-      android:title="CycleStreets account"
+      android:title="@string/account_settings"
       android:persistent="false">
 
     <PreferenceScreen
-        android:title="Account details"
+        android:title="@string/account_details"
         android:key="cyclestreets-account">
       <intent android:action="net.cyclestreets.AccountDetailsActivity" />
       <EditTextPreference
           android:key="username"
-          android:title="Username" />
+          android:title="@string/account_username" />
       <EditTextPreference
           android:key="password"
-          android:title="Password"
+          android:title="@string/account_password"
           android:password="true" />
     </PreferenceScreen>
 
     <ListPreference
         android:key="uploadsize"
-        android:title="Photo upload"
+        android:title="@string/photo_uploadsize"
         android:summary="medium"
         android:defaultValue="big"
         android:entries="@array/uploadsize"
@@ -106,7 +106,7 @@
 
   <PreferenceScreen
       android:key="screen-about"
-      android:title="About"
+      android:title="@string/about"
       android:persistent="false">
     <intent android:action="net.cyclestreets.AboutActivity" />
   </PreferenceScreen>
