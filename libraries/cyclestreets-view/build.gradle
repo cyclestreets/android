@@ -18,13 +18,9 @@ dependencies {
   api 'com.mikepenz:google-material-typeface:3.0.1.2.original@aar'
   api 'ru.ztrap.iconics:core-kt:1.0.2'
 
-  api 'androidx.appcompat:appcompat:1.0.0'
   api 'com.google.android.material:material:1.0.0'
   api 'androidx.exifinterface:exifinterface:1.0.0'
   api 'androidx.preference:preference:1.0.0'
-  api 'androidx.legacy:legacy-preference-v14:1.0.0'
-  api 'androidx.annotation:annotation:1.0.0'
-  api 'androidx.legacy:legacy-support-v4:1.0.0'
 
   testImplementation 'junit:junit:4.12'
   testImplementation 'org.robolectric:robolectric:3.8'

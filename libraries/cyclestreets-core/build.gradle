@@ -9,8 +9,6 @@ dependencies {
   api 'org.osmdroid:osmdroid-android:6.1.6'
   api 'org.slf4j:slf4j-android:1.7.30'
 
-    api 'androidx.core:core:1.0.0'
-
   // Retrofit for HTTP Client activities
   api 'com.squareup.retrofit2:retrofit:2.8.1'
   implementation 'com.squareup.retrofit2:converter-scalars:2.8.1'
