@@ -1,3 +1,4 @@
 Bug fixes:
 
 Directional location marker now visible again
+Fixes pinch-zoom in LiveRide
