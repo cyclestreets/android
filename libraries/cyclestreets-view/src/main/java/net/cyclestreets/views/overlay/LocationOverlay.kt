@@ -90,20 +90,23 @@ class LocationOverlay(private val mapView: CycleMapView) :
     }
 
     fun lockOnLocation() {
-        lockedOn = true
+        setEnableAutoStop(false)
     }
 
     fun hideButton() {
         button.visibility = View.INVISIBLE
     }
-
     override fun onTouchEvent(event: MotionEvent, mapView: MapView?): Boolean {
-        val handled = super.onTouchEvent(event, mapView)
+        val isSingleFingerDrag = (event.action == MotionEvent.ACTION_MOVE)
+                && (event.pointerCount == 1)
 
-        if (lockedOn && isMyLocationEnabled && event.action == MotionEvent.ACTION_MOVE)
-            enableFollowLocation()
+        if (event.action == MotionEvent.ACTION_DOWN && enableAutoStop) {
+            disableFollowLocation()
+        } else if (isSingleFingerDrag && isFollowLocationEnabled) {
+            return true // prevent the pan
+        }
 
-        return handled
+        return false
     }
 
     ////////////////////////////////////////////
