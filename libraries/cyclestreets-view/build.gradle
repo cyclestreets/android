@@ -11,8 +11,10 @@ android {
 dependencies {
   api project(':libraries:cyclestreets-core')
   implementation 'com.fasterxml.jackson.core:jackson-databind:2.10.1'
-  api 'org.mapsforge:mapsforge-map-android:0.13.0'
-  api 'org.mapsforge:mapsforge-themes:0.13.0'
+  api "org.mapsforge:mapsforge-map-android:${rootProject.ext.mapsforgeVersion}"
+  api "org.mapsforge:mapsforge-themes:${rootProject.ext.mapsforgeVersion}"
+  // there is some suggestion (https://github.com/osmdroid/osmdroid/wiki/Mapsforge) that the below may be necessary
+//  api "org.osmdroid:osmdroid-mapsforge:${rootProject.ext.osmdroidVersion}@aar"
 
   api 'com.mikepenz:iconics-core:3.0.4@aar'
   api 'com.mikepenz:google-material-typeface:3.0.1.2.original@aar'
