@@ -30,7 +30,6 @@ class LocationOverlay(private val mapView: CycleMapView) :
     private val button: FloatingActionButton
     private val onColor: Int = Theme.lowlightColor(mapView.context)
     private val followColor: Int = Theme.highlightColor(mapView.context) or -0x1000000
-    private var lockedOn: Boolean = false
 
     private class UseEverythingLocationProvider(context: Context) : GpsMyLocationProvider(context) {
         init {
