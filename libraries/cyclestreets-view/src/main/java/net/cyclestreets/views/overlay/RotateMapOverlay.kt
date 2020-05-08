@@ -2,14 +2,18 @@ package net.cyclestreets.views.overlay
 
 import android.content.Context
 import android.content.SharedPreferences
+import android.content.pm.ActivityInfo
 import android.graphics.Canvas
 import android.graphics.drawable.Drawable
+import android.hardware.GeomagneticField
 import android.location.Location
 import android.location.LocationManager
 import android.support.design.widget.FloatingActionButton
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.Surface
 import android.view.View
+import android.view.WindowManager
 import com.mikepenz.google_material_typeface_library.GoogleMaterial
 import com.mikepenz.iconics.IconicsDrawable
 import net.cyclestreets.util.Theme
@@ -17,18 +21,29 @@ import net.cyclestreets.view.R
 import net.cyclestreets.views.CycleMapView
 import org.osmdroid.views.MapView
 import org.osmdroid.views.overlay.Overlay
+import org.osmdroid.views.overlay.compass.IOrientationConsumer
+import org.osmdroid.views.overlay.compass.IOrientationProvider
+import org.osmdroid.views.overlay.compass.InternalCompassOrientationProvider
 import org.osmdroid.views.overlay.mylocation.GpsMyLocationProvider
 import org.osmdroid.views.overlay.mylocation.IMyLocationConsumer
 import org.osmdroid.views.overlay.mylocation.IMyLocationProvider
 
 class RotateMapOverlay(private val mapView: CycleMapView)
-    : Overlay(), PauseResumeListener, IMyLocationConsumer
+    : Overlay(), PauseResumeListener, IMyLocationConsumer, IOrientationConsumer
 {
     private val rotateButton: FloatingActionButton
     private val onIcon: Drawable
     private val offIcon: Drawable
     private val locationProvider: IMyLocationProvider
+    private val compassProvider: IOrientationProvider
     private var rotate = false
+    private var gpsspeed = 0f
+    private var lat = 0f
+    private var lon = 0f
+    private var alt = 0f
+    private var timeOfFix: Long = 0
+    private var deviceOrientation = 0
+
 
     init {
         val context = mapView.context
@@ -37,10 +52,11 @@ class RotateMapOverlay(private val mapView: CycleMapView)
 
         val rotateButtonView = LayoutInflater.from(context).inflate(R.layout.compassbutton, null)
         rotateButton = rotateButtonView.findViewById(R.id.compass_button)
-        rotateButton.setOnClickListener { view: View? -> setRotation(!rotate) }
+        rotateButton.setOnClickListener { setRotation(!rotate) }
 
         mapView.addView(rotateButtonView)
         locationProvider = UseEverythingLocationProvider(context)
+        compassProvider = InternalCompassOrientationProvider(context)
     }
 
     private fun setRotation(state: Boolean) {
@@ -51,45 +67,78 @@ class RotateMapOverlay(private val mapView: CycleMapView)
     }
 
     private fun startRotate() {
-        val yOffset = mapView.mapView().height / 3
-        mapView.mapView().setMapCenterOffset(0, yOffset)
         locationProvider.startLocationProvider(this)
+        compassProvider.startOrientationProvider(this)
     }
 
     private fun endRotate() {
         locationProvider.stopLocationProvider()
-        mapView.mapView().setMapCenterOffset(0, 0)
+        compassProvider.stopOrientationProvider()
+        mapView.mapView().apply {
+            setMapOrientation(0f)
+            setMapCenterOffset(0, 0)
+            invalidate()
+        }
     }
 
     override fun onLocationChanged(location: Location?, source: IMyLocationProvider?) {
         if (location == null) return
 
-        val gpsbearing = location.bearing
-        val gpsspeed = location.speed
+        gpsspeed = location.speed
+        lat = location.latitude.toFloat()
+        lon = location.longitude.toFloat()
+        alt = location.altitude.toFloat()
+        timeOfFix = location.time
 
-        //use gps bearing instead of the compass
-        var t: Float = 360 - gpsbearing// - this.deviceOrientation
-        if (t < 0) {
-            t += 360f
-        }
-        if (t > 360) {
-            t -= 360f
-        }
+        if (gpsspeed > onTheMoveThreshold)
+            setMapOrientation(location.bearing)
+    }
 
-        //help smooth everything out
-        t = (t as Float / 5) * 5
+    override fun onOrientationChanged(orientationToMagneticNorth: Float, source: IOrientationProvider?) {
+        if (gpsspeed > onTheMoveThreshold) return
 
-        if (gpsspeed >= 0.01) {
-            mapView.mapView().setMapOrientation(t)
+        val gf = GeomagneticField(lat, lon, alt, timeOfFix)
+
+        var trueNorth = orientationToMagneticNorth + gf.declination
+        synchronized(trueNorth) {
+            if (trueNorth > 360) trueNorth -= 360
+            setMapOrientation(trueNorth)
         }
     }
 
+    private fun setMapOrientation(orientation: Float) {
+        var t = 360 - orientation - deviceOrientation
+
+        if (t < 0) t += 360
+        if (t > 360) t -= 360
+
+        //help smooth everything out
+        t = ((t / 5).toInt()) * 5f
+
+        mapView.mapView().apply {
+            setMapOrientation(t)
+            val yOffset = height / 4
+            setMapCenterOffset(0, yOffset)
+        }
+    }
+
+    private fun captureDeviceOrientation() {
+        val rotation = (mapView.context.getSystemService(
+                Context.WINDOW_SERVICE) as WindowManager).defaultDisplay.rotation
+        deviceOrientation = when (rotation) {
+            Surface.ROTATION_0 -> 0
+            Surface.ROTATION_90 -> 90
+            Surface.ROTATION_180 -> 180
+            else -> 270
+        }
+    }
 
     override fun draw(c: Canvas, osmv: MapView, shadow: Boolean) {}
 
     /////////////////////////////////////////
     override fun onResume(prefs: SharedPreferences) {
         setRotation(prefs.getBoolean(ROTATE_PREF, false))
+        captureDeviceOrientation()
     }
 
     override fun onPause(prefs: SharedPreferences.Editor) {
@@ -99,6 +148,10 @@ class RotateMapOverlay(private val mapView: CycleMapView)
 
     companion object {
         private const val ROTATE_PREF = "rotateMap"
+
+        private const val onTheMoveThreshold = 1
+            // if speed is below this, prefer the compass for orientation
+            // once we're move, prefer gps
 
         private fun highlightIcon(context: Context)= icon(context, Theme.highlightColor(context))
         private fun lowlightIcon(context: Context) = icon(context, Theme.lowlightColor(context))
