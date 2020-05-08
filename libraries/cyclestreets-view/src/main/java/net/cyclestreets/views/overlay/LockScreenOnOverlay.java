@@ -46,7 +46,7 @@ public class LockScreenOnOverlay extends Overlay implements PauseResumeListener 
         .color(Theme.lowlightColor(context))
         .sizeDp(24);
 
-    View liverideButtonView = LayoutInflater.from(context).inflate(R.layout.liveride_buttons, null);
+    View liverideButtonView = LayoutInflater.from(context).inflate(R.layout.lockscreenbutton, null);
     screenLockButton = liverideButtonView.findViewById(R.id.liveride_screenlock_button);
     screenLockButton.setOnClickListener(view -> screenLockButtonTapped());
     mapView.addView(liverideButtonView);
