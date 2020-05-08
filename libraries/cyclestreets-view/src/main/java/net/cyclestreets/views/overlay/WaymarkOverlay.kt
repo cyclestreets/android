@@ -14,9 +14,9 @@ import net.cyclestreets.routing.Waypoints
 import net.cyclestreets.view.R
 import net.cyclestreets.views.CycleMapView
 import org.osmdroid.api.IGeoPoint
-import org.osmdroid.api.IProjection
 import org.osmdroid.util.GeoPoint
 import org.osmdroid.views.MapView
+import org.osmdroid.views.Projection
 import org.osmdroid.views.overlay.Overlay
 import org.osmdroid.views.overlay.OverlayItem
 
@@ -101,7 +101,7 @@ class WaymarkOverlay(private val mapView: CycleMapView) : Overlay(), PauseResume
     }
 
     private fun drawMarker(canvas: Canvas,
-                           projection: IProjection,
+                           projection: Projection,
                            marker: OverlayItem) {
         projection.toPixels(marker.point, screenPos)
 
@@ -119,7 +119,13 @@ class WaymarkOverlay(private val mapView: CycleMapView) : Overlay(), PauseResume
             postScale(1 / transformValues[Matrix.MSCALE_X], 1 / transformValues[Matrix.MSCALE_Y])
             postTranslate(screenPos.x.toFloat(), screenPos.y.toFloat())
         }
-        canvas.drawBitmap(bitmap, bitmapTransform, bitmapPaint)
+
+        canvas.apply {
+            save()
+            rotate(-projection.orientation, screenPos.x.toFloat(), screenPos.y.toFloat())
+            drawBitmap(bitmap, bitmapTransform, bitmapPaint)
+            restore()
+        }
     }
 
     ////////////////////////////////////
