@@ -4,6 +4,8 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.graphics.Canvas
 import android.graphics.drawable.Drawable
+import android.location.Location
+import android.location.LocationManager
 import android.support.design.widget.FloatingActionButton
 import android.util.Log
 import android.view.LayoutInflater
@@ -15,11 +17,17 @@ import net.cyclestreets.view.R
 import net.cyclestreets.views.CycleMapView
 import org.osmdroid.views.MapView
 import org.osmdroid.views.overlay.Overlay
+import org.osmdroid.views.overlay.mylocation.GpsMyLocationProvider
+import org.osmdroid.views.overlay.mylocation.IMyLocationConsumer
+import org.osmdroid.views.overlay.mylocation.IMyLocationProvider
 
-class RotateMapOverlay(private val mapView: CycleMapView) : Overlay(), PauseResumeListener {
+class RotateMapOverlay(private val mapView: CycleMapView)
+    : Overlay(), PauseResumeListener, IMyLocationConsumer
+{
     private val rotateButton: FloatingActionButton
     private val onIcon: Drawable
     private val offIcon: Drawable
+    private val locationProvider: IMyLocationProvider
     private var rotate = false
 
     init {
@@ -32,6 +40,7 @@ class RotateMapOverlay(private val mapView: CycleMapView) : Overlay(), PauseResu
         rotateButton.setOnClickListener { view: View? -> setRotation(!rotate) }
 
         mapView.addView(rotateButtonView)
+        locationProvider = UseEverythingLocationProvider(context)
     }
 
     private fun setRotation(state: Boolean) {
@@ -44,11 +53,37 @@ class RotateMapOverlay(private val mapView: CycleMapView) : Overlay(), PauseResu
     private fun startRotate() {
         val yOffset = mapView.mapView().height / 3
         mapView.mapView().setMapCenterOffset(0, yOffset)
+        locationProvider.startLocationProvider(this)
     }
 
     private fun endRotate() {
+        locationProvider.stopLocationProvider()
         mapView.mapView().setMapCenterOffset(0, 0)
     }
+
+    override fun onLocationChanged(location: Location?, source: IMyLocationProvider?) {
+        if (location == null) return
+
+        val gpsbearing = location.bearing
+        val gpsspeed = location.speed
+
+        //use gps bearing instead of the compass
+        var t: Float = 360 - gpsbearing// - this.deviceOrientation
+        if (t < 0) {
+            t += 360f
+        }
+        if (t > 360) {
+            t -= 360f
+        }
+
+        //help smooth everything out
+        t = (t as Float / 5) * 5
+
+        if (gpsspeed >= 0.01) {
+            mapView.mapView().setMapOrientation(t)
+        }
+    }
+
 
     override fun draw(c: Canvas, osmv: MapView, shadow: Boolean) {}
 
@@ -73,6 +108,14 @@ class RotateMapOverlay(private val mapView: CycleMapView) : Overlay(), PauseResu
                     .icon(GoogleMaterial.Icon.gmd_navigation)
                     .color(themeColor)
                     .sizeDp(24)
+        }
+    }
+
+    private class UseEverythingLocationProvider(context: Context) : GpsMyLocationProvider(context) {
+        init {
+            val locMan = context.getSystemService(Context.LOCATION_SERVICE) as LocationManager
+            for (source in locMan.getProviders(true))
+                addLocationSource(source)
         }
     }
 }
