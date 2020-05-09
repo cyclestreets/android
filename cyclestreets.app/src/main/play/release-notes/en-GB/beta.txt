@@ -1,4 +1,1 @@
-Bug fixes:
-
-Directional location marker now clearly visible again
-Pinch-zoom restored in LiveRide
+Nothing new in beta yet - the production release is up to date!
