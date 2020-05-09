@@ -16,6 +16,7 @@ import android.view.View
 import android.view.WindowManager
 import com.mikepenz.google_material_typeface_library.GoogleMaterial
 import com.mikepenz.iconics.IconicsDrawable
+import net.cyclestreets.util.Logging
 import net.cyclestreets.util.Theme
 import net.cyclestreets.view.R
 import net.cyclestreets.views.CycleMapView
@@ -60,7 +61,7 @@ class RotateMapOverlay(private val mapView: CycleMapView)
     }
 
     private fun setRotation(state: Boolean) {
-        Log.d("LiveRide", "Setting map rotation to $state")
+        Log.d(TAG, "Setting map rotation to $state")
         rotateButton.setImageDrawable(if (state) onIcon else offIcon)
         if (state) startRotate() else endRotate()
         rotate = state
@@ -74,11 +75,7 @@ class RotateMapOverlay(private val mapView: CycleMapView)
     private fun endRotate() {
         locationProvider.stopLocationProvider()
         compassProvider.stopOrientationProvider()
-        mapView.mapView().apply {
-            setMapOrientation(0f)
-            setMapCenterOffset(0, 0)
-            invalidate()
-        }
+        resetMapOrientation()
     }
 
     override fun onLocationChanged(location: Location?, source: IMyLocationProvider?) {
@@ -107,18 +104,26 @@ class RotateMapOverlay(private val mapView: CycleMapView)
     }
 
     private fun setMapOrientation(orientation: Float) {
-        var t = 360 - orientation - deviceOrientation
+        var mapOrientation = 360 - orientation - deviceOrientation
 
-        if (t < 0) t += 360
-        if (t > 360) t -= 360
+        if (mapOrientation < 0) mapOrientation += 360
+        if (mapOrientation > 360) mapOrientation -= 360
 
         //help smooth everything out
-        t = ((t / 5).toInt()) * 5f
+        mapOrientation = ((mapOrientation / 5).toInt()) * 5f
 
         mapView.mapView().apply {
-            setMapOrientation(t)
             val yOffset = height / 4
             setMapCenterOffset(0, yOffset)
+
+            setMapOrientation(mapOrientation)
+        }
+    }
+
+    private fun resetMapOrientation() {
+        mapView.mapView().apply {
+            setMapCenterOffset(0, 0)
+            setMapOrientation(0f)
         }
     }
 
@@ -147,6 +152,8 @@ class RotateMapOverlay(private val mapView: CycleMapView)
     }
 
     companion object {
+        private val TAG = Logging.getTag(RotateMapOverlay::class.java)
+
         private const val ROTATE_PREF = "rotateMap"
 
         private const val onTheMoveThreshold = 1
