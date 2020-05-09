@@ -76,6 +76,7 @@ class RotateMapOverlay(private val mapView: CycleMapView)
         locationProvider.stopLocationProvider()
         compassProvider.stopOrientationProvider()
         resetMapOrientation()
+        rotateButton.rotation = 0f
     }
 
     override fun onLocationChanged(location: Location?, source: IMyLocationProvider?) {
@@ -99,6 +100,7 @@ class RotateMapOverlay(private val mapView: CycleMapView)
         var trueNorth = orientationToMagneticNorth + gf.declination
         synchronized(trueNorth) {
             if (trueNorth > 360) trueNorth -= 360
+
             setMapOrientation(trueNorth)
         }
     }
@@ -113,11 +115,11 @@ class RotateMapOverlay(private val mapView: CycleMapView)
         mapOrientation = ((mapOrientation / 5).toInt()) * 5f
 
         mapView.mapView().apply {
-            val yOffset = height / 4
-            setMapCenterOffset(0, yOffset)
-
+            setMapCenterOffset(0, height / 4)
             setMapOrientation(mapOrientation)
         }
+
+        rotateButton.rotation = mapOrientation
     }
 
     private fun resetMapOrientation() {
