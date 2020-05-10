@@ -1,1 +1,2 @@
 LiveRide map rotates with direction of travel. Just tap the compass icon to activate.
+Distances in metres and kilometres are now read out properly in LiveRide.
