@@ -118,9 +118,4 @@ internal abstract class LiveRideState(protected val context: Context,
         tts?.speak(speechify(words), TextToSpeech.QUEUE_ADD, null, UUID.randomUUID().toString())
     }
 
-    private fun speechify(words: String): String {
-        return words
-                .replace("LiveRide", "Live Ride")
-                .replace(Arrivee.ARRIVEE, "arreev eh")
-    }
 }
