@@ -85,14 +85,19 @@ class SpeechFixerTest {
                 .isEqualTo("Straight on onto A40 30. Continue 450 yards onto B20 60")
     }
 
+    @Test
+    fun testFourDigitRoads_TensAndDigits() {
+        // Tokenise into two two-digits numbers,
+        assertThat(speechify("Straight on onto A4021. Continue 450 yards onto B1036"))
+                .isEqualTo("Straight on onto A40 21. Continue 450 yards onto B10 36")
+    }
 
-    //TODO::
-    //    else if either or both two digit separation ends with a zero, tokenise into two two-digits numbers,
-    //    e.g. A1450 => A14 50 => pronounced as "Eh Fourteen Fifty"
-    //    e.g. B2031 => B20 31 => pronounced as "Bee Twenty Thirty-One"
-
-
-
+    @Test
+    fun testFourDigitRoads_DigitsAndTens() {
+        // Tokenise into two two-digits numbers,
+        assertThat(speechify("Straight on onto A1450. Continue 450 yards onto B5620"))
+                .isEqualTo("Straight on onto A14 50. Continue 450 yards onto B56 20")
+    }
 
     @Test
     fun testFourDigitRoads_DoubleOhInMiddle() {
