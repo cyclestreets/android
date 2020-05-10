@@ -29,35 +29,35 @@ fun speechify(words: String): String {
     }
 
     updatedWords = REGEX_THREE_DIGIT_TENS.replace(updatedWords) {
-        m -> "${m.groupValues[1]}${m.groupValues[2]}-${m.groupValues[3]}${m.groupValues[4]}"
+        m -> "${m.groupValues[1]}${m.groupValues[2]} ${m.groupValues[3]}${m.groupValues[4]}"
     }
     updatedWords = REGEX_THREE_DIGIT_MIDDLE_ZERO.replace(updatedWords) {
-        m -> "${m.groupValues[1]}${m.groupValues[2]}-oh-${m.groupValues[3]}${m.groupValues[4]}"
+        m -> "${m.groupValues[1]}${m.groupValues[2]}-oh ${m.groupValues[3]}${m.groupValues[4]}"
     }
     updatedWords = REGEX_THREE_DIGIT_OTHER.replace(updatedWords) {
-        m -> "${m.groupValues[1]}${m.groupValues[2]}-${m.groupValues[3]}-${m.groupValues[4]}${m.groupValues[5]}"
+        m -> "${m.groupValues[1]}${m.groupValues[2]} ${m.groupValues[3]} ${m.groupValues[4]}${m.groupValues[5]}"
     }
 
     updatedWords = REGEX_FOUR_DIGIT_HUNDREDS.replace(updatedWords) {
         m -> "${m.groupValues[1]}${m.groupValues[2]}-hundred${m.groupValues[3]}"
     }
     updatedWords = REGEX_FOUR_DIGIT_MIDDLE_ZEROES.replace(updatedWords) {
-        m -> "${m.groupValues[1]}${m.groupValues[2]}-double-oh-${m.groupValues[3]}${m.groupValues[4]}"
+        m -> "${m.groupValues[1]}${m.groupValues[2]}-double-oh ${m.groupValues[3]}${m.groupValues[4]}"
     }
     updatedWords = REGEX_FOUR_DIGIT_TENS_AND_TENS.replace(updatedWords) {
-        m -> "${m.groupValues[1]}${m.groupValues[2]}-${m.groupValues[3]}${m.groupValues[4]}"
+        m -> "${m.groupValues[1]}${m.groupValues[2]} ${m.groupValues[3]}${m.groupValues[4]}"
     }
     updatedWords = REGEX_FOUR_DIGIT_TREBLE_AT_START.replace(updatedWords) {
-        m -> "${m.groupValues[1]}-treble-${m.groupValues[2]}-${m.groupValues[3]}${m.groupValues[4]}"
+        m -> "${m.groupValues[1]}-treble ${m.groupValues[2]} ${m.groupValues[3]}${m.groupValues[4]}"
     }
     updatedWords = REGEX_FOUR_DIGIT_TREBLE_AT_END.replace(updatedWords) {
-        m -> "${m.groupValues[1]}${m.groupValues[2]}-treble-${m.groupValues[3]}${m.groupValues[4]}"
+        m -> "${m.groupValues[1]}${m.groupValues[2]}-treble ${m.groupValues[3]}${m.groupValues[4]}"
     }
     updatedWords = REGEX_FOUR_DIGIT_THIRD_DIGIT_0.replace(updatedWords) {
-        m -> "${m.groupValues[1]}${m.groupValues[2]}-${m.groupValues[3]}-oh-${m.groupValues[4]}${m.groupValues[5]}"
+        m -> "${m.groupValues[1]}${m.groupValues[2]} ${m.groupValues[3]}-oh ${m.groupValues[4]}${m.groupValues[5]}"
     }
     updatedWords = REGEX_FOUR_DIGIT_OTHER.replace(updatedWords) {
-        m -> "${m.groupValues[1]}${m.groupValues[2]}-${m.groupValues[3]}-${m.groupValues[4]}-${m.groupValues[5]}${m.groupValues[6]}"
+        m -> "${m.groupValues[1]}${m.groupValues[2]} ${m.groupValues[3]} ${m.groupValues[4]} ${m.groupValues[5]}${m.groupValues[6]}"
     }
 
     return updatedWords;
