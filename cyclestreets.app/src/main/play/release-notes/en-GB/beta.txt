@@ -1,1 +1,1 @@
-Nothing new in beta yet - the production release is up to date!
+LiveRide map rotates with direction of travel. Just tap the compass icon to activate.
