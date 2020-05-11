@@ -18,9 +18,8 @@ dependencies {
 
   // TODO: upgrade this to 5.x - at which point the ru.ztrap kotlin extensions will likely no
   //       longer be required as we'll get them for free
-  api 'com.mikepenz:iconics-core:3.2.5@aar'
-  api 'com.mikepenz:google-material-typeface:3.0.1.4.original@aar'
-  api 'ru.ztrap.iconics:core-kt:1.0.3'
+  implementation 'com.mikepenz:iconics-core:5.0.3@aar'
+  implementation 'com.mikepenz:google-material-typeface:3.0.1.4.original@aar'
 
   api 'com.google.android.material:material:1.1.0'
   api 'androidx.exifinterface:exifinterface:1.2.0'
