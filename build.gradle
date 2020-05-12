@@ -30,8 +30,6 @@ ext {
   targetSdkVersion=28
   buildToolsVersion='28.0.3'
 
-  supportLibraryVersion='27.1.1'
-
   // centrally manage some other dependencies
   mapsforgeVersion = '0.13.0'
   osmdroidVersion = '6.1.6'
