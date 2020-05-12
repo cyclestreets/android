@@ -1,7 +1,5 @@
 package net.cyclestreets.views.overlay
 
-import java.util.HashMap
-
 import net.cyclestreets.RoutePlans
 
 import net.cyclestreets.CycleStreetsPreferences
@@ -38,13 +36,15 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.Toast
 
-import com.mikepenz.google_material_typeface_library.GoogleMaterial
-import com.mikepenz.iconics.IconicsDrawable
+import com.mikepenz.iconics.typeface.library.googlematerial.GoogleMaterial
+import net.cyclestreets.iconics.IconicsHelper.materialIcon
 
 import net.cyclestreets.util.MenuHelper.createMenuItem
 import net.cyclestreets.util.MenuHelper.showMenuItem
 
-class TapToRouteOverlay(private val mapView: CycleMapView) : Overlay(), TapListener, ContextMenuListener, Undoable, PauseResumeListener, Route.Listener {
+
+class TapToRouteOverlay(private val mapView: CycleMapView) : Overlay(), TapListener, ContextMenuListener,
+                                                             Undoable, PauseResumeListener, Route.Listener {
 
     private val routingInfoRect: Button
     private val routeNowIcon: ImageView
@@ -52,14 +52,10 @@ class TapToRouteOverlay(private val mapView: CycleMapView) : Overlay(), TapListe
 
     private val context = mapView.context
 
-    private val shareDrawable = IconicsDrawable(context)
-                                    .icon(GoogleMaterial.Icon.gmd_share)
-                                    .color(Theme.lowlightColorInverse(context))
-                                    .sizeDp(24)
-    private val commentDrawable = IconicsDrawable(context)
-                                    .icon(GoogleMaterial.Icon.gmd_comment)
-                                    .color(Theme.lowlightColorInverse(context))
-                                    .sizeDp(24)
+    private val shareDrawable = materialIcon(context, Theme.lowlightColorInverse(context), 24,
+                                             GoogleMaterial.Icon.gmd_share)
+    private val commentDrawable = materialIcon(context, Theme.lowlightColorInverse(context), 24,
+                                               GoogleMaterial.Icon.gmd_comment)
 
     private val highlightColour = Theme.highlightColor(context) or 0xFF000000.toInt()
     private val lowlightColour = Theme.lowlightColor(context) or 0xFF000000.toInt()

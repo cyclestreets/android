@@ -12,8 +12,8 @@ import android.view.LayoutInflater
 import android.view.Surface
 import android.view.WindowManager
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.mikepenz.google_material_typeface_library.GoogleMaterial
-import com.mikepenz.iconics.IconicsDrawable
+import com.mikepenz.iconics.typeface.library.googlematerial.GoogleMaterial
+import net.cyclestreets.iconics.IconicsHelper.materialIcon
 import net.cyclestreets.util.Logging
 import net.cyclestreets.util.Theme
 import net.cyclestreets.view.R
@@ -27,8 +27,9 @@ import org.osmdroid.views.overlay.mylocation.GpsMyLocationProvider
 import org.osmdroid.views.overlay.mylocation.IMyLocationConsumer
 import org.osmdroid.views.overlay.mylocation.IMyLocationProvider
 
-class RotateMapOverlay(private val mapView: CycleMapView)
-    : Overlay(), PauseResumeListener, IMyLocationConsumer, IOrientationConsumer
+
+class RotateMapOverlay(private val mapView: CycleMapView) : Overlay(), PauseResumeListener,
+                                                            IMyLocationConsumer, IOrientationConsumer
 {
     private val rotateButton: FloatingActionButton
     private val onIcon: Drawable
@@ -46,8 +47,9 @@ class RotateMapOverlay(private val mapView: CycleMapView)
 
     init {
         val context = mapView.context
-        onIcon = highlightIcon(context)
-        offIcon = lowlightIcon(context)
+
+        onIcon = materialIcon(context, Theme.highlightColor(context), 24, GoogleMaterial.Icon.gmd_navigation)
+        offIcon = materialIcon(context, Theme.lowlightColor(context), 24, GoogleMaterial.Icon.gmd_navigation)
 
         val rotateButtonView = LayoutInflater.from(context).inflate(R.layout.compassbutton, null)
         rotateButton = rotateButtonView.findViewById(R.id.compass_button)
@@ -159,16 +161,6 @@ class RotateMapOverlay(private val mapView: CycleMapView)
         private const val onTheMoveThreshold = 1
             // if speed is below this, prefer the compass for orientation
             // once we're move, prefer gps
-
-        private fun highlightIcon(context: Context)= icon(context, Theme.highlightColor(context))
-        private fun lowlightIcon(context: Context) = icon(context, Theme.lowlightColor(context))
-
-        private fun icon(context: Context, themeColor: Int): Drawable {
-            return IconicsDrawable(context)
-                    .icon(GoogleMaterial.Icon.gmd_navigation)
-                    .color(themeColor)
-                    .sizeDp(24)
-        }
     }
 
     private class UseEverythingLocationProvider(context: Context) : GpsMyLocationProvider(context) {

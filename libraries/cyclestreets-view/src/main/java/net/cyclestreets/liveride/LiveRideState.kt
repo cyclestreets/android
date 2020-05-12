@@ -27,6 +27,7 @@ import java.util.UUID
 private val TAG = Logging.getTag(LiveRideState::class.java)
 private const val NOTIFICATION_ID = 1
 
+
 internal abstract class LiveRideState(protected val context: Context,
                                       val tts: TextToSpeech?,
                                       private val title: String) {
