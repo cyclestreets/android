@@ -1,7 +1,9 @@
 include ':libraries:cyclestreets-core',
         ':libraries:cyclestreets-view',
-        ':libraries:cyclestreets-fragments',
-        ':libraries:cyclestreets-track'
+        ':libraries:cyclestreets-fragments'
+
+// This library is used by the Cycle Hackney app, which is somewhat abandoned.
+// Ignore for now to make our ongoing maintenance burden lighter.
+//        ':libraries:cyclestreets-track'
 
 include ':cyclestreets.app'
-
