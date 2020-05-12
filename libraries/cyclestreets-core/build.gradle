@@ -26,11 +26,14 @@ dependencies {
   implementation 'com.bazaarvoice.jolt:jolt-core:0.1.1'
   implementation 'com.bazaarvoice.jolt:json-utils:0.1.1'
 
-  testImplementation 'com.github.tomakehurst:wiremock-standalone:2.18.0'
-  testImplementation 'junit:junit:4.13'
-  testImplementation 'org.hamcrest:hamcrest-all:1.3'
+  testImplementation 'com.github.tomakehurst:wiremock-standalone:2.26.3'
+  testImplementation "junit:junit:${rootProject.ext.junitVersion}"
+  testImplementation "org.assertj:assertj-core:${rootProject.ext.assertjVersion}"
   testImplementation 'org.skyscreamer:jsonassert:1.5.0'
   testImplementation "org.mockito:mockito-core:${rootProject.ext.mockitoVersion}"
-  testImplementation 'org.robolectric:robolectric:3.3.2'
+  testImplementation("org.robolectric:robolectric:${rootProject.ext.robolectricVersion}") {
+    // https://github.com/robolectric/robolectric/issues/5245
+    exclude group: 'com.google.auto.service', module: 'auto-service'
+  }
   testImplementation 'commons-io:commons-io:2.6'
 }

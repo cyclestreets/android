@@ -3,14 +3,14 @@ package net.cyclestreets
 import android.net.Uri
 import net.cyclestreets.LaunchIntent.Type.JOURNEY
 import net.cyclestreets.LaunchIntent.Type.LOCATION
-import net.cyclestreets.view.BuildConfig
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.annotation.Config
 
-@Config(constants = BuildConfig::class, manifest = Config.NONE, sdk = [27])
+
+@Config(manifest = Config.NONE, sdk = [28])
 @RunWith(RobolectricTestRunner::class)
 class MainSupportTest {
 
