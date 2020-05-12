@@ -62,7 +62,7 @@ open class CycleMapFragment : Fragment(), Undoable {
 
         Log.d(TAG, "Permissions granted (with 0) or denied (with -1): ${permissions.joinToString()}, ${grantResults.joinToString()}")
 
-        for (i in 0 until permissions.size) {
+        for (i in permissions.indices) {
             val permission = permissions[i]
             val grantResult = grantResults[i]
 
@@ -109,7 +109,7 @@ open class CycleMapFragment : Fragment(), Undoable {
         if (forceMenuRebuild) {
             forceMenuRebuild = false
             menu.clear()
-            onCreateOptionsMenu(menu, activity!!.menuInflater)
+            onCreateOptionsMenu(menu, requireActivity().menuInflater)
             onPrepareOptionsMenu(menu)
         }
 
@@ -136,7 +136,7 @@ open class CycleMapFragment : Fragment(), Undoable {
     }
 
     private fun launchFindDialog() {
-        FindPlace.launch(context!!, map!!.boundingBox) { place ->
+        FindPlace.launch(requireContext(), map!!.boundingBox) { place ->
             map!!.centreOn(place, FINDPLACE_ZOOM_LEVEL)
         }
     }

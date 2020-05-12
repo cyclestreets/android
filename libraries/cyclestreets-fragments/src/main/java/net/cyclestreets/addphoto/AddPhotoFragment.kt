@@ -88,7 +88,7 @@ class AddPhotoFragment : Fragment(), View.OnClickListener, Undoable, ThereOverla
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         this.inflater = LayoutInflater.from(activity)
-        inputMethodManager = activity!!.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        inputMethodManager = requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
 
         initialiseDrawables(this.inflater)
         initialiseFromMetadata()
@@ -123,7 +123,7 @@ class AddPhotoFragment : Fragment(), View.OnClickListener, Undoable, ThereOverla
         photo1Start = inflater.inflate(R.layout.addphoto_1_start, null)
         (photo1Start.findViewById<View>(R.id.takephoto_button) as Button).apply {
             setOnClickListener(this@AddPhotoFragment)
-            isEnabled = activity!!.packageManager.hasSystemFeature(PackageManager.FEATURE_CAMERA)
+            isEnabled = requireActivity().packageManager.hasSystemFeature(PackageManager.FEATURE_CAMERA_ANY)
         }
         photo1Start.findViewById<View>(R.id.chooseexisting_button).setOnClickListener(this)
         (photo1Start.findViewById<View>(R.id.textonly_button) as Button).apply {
@@ -270,7 +270,7 @@ class AddPhotoFragment : Fragment(), View.OnClickListener, Undoable, ThereOverla
         // TODO: scaling?
         iv.setImageBitmap(photo)
         val size = Point()
-        activity!!.windowManager.defaultDisplay.getSize(size)
+        requireActivity().windowManager.defaultDisplay.getSize(size)
         val newHeight = size.y / 10 * 4
         val newWidth = size.x
 
@@ -279,21 +279,20 @@ class AddPhotoFragment : Fragment(), View.OnClickListener, Undoable, ThereOverla
     }
 
     ///////////// Fragment methods - options menus
-    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
-        initialiseDrawables(inflater!!)
-        createMenuItem(menu!!, R.string.all_menu_restart, Menu.NONE, restartDrawable)
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        initialiseDrawables(inflater)
+        createMenuItem(menu, R.string.all_menu_restart, Menu.NONE, restartDrawable)
         createMenuItem(menu, R.string.all_menu_back, Menu.NONE, R.drawable.ic_menu_revert)
     }
 
-    override fun onPrepareOptionsMenu(menu: Menu?) {
-        enableMenuItem(menu!!, R.string.all_menu_restart, step !== AddStep.START)
+    override fun onPrepareOptionsMenu(menu: Menu) {
+        enableMenuItem(menu, R.string.all_menu_restart, step !== AddStep.START)
         enableMenuItem(menu, R.string.all_menu_back, step !== AddStep.START && step !== AddStep.VIEW)
     }
 
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        val menuItem = item!!.itemId
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
 
-        return when (menuItem) {
+        return when (item.itemId) {
             R.string.all_menu_restart -> {
                 step = AddStep.START
                 setupView()
@@ -332,7 +331,7 @@ class AddPhotoFragment : Fragment(), View.OnClickListener, Undoable, ThereOverla
             Log.w(TAG, "onActivityResult threw exception when processing requestCode $requestCode", e)
             if (requestCode == TAKE_PHOTO)
                 startActivityForResult(
-                    Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.INTERNAL_CONTENT_URI),
+                    Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI),
                     CHOOSE_PHOTO
                 )
         }
@@ -421,7 +420,7 @@ class AddPhotoFragment : Fragment(), View.OnClickListener, Undoable, ThereOverla
     private val fiveMinutes = (5 * 60 * 1000).toLong()
 
     private fun prefs(): SharedPreferences {
-        return activity!!.getSharedPreferences("net.cyclestreets.AddPhotoActivity", Context.MODE_PRIVATE)
+        return requireActivity().getSharedPreferences("net.cyclestreets.AddPhotoActivity", Context.MODE_PRIVATE)
     }
 
     ///////////// Caption text
@@ -446,8 +445,8 @@ class AddPhotoFragment : Fragment(), View.OnClickListener, Undoable, ThereOverla
             Log.d(TAG, "Activity was null when setting up spinners - break out")
             return
         }
-        metaCategorySpinner().adapter = CategoryAdapter(activity!!, photomapCategories!!.metaCategories())
-        categorySpinner().adapter = CategoryAdapter(activity!!, photomapCategories!!.categories())
+        metaCategorySpinner().adapter = CategoryAdapter(requireActivity(), photomapCategories!!.metaCategories())
+        categorySpinner().adapter = CategoryAdapter(requireActivity(), photomapCategories!!.categories())
         setSpinnerSelections()
     }
     private fun setSpinnerSelections() {
@@ -514,7 +513,7 @@ class AddPhotoFragment : Fragment(), View.OnClickListener, Undoable, ThereOverla
         val takePictureIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
 
         // Ensure that there's a camera activity to handle the intent
-        if (takePictureIntent.resolveActivity(activity!!.packageManager) == null) {
+        if (takePictureIntent.resolveActivity(requireActivity().packageManager) == null) {
             Log.i(TAG, "Unable to identify a camera activity")
             Toast.makeText(activity, "Unable to identify a camera activity", Toast.LENGTH_LONG).show()
             return
@@ -526,7 +525,7 @@ class AddPhotoFragment : Fragment(), View.OnClickListener, Undoable, ThereOverla
             // Save a file: path for use with ACTION_VIEW intents
             photoFilename = photoFile.absolutePath
 
-            val photoUri = FileProvider.getUriForFile(activity!!, "net.cyclestreets.fileprovider", photoFile)
+            val photoUri = FileProvider.getUriForFile(requireActivity(), "net.cyclestreets.fileprovider", photoFile)
             takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri)
             startActivityForResult(takePictureIntent, TAKE_PHOTO)
         } catch (e: Exception) {
@@ -548,7 +547,7 @@ class AddPhotoFragment : Fragment(), View.OnClickListener, Undoable, ThereOverla
 
     private fun upload() {
         try {
-            UploadPhotoTask(activity!!,
+            UploadPhotoTask(requireActivity(),
                             photoFilename!!,
                             CycleStreetsPreferences.username(),
                             CycleStreetsPreferences.password(),

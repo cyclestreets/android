@@ -34,7 +34,7 @@ open class WebPageFragment : Fragment {
         val webPage = inflater.inflate(layout, null)
         val htmlView = webPage.findViewById<WebView>(R.id.html_view)
 
-        htmlView.webViewClient = FragmentViewClient(context!!, homePage)
+        htmlView.webViewClient = FragmentViewClient(requireContext(), homePage)
         htmlView.settings.javaScriptEnabled = true
         htmlView.loadUrl(homePage)
 

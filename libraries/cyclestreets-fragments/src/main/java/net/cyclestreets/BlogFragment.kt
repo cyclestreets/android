@@ -10,7 +10,7 @@ private const val CYCLE_STREETS_BLOG_URL = "https://www.cyclestreets.org/news/"
 class BlogFragment : WebPageFragment(CYCLE_STREETS_BLOG_URL) {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        BlogState.markBlogAsRead(activity!!)
+        BlogState.markBlogAsRead(requireActivity())
         return super.onCreateView(inflater, container, savedInstanceState)
     }
 

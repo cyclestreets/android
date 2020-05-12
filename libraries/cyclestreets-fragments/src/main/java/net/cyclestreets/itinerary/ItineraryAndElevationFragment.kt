@@ -53,10 +53,10 @@ class ItineraryAndElevationFragment : Fragment() {
 
         lastFrag = frag
 
-        activity!!.invalidateOptionsMenu()
+        requireActivity().invalidateOptionsMenu()
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater) {
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.itinerary_and_elevation_menu, menu)
         super.onCreateOptionsMenu(menu, inflater)
     }
@@ -67,11 +67,11 @@ class ItineraryAndElevationFragment : Fragment() {
         super.onPrepareOptionsMenu(menu)
     }
 
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (super.onOptionsItemSelected(item))
             return true
 
-        val menuId = item!!.itemId
+        val menuId = item.itemId
 
         if (R.id.ic_menu_itinerary == menuId)
             showFrag(itinerary)

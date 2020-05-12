@@ -48,7 +48,7 @@ class ElevationProfileFragment : Fragment(), Route.Listener {
 
     override fun onNewJourney(journey: Journey, waypoints: Waypoints) {
         drawGraph(journey)
-        fillInOverview(journey, view!!, context!!.getString(R.string.elevation_route))
+        fillInOverview(journey, requireView(), requireContext().getString(R.string.elevation_route))
     }
 
     override fun onResetJourney() {}
