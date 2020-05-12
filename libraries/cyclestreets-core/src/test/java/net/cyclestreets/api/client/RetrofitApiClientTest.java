@@ -49,15 +49,11 @@ import static com.github.tomakehurst.wiremock.client.WireMock.matching;
 import static com.github.tomakehurst.wiremock.client.WireMock.stubFor;
 import static com.github.tomakehurst.wiremock.client.WireMock.urlPathEqualTo;
 import static com.github.tomakehurst.wiremock.client.WireMock.verify;
-import static org.hamcrest.CoreMatchers.containsString;
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.notNullValue;
-import static org.hamcrest.Matchers.hasSize;
-import static org.hamcrest.MatcherAssert.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-@Config(manifest=Config.NONE, sdk = 23)
+@Config(manifest=Config.NONE, sdk = 28)
 @RunWith(RobolectricTestRunner.class)
 public class RetrofitApiClientTest {
 
@@ -117,14 +113,14 @@ public class RetrofitApiClientTest {
     verify(getRequestedFor(urlPathEqualTo("/v2/pois.types"))
             .withQueryParam("icons", equalTo("16"))
             .withQueryParam("key", equalTo("myApiKey")));
-    assertThat(poiCategories.count(), is(52));
+    assertThat(poiCategories.count()).isEqualTo(52);
     POICategory category = poiCategories.get(37);
-    assertThat(category.name(), is("Supermarkets"));
-    assertThat(category.icon(), is(notNullValue()));
+    assertThat(category.name()).isEqualTo("Supermarkets");
+    assertThat(category.icon()).isNotNull();
 
     // caching should mean the REST request is only made once
     List<LoggedRequest> requests = findAll(getRequestedFor(urlPathEqualTo("/v2/pois.types")));
-    assertThat(requests, hasSize(1));
+    assertThat(requests).hasSize(1);
   }
 
   @Test
@@ -178,31 +174,31 @@ public class RetrofitApiClientTest {
 
     // not cached - REST request will be made 6 times
     List<LoggedRequest> requests = findAll(getRequestedFor(urlPathEqualTo("/v2/pois.locations")));
-    assertThat(requests, hasSize(6));
+    assertThat(requests).hasSize(6);
   }
 
   private static void validatePois(List<POI> pois) {
-    assertThat(pois.size(), is(7));
+    assertThat(pois.size()).isEqualTo(7);
 
     // happy path
     POI poi = pois.get(0);
-    assertThat(poi.id(), is(101399));
-    assertThat(poi.name(), is("Chris's Bikes"));
-    assertThat(poi.notes(), is("The notes section"));
-    assertThat(poi.phone(), is("01234 567890"));
-    assertThat(poi.openingHours(), is("Mo-Fr 09:00-17:00\nSa 10:00-18:00"));
-    assertThat(poi.url(), is("http://www.madeup.com"));
-    assertThat(poi.position(), is(new GeoPoint(52.225338, 0.091919)));
+    assertThat(poi.id()).isEqualTo(101399);
+    assertThat(poi.name()).isEqualTo("Chris's Bikes");
+    assertThat(poi.notes()).isEqualTo("The notes section");
+    assertThat(poi.phone()).isEqualTo("01234 567890");
+    assertThat(poi.openingHours()).isEqualTo("Mo-Fr 09:00-17:00\nSa 10:00-18:00");
+    assertThat(poi.url()).isEqualTo("http://www.madeup.com");
+    assertThat(poi.position()).isEqualTo(new GeoPoint(52.225338, 0.091919));
 
     // website provided within `osmTags.url`, but not in `website`
     poi = pois.get(6);
-    assertThat(poi.id(), is(113267));
-    assertThat(poi.name(), is("Bicycle Ambulance"));
-    assertThat(poi.notes(), is(""));
-    assertThat(poi.phone(), is(""));
-    assertThat(poi.openingHours(), is("Tu-Fr 08:30-18:00\nSa 10:00-18:00"));
-    assertThat(poi.url(), is("http://bicycleambulance.com"));
-    assertThat(poi.position(), is(new GeoPoint(52.209179, 0.120061)));
+    assertThat(poi.id()).isEqualTo(113267);
+    assertThat(poi.name()).isEqualTo("Bicycle Ambulance");
+    assertThat(poi.notes()).isEqualTo("");
+    assertThat(poi.phone()).isEqualTo("");
+    assertThat(poi.openingHours()).isEqualTo("Tu-Fr 08:30-18:00\nSa 10:00-18:00");
+    assertThat(poi.url()).isEqualTo("http://bicycleambulance.com");
+    assertThat(poi.position()).isEqualTo(new GeoPoint(52.209179, 0.120061));
   }
 
   @Test
@@ -224,11 +220,11 @@ public class RetrofitApiClientTest {
             .withQueryParam("datetime", equalTo("friendly"))
             .withQueryParam("key", equalTo("myApiKey")));
 
-    assertThat(journeys.size(), is(3));
+    assertThat(journeys.size()).isEqualTo(3);
     UserJourney journey = journeys.get(2);
 
-    assertThat(journey.name(), is("Hedingham Close to Old Montague Street"));
-    assertThat(journey.id(), is(43089395));
+    assertThat(journey.name()).isEqualTo("Hedingham Close to Old Montague Street");
+    assertThat(journey.id()).isEqualTo(43089395);
   }
 
   @Test
@@ -257,23 +253,23 @@ public class RetrofitApiClientTest {
     iterator.next();
     Photo photo4 = iterator.next();
 
-    assertThat(iterator.hasNext(), is(false));
+    assertThat(iterator.hasNext()).isFalse();
 
-    assertThat(photo4.id(), is(82169));
-    assertThat(photo4.caption(), is("Link from Clerk Maxwell Road to the West Cambridge site"));
-    assertThat(photo4.datetime(), is(1466693269L));
-    assertThat(photo4.category(), is("cycleways"));
-    assertThat(photo4.metacategory(), is("other"));
-    assertThat(photo4.thumbnailUrl(), is("https://www.cyclestreets.net/location/82169/cyclestreets82169-size640.jpg"));
-    assertThat(photo4.url(), is("https://cycle.st/p82169"));
-    assertThat(photo4.position(), is(new GeoPoint(52.209908, 0.094543)));
-    assertThat(photo4.isPlaceholder(), is(false));
-    assertThat(photo4.hasVideos(), is(true));
+    assertThat(photo4.id()).isEqualTo(82169);
+    assertThat(photo4.caption()).isEqualTo("Link from Clerk Maxwell Road to the West Cambridge site");
+    assertThat(photo4.datetime()).isEqualTo(1466693269L);
+    assertThat(photo4.category()).isEqualTo("cycleways");
+    assertThat(photo4.metacategory()).isEqualTo("other");
+    assertThat(photo4.thumbnailUrl()).isEqualTo("https://www.cyclestreets.net/location/82169/cyclestreets82169-size640.jpg");
+    assertThat(photo4.url()).isEqualTo("https://cycle.st/p82169");
+    assertThat(photo4.position()).isEqualTo(new GeoPoint(52.209908, 0.094543));
+    assertThat(photo4.isPlaceholder()).isFalse();
+    assertThat(photo4.hasVideos()).isTrue();
     List<Video> videos = (List<Video>)photo4.videos();
-    assertThat(videos.size(), is(2));
+    assertThat(videos.size()).isEqualTo(2);
     Video video = videos.get(1);
-    assertThat(video.url(), is("https://www.cyclestreets.net/location/20588/cyclestreets20588.flv"));
-    assertThat(video.format(), is("flv"));
+    assertThat(video.url()).isEqualTo("https://www.cyclestreets.net/location/20588/cyclestreets20588.flv");
+    assertThat(video.format()).isEqualTo("flv");
   }
 
   @Test
@@ -299,15 +295,15 @@ public class RetrofitApiClientTest {
             .withQueryParam("q", equalTo("High"))
             .withQueryParam("key", equalTo("myApiKey")));
 
-    assertThat(geoPlaces.size(), is(5));
+    assertThat(geoPlaces.size()).isEqualTo(5);
     GeoPlace place = geoPlaces.get(1);
-    assertThat(place.name(), is("The High"));
-    assertThat(place.near(), is("Essex, East of England"));
-    assertThat(place.coord(), is(new GeoPoint(51.769678, 0.0939271)));
+    assertThat(place.name()).isEqualTo("The High");
+    assertThat(place.near()).isEqualTo("Essex, East of England");
+    assertThat(place.coord()).isEqualTo(new GeoPoint(51.769678, 0.0939271));
 
     // not cached - REST request will be made 6 times
     List<LoggedRequest> requests = findAll(getRequestedFor(urlPathEqualTo("/v2/geocoder")));
-    assertThat(requests, hasSize(6));
+    assertThat(requests).hasSize(6);
   }
 
   @Test
@@ -328,8 +324,8 @@ public class RetrofitApiClientTest {
             .withRequestBody(equalTo("username=arnold&password=cyberdyne101&name=The%20Terminator&email=101%40skynet.com"))
             .withQueryParam("key", equalTo("myApiKey")));
 
-    assertThat(result.ok(), is(true));
-    assertThat(result.message(), containsString("Your account has been registered"));
+    assertThat(result.ok()).isTrue();
+    assertThat(result.message()).contains("Your account has been registered");
   }
 
   @Test
@@ -349,8 +345,8 @@ public class RetrofitApiClientTest {
             .withHeader("Content-Type", equalTo("application/x-www-form-urlencoded"))
             .withQueryParam("key", equalTo("myApiKey")));
 
-    assertThat(result.ok(), is(false));
-    assertThat(result.message(), containsString("Your account could not be registered."));
+    assertThat(result.ok()).isFalse();
+    assertThat(result.message()).contains("Your account could not be registered.");
   }
 
   @Test
@@ -371,9 +367,9 @@ public class RetrofitApiClientTest {
             .withRequestBody(equalTo("identifier=precious&password=9nazgul"))
             .withQueryParam("key", equalTo("myApiKey")));
 
-    assertThat(result.ok(), is(true));
-    assertThat(result.name(), is("Bilbo Baggins"));
-    assertThat(result.email(), is("bilbo@bag-end.com"));
+    assertThat(result.ok()).isTrue();
+    assertThat(result.name()).isEqualTo("Bilbo Baggins");
+    assertThat(result.email()).isEqualTo("bilbo@bag-end.com");
   }
 
   @Test
@@ -394,8 +390,8 @@ public class RetrofitApiClientTest {
             .withRequestBody(matching("type=routing&itinerary=1234&comments=Comments%20I%20want%20to%20make&name=My%20Name&email=ballboy%40wimbledon.com"))
             .withQueryParam("key", equalTo("myApiKey")));
 
-    assertThat(result.ok(), is(true));
-    assertThat(result.message(), containsString("Thank you for submitting this feedback"));
+    assertThat(result.ok()).isTrue();
+    assertThat(result.message()).contains("Thank you for submitting this feedback");
   }
 
   @Test
@@ -419,20 +415,20 @@ public class RetrofitApiClientTest {
     // then
     verify(getRequestedFor(urlPathEqualTo("/v2/photomap.categories"))
             .withQueryParam("key", equalTo("myApiKey")));
-    assertThat(categories.categories().size(), is(18));
-    assertThat(categories.metaCategories().size(), is(5));
+    assertThat(categories.categories().size()).isEqualTo(18);
+    assertThat(categories.metaCategories().size()).isEqualTo(5);
     PhotomapCategory category = categories.categories().get(12);
-    assertThat(category.getTag(), is("destinations"));
-    assertThat(category.getName(), is("Destination"));
-    assertThat(category.getDescription(), is("A place where you might want to visit."));
+    assertThat(category.getTag()).isEqualTo("destinations");
+    assertThat(category.getName()).isEqualTo("Destination");
+    assertThat(category.getDescription()).isEqualTo("A place where you might want to visit.");
     PhotomapCategory metaCategory = categories.metaCategories().get(3);
-    assertThat(metaCategory.getTag(), is("any"));
-    assertThat(metaCategory.getName(), is("Misc"));
-    assertThat(metaCategory.getDescription(), is("Non-specific"));
+    assertThat(metaCategory.getTag()).isEqualTo("any");
+    assertThat(metaCategory.getName()).isEqualTo("Misc");
+    assertThat(metaCategory.getDescription()).isEqualTo("Non-specific");
 
     // caching should mean the REST request is only made once
     List<LoggedRequest> requests = findAll(getRequestedFor(urlPathEqualTo("/v2/photomap.categories")));
-    assertThat(requests, hasSize(1));
+    assertThat(requests).hasSize(1);
   }
 
   @Test
@@ -455,8 +451,8 @@ public class RetrofitApiClientTest {
             .withRequestBody(matching(".*username.*arnold.*password.*cyberdyne101.*longitude.*-0.5.*latitude.*53.*datetime.*12345678.*category.*scifi.*metacategory.*evilrobots.*caption.*The Cyberdyne Model 101.*"))
             .withQueryParam("key", equalTo("myApiKey")));
 
-    assertThat(result.ok(), is(true));
-    assertThat(result.url(), is("https://www.cyclestreets.net/location/64001/"));
+    assertThat(result.ok()).isTrue();
+    assertThat(result.url()).isEqualTo("https://www.cyclestreets.net/location/64001/");
   }
 
   @Test
@@ -485,8 +481,8 @@ public class RetrofitApiClientTest {
             .withQueryParam("speed", equalTo("24"))
             .withQueryParam("key", equalTo("myApiKey")));
 
-    assertThat(journeyJson, is(notNullValue()));
-    assertThat(journeyJson, containsString("{"));
+    assertThat(journeyJson).isNotNull();
+    assertThat(journeyJson).contains("{");
   }
 
   @Test
@@ -510,13 +506,13 @@ public class RetrofitApiClientTest {
     verify(getRequestedFor(urlPathEqualTo("/news/feed/"))
             .withQueryParam("key", equalTo("myApiKey")));
 
-    assertThat(blog, is(notNullValue()));
-    assertThat(blog.mostRecentTitle(), is("Cyclescape website redesign coming soon"));
-    assertThat(blog.mostRecent(), is("Thu, 02 Jan 2020 20:25:56 +0000"));
+    assertThat(blog).isNotNull();
+    assertThat(blog.mostRecentTitle()).isEqualTo("Cyclescape website redesign coming soon");
+    assertThat(blog.mostRecent()).isEqualTo("Thu, 02 Jan 2020 20:25:56 +0000");
 
     // caching should mean the REST request is only made once
     List<LoggedRequest> requests = findAll(getRequestedFor(urlPathEqualTo("/news/feed/"))
             .withQueryParam("key", equalTo("myApiKey")));
-    assertThat(requests, hasSize(1));
+    assertThat(requests).hasSize(1);
   }
 }
