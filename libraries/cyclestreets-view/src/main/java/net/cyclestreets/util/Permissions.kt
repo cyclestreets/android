@@ -31,7 +31,7 @@ fun doOrRequestPermission(activity: Activity, permission: String, action: () -> 
     }
 }
 fun doOrRequestPermission(fragment: Fragment, permission: String, action: () -> Unit) {
-    val context = fragment.context!!
+    val context = fragment.requireContext()
     if (hasPermission(context, permission))
         action()
     else {
