@@ -11,7 +11,6 @@ import net.cyclestreets.routing.Route
 import net.cyclestreets.util.TurnIcons
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Before
-import org.junit.Ignore
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mockito.*
@@ -21,7 +20,6 @@ import org.robolectric.RobolectricTestRunner
 import org.robolectric.annotation.Config
 
 
-@Ignore("WIP")
 @Config(manifest = Config.NONE, sdk = [28])
 @RunWith(RobolectricTestRunner::class)
 class LiveRideVoiceTest {
@@ -40,7 +38,6 @@ class LiveRideVoiceTest {
 
         liveRideState = LiveRideStart(roboContext, mockTts)
         liveRideState = OnTheMove(liveRideState)
-        verify("Starting Live Ride")
 
         Route.initialise(roboContext)
     }
@@ -54,13 +51,13 @@ class LiveRideVoiceTest {
         move(0.126, 52.212)
         verify("Get ready to Straight on into lcn (unknown cycle network) continuation")
         move(0.12634, 52.21207)
-        verify("Straight on into lcn (unknown cycle network) continuation. Continue 5m")
+        verify("Straight on into lcn (unknown cycle network) continuation. Continue 5 metres")
         move(0.12634, 52.21207)
         // AdvanceToSegment advances the segment; we need another location update to trigger the next NearingTurn
         move(0.12634, 52.21207)
         verify("Get ready to Straight on into lcn (unknown cycle network)")
         move(0.12634, 52.21207)
-        verify("Straight on into lcn (unknown cycle network). Continue 85m")
+        verify("Straight on into lcn (unknown cycle network). Continue 85 metres")
     }
 
     @Test
@@ -86,7 +83,7 @@ class LiveRideVoiceTest {
         move(-3.33022, 50.92086)
         verify("Get ready to Turn right then turn left into Broad Path")
         move(-3.33019, 50.92081)
-        verify("Turn right then turn left into Broad Path. Continue 1000m")
+        verify("Turn right then turn left into Broad Path. Continue 1000 metres")
     }
 
     @Test
@@ -96,9 +93,9 @@ class LiveRideVoiceTest {
         assertThat(journey.activeSegment()!!.street()).isEqualTo("London Road, A413")
 
         move(-0.56665, 51.63393)
-        verify("Get ready to Bear left then bear right into London Road, A413")
+        verify("Get ready to Bear left then bear right into London Road, A4 1 3")
         move(-0.56667, 51.63401)
-        verify("Bear left then bear right into London Road, A413. Continue 1330m")
+        verify("Bear left then bear right into London Road, A4 1 3. Continue 1330 metres")
     }
 
     @Test
@@ -110,12 +107,12 @@ class LiveRideVoiceTest {
         move(-2.26018, 50.74097)
         verify("Get ready to Straight on over Bridge into Short unnamed link")
         move(-2.26058, 50.74058)
-        verify("Straight on over Bridge into Short unnamed link. Continue 95m")
+        verify("Straight on over Bridge into Short unnamed link. Continue 95 metres")
         move(-2.2612, 50.74025)
         move(-2.2612, 50.74025)
         verify("Get ready to Bear left over Bridge into Link with The Hollow")
         move(-2.26148, 50.73993)
-        verify("Bear left over Bridge into Link with The Hollow. Continue 195m")
+        verify("Bear left over Bridge into Link with The Hollow. Continue 195 metres")
     }
 
     @Test
