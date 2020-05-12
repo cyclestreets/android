@@ -1,3 +1,5 @@
+UPDATE: Fixed bugs that were introduced in 3.7 - crashes, a hard-to-see location marker, and missing pinch-zoom in LiveRide
+
 Handle CycleStreets photomap location URLs.
 Waypoints shown during LiveRide.
 Dates included on photo display dialog.

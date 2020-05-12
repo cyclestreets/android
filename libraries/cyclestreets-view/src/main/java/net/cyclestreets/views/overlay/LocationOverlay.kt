@@ -30,7 +30,6 @@ class LocationOverlay(private val mapView: CycleMapView) :
     private val button: FloatingActionButton
     private val onColor: Int = Theme.lowlightColor(mapView.context)
     private val followColor: Int = Theme.highlightColor(mapView.context) or -0x1000000
-    private var lockedOn: Boolean = false
 
     private class UseEverythingLocationProvider(context: Context) : GpsMyLocationProvider(context) {
         init {
@@ -90,20 +89,27 @@ class LocationOverlay(private val mapView: CycleMapView) :
     }
 
     fun lockOnLocation() {
-        lockedOn = true
+        setEnableAutoStop(false)
     }
 
     fun hideButton() {
         button.visibility = View.INVISIBLE
     }
 
+    // Allows pinch-zoom while in LiveRide
+    // see https://github.com/cyclestreets/android/issues/384
+    // and https://github.com/osmdroid/osmdroid/issues/1578
     override fun onTouchEvent(event: MotionEvent, mapView: MapView?): Boolean {
-        val handled = super.onTouchEvent(event, mapView)
+        val isSingleFingerDrag = (event.action == MotionEvent.ACTION_MOVE)
+                && (event.pointerCount == 1)
 
-        if (lockedOn && isMyLocationEnabled && event.action == MotionEvent.ACTION_MOVE)
-            enableFollowLocation()
+        if (event.action == MotionEvent.ACTION_DOWN && enableAutoStop) {
+            disableFollowLocation()
+        } else if (isSingleFingerDrag && isFollowLocationEnabled) {
+            return true // prevent the pan
+        }
 
-        return handled
+        return false
     }
 
     ////////////////////////////////////////////
