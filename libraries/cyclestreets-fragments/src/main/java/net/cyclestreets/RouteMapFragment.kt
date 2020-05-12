@@ -46,7 +46,7 @@ class RouteMapFragment : CycleMapFragment(), Route.Listener {
         routeSetter = TapToRouteOverlay(mapView())
         overlayPushTop(routeSetter)
 
-        hasGps = GPS.deviceHasGPS(context!!)
+        hasGps = GPS.deviceHasGPS(requireContext())
 
         return v
     }
@@ -104,7 +104,7 @@ class RouteMapFragment : CycleMapFragment(), Route.Listener {
 
     private fun startLiveRide() {
         doOrRequestPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) {
-            LiveRideActivity.launch(context!!)
+            LiveRideActivity.launch(requireContext())
         }
     }
 
@@ -113,7 +113,7 @@ class RouteMapFragment : CycleMapFragment(), Route.Listener {
     }
 
     private fun doLaunchRouteDialog() {
-        RouteByAddress.launch(context!!,
+        RouteByAddress.launch(requireContext(),
                               mapView().boundingBox,
                               mapView().lastFix,
                               routeSetter.waypoints())
@@ -124,11 +124,11 @@ class RouteMapFragment : CycleMapFragment(), Route.Listener {
     }
 
     private fun doLaunchFetchRouteDialog() {
-        RouteByNumber.launch(context!!)
+        RouteByNumber.launch(requireContext())
     }
 
     private fun launchStoredRoutes() {
-        StoredRoutes.launch(context!!)
+        StoredRoutes.launch(requireContext())
     }
 
     private fun startNewRoute(listener: DialogInterface.OnClickListener) {

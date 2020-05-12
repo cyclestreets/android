@@ -3,7 +3,7 @@ package net.cyclestreets.util
 import android.content.Context
 import android.content.res.Resources
 import android.graphics.drawable.Drawable
-import android.support.v4.content.res.ResourcesCompat
+import androidx.core.content.res.ResourcesCompat
 import net.cyclestreets.view.R
 
 import net.cyclestreets.util.Turn.*

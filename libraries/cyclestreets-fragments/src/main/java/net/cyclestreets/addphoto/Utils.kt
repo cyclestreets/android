@@ -8,7 +8,7 @@ import android.content.pm.PackageManager
 import android.database.Cursor
 import android.os.Environment
 import android.provider.MediaStore
-import android.support.media.ExifInterface
+import androidx.exifinterface.media.ExifInterface
 import android.text.TextUtils
 import android.util.Log
 import android.view.View

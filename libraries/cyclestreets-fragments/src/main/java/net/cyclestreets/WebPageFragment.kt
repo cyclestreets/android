@@ -5,7 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.support.v4.app.Fragment
+import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -34,7 +34,7 @@ open class WebPageFragment : Fragment {
         val webPage = inflater.inflate(layout, null)
         val htmlView = webPage.findViewById<WebView>(R.id.html_view)
 
-        htmlView.webViewClient = FragmentViewClient(context!!, homePage)
+        htmlView.webViewClient = FragmentViewClient(requireContext(), homePage)
         htmlView.settings.javaScriptEnabled = true
         htmlView.loadUrl(homePage)
 

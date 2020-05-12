@@ -2,7 +2,7 @@ package net.cyclestreets.tiles;
 
 import android.content.Context;
 import android.content.DialogInterface;
-import android.support.v7.preference.ListPreference;
+import androidx.preference.ListPreference;
 
 import net.cyclestreets.CycleStreetsPreferences;
 import net.cyclestreets.util.Logging;

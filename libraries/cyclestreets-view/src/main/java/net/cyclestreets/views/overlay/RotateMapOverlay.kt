@@ -2,18 +2,16 @@ package net.cyclestreets.views.overlay
 
 import android.content.Context
 import android.content.SharedPreferences
-import android.content.pm.ActivityInfo
 import android.graphics.Canvas
 import android.graphics.drawable.Drawable
 import android.hardware.GeomagneticField
 import android.location.Location
 import android.location.LocationManager
-import android.support.design.widget.FloatingActionButton
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.Surface
-import android.view.View
 import android.view.WindowManager
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.mikepenz.google_material_typeface_library.GoogleMaterial
 import com.mikepenz.iconics.IconicsDrawable
 import net.cyclestreets.util.Logging

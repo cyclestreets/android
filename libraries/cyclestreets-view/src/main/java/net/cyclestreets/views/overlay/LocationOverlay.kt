@@ -6,8 +6,8 @@ import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.drawable.BitmapDrawable
 import android.location.LocationManager
-import android.support.design.widget.FloatingActionButton
-import android.support.v4.content.res.ResourcesCompat
+import com.google.android.material.floatingactionbutton.FloatingActionButton
+import androidx.core.content.res.ResourcesCompat
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.MotionEvent

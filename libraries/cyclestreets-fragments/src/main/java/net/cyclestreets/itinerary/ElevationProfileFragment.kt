@@ -2,7 +2,7 @@ package net.cyclestreets.itinerary
 
 import android.graphics.Color
 import android.os.Bundle
-import android.support.v4.app.Fragment
+import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -48,7 +48,7 @@ class ElevationProfileFragment : Fragment(), Route.Listener {
 
     override fun onNewJourney(journey: Journey, waypoints: Waypoints) {
         drawGraph(journey)
-        fillInOverview(journey, view!!, context!!.getString(R.string.elevation_route))
+        fillInOverview(journey, requireView(), requireContext().getString(R.string.elevation_route))
     }
 
     override fun onResetJourney() {}

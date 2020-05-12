@@ -1,7 +1,7 @@
 package net.cyclestreets.itinerary
 
 import android.os.Bundle
-import android.support.v4.app.ListFragment
+import androidx.fragment.app.ListFragment
 import android.view.View
 import android.widget.ListView
 import net.cyclestreets.RouteMapActivity
@@ -14,7 +14,7 @@ class ItineraryFragment : ListFragment(), Route.Listener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        listAdapter = SegmentAdapter(activity!!)
+        listAdapter = SegmentAdapter(requireActivity())
     }
 
     override fun onResume() {
@@ -28,7 +28,7 @@ class ItineraryFragment : ListFragment(), Route.Listener {
         super.onPause()
     }
 
-    override fun onListItemClick(l: ListView?, v: View?, position: Int, id: Long) {
+    override fun onListItemClick(l: ListView, v: View, position: Int, id: Long) {
         if (journey.isEmpty())
             return
 

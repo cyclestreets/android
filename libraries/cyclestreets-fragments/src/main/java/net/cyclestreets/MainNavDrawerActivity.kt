@@ -3,17 +3,18 @@ package net.cyclestreets
 import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
-import android.support.design.widget.NavigationView
-import android.support.v4.app.Fragment
-import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.Toolbar
+import com.google.android.material.navigation.NavigationView
+import androidx.fragment.app.Fragment
+import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
 import android.util.Log
 import android.util.SparseArray
-import android.support.v4.widget.DrawerLayout
+import androidx.drawerlayout.widget.DrawerLayout
 import android.view.Gravity
 import android.view.MenuItem
 
 import android.view.View
+import androidx.core.view.GravityCompat
 import com.mikepenz.google_material_typeface_library.GoogleMaterial.Icon
 import com.mikepenz.iconics.context.IconicsContextWrapper
 
@@ -23,9 +24,9 @@ import net.cyclestreets.routing.Route
 import net.cyclestreets.routing.Waypoints
 import net.cyclestreets.util.Logging
 
-import android.support.design.widget.NavigationView.OnNavigationItemSelectedListener
-import android.support.transition.Fade
-import android.support.v4.app.FragmentManager.OnBackStackChangedListener
+import com.google.android.material.navigation.NavigationView.OnNavigationItemSelectedListener
+import androidx.transition.Fade
+import androidx.fragment.app.FragmentManager.OnBackStackChangedListener
 import net.cyclestreets.addphoto.AddPhotoFragment
 import net.cyclestreets.api.JourneyPlanner
 import net.cyclestreets.iconics.IconicsHelper.materialIcons
@@ -105,7 +106,7 @@ abstract class MainNavDrawerActivity : AppCompatActivity(), OnNavigationItemSele
         when (item.itemId) {
             android.R.id.home -> {
                 setBlogStateTitle()
-                drawerLayout.openDrawer(Gravity.START)
+                drawerLayout.openDrawer(GravityCompat.START)
                 return true
             }
         }

@@ -1,4 +1,4 @@
-<android.support.design.widget.CoordinatorLayout
+<androidx.coordinatorlayout.widget.CoordinatorLayout
   xmlns:android="http://schemas.android.com/apk/res/android"
   xmlns:app="http://schemas.android.com/apk/res-auto"
   android:layout_width="match_parent"
@@ -15,7 +15,7 @@
         android:layout_weight="1" />
   </LinearLayout>
 
-  <android.support.design.widget.FloatingActionButton
+  <com.google.android.material.floatingactionbutton.FloatingActionButton
     android:id="@+id/addlocation"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
@@ -27,4 +27,4 @@
     app:borderWidth="12dp"
     app:ico_icon="gmd_add_location"
     app:backgroundTint="@android:color/background_light" />
-</android.support.design.widget.CoordinatorLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

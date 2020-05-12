@@ -15,7 +15,7 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
-import android.support.v7.widget.AppCompatAutoCompleteTextView;
+import androidx.appcompat.widget.AppCompatAutoCompleteTextView;
 import android.widget.AdapterView.OnItemClickListener;
 
 public class PlaceAutoCompleteTextView extends AppCompatAutoCompleteTextView

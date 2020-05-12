@@ -1,7 +1,6 @@
 package net.cyclestreets.routing
 
 import java.io.IOException
-import java.util.Arrays
 
 import android.text.TextUtils
 import android.util.Log
@@ -178,13 +177,13 @@ class Journey private constructor(wp: Waypoints? = null) {
                 totalDistance,
                 jdo.route.calories,
                 jdo.route.grammesCO2saved,
-                Arrays.asList(pD(from, pStart), pStart)
+                listOf(pD(from, pStart), pStart)
             )
             val endSeg = Segment.End(
                 jdo.route.finish,
                 totalTime,
                 totalDistance,
-                Arrays.asList(pEnd, pD(to, pEnd))
+                listOf(pEnd, pD(to, pEnd))
             )
 
             journey.segments.add(startSeg)

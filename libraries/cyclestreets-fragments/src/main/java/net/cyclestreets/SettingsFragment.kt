@@ -2,9 +2,9 @@ package net.cyclestreets
 
 import android.content.SharedPreferences
 import android.os.Bundle
-import android.support.transition.Fade
-import android.support.transition.Slide
-import android.support.v7.preference.*
+import androidx.transition.Fade
+import androidx.transition.Slide
+import androidx.preference.*
 
 import android.util.Log
 import android.view.Gravity
@@ -18,7 +18,7 @@ private val TAG = Logging.getTag(SettingsFragment::class.java)
 private const val PREFERENCE_SCREEN_ARG: String = "preferenceScreenArg"
 
 class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedPreferenceChangeListener, Undoable {
-    var undoable = false
+    private var undoable = false
 
     override fun onCreate(savedInstance: Bundle?) {
         super.onCreate(savedInstance)
@@ -40,7 +40,7 @@ class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedP
     override fun onCreatePreferences(savedInstance: Bundle?, rootKey: String?) {
         if (arguments != null) {
             Log.d(TAG, "Creating preferences subscreen with key $rootKey")
-            val key = arguments!!.getString(PREFERENCE_SCREEN_ARG)
+            val key = requireArguments().getString(PREFERENCE_SCREEN_ARG)
             setPreferencesFromResource(R.xml.prefs, key)
             undoable = true
             this.enterTransition = Slide(Gravity.END)
@@ -72,7 +72,7 @@ class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedP
             screen.arguments = args
         }
 
-        fragmentManager!!
+        parentFragmentManager
                 .beginTransaction()
                 .replace(id, screen)
                 .commit()
@@ -80,21 +80,20 @@ class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedP
     }
 
     private fun setupMapStyles() {
-        findPreference(CycleStreetsPreferences.PREF_MAPSTYLE_KEY)?.apply {
-            val pref = this as ListPreference
+        findPreference<ListPreference>(CycleStreetsPreferences.PREF_MAPSTYLE_KEY)?.apply {
 
-            if (pref.value == CycleStreetsPreferences.MAPSTYLE_MAPSFORGE && MapPack.availableMapPacks(context).isEmpty()) {
+            if (this.value == CycleStreetsPreferences.MAPSTYLE_MAPSFORGE && MapPack.availableMapPacks(context).isEmpty()) {
                 Log.i(TAG, "Offline Vector Maps were selected, but there are no available map packs; default to OSM")
-                pref.value = CycleStreetsPreferences.MAPSTYLE_OSM
+                this.value = CycleStreetsPreferences.MAPSTYLE_OSM
             }
 
-            TileSource.configurePreference(pref)
+            TileSource.configurePreference(this)
         }
     }
 
     private fun setupMapFileList() {
-        findPreference(CycleStreetsPreferences.PREF_MAPFILE_KEY)?.apply {
-            populateMapFileList(this as ListPreference)
+        findPreference<ListPreference>(CycleStreetsPreferences.PREF_MAPFILE_KEY)?.apply {
+            populateMapFileList(this)
         }
     }
 
@@ -125,7 +124,7 @@ class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedP
     }
 
     private fun setSummary(key: String) {
-        val prefUI = findPreference(key) ?: return
+        val prefUI = findPreference<Preference>(key) ?: return
         if (prefUI is ListPreference)
             prefUI.summary = prefUI.entry
         if (prefUI is EditTextPreference)
@@ -136,7 +135,7 @@ class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedP
     }
 
     private fun setMapFileSummary(style: String) {
-        val pref = findPreference(CycleStreetsPreferences.PREF_MAPFILE_KEY) ?: return
+        val pref = findPreference<Preference>(CycleStreetsPreferences.PREF_MAPFILE_KEY) ?: return
         val mapfilePref = pref as ListPreference
 
         val enabled = style == CycleStreetsPreferences.MAPSTYLE_MAPSFORGE
@@ -147,7 +146,7 @@ class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedP
 
         if (mapfilePref.entryValues.isEmpty()) {
             mapfilePref.isEnabled = false
-            MessageBox.YesNo(view!!, R.string.settings_no_map_packs) { _, _ -> MapPack.searchGooglePlay(context!!) }
+            MessageBox.YesNo(requireView(), R.string.settings_no_map_packs) { _, _ -> MapPack.searchGooglePlay(requireContext()) }
             return
         }
 
@@ -161,7 +160,7 @@ class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedP
     }
 
     private fun setAccountSummary() {
-        val pref = findPreference(CycleStreetsPreferences.PREF_ACCOUNT_KEY) ?: return
+        val pref = findPreference<Preference>(CycleStreetsPreferences.PREF_ACCOUNT_KEY) ?: return
         val account = pref as PreferenceScreen
 
         when {

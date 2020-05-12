@@ -1,7 +1,7 @@
 package net.cyclestreets.itinerary
 
 import android.os.Bundle
-import android.support.v4.app.Fragment
+import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuInflater
@@ -43,7 +43,7 @@ class ItineraryAndElevationFragment : Fragment() {
         val ft = fm.beginTransaction()
 
         if (lastFrag != null)
-            ft.detach(lastFrag)
+            ft.detach(lastFrag!!)
 
         if (fm.findFragmentByTag(frag.tag) == null)
             ft.add(R.id.container, frag, frag.javaClass.simpleName)
@@ -53,10 +53,10 @@ class ItineraryAndElevationFragment : Fragment() {
 
         lastFrag = frag
 
-        activity!!.invalidateOptionsMenu()
+        requireActivity().invalidateOptionsMenu()
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater) {
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.itinerary_and_elevation_menu, menu)
         super.onCreateOptionsMenu(menu, inflater)
     }
@@ -67,11 +67,11 @@ class ItineraryAndElevationFragment : Fragment() {
         super.onPrepareOptionsMenu(menu)
     }
 
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (super.onOptionsItemSelected(item))
             return true
 
-        val menuId = item!!.itemId
+        val menuId = item.itemId
 
         if (R.id.ic_menu_itinerary == menuId)
             showFrag(itinerary)

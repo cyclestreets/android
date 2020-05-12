@@ -5,7 +5,7 @@ import android.app.Activity
 import android.content.Context
 import android.content.ContextWrapper
 import android.content.pm.PackageManager
-import android.support.v4.app.Fragment
+import androidx.fragment.app.Fragment
 import android.util.Log
 import net.cyclestreets.util.Permissions.justifications
 import net.cyclestreets.view.R
@@ -31,7 +31,7 @@ fun doOrRequestPermission(activity: Activity, permission: String, action: () -> 
     }
 }
 fun doOrRequestPermission(fragment: Fragment, permission: String, action: () -> Unit) {
-    val context = fragment.context!!
+    val context = fragment.requireContext()
     if (hasPermission(context, permission))
         action()
     else {
