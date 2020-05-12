@@ -9,6 +9,8 @@ import com.mikepenz.iconics.IconicsDrawable
 import com.mikepenz.iconics.typeface.IIcon
 
 import com.mikepenz.iconics.utils.IconicsMenuInflaterUtil
+import com.mikepenz.iconics.utils.colorInt
+import com.mikepenz.iconics.utils.sizeDp
 import net.cyclestreets.util.Logging
 
 private val TAG = Logging.getTag(IconicsHelper::class.java)
@@ -20,14 +22,22 @@ object IconicsHelper {
     }
 
     fun materialIcons(context: Context, color: Int? = null, size: Int = 24, icons: List<IIcon>): List<IconicsDrawable> {
-        val sizedIcons = icons.map { iconId -> IconicsDrawable(context).icon(iconId).sizeDp(size) }
-        return sizedIcons.map { icon -> color?.let { icon.color(it) } ?: icon }
+        return icons.map {
+            iconId -> IconicsDrawable(context, iconId)
+                .apply {
+                    sizeDp = size
+                    color?.let { this.colorInt = color}
+                }
+        }
     }
 
     // Derive Context from the inflater, and then create the IconicsDrawable.
     fun drawable(inflater: Any, iconId: IIcon, colorFunction: (Context) -> Int): IconicsDrawable? {
         getContext(inflater)?.apply {
-            return IconicsDrawable(this).icon(iconId).color(colorFunction(this))
+            val context: Context = this
+            return IconicsDrawable(context, iconId).apply {
+                colorInt = (colorFunction(context))
+            }
         }
         return null
     }

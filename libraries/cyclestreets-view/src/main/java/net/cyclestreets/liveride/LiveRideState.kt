@@ -1,19 +1,6 @@
 package net.cyclestreets.liveride
 
 import android.app.Notification
-import net.cyclestreets.CycleStreetsNotifications
-import net.cyclestreets.CycleStreetsNotifications.CHANNEL_LIVERIDE_ID
-import net.cyclestreets.LiveRideActivity
-import net.cyclestreets.iconics.IconicsHelper
-import net.cyclestreets.routing.Journey
-import net.cyclestreets.routing.Segment
-import net.cyclestreets.util.Logging
-import net.cyclestreets.view.R
-
-import com.mikepenz.google_material_typeface_library.GoogleMaterial
-import org.osmdroid.util.GeoPoint
-import ru.ztrap.iconics.kt.toAndroidIconCompat
-
 import android.app.NotificationManager
 import android.app.PendingIntent
 import android.app.Service
@@ -22,6 +9,19 @@ import android.content.Intent
 import android.graphics.drawable.Icon
 import android.speech.tts.TextToSpeech
 import android.util.Log
+
+import com.mikepenz.iconics.typeface.library.googlematerial.GoogleMaterial
+import com.mikepenz.iconics.utils.toAndroidIconCompat
+import net.cyclestreets.CycleStreetsNotifications
+import net.cyclestreets.CycleStreetsNotifications.CHANNEL_LIVERIDE_ID
+import net.cyclestreets.LiveRideActivity
+import net.cyclestreets.iconics.IconicsHelper
+import net.cyclestreets.routing.Journey
+import net.cyclestreets.routing.Segment
+import net.cyclestreets.util.Logging
+import net.cyclestreets.view.R
+import org.osmdroid.util.GeoPoint
+
 import java.util.UUID
 
 private val TAG = Logging.getTag(LiveRideState::class.java)
