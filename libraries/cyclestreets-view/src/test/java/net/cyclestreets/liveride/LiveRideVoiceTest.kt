@@ -1,38 +1,37 @@
 package net.cyclestreets.liveride
 
+import android.content.Context
 import android.speech.tts.TextToSpeech
+import androidx.test.core.app.ApplicationProvider
 import net.cyclestreets.CycleStreetsPreferences
 import net.cyclestreets.TestUtils
 import net.cyclestreets.content.RouteData
 import net.cyclestreets.routing.Journey
 import net.cyclestreets.routing.Route
 import net.cyclestreets.util.TurnIcons
-import net.cyclestreets.view.BuildConfig
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Before
 import org.junit.Ignore
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.mockito.Mockito
 import org.mockito.Mockito.*
+import org.mockito.exceptions.verification.VerificationInOrderFailure
 import org.osmdroid.util.GeoPoint
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.annotation.Config
-import org.robolectric.shadows.ShadowApplication
-import org.mockito.Mockito.mockingDetails
-import org.mockito.exceptions.verification.VerificationInOrderFailure
 
-@Ignore("due to https://github.com/robolectric/robolectric/issues/4690 - handle later with AndroidX upgrade")
-@Config(constants = BuildConfig::class, manifest = Config.NONE, sdk = [27])
+
+@Ignore("WIP")
+@Config(manifest = Config.NONE, sdk = [28])
 @RunWith(RobolectricTestRunner::class)
 class LiveRideVoiceTest {
 
     private lateinit var liveRideState: LiveRideState
     private lateinit var journey: Journey
 
-    private val roboContext = ShadowApplication.getInstance().applicationContext
+    private val roboContext = ApplicationProvider.getApplicationContext<Context>()
     private val mockTts = mock(TextToSpeech::class.java)
-    private val inOrder = Mockito.inOrder(mockTts)
+    private val inOrder = inOrder(mockTts)
 
     @Before
     fun setUp() {

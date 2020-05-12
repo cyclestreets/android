@@ -53,6 +53,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+
 @Config(manifest=Config.NONE, sdk = 28)
 @RunWith(RobolectricTestRunner.class)
 public class RetrofitApiClientTest {

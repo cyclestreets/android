@@ -27,7 +27,7 @@ dependencies {
   implementation 'com.bazaarvoice.jolt:json-utils:0.1.1'
 
   testImplementation 'com.github.tomakehurst:wiremock-standalone:2.26.3'
-  testImplementation 'junit:junit:4.13'
+  testImplementation "junit:junit:${rootProject.ext.junitVersion}"
   testImplementation "org.assertj:assertj-core:${rootProject.ext.assertjVersion}"
   testImplementation 'org.skyscreamer:jsonassert:1.5.0'
   testImplementation "org.mockito:mockito-core:${rootProject.ext.mockitoVersion}"
