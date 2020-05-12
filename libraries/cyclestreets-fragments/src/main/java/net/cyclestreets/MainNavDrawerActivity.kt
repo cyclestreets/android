@@ -14,6 +14,7 @@ import android.view.Gravity
 import android.view.MenuItem
 
 import android.view.View
+import androidx.core.view.GravityCompat
 import com.mikepenz.google_material_typeface_library.GoogleMaterial.Icon
 import com.mikepenz.iconics.context.IconicsContextWrapper
 
@@ -105,7 +106,7 @@ abstract class MainNavDrawerActivity : AppCompatActivity(), OnNavigationItemSele
         when (item.itemId) {
             android.R.id.home -> {
                 setBlogStateTitle()
-                drawerLayout.openDrawer(Gravity.START)
+                drawerLayout.openDrawer(GravityCompat.START)
                 return true
             }
         }
