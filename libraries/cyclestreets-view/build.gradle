@@ -25,7 +25,7 @@ dependencies {
   api 'androidx.preference:preference:1.1.1'
 
   testImplementation 'junit:junit:4.12'
-  testImplementation 'org.robolectric:robolectric:3.8'
+  testImplementation 'org.robolectric:robolectric:4.3'
   testImplementation "org.mockito:mockito-core:${rootProject.ext.mockitoVersion}"
   testImplementation "org.assertj:assertj-core:${rootProject.ext.assertjVersion}"
   testImplementation 'commons-io:commons-io:2.6'
