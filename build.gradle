@@ -94,5 +94,7 @@ subprojects {
       // Kotlin (nullability) interop check - potentially useful but quite noisy
       // check 'Interoperability'
     }
+
+    viewBinding.enabled = true
   }
 }
