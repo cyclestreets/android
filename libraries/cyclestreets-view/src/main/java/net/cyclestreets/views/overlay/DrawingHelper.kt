@@ -16,7 +16,7 @@ fun offset(context: Context): Int {
     return (8 * context.resources.displayMetrics.density).toInt()
 }
 
-fun cornerRadius(context: Context?): Float {
+fun cornerRadius(): Float {
     return 0F
 }
 

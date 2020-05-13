@@ -17,6 +17,7 @@ import org.osmdroid.tileprovider.MapTileProviderBase;
 import org.osmdroid.tileprovider.tilesource.ITileSource;
 import org.osmdroid.util.BoundingBox;
 import org.osmdroid.util.GeoPoint;
+import org.osmdroid.views.CustomZoomButtonsController;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.Projection;
 import org.osmdroid.views.overlay.Overlay;
@@ -78,7 +79,7 @@ public class CycleMapView extends FrameLayout
 
     prefs_ = context.getSharedPreferences("net.cyclestreets.mapview."+name, Context.MODE_PRIVATE);
 
-    mapView_.setBuiltInZoomControls(false);
+    mapView_.getZoomController().setVisibility(CustomZoomButtonsController.Visibility.NEVER);
     mapView_.setMultiTouchControls(true);
     mapView_.setMaxZoomLevel((double)MAX_ZOOM_LEVEL);
     mapView_.setMinZoomLevel(MIN_ZOOM_LEVEL);
@@ -118,7 +119,7 @@ public class CycleMapView extends FrameLayout
   public void zoomToBoundingBox(BoundingBox boundingBox) { mapView_.zoomToBoundingBox(boundingBox, true); }
 
   private void setTileSource(ITileSource tileSource) { mapView_.setTileSource(tileSource); }
-  public void setMapListener(MapListener ml) { mapView_.setMapListener(ml); }
+  public void setMapListener(MapListener ml) { mapView_.addMapListener(ml); }
 
   /////////////////////////////////////////
   // save/restore

@@ -49,7 +49,7 @@ public abstract class LiveItemOverlay<T extends OverlayItem>
 
     final Context context = mapView_.getContext();
     offset_ = DrawingHelperKt.offset(context);
-    radius_ = DrawingHelperKt.cornerRadius(context);
+    radius_ = DrawingHelperKt.cornerRadius();
     textBrush_ = Brush.createTextBrush(offset_);
 
     mapView_.setMapListener(new DelayedMapListener(this));

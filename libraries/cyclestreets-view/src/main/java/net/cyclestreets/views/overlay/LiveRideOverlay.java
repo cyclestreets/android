@@ -51,7 +51,7 @@ public class LiveRideOverlay extends Overlay
 
     locator_ = locator;
     offset_ = DrawingHelperKt.offset(context);
-    radius_ = DrawingHelperKt.cornerRadius(context);
+    radius_ = DrawingHelperKt.cornerRadius();
     largeTextBrush_ = Brush.createTextBrush(offset_*4);
     largeTextBrush_.setTextAlign(Align.LEFT);
     midTextBrush_ = Brush.createTextBrush(offset_*2);

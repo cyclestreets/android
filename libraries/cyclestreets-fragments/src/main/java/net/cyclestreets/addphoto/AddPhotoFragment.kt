@@ -20,7 +20,8 @@ import android.view.*
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.view.inputmethod.InputMethodManager
 import android.widget.*
-import com.mikepenz.google_material_typeface_library.GoogleMaterial
+import com.mikepenz.iconics.typeface.library.googlematerial.GoogleMaterial
+import com.mikepenz.iconics.utils.sizeDp
 import net.cyclestreets.AccountDetailsActivity
 import net.cyclestreets.CycleStreetsPreferences
 import net.cyclestreets.Undoable
@@ -106,7 +107,7 @@ class AddPhotoFragment : Fragment(), View.OnClickListener, Undoable, ThereOverla
     private fun initialiseDrawables(inflater: Any) {
         if (restartDrawable == null) {
             val colorFunction: (Context) -> Int = { cxt: Context -> Theme.lowlightColorInverse(cxt) }
-            restartDrawable = IconicsHelper.drawable(inflater, GoogleMaterial.Icon.gmd_replay, colorFunction)?.sizeDp(24)
+            restartDrawable = IconicsHelper.drawable(inflater, GoogleMaterial.Icon.gmd_replay, colorFunction)?.apply { sizeDp = 24 }
         }
     }
 
