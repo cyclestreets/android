@@ -3,7 +3,7 @@
     <!-- Shows a north facing compass needle in a circle. -->
     path.needle	{fill:black; stroke-width:50; stroke:black; stroke-linejoin:round;}
     path.north {fill:red; stroke:none;}
-    circle.rim	{stroke:black; stroke-width:80; fill:none;}
+    circle.rim	{stroke:#009800; stroke-opacity:0.6; stroke-width:80; fill:none;}
     circle.pivot {stroke:none; fill:white;}
   </style>
   <circle class="rim" cx="500" cy="500" r="450"/>
