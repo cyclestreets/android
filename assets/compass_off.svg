@@ -1,4 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="100 100 799 799">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="123 123 734 734">
   <style>
     <!-- Shows a greyed-out north facing compass needle in a circle. -->
     path.needle	{fill:#525252; stroke-width:50; stroke:#525252; stroke-linejoin:round;}

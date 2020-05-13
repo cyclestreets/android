@@ -1,4 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="100 100 799 799">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="123 123 734 734">
   <style>
     <!-- Shows a north facing compass needle in a circle. -->
     path.needle	{fill:black; stroke-width:50; stroke:black; stroke-linejoin:round;}
