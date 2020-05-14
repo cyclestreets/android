@@ -42,7 +42,6 @@ class RotateMapOverlay(private val mapView: CycleMapView) : Overlay(), PauseResu
     private var timeOfFix: Long = 0
     private var deviceOrientation = 0
 
-
     init {
         val context = mapView.context
 

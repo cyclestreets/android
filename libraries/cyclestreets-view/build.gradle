@@ -16,8 +16,6 @@ dependencies {
   // there is some suggestion (https://github.com/osmdroid/osmdroid/wiki/Mapsforge) that the below may be necessary
 //  api "org.osmdroid:osmdroid-mapsforge:${rootProject.ext.osmdroidVersion}@aar"
 
-  // TODO: upgrade this to 5.x - at which point the ru.ztrap kotlin extensions will likely no
-  //       longer be required as we'll get them for free
   api 'com.mikepenz:iconics-core:5.0.3@aar'
   api 'com.mikepenz:iconics-typeface-api:5.0.3@aar'
   api 'com.mikepenz:google-material-typeface:3.0.1.4.original-kotlin@aar'
