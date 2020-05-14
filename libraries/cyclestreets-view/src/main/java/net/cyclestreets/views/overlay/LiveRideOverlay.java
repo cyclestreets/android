@@ -1,7 +1,6 @@
 package net.cyclestreets.views.overlay;
 
 import net.cyclestreets.CycleStreetsPreferences;
-import net.cyclestreets.liveride.LiveRideService;
 import net.cyclestreets.routing.DistanceFormatter;
 import net.cyclestreets.routing.Route;
 import net.cyclestreets.routing.Segment;
@@ -14,10 +13,6 @@ import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.Overlay;
 
 import android.app.Activity;
-import android.content.ComponentName;
-import android.content.Context;
-import android.content.Intent;
-import android.content.ServiceConnection;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.graphics.Paint;
@@ -25,8 +20,6 @@ import android.graphics.Rect;
 import android.graphics.Paint.Align;
 import android.graphics.drawable.Drawable;
 import android.location.Location;
-import android.os.IBinder;
-import android.view.View;
 
 public class LiveRideOverlay extends Overlay
 {
@@ -158,7 +151,7 @@ public class LiveRideOverlay extends Overlay
   }
 
   private Location lastLocation() {
-    if (!Route.available())
+    if (!Route.routeAvailable())
       return null;
 
     if (locator_ == null)

@@ -39,7 +39,7 @@ class RouteMapFragment : CycleMapFragment(), Route.Listener {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, saved: Bundle?): View? {
         val v = super.onCreateView(inflater, container, saved)
 
-        overlayPushBottom(RouteHighlightOverlay(context, mapView()))
+        overlayPushBottom(RouteHighlightOverlay(requireContext(), mapView()))
         overlayPushBottom(POIOverlay(mapView()))
         overlayPushBottom(RouteOverlay())
 
@@ -69,7 +69,7 @@ class RouteMapFragment : CycleMapFragment(), Route.Listener {
     }
 
     override fun onPrepareOptionsMenu(menu: Menu) {
-        showMenuItem(menu, R.id.ic_menu_liveride, Route.available() && hasGps)
+        showMenuItem(menu, R.id.ic_menu_liveride, Route.routeAvailable() && hasGps)
         enableMenuItem(menu, R.id.ic_menu_directions, true)
         showMenuItem(menu, R.id.ic_menu_saved_routes, Route.storedCount() != 0)
         enableMenuItem(menu, R.id.ic_menu_route_number, true)
@@ -132,7 +132,7 @@ class RouteMapFragment : CycleMapFragment(), Route.Listener {
     }
 
     private fun startNewRoute(listener: DialogInterface.OnClickListener) {
-        if (Route.available() && CycleStreetsPreferences.confirmNewRoute())
+        if (Route.routeAvailable() && CycleStreetsPreferences.confirmNewRoute())
             MessageBox.YesNo(mapView(), R.string.confirm_new_route, listener)
         else
             listener.onClick(null, 0)

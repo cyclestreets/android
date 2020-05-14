@@ -14,7 +14,6 @@ import android.view.MenuItem
 
 import android.view.View
 import androidx.core.view.GravityCompat
-import com.mikepenz.iconics.context.IconicsContextWrapper
 import com.mikepenz.iconics.typeface.library.googlematerial.GoogleMaterial
 
 import net.cyclestreets.fragments.R
@@ -63,11 +62,6 @@ abstract class MainNavDrawerActivity : AppCompatActivity(), OnNavigationItemSele
     // If you're in one of these fragments at pause, then you'll be returned to it on resume.
     private val resumableFragments = setOf(R.id.nav_journey_planner, R.id.nav_photomap, R.id.nav_addphoto, R.id.nav_settings)
 
-    override fun attachBaseContext(newBase: Context) {
-        // Allows the use of Material icon library, see https://github.com/mikepenz/Android-Iconics
-        super.attachBaseContext(IconicsContextWrapper.wrap(newBase))
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.main_navdrawer_activity)
@@ -79,7 +73,7 @@ abstract class MainNavDrawerActivity : AppCompatActivity(), OnNavigationItemSele
         drawerLayout = findViewById(R.id.drawer_layout)
         navigationView = (findViewById<NavigationView>(R.id.nav_view)).apply {
             setNavigationItemSelectedListener(this@MainNavDrawerActivity)
-            menu.findItem(R.id.nav_itinerary).isVisible = Route.available()
+            menu.findItem(R.id.nav_itinerary).isVisible = Route.routeAvailable()
             menu.findItem(R.id.nav_addphoto).icon = addPhotoIcon
             menu.findItem(R.id.nav_blog).icon = blogIcon
             menu.findItem(R.id.nav_settings).icon = settingsIcon
@@ -227,12 +221,12 @@ abstract class MainNavDrawerActivity : AppCompatActivity(), OnNavigationItemSele
 
     ////////// Route.Listener method implementations
     override fun onNewJourney(journey: Journey, waypoints: Waypoints) {
-        navigationView.menu.findItem(R.id.nav_itinerary).isVisible = Route.available()
+        navigationView.menu.findItem(R.id.nav_itinerary).isVisible = Route.routeAvailable()
         invalidateOptionsMenu()
     }
 
     override fun onResetJourney() {
-        navigationView.menu.findItem(R.id.nav_itinerary).isVisible = Route.available()
+        navigationView.menu.findItem(R.id.nav_itinerary).isVisible = Route.routeAvailable()
         invalidateOptionsMenu()
     }
 

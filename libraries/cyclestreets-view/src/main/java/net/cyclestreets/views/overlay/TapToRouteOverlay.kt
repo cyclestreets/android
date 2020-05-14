@@ -37,6 +37,7 @@ import android.widget.ImageView
 import android.widget.Toast
 
 import com.mikepenz.iconics.typeface.library.googlematerial.GoogleMaterial
+import net.cyclestreets.iconics.IconicsHelper
 import net.cyclestreets.iconics.IconicsHelper.materialIcon
 
 import net.cyclestreets.util.MenuHelper.createMenuItem
@@ -76,6 +77,7 @@ class TapToRouteOverlay(private val mapView: CycleMapView) : Overlay(), TapListe
         routingInfoRect.setOnClickListener { _ -> onRouteNow(waypoints()) }
 
         restartButton = routeView.findViewById(R.id.restartbutton)
+        restartButton.setImageDrawable(IconicsHelper.materialIcon(context, Theme.lowlightColor(context!!), icon = GoogleMaterial.Icon.gmd_replay))
         restartButton.setOnClickListener { _ -> tapRestart() }
 
         routeNowIcon = routeView.findViewById(R.id.route_now_icon)

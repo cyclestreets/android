@@ -152,7 +152,7 @@ object Route {
     }
 
     @JvmStatic
-    fun available(): Boolean {
+    fun routeAvailable(): Boolean {
         return plannedRoute_ != NULL_JOURNEY
     }
 

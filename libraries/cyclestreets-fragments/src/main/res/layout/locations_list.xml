@@ -25,6 +25,5 @@
     android:layout_margin="16dp"
     app:fabSize="normal"
     app:borderWidth="12dp"
-    app:ico_icon="gmd_add_location"
     app:backgroundTint="@android:color/background_light" />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

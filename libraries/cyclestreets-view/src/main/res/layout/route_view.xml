@@ -40,8 +40,6 @@
           android:layout_height="wrap_content"
           app:fabSize="normal"
           app:borderWidth="12dp"
-          app:ico_icon="gmd_chevron_left"
-          app:ico_color="?android:textColorSecondary"
           app:backgroundTint="@android:color/background_light" />
         <com.google.android.material.floatingactionbutton.FloatingActionButton
           android:id="@+id/route_highlight_next"
@@ -49,7 +47,6 @@
           android:layout_height="wrap_content"
           app:fabSize="normal"
           app:borderWidth="12dp"
-          app:ico_icon="gmd_chevron_right"
           app:ico_color="?android:textColorSecondary"
           app:backgroundTint="@android:color/background_light" />
     </LinearLayout>
@@ -64,8 +61,6 @@
         android:visibility="invisible"
         app:fabSize="normal"
         app:borderWidth="12dp"
-        app:ico_icon="gmd_replay"
-        app:ico_color="?android:textColorSecondary"
         app:backgroundTint="@android:color/background_light" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
       xmlns:app="http://schemas.android.com/apk/res-auto">
+  <!-- TODO: do we need to instantiate these icon drawables in code?  See https://github.com/mikepenz/Android-Iconics/issues/470 -->
   <item android:id="@+id/ic_menu_liveride"
         app:ico_icon="gmd_navigation"
         app:ico_color="?android:textColorSecondary"
