@@ -3,30 +3,27 @@ package net.cyclestreets
 import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
-import com.google.android.material.navigation.NavigationView
-import androidx.fragment.app.Fragment
-import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.Toolbar
 import android.util.Log
 import android.util.SparseArray
-import androidx.drawerlayout.widget.DrawerLayout
 import android.view.MenuItem
-
 import android.view.View
+import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
+import androidx.drawerlayout.widget.DrawerLayout
+import androidx.fragment.app.Fragment
+import androidx.transition.Fade
+import com.google.android.material.navigation.NavigationView
+import com.google.android.material.navigation.NavigationView.OnNavigationItemSelectedListener
 import com.mikepenz.iconics.typeface.library.googlematerial.GoogleMaterial
-
+import net.cyclestreets.addphoto.AddPhotoFragment
 import net.cyclestreets.fragments.R
+import net.cyclestreets.iconics.IconicsHelper.materialIcons
+import net.cyclestreets.itinerary.ItineraryAndElevationFragment
 import net.cyclestreets.routing.Journey
 import net.cyclestreets.routing.Route
 import net.cyclestreets.routing.Waypoints
 import net.cyclestreets.util.Logging
-
-import com.google.android.material.navigation.NavigationView.OnNavigationItemSelectedListener
-import androidx.transition.Fade
-import net.cyclestreets.addphoto.AddPhotoFragment
-import net.cyclestreets.iconics.IconicsHelper.materialIcons
-import net.cyclestreets.itinerary.ItineraryAndElevationFragment
 
 private val TAG = Logging.getTag(MainNavDrawerActivity::class.java)
 private const val DRAWER_ITEMID_SELECTED_KEY = "DRAWER_ITEM_SELECTED"
@@ -67,7 +64,7 @@ abstract class MainNavDrawerActivity : AppCompatActivity(), OnNavigationItemSele
         setContentView(R.layout.main_navdrawer_activity)
 
         val (burgerIcon, addPhotoIcon, blogIcon, settingsIcon) =
-            materialIcons(context = this, icons = listOf(GoogleMaterial.Icon.gmd_menu, GoogleMaterial.Icon.gmd_add_a_photo, GoogleMaterial.Icon.gmd_chat, GoogleMaterial.Icon.gmd_settings))
+            materialIcons(context = this, iconIds = listOf(GoogleMaterial.Icon.gmd_menu, GoogleMaterial.Icon.gmd_add_a_photo, GoogleMaterial.Icon.gmd_chat, GoogleMaterial.Icon.gmd_settings))
         burgerIcon.setTint(resources.getColor(R.color.cs_primary_material_light, null))
 
         drawerLayout = findViewById(R.id.drawer_layout)

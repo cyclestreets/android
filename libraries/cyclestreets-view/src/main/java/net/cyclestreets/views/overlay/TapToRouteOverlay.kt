@@ -1,47 +1,38 @@
 package net.cyclestreets.views.overlay
 
-import net.cyclestreets.RoutePlans
-
-import net.cyclestreets.CycleStreetsPreferences
-import net.cyclestreets.FeedbackActivity
-import net.cyclestreets.util.Logging
-import net.cyclestreets.util.Theme
-import net.cyclestreets.view.R
-import net.cyclestreets.Undoable
-import net.cyclestreets.routing.Journey
-import net.cyclestreets.routing.Route
-import net.cyclestreets.routing.Waypoints
-import net.cyclestreets.util.MessageBox
-import net.cyclestreets.util.Share
-import net.cyclestreets.views.CycleMapView
-
-import org.osmdroid.api.IGeoPoint
-import org.osmdroid.util.GeoPoint
-import org.osmdroid.views.MapView
-import org.osmdroid.views.overlay.Overlay
-
 import android.content.Intent
 import android.content.SharedPreferences
 import android.content.SharedPreferences.Editor
 import android.graphics.Canvas
-import com.google.android.material.floatingactionbutton.FloatingActionButton
 import android.util.Log
-import android.view.ContextMenu
-import android.view.Gravity
-import android.view.Menu
-import android.view.MenuItem
-import android.view.MotionEvent
-import android.view.View
+import android.view.*
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.Toast
-
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.mikepenz.iconics.typeface.library.googlematerial.GoogleMaterial
-import net.cyclestreets.iconics.IconicsHelper
+import net.cyclestreets.CycleStreetsPreferences
+import net.cyclestreets.FeedbackActivity
+import net.cyclestreets.RoutePlans
+import net.cyclestreets.Undoable
 import net.cyclestreets.iconics.IconicsHelper.materialIcon
-
+import net.cyclestreets.routing.Journey
+import net.cyclestreets.routing.Route
+import net.cyclestreets.routing.Waypoints
+import net.cyclestreets.util.Logging
 import net.cyclestreets.util.MenuHelper.createMenuItem
 import net.cyclestreets.util.MenuHelper.showMenuItem
+import net.cyclestreets.util.MessageBox
+import net.cyclestreets.util.Share
+import net.cyclestreets.util.Theme
+import net.cyclestreets.util.Theme.lowlightColor
+import net.cyclestreets.util.Theme.lowlightColorInverse
+import net.cyclestreets.view.R
+import net.cyclestreets.views.CycleMapView
+import org.osmdroid.api.IGeoPoint
+import org.osmdroid.util.GeoPoint
+import org.osmdroid.views.MapView
+import org.osmdroid.views.overlay.Overlay
 
 
 class TapToRouteOverlay(private val mapView: CycleMapView) : Overlay(), TapListener, ContextMenuListener,
@@ -53,10 +44,8 @@ class TapToRouteOverlay(private val mapView: CycleMapView) : Overlay(), TapListe
 
     private val context = mapView.context
 
-    private val shareDrawable = materialIcon(context, Theme.lowlightColorInverse(context), 24,
-                                             GoogleMaterial.Icon.gmd_share)
-    private val commentDrawable = materialIcon(context, Theme.lowlightColorInverse(context), 24,
-                                               GoogleMaterial.Icon.gmd_comment)
+    private val shareDrawable = materialIcon(context, GoogleMaterial.Icon.gmd_share, lowlightColorInverse(context))
+    private val commentDrawable = materialIcon(context, GoogleMaterial.Icon.gmd_comment, lowlightColorInverse(context))
 
     private val highlightColour = Theme.highlightColor(context) or 0xFF000000.toInt()
     private val lowlightColour = Theme.lowlightColor(context) or 0xFF000000.toInt()
@@ -76,9 +65,10 @@ class TapToRouteOverlay(private val mapView: CycleMapView) : Overlay(), TapListe
         routingInfoRect = routeView.findViewById(R.id.routing_info_rect)
         routingInfoRect.setOnClickListener { _ -> onRouteNow(waypoints()) }
 
-        restartButton = routeView.findViewById(R.id.restartbutton)
-        restartButton.setImageDrawable(IconicsHelper.materialIcon(context, Theme.lowlightColor(context!!), icon = GoogleMaterial.Icon.gmd_replay))
-        restartButton.setOnClickListener { _ -> tapRestart() }
+        restartButton = routeView.findViewById<FloatingActionButton>(R.id.restartbutton).apply {
+            setImageDrawable(materialIcon(context, GoogleMaterial.Icon.gmd_replay, lowlightColor(context!!)))
+            setOnClickListener { _ -> tapRestart() }
+        }
 
         routeNowIcon = routeView.findViewById(R.id.route_now_icon)
     }

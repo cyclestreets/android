@@ -18,12 +18,12 @@ private val TAG = Logging.getTag(IconicsHelper::class.java)
 
 object IconicsHelper {
 
-    fun materialIcon(context: Context, color: Int? = null, size: Int = 24, icon: IIcon): IconicsDrawable {
-        return materialIcons(context, color, size, listOf(icon)).first()
+    fun materialIcon(context: Context, iconId: IIcon, color: Int? = null, size: Int = 24): IconicsDrawable {
+        return materialIcons(context, listOf(iconId), color, size).first()
     }
 
-    fun materialIcons(context: Context, color: Int? = null, size: Int = 24, icons: List<IIcon>): List<IconicsDrawable> {
-        return icons.map {
+    fun materialIcons(context: Context, iconIds: List<IIcon>, color: Int? = null, size: Int = 24): List<IconicsDrawable> {
+        return iconIds.map {
             iconId -> IconicsDrawable(context, iconId)
                 .apply {
                     sizeDp = size

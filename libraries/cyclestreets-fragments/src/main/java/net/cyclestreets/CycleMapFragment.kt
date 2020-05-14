@@ -29,7 +29,9 @@ import org.osmdroid.views.overlay.Overlay
 import java.io.File
 import java.util.Date
 
+
 private val TAG = Logging.getTag(CycleMapFragment::class.java)
+
 
 open class CycleMapFragment : Fragment(), Undoable {
     private var map: CycleMapView? = null

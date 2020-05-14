@@ -6,14 +6,14 @@ import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.drawable.BitmapDrawable
 import android.location.LocationManager
-import com.google.android.material.floatingactionbutton.FloatingActionButton
-import androidx.core.content.res.ResourcesCompat
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
+import androidx.core.content.res.ResourcesCompat
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.mikepenz.iconics.typeface.library.googlematerial.GoogleMaterial
-import net.cyclestreets.iconics.IconicsHelper
+import net.cyclestreets.iconics.IconicsHelper.materialIcon
 import net.cyclestreets.util.Logging
 import net.cyclestreets.util.Theme
 import net.cyclestreets.util.doOrRequestPermission
@@ -54,7 +54,7 @@ class LocationOverlay(private val mapView: CycleMapView) :
 
         val overlayView = LayoutInflater.from(context).inflate(R.layout.locationbutton, null)
         button = overlayView.findViewById(R.id.locationbutton)
-        button.setImageDrawable(IconicsHelper.materialIcon(context = context, icon = GoogleMaterial.Icon.gmd_my_location))
+        button.setImageDrawable(materialIcon(context, GoogleMaterial.Icon.gmd_my_location))
         button.setOnClickListener { _ -> enableAndFollowLocation(!isFollowLocationEnabled) }
 
         mapView.addView(overlayView)

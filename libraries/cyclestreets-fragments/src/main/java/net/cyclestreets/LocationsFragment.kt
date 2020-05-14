@@ -15,7 +15,7 @@ import com.mikepenz.iconics.typeface.library.googlematerial.GoogleMaterial
 import net.cyclestreets.content.LocationDatabase
 import net.cyclestreets.content.SavedLocation
 import net.cyclestreets.fragments.R
-import net.cyclestreets.iconics.IconicsHelper
+import net.cyclestreets.iconics.IconicsHelper.materialIcon
 import net.cyclestreets.util.MenuHelper
 import net.cyclestreets.util.Theme
 
@@ -36,9 +36,11 @@ class LocationsFragment : ListFragment() {
         super.onCreateView(inflater, container, savedInstanceState)
         val layout = inflater.inflate(R.layout.locations_list, container, false)
 
-        val addButton: FloatingActionButton = layout.findViewById(R.id.addlocation)
-        addButton.setImageDrawable(IconicsHelper.materialIcon(requireContext(), Theme.lowlightColor(requireContext()), icon = GoogleMaterial.Icon.gmd_add_location))
-        addButton.setOnClickListener { _ -> editLocation(-1) }
+        val addLocationIcon = materialIcon(requireContext(), GoogleMaterial.Icon.gmd_add_location, Theme.lowlightColor(requireContext()))
+
+        val addLocationButton: FloatingActionButton = layout.findViewById(R.id.addlocation)
+        addLocationButton.setImageDrawable(addLocationIcon)
+        addLocationButton.setOnClickListener { _ -> editLocation(-1) }
 
         return layout
     }

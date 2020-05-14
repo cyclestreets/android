@@ -11,14 +11,14 @@ import android.graphics.Point
 import android.os.AsyncTask
 import android.os.Bundle
 import android.provider.MediaStore
-import androidx.exifinterface.media.ExifInterface
-import androidx.fragment.app.Fragment
-import androidx.core.content.FileProvider
 import android.util.Log
 import android.view.*
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.view.inputmethod.InputMethodManager
 import android.widget.*
+import androidx.core.content.FileProvider
+import androidx.exifinterface.media.ExifInterface
+import androidx.fragment.app.Fragment
 import com.mikepenz.iconics.typeface.library.googlematerial.GoogleMaterial
 import net.cyclestreets.AccountDetailsActivity
 import net.cyclestreets.CycleStreetsPreferences
@@ -26,7 +26,6 @@ import net.cyclestreets.Undoable
 import net.cyclestreets.api.PhotomapCategories
 import net.cyclestreets.api.Upload
 import net.cyclestreets.fragments.R
-import net.cyclestreets.iconics.IconicsHelper.materialIcon
 import net.cyclestreets.iconics.IconicsHelper.materialIcons
 import net.cyclestreets.util.*
 import net.cyclestreets.util.MenuHelper.createMenuItem
@@ -111,7 +110,7 @@ class AddPhotoFragment : Fragment(), View.OnClickListener, Undoable, ThereOverla
     private fun initialiseViews(inflater: LayoutInflater) {
 
         val (restartIcon, prevIcon, nextIcon, uploadIcon, shareIcon) = materialIcons(inflater.context!!,
-                icons = listOf(GoogleMaterial.Icon.gmd_replay, GoogleMaterial.Icon.gmd_fast_rewind,
+                iconIds = listOf(GoogleMaterial.Icon.gmd_replay, GoogleMaterial.Icon.gmd_fast_rewind,
                                GoogleMaterial.Icon.gmd_fast_forward, GoogleMaterial.Icon.gmd_file_upload,
                                GoogleMaterial.Icon.gmd_share))
 
@@ -192,10 +191,11 @@ class AddPhotoFragment : Fragment(), View.OnClickListener, Undoable, ThereOverla
                 // why recreate this view each time - well *sigh* because we have to force the
                 // keyboard to hide, if we don't recreate the view afresh, Android won't redisplay
                 // the keyboard if we come back to this view
+                val (prevIcon, nextIcon) = materialIcons(inflater.context!!, listOf(GoogleMaterial.Icon.gmd_fast_rewind, GoogleMaterial.Icon.gmd_fast_forward))
                 photo2Caption = inflater.inflate(R.layout.addphoto_2_caption, null).apply {
                     backNextButtons(this,
-                                    getString(R.string.all_button_back), materialIcon(inflater.context!!, icon = GoogleMaterial.Icon.gmd_fast_rewind),
-                                    getString(R.string.all_button_next), materialIcon(inflater.context!!, icon = GoogleMaterial.Icon.gmd_fast_forward))
+                                    getString(R.string.all_button_back), prevIcon,
+                                    getString(R.string.all_button_next), nextIcon)
                     setContentView(this)
                 }
                 captionEditor().setText(caption)

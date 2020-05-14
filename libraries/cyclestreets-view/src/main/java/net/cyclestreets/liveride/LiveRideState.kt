@@ -9,20 +9,18 @@ import android.content.Intent
 import android.graphics.drawable.Icon
 import android.speech.tts.TextToSpeech
 import android.util.Log
-
 import com.mikepenz.iconics.typeface.library.googlematerial.GoogleMaterial
 import com.mikepenz.iconics.utils.toAndroidIconCompat
 import net.cyclestreets.CycleStreetsNotifications
 import net.cyclestreets.CycleStreetsNotifications.CHANNEL_LIVERIDE_ID
 import net.cyclestreets.LiveRideActivity
-import net.cyclestreets.iconics.IconicsHelper
+import net.cyclestreets.iconics.IconicsHelper.materialIcon
 import net.cyclestreets.routing.Journey
 import net.cyclestreets.routing.Segment
 import net.cyclestreets.util.Logging
 import net.cyclestreets.view.R
 import org.osmdroid.util.GeoPoint
-
-import java.util.UUID
+import java.util.*
 
 private val TAG = Logging.getTag(LiveRideState::class.java)
 private const val NOTIFICATION_ID = 1
@@ -91,7 +89,7 @@ internal abstract class LiveRideState(protected val context: Context,
         val contentIntent = PendingIntent.getActivity(context, 0, notificationIntent, PendingIntent.FLAG_CANCEL_CURRENT)
 
         val notificationBuilder = CycleStreetsNotifications.getBuilder(context, CHANNEL_LIVERIDE_ID)
-                .setSmallIcon(IconicsHelper.materialIcon(context = context, icon = GoogleMaterial.Icon.gmd_directions_bike).toAndroidIconCompat().toIcon())
+                .setSmallIcon(materialIcon(context, GoogleMaterial.Icon.gmd_directions_bike).toAndroidIconCompat().toIcon())
                 .setTicker(ticker)
                 .setWhen(System.currentTimeMillis())
                 .setAutoCancel(true)

@@ -9,11 +9,12 @@ import android.widget.Button
 import android.widget.ImageView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.mikepenz.iconics.typeface.library.googlematerial.GoogleMaterial
-import net.cyclestreets.iconics.IconicsHelper
-import net.cyclestreets.routing.Route.routeAvailable
+import net.cyclestreets.iconics.IconicsHelper.materialIcons
 import net.cyclestreets.routing.Route.journey
+import net.cyclestreets.routing.Route.routeAvailable
 import net.cyclestreets.routing.Segment
-import net.cyclestreets.util.Theme
+import net.cyclestreets.util.Theme.highlightColor
+import net.cyclestreets.util.Theme.lowlightColor
 import net.cyclestreets.view.R
 import net.cyclestreets.views.CycleMapView
 import org.osmdroid.views.MapView
@@ -37,21 +38,25 @@ class RouteHighlightOverlay(context: Context, private val mapView: CycleMapView)
         routingInfoRect = routeView.findViewById(R.id.routing_info_rect)
         routeNowIcon = routeView.findViewById(R.id.route_now_icon)
 
-        prevButton = routeView.findViewById(R.id.route_highlight_prev)
-        prevButton.setImageDrawable(IconicsHelper.materialIcon(context, Theme.lowlightColor(context), icon = GoogleMaterial.Icon.gmd_chevron_left))
-        prevButton.visibility = View.INVISIBLE
-        prevButton.setOnClickListener { view: View? -> regressActiveSegment(1) }
-        prevButton.setOnLongClickListener { view: View? -> regressActiveSegment(Int.MAX_VALUE) }
+        val (prevIcon, nextIcon) = materialIcons(context, listOf(GoogleMaterial.Icon.gmd_chevron_left, GoogleMaterial.Icon.gmd_chevron_right), lowlightColor(context))
 
-        nextButton = routeView.findViewById(R.id.route_highlight_next)
-        nextButton.setImageDrawable(IconicsHelper.materialIcon(context, Theme.lowlightColor(context), icon = GoogleMaterial.Icon.gmd_chevron_right))
-        nextButton.visibility = View.INVISIBLE
-        nextButton.setOnClickListener { _ -> advanceActiveSegment(1) }
-        nextButton.setOnLongClickListener { _ -> advanceActiveSegment(Int.MAX_VALUE) }
+        prevButton = routeView.findViewById<FloatingActionButton>(R.id.route_highlight_prev).apply {
+            setImageDrawable(prevIcon)
+            visibility = View.INVISIBLE
+            setOnClickListener { view: View? -> regressActiveSegment(1) }
+            setOnLongClickListener { view: View? -> regressActiveSegment(Int.MAX_VALUE) }
+        }
+
+        nextButton = routeView.findViewById<FloatingActionButton>(R.id.route_highlight_next).apply {
+            setImageDrawable(nextIcon)
+            visibility = View.INVISIBLE
+            setOnClickListener { _ -> advanceActiveSegment(1) }
+            setOnLongClickListener { _ -> advanceActiveSegment(Int.MAX_VALUE) }
+        }
 
         mapView.addView(routeView)
 
-        highlightColour = Theme.highlightColor(context) or -0x1000000
+        highlightColour = highlightColor(context) or -0x1000000
     }
 
     override fun draw(canvas: Canvas, mapView: MapView, shadow: Boolean) {

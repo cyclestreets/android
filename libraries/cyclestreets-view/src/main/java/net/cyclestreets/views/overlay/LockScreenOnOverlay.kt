@@ -5,12 +5,12 @@ import android.graphics.Canvas
 import android.graphics.drawable.Drawable
 import android.util.Log
 import android.view.LayoutInflater
-import android.view.View
 import android.widget.Toast
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.mikepenz.iconics.typeface.library.googlematerial.GoogleMaterial
 import net.cyclestreets.iconics.IconicsHelper.materialIcon
-import net.cyclestreets.util.Theme
+import net.cyclestreets.util.Theme.highlightColor
+import net.cyclestreets.util.Theme.lowlightColor
 import net.cyclestreets.view.R
 import net.cyclestreets.views.CycleMapView
 import org.osmdroid.views.MapView
@@ -30,14 +30,14 @@ class LockScreenOnOverlay(private val mapView: CycleMapView) : Overlay(), PauseR
     init {
         val context = mapView.context
 
-        onIcon = materialIcon(context, Theme.highlightColor(context), 24, GoogleMaterial.Icon.gmd_lock_open)
-        offIcon = materialIcon(context, Theme.lowlightColor(context), 24, GoogleMaterial.Icon.gmd_lock_open)
+        onIcon = materialIcon(context, GoogleMaterial.Icon.gmd_lock_open, highlightColor(context))
+        offIcon = materialIcon(context, GoogleMaterial.Icon.gmd_lock_open, lowlightColor(context))
 
-        val liverideButtonView = LayoutInflater.from(context).inflate(R.layout.liveride_buttons, null)
-        screenLockButton = liverideButtonView.findViewById<FloatingActionButton>(R.id.liveride_screenlock_button).apply {
+        val liveRideButtonView = LayoutInflater.from(context).inflate(R.layout.liveride_buttons, null)
+        screenLockButton = liveRideButtonView.findViewById<FloatingActionButton>(R.id.liveride_screenlock_button).apply {
             this.setOnClickListener { _ -> screenLockButtonTapped() }
         }
-        mapView.addView(liverideButtonView)
+        mapView.addView(liveRideButtonView)
         mapView.keepScreenOn = false
     }
 
