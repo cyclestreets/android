@@ -11,11 +11,9 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.Surface
 import android.view.WindowManager
+import androidx.core.content.res.ResourcesCompat
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.mikepenz.iconics.typeface.library.googlematerial.GoogleMaterial
-import net.cyclestreets.iconics.IconicsHelper.materialIcon
 import net.cyclestreets.util.Logging
-import net.cyclestreets.util.Theme
 import net.cyclestreets.view.R
 import net.cyclestreets.views.CycleMapView
 import org.osmdroid.views.MapView
@@ -48,8 +46,8 @@ class RotateMapOverlay(private val mapView: CycleMapView) : Overlay(), PauseResu
     init {
         val context = mapView.context
 
-        onIcon = materialIcon(context, Theme.highlightColor(context), 24, GoogleMaterial.Icon.gmd_navigation)
-        offIcon = materialIcon(context, Theme.lowlightColor(context), 24, GoogleMaterial.Icon.gmd_navigation)
+        onIcon = ResourcesCompat.getDrawable(context.resources, R.drawable.compass, null)!!
+        offIcon = ResourcesCompat.getDrawable(context.resources, R.drawable.compass_off, null)!!
 
         val rotateButtonView = LayoutInflater.from(context).inflate(R.layout.compassbutton, null)
         rotateButton = rotateButtonView.findViewById(R.id.compass_button)

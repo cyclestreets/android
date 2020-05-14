@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="123 123 734 734">
+  <style>
+    <!-- Shows a greyed-out north facing compass needle in a circle. -->
+    path.needle	{fill:#525252; stroke-width:50; stroke:#525252; stroke-linejoin:round;}
+    path.north {fill:#bebebe; stroke:none;}
+    circle.pivot {stroke:none; fill:white;}
+  </style>
+  <path class="needle" d="M 400,500 l 200,0 -100,330 z" />
+  <path class="north" d="M500,500 h125 a100,100 0 0 0 -5,-25 l -95,-325 a 26,36 0 0 0 -50,0 l -95,325 a100,100 0 0 0 -5,25z" />
+  <circle class="pivot" cx="500" cy="500" r="60"/>
+</svg>
