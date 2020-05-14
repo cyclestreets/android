@@ -44,8 +44,9 @@ class TapToRouteOverlay(private val mapView: CycleMapView) : Overlay(), TapListe
 
     private val context = mapView.context
 
-    private val shareDrawable = materialIcon(context, GoogleMaterial.Icon.gmd_share, lowlightColorInverse(context))
-    private val commentDrawable = materialIcon(context, GoogleMaterial.Icon.gmd_comment, lowlightColorInverse(context))
+    private val shareIcon = materialIcon(context, GoogleMaterial.Icon.gmd_share, lowlightColorInverse(context))
+    private val commentIcon = materialIcon(context, GoogleMaterial.Icon.gmd_comment, lowlightColorInverse(context))
+    private val changeRouteTypeIcon = materialIcon(context, GoogleMaterial.Icon.gmd_arrow_drop_down_circle, lowlightColorInverse(context))
 
     private val highlightColour = Theme.highlightColor(context) or 0xFF000000.toInt()
     private val lowlightColour = Theme.lowlightColor(context) or 0xFF000000.toInt()
@@ -105,9 +106,9 @@ class TapToRouteOverlay(private val mapView: CycleMapView) : Overlay(), TapListe
 
     ////////////////////////////////////////////
     override fun onCreateOptionsMenu(menu: Menu) {
-        createMenuItem(menu, R.string.route_menu_change, Menu.FIRST, R.drawable.ic_menu_more)
-        createMenuItem(menu, R.string.route_menu_change_share, Menu.NONE, shareDrawable)
-        createMenuItem(menu, R.string.route_menu_change_comment, Menu.NONE, commentDrawable)
+        createMenuItem(menu, R.string.route_menu_change, Menu.FIRST, changeRouteTypeIcon)
+        createMenuItem(menu, R.string.route_menu_change_share, Menu.NONE, shareIcon)
+        createMenuItem(menu, R.string.route_menu_change_comment, Menu.NONE, commentIcon)
     }
 
     override fun onPrepareOptionsMenu(menu: Menu) {

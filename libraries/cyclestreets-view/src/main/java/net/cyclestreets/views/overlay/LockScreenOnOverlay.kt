@@ -30,8 +30,8 @@ class LockScreenOnOverlay(private val mapView: CycleMapView) : Overlay(), PauseR
     init {
         val context = mapView.context
 
-        onIcon = materialIcon(context, GoogleMaterial.Icon.gmd_lock_open, highlightColor(context))
-        offIcon = materialIcon(context, GoogleMaterial.Icon.gmd_lock_open, lowlightColor(context))
+        onIcon = materialIcon(context, GoogleMaterial.Icon.gmd_phonelink_lock, highlightColor(context))
+        offIcon = materialIcon(context, GoogleMaterial.Icon.gmd_phonelink_lock, lowlightColor(context))
 
         val liveRideButtonView = LayoutInflater.from(context).inflate(R.layout.liveride_buttons, null)
         screenLockButton = liveRideButtonView.findViewById<FloatingActionButton>(R.id.liveride_screenlock_button).apply {
