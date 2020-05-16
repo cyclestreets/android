@@ -2,6 +2,7 @@ package net.cyclestreets
 
 import android.Manifest
 import android.content.pm.PackageManager
+import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.preference.PreferenceManager
 import androidx.fragment.app.Fragment
@@ -12,12 +13,15 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import com.mikepenz.iconics.typeface.library.googlematerial.GoogleMaterial
 
 import net.cyclestreets.fragments.R
+import net.cyclestreets.iconics.IconicsHelper
 import net.cyclestreets.util.AsyncDelete
 import net.cyclestreets.util.Logging
 import net.cyclestreets.util.MenuHelper.createMenuItem
 import net.cyclestreets.util.MenuHelper.enableMenuItem
+import net.cyclestreets.util.Theme
 import net.cyclestreets.util.doOrRequestPermission
 import net.cyclestreets.views.CycleMapView
 import net.cyclestreets.views.CycleMapView.FINDPLACE_ZOOM_LEVEL
@@ -34,8 +38,10 @@ private val TAG = Logging.getTag(CycleMapFragment::class.java)
 
 
 open class CycleMapFragment : Fragment(), Undoable {
+
     private var map: CycleMapView? = null
     private var forceMenuRebuild: Boolean = false
+    private var searchIcon: Drawable = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, saved: Bundle?): View? {
         super.onCreate(saved)
@@ -45,6 +51,8 @@ open class CycleMapFragment : Fragment(), Undoable {
         checkPermissionNoMoreThanOnceEveryFiveMinutes()
 
         map = CycleMapView(context, this.javaClass.name)
+        searchIcon = IconicsHelper.materialIcon(requireContext(), GoogleMaterial.Icon.gmd_search, Theme.lowlightColorInverse(context))
+
         return map
     }
 
@@ -104,7 +112,7 @@ open class CycleMapFragment : Fragment(), Undoable {
         if (map != null)
             map!!.onCreateOptionsMenu(menu)
 
-        createMenuItem(menu, R.string.menu_find_place, Menu.NONE, R.drawable.ic_menu_search)
+        createMenuItem(menu, R.string.menu_find_place, Menu.NONE, searchIcon)
     }
 
     override fun onPrepareOptionsMenu(menu: Menu) {
