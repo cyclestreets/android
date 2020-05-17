@@ -35,7 +35,8 @@ class LockScreenOnOverlay(private val mapView: CycleMapView) : Overlay(), PauseR
 
         val liveRideButtonView = LayoutInflater.from(context).inflate(R.layout.liveride_buttons, null)
         screenLockButton = liveRideButtonView.findViewById<FloatingActionButton>(R.id.liveride_screenlock_button).apply {
-            this.setOnClickListener { _ -> screenLockButtonTapped() }
+            setOnClickListener { _ -> screenLockButtonTapped() }
+            setImageDrawable(offIcon)
         }
         mapView.addView(liveRideButtonView)
         mapView.keepScreenOn = false
