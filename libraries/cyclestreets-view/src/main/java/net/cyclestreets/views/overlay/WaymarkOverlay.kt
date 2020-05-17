@@ -24,9 +24,9 @@ import java.util.ArrayList
 
 class WaymarkOverlay(private val mapView: CycleMapView) : Overlay(), PauseResumeListener, Route.Listener {
 
-    private val wispWpStart = makeWisp(R.drawable.green_wisp)
-    private val wispWpMid = makeWisp(R.drawable.orange_wisp)
-    private val wispWpFinish = makeWisp(R.drawable.red_wisp)
+    private val wispWpStart = makeWisp(R.drawable.wp_green_wisp)
+    private val wispWpMid = makeWisp(R.drawable.wp_orange_wisp)
+    private val wispWpFinish = makeWisp(R.drawable.wp_red_wisp)
     private val screenPos = Point()
     private val bitmapTransform = Matrix()
     private val bitmapPaint = Paint()
