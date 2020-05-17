@@ -41,7 +41,7 @@ open class CycleMapFragment : Fragment(), Undoable {
 
     private var map: CycleMapView? = null
     private var forceMenuRebuild: Boolean = false
-    private var searchIcon: Drawable = null
+    private lateinit var searchIcon: Drawable
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, saved: Bundle?): View? {
         super.onCreate(saved)

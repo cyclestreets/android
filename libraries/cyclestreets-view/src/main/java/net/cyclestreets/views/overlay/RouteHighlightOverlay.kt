@@ -43,8 +43,8 @@ class RouteHighlightOverlay(context: Context, private val mapView: CycleMapView)
         prevButton = routeView.findViewById<FloatingActionButton>(R.id.route_highlight_prev).apply {
             setImageDrawable(prevIcon)
             visibility = View.INVISIBLE
-            setOnClickListener { view: View? -> regressActiveSegment(1) }
-            setOnLongClickListener { view: View? -> regressActiveSegment(Int.MAX_VALUE) }
+            setOnClickListener { _ -> regressActiveSegment(1) }
+            setOnLongClickListener { _ -> regressActiveSegment(Int.MAX_VALUE) }
         }
 
         nextButton = routeView.findViewById<FloatingActionButton>(R.id.route_highlight_next).apply {
