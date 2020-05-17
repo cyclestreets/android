@@ -18,13 +18,14 @@
         android:textAppearance="@android:style/TextAppearance.Material.Body1"
         android:textSize="16sp"
         android:textColor="@android:color/white" />
-    <ImageView
+    <com.mikepenz.iconics.view.IconicsImageView
         android:id="@+id/route_now_icon"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
         android:layout_gravity="top|right"
-        android:padding="0dp"
-        android:src="@drawable/ic_route_now"
+        android:padding="6dp"
+        app:iiv_color="?android:textColorSecondaryInverse"
+        app:iiv_icon="gmd-play-arrow"
         android:visibility="invisible" />
 
     <!-- Route highlight left/right -->

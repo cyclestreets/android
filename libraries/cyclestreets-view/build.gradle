@@ -18,6 +18,7 @@ dependencies {
 
   api 'com.mikepenz:iconics-core:5.0.3@aar'
   api 'com.mikepenz:iconics-typeface-api:5.0.3@aar'
+  implementation 'com.mikepenz:iconics-views:5.0.3@aar'
   api 'com.mikepenz:google-material-typeface:3.0.1.4.original-kotlin@aar'
 
   api 'com.google.android.material:material:1.1.0'
