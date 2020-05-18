@@ -7,6 +7,7 @@ import android.graphics.Matrix
 import android.graphics.Point
 import android.graphics.Rect
 import android.os.AsyncTask
+import android.util.Log
 import android.view.*
 import android.widget.BaseAdapter
 import android.widget.CheckBox
@@ -18,10 +19,7 @@ import net.cyclestreets.api.POI
 import net.cyclestreets.api.POICategories
 import net.cyclestreets.api.POICategory
 import net.cyclestreets.iconics.IconicsHelper.materialIcon
-import net.cyclestreets.util.Dialog
-import net.cyclestreets.util.Draw
-import net.cyclestreets.util.GeoHelper
-import net.cyclestreets.util.MenuHelper
+import net.cyclestreets.util.*
 import net.cyclestreets.view.R
 import net.cyclestreets.views.CycleMapView
 import net.cyclestreets.views.overlay.POIOverlay.POIOverlayItem
@@ -33,6 +31,9 @@ import org.osmdroid.util.BoundingBox
 import org.osmdroid.views.MapView
 import org.osmdroid.views.overlay.OverlayItem
 import kotlin.collections.ArrayList
+
+
+private val TAG = Logging.getTag(POIOverlay::class.java)
 
 
 class POIOverlay(mapView: CycleMapView) : LiveItemOverlay<POIOverlayItem?>(mapView, false),
@@ -219,13 +220,17 @@ class POIOverlay(mapView: CycleMapView) : LiveItemOverlay<POIOverlayItem?>(mapVi
         val added = notIn(newCategories, activeCategories)
 
         if (removed.isNotEmpty()) {
-            for (r in removed)
+            for (r in removed) {
+                Log.d(TAG, "Removed POI category $r")
                 hide(r)
+            }
             redraw()
         }
         if (added.isNotEmpty()) {
-            for (a in added)
+            for (a in added) {
+                Log.d(TAG, "Added POI category $a")
                 activeCategories.add(a)
+            }
             clearLastFix()
             refreshItems()
         }
@@ -236,9 +241,11 @@ class POIOverlay(mapView: CycleMapView) : LiveItemOverlay<POIOverlayItem?>(mapVi
             return
         activeCategories.remove(cat)
 
-        for (i in items().indices.reversed())
-            if (cat == items()[i]!!.category())
+        for (i in items().indices.reversed()) {
+            if (cat == items()[i]!!.category()) {
                 items().removeAt(i)
+            }
+        }
 
         if (activeItem != null && cat == activeItem!!.category())
             activeItem = null
@@ -353,6 +360,10 @@ class POIOverlay(mapView: CycleMapView) : LiveItemOverlay<POIOverlayItem?>(mapVi
         private val inflater: LayoutInflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
         private val selected: MutableList<POICategory> = initialCategories.toMutableList()
 
+        init {
+            Log.d(TAG, "Creating POICategoryAdapter - previously-selected categories are: $initialCategories")
+        }
+
         fun chosenCategories(): List<POICategory> {
             return selected
         }
@@ -381,17 +392,25 @@ class POIOverlay(mapView: CycleMapView) : LiveItemOverlay<POIOverlayItem?>(mapVi
                 setImageDrawable(cats[cat.name()].icon())
                 minimumWidth = POICategories.IconSize * 2
             }
-            v.findViewById<CheckBox>(R.id.checkbox).apply {
+            val chk = v.findViewById<CheckBox>(R.id.checkbox).apply {
+                setOnCheckedChangeListener(null)
                 isChecked = isSelected(cat)
-                setOnCheckedChangeListener { _, isChecked ->
-                    if (isChecked)
-                        selected.add(cat)
-                    else
-                        selected.remove(cat)
-                }
             }
 
             v.setOnClickListener(this)
+
+            // This has to be done separately from the original initialisation of chk, so inflation
+            // of the List view doesn't go mental
+            chk.setOnCheckedChangeListener { _, isChecked ->
+                if (isChecked) {
+                    Log.d(TAG, "Selected POI category $cat")
+                    selected.add(cat)
+                }
+                else {
+                    Log.d(TAG, "Deselected POI category $cat")
+                    selected.remove(cat)
+                }
+            }
 
             return v
         }

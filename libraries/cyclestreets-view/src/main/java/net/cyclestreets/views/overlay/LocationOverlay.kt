@@ -24,7 +24,9 @@ import org.osmdroid.views.MapView
 import org.osmdroid.views.overlay.mylocation.GpsMyLocationProvider
 import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay
 
+
 private val TAG = Logging.getTag(LocationOverlay::class.java)
+
 
 class LocationOverlay(private val mapView: CycleMapView) :
         MyLocationNewOverlay(UseEverythingLocationProvider(mapView.context), mapView.mapView()) {

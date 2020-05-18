@@ -36,4 +36,8 @@ class POICategory(private val key: String,
         return name.hashCode()
     }
 
+    override fun toString(): String {
+        return "POICategory(key='$key', name='$name')"
+    }
+
 }
