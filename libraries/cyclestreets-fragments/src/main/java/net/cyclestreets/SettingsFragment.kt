@@ -8,16 +8,42 @@ import androidx.preference.*
 
 import android.util.Log
 import android.view.Gravity
+import com.mikepenz.iconics.typeface.library.googlematerial.GoogleMaterial
 import net.cyclestreets.fragments.R
+import net.cyclestreets.iconics.IconicsHelper.materialIcon
 import net.cyclestreets.tiles.TileSource
 import net.cyclestreets.util.Logging
 import net.cyclestreets.util.MapPack
 import net.cyclestreets.util.MessageBox
 
+
 private val TAG = Logging.getTag(SettingsFragment::class.java)
 private const val PREFERENCE_SCREEN_ARG: String = "preferenceScreenArg"
+private val SETTINGS_ICONS = mapOf(
+    "screen-maps-display" to GoogleMaterial.Icon.gmd_map,
+    "mapstyle" to null,
+    "mapfile" to null,
+    "confirm-new-route" to null,
+    "screen-routing-preferences" to GoogleMaterial.Icon.gmd_directions,
+    "routetype" to null,
+    "speed" to null,
+    "units" to null,
+    "screen-liveride" to GoogleMaterial.Icon.gmd_navigation,
+    "nearing-turn-distance" to null,
+    "offtrack-distance" to null,
+    "replan-distance" to null,
+    "screen-locations" to GoogleMaterial.Icon.gmd_edit_location,
+    "screen-account" to GoogleMaterial.Icon.gmd_account_circle,
+    "cyclestreets-account" to null,
+    "username" to null,
+    "password" to null,
+    "uploadsize" to null,
+    "screen-about" to GoogleMaterial.Icon.gmd_info_outline
+)
+
 
 class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedPreferenceChangeListener, Undoable {
+
     private var undoable = false
 
     override fun onCreate(savedInstance: Bundle?) {
@@ -39,8 +65,8 @@ class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedP
 
     override fun onCreatePreferences(savedInstance: Bundle?, rootKey: String?) {
         if (arguments != null) {
-            Log.d(TAG, "Creating preferences subscreen with key $rootKey")
             val key = requireArguments().getString(PREFERENCE_SCREEN_ARG)
+            Log.d(TAG, "Creating preferences subscreen with key $key")
             setPreferencesFromResource(R.xml.prefs, key)
             undoable = true
             this.enterTransition = Slide(Gravity.END)
@@ -50,6 +76,16 @@ class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedP
             setPreferencesFromResource(R.xml.prefs, rootKey)
             this.enterTransition = Fade()
             this.exitTransition = Fade()
+        }
+        populateSettingsIcons();
+    }
+
+    private fun populateSettingsIcons() {
+        for (prefIndex in 0 until preferenceScreen.preferenceCount) {
+            val pref = preferenceScreen.getPreference(prefIndex)
+            SETTINGS_ICONS[pref.key]?.let {
+                pref.icon = materialIcon(requireContext(), it)
+            }
         }
     }
 
