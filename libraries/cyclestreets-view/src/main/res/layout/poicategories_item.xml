@@ -4,13 +4,16 @@
   android:layout_height="?android:attr/listPreferredItemHeight">
     <ImageView
       android:id="@+id/icon"
-      android:layout_width="wrap_content"
+      android:layout_width="32dp"
       android:layout_height="fill_parent"
       android:layout_alignParentTop="true"
       android:layout_alignParentBottom="true"
       android:layout_marginLeft="12dp"
       android:layout_marginRight="6dp"
-      android:src="@drawable/ic_launcher" />
+      android:src="@drawable/poi_64x64_placeholder" />
+                   <!-- We actually download our POI icons dynamically from the CycleStreets APIs,
+                        at 64x64 resolution as if targeting HDPI screens; so we use this icon at
+                        this size in this drawable-hdpi holder as a placeholder. -->
     <TextView
       android:id="@+id/name"
       android:layout_width="match_parent"

@@ -27,7 +27,7 @@ public class POICategories implements Iterable<POICategory> {
 
   //////////////////////////////////////////////
   private static POICategories loaded_;
-  public static final int IconSize = 32;
+  public static final int IconSize = 64;
 
   public static POICategories get() {
     if (loaded_ == null)
