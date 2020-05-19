@@ -131,7 +131,7 @@ class LocationsFragment : ListFragment() {
             return locations[position].localId().toLong()
         }
 
-        override fun getView(position: Int, convertView: View, parent: ViewGroup): View {
+        override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
             val location = locations[position]
             val v = inflater.inflate(R.layout.storedroutes_item, parent, false)
 
