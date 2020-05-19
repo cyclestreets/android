@@ -11,6 +11,8 @@ buildscript {
 }
 
 ext {
+  // From e.g. https://source.android.com/setup/start/build-numbers
+  // Android 10          29  Q
   // Android 9.0         28  PIE
   // Android 8.1         27  OREO_MR1
   // Android 8.0         26  OREO
@@ -25,6 +27,7 @@ ext {
   // Android 4.2, 4.2.2  17  JELLY_BEAN_MR1
 
   // Remember to keep these values in sync with .travis.yml
+  // TODO: upgrade at least compileSdkVersion to 29
   compileSdkVersion=28
   minSdkVersion=23
   targetSdkVersion=28
