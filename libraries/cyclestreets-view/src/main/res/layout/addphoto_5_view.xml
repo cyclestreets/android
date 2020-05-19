@@ -36,7 +36,6 @@
   <Button
     android:text="@string/photo_share"
     android:id="@+id/photo_share"
-    android:drawableRight="@android:drawable/ic_menu_share"
     android:layout_height="wrap_content"
     android:layout_width="fill_parent" />
   <include layout="@layout/addphoto_backnext" />

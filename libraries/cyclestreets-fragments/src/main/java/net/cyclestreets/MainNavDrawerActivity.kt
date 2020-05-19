@@ -3,37 +3,31 @@ package net.cyclestreets
 import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
-import com.google.android.material.navigation.NavigationView
-import androidx.fragment.app.Fragment
-import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.Toolbar
 import android.util.Log
 import android.util.SparseArray
-import androidx.drawerlayout.widget.DrawerLayout
-import android.view.Gravity
 import android.view.MenuItem
-
 import android.view.View
+import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
-import com.mikepenz.google_material_typeface_library.GoogleMaterial.Icon
-import com.mikepenz.iconics.context.IconicsContextWrapper
-
+import androidx.drawerlayout.widget.DrawerLayout
+import androidx.fragment.app.Fragment
+import androidx.transition.Fade
+import com.google.android.material.navigation.NavigationView
+import com.google.android.material.navigation.NavigationView.OnNavigationItemSelectedListener
+import com.mikepenz.iconics.typeface.library.googlematerial.GoogleMaterial
+import net.cyclestreets.addphoto.AddPhotoFragment
 import net.cyclestreets.fragments.R
+import net.cyclestreets.iconics.IconicsHelper.materialIcons
+import net.cyclestreets.itinerary.ItineraryAndElevationFragment
 import net.cyclestreets.routing.Journey
 import net.cyclestreets.routing.Route
 import net.cyclestreets.routing.Waypoints
 import net.cyclestreets.util.Logging
 
-import com.google.android.material.navigation.NavigationView.OnNavigationItemSelectedListener
-import androidx.transition.Fade
-import androidx.fragment.app.FragmentManager.OnBackStackChangedListener
-import net.cyclestreets.addphoto.AddPhotoFragment
-import net.cyclestreets.api.JourneyPlanner
-import net.cyclestreets.iconics.IconicsHelper.materialIcons
-import net.cyclestreets.itinerary.ItineraryAndElevationFragment
-
 private val TAG = Logging.getTag(MainNavDrawerActivity::class.java)
 private const val DRAWER_ITEMID_SELECTED_KEY = "DRAWER_ITEM_SELECTED"
+
 
 abstract class MainNavDrawerActivity : AppCompatActivity(), OnNavigationItemSelectedListener, Route.Listener {
 
@@ -65,23 +59,18 @@ abstract class MainNavDrawerActivity : AppCompatActivity(), OnNavigationItemSele
     // If you're in one of these fragments at pause, then you'll be returned to it on resume.
     private val resumableFragments = setOf(R.id.nav_journey_planner, R.id.nav_photomap, R.id.nav_addphoto, R.id.nav_settings)
 
-    override fun attachBaseContext(newBase: Context) {
-        // Allows the use of Material icon library, see https://github.com/mikepenz/Android-Iconics
-        super.attachBaseContext(IconicsContextWrapper.wrap(newBase))
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.main_navdrawer_activity)
 
         val (burgerIcon, addPhotoIcon, blogIcon, settingsIcon) =
-            materialIcons(context = this, icons = listOf(Icon.gmd_menu, Icon.gmd_add_a_photo, Icon.gmd_chat, Icon.gmd_settings))
+            materialIcons(context = this, iconIds = listOf(GoogleMaterial.Icon.gmd_menu, GoogleMaterial.Icon.gmd_add_a_photo, GoogleMaterial.Icon.gmd_chat, GoogleMaterial.Icon.gmd_settings))
         burgerIcon.setTint(resources.getColor(R.color.cs_primary_material_light, null))
 
         drawerLayout = findViewById(R.id.drawer_layout)
         navigationView = (findViewById<NavigationView>(R.id.nav_view)).apply {
             setNavigationItemSelectedListener(this@MainNavDrawerActivity)
-            menu.findItem(R.id.nav_itinerary).isVisible = Route.available()
+            menu.findItem(R.id.nav_itinerary).isVisible = Route.routeAvailable()
             menu.findItem(R.id.nav_addphoto).icon = addPhotoIcon
             menu.findItem(R.id.nav_blog).icon = blogIcon
             menu.findItem(R.id.nav_settings).icon = settingsIcon
@@ -229,12 +218,12 @@ abstract class MainNavDrawerActivity : AppCompatActivity(), OnNavigationItemSele
 
     ////////// Route.Listener method implementations
     override fun onNewJourney(journey: Journey, waypoints: Waypoints) {
-        navigationView.menu.findItem(R.id.nav_itinerary).isVisible = Route.available()
+        navigationView.menu.findItem(R.id.nav_itinerary).isVisible = Route.routeAvailable()
         invalidateOptionsMenu()
     }
 
     override fun onResetJourney() {
-        navigationView.menu.findItem(R.id.nav_itinerary).isVisible = Route.available()
+        navigationView.menu.findItem(R.id.nav_itinerary).isVisible = Route.routeAvailable()
         invalidateOptionsMenu()
     }
 

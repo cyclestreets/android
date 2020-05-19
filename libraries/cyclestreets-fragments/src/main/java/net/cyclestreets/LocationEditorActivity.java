@@ -11,8 +11,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
 
-import com.mikepenz.iconics.context.IconicsContextWrapper;
-
 import net.cyclestreets.content.LocationDatabase;
 import net.cyclestreets.content.SavedLocation;
 import net.cyclestreets.fragments.R;
@@ -22,6 +20,7 @@ import net.cyclestreets.views.overlay.ThereOverlay;
 import org.osmdroid.api.IGeoPoint;
 
 import static net.cyclestreets.util.PermissionsKt.hasPermission;
+
 
 public class LocationEditorActivity extends Activity
     implements ThereOverlay.LocationListener,
@@ -34,12 +33,6 @@ public class LocationEditorActivity extends Activity
   private LocationDatabase ldb_;
   private int localId_;
   private boolean firstTime_;
-
-  @Override
-  protected void attachBaseContext(Context newBase) {
-    // Allows the use of Material icon library, see https://github.com/mikepenz/Android-Iconics
-    super.attachBaseContext(IconicsContextWrapper.wrap(newBase));
-  }
 
   @Override
   public void onCreate(final Bundle saved) {

@@ -25,8 +25,9 @@ import org.osmdroid.views.overlay.mylocation.GpsMyLocationProvider
 import org.osmdroid.views.overlay.mylocation.IMyLocationConsumer
 import org.osmdroid.views.overlay.mylocation.IMyLocationProvider
 
-class RotateMapOverlay(private val mapView: CycleMapView)
-    : Overlay(), PauseResumeListener, IMyLocationConsumer, IOrientationConsumer
+
+class RotateMapOverlay(private val mapView: CycleMapView) : Overlay(), PauseResumeListener,
+                                                            IMyLocationConsumer, IOrientationConsumer
 {
     private val rotateButton: FloatingActionButton
     private val onIcon: Drawable
@@ -41,9 +42,9 @@ class RotateMapOverlay(private val mapView: CycleMapView)
     private var timeOfFix: Long = 0
     private var deviceOrientation = 0
 
-
     init {
         val context = mapView.context
+
         onIcon = ResourcesCompat.getDrawable(context.resources, R.drawable.compass, null)!!
         offIcon = ResourcesCompat.getDrawable(context.resources, R.drawable.compass_off, null)!!
 

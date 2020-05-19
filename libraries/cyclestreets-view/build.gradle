@@ -16,9 +16,10 @@ dependencies {
   // there is some suggestion (https://github.com/osmdroid/osmdroid/wiki/Mapsforge) that the below may be necessary
 //  api "org.osmdroid:osmdroid-mapsforge:${rootProject.ext.osmdroidVersion}@aar"
 
-  api 'com.mikepenz:iconics-core:3.0.4@aar'
-  api 'com.mikepenz:google-material-typeface:3.0.1.2.original@aar'
-  api 'ru.ztrap.iconics:core-kt:1.0.2'
+  api 'com.mikepenz:iconics-core:5.0.3@aar'
+  api 'com.mikepenz:iconics-typeface-api:5.0.3@aar'
+  implementation 'com.mikepenz:iconics-views:5.0.3@aar'
+  api 'com.mikepenz:google-material-typeface:3.0.1.4.original-kotlin@aar'
 
   api 'com.google.android.material:material:1.1.0'
   api 'androidx.exifinterface:exifinterface:1.2.0'

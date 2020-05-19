@@ -8,26 +8,25 @@ import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.Point
-import android.graphics.drawable.Drawable
 import android.os.AsyncTask
 import android.os.Bundle
 import android.provider.MediaStore
-import androidx.exifinterface.media.ExifInterface
-import androidx.fragment.app.Fragment
-import androidx.core.content.FileProvider
 import android.util.Log
 import android.view.*
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.view.inputmethod.InputMethodManager
 import android.widget.*
-import com.mikepenz.google_material_typeface_library.GoogleMaterial
+import androidx.core.content.FileProvider
+import androidx.exifinterface.media.ExifInterface
+import androidx.fragment.app.Fragment
+import com.mikepenz.iconics.typeface.library.googlematerial.GoogleMaterial
 import net.cyclestreets.AccountDetailsActivity
 import net.cyclestreets.CycleStreetsPreferences
 import net.cyclestreets.Undoable
 import net.cyclestreets.api.PhotomapCategories
 import net.cyclestreets.api.Upload
 import net.cyclestreets.fragments.R
-import net.cyclestreets.iconics.IconicsHelper
+import net.cyclestreets.iconics.IconicsHelper.materialIcons
 import net.cyclestreets.util.*
 import net.cyclestreets.util.MenuHelper.createMenuItem
 import net.cyclestreets.util.MenuHelper.enableMenuItem
@@ -38,7 +37,9 @@ import org.osmdroid.util.GeoPoint
 import java.io.File
 import java.util.*
 
+
 internal val TAG = Logging.getTag(AddPhotoFragment::class.java)
+
 
 class AddPhotoFragment : Fragment(), View.OnClickListener, Undoable, ThereOverlay.LocationListener {
     // Android classes
@@ -73,9 +74,6 @@ class AddPhotoFragment : Fragment(), View.OnClickListener, Undoable, ThereOverla
     private var geolocated: Boolean = false
     private var uploadedUrl: String? = null
 
-    // Drawables
-    private var restartDrawable: Drawable? = null
-
     companion object {
         private var photomapCategories: PhotomapCategories? = null
     }
@@ -90,7 +88,6 @@ class AddPhotoFragment : Fragment(), View.OnClickListener, Undoable, ThereOverla
         this.inflater = LayoutInflater.from(activity)
         inputMethodManager = requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
 
-        initialiseDrawables(this.inflater)
         initialiseFromMetadata()
         initialiseViews(this.inflater)
         caption = ""
@@ -103,13 +100,6 @@ class AddPhotoFragment : Fragment(), View.OnClickListener, Undoable, ThereOverla
         return photoRoot
     }
 
-    private fun initialiseDrawables(inflater: Any) {
-        if (restartDrawable == null) {
-            val colorFunction: (Context) -> Int = { cxt: Context -> Theme.lowlightColorInverse(cxt) }
-            restartDrawable = IconicsHelper.drawable(inflater, GoogleMaterial.Icon.gmd_replay, colorFunction)?.sizeDp(24)
-        }
-    }
-
     private fun initialiseFromMetadata() {
         val metaData = photoUploadMetaData(activity)
         allowUploadByKey = metaData.contains("ByKey")
@@ -118,25 +108,31 @@ class AddPhotoFragment : Fragment(), View.OnClickListener, Undoable, ThereOverla
     }
 
     private fun initialiseViews(inflater: LayoutInflater) {
+
+        val (restartIcon, prevIcon, nextIcon, uploadIcon, shareIcon) = materialIcons(inflater.context!!,
+                iconIds = listOf(GoogleMaterial.Icon.gmd_replay, GoogleMaterial.Icon.gmd_fast_rewind,
+                               GoogleMaterial.Icon.gmd_fast_forward, GoogleMaterial.Icon.gmd_file_upload,
+                               GoogleMaterial.Icon.gmd_share))
+
         photoRoot = inflater.inflate(R.layout.addphoto_root, null) as LinearLayout
 
         photo1Start = inflater.inflate(R.layout.addphoto_1_start, null)
-        (photo1Start.findViewById<View>(R.id.takephoto_button) as Button).apply {
+        photo1Start.findViewById<Button>(R.id.takephoto_button).apply {
             setOnClickListener(this@AddPhotoFragment)
             isEnabled = requireActivity().packageManager.hasSystemFeature(PackageManager.FEATURE_CAMERA_ANY)
         }
         photo1Start.findViewById<View>(R.id.chooseexisting_button).setOnClickListener(this)
-        (photo1Start.findViewById<View>(R.id.textonly_button) as Button).apply {
+        photo1Start.findViewById<Button>(R.id.textonly_button).apply {
             setOnClickListener(this@AddPhotoFragment)
             if (!allowTextOnly) visibility = View.GONE
         }
 
-        //photo2CaptionView is recreated each time
+        // photo2CaptionView is recreated each time
 
         photo3Category = inflater.inflate(R.layout.addphoto_3_category, null)
         backNextButtons(photo3Category,
-                        getString(R.string.all_button_back), android.R.drawable.ic_media_rew,
-                        getString(R.string.all_button_next), android.R.drawable.ic_media_ff)
+                        getString(R.string.all_button_back), prevIcon,
+                        getString(R.string.all_button_next), nextIcon)
         if (photomapCategories == null)
             GetPhotomapCategoriesTask().execute()
         else
@@ -144,16 +140,19 @@ class AddPhotoFragment : Fragment(), View.OnClickListener, Undoable, ThereOverla
 
         photo4Location = inflater.inflate(R.layout.addphoto_4_location, null)
         backNextButtons(photo4Location,
-                        getString(R.string.all_button_back), android.R.drawable.ic_media_rew,
-                        "Upload!", android.R.drawable.ic_menu_upload)
+                        getString(R.string.all_button_back), prevIcon,
+                        "Upload!", uploadIcon)
 
         photo5View = inflater.inflate(R.layout.addphoto_5_view, null)
         backNextButtons(photo5View,
-                        "Upload another", android.R.drawable.ic_menu_revert,
-                        "Close", android.R.drawable.ic_menu_close_clear_cancel)
-        (photo5View.findViewById<View>(R.id.next) as Button).apply {
+                        "Upload another", restartIcon,
+                        "", restartIcon) // icon irrelevant, we disable this anyway
+        photo5View.findViewById<Button>(R.id.next).apply {
             isEnabled = false
             visibility = View.GONE
+        }
+        photo5View.findViewById<Button>(R.id.photo_share).apply {
+            setCompoundDrawables(null, null, shareIcon, null)
         }
     }
 
@@ -192,10 +191,11 @@ class AddPhotoFragment : Fragment(), View.OnClickListener, Undoable, ThereOverla
                 // why recreate this view each time - well *sigh* because we have to force the
                 // keyboard to hide, if we don't recreate the view afresh, Android won't redisplay
                 // the keyboard if we come back to this view
+                val (prevIcon, nextIcon) = materialIcons(inflater.context!!, listOf(GoogleMaterial.Icon.gmd_fast_rewind, GoogleMaterial.Icon.gmd_fast_forward))
                 photo2Caption = inflater.inflate(R.layout.addphoto_2_caption, null).apply {
                     backNextButtons(this,
-                                    getString(R.string.all_button_back), android.R.drawable.ic_media_rew,
-                                    getString(R.string.all_button_next), android.R.drawable.ic_media_ff)
+                                    getString(R.string.all_button_back), prevIcon,
+                                    getString(R.string.all_button_next), nextIcon)
                     setContentView(this)
                 }
                 captionEditor().setText(caption)
@@ -280,9 +280,9 @@ class AddPhotoFragment : Fragment(), View.OnClickListener, Undoable, ThereOverla
 
     ///////////// Fragment methods - options menus
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        initialiseDrawables(inflater)
-        createMenuItem(menu, R.string.all_menu_restart, Menu.NONE, restartDrawable)
-        createMenuItem(menu, R.string.all_menu_back, Menu.NONE, R.drawable.ic_menu_revert)
+        // No icons for these are ever shown, so don't bother setting them
+        createMenuItem(menu, R.string.all_menu_restart, Menu.NONE, null)
+        createMenuItem(menu, R.string.all_menu_back, Menu.NONE, null)
     }
 
     override fun onPrepareOptionsMenu(menu: Menu) {

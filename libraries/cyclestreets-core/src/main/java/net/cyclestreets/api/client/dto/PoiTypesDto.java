@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.util.DisplayMetrics;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -49,7 +50,13 @@ public class PoiTypesDto {
   private static Drawable poiIcon(final Context context,
                                   final String iconAsBase64) {
     final Bitmap bmp = decodeIcon(iconAsBase64);
-    return new BitmapDrawable(context.getResources(), bmp);
+    BitmapDrawable drawable = new BitmapDrawable(context.getResources(), bmp);
+
+    // We're getting hold of 64x64 icons from the APIs (see POICategories.IconSize) and want to
+    // scale them as if they were stored in the drawable-hdpi folder.
+    drawable.setTargetDensity(DisplayMetrics.DENSITY_HIGH);
+
+    return drawable;
   }
 
   private static Bitmap decodeIcon(final String iconAsBase64) {
