@@ -185,7 +185,8 @@ abstract class MainNavDrawerActivity : AppCompatActivity(), OnNavigationItemSele
 
     public override fun onResume() {
         val selectedItem = prefs().getInt(DRAWER_ITEMID_SELECTED_KEY, R.id.nav_journey_planner)
-        showPage(selectedItem)
+        if (!showPage(selectedItem))
+            showPage(R.id.nav_journey_planner)
         super.onResume()
         Route.registerListener(this)
         setBlogStateTitle()
