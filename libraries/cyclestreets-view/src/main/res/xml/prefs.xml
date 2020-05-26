@@ -73,6 +73,7 @@
   </PreferenceScreen>
 
   <PreferenceScreen
+      android:key="screen-locations"
       android:title="Saved locations">
     <intent android:action="net.cyclestreets.LocationsActivity" />
   </PreferenceScreen>
@@ -92,7 +93,7 @@
       <EditTextPreference
           android:key="password"
           android:title="@string/account_password"
-          android:password="true" />
+          android:inputType="textPassword" />
     </PreferenceScreen>
 
     <ListPreference

@@ -4,7 +4,10 @@ dependencies {
   api project(':libraries:cyclestreets-view')
   implementation 'com.jjoe64:graphview:4.2.2'
 
-  testImplementation 'junit:junit:4.13'
-  testImplementation 'org.robolectric:robolectric:3.8'
+  testImplementation "junit:junit:${rootProject.ext.junitVersion}"
   testImplementation "org.assertj:assertj-core:${rootProject.ext.assertjVersion}"
+  testImplementation("org.robolectric:robolectric:${rootProject.ext.robolectricVersion}") {
+    // https://github.com/robolectric/robolectric/issues/5245
+    exclude group: 'com.google.auto.service', module: 'auto-service'
+  }
 }

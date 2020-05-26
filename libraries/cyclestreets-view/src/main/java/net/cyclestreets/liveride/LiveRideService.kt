@@ -95,7 +95,7 @@ class LiveRideService : Service(), LocationListener, TextToSpeech.OnInitListener
 
     // Location listener
     override fun onLocationChanged(location: Location) {
-        if (!Route.available()) {
+        if (!Route.routeAvailable()) {
             stopRiding()
             return
         }

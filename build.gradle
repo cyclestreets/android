@@ -1,5 +1,5 @@
 buildscript {
-  ext.kotlinVersion = '1.3.61'
+  ext.kotlinVersion = '1.3.72'
   repositories {
     google()
     jcenter()
@@ -11,6 +11,8 @@ buildscript {
 }
 
 ext {
+  // From e.g. https://source.android.com/setup/start/build-numbers
+  // Android 10          29  Q
   // Android 9.0         28  PIE
   // Android 8.1         27  OREO_MR1
   // Android 8.0         26  OREO
@@ -25,6 +27,7 @@ ext {
   // Android 4.2, 4.2.2  17  JELLY_BEAN_MR1
 
   // Remember to keep these values in sync with .travis.yml
+  // TODO: upgrade at least compileSdkVersion to 29
   compileSdkVersion=28
   minSdkVersion=23
   targetSdkVersion=28
@@ -33,8 +36,12 @@ ext {
   // centrally manage some other dependencies
   mapsforgeVersion = '0.13.0'
   osmdroidVersion = '6.1.6'
+
+  // test dependencies
   assertjVersion = '3.15.0'
+  junitVersion = '4.13'
   mockitoVersion = '2.28.2'
+  robolectricVersion = '4.3.1'
 }
 
 // Configure common settings in all projects
@@ -90,5 +97,7 @@ subprojects {
       // Kotlin (nullability) interop check - potentially useful but quite noisy
       // check 'Interoperability'
     }
+
+    viewBinding.enabled = true
   }
 }

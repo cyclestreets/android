@@ -16,17 +16,22 @@ dependencies {
   // there is some suggestion (https://github.com/osmdroid/osmdroid/wiki/Mapsforge) that the below may be necessary
 //  api "org.osmdroid:osmdroid-mapsforge:${rootProject.ext.osmdroidVersion}@aar"
 
-  api 'com.mikepenz:iconics-core:3.0.4@aar'
-  api 'com.mikepenz:google-material-typeface:3.0.1.2.original@aar'
-  api 'ru.ztrap.iconics:core-kt:1.0.2'
+  api 'com.mikepenz:iconics-core:5.0.3@aar'
+  api 'com.mikepenz:iconics-typeface-api:5.0.3@aar'
+  implementation 'com.mikepenz:iconics-views:5.0.3@aar'
+  api 'com.mikepenz:google-material-typeface:3.0.1.4.original-kotlin@aar'
 
   api 'com.google.android.material:material:1.1.0'
   api 'androidx.exifinterface:exifinterface:1.2.0'
   api 'androidx.preference:preference:1.1.1'
 
-  testImplementation 'junit:junit:4.12'
-  testImplementation 'org.robolectric:robolectric:3.8'
-  testImplementation "org.mockito:mockito-core:${rootProject.ext.mockitoVersion}"
+  testImplementation 'androidx.test:core:1.2.0'
+  testImplementation "junit:junit:${rootProject.ext.junitVersion}"
   testImplementation "org.assertj:assertj-core:${rootProject.ext.assertjVersion}"
+  testImplementation "org.mockito:mockito-core:${rootProject.ext.mockitoVersion}"
+  testImplementation("org.robolectric:robolectric:${rootProject.ext.robolectricVersion}") {
+    // https://github.com/robolectric/robolectric/issues/5245
+    exclude group: 'com.google.auto.service', module: 'auto-service'
+  }
   testImplementation 'commons-io:commons-io:2.6'
 }

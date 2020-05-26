@@ -6,6 +6,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.database.Cursor
+import android.graphics.drawable.Drawable
 import android.os.Environment
 import android.provider.MediaStore
 import androidx.exifinterface.media.ExifInterface
@@ -36,15 +37,15 @@ internal fun photoUploadMetaData(activity: Activity?): String {
 }
 
 internal fun backNextButtons(parentView: View,
-                            backText: String, backDrawable: Int,
-                            nextText: String, nextDrawable: Int) {
-    (parentView.findViewById<View>(R.id.back) as Button).apply {
+                             backText: String, backDrawable: Drawable,
+                             nextText: String, nextDrawable: Drawable) {
+    parentView.findViewById<Button>(R.id.back).apply {
         text = backText
-        setCompoundDrawablesWithIntrinsicBounds(backDrawable, 0, 0, 0)
+        setCompoundDrawables(backDrawable, null, null, null)
     }
-    (parentView.findViewById<View>(R.id.next) as Button).apply {
+    parentView.findViewById<Button>(R.id.next).apply {
         text = nextText
-        setCompoundDrawablesWithIntrinsicBounds(0, 0, nextDrawable, 0)
+        setCompoundDrawables(null, null, nextDrawable, null)
     }
 }
 

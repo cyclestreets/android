@@ -25,9 +25,10 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+
 // Useful for manual testing that operations do work with the real API, and not just WireMock.
-@Ignore
-@Config(manifest=Config.NONE, sdk = 23)
+@Ignore("Only meant for manual testing")
+@Config(manifest=Config.NONE, sdk = 28)
 @RunWith(RobolectricTestRunner.class)
 public class RetrofitApiClientIntegrationTest {
 

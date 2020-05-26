@@ -1,6 +1,8 @@
 package net.cyclestreets.liveride
 
+import android.content.Context
 import android.speech.tts.TextToSpeech
+import androidx.test.core.app.ApplicationProvider
 import com.fasterxml.jackson.databind.ObjectMapper
 import net.cyclestreets.CycleStreetsPreferences
 import net.cyclestreets.TestUtils
@@ -9,30 +11,26 @@ import net.cyclestreets.api.CycleStreetsApi
 import net.cyclestreets.content.RouteData
 import net.cyclestreets.routing.Journey
 import net.cyclestreets.routing.Route
-import net.cyclestreets.view.BuildConfig
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Before
-import org.junit.Ignore
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.mockito.Mockito
 import org.mockito.Mockito.*
 import org.osmdroid.util.GeoPoint
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.annotation.Config
-import org.robolectric.shadows.ShadowApplication
 
-@Ignore("due to https://github.com/robolectric/robolectric/issues/4690 - handle later with AndroidX upgrade")
-@Config(constants = BuildConfig::class, manifest = Config.NONE, sdk = [27])
+
+@Config(manifest = Config.NONE, sdk = [28])
 @RunWith(RobolectricTestRunner::class)
 class ReplanFromHereTest {
 
     private lateinit var liveRideState: LiveRideState
     private lateinit var journey: Journey
 
-    private val roboContext = ShadowApplication.getInstance().applicationContext
-    private val mockTts = Mockito.mock(TextToSpeech::class.java)
-    private val mockApiClient = Mockito.mock(CycleStreetsApi::class.java)
+    private val roboContext = ApplicationProvider.getApplicationContext<Context>()
+    private val mockTts = mock(TextToSpeech::class.java)
+    private val mockApiClient = mock(CycleStreetsApi::class.java)
 
     @Before
     fun setUp() {
@@ -151,7 +149,7 @@ Journey time : 26 minutes""")
     private fun jsonFor(waypoints: DoubleArray): String {
         val wpCount = (waypoints.size / 2)
         val wp = ArrayList<Map<String, String>>(wpCount)
-        for (ii: Int in 0..(wpCount - 1)) {
+        for (ii: Int in 0 until wpCount) {
             val lon = waypoints[ii * 2]
             val lat = waypoints[ii * 2 + 1]
             wp.add(mapOf("latitude" to lat.toString(), "longitude" to lon.toString()))

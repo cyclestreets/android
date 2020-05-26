@@ -17,21 +17,17 @@ import android.os.IBinder
 import android.util.Log
 import android.widget.RelativeLayout
 
-import com.mikepenz.iconics.context.IconicsContextWrapper
 import net.cyclestreets.util.Logging
 import net.cyclestreets.util.hasPermission
 import net.cyclestreets.views.overlay.*
 
+
 private val TAG = Logging.getTag(LiveRideActivity::class.java)
+
 
 class LiveRideActivity : Activity(), ServiceConnection, LiveRideOverlay.Locator {
     private lateinit var map: CycleMapView
     private lateinit var liveride: LiveRideService.Binding
-
-    override fun attachBaseContext(newBase: Context) {
-        // Allows the use of Material icon library, see https://github.com/mikepenz/Android-Iconics
-        super.attachBaseContext(IconicsContextWrapper.wrap(newBase))
-    }
 
     override fun onServiceConnected(className: ComponentName, binder: IBinder) {
         liveride = binder as LiveRideService.Binding

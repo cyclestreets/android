@@ -2,34 +2,34 @@ package net.cyclestreets.iconics
 
 import android.content.Context
 import android.util.Log
-import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuInflater
 import com.mikepenz.iconics.IconicsDrawable
 import com.mikepenz.iconics.typeface.IIcon
 
 import com.mikepenz.iconics.utils.IconicsMenuInflaterUtil
+import com.mikepenz.iconics.utils.colorInt
+import com.mikepenz.iconics.utils.sizeDp
 import net.cyclestreets.util.Logging
+
 
 private val TAG = Logging.getTag(IconicsHelper::class.java)
 
+
 object IconicsHelper {
 
-    fun materialIcon(context: Context, color: Int? = null, size: Int = 24, icon: IIcon): IconicsDrawable {
-        return materialIcons(context, color, size, listOf(icon)).first()
+    fun materialIcon(context: Context, iconId: IIcon, color: Int? = null, size: Int = 24): IconicsDrawable {
+        return materialIcons(context, listOf(iconId), color, size).first()
     }
 
-    fun materialIcons(context: Context, color: Int? = null, size: Int = 24, icons: List<IIcon>): List<IconicsDrawable> {
-        val sizedIcons = icons.map { iconId -> IconicsDrawable(context).icon(iconId).sizeDp(size) }
-        return sizedIcons.map { icon -> color?.let { icon.color(it) } ?: icon }
-    }
-
-    // Derive Context from the inflater, and then create the IconicsDrawable.
-    fun drawable(inflater: Any, iconId: IIcon, colorFunction: (Context) -> Int): IconicsDrawable? {
-        getContext(inflater)?.apply {
-            return IconicsDrawable(this).icon(iconId).color(colorFunction(this))
+    fun materialIcons(context: Context, iconIds: List<IIcon>, color: Int? = null, size: Int = 24): List<IconicsDrawable> {
+        return iconIds.map {
+            iconId -> IconicsDrawable(context, iconId)
+                .apply {
+                    sizeDp = size
+                    color?.let { this.colorInt = color}
+                }
         }
-        return null
     }
 
     // Derive Context from the inflater, and then delegate to the Iconics inflater.
@@ -50,16 +50,12 @@ object IconicsHelper {
         }
     }
 
-    // Derive the Context from a LayoutInflater (trivially) or a MenuInflater (using reflection).
+    // Derive the Context from a MenuInflater (using reflection).
     //
     // In some fragment transitions, menu inflation is performed before the fragment's context
     // is initialised, so we can't just do a `getContext()`; the internal `mContext` field is used
     // in this scope by the native inflater.inflate(), so we should be safe.
-    private fun getContext(inflater: Any): Context? {
-        if (inflater is LayoutInflater) {
-            return inflater.context
-        }
-
+    private fun getContext(inflater: MenuInflater): Context? {
         return try {
             val f = inflater.javaClass.getDeclaredField("mContext")
             f.isAccessible = true

@@ -28,27 +28,7 @@ import java.io.File;
 import java.io.InputStream;
 
 public class MapsforgeOSMTileSource implements ITileSource {
-  @SuppressWarnings("serial")
-  /*
-  private static class RenderTheme implements JobTheme {
-    //private static final String path = "/org/mapsforge/android/maps/rendertheme/osmarender/";
-    private static final String path="/assets/rendertheme/";
-    private static final String file = "osmarender.xml";
 
-    //@Override
-    //public String getRelativePathPrefix() {
-    //  return path;
-    //}
-
-    @Override
-    public InputStream getRenderThemeAsStream() {
-      final InputStream is = getClass().getResourceAsStream(path+file);
-      return is;
-    }
-  }
-  */
-
-  private static final float DEFAULT_TEXT_SCALE = 1;
   private final String name_;
   private final String attribution_;
   private DatabaseRenderer mapGenerator_;
@@ -68,7 +48,6 @@ public class MapsforgeOSMTileSource implements ITileSource {
                                 final String name,
                                 final String attribution,
                                 final boolean upSize) {
-
     name_ = name;
     attribution_ = attribution;
     tileSize_ = upSize ? 512 : 256;

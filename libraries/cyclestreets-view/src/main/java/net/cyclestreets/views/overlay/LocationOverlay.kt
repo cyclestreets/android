@@ -6,12 +6,14 @@ import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.drawable.BitmapDrawable
 import android.location.LocationManager
-import com.google.android.material.floatingactionbutton.FloatingActionButton
-import androidx.core.content.res.ResourcesCompat
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
+import androidx.core.content.res.ResourcesCompat
+import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.mikepenz.iconics.typeface.library.googlematerial.GoogleMaterial
+import net.cyclestreets.iconics.IconicsHelper.materialIcon
 import net.cyclestreets.util.Logging
 import net.cyclestreets.util.Theme
 import net.cyclestreets.util.doOrRequestPermission
@@ -22,7 +24,9 @@ import org.osmdroid.views.MapView
 import org.osmdroid.views.overlay.mylocation.GpsMyLocationProvider
 import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay
 
+
 private val TAG = Logging.getTag(LocationOverlay::class.java)
+
 
 class LocationOverlay(private val mapView: CycleMapView) :
         MyLocationNewOverlay(UseEverythingLocationProvider(mapView.context), mapView.mapView()) {
@@ -40,17 +44,19 @@ class LocationOverlay(private val mapView: CycleMapView) :
     }
 
     init {
+        val context = mapView.context
 
         // Workaround for https://github.com/cyclestreets/android/issues/385 until the fix for
         // https://github.com/osmdroid/osmdroid/issues/1530 is available (in osmdroid 6.1.7 or above)
         // When the workaround is removed, the corresponding drawables should be also.
-        val person = ResourcesCompat.getDrawable(mapView.context.resources, org.osmdroid.library.R.drawable.person, null) as BitmapDrawable
-        val newDirectionArrow = ResourcesCompat.getDrawable(mapView.context.resources, R.drawable.temp_osmdroid_twotone_navigation_black_48, null) as BitmapDrawable
+        val person = ResourcesCompat.getDrawable(context.resources, org.osmdroid.library.R.drawable.person, null) as BitmapDrawable
+        val newDirectionArrow = ResourcesCompat.getDrawable(context.resources, R.drawable.temp_osmdroid_twotone_navigation_black_48, null) as BitmapDrawable
         setDirectionArrow(person.bitmap, newDirectionArrow.bitmap)
         // End workaround
 
-        val overlayView = LayoutInflater.from(mapView.context).inflate(R.layout.locationbutton, null)
+        val overlayView = LayoutInflater.from(context).inflate(R.layout.locationbutton, null)
         button = overlayView.findViewById(R.id.locationbutton)
+        button.setImageDrawable(materialIcon(context, GoogleMaterial.Icon.gmd_my_location))
         button.setOnClickListener { _ -> enableAndFollowLocation(!isFollowLocationEnabled) }
 
         mapView.addView(overlayView)
