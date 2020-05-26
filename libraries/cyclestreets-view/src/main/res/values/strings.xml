@@ -116,6 +116,7 @@
   <string name="account_registration_is_free_long">Registration is free and registered users can add photos. To start the registration process please enter your details in the form below.</string>
 
   <!-- LiveRide -->
+  <string name="liveride">LiveRide</string>
   <string name="liveride_keep_screen_on_enabled" translatable="false">Screen will remain on while LiveRide is running</string>
   <string name="liveride_keep_screen_on_disabled" translatable="false">Screen will timeout as normal</string>
 
@@ -137,5 +138,21 @@
   <string name="perm_justification_read_contacts" translatable="false"><![CDATA[
     <li>&nbsp; allow you to find the addresses of your contacts on the map, and create routes to these locations</li>
   ]]></string>
+
+  <!-- Preferences -->
+  <string name="map_style">Map style</string>
+  <string name="vector_mapfile">Vector mapfile</string>
+  <string name="routing_preferences">Routing preferences</string>
+  <string name="route_type_default">Route type default</string>
+  <string name="cycling_speed">Cycling speed</string>
+  <string name="units">Units</string>
+  <string name="kilometres">Kilometres</string>
+
+  <string name="distance_nearing_turn">Turn warning distance</string>
+  <string name="distance_offtrack">Going off course distance</string>
+  <string name="distance_replanning">Route replanning distance</string>
+  <string name="account_settings">CycleStreets account</string>
+  <string name="account_details">Account details</string>
+  <string name="photo_uploadsize">Photo upload</string>
 
 </resources>

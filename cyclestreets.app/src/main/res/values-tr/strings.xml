@@ -7,6 +7,6 @@
   <string name="crash_dialog_title">CycleStreets çöktü</string>
   <string name="crash_dialog_text">Uygulamayı zorlayarak durdurmak için beklenmedik bir hata oluştu. Hata verisini bize göndererek lütfen düzeltmemize yardım edin, tüm yapmanız gereken \'Tamam\' butonuna tıklamak.</string>
   <string name="crash_dialog_comment_prompt">Aşağıdaki sorun hakkında yorumlarınızı ekleyebilirsiniz:</string>
-  <string name="crash_dialog_ok_toast">Teşekkürler !</string>
+  <string name="crash_dialog_ok_toast">Teşekkürler!</string>
 
 </resources>

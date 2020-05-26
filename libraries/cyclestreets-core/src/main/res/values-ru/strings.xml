@@ -10,7 +10,7 @@
   <string name="registration_error_prefix">Ваша учетная запись не может быть зарегистрировано.\n\n</string>
 
   <string name="signin_ok">Вы успешно вошли в CycleStreets.</string>
-  <string name="signin_error_prefix">Ошибка : </string>
+  <string name="signin_error_prefix">Ошибка: </string>
   <string name="signin_default_error">Не удалось войти в CycleStreets. Пожалуйста, проверьте имя пользователя и пароль.</string>
 
   <string name="upload_ok">Ваше фото загружено успешно.</string>

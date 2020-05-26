@@ -7,8 +7,8 @@
   <string name="crash_dialog_title">CycleStreets аварийно завершилось</string>
   <string name="crash_dialog_text">Произошла неожиданная ошибка заставляя
     Приложение остановиться. Пожалуйста, помогите нам исправить это, отправив нам данные об ошибках,
-    все, что вам нужно сделать, это нажать \ "OK \".</string>
+    все, что вам нужно сделать, это нажать «OK».</string>
   <string name="crash_dialog_comment_prompt">Вы можете добавить свои комментарии о следующей проблеме:</string>
-  <string name="crash_dialog_ok_toast">Спасибо !</string>
+  <string name="crash_dialog_ok_toast">Спасибо!</string>
 
 </resources>
