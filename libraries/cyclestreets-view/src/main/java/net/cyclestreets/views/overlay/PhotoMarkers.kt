@@ -21,6 +21,9 @@ private const val GENERAL = "general"
 
 
 class PhotoMarkers(val res: Resources) {
+    // The drawable identified below is arbitrary - it just puts us in the right place for deriving
+    // all the photomap resource IDs from their name
+    private val resPackage = res.getResourcePackageName(R.drawable.pm_bicycles_bad)
     private val markers = HashMap<String, Drawable>()
     private val defaultMarkers = mapOf(
             GOOD to getMarker(GENERAL, GOOD),
@@ -38,7 +41,7 @@ class PhotoMarkers(val res: Resources) {
 
         if (!markers.containsKey(key)) {
             try {
-                val resId = res.getIdentifier(key, "drawable", res.getResourcePackageName(R.drawable.pm_bicycles_bad))
+                val resId = res.getIdentifier(key, "drawable", resPackage)
                 val marker = ResourcesCompat.getDrawable(res, resId, null)!!
                 Log.d(TAG, "Loaded image $key into the cache, from resId $resId")
                 markers[key] = marker
