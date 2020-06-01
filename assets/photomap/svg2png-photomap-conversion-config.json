@@ -3,28 +3,28 @@
     {
       "directory": "drawable-xxxhdpi",
       "nameSuffix": "",
-      "height": 84,
-      "width": 84
+      "height": 68,
+      "width": 62
     },{
       "directory": "drawable-xxhdpi",
       "nameSuffix": "",
-      "height": 63,
-      "width": 63
+      "height": 51,
+      "width": 46
     },{
       "directory": "drawable-xhdpi",
       "nameSuffix": "",
-      "height": 42,
-      "width": 42
+      "height": 34,
+      "width": 31
     },{
       "directory": "drawable-hdpi",
       "nameSuffix": "",
-      "height": 32,
-      "width": 32
+      "height": 26,
+      "width": 23
     },{
       "directory": "drawable-mdpi",
       "nameSuffix": "",
-      "height": 21,
-      "width": 21
+      "height": 17,
+      "width": 15
     }
   ]
 }
