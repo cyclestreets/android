@@ -45,7 +45,7 @@ private fun poiIcon(context: Context, id: String): Drawable {
 
     val key = "poi_${id}"
     val res = context.resources
-    val resPackage = res.getResourcePackageName(R.drawable.pm_bicycles_bad)
+    val resPackage = res.getResourcePackageName(R.drawable.poi_bedsforcyclists)
 
     val resId = res.getIdentifier(key, "drawable", resPackage)
 
