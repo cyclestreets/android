@@ -9,10 +9,7 @@ import android.graphics.Rect
 import android.os.AsyncTask
 import android.util.Log
 import android.view.*
-import android.widget.BaseAdapter
-import android.widget.CheckBox
-import android.widget.ImageView
-import android.widget.TextView
+import android.widget.*
 import com.mikepenz.iconics.typeface.library.googlematerial.GoogleMaterial
 import net.cyclestreets.Undoable
 import net.cyclestreets.api.POI
@@ -359,6 +356,7 @@ class POIOverlay(mapView: CycleMapView) : LiveItemOverlay<POIOverlayItem?>(mapVi
 
         private val inflater: LayoutInflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
         private val selected: MutableList<POICategory> = initialCategories.toMutableList()
+        private val iconPixelWidthFromDp = (16 * context.resources.displayMetrics.density).toInt();
 
         init {
             Log.d(TAG, "Creating POICategoryAdapter - previously-selected categories are: $initialCategories")
@@ -388,7 +386,9 @@ class POIOverlay(mapView: CycleMapView) : LiveItemOverlay<POIOverlayItem?>(mapVi
             val v = convertView ?: inflater.inflate(R.layout.poicategories_item, parent, false)
 
             v.findViewById<TextView>(R.id.name).text = cat.name()
-            v.findViewById<ImageView>(R.id.icon).setImageDrawable(cats[cat.name()].icon())
+            v.findViewById<ImageView>(R.id.icon).apply {
+                setImageDrawable(cats[cat.name()].icon())
+            }
             val chk = v.findViewById<CheckBox>(R.id.checkbox).apply {
                 setOnCheckedChangeListener(null)
                 isChecked = isSelected(cat)

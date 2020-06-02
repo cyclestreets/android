@@ -2,6 +2,7 @@ package net.cyclestreets.api.client.dto
 
 import android.content.Context
 import android.graphics.drawable.Drawable
+import android.util.DisplayMetrics
 import androidx.core.content.res.ResourcesCompat
 import com.fasterxml.jackson.annotation.JsonProperty
 import net.cyclestreets.api.POICategories
@@ -27,7 +28,8 @@ class PoiTypesDto {
         private lateinit var total: String
 
         fun toPOICategory(context: Context): POICategory {
-            return POICategory(id, name, poiIcon(context, id))
+            val icons = poiIcons(context, id)
+            return POICategory(id, name, icons.first, icons.second)
         }
     }
 
@@ -41,13 +43,15 @@ class PoiTypesDto {
 
 }
 
-private fun poiIcon(context: Context, id: String): Drawable {
-
+private fun poiIcons(context: Context, id: String): Pair<Drawable, Drawable> {
     val key = "poi_${id}"
     val res = context.resources
     val resPackage = res.getResourcePackageName(R.drawable.poi_bedsforcyclists)
 
     val resId = res.getIdentifier(key, "drawable", resPackage)
 
-    return ResourcesCompat.getDrawable(res, resId, null)!!
+    val nativeIcon = ResourcesCompat.getDrawable(res, resId, null)!!
+    val maxIcon = ResourcesCompat.getDrawableForDensity(res, resId, DisplayMetrics.DENSITY_XXXHIGH, null)!!
+
+    return Pair(nativeIcon, maxIcon)
 }

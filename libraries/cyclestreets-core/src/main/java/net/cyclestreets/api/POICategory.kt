@@ -6,14 +6,15 @@ import org.osmdroid.api.IGeoPoint
 
 class POICategory(private val key: String,
                   private val name: String,
-                  private val icon: Drawable) {
+                  private val overlayIcon: Drawable,
+                  private val listIcon: Drawable) {
 
     fun name(): String {
         return name
     }
 
     fun icon(): Drawable {
-        return icon
+        return overlayIcon
     }
 
     fun pois(centre: IGeoPoint, radius: Int): List<POI> {
