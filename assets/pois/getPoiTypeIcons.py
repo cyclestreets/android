@@ -32,7 +32,7 @@ api = 'pois.types'
 iconSizes = { 64: 'xxxhdpi', 48: 'xxhdpi', 32: 'xhdpi', 24: 'hdpi', 16: 'mdpi' }
 
 # Clear out previously-downloaded icons
-existingPoiIconFiles = glob.glob('../../libraries/cyclestreets-view/src/main/res/drawable-*/poi_*.png')
+existingPoiIconFiles = glob.glob('../../libraries/cyclestreets-core/src/main/res/drawable-*/poi_*.png')
 for file in existingPoiIconFiles:
     os.remove(file)
 
@@ -47,7 +47,7 @@ for size, density in iconSizes.items():
     for id, type in types.items():
         # Remove base64 encoding
         decoded_img = type['icon'].decode('base64')
-        with open('../../libraries/cyclestreets-view/src/main/res/drawable-{}/poi_{}.png'.format(density, id), 'wb') as fh:
+        with open('../../libraries/cyclestreets-core/src/main/res/drawable-{}/poi_{}.png'.format(density, id), 'wb') as fh:
             fh.write(decoded_img)
         print('.'),
 
