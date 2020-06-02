@@ -6,6 +6,8 @@ configurations {
 dependencies {
   api "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion"
 
+  implementation 'androidx.core:core:1.3.0'
+
   api "org.osmdroid:osmdroid-android:${rootProject.ext.osmdroidVersion}"
   api 'org.slf4j:slf4j-android:1.7.30'
 

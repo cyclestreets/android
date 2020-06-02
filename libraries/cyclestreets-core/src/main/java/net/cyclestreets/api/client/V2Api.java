@@ -24,7 +24,7 @@ import retrofit2.http.Query;
 public interface V2Api {
 
   @GET("/v2/pois.types")
-  Call<PoiTypesDto> getPOICategories(@Query("icons") int iconSize);
+  Call<PoiTypesDto> getPOICategories();
 
   @GET("/v2/pois.locations?fields=id,latitude,longitude,name,notes,osmTags,website")
   Call<FeatureCollection> getPOIs(@Query("type") String type,

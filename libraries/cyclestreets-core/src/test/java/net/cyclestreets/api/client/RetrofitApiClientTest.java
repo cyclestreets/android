@@ -103,16 +103,15 @@ public class RetrofitApiClientTest {
                     .withBodyFile("pois-types.json")));
 
     // when
-    POICategories poiCategories = apiClient.getPOICategories(16);
+    POICategories poiCategories = apiClient.getPOICategories();
 
     // call the endpoint 5 more times
     for (int ii = 0; ii < 5; ii++) {
-      apiClient.getPOICategories(16);
+      apiClient.getPOICategories();
     }
 
     // then
     verify(getRequestedFor(urlPathEqualTo("/v2/pois.types"))
-            .withQueryParam("icons", equalTo("16"))
             .withQueryParam("key", equalTo("myApiKey")));
     assertThat(poiCategories.count()).isEqualTo(52);
     POICategory category = poiCategories.get(37);

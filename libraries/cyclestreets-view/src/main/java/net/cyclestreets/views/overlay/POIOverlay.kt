@@ -388,10 +388,7 @@ class POIOverlay(mapView: CycleMapView) : LiveItemOverlay<POIOverlayItem?>(mapVi
             val v = convertView ?: inflater.inflate(R.layout.poicategories_item, parent, false)
 
             v.findViewById<TextView>(R.id.name).text = cat.name()
-            v.findViewById<ImageView>(R.id.icon).apply {
-                setImageDrawable(cats[cat.name()].icon())
-                minimumWidth = POICategories.IconSize * 2
-            }
+            v.findViewById<ImageView>(R.id.icon).setImageDrawable(cats[cat.name()].icon())
             val chk = v.findViewById<CheckBox>(R.id.checkbox).apply {
                 setOnCheckedChangeListener(null)
                 isChecked = isSelected(cat)
