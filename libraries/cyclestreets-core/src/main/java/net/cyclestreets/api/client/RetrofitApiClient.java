@@ -165,8 +165,8 @@ public class RetrofitApiClient {
   // V2 APIs
   // --------------------------------------------------------------------------------
 
-  public POICategories getPOICategories(int iconSize) throws IOException {
-    Response<PoiTypesDto> response = v2Api.getPOICategories(iconSize).execute();
+  public POICategories getPOICategories() throws IOException {
+    Response<PoiTypesDto> response = v2Api.getPOICategories().execute();
     return response.body().toPOICategories(context);
   }
 
