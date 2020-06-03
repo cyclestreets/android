@@ -111,4 +111,9 @@
   <string name="photo_not_geolocatable_hint">Non abbiamo potuto geolocalizzare la foto. Per localizzare le foto in automatico, attiva la geolocalizzazione nelle impostazioni della tua fotocamera.</string>
   <string name="report_title">Il tuo rapporto</string>
 
+  <string name="show_remaining_time">Show remaining time</string>
+  <string name="show_ETA">Show estimated time of arrival</string>
+  <string name="remaining">Remaining</string>
+  <string name="slash_ETA">/ ETA</string>
+
 </resources>

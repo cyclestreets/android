@@ -140,6 +140,6 @@
   <string name="show_remaining_time">Show remaining time</string>
   <string name="show_ETA">Show estimated time of arrival</string>
   <string name="remaining">Remaining</string>
-  <string name="ETA">/ ETA</string>
+  <string name="slash_ETA">/ ETA</string>
 
 </resources>

@@ -15,17 +15,21 @@ import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.Overlay;
 
 import android.app.Activity;
+import android.content.res.Configuration;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.Paint.Align;
 import android.graphics.drawable.Drawable;
+import android.icu.text.DateFormat;
+import android.icu.util.Calendar;
 import android.location.Location;
 
 import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.time.ZonedDateTime;
+import java.util.Locale;
 
 public class LiveRideOverlay extends Overlay
 {
@@ -48,16 +52,18 @@ public class LiveRideOverlay extends Overlay
   private final int smallLineHeight_;
 
   private final DistanceFormatter formatter_;
-  private final String remainingText;
-  private final int remainingWidth;
-  private final String ETAText;
+  private String remainingText;
+  private int remainingWidth;
+  private String ETAText;
   private int height;
-  private final int heightNoText;
-  private int distanceUntilTurn;
-  private final boolean showETA;
-  private final boolean showRemainingTime;
-  private final boolean showTime;
-  private final int titleVerticalPosition;
+  private int heightNoText;
+  private Integer distanceUntilTurn;
+  private boolean showETA;
+  private boolean showRemainingTime;
+  private boolean showTime;
+  private int titleVerticalPosition;
+  private SimpleDateFormat ETAtimeFormat;
+  private SimpleDateFormat AMPMtimeFormat;
 
   public LiveRideOverlay(final Activity context, final Locator locator) {
     super();
@@ -65,9 +71,9 @@ public class LiveRideOverlay extends Overlay
     locator_ = locator;
     offset_ = DrawingHelperKt.offset(context);
     radius_ = DrawingHelperKt.cornerRadius();
-    largeTextBrush_ = Brush.createTextBrush(offset_*4);
+    largeTextBrush_ = Brush.createTextBrush(offset_ * 4);
     largeTextBrush_.setTextAlign(Align.LEFT);
-    midTextBrush_ = Brush.createTextBrush((int)(offset_*1.8));
+    midTextBrush_ = Brush.createTextBrush((int)(offset_ * 1.8));
     midTextBrush_.setTextAlign(Align.LEFT);
     smallTextBrush_ = Brush.createTextBrush(offset_);
     smallTextBrush_.setTextAlign(Align.LEFT);
@@ -86,29 +92,51 @@ public class LiveRideOverlay extends Overlay
     smallTextBrush_.getTextBounds("0.0", 0, 3, bounds);
     smallLineHeight_ = bounds.height();
 
+    remainingJourneySetup(context);
+
+  }
+
+  private void remainingJourneySetup(final Activity context) {
     remainingText = context.getString(R.string.remaining); //"Remaining";
-    ETAText = " " + context.getString(R.string.ETA); //" / ETA";
+    ETAText = " " + context.getString(R.string.slash_ETA); //" / ETA";
     remainingWidth = (int)smallTextBrush_.measureText(remainingText + ":");
     showETA = CycleStreetsPreferences.showETA();
     showRemainingTime = CycleStreetsPreferences.showRemainingTime();
     showTime = showETA || showRemainingTime;
-    if (!showTime) {
-      height = largeLineHeight_ + offset_*2;
-      // If time not shown, no need to reduce height of bottom box after 1st seg
-      heightNoText = height;
-    }
-    else {
+
+    //int aDistance = Route.journey().totalDistance();
+
+    if (showTime) {
+      titleVerticalPosition = offset_ + midLineHeight_ * 2;
       height = smallLineHeight_ + midLineHeight_ * 2 + offset_ * 4;
       // After 1st seg, text will be removed from bottom box and height reduced
       heightNoText = height - smallLineHeight_;
     }
-    TileSource.setBoxHeight(height);  // Use this height to shift map attribution in ControllerOverlay
-    if (showTime) {
-      titleVerticalPosition = offset_ + midLineHeight_ * 2;
-    }
     else {
       titleVerticalPosition = (largeLineHeight_ - smallLineHeight_ - midLineHeight_ - offset_) / 2 + midLineHeight_ + offset_;
+      height = largeLineHeight_ + offset_*2;
+      // If time not shown, no need to reduce height of bottom box after 1st seg
+      heightNoText = height;
     }
+    TileSource.setAttributionUpShift(height);  // Use this height to shift map attribution in ControllerOverlay
+    ///////////////////// todo For testing only :
+    /* Locale locale = new Locale("en-gb");
+    Locale.setDefault(locale);
+    Configuration config = context.getBaseContext().getResources().getConfiguration();
+    config.locale = locale; */
+    ///////////////////////////
+    String patternETA;
+    String patternAMPM;
+    if (android.text.format.DateFormat.is24HourFormat(context)) {
+      patternETA = "HH:mm";
+      patternAMPM = "";
+    }
+    else {
+      patternETA = "h:mm";
+      patternAMPM = "a";
+    }
+    ETAtimeFormat = new SimpleDateFormat(patternETA);
+    AMPMtimeFormat = new SimpleDateFormat(patternAMPM);
   }
 
   @Override
@@ -147,12 +175,11 @@ public class LiveRideOverlay extends Overlay
       return;
 
     final String distanceTo;
-    if (distanceUntilTurn == Integer.MAX_VALUE) {
+    if (distanceUntilTurn == null)
       distanceTo = "";
-    }
-    else {
+    else
       distanceTo = formatter_.distance(distanceUntilTurn);
-    }
+
     final String nextStreet = nextSeg.street();
 
     final Rect distanceToBox = canvas.getClipBounds();
@@ -197,7 +224,7 @@ public class LiveRideOverlay extends Overlay
     // After the first segment, don't display "Remaining" text
     if ((activeSegIndex > 1) && (height != heightNoText)) {
       height = heightNoText;
-      TileSource.setBoxHeight(height);
+      TileSource.setAttributionUpShift(height);
     }
     box.top = box.bottom - height;
 
@@ -238,17 +265,14 @@ public class LiveRideOverlay extends Overlay
     return formatter_.speed(location.getSpeed());
   }
 
-  private int distanceUntilTurn() {
+  private Integer distanceUntilTurn() {
     final GeoPoint whereIam = whereIAm();
-    final int fromEnd;
-    if (whereIam == null) {
-       fromEnd = Integer.MAX_VALUE;}
-    else {
+    if (whereIam != null) {
       // Get distance to end of active segment
       final Segment activeSeg = Route.journey().activeSegment();
-      fromEnd = activeSeg.distanceFromEnd(whereIam);
+      return activeSeg.distanceFromEnd(whereIam);
     }
-    return fromEnd;
+    return null;
   }
 
   private GeoPoint whereIAm() {
@@ -262,20 +286,21 @@ public class LiveRideOverlay extends Overlay
     String strRemDistance;
     String strRemTime;
     String ETA = "";
-    int ETAWidth=0;
-    int ETATextWidth=0;
+    int ETAWidth = 0;
+    int ETATextWidth = 0;
+    String AMorPM = "";
+    long millisETA;
 
     strRemDistance = getRemDistance();
     int remTime = getRemTime();
 
     if (showETA) {
-      //final Instant now = Instant.now();   API 26+ only
-      long millisETA = System.currentTimeMillis() + (remTime * 1000);
-      String pattern = "h:mm";
-      SimpleDateFormat timeFormat = new SimpleDateFormat(pattern);
-      ETA = timeFormat.format(millisETA);
+      //Instant now = Instant.now();   API 26+ only
+      millisETA = System.currentTimeMillis() + (remTime * 1000);
+      ETA = ETAtimeFormat.format(millisETA);
+      AMorPM = AMPMtimeFormat.format(millisETA);
       ETATextWidth = (int)smallTextBrush_.measureText(ETAText);
-      ETAWidth = (int)midTextBrush_.measureText(ETA);
+      ETAWidth = (int)midTextBrush_.measureText(ETA) + (int)smallTextBrush_.measureText(AMorPM);
     }
 
     strRemTime = showRemainingTime ? formatRemTime(remTime): "";
@@ -295,6 +320,8 @@ public class LiveRideOverlay extends Overlay
       box.bottom -= titleVerticalPosition;
       // Move over to the right
       box.left = box.right - Math.max(Math.max(remainingWidth + ETATextWidth, distanceWidth), (remTimeWidth + spaceWidth + ETAWidth))- offset_;
+      if (box.left < speedWidth_ + kmWidth_ + offset_)
+        remainingText = remainingText + "x";  // todo for testing only
       canvas.drawText(remainingText, box.left, box.bottom, smallTextBrush_);
       box.left += remainingWidth;
       if (showETA) {
@@ -321,31 +348,28 @@ public class LiveRideOverlay extends Overlay
     if (showETA) {
       box.left += remTimeWidth;
       canvas.drawText(ETA, box.left, box.bottom, midTextBrush_);
+      box.left += (int)midTextBrush_.measureText(ETA);
+      canvas.drawText(AMorPM, box.left, box.bottom, smallTextBrush_);
     }
   }
 
   private String getRemDistance() {
     int remDistance;
 
-    if (distanceUntilTurn == Integer.MAX_VALUE) {
+    if (distanceUntilTurn == null)
       return "";
-    }
+
     remDistance = Route.journey().remainingDistance(distanceUntilTurn);
-    if (remDistance == Integer.MAX_VALUE) {
-      return "";
-    }
     return formatter_.distance(remDistance);
   }
 
   private int getRemTime() {
     int remTimeSecs;
-    if (distanceUntilTurn == Integer.MAX_VALUE) {
+    if (distanceUntilTurn == null)
       return 0;
-    }
+
     remTimeSecs = Route.journey().remainingTime(distanceUntilTurn);
-    if (remTimeSecs == Integer.MAX_VALUE) {
-      return 0;
-    }
+
     return remTimeSecs;
   }
 

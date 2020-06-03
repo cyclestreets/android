@@ -158,10 +158,10 @@ public class ControllerOverlay extends Overlay implements OnDoubleTapListener, O
 
   private void drawUnskewed(final Canvas canvas) {
     final Rect screen = canvas.getClipBounds();
-    final int yHeight = attributionShifted ? TileSource.getBoxHeight() : 0;
+    final int yHeight = attributionShifted ? TileSource.getAttributionUpShift() : 0;
     canvas.drawText(mapView_.mapAttribution(),
             screen.centerX(),
-            screen.bottom-(textBrush_.descent()+2) - yHeight,
+            screen.bottom - (textBrush_.descent()+2) - yHeight,
             textBrush_);
   }
 

@@ -19,7 +19,7 @@ public abstract class Segment {
   protected final String turnInstruction;
   protected final boolean walk;
   protected final String runningTime;
-  protected final int time;
+  protected final int cumulativeTime;
   public final int distance;
   public final int cumulativeDistance; // up to the *END* of the segment
   protected final List<IGeoPoint> points;
@@ -31,7 +31,7 @@ public abstract class Segment {
           final Turn turn,
           final String turnInstruction,
           final boolean walk,
-          final int time,
+          final int cumulativeTime,
           final int distance,
           final int cumulativeDistance,
           final List<IGeoPoint> points,
@@ -41,8 +41,8 @@ public abstract class Segment {
          turn,
          turnInstruction,
          walk,
-         formatTime(time, terminal),
-         time,
+         formatTime(cumulativeTime, terminal),
+         cumulativeTime,
          distance,
          cumulativeDistance,
          points,
@@ -55,7 +55,7 @@ public abstract class Segment {
           final String turnInstruction,
           final boolean walk,
           final String runningTime,
-          final int time,
+          final int cumulativeTime,
           final int distance,
           final int cumulativeDistance,
           final List<IGeoPoint> points,
@@ -66,7 +66,7 @@ public abstract class Segment {
     this.turnInstruction = initCap(turnInstruction);
     this.walk = walk;
     this.runningTime = runningTime;
-    this.time = time;
+    this.cumulativeTime = cumulativeTime;
     this.distance = distance;
     this.cumulativeDistance = cumulativeDistance;
     this.points = points;
@@ -311,7 +311,7 @@ public abstract class Segment {
          final Turn turn,
          final String turnInstruction,
          final boolean walk,
-         final int time,
+         final int cumulativeTime,
          final int distance,
          final int runningDistance,
          final List<IGeoPoint> points) {
@@ -320,7 +320,7 @@ public abstract class Segment {
             turn,
             turnInstruction,
             walk,
-            time,
+            cumulativeTime,
             distance,
             runningDistance,
             points,
@@ -334,7 +334,7 @@ public abstract class Segment {
             turnInstruction,
             s1.walk || s2.walk,
             s2.runningTime,
-            s2.time,
+            s2.cumulativeTime,
             s1.distance + s2.distance,
             s2.cumulativeDistance,
             Collections.concatenate(s1.points, s2.points),

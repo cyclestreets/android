@@ -140,7 +140,7 @@ public class CycleStreetsPreferences
     return Integer.parseInt(getString(PREF_REPLAN_DISTANCE, "50"));
   }
 
-    public static boolean showRemainingTime() {
+  public static boolean showRemainingTime() {
     return getBoolean(PREF_SHOW_REMAINING_TIME, true);
   }
 

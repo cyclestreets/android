@@ -25,7 +25,7 @@ import android.util.Log;
 public class TileSource {
 
   private static final String TAG = Logging.getTag(TileSource.class);
-  private static int boxHeight;
+  private static int attributionUpShift;
 
   public static String mapAttribution() {
     try {
@@ -37,12 +37,12 @@ public class TileSource {
     return source(DEFAULT_RENDERER).attribution();
   }
 
-  public static void setBoxHeight(int height) {
-    boxHeight = height;
+  public static void setAttributionUpShift(int height) {
+    attributionUpShift = height;
   }
 
-  public static int getBoxHeight() {
-    return boxHeight;
+  public static int getAttributionUpShift() {
+    return attributionUpShift;
   }
 
   public static ITileSource mapRenderer(final Context context) {

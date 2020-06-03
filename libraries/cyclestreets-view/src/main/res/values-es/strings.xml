@@ -112,4 +112,9 @@
   <string name="account_pending">Ya tienes una cuenta registrada. Por favor comprueba tu email en busca del email de confirmación.</string>
   <string name="account_registration_is_free_long">El registro es gratis y los usuarios registrados pueden añadir fotos. Para comenzar el registro por favor introduce tus detalles en el siguiente formulario.</string>
 
+  <string name="show_remaining_time">Show remaining time</string>
+  <string name="show_ETA">Show estimated time of arrival</string>
+  <string name="remaining">Remaining</string>
+  <string name="slash_ETA">/ ETA</string>
+
 </resources>
