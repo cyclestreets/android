@@ -126,8 +126,8 @@ public class RetrofitApiClientTest {
             .withQueryParam("key", equalTo("myApiKey")));
     assertThat(poiCategories.count()).isEqualTo(52);
     POICategory category = poiCategories.get(37);
-    assertThat(category.name()).isEqualTo("Supermarkets");
-    assertThat(category.icon()).isNotNull();
+    assertThat(category.getName()).isEqualTo("Supermarkets");
+    assertThat(category.getIcon()).isNotNull();
 
     // caching should mean the REST request is only made once
     List<LoggedRequest> requests = findAll(getRequestedFor(urlPathEqualTo("/v2/pois.types")));

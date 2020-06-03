@@ -16,7 +16,7 @@ public class POICategories implements Iterable<POICategory> {
   public POICategories(Collection<POICategory> categories) {
     this.categories.addAll(categories);
     for (POICategory category : categories) {
-      categoryMap.put(category.name(), category);
+      categoryMap.put(category.getName(), category);
     }
   }
 

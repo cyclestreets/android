@@ -9,7 +9,10 @@ import android.graphics.Rect
 import android.os.AsyncTask
 import android.util.Log
 import android.view.*
-import android.widget.*
+import android.widget.BaseAdapter
+import android.widget.CheckBox
+import android.widget.ImageView
+import android.widget.TextView
 import com.mikepenz.iconics.typeface.library.googlematerial.GoogleMaterial
 import net.cyclestreets.Undoable
 import net.cyclestreets.api.POI
@@ -65,7 +68,7 @@ class POIOverlay(mapView: CycleMapView) : LiveItemOverlay<POIOverlayItem?>(mapVi
     override fun onPause(prefs: SharedPreferences.Editor) {
         prefs.putInt("category-count", activeCategories.size)
         for (i in activeCategories.indices)
-            prefs.putString("category-$i", activeCategories[i].name())
+            prefs.putString("category-$i", activeCategories[i].name)
     }
 
     override fun onResume(prefs: SharedPreferences) {
@@ -97,7 +100,7 @@ class POIOverlay(mapView: CycleMapView) : LiveItemOverlay<POIOverlayItem?>(mapVi
             val name = prefs.getString("category-$i", "")
 
             for (cat in allCategories()) {
-                if (name == cat.name()) {
+                if (name == cat.name) {
                     activeCategories.add(cat)
                     break
                 }
@@ -356,7 +359,6 @@ class POIOverlay(mapView: CycleMapView) : LiveItemOverlay<POIOverlayItem?>(mapVi
 
         private val inflater: LayoutInflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
         private val selected: MutableList<POICategory> = initialCategories.toMutableList()
-        private val iconPixelWidthFromDp = (16 * context.resources.displayMetrics.density).toInt();
 
         init {
             Log.d(TAG, "Creating POICategoryAdapter - previously-selected categories are: $initialCategories")
@@ -385,9 +387,9 @@ class POIOverlay(mapView: CycleMapView) : LiveItemOverlay<POIOverlayItem?>(mapVi
 
             val v = convertView ?: inflater.inflate(R.layout.poicategories_item, parent, false)
 
-            v.findViewById<TextView>(R.id.name).text = cat.name()
+            v.findViewById<TextView>(R.id.name).text = cat.name
             v.findViewById<ImageView>(R.id.icon).apply {
-                setImageDrawable(cats[cat.name()].icon())
+                setImageDrawable(cats[cat.name].icon)
             }
             val chk = v.findViewById<CheckBox>(R.id.checkbox).apply {
                 setOnCheckedChangeListener(null)
@@ -420,7 +422,7 @@ class POIOverlay(mapView: CycleMapView) : LiveItemOverlay<POIOverlayItem?>(mapVi
 
         private fun isSelected(cat: POICategory): Boolean {
             for (c in selected)
-                if (cat.name() == c.name())
+                if (cat.name == c.name)
                     return true
             return false
         }
