@@ -429,7 +429,7 @@ class POIOverlay(mapView: CycleMapView) : LiveItemOverlay<POIOverlayItem?>(mapVi
 
 
     class POIOverlayItem(val poi: POI) : OverlayItem(poi.id().toString(), poi.name(),
-                                                             poi.notes(), poi.position()) {
+                                                     poi.notes(), poi.position()) {
 
         init {
             setMarker(this.poi.icon())
@@ -453,6 +453,5 @@ class POIOverlay(mapView: CycleMapView) : LiveItemOverlay<POIOverlayItem?>(mapVi
         override fun toString(): String {
             return "POIItem [poi=${poi}]"
         }
-
     }
 }
