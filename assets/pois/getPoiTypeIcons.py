@@ -16,6 +16,8 @@
 #
 # However, testing showed that Android does a better job of dynamic downscaling than the static
 # 48px icons, so we don't store the xxhdpi ones.
+#
+# TODO: upgrade this back to Python 3 as soon as the Travis image can be upgraded from "trusty".
 
 import glob
 import os
