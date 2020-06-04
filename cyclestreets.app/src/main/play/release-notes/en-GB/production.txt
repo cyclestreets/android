@@ -1,12 +1,3 @@
-UPDATE: Fixed bugs that were introduced in 3.7 - crashes, a hard-to-see location marker, and missing pinch-zoom in LiveRide
-
-Handle CycleStreets photomap location URLs.
-Waypoints shown during LiveRide.
-Dates included on photo display dialog.
-Active segment now highlighted on the elevation graph.
-Modernisation of some icons.
-LiveRide now requests audio focus over e.g. music.
-"Get ready to turn right" becomes "Get ready to turn right onto [street name]".
-Revised Back button behaviour.
-
-Numerous bug fixes.
+LiveRide map rotates with direction of travel. Just tap the compass icon to activate.
+Metric distances and 3/4 digit road numbers are now read out properly in LiveRide.
+Icons and graphics updated throughout.
