@@ -1,3 +1,1 @@
-LiveRide map rotates with direction of travel. Just tap the compass icon to activate.
-Metric distances and 3/4 digit road numbers are now read out properly in LiveRide.
-Icons and graphics updated throughout.
+More coming soon...
