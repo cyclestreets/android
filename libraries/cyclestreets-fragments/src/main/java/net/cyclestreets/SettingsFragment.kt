@@ -134,8 +134,8 @@ class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedP
     }
 
     private fun populateMapFileList(mapfilePref: ListPreference) {
-        val names = MapPack.availableMapPacks(context).map { pack: MapPack -> pack.name() }
-        val files = MapPack.availableMapPacks(context).map { pack: MapPack -> pack.path() }
+        val names = MapPack.availableMapPacks(context).map { pack: MapPack -> pack.name }
+        val files = MapPack.availableMapPacks(context).map { pack: MapPack -> pack.path }
         mapfilePref.entries = names.toTypedArray()
         mapfilePref.entryValues = files.toTypedArray()
     }
