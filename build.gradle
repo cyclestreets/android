@@ -98,6 +98,6 @@ subprojects {
       // check 'Interoperability'
     }
 
-    viewBinding.enabled = true
+    buildFeatures.viewBinding = true
   }
 }
