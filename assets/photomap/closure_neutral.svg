@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 viewBox="0 0 38 42" style="enable-background:new 0 0 38 42;" xml:space="preserve">
+<style type="text/css">
+	.st0{fill:#FFFFFF;}
+	.st1{fill:#E5C420;} <!-- neutral yellow -->
+	.st2{opacity:0.25;} <!-- centre shadow -->
+	.st3{fill:#4C535B;}
+	.st4{fill:#CE6378;}
+	.st5{opacity:0.35;clip-path:url(#SVGID_2_);}
+	.st6{clip-path:url(#SVGID_4_);fill:red;}
+</style>
+<g>
+	<path class="st0" d="M19,42c-2.4,0-19-9.3-19-23C0,8.5,8.5,0,19,0s19,8.5,19,19C38,32.7,21.4,42,19,42z"/>
+</g>
+<g>
+	<path class="st1" d="M37,19c0,13.1-16,22-18,22S1,32,1,19C1,9.1,9.1,1,19,1S37,9.1,37,19z"/>
+</g>
+<g class="st2">
+	<circle class="st3" cx="19" cy="20" r="15"/>
+</g>
+<g>
+	<circle class="st0" cx="19" cy="19" r="15"/>
+</g>
+<g>
+	<circle class="st4" cx="19" cy="19" r="14"/>
+</g>
+<g>
+	<defs>
+		<path id="SVGID_1_" d="M37,19c0,13.1-16,22-18,22S1,32,1,19C1,9.1,9.1,1,19,1S37,9.1,37,19z"/>
+	</defs>
+	<clipPath id="SVGID_2_">
+		<use xlink:href="#SVGID_1_"  style="overflow:visible;"/>
+	</clipPath>
+	<!-- shadow of striped rounded rect -->
+	<path class="st5" d="M35.2,16c0.6,1,0.2,2.2,-0.7,2.7l-24.2,14c-1,0.5,-2.2,0.2,-2.7,-0.7l-3.6,-6.1c-0.6,-1,-0.3,-2.2,0.7,-2.7l24.2,-14c1,-0.6,2.2,-0.2,2.7,0.7l3.6,6.1z"/>
+</g>
+<g>
+	<path class="st0" d="M35.2,14.5c0.6,1,0.2,2.2,-0.7,2.7l-24.2,14c-1,0.5,-2.2,0.2,-2.7,-0.7l-3.5,-6.1c-0.5,-1,-0.2,-2.2,0.7,-2.7l24.2,-14c1,-0.6,2.2,-0.2,2.7,0.7l3.5,6.1z"/>
+	<path class="st0" d="M33.6,14.8c0.3,0.5,0.1,1.1,-0.4,1.4l-23.3,13.4c-0.5,0.3,-1.1,0.1,-1.4,-0.4l-3,-5.2c-0.3,-0.5,-0.1,-1.1,0.4,-1.4l23.4,-13.5c0.5,-0.3,1.1,-0.1,1.4,0.4l2.9,5.3z"/>
+	<g>
+		<defs>
+			<rect id="SVGID_3_" x="8" y="16.8" transform="matrix(0.866 -0.5 0.5 0.866 -10.2239 12.8534)" width="29" height="8"/>
+		</defs>
+		<clipPath id="SVGID_4_">
+			<use xlink:href="#SVGID_3_"  style="overflow:visible;"/>
+		</clipPath>
+		<path class="st6" d="M7,39l-3.4,2l0.3,-17.5l3.4,-2"/>
+		<path class="st6" d="M14,35l-3.5,2l0.3,-17.5l3.5,-2"/>
+		<path class="st6" d="M20.9,31l-3.5,2l0.3,-17.5l3.5,-2"/>
+		<path class="st6" d="M27.8,27l-3.4,2l0.2,-17.5l3.5,-2"/>
+		<path class="st6" d="M34.7,23l-3.4,2l0.3,-17.5l3.4,-2"/>
+	</g>
+</g>
+</svg>

@@ -48,5 +48,5 @@ public class POI
   }
 
   public POICategory category() { return category; }
-  public Drawable icon() { return category.icon(); }
+  public Drawable icon() { return category.getIcon(); }
 }

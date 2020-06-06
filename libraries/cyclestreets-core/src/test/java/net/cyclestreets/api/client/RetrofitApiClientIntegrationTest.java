@@ -87,9 +87,9 @@ public class RetrofitApiClientIntegrationTest {
 
   @Test
   public void hitGetPOICategoriesApi() throws Exception {
-    POICategories poiCategories = apiClient.getPOICategories(16);
+    POICategories poiCategories = apiClient.getPOICategories();
     for (POICategory category : poiCategories) {
-      System.out.println(category.name() + ": " + category);
+      System.out.println(category.getName() + ": " + category);
     }
   }
 

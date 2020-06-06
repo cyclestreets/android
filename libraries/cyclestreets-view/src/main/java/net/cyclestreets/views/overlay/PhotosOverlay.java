@@ -15,7 +15,6 @@ import androidx.annotation.NonNull;
 
 import net.cyclestreets.DisplayPhoto;
 import net.cyclestreets.api.Photo;
-import net.cyclestreets.api.PhotoMarkers;
 import net.cyclestreets.api.Photos;
 import net.cyclestreets.photos.IndividualPhoto;
 import net.cyclestreets.views.CycleMapView;

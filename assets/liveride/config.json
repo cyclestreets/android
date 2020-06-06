@@ -1,0 +1,30 @@
+{
+  "files": [
+    {
+      "directory": "drawable-xxxhdpi",
+      "nameSuffix": "",
+      "height": 96,
+      "width": 96
+    },{
+      "directory": "drawable-xxhdpi",
+      "nameSuffix": "",
+      "height": 72,
+      "width": 72
+    },{
+      "directory": "drawable-xhdpi",
+      "nameSuffix": "",
+      "height": 48,
+      "width": 48
+    },{
+      "directory": "drawable-hdpi",
+      "nameSuffix": "",
+      "height": 36,
+      "width": 36
+    },{
+      "directory": "drawable-mdpi",
+      "nameSuffix": "",
+      "height": 24,
+      "width": 24
+    }
+  ]
+}

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 18.1.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 viewBox="0 0 38 42" style="enable-background:new 0 0 38 42;" xml:space="preserve">
+<style type="text/css">
+	.st0{fill:#FFFFFF;}
+	.st1{fill:#E5C420;}
+	.st2{opacity:0.25;}
+	.st3{fill:#4C535B;}
+	.st4{fill:#9C98A0;}
+</style>
+<g>
+	<path class="st0" d="M19,42c-2.4,0-19-9.3-19-23C0,8.5,8.5,0,19,0s19,8.5,19,19C38,32.7,21.4,42,19,42z"/>
+</g>
+<g>
+	<path class="st1" d="M37,19c0,13.1-16,22-18,22S1,32,1,19C1,9.1,9.1,1,19,1S37,9.1,37,19z"/>
+</g>
+<g class="st2">
+	<circle class="st3" cx="19" cy="20" r="15"/>
+</g>
+<g>
+	<circle class="st0" cx="19" cy="19" r="15"/>
+</g>
+<polygon class="st4" points="23.2,26.7 22.9,29 21.3,27.4 18.8,20.7 20.7,20 "/>
+<path class="st3" d="M22.6,10.2c0.5,1.4-1.4,4.2-4.6,5.3s-6.4,0.2-7-1.1c-0.5-1.4,1.7-3.5,4.9-4.6S22.1,8.8,22.6,10.2z"/>
+<path class="st3" d="M14.1,22.8c-0.5-1.4,1.4-4.2,4.6-5.3s6.4-0.2,7,1.1c0.5,1.4-1.7,3.5-4.9,4.6C17.6,24.4,14.6,24.2,14.1,22.8z"/>
+<rect x="15.5" y="12.4" transform="matrix(0.9397 -0.342 0.342 0.9397 -4.6869 7.3691)" class="st3" width="6.1" height="9.2"/>
+</svg>

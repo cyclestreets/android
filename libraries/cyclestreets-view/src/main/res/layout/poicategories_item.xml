@@ -10,7 +10,7 @@
       android:layout_alignParentBottom="true"
       android:layout_marginLeft="12dp"
       android:layout_marginRight="6dp"
-      android:src="@drawable/poi_64x64_placeholder" />
+      android:src="@drawable/placeholder_poi_64x64" />
                    <!-- We actually download our POI icons dynamically from the CycleStreets APIs,
                         at 64x64 resolution as if targeting HDPI screens; so we use this icon at
                         this size in this drawable-hdpi holder as a placeholder. -->
