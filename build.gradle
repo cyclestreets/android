@@ -5,8 +5,7 @@ buildscript {
     jcenter()
   }
   dependencies {
-    // TODO: upgrade to 4.0.0 - currently blocked by https://github.com/moallemi/gradle-advanced-build-version/issues/36
-    classpath 'com.android.tools.build:gradle:3.6.3'
+    classpath 'com.android.tools.build:gradle:4.0.0'
     classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
   }
 }
@@ -32,7 +31,7 @@ ext {
   compileSdkVersion=28
   minSdkVersion=23
   targetSdkVersion=28
-  buildToolsVersion='28.0.3'
+  buildToolsVersion='29.0.3'
 
   // centrally manage some other dependencies
   mapsforgeVersion = '0.13.0'
@@ -99,6 +98,6 @@ subprojects {
       // check 'Interoperability'
     }
 
-    viewBinding.enabled = true
+    buildFeatures.viewBinding = true
   }
 }
