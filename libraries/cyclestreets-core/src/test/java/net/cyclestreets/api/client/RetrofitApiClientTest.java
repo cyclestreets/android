@@ -1,6 +1,8 @@
 package net.cyclestreets.api.client;
 
 import android.content.Context;
+import android.content.res.Resources;
+import android.graphics.drawable.Drawable;
 
 import com.github.tomakehurst.wiremock.junit.WireMockRule;
 import com.github.tomakehurst.wiremock.verification.LoggedRequest;
@@ -50,6 +52,8 @@ import static com.github.tomakehurst.wiremock.client.WireMock.stubFor;
 import static com.github.tomakehurst.wiremock.client.WireMock.urlPathEqualTo;
 import static com.github.tomakehurst.wiremock.client.WireMock.verify;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -63,13 +67,18 @@ public class RetrofitApiClientTest {
 
   private RetrofitApiClient apiClient;
 
+  private Context testContext;
+  private Resources testResources;
+
   @Before
   public void setUp() throws Exception {
     // Delete the cache so that we can test cached endpoints are hit once!
     File cacheDirFile = new File("/tmp/RetrofitApiClientCache");
     FileUtils.deleteDirectory(cacheDirFile);
 
-    Context testContext = mock(Context.class);
+    testContext = mock(Context.class);
+    testResources = mock(Resources.class);
+    when(testContext.getResources()).thenReturn(testResources);
     when(testContext.getCacheDir()).thenReturn(new File("/tmp"));
     apiClient = new RetrofitApiClient.Builder()
         .withApiKey("myApiKey")
@@ -101,23 +110,24 @@ public class RetrofitApiClientTest {
                     .withHeader("Content-Type", "application/json")
                     .withHeader("Cache-Control", "public, max-age=604800")
                     .withBodyFile("pois-types.json")));
+    when(testResources.getResourcePackageName(R.drawable.poi_bedsforcyclists)).thenReturn("drawable-xxhdpi");
+    when(testResources.getDrawable(anyInt(), eq(null))).thenReturn(mock(Drawable.class));
 
     // when
-    POICategories poiCategories = apiClient.getPOICategories(16);
+    POICategories poiCategories = apiClient.getPOICategories();
 
     // call the endpoint 5 more times
     for (int ii = 0; ii < 5; ii++) {
-      apiClient.getPOICategories(16);
+      apiClient.getPOICategories();
     }
 
     // then
     verify(getRequestedFor(urlPathEqualTo("/v2/pois.types"))
-            .withQueryParam("icons", equalTo("16"))
             .withQueryParam("key", equalTo("myApiKey")));
     assertThat(poiCategories.count()).isEqualTo(52);
     POICategory category = poiCategories.get(37);
-    assertThat(category.name()).isEqualTo("Supermarkets");
-    assertThat(category.icon()).isNotNull();
+    assertThat(category.getName()).isEqualTo("Supermarkets");
+    assertThat(category.getIcon()).isNotNull();
 
     // caching should mean the REST request is only made once
     List<LoggedRequest> requests = findAll(getRequestedFor(urlPathEqualTo("/v2/pois.types")));

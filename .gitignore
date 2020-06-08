@@ -13,5 +13,6 @@ license.properties
 */keystore
 */signature.asc
 */*.p12
+*/play-api-key.json
 custom-versions/*
 cyclestreets-api.key

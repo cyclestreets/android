@@ -1,11 +1,11 @@
 buildscript {
   dependencies {
-    classpath 'me.moallemi.gradle:advanced-build-version:1.7.0'
+    classpath 'me.moallemi.gradle:advanced-build-version:1.7.1'
   }
 }
 
 plugins {
-  id 'com.github.triplet.play' version '2.5.0'
+  id 'com.github.triplet.play' version '2.7.5'
 }
 
 // Use a plugin to derive a version name (e.g. 3.7) and monotonically increasing version code (e.g. 1372)
@@ -13,7 +13,7 @@ apply plugin: 'me.moallemi.advanced-build-version'
 advancedVersioning {
   nameOptions {
     versionMajor 3
-    versionMinor 8
+    versionMinor 9
     versionPatch 0
   }
   codeOptions {
@@ -67,9 +67,8 @@ android {
 }
 
 play {
-  serviceAccountEmail = 'cyclestreets-android@api-7698300952134656507-752021.iam.gserviceaccount.com'
-  // credentials file decrypted from play-api-key.p12.enc by ciLicense.sh
-  serviceAccountCredentials = file('play-api-key.p12')
+  // credentials file decrypted from play-api-key.json.enc by ciLicense.sh
+  serviceAccountCredentials = file('play-api-key.json')
 
   track = 'beta'
 

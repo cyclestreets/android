@@ -1,5 +1,10 @@
-# Use container-based Travis, with the Trusty image.
+# Use container-based Travis, with the Trusty image (Ubuntu 14.04).
 # See https://docs.travis-ci.com/user/reference/overview/ and https://docs.travis-ci.com/user/reference/trusty/
+#
+# Before trying to upgrade this, check the 'android' language support at https://docs.travis-ci.com/user/languages/android/
+# At the time of writing, this says:
+# > Android builds are only supported on our Trusty image at this time hence you’ll need to explicitly
+#   specify dist: trusty in your .travis.yml file.
 sudo: false
 dist: trusty
 
@@ -20,7 +25,7 @@ env:
     - compileSdkVersion=28
     - minSdkVersion=23
     - targetSdkVersion=28
-    - toolsVersion=28.0.3
+    - toolsVersion=29.0.3
 
     # For the decryption of secrets needed to sign and publish our artifacts
     - secure: "LipL0wPv0uQrKitaeGxCpoQsx5sl/Pg/DtQv4S7Bi52DxfArgvD2hPB0TWgkgYGJPfENHLEyqg+H+/v2nON3IXY+cnsd+TW+P1T03/52D56ieSKGVtVtSYUOZUgoyxIIvRZWFh/UNg+AmZIjOCTJDLitBTUxD8kWux8NjhIqZow="
@@ -37,8 +42,10 @@ android:
 
 before_install:
   - ./ciLicense.sh
+  - sudo pip install requests
 
 install:
+  - ./checkPoiTypeIcons.sh
   - ./gradlew build
 
 script:

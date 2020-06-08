@@ -18,7 +18,7 @@ interface CycleStreetsApi {
     fun uploadPhoto(filename: String, username: String, password: String, lon: Double, lat: Double, metaCat: String, category: String, dateTime: String, caption: String): Upload.Result
     fun signin(username: String, password: String): Signin.Result
     fun register(username: String, password: String, name: String, email: String): Result
-    fun getPOICategories(iconSize: Int): POICategories
+    fun getPOICategories(): POICategories
     fun getPOIs(key: String, lonW: Double, latS: Double, lonE: Double, latN: Double): List<POI>
     fun getPOIs(key: String, lon: Double, lat: Double, radius: Int): List<POI>
     fun getBlogEntries(): Blog
@@ -118,8 +118,8 @@ object ApiClient : CycleStreetsApi {
     override fun register(username: String, password: String, name: String, email: String): Result {
         return delegate.register(username, password, name, email)
     }
-    override fun getPOICategories(iconSize: Int): POICategories {
-        return delegate.getPOICategories(iconSize)
+    override fun getPOICategories(): POICategories {
+        return delegate.getPOICategories()
     }
     override fun getPOIs(key: String, lonW: Double, latS: Double, lonE: Double, latN: Double): List<POI> {
         return delegate.getPOIs(key, lonW, latS, lonE, latN)
@@ -207,8 +207,8 @@ class ApiClientImpl(private val retrofitApiClient: RetrofitApiClient): CycleStre
         return retrofitApiClient.register(username, password, name, email)
     }
 
-    override fun getPOICategories(iconSize: Int): POICategories {
-        return retrofitApiClient.getPOICategories(iconSize)
+    override fun getPOICategories(): POICategories {
+        return retrofitApiClient.getPOICategories()
     }
 
     override fun getPOIs(key: String,
