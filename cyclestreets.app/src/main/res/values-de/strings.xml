@@ -1,13 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-  <string name="crash_notif_ticker_text">Unerwarteter Fehler, bitte sende einen Bericht …</string>
-  <string name="crash_notif_title">CycleStreets ist abgestürzt …</string>
-  <string name="crash_notif_text">Bitte klicke hier um uns bei der Fehlerbehebung zu unterstützen.</string>
-  <string name="crash_dialog_title">CycleStreets ist abgestürzt</string>
-  <string name="crash_dialog_text">Ein unerwarteter Fehler ist aufgetreten und erzwingt das Beenden der Anwendung. Bitte hilf uns ihn zu Beheben, indem Du uns Fehlerdaten sendest.
-Du musst dazu nur \'OK\' klicken.</string>
-  <string name="crash_dialog_comment_prompt">Du könntest deine Anmerkungen zum Problem unten anfügen:</string>
-  <string name="crash_dialog_ok_toast">Dankeschön!</string>
-
 </resources>
