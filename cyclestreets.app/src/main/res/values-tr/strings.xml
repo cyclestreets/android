@@ -1,12 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-  <string name="crash_notif_ticker_text">Beklenmeyen hata, lütfen rapor gönderin…</string>
-  <string name="crash_notif_title">CycleStreets çöktü…</string>
-  <string name="crash_notif_text">Sorunun düzelmesine yardımcı olmak için lütfen tıklayınız.</string>
-  <string name="crash_dialog_title">CycleStreets çöktü</string>
-  <string name="crash_dialog_text">Uygulamayı zorlayarak durdurmak için beklenmedik bir hata oluştu. Hata verisini bize göndererek lütfen düzeltmemize yardım edin, tüm yapmanız gereken \'Tamam\' butonuna tıklamak.</string>
-  <string name="crash_dialog_comment_prompt">Aşağıdaki sorun hakkında yorumlarınızı ekleyebilirsiniz:</string>
-  <string name="crash_dialog_ok_toast">Teşekkürler !</string>
-
 </resources>

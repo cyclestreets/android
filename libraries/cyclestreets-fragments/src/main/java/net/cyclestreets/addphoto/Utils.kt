@@ -5,7 +5,6 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.database.Cursor
 import android.graphics.drawable.Drawable
 import android.os.Environment
 import android.provider.MediaStore
@@ -72,13 +71,11 @@ internal fun getImageFilePath(data: Intent, activity: Activity?): String {
     val selectedImage = data.data
     val filePathColumn = arrayOf(MediaStore.Images.Media.DATA)
 
-    var cursor: Cursor? = null
-    try {
-        cursor = activity!!.contentResolver.query(selectedImage!!, filePathColumn, null, null, null)!!
+    activity!!.contentResolver
+            .query(selectedImage!!, filePathColumn, null, null, null)!!
+            .use { cursor ->
         cursor.moveToFirst()
         return cursor.getString(cursor.getColumnIndex(filePathColumn[0]))
-    } finally {
-        cursor?.close()
     }
 }
 
@@ -92,11 +89,11 @@ internal fun photoTimestamp(photoExif: ExifInterface): String {
     var date = Date()
     try {
         val df = SimpleDateFormat("yyyy:MM:dd HH:mm:ss")
-        val dateString = photoExif.getAttribute(ExifInterface.TAG_DATETIME)
+        val dateString = photoExif.getAttribute(ExifInterface.TAG_DATETIME)!!
         if (!TextUtils.isEmpty(dateString))
-            date = df.parse(dateString)
+            date = df.parse(dateString)!!
     } catch (e: Exception) {
         // ah well
     }
-    return java.lang.Long.toString(date.time / 1000)
+    return (date.time / 1000).toString()
 }

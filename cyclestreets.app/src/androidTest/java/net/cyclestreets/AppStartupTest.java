@@ -9,7 +9,8 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-@Ignore
+
+@Ignore("Needs an emulator running - not practical in Travis CI at the moment")
 @RunWith(AndroidJUnit4.class)
 @LargeTest
 public class AppStartupTest {
