@@ -30,7 +30,7 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:text="@string/account_username"
-      android:labelFor="@id/username" />
+        android:labelFor="@id/username" />
       <EditText
         android:id="@+id/username"
         android:layout_height="wrap_content"
