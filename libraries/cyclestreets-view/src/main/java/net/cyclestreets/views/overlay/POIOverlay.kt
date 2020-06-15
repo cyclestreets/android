@@ -1,11 +1,13 @@
 package net.cyclestreets.views.overlay
 
 import android.content.Context
+import android.content.Intent
 import android.content.SharedPreferences
 import android.graphics.Canvas
 import android.graphics.Matrix
 import android.graphics.Point
 import android.graphics.Rect
+import android.net.Uri
 import android.os.AsyncTask
 import android.util.Log
 import android.view.*
@@ -13,6 +15,7 @@ import android.widget.BaseAdapter
 import android.widget.CheckBox
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.content.ContextCompat.startActivity
 import com.mikepenz.iconics.typeface.library.googlematerial.GoogleMaterial
 import net.cyclestreets.Undoable
 import net.cyclestreets.api.POI
@@ -30,7 +33,6 @@ import org.osmdroid.events.ZoomEvent
 import org.osmdroid.util.BoundingBox
 import org.osmdroid.views.MapView
 import org.osmdroid.views.overlay.OverlayItem
-import kotlin.collections.ArrayList
 
 
 private val TAG = Logging.getTag(POIOverlay::class.java)
@@ -50,6 +52,7 @@ class POIOverlay(mapView: CycleMapView) : LiveItemOverlay<POIOverlayItem?>(mapVi
     private var lastFix: IGeoPoint? = null
     private var bubble: Rect? = null
     private var chooserShowing: Boolean = false
+    private val tapHereText = context.getString(R.string.tap_here)
 
     /////////////////////////////////////////////////////
     private fun allCategories(): POICategories {
@@ -116,8 +119,11 @@ class POIOverlay(mapView: CycleMapView) : LiveItemOverlay<POIOverlayItem?>(mapVi
 
     ///////////////////////////////////////////////////
     override fun onSingleTap(event: MotionEvent): Boolean {
-        if (activeItem != null && tappedInBubble(event))
+        val item = activeItem
+        if (activeItem != null && tappedInBubble(event)) {
+            showWebpage(item)
             return true
+        }
 
         return super.onSingleTap(event)
     }
@@ -132,6 +138,19 @@ class POIOverlay(mapView: CycleMapView) : LiveItemOverlay<POIOverlayItem?>(mapVi
             return false
 
         return routeMarkerAtItem(activeItem)
+    }
+
+    fun showWebpage(item: POIOverlayItem?) {
+        val url = item!!.poi.url()
+
+        if (url != "") {
+            val webpage = Uri.parse(url)
+            val intent = Intent(Intent.ACTION_VIEW, webpage)
+
+            if (intent.resolveActivity(context.getPackageManager()) != null) {
+                startActivity(context, intent, null)
+            }
+        }
     }
 
     override fun onItemSingleTap(item: POIOverlayItem?): Boolean {
@@ -183,7 +202,7 @@ class POIOverlay(mapView: CycleMapView) : LiveItemOverlay<POIOverlayItem?>(mapVi
         val bubbleText = listOf(
             activeItem!!.title,
             activeItem!!.snippet,
-            activeItem!!.poi.url(),
+            if (activeItem!!.poi.url() == "") "" else tapHereText,
             activeItem!!.poi.phone(),
             activeItem!!.poi.openingHours()
         ).filterNot { it.isNullOrBlank() }.joinToString("\n")

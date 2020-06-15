@@ -63,6 +63,8 @@
   <string name="report_title">Ваш отчет</string>
   <string name="report_location_hint">Где это место, которую отчет описывает?</string>
 
+  <string name="tap_here">Tap here to show website</string>
+
   <string name="tiles_map_pack_out_of_date">Этот пакет карты не может быть использована с этой версией приложения.\n\nвы хотите найти обновление?</string>
 
   <string name="placeview_menu">Меню</string>
