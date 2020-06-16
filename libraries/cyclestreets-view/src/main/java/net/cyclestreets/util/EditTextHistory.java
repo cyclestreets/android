@@ -45,9 +45,12 @@ public class EditTextHistory extends ArrayAdapter<String> {
       lastWritten = 0;
 
     final SharedPreferences.Editor edit = prefs_.edit();
-    edit.putString(Integer.toString(lastWritten), n);
-    edit.putInt(LAST_WRITTEN, lastWritten);
-    edit.commit();
+    int already_in_list = this.getPosition(n); // Will be -1 if not found
+    if (already_in_list == -1) {
+      edit.putString(Integer.toString(lastWritten), n);
+      edit.putInt(LAST_WRITTEN, lastWritten);
+      edit.commit();
+    }
   }
 
   @Override
