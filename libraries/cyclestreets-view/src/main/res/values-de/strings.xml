@@ -113,9 +113,9 @@
   <string name="account_pending">Du hast bereits einen registrierten Account. Bitte schaue in deinem Posteingang nach der Verifikationsmail.</string>
   <string name="account_registration_is_free_long">Die Registrierung ist kostenlos und nur registrierte Nutzer können Fotos hinzufügen. Um den Regstrierungsprozess zu starten, gib deine Details unten ein.</string>
 
-  <string name="show_remaining_time">Show remaining time</string>
-  <string name="show_ETA">Show estimated time of arrival</string>
-  <string name="remaining">Remaining</string>
-  <string name="slash_ETA">/ ETA</string>
+  <string name="show_remaining_time">Verbleibende Zeit anzeigen</string>
+  <string name="show_ETA">Geschätzte Ankunftszeit anzeigen</string>
+  <string name="remaining">Verbleibende</string>
+  <string name="slash_ETA">/ Ankunft</string>
 
 </resources>
