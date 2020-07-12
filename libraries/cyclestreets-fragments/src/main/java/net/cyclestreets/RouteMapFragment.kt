@@ -3,10 +3,6 @@ package net.cyclestreets
 import net.cyclestreets.fragments.R
 import net.cyclestreets.iconics.IconicsHelper
 import net.cyclestreets.util.*
-import net.cyclestreets.views.overlay.POIOverlay
-import net.cyclestreets.views.overlay.RouteOverlay
-import net.cyclestreets.views.overlay.RouteHighlightOverlay
-import net.cyclestreets.views.overlay.TapToRouteOverlay
 import net.cyclestreets.routing.Journey
 import net.cyclestreets.routing.Route
 import net.cyclestreets.routing.Waypoints
@@ -24,6 +20,7 @@ import android.view.ViewGroup
 
 import net.cyclestreets.util.MenuHelper.enableMenuItem
 import net.cyclestreets.util.MenuHelper.showMenuItem
+import net.cyclestreets.views.overlay.*
 
 private val TAG = Logging.getTag(RouteMapFragment::class.java)
 

@@ -60,7 +60,7 @@ public abstract class LiveItemOverlay<T extends OverlayItem>
   protected float cornerRadius() { return radius_; }
 
   protected void centreOn(IGeoPoint geoPoint) {
-    mapView_.centreOn(geoPoint, ITEM_ZOOM_LEVEL);
+    mapView_.centreOn(geoPoint, ITEM_ZOOM_LEVEL, false);
   }
 
   @Override

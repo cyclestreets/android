@@ -106,6 +106,13 @@ public class ControllerOverlay extends Overlay implements OnDoubleTapListener, O
         undoStack_.remove(i);
   }
 
+  public boolean checkUndo(final Undoable undo) {
+    for (int i = undoStack_.size() - 1; i >= 0; --i)
+      if (undoStack_.get(i).equals(undo))
+        return true;
+      return false;
+  }
+
   public void popUndo(final Undoable undo) {
     for (int i = undoStack_.size() - 1; i >= 0; --i)
       if (undoStack_.get(i).equals(undo)) {
