@@ -7,8 +7,7 @@
       android:paddingLeft="9dp"
       android:paddingRight="9dp"
       android:paddingTop="12dp"
-      android:paddingBottom="6dp"
-      android:background="?android:attr/colorBackground">
+      android:paddingBottom="6dp">
   <LinearLayout
       android:orientation="vertical"
       android:layout_width="match_parent"

@@ -489,7 +489,9 @@ class AddPhotoFragment : Fragment(), View.OnClickListener, Undoable, ThereOverla
             }
             R.id.next -> {
                 if (step === AddStep.LOCATION) {
-                    assert(!needAccountDetails())
+                    if (needAccountDetails()) {
+                        throw IllegalStateException("Shouldn't have reached this point without account details available")
+                    }
                     upload()
                 } else if (step != AddStep.VIEW) {
                     nextStep()

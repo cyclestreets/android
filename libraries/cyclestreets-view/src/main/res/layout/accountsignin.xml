@@ -29,36 +29,43 @@
       <TextView
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="@string/account_username" />
+        android:text="@string/account_username"
+        android:labelFor="@id/username" />
       <EditText
         android:id="@+id/username"
         android:layout_height="wrap_content"
         android:layout_width="fill_parent"
-        android:inputType="text" />
+        android:inputType="text"
+        android:autofillHints="username" />
       <TextView
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="@string/account_password" />
+        android:text="@string/account_password"
+        android:labelFor="@id/password" />
       <EditText
         android:id="@+id/password"
         android:layout_height="wrap_content"
         android:layout_width="fill_parent"
-        android:inputType="textPassword" />
+        android:inputType="textPassword"
+        android:importantForAutofill="no" />
     </LinearLayout>
   </ScrollView>
   <LinearLayout
     android:orientation="horizontal"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
-    android:gravity="bottom">
+    android:gravity="bottom"
+    style="?android:attr/buttonBarStyle">
     <Button
       android:id="@+id/cleardetails_button"
+      style="?android:attr/buttonBarButtonStyle"
       android:layout_width="0dp"
       android:layout_height="wrap_content"
       android:layout_weight="1"
       android:text="@string/account_clear_stored_button" />
     <Button
       android:id="@+id/signin_button"
+      style="?android:attr/buttonBarButtonStyle"
       android:layout_width="0dp"
       android:layout_height="wrap_content"
       android:layout_weight="1"

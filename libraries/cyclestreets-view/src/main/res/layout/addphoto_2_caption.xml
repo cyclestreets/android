@@ -31,7 +31,8 @@
         android:layout_height="fill_parent"
         android:layout_width="fill_parent"
         android:inputType="textCapSentences|textMultiLine"
-        android:scrollbars="none" />
+        android:scrollbars="none"
+        android:importantForAutofill="no" />
     </LinearLayout>
   </ScrollView>
   <include layout="@layout/addphoto_backnext" />

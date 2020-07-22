@@ -1,12 +1,23 @@
 package net.cyclestreets.views;
 
 import android.Manifest;
-import android.preference.PreferenceManager;
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.graphics.Canvas;
+import android.location.Location;
+import android.os.CountDownTimer;
+import android.util.Log;
+import android.view.ContextMenu;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.widget.FrameLayout;
+import android.widget.Scroller;
+
 import net.cyclestreets.tiles.TileSource;
 import net.cyclestreets.util.Logging;
 import net.cyclestreets.util.PermissionsKt;
-import net.cyclestreets.views.overlay.LocationOverlay;
 import net.cyclestreets.views.overlay.ControllerOverlay;
+import net.cyclestreets.views.overlay.LocationOverlay;
 
 import org.osmdroid.api.IGeoPoint;
 import org.osmdroid.api.IMapController;
@@ -22,19 +33,9 @@ import org.osmdroid.views.MapView;
 import org.osmdroid.views.Projection;
 import org.osmdroid.views.overlay.Overlay;
 
-import android.content.Context;
-import android.content.SharedPreferences;
-import android.graphics.Canvas;
-import android.location.Location;
-import android.os.CountDownTimer;
-import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.ContextMenu;
-import android.widget.FrameLayout;
-import android.widget.Scroller;
-
 import java.util.List;
+
+import androidx.preference.PreferenceManager;
 
 import static java.lang.Math.abs;
 import static net.cyclestreets.util.PermissionsKt.hasPermission;
