@@ -7,8 +7,7 @@
     android:paddingLeft="9dp"
     android:paddingRight="9dp"
     android:paddingTop="12dp"
-    android:paddingBottom="6dp"
-    android:background="?android:attr/colorBackground">
+    android:paddingBottom="6dp">
   <VideoView
       android:id="@+id/video"
       android:layout_width="wrap_content"
@@ -17,7 +16,7 @@
   <TextView
       android:id="@+id/caption"
       android:gravity="center"
-      android:layout_height="wrap_content"
+      android:layout_height="0dp"
       android:layout_width="match_parent"
       android:layout_weight="1"
       android:paddingLeft="9dp"

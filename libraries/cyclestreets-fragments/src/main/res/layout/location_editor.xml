@@ -35,19 +35,23 @@
     <EditText
       android:id="@+id/name"
       android:layout_width="match_parent"
-      android:layout_height="wrap_content" />
+      android:layout_height="wrap_content"
+      android:inputType="textCapSentences"/>
   </LinearLayout>
   <LinearLayout android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="bottom">
+                android:gravity="bottom"
+                style="?android:attr/buttonBarStyle">
     <Button android:text="@string/all_button_cancel"
             android:id="@+id/cancel"
+            style="?android:attr/buttonBarButtonStyle"
             android:layout_height="wrap_content"
             android:layout_weight="1.0"
             android:layout_width="30dp" />
     <Button android:text="@string/all_button_save"
             android:id="@+id/save"
+            style="?android:attr/buttonBarButtonStyle"
             android:layout_height="wrap_content"
             android:layout_weight="1.0"
             android:layout_width="30dp" />
