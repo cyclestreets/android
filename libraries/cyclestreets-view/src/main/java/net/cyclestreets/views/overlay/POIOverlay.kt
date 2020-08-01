@@ -11,6 +11,7 @@ import android.net.Uri
 import android.os.AsyncTask
 import android.util.Log
 import android.view.*
+import android.webkit.URLUtil
 import android.widget.BaseAdapter
 import android.widget.CheckBox
 import android.widget.ImageView
@@ -119,11 +120,8 @@ class POIOverlay(mapView: CycleMapView) : LiveItemOverlay<POIOverlayItem?>(mapVi
 
     ///////////////////////////////////////////////////
     override fun onSingleTap(event: MotionEvent): Boolean {
-        val item = activeItem
-        if (activeItem != null && tappedInBubble(event)) {
-            showWebpage(item)
+        if (activeItem != null && tappedInBubble(event))
             return true
-        }
 
         return super.onSingleTap(event)
     }
@@ -136,11 +134,16 @@ class POIOverlay(mapView: CycleMapView) : LiveItemOverlay<POIOverlayItem?>(mapVi
 
         if (!bubble!!.contains(eventX, eventY))
             return false
+        // Check if tapped on link
+        if (eventY < Draw.titleSectionY) {
+            showWebpage(activeItem)
+            return true
+        }
 
         return routeMarkerAtItem(activeItem)
     }
 
-    fun showWebpage(item: POIOverlayItem?) {
+    private fun showWebpage(item: POIOverlayItem?) {
         val url = item!!.poi.url()
 
         if (url != "") {
@@ -199,10 +202,13 @@ class POIOverlay(mapView: CycleMapView) : LiveItemOverlay<POIOverlayItem?>(mapVi
     }
 
     private fun drawBubble(canvas: Canvas, mapView: MapView) {
+        var url = activeItem!!.poi.url()
+        url = if (URLUtil.isValidUrl(url)) url else ""
+        val title = if (activeItem!!.title.isNullOrEmpty() && (activeItem!!.poi.url().isNotBlank())) tapHereText else activeItem!!.title
+
         val bubbleText = listOf(
-            activeItem!!.title,
+            title,
             activeItem!!.snippet,
-            if (activeItem!!.poi.url() == "") "" else tapHereText,
             activeItem!!.poi.phone(),
             activeItem!!.poi.openingHours()
         ).filterNot { it.isNullOrBlank() }.joinToString("\n")
@@ -229,7 +235,7 @@ class POIOverlay(mapView: CycleMapView) : LiveItemOverlay<POIOverlayItem?>(mapVi
         canvas.rotate(-mapView.mapOrientation, x.toFloat(), y.toFloat())
         canvas.scale(1 / scaleX, 1 / scaleY, x.toFloat(), y.toFloat())
 
-        bubble = Draw.drawBubble(canvas, textBrush(), offset(), cornerRadius(), curScreenCoords, bubbleText)
+        bubble = Draw.drawBubble(canvas, textBrush(), urlBrush(), offset(), cornerRadius(), curScreenCoords, bubbleText, url, title)
 
         canvas.restore()
     }

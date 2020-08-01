@@ -52,5 +52,18 @@ public class Brush {
     return paint;
   }
 
+  public static Paint createUrlBrush(final int size) {
+    final Paint paint = White;
+
+    paint.setTextAlign(Paint.Align.CENTER);
+    paint.setTypeface(Typeface.DEFAULT);
+    paint.setTextSize(size * 2);
+
+    paint.setUnderlineText(true);
+    paint.setTypeface(Typeface.defaultFromStyle(Typeface.BOLD));
+
+    return paint;
+  }
+
   private Brush() { }
 }
