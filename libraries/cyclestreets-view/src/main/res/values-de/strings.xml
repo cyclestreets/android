@@ -63,7 +63,7 @@
   <string name="report_title">Dein Bericht</string>
   <string name="report_location_hint">Wo ist der Ort, den dein Bericht beschreibt?</string>
 
-  <string name="tap_here">Tippen Sie hier, um die Website anzuzeigen</string>
+  <string name="tap_here">Weitere Details ...</string>
 
   <string name="tiles_map_pack_out_of_date">Das Kartenpaket kann nicht mit dieser Version der App genutzt werden. \n\nMöchtest du nach einem Update suchen?</string>
 

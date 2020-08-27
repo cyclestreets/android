@@ -63,7 +63,7 @@
   <string name="report_title">Seu relatório</string>
   <string name="report_location_hint">Qual a localização descrita no seu relatório?</string>
 
-  <string name="tap_here">Toque aqui para mostrar o site</string>
+  <string name="tap_here">Mais detalhes...</string>
 
   <string name="tiles_map_pack_out_of_date">Este mapa não pode ser utilizado com esta versão do aplicativo. \n\nGostaria de procurar por uma atualização?</string>
 
