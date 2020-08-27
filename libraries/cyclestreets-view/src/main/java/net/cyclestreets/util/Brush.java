@@ -52,5 +52,15 @@ public class Brush {
     return paint;
   }
 
+  public static Paint createUrlBrush(final int size) {
+
+    final Paint paint = createTextBrush(size);
+
+    paint.setUnderlineText(true);
+    paint.setTypeface(Typeface.defaultFromStyle(Typeface.BOLD));
+
+    return paint;
+  }
+
   private Brush() { }
 }
