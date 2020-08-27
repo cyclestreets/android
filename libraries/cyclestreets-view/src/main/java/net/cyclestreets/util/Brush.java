@@ -53,11 +53,8 @@ public class Brush {
   }
 
   public static Paint createUrlBrush(final int size) {
-    final Paint paint = White;
 
-    paint.setTextAlign(Paint.Align.CENTER);
-    paint.setTypeface(Typeface.DEFAULT);
-    paint.setTextSize(size * 2);
+    final Paint paint = createTextBrush(size);
 
     paint.setUnderlineText(true);
     paint.setTypeface(Typeface.defaultFromStyle(Typeface.BOLD));
