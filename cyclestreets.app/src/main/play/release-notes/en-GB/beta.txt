@@ -1,1 +1,3 @@
-More coming soon...
+POI URLs (e.g. bike shop websites) now appear as clickable links.
+
+Various minor bug fixes.
