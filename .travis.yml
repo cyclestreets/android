@@ -24,7 +24,7 @@ env:
     # Remember to keep these four values in sync with values in the root build.gradle file
     - compileSdkVersion=29
     - minSdkVersion=23
-    - targetSdkVersion=28
+    - targetSdkVersion=29
     - toolsVersion=29.0.3
 
     # For the decryption of secrets needed to sign and publish our artifacts
