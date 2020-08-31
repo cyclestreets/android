@@ -142,7 +142,7 @@ public class CycleStreetsPreferences
     return getBoolean(PREF_SHOW_REMAINING_TIME, true);
   }
 
-  public static boolean showETA() {
+  public static boolean showEta() {
     return getBoolean(PREF_SHOW_ETA, true);
   }
 
