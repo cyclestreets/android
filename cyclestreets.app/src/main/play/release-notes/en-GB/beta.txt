@@ -1,1 +1,4 @@
-More coming soon...
+POI URLs (e.g. bike shop websites) now appear as clickable links.
+Find a Place now puts a marker on the screen instead of just centering the map
+
+Various minor bug fixes.

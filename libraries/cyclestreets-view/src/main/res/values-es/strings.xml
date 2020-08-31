@@ -63,6 +63,8 @@
   <string name="report_title">Tu informe</string>
   <string name="report_location_hint">¿Donde está la localización que describe tu informe?</string>
 
+  <string name="tap_here">Más detalles...</string>
+
   <string name="tiles_map_pack_out_of_date">Este paquete de mapas no puede ser usado con esta versión de la aplicación. ¿Quieres comprobar si existe una actualización?</string>
 
   <string name="placeview_menu">Menú</string>
