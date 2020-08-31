@@ -70,6 +70,14 @@
         android:defaultValue="50"
         android:entries="@array/distance"
         android:entryValues="@array/distance_values" />
+    <CheckBoxPreference
+        android:defaultValue="true"
+        android:key="show-remaining-time"
+        android:title="@string/show_remaining_time" />
+    <CheckBoxPreference
+        android:defaultValue="true"
+        android:key="show-ETA"
+        android:title="@string/show_ETA" />
   </PreferenceScreen>
 
   <PreferenceScreen
