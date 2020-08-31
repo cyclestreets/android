@@ -1,11 +1,11 @@
 buildscript {
-  ext.kotlinVersion = '1.3.72'
+  ext.kotlinVersion = '1.4.0'
   repositories {
     google()
     jcenter()
   }
   dependencies {
-    classpath 'com.android.tools.build:gradle:4.0.0'
+    classpath 'com.android.tools.build:gradle:4.0.1'
     classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
   }
 }
@@ -29,7 +29,7 @@ ext {
   // Remember to keep these values in sync with .travis.yml
   compileSdkVersion=29
   minSdkVersion=23
-  targetSdkVersion=28
+  targetSdkVersion=29
   buildToolsVersion='29.0.3'
 
   // centrally manage some other dependencies
