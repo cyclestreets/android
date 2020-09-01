@@ -65,6 +65,8 @@
   <string name="report_title">Your Report</string>
   <string name="report_location_hint">Where is the location your report describes?</string>
 
+  <string name="tap_here">More details...</string>
+
   <string name="tiles_map_pack_out_of_date">This map pack is cannot be used with this version of the app. \n\nWould you like to search for an update?</string>
 
   <string name="placeview_menu">Menu</string>
@@ -137,5 +139,9 @@
   <string name="perm_justification_read_contacts" translatable="false"><![CDATA[
     <li>&nbsp; allow you to find the addresses of your contacts on the map, and create routes to these locations</li>
   ]]></string>
+  <string name="show_remaining_time">Show remaining time</string>
+  <string name="show_ETA">Show estimated time of arrival</string>
+  <string name="remaining">Remaining</string>
+  <string name="slash_ETA">/ ETA</string>
 
 </resources>

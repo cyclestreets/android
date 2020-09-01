@@ -1,12 +1,24 @@
 package net.cyclestreets.views;
 
 import android.Manifest;
-import android.preference.PreferenceManager;
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.graphics.Canvas;
+import android.location.Location;
+import android.os.CountDownTimer;
+import android.util.Log;
+import android.view.ContextMenu;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.widget.FrameLayout;
+import android.widget.Scroller;
+
 import net.cyclestreets.tiles.TileSource;
 import net.cyclestreets.util.Logging;
 import net.cyclestreets.util.PermissionsKt;
-import net.cyclestreets.views.overlay.LocationOverlay;
 import net.cyclestreets.views.overlay.ControllerOverlay;
+import net.cyclestreets.views.overlay.FindPlaceOverlay;
+import net.cyclestreets.views.overlay.LocationOverlay;
 
 import org.osmdroid.api.IGeoPoint;
 import org.osmdroid.api.IMapController;
@@ -22,19 +34,9 @@ import org.osmdroid.views.MapView;
 import org.osmdroid.views.Projection;
 import org.osmdroid.views.overlay.Overlay;
 
-import android.content.Context;
-import android.content.SharedPreferences;
-import android.graphics.Canvas;
-import android.location.Location;
-import android.os.CountDownTimer;
-import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.ContextMenu;
-import android.widget.FrameLayout;
-import android.widget.Scroller;
-
 import java.util.List;
+
+import androidx.preference.PreferenceManager;
 
 import static java.lang.Math.abs;
 import static net.cyclestreets.util.PermissionsKt.hasPermission;
@@ -53,15 +55,19 @@ public class CycleMapView extends FrameLayout
   private static final String PREFS_APP_ZOOM_LEVEL = "zoomLevel";
   private static final String PREFS_APP_MY_LOCATION = "myLocation";
   private static final String PREFS_APP_FOLLOW_LOCATION = "followLocation";
+  private static final String PREFS_FIND_PLACE_LON = "findPlaceLon";
+  private static final String PREFS_FIND_PLACE_LAT = "findPlaceLat";
 
   private MapView mapView_;
   private ITileSource renderer_;
   private final SharedPreferences prefs_;
   private final ControllerOverlay controllerOverlay_;
   private final LocationOverlay location_;
+  private final FindPlaceOverlay findPlaceOverlay_;
   private final int overlayBottomIndex_;
 
   private IGeoPoint centreOn_ = null;
+  private IGeoPoint foundPlace;
   private boolean paused_ = false;
 
   public CycleMapView(final Context context, final String name) {
@@ -92,6 +98,9 @@ public class CycleMapView extends FrameLayout
 
     controllerOverlay_ = new ControllerOverlay(this);
     getOverlays().add(controllerOverlay_);
+
+    findPlaceOverlay_ = new FindPlaceOverlay(getContext(), this);
+    overlayPushBottom(findPlaceOverlay_);
   }
 
   public Overlay overlayPushBottom(final Overlay overlay) {
@@ -100,7 +109,7 @@ public class CycleMapView extends FrameLayout
   }
 
   public Overlay overlayPushTop(final Overlay overlay) {
-    // keep TapOverlay on top
+    // Puts overlay at second-to-top, always below ControllerOverlay which remains on top
     int front = getOverlays().size()-1;
     getOverlays().add(front, overlay);
     return overlay;
@@ -140,8 +149,23 @@ public class CycleMapView extends FrameLayout
 
     final SharedPreferences.Editor edit = prefs_.edit();
     final IGeoPoint centre = getMapCenter();
+
+    // RouteMapFragment is destroyed by FragmentManager during
+    // MainNavDrawerActivity.onResume, so values need to be saved:
+    if (foundPlace == null) {
+      prefs_.edit().remove(PREFS_FIND_PLACE_LON).apply();
+      prefs_.edit().remove(PREFS_FIND_PLACE_LAT).apply();
+    }
+    else {
+      int fpLon = (int) (foundPlace.getLongitude() * 1E6);
+      int fpLat = (int) (foundPlace.getLatitude() * 1E6);
+      edit.putInt(PREFS_FIND_PLACE_LON, fpLon);
+      edit.putInt(PREFS_FIND_PLACE_LAT, fpLat);
+    }
+
     int lon = (int)(centre.getLongitude() * 1E6);
     int lat = (int)(centre.getLatitude() * 1E6);
+
     edit.putInt(PREFS_APP_CENTRE_LON, lon);
     edit.putInt(PREFS_APP_CENTRE_LAT, lat);
     edit.putInt(PREFS_APP_ZOOM_LEVEL, getZoomLevel());
@@ -174,6 +198,15 @@ public class CycleMapView extends FrameLayout
     location_.enableLocation(locationEnabled);
     if (locationFollow && hasPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION))
       location_.enableAndFollowLocation(true);
+
+    if (prefs_.contains(PREFS_FIND_PLACE_LAT) && prefs_.contains(PREFS_FIND_PLACE_LON)) {
+      int fpLat = pref(PREFS_FIND_PLACE_LAT, 999);  // Default value shouldn't ever be needed
+      int fpLon = pref(PREFS_FIND_PLACE_LON, 999);  // Default value shouldn't ever be needed
+      foundPlace = new GeoPoint(fpLat / 1e6, fpLon / 1e6);
+    }
+    else {
+      foundPlace = null;
+    }
 
     GeoPoint defCentre = CycleMapDefaults.centre();
     int lat = pref(PREFS_APP_CENTRE_LAT, (int)(defCentre.getLatitude() * 1E6));
@@ -227,7 +260,7 @@ public class CycleMapView extends FrameLayout
   public void enableAndFollowLocation() { location_.enableAndFollowLocation(true); }
   public void lockOnLocation() { location_.lockOnLocation(); }
   public void hideLocationButton() { location_.hideButton(); }
-  public void shiftAttributionRight() { controllerOverlay_.setAttributionShiftedRight(); }
+  public void shiftAttribution() { controllerOverlay_.setAttributionShifted(); }
 
   ///////////////////////////////////////////////////////
   public void centreOn(final IGeoPoint place) {
@@ -235,11 +268,20 @@ public class CycleMapView extends FrameLayout
     postInvalidate();
   }
 
-  public void centreOn(final IGeoPoint place, final int minZoomLevel) {
+  public void centreOn(final IGeoPoint place, final int minZoomLevel, final boolean foundPlaceTrue) {
     centreOn(place);
     if (this.getZoomLevel() < minZoomLevel)
       getController().setZoom((double)minZoomLevel);
+    foundPlace = null;
+    if (foundPlaceTrue) {
+      foundPlace = place;
+      location_.disableFollowLocation();
+    }
   }
+
+  public IGeoPoint getFoundPlace() {return foundPlace;}
+
+  public void setFoundPlace(IGeoPoint foundPlaceVal) {foundPlace = foundPlaceVal;}
 
   @Override
   protected void dispatchDraw(final Canvas canvas) {

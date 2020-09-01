@@ -22,10 +22,10 @@ jdk:
 env:
   global:
     # Remember to keep these four values in sync with values in the root build.gradle file
-    - compileSdkVersion=28
+    - compileSdkVersion=29
     - minSdkVersion=23
-    - targetSdkVersion=28
-    - toolsVersion=28.0.3
+    - targetSdkVersion=29
+    - toolsVersion=29.0.3
 
     # For the decryption of secrets needed to sign and publish our artifacts
     - secure: "LipL0wPv0uQrKitaeGxCpoQsx5sl/Pg/DtQv4S7Bi52DxfArgvD2hPB0TWgkgYGJPfENHLEyqg+H+/v2nON3IXY+cnsd+TW+P1T03/52D56ieSKGVtVtSYUOZUgoyxIIvRZWFh/UNg+AmZIjOCTJDLitBTUxD8kWux8NjhIqZow="

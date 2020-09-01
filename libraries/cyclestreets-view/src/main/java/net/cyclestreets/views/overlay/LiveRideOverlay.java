@@ -30,14 +30,14 @@ public class LiveRideOverlay extends Overlay
   private final Locator locator_;
   private final int offset_;
   private final float radius_;
-  private final Paint largeTextBrush_;
   private final Paint midTextBrush_;
   private final Paint smallTextBrush_;
   private final Paint fillBrush_;
-  private final int speedWidth_;
-  private final int kmWidth_;
-  private final int lineHeight_;
+
   private final DistanceFormatter formatter_;
+  private Integer distanceUntilTurn;
+
+  private LiveRideJourney liveRideJourney;
 
   public LiveRideOverlay(final Activity context, final Locator locator) {
     super();
@@ -45,9 +45,7 @@ public class LiveRideOverlay extends Overlay
     locator_ = locator;
     offset_ = DrawingHelperKt.offset(context);
     radius_ = DrawingHelperKt.cornerRadius();
-    largeTextBrush_ = Brush.createTextBrush(offset_*4);
-    largeTextBrush_.setTextAlign(Align.LEFT);
-    midTextBrush_ = Brush.createTextBrush(offset_*2);
+    midTextBrush_ = Brush.createTextBrush((int)(offset_ * 2));
     midTextBrush_.setTextAlign(Align.LEFT);
     smallTextBrush_ = Brush.createTextBrush(offset_);
     smallTextBrush_.setTextAlign(Align.LEFT);
@@ -55,12 +53,12 @@ public class LiveRideOverlay extends Overlay
 
     formatter_ = DistanceFormatter.formatter(CycleStreetsPreferences.units());
 
-    speedWidth_ = (int)largeTextBrush_.measureText("0.0");
-    kmWidth_ = (int)midTextBrush_.measureText(formatter_.speedUnit());
-
     final Rect bounds = new Rect();
-    largeTextBrush_.getTextBounds("0.0", 0, 3, bounds); // Measure the text
-    lineHeight_ = bounds.height();
+
+    smallTextBrush_.getTextBounds("0.0", 0, 3, bounds);
+
+    liveRideJourney = new LiveRideJourney(context);
+
   }
 
   @Override
@@ -70,9 +68,12 @@ public class LiveRideOverlay extends Overlay
     canvas.save();
     canvas.concat(unscaled);
 
+    final Location location = lastLocation();
+
     try {
+      distanceUntilTurn = distanceUntilTurn(location);
       drawNextTurn(canvas);
-      drawSpeed(canvas);
+      liveRideJourney.drawJourneyInfo(canvas, distanceUntilTurn, location);
     } catch (Exception e) {
     }
 
@@ -97,11 +98,16 @@ public class LiveRideOverlay extends Overlay
     if (Route.journey().atStart())
       return;
 
-    final String distanceTo = distanceUntilTurn();
+    final String distanceTo;
+    if (distanceUntilTurn == null)
+      distanceTo = "";
+    else
+      distanceTo = formatter_.distance(distanceUntilTurn);
+
     final String nextStreet = nextSeg.street();
 
     final Rect distanceToBox = canvas.getClipBounds();
-    distanceToBox.left = box.right + (offset_*2);
+    distanceToBox.left = box.right + (offset_ * 2);
     distanceToBox.bottom = distanceToBox.top + offset_;
     int bottom = Draw.measureTextInRect(canvas, midTextBrush_, distanceToBox, distanceTo);
     distanceToBox.bottom = bottom + offset_;
@@ -131,25 +137,6 @@ public class LiveRideOverlay extends Overlay
     box.bottom -= offset_;
   }
 
-  private void drawSpeed(final Canvas canvas) {
-    final String speed = speed();
-
-    final int fullWidth_ = speedWidth_ + kmWidth_;
-
-    final Rect box = canvas.getClipBounds();
-    box.right = box.left + fullWidth_ + (offset_*2);
-    box.top = box.bottom - (lineHeight_ + offset_*2);
-
-    DrawingHelperKt.drawRoundRect(canvas, box, radius_, fillBrush_);
-
-    box.left += offset_;
-    box.bottom -= offset_;
-
-    canvas.drawText(speed, box.left, box.bottom, largeTextBrush_);
-    box.left += speedWidth_;
-    canvas.drawText(formatter_.speedUnit(), box.left, box.bottom, midTextBrush_);
-  }
-
   private Location lastLocation() {
     if (!Route.routeAvailable())
       return null;
@@ -164,23 +151,16 @@ public class LiveRideOverlay extends Overlay
     return location;
   }
 
-  private String speed() {
-    final Location location = lastLocation();
-    if (location == null)
-      return "0.0";
+  private Integer distanceUntilTurn(Location location) {
 
-    return formatter_.speed(location.getSpeed());
+    if (location != null) {
+      // Get distance to end of active segment
+      final Segment activeSeg = Route.journey().activeSegment();
+      final GeoPoint whereIAm = new GeoPoint(location);
+      if (activeSeg != null)
+        return activeSeg.distanceFromEnd(whereIAm);
+    }
+    return null;
   }
 
-  private String distanceUntilTurn() {
-    final Location location = lastLocation();
-    if (location == null)
-      return "";
-
-    final GeoPoint whereIam = new GeoPoint(location);
-    final Segment activeSeg = Route.journey().activeSegment();
-    final int fromEnd = activeSeg.distanceFromEnd(whereIam);
-
-    return formatter_.distance(fromEnd);
-  }
 }

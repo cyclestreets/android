@@ -60,6 +60,8 @@
   <string name="report_continue_without_photo_button">Continua senza foto</string>
   <string name="report_location_hint">Dove è la località descritta nel rapporto?</string>
 
+  <string name="tap_here">Più dettagli...</string>
+
   <string name="tiles_map_pack_out_of_date">Questo pacchetto mappe non può essere usato con questa versione dell\'app. \n\nVuoi cercare un aggiornamento?</string>
 
   <string name="placeview_menu">Menu</string>
@@ -110,5 +112,10 @@
   <string name="location_menu_off">Disattiva Posizionamento</string>
   <string name="photo_not_geolocatable_hint">Non abbiamo potuto geolocalizzare la foto. Per localizzare le foto in automatico, attiva la geolocalizzazione nelle impostazioni della tua fotocamera.</string>
   <string name="report_title">Il tuo rapporto</string>
+
+  <string name="show_remaining_time">Mostrare il tempo rimanente</string>
+  <string name="show_ETA">Mostrare l\'orario di arrivo previsto</string>
+  <string name="remaining">Rimanente</string>
+  <string name="slash_ETA">/ Arrivo</string>
 
 </resources>

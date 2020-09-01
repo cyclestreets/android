@@ -63,6 +63,8 @@
   <string name="report_title">Dein Bericht</string>
   <string name="report_location_hint">Wo ist der Ort, den dein Bericht beschreibt?</string>
 
+  <string name="tap_here">Weitere Details ...</string>
+
   <string name="tiles_map_pack_out_of_date">Das Kartenpaket kann nicht mit dieser Version der App genutzt werden. \n\nMöchtest du nach einem Update suchen?</string>
 
   <string name="placeview_menu">Menü</string>
@@ -112,5 +114,10 @@
   <string name="account_clear_details_confirm">Bist du sicher, dass du die gespeicherten Account-Details löschen willst?</string>
   <string name="account_pending">Du hast bereits einen registrierten Account. Bitte schaue in deinem Posteingang nach der Verifikationsmail.</string>
   <string name="account_registration_is_free_long">Die Registrierung ist kostenlos und nur registrierte Nutzer können Fotos hinzufügen. Um den Regstrierungsprozess zu starten, gib deine Details unten ein.</string>
+
+  <string name="show_remaining_time">Verbleibende Zeit anzeigen</string>
+  <string name="show_ETA">Geschätzte Ankunftszeit anzeigen</string>
+  <string name="remaining">Verbleibende</string>
+  <string name="slash_ETA">/ Ankunft</string>
 
 </resources>

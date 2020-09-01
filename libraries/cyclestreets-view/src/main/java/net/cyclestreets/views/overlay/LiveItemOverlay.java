@@ -33,6 +33,7 @@ public abstract class LiveItemOverlay<T extends OverlayItem>
   private final int offset_;
   private final float radius_;
   private final Paint textBrush_;
+  private final Paint urlBrush_;
   private final boolean showLoading_;
 
   private static final String LOADING = "Loading ...";
@@ -51,16 +52,18 @@ public abstract class LiveItemOverlay<T extends OverlayItem>
     offset_ = DrawingHelperKt.offset(context);
     radius_ = DrawingHelperKt.cornerRadius();
     textBrush_ = Brush.createTextBrush(offset_);
+    urlBrush_ = Brush.createUrlBrush(offset_);
 
     mapView_.setMapListener(new DelayedMapListener(this));
   }
 
   protected Paint textBrush() { return textBrush_; }
+  protected Paint urlBrush() { return urlBrush_; }
   protected int offset() { return offset_; }
   protected float cornerRadius() { return radius_; }
 
   protected void centreOn(IGeoPoint geoPoint) {
-    mapView_.centreOn(geoPoint, ITEM_ZOOM_LEVEL);
+    mapView_.centreOn(geoPoint, ITEM_ZOOM_LEVEL, false);
   }
 
   @Override

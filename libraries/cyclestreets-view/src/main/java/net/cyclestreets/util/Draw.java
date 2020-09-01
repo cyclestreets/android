@@ -10,32 +10,53 @@ import android.graphics.Paint.FontMetricsInt;
 
 public class Draw
 {
+  public static int titleSectionY;
+
   public static Rect drawBubble(final Canvas canvas,
-                                final Paint brush,
+                                final Paint textBrush,
+                                final Paint urlBrush,
                                 final int offset,
                                 final float cornerRadius,
                                 final Point pos,
-                                final String text) {
+                                final String text,
+                                final String url,
+                                final String title) {
     final String[] lines = text.split("\n");
+
     Rect bounds = new Rect();
 
     for (final String line : lines) {
-      final Rect lineBounds = new Rect();
-      brush.getTextBounds(line, 0, line.length(), lineBounds);
-      if (lineBounds.width() > bounds.width())
-        bounds = lineBounds;
+        bounds = getWidestLine(textBrush, bounds, line);
     }
+    if ((!url.isEmpty()) && (!title.isEmpty()))
+      bounds = getWidestLine(urlBrush, bounds, title);
 
-    final FontMetricsInt fm = brush.getFontMetricsInt();
+    final FontMetricsInt fm = textBrush.getFontMetricsInt();
 
     int doubleOffset = (offset * 2);
     int width = bounds.width() + doubleOffset;
     int lineHeight = -fm.ascent + fm.descent;
-    int boxHeight = (lineHeight * lines.length) + doubleOffset - fm.descent;
+    int boxHeight;
+    FontMetricsInt fmUrl = null;
+    int ascent;
+
+    if (!url.isEmpty()) {
+      fmUrl = urlBrush.getFontMetricsInt();
+      ascent = fmUrl.ascent;
+      int urlLineHeight = -ascent + fmUrl.descent;
+      // add .descent so there is space to make link stand out a little
+      boxHeight = urlLineHeight + lineHeight * (lines.length - 1) + doubleOffset + fmUrl.descent;
+    }
+    else {
+      ascent = fm.ascent;
+      boxHeight = (lineHeight * lines.length) + doubleOffset;
+    }
 
     bounds.left = pos.x - (width/2);
     bounds.right = bounds.left + width;
+    // Subtract to go UP
     bounds.top = pos.y - (boxHeight + (doubleOffset * 2));
+    // Add to go DOWN
     bounds.bottom = bounds.top + boxHeight;
 
     // draw the balloon
@@ -43,10 +64,22 @@ public class Draw
     canvas.drawRoundRect(new RectF(bounds), cornerRadius, cornerRadius, Brush.BlackOutline);
 
     // put the words in
-    int lineY = bounds.top + (-fm.ascent + offset);
-    for (final String line : lines) {
-      canvas.drawText(line, bounds.centerX(), lineY, brush);
-      lineY += lineHeight;
+    int lineY;
+    // Remember ascent is -ve... and we are now going down...
+    lineY = bounds.top + (-ascent + offset);
+    titleSectionY = bounds.top;
+
+    for (String line : lines) {
+      if (!url.isEmpty() && line.contains(title)) {
+        canvas.drawText(line, bounds.centerX(), lineY, urlBrush);
+        titleSectionY = lineY;
+        // .descent gives a little extra space so link stands out more
+        lineY += fmUrl.descent + lineHeight;
+      }
+      else {
+        canvas.drawText(line, bounds.centerX(), lineY, textBrush);
+        lineY += lineHeight;
+      }
     }
 
     // draw the little triangle
@@ -61,6 +94,14 @@ public class Draw
     canvas.drawLine(pos.x, pos.y - offset, pos.x + offset, bounds.bottom, Brush.BlackOutline);
     canvas.drawLine(pos.x - offset, bounds.bottom, pos.x + offset, bounds.bottom, Brush.Grey);
 
+    return bounds;
+  }
+
+  private static Rect getWidestLine(final Paint brush, Rect bounds, String line) {
+    final Rect lineBounds = new Rect();
+    brush.getTextBounds(line, 0, line.length(), lineBounds);
+    if (lineBounds.width() > bounds.width())
+      return lineBounds;
     return bounds;
   }
 

@@ -15,7 +15,8 @@
       <TextView
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="@string/feedback_your_comments" />
+        android:text="@string/feedback_your_comments"
+        android:labelFor="@id/comments" />
       <EditText
         android:id="@+id/comments"
         android:lines="8"
@@ -25,25 +26,30 @@
         android:layout_height="wrap_content"
         android:layout_width="fill_parent"
         android:scrollbars="none"
-        android:inputType="textCapSentences|textMultiLine" />
+        android:inputType="textCapSentences|textMultiLine"
+        android:importantForAutofill="no" />
       <TextView
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="@string/all_your_name" />
+        android:text="@string/all_your_name"
+        android:labelFor="@id/name" />
       <EditText
         android:id="@+id/name"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:inputType="textPersonName|textCapWords" />
+        android:inputType="textPersonName|textCapWords"
+        android:autofillHints="name" />
       <TextView
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="@string/all_your_email" />
+        android:text="@string/all_your_email"
+        android:labelFor="@id/email" />
       <EditText
         android:id="@+id/email"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:inputType="textEmailAddress" />
+        android:inputType="textEmailAddress"
+        android:autofillHints="emailAddress" />
     </LinearLayout>
   </ScrollView>
   <LinearLayout

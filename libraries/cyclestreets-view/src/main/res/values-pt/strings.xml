@@ -63,6 +63,8 @@
   <string name="report_title">Seu relatório</string>
   <string name="report_location_hint">Qual a localização descrita no seu relatório?</string>
 
+  <string name="tap_here">Mais detalhes...</string>
+
   <string name="tiles_map_pack_out_of_date">Este mapa não pode ser utilizado com esta versão do aplicativo. \n\nGostaria de procurar por uma atualização?</string>
 
   <string name="placeview_menu">Menu</string>
@@ -111,5 +113,10 @@
   <string name="account_pending">Você já tem uma conta registrada. Favor verificar sua caixa de emails para um email de confimação. </string>
   <string name="account_registration_is_free_long">O cadastro é gratúito, e usuários registrados podem adicionar fotos. Para iniciar um cadastro digite seus dados no formulário abaixo.</string>
   <string name="placeview_contacts">Contatos</string>
+
+  <string name="show_remaining_time">Mostrar tempo restante</string>
+  <string name="show_ETA">Mostrar hora prevista de chegada</string>
+  <string name="remaining">Restante</string>
+  <string name="slash_ETA">/ Chegada</string>
 
 </resources>

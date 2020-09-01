@@ -63,6 +63,8 @@
   <string name="report_title">Raporunuz</string>
   <string name="report_location_hint">Neredeki konumda raporu taımladın?</string>
 
+  <string name="tap_here">More details...</string>
+
   <string name="tiles_map_pack_out_of_date">Bu harita paketi uygulamasının bu sürümü kullanılamaz.\n\nBir güncelleme aramak ister misiniz?</string>
 
   <string name="placeview_menu">Menu</string>
@@ -110,5 +112,10 @@
   <string name="account_clear_details_confirm">Kayıtlı hesap detaylarını silmek istediğine emin misin?</string>
   <string name="account_pending">Zaten kayıtlı hesabınız mevcut.  Lütfen email doğrulamanızı kontrol edin.</string>
   <string name="account_registration_is_free_long">Kayıt ücretsizdir ve kayıtlı kullanıcılar fotoğraf ekleyebilirsiniz. Kayıt işlemi aşağıdaki forma bilgilerinizi girin başlatın.</string>
+
+  <string name="show_remaining_time">Show remaining time</string>
+  <string name="show_ETA">Show estimated time of arrival</string>
+  <string name="remaining">Remaining</string>
+  <string name="slash_ETA">/ ETA</string>
 
 </resources>

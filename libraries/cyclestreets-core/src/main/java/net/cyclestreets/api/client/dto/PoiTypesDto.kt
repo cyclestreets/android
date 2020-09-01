@@ -45,9 +45,12 @@ class PoiTypesDto {
 private fun poiIcon(context: Context, id: String): Drawable {
     val key = "poi_${id}"
     val res = context.resources
-    val resPackage = res.getResourcePackageName(R.drawable.poi_bedsforcyclists)
+    val resPackage = res.getResourcePackageName(defaultResId)
 
     val resId = res.getIdentifier(key, "drawable", resPackage)
+    val resIdOrDefault = if (resId != 0) resId else defaultResId
 
-    return ResourcesCompat.getDrawable(res, resId, null)!!
+    return ResourcesCompat.getDrawable(res, resIdOrDefault, null)!!
 }
+
+private val defaultResId = R.drawable.poi_attractions

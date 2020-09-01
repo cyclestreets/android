@@ -4,11 +4,9 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.net.ConnectivityManager;
-import android.net.Network;
 import android.net.NetworkCapabilities;
-import android.net.NetworkInfo;
 import android.os.Build;
-import android.preference.PreferenceManager;
+import androidx.preference.PreferenceManager;
 import android.telephony.TelephonyManager;
 
 public class CycleStreetsPreferences
@@ -36,6 +34,9 @@ public class CycleStreetsPreferences
   public final static String PREF_NEARING_TURN = "nearing-turn-distance";
   public final static String PREF_OFFTRACK_DISTANCE = "offtrack-distance";
   public final static String PREF_REPLAN_DISTANCE = "replan-distance";
+
+  public final static String PREF_SHOW_REMAINING_TIME = "show-remaining-time";
+  public final static String PREF_SHOW_ETA = "show-ETA";
 
   public final static String MAPSTYLE_OCM = "CycleStreets";
   public final static String MAPSTYLE_OSM = "CycleStreets-OSM";
@@ -135,6 +136,14 @@ public class CycleStreetsPreferences
 
   public static int replanDistance() {
     return Integer.parseInt(getString(PREF_REPLAN_DISTANCE, "50"));
+  }
+
+  public static boolean showRemainingTime() {
+    return getBoolean(PREF_SHOW_REMAINING_TIME, true);
+  }
+
+  public static boolean showEta() {
+    return getBoolean(PREF_SHOW_ETA, true);
   }
 
   public static boolean uploadSmallImages() {

@@ -63,6 +63,8 @@
   <string name="report_title">Tu informe</string>
   <string name="report_location_hint">¿Donde está la localización que describe tu informe?</string>
 
+  <string name="tap_here">Más detalles...</string>
+
   <string name="tiles_map_pack_out_of_date">Este paquete de mapas no puede ser usado con esta versión de la aplicación. ¿Quieres comprobar si existe una actualización?</string>
 
   <string name="placeview_menu">Menú</string>
@@ -111,5 +113,10 @@
   <string name="account_clear_details_confirm">¿Estás seguro de que quieres limpiar los detalles de cuenta almacenados?</string>
   <string name="account_pending">Ya tienes una cuenta registrada. Por favor comprueba tu email en busca del email de confirmación.</string>
   <string name="account_registration_is_free_long">El registro es gratis y los usuarios registrados pueden añadir fotos. Para comenzar el registro por favor introduce tus detalles en el siguiente formulario.</string>
+
+  <string name="show_remaining_time">Mostrar tiempo restante</string>
+  <string name="show_ETA">Mostrar hora estimada de llegada</string>
+  <string name="remaining">Restante</string>
+  <string name="slash_ETA">/ Llegada</string>
 
 </resources>

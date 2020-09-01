@@ -4,8 +4,8 @@ import android.Manifest
 import android.content.pm.PackageManager
 import android.graphics.drawable.Drawable
 import android.os.Bundle
-import android.preference.PreferenceManager
 import androidx.fragment.app.Fragment
+import androidx.preference.PreferenceManager
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.Menu
@@ -147,7 +147,7 @@ open class CycleMapFragment : Fragment(), Undoable {
 
     private fun launchFindDialog() {
         FindPlace.launch(requireContext(), map!!.boundingBox) { place ->
-            map!!.centreOn(place, FINDPLACE_ZOOM_LEVEL)
+            map!!.centreOn(place, FINDPLACE_ZOOM_LEVEL, true)
         }
     }
 

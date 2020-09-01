@@ -30,21 +30,25 @@
       <TextView
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="@string/all_your_name" />
+        android:text="@string/all_your_name"
+        android:labelFor="@id/name" />
       <EditText
         android:id="@+id/name"
         android:layout_height="wrap_content"
         android:layout_width="fill_parent"
-        android:inputType="textCapWords|textPersonName" />
+        android:inputType="textCapWords|textPersonName"
+        android:autofillHints="name" />
       <TextView
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="@string/all_your_email" />
+        android:text="@string/all_your_email"
+        android:labelFor="@id/email" />
       <EditText
         android:id="@+id/email"
         android:layout_height="wrap_content"
         android:layout_width="fill_parent"
-        android:inputType="textEmailAddress" />
+        android:inputType="textEmailAddress"
+        android:autofillHints="emailAddress" />
       <TextView
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
@@ -52,30 +56,36 @@
       <TextView
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="@string/account_desired_username" />
+        android:text="@string/account_desired_username"
+        android:labelFor="@id/username" />
       <EditText
         android:id="@+id/username"
         android:layout_height="wrap_content"
         android:layout_width="fill_parent"
-        android:inputType="text" />
+        android:inputType="text"
+        android:autofillHints="username" />
       <TextView
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="@string/account_desired_password" />
+        android:text="@string/account_desired_password"
+        android:labelFor="@id/password" />
       <EditText
         android:id="@+id/password"
         android:layout_height="wrap_content"
         android:layout_width="fill_parent"
-        android:inputType="textPassword" />
+        android:inputType="textPassword"
+        android:importantForAutofill="no" />
       <TextView
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="@string/account_confirm_password" />
+        android:text="@string/account_confirm_password"
+        android:labelFor="@id/confirm_password" />
       <EditText
         android:id="@+id/confirm_password"
         android:layout_height="wrap_content"
         android:layout_width="fill_parent"
-        android:inputType="textPassword" />
+        android:inputType="textPassword"
+        android:importantForAutofill="no" />
     </LinearLayout>
   </ScrollView>
   <LinearLayout
