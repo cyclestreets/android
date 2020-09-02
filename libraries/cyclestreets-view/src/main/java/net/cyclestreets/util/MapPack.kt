@@ -18,9 +18,9 @@ class MapPack private constructor(
 ) {
     val id get() = vectorMap.id
     val title get() = "${vectorMap.name}${if(downloaded) "" else " (Needs download)"}"
-    val path = File(context.getExternalFilesDir(null), vectorMap.id).absolutePath
+    val path = File(context.getExternalFilesDir(null), "${vectorMap.id}.map").absolutePath
     val current get() = false
-    val downloaded get() = false
+    val downloaded get() = File(path).exists()
 
     private class CycleStreetsMapFilter : FilenameFilter {
         override fun accept(dir: File, name: String): Boolean {
