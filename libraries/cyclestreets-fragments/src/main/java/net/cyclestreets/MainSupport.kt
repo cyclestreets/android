@@ -16,13 +16,6 @@ private val TAG = Logging.getTag(MainSupport::class.java)
 
 object MainSupport {
 
-    fun switchMapFile(intent: Intent, context: Context): Boolean {
-        val mapPackage = intent.getStringExtra("mapfile") ?: return false
-        val pack = MapPack.findByPackage(context, mapPackage) ?: return false
-        CycleStreetsPreferences.enableMapFile(pack.path)
-        return true
-    }
-
     fun handleLaunchIntent(intent: Intent, activity: Activity): Boolean {
         val launchUri = intent.data ?: return false
         Log.d(TAG, "Handling launch intent with URI: $launchUri")
