@@ -14,9 +14,10 @@ import java.util.*
 class MapPack private constructor(
         private val vectorMap: VectorMap
 ) {
-    val name get() = vectorMap.name
+    val name get() = "${vectorMap.name}${if(downloaded) "" else " (Needs download)"}"
     val path get() = "none"
     val current get() = false
+    val downloaded get() = false
 
     private class CycleStreetsMapFilter : FilenameFilter {
         override fun accept(dir: File, name: String): Boolean {
