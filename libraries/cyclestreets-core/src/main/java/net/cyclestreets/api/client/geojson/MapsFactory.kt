@@ -1,6 +1,6 @@
 package net.cyclestreets.api.client.geojson
 
-import net.cyclestreets.api.Map
+import net.cyclestreets.api.VectorMap
 import net.cyclestreets.api.Maps
 import net.cyclestreets.api.client.geojson.AbstractObjectFactory.propertyOrDefault
 import org.geojson.Feature
@@ -16,8 +16,8 @@ class MapsFactory {
             )
         }
 
-        private fun toMap(feature: Feature): Map {
-            return Map(
+        private fun toMap(feature: Feature): VectorMap {
+            return VectorMap(
                     feature.getProperty("id"),
                     feature.getProperty("name"),
                     feature.getProperty("url"),
@@ -25,7 +25,7 @@ class MapsFactory {
             )
         }
 
-        private fun isBritainOrIreland(m: Map): Boolean {
+        private fun isBritainOrIreland(m: VectorMap): Boolean {
             return isBritainOrIreland(m.id)
         }
         private fun isBritainOrIreland(p: String): Boolean {

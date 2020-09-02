@@ -1,6 +1,6 @@
 package net.cyclestreets.api
 
-data class Map(
+data class VectorMap(
         val id: String,
         val name: String,
         val url: String,

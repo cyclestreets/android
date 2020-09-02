@@ -3,8 +3,8 @@ package net.cyclestreets.api
 import android.os.AsyncTask
 
 class Maps(
-        private val packs: Collection<Map>
-): Iterable<Map> {
+        private val packs: Collection<VectorMap>
+): Iterable<VectorMap> {
     val size get() = packs.size
     override operator fun iterator() = packs.iterator()
 

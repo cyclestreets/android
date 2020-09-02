@@ -4,7 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import net.cyclestreets.api.Maps
-import net.cyclestreets.api.Map
+import net.cyclestreets.api.VectorMap
 import java.io.File
 import java.io.FileInputStream
 import java.io.FilenameFilter
@@ -12,9 +12,9 @@ import java.io.IOException
 import java.util.*
 
 class MapPack private constructor(
-        private val map: Map
+        private val vectorMap: VectorMap
 ) {
-    val name get() = map.name
+    val name get() = vectorMap.name
     val path get() = "none"
     val current get() = false
 
