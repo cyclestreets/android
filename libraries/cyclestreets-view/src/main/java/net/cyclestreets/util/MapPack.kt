@@ -14,7 +14,8 @@ import java.util.*
 class MapPack private constructor(
         private val vectorMap: VectorMap
 ) {
-    val name get() = "${vectorMap.name}${if(downloaded) "" else " (Needs download)"}"
+    val id get() = vectorMap.id
+    val title get() = "${vectorMap.name}${if(downloaded) "" else " (Needs download)"}"
     val path get() = "none"
     val current get() = false
     val downloaded get() = false
