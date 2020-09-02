@@ -3,6 +3,7 @@ package net.cyclestreets.util
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import android.os.Environment
 import net.cyclestreets.api.Maps
 import net.cyclestreets.api.VectorMap
 import java.io.File
@@ -12,11 +13,12 @@ import java.io.IOException
 import java.util.*
 
 class MapPack private constructor(
-        private val vectorMap: VectorMap
+        private val vectorMap: VectorMap,
+        context: Context
 ) {
     val id get() = vectorMap.id
     val title get() = "${vectorMap.name}${if(downloaded) "" else " (Needs download)"}"
-    val path get() = "none"
+    val path = File(context.getExternalFilesDir(null), vectorMap.id).absolutePath
     val current get() = false
     val downloaded get() = false
 
@@ -34,14 +36,14 @@ class MapPack private constructor(
             context.startActivity(play)
         }
 
-        fun availableMapPacks(context: Context?): List<MapPack> {
+        fun availableMapPacks(context: Context): List<MapPack> {
             val maps = Maps.get() ?: return emptyList()
 
-            return maps.map {m -> MapPack(m) }
+            return maps.map {m -> MapPack(m, context) }
         }
 
         @JvmStatic
-        fun findByPackage(context: Context?, packageName: String?): MapPack? {
+        fun findByPackage(context: Context, packageName: String?): MapPack? {
             for (pack in availableMapPacks(context)) if (pack.path.contains(packageName!!)) return pack
             return null
         }
