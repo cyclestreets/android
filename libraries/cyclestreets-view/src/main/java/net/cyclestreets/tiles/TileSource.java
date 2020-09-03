@@ -52,17 +52,10 @@ public class TileSource {
 
       if (renderer instanceof MapsforgeOSMTileSource) {
         final String mapFile = CycleStreetsPreferences.mapfile();
-        final MapPack pack = MapPack.findByPackage(context, mapFile);
-        if (pack.getCurrent())
+        final MapPack pack = MapPack.findById(context, mapFile);
+        if (pack != null && pack.getCurrent())
           ((MapsforgeOSMTileSource)renderer).setMapFile(mapFile);
         else {
-          MessageBox.YesNo(context,
-              R.string.tiles_map_pack_out_of_date,
-              new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface arg0, int arg1) {
-                  MapPack.searchGooglePlay(context);
-                }
-              });
           CycleStreetsPreferences.resetMapstyle();
           return source(DEFAULT_RENDERER).renderer();
         }

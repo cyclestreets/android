@@ -43,9 +43,8 @@ class MapPack private constructor(
         }
 
         @JvmStatic
-        fun findByPackage(context: Context, packageName: String?): MapPack? {
-            for (pack in availableMapPacks(context)) if (pack.path.contains(packageName!!)) return pack
-            return null
+        fun findById(context: Context, packId: String): MapPack? {
+            return availableMapPacks(context).find { it.id == packId }
         }
 
         private fun findMapFile(mapDir: File, prefix: String): File? {
