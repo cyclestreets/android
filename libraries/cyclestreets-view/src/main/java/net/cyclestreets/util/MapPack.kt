@@ -28,7 +28,7 @@ class MapPack private constructor(
         )
         request.setTitle("${vectorMap.name} Map Pack")
         request.setAllowedNetworkTypes(DownloadManager.Request.NETWORK_WIFI or DownloadManager.Request.NETWORK_MOBILE)
-        request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
+        request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE)
         request.setDestinationInExternalFilesDir(context, null, "${vectorMap.id}.map")
 
         dm.enqueue(request)
