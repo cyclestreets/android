@@ -34,20 +34,7 @@ class MapPack private constructor(
         dm.enqueue(request)
     } // download
 
-    private class CycleStreetsMapFilter : FilenameFilter {
-        override fun accept(dir: File, name: String): Boolean {
-            return name.contains("net.cyclestreets.maps")
-        }
-    }
-
     companion object {
-        @JvmStatic
-        fun searchGooglePlay(context: Context) {
-            val play = Intent(Intent.ACTION_VIEW)
-            play.data = Uri.parse("market://search?q=net.cyclestreets")
-            context.startActivity(play)
-        }
-
         fun availableMapPacks(context: Context): List<MapPack> {
             val maps = Maps.get() ?: return emptyList()
 
@@ -57,22 +44,6 @@ class MapPack private constructor(
         @JvmStatic
         fun findById(context: Context, packId: String): MapPack? {
             return availableMapPacks(context).find { it.id == packId }
-        }
-
-        private fun findMapFile(mapDir: File, prefix: String): File? {
-            for (c in mapDir.listFiles()) if (c.name.startsWith(prefix)) return c
-            return null
-        }
-
-        private fun mapProperties(mapDir: File): Properties {
-            val details = Properties()
-            try {
-                val detailsFile = findMapFile(mapDir, "patch.")
-                details.load(FileInputStream(detailsFile))
-            } catch (e: IOException) {
-            } catch (e: RuntimeException) {
-            }
-            return details
         }
     }
 }

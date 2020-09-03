@@ -184,7 +184,6 @@ class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedP
 
         if (mapfilePref.entryValues.isEmpty()) {
             mapfilePref.isEnabled = false
-            MessageBox.YesNo(requireView(), R.string.settings_no_map_packs) { _, _ -> MapPack.searchGooglePlay(requireContext()) }
             return
         }
 
