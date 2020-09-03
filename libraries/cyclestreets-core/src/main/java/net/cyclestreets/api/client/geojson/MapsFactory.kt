@@ -21,7 +21,9 @@ class MapsFactory {
                     feature.getProperty("id"),
                     feature.getProperty("name"),
                     feature.getProperty("url"),
-                    propertyOrDefault(feature, "parent", "")
+                    propertyOrDefault(feature, "parent", ""),
+                    propertyOrDefault(feature, "size", ""),
+                    propertyOrDefault(feature, "lastModified", ""),
             )
         }
 
