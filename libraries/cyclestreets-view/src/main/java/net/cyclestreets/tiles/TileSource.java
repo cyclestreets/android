@@ -51,12 +51,17 @@ public class TileSource {
       final ITileSource renderer = source.renderer();
 
       if (renderer instanceof MapsforgeOSMTileSource) {
-        final String mapFile = CycleStreetsPreferences.mapfile();
-        final MapPack pack = MapPack.findById(context, mapFile);
-        if (pack != null && pack.getCurrent())
-          ((MapsforgeOSMTileSource)renderer).setMapFile(mapFile);
-        else {
+        final String mapId = CycleStreetsPreferences.mapfile();
+        final MapPack pack = MapPack.findById(context, mapId);
+        if (pack == null) {
           CycleStreetsPreferences.resetMapstyle();
+          return source(DEFAULT_RENDERER).renderer();
+        }
+
+        if (pack.getDownloaded())
+          ((MapsforgeOSMTileSource)renderer).setMapFile(pack.getPath());
+        else {
+          pack.download(context);
           return source(DEFAULT_RENDERER).renderer();
         }
       }
