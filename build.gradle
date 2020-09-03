@@ -33,7 +33,7 @@ ext {
   buildToolsVersion='29.0.3'
 
   // centrally manage some other dependencies
-  mapsforgeVersion = '0.13.0'
+  mapsforgeVersion = '0.14.0'
   osmdroidVersion = '6.1.6'
 
   // test dependencies
