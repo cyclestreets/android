@@ -197,7 +197,6 @@ public class TileSource {
     addTileSource("OpenCycleMap (shows hills)", OPENCYCLEMAP);
     addTileSource("OpenStreetMap default style", OPENSTREETMAP);
     addTileSource("Ordnance Survey OpenData", OSMAP);
-    addTileSource("Offline Vector Maps", MAPSFORGE);
 
     builtInsAdded_ = true;
   }
