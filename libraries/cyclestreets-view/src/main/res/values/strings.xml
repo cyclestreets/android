@@ -136,6 +136,11 @@
     <li>&nbsp; centre the map on your location</li>
     <li>&nbsp; give turn-by-turn navigation directions (the LiveRide feature)</li>
   ]]></string>
+  <string name="perm_justification_access_background_location" translatable="false"><![CDATA[
+    <li>&nbsp; allow voice navigation when screen locked.</li>
+    <p>Select &ldquo;Allow in settings&rdquo;, then &ldquo;Allow all the time&rdquo; if you wish to use this.</p>
+    <p> Otherwise, select Keep &ldquo;While the app is in use&rdquo or &ldquo;Only this time&rdquo to continue using LiveRide.</p>
+  ]]></string>
   <string name="perm_justification_read_contacts" translatable="false"><![CDATA[
     <li>&nbsp; allow you to find the addresses of your contacts on the map, and create routes to these locations</li>
   ]]></string>

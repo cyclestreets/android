@@ -1,11 +1,6 @@
 package net.cyclestreets
 
 import android.Manifest
-import net.cyclestreets.liveride.LiveRideService
-import net.cyclestreets.util.GPS
-import net.cyclestreets.util.MessageBox
-import net.cyclestreets.views.CycleMapView
-
 import android.app.Activity
 import android.content.ComponentName
 import android.content.Context
@@ -16,9 +11,9 @@ import android.os.Bundle
 import android.os.IBinder
 import android.util.Log
 import android.widget.RelativeLayout
-
-import net.cyclestreets.util.Logging
-import net.cyclestreets.util.hasPermission
+import net.cyclestreets.liveride.LiveRideService
+import net.cyclestreets.util.*
+import net.cyclestreets.views.CycleMapView
 import net.cyclestreets.views.overlay.*
 
 
@@ -43,6 +38,13 @@ class LiveRideActivity : Activity(), ServiceConnection, LiveRideOverlay.Locator 
     }
 
     public override fun onCreate(savedInstanceState: Bundle?) {
+        // todo check API level 28/9 or higher?
+        try {
+            doOrRequestPermission(this, Manifest.permission.ACCESS_BACKGROUND_LOCATION) {}
+        } catch (e: Exception) {
+            Log.d(TAG, "Error while requesting permission for background location ", e)
+        }
+
         super.onCreate(savedInstanceState)
 
         val intent = Intent(this, LiveRideService::class.java)

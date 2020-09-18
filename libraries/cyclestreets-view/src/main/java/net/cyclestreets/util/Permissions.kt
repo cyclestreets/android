@@ -81,6 +81,7 @@ private object Permissions {
         Manifest.permission.READ_EXTERNAL_STORAGE to R.string.perm_justification_read_external_storage,
         Manifest.permission.WRITE_EXTERNAL_STORAGE to R.string.perm_justification_write_external_storage,
         Manifest.permission.ACCESS_FINE_LOCATION to R.string.perm_justification_access_fine_location,
+        Manifest.permission.ACCESS_BACKGROUND_LOCATION to R.string.perm_justification_access_background_location,
         Manifest.permission.READ_CONTACTS to R.string.perm_justification_read_contacts
     )
 }
