@@ -23,6 +23,7 @@
               android:launchMode="singleTop"
               android:screenOrientation="portrait" />
 
-    <service android:name="net.cyclestreets.liveride.LiveRideService" />
+    <service  android:name="net.cyclestreets.liveride.LiveRideService"
+              android:foregroundServiceType="location" />
   </application>
 </manifest>
