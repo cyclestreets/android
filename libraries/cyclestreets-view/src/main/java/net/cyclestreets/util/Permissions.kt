@@ -31,20 +31,23 @@ fun hasPermission(context: Context, permission: String): Boolean {
 
 // Do or request permission - from activity, fragment, or (with hackery) context
 fun doOrRequestPermission(activity: Activity, permission: String, action: () -> Unit) {
-    if (hasPermission(activity, permission))
+    if (hasPermission(activity, permission)) {
         // all good, carry on
+        Log.d(TAG, "Permission $permission has already been granted")
         action()
-    else {
+    } else {
         if (!permissionPreviouslyRequested(permission) || activity.shouldShowRequestPermissionRationale(permission)) {
             // Give details of why we're asking for permission, be it when we ask for the first time
             // or after a user clicked "deny" the first time
+            Log.d(TAG, "Asking for permission $permission for the first time")
             logPermissionAsRequested(permission)
-            MessageBox.OkHtml(activity, justification(activity, permission)) { _, _ ->
+            MessageBox.OkHtml(activity, justification(activity, permission, R.string.perm_justification_format)) { _, _ ->
                 requestPermission(activity, permission)
             }
         } else {
             // User has previously denied, and said "don't ask me again".  Tell them they'll have to go into app settings now.
-            MessageBox.OkHtml(activity, justificationAfterDenial(activity, permission)) { _, _ ->
+            Log.d(TAG, "Asking for permission $permission after previous denial")
+            MessageBox.OkHtml(activity, justification(activity, permission, R.string.perm_justification_after_denial_format)) { _, _ ->
                 goToSettings(activity)
             }
         }
@@ -52,20 +55,24 @@ fun doOrRequestPermission(activity: Activity, permission: String, action: () -> 
 }
 fun doOrRequestPermission(fragment: Fragment, permission: String, action: () -> Unit) {
     val context = fragment.requireContext()
-    if (hasPermission(context, permission))
+
+    if (hasPermission(context, permission)) {
         // all good, carry on
+        Log.d(TAG, "Permission $permission has already been granted")
         action()
-    else {
+    } else {
         if (!permissionPreviouslyRequested(permission) || fragment.shouldShowRequestPermissionRationale(permission)) {
             // Give details of why we're asking for permission, be it when we ask for the first time
             // or after a user clicked "deny" the first time
+            Log.d(TAG, "Asking for permission $permission for the first time")
             logPermissionAsRequested(permission)
-            MessageBox.OkHtml(context, justification(context, permission)) { _, _ ->
+            MessageBox.OkHtml(context, justification(context, permission, R.string.perm_justification_format)) { _, _ ->
                 requestPermission(fragment, permission)
             }
         } else {
             // User has previously denied, and said "don't ask me again".  Tell them they'll have to go into app settings now.
-            MessageBox.OkHtml(context, justificationAfterDenial(context, permission)) { _, _ ->
+            Log.d(TAG, "Asking for permission $permission after previous denial")
+            MessageBox.OkHtml(context, justification(context, permission, R.string.perm_justification_after_denial_format)) { _, _ ->
                 goToSettings(context)
             }
         }
@@ -89,10 +96,12 @@ private fun activityFromContext(initialContext: Context): Activity? {
 
 // Request permissions: activity or fragment
 private fun requestPermission(activity: Activity, permission: String) {
+    Log.d(TAG, "Entering Activity requestPermissions operation for permission $permission")
     activity.requestPermissions(arrayOf(permission), 1)
 }
 private fun requestPermission(fragment: Fragment, permission: String) {
     try {
+        Log.d(TAG, "Entering Fragment requestPermissions operation for permission $permission")
         fragment.requestPermissions(arrayOf(permission), 1)
     } catch (e: IllegalStateException) {
         Log.w(TAG, "Unable to request permission $permission from fragment $fragment", e)
@@ -102,6 +111,7 @@ private fun requestPermission(fragment: Fragment, permission: String) {
 // Go to settings - if dynamic permission requesting is no long an option
 @RequiresApi(api = Build.VERSION_CODES.M)
 private fun goToSettings(context: Context) {
+    Log.d(TAG, "Opening Settings screen to allow user to update permissions")
     val androidAppSettingsIntent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS, Uri.parse("package:net.cyclestreets"))
             .addCategory(Intent.CATEGORY_DEFAULT)
             .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
@@ -109,13 +119,10 @@ private fun goToSettings(context: Context) {
 }
 
 // justifications
-private fun justification(context: Context, permission: String): String {
+private fun justification(context: Context, permission: String, justificationFormatResource: Int): String {
     val reason = context.getString(justifications[permission]!!)
-    return context.getString(R.string.perm_justification_format, reason)
-}
-private fun justificationAfterDenial(context: Context, permission: String): String {
-    val reason = context.getString(justifications[permission]!!)
-    return context.getString(R.string.perm_justification_after_denial_format, reason)
+    val userFriendlyPermission = context.packageManager.getPermissionInfo(permission, 0).loadLabel(context.packageManager)
+    return context.getString(justificationFormatResource, userFriendlyPermission, reason)
 }
 
 private object Permissions {
