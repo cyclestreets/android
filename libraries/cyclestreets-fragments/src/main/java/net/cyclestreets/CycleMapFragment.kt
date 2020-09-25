@@ -70,7 +70,7 @@ open class CycleMapFragment : Fragment(), Undoable {
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
 
-        Log.d(TAG, "Permissions granted (with 0) or denied (with -1): ${permissions.joinToString()}, ${grantResults.joinToString()}")
+        Log.d(TAG, "Permission ${permissions.joinToString()} was ${if (grantResults.joinToString().equals("0")) "granted" else "denied"}")
 
         for (i in permissions.indices) {
             val permission = permissions[i]

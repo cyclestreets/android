@@ -38,6 +38,8 @@ public class CycleStreetsPreferences
   public final static String PREF_SHOW_REMAINING_TIME = "show-remaining-time";
   public final static String PREF_SHOW_ETA = "show-ETA";
 
+  public static final String PREF_PERMISSION_REQUESTED_PREFIX = "permission-requested-";
+
   public final static String MAPSTYLE_OCM = "CycleStreets";
   public final static String MAPSTYLE_OSM = "CycleStreets-OSM";
   public final static String MAPSTYLE_OS = "CycleStreets-OS";
@@ -144,6 +146,14 @@ public class CycleStreetsPreferences
 
   public static boolean showEta() {
     return getBoolean(PREF_SHOW_ETA, true);
+  }
+
+  public static boolean permissionPreviouslyRequested(String permission) {
+    return getBoolean(PREF_PERMISSION_REQUESTED_PREFIX + permission, false);
+  }
+
+  public static void logPermissionAsRequested(String permission) {
+    putBoolean(PREF_PERMISSION_REQUESTED_PREFIX + permission, true);
   }
 
   public static boolean uploadSmallImages() {
