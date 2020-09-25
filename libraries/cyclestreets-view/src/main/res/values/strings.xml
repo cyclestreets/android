@@ -125,10 +125,12 @@
   <string name="perm_justification_format" translatable="false"><![CDATA[
     <p>In the next dialog, this app will request permission to <em>%1$s</em>.</p>
     <p>This permission will be used to:</p>%2$s
+    <p>This can be independently verified as our app is open source.</p>
   ]]></string>
   <string name="perm_justification_after_denial_format" translatable="false"><![CDATA[
     <p>You have previously denied this app the permission to <em>%1$s</em>.  It is required for the functionality you are trying to access.  In the next step, you will be taken to the application settings page to give you an opportunity to change this.</p>
     <p>This permission will be used to:</p>%2$s
+    <p>This can be independently verified as our app is open source.</p>
   ]]></string>
   <string name="perm_justification_read_external_storage" translatable="false"><![CDATA[
     <ul>
