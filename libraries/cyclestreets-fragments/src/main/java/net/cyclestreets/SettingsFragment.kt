@@ -20,25 +20,25 @@ import net.cyclestreets.util.MessageBox
 private val TAG = Logging.getTag(SettingsFragment::class.java)
 private const val PREFERENCE_SCREEN_ARG: String = "preferenceScreenArg"
 private val SETTINGS_ICONS = mapOf(
-    "screen-maps-display" to GoogleMaterial.Icon.gmd_map,
-    "mapstyle" to null,
-    "mapfile" to null,
-    "confirm-new-route" to null,
-    "screen-routing-preferences" to GoogleMaterial.Icon.gmd_directions,
-    "routetype" to null,
-    "speed" to null,
-    "units" to null,
-    "screen-liveride" to GoogleMaterial.Icon.gmd_navigation,
-    "nearing-turn-distance" to null,
-    "offtrack-distance" to null,
-    "replan-distance" to null,
-    "screen-locations" to GoogleMaterial.Icon.gmd_edit_location,
-    "screen-account" to GoogleMaterial.Icon.gmd_account_circle,
-    "cyclestreets-account" to null,
-    "username" to null,
-    "password" to null,
-    "uploadsize" to null,
-    "screen-about" to GoogleMaterial.Icon.gmd_info_outline
+        "screen-maps-display" to GoogleMaterial.Icon.gmd_map,
+        "mapstyle" to null,
+        "mapfile" to null,
+        "confirm-new-route" to null,
+        "screen-routing-preferences" to GoogleMaterial.Icon.gmd_directions,
+        "routetype" to null,
+        "speed" to null,
+        "units" to null,
+        "screen-liveride" to GoogleMaterial.Icon.gmd_navigation,
+        "nearing-turn-distance" to null,
+        "offtrack-distance" to null,
+        "replan-distance" to null,
+        "screen-locations" to GoogleMaterial.Icon.gmd_edit_location,
+        "screen-account" to GoogleMaterial.Icon.gmd_account_circle,
+        "cyclestreets-account" to null,
+        "username" to null,
+        "password" to null,
+        "uploadsize" to null,
+        "screen-about" to GoogleMaterial.Icon.gmd_info_outline
 )
 
 

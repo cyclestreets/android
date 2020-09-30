@@ -123,22 +123,42 @@
 
   <!-- Permission justifications -->
   <string name="perm_justification_format" translatable="false"><![CDATA[
-    <p>In the next dialog, you will have the opportunity to grant a permission to this app.  We would like to use this permission in order to:</p>%1$s
+    <p>In the next dialog, this app will request permission to <em>%1$s</em>.</p>
+    <p>This permission will be used to:</p>%2$s
+    <p>This can be independently verified as our app is open source.</p>
+  ]]></string>
+  <string name="perm_justification_after_denial_format" translatable="false"><![CDATA[
+    <p>You have previously denied this app the permission to <em>%1$s</em>.  It is required for the functionality you are trying to access.  In the next step, you will be taken to the application settings page to give you an opportunity to change this.</p>
+    <p>This permission will be used to:</p>%2$s
+    <p>This can be independently verified as our app is open source.</p>
   ]]></string>
   <string name="perm_justification_read_external_storage" translatable="false"><![CDATA[
-    <li>&nbsp; allow you to select photographs from your image library for use by the Add Photo feature</li>
+    <ul>
+      <li>&nbsp; read cached map tiles that have been downloaded</li>
+      <li>&nbsp; allow you to select photographs from your image library for use in the Add Photo feature.</li>
+    </ul>
   ]]></string>
   <string name="perm_justification_write_external_storage" translatable="false"><![CDATA[
-    <li>&nbsp; optimize map performance by caching downloaded map tiles</li>
-    <li>&nbsp; allow your camera app to directly take photographs for use by the Add Photo feature</li>
+    <ul>
+      <li>&nbsp; cache downloaded map tiles <b>(without this the app will function poorly and consume much more data)</b></li>
+      <li>&nbsp; allow your camera app to directly take photographs in the Add Photo feature.</li>
+    </ul>
   ]]></string>
   <string name="perm_justification_access_fine_location" translatable="false"><![CDATA[
-    <li>&nbsp; centre the map on your location</li>
-    <li>&nbsp; give turn-by-turn navigation directions (the LiveRide feature)</li>
+    <ul>
+      <li>&nbsp; centre the map on your location when requested</li>
+      <li>&nbsp; give turn-by-turn voice navigation directions (the LiveRide feature).</li>
+    </ul>
+    <p>Your location history is not stored anywhere, locally or remotely.</p>
+    <p>Your current location may only be sent to our servers when planning a route from your current location.</p>
   ]]></string>
   <string name="perm_justification_read_contacts" translatable="false"><![CDATA[
-    <li>&nbsp; allow you to find the addresses of your contacts on the map, and create routes to these locations</li>
+    <ul>
+      <li>&nbsp; allow you to find the addresses of your contacts on the map, and create routes to these locations.</li>
+    </ul>
+    <p>Your contact information is not stored anywhere, locally or remotely, and is only sent to our servers for the purposes of planning a route.</p>
   ]]></string>
+
   <string name="show_remaining_time">Show remaining time</string>
   <string name="show_ETA">Show estimated time of arrival</string>
   <string name="remaining">Remaining</string>
