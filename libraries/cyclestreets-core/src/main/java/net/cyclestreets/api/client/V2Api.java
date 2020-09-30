@@ -49,6 +49,9 @@ public interface V2Api {
   @GET("/v2/journeys.user?format=flat&datetime=friendly")
   Call<UserJourneysDto> getUserJourneys(@Query("username") String username);
 
+  @GET("/v2/mapdownloads.list")
+  Call<FeatureCollection> getMaps();
+
   @FormUrlEncoded
   @POST("/v2/user.create")
   Call<UserCreateResponseDto> register(@Field("username") String username,

@@ -20,24 +20,25 @@ import net.cyclestreets.util.MessageBox
 private val TAG = Logging.getTag(SettingsFragment::class.java)
 private const val PREFERENCE_SCREEN_ARG: String = "preferenceScreenArg"
 private val SETTINGS_ICONS = mapOf(
-    "screen-maps-display" to GoogleMaterial.Icon.gmd_map,
-    "mapstyle" to null,
-    "confirm-new-route" to null,
-    "screen-routing-preferences" to GoogleMaterial.Icon.gmd_directions,
-    "routetype" to null,
-    "speed" to null,
-    "units" to null,
-    "screen-liveride" to GoogleMaterial.Icon.gmd_navigation,
-    "nearing-turn-distance" to null,
-    "offtrack-distance" to null,
-    "replan-distance" to null,
-    "screen-locations" to GoogleMaterial.Icon.gmd_edit_location,
-    "screen-account" to GoogleMaterial.Icon.gmd_account_circle,
-    "cyclestreets-account" to null,
-    "username" to null,
-    "password" to null,
-    "uploadsize" to null,
-    "screen-about" to GoogleMaterial.Icon.gmd_info_outline
+        "screen-maps-display" to GoogleMaterial.Icon.gmd_map,
+        "mapstyle" to null,
+        "mapfile" to null,
+        "confirm-new-route" to null,
+        "screen-routing-preferences" to GoogleMaterial.Icon.gmd_directions,
+        "routetype" to null,
+        "speed" to null,
+        "units" to null,
+        "screen-liveride" to GoogleMaterial.Icon.gmd_navigation,
+        "nearing-turn-distance" to null,
+        "offtrack-distance" to null,
+        "replan-distance" to null,
+        "screen-locations" to GoogleMaterial.Icon.gmd_edit_location,
+        "screen-account" to GoogleMaterial.Icon.gmd_account_circle,
+        "cyclestreets-account" to null,
+        "username" to null,
+        "password" to null,
+        "uploadsize" to null,
+        "screen-about" to GoogleMaterial.Icon.gmd_info_outline
 )
 
 
@@ -49,11 +50,13 @@ class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedP
         super.onCreate(savedInstance)
 
         setupMapStyles()
+        setupMapFileList()
 
         setSummary(CycleStreetsPreferences.PREF_ROUTE_TYPE_KEY)
         setSummary(CycleStreetsPreferences.PREF_UNITS_KEY)
         setSummary(CycleStreetsPreferences.PREF_SPEED_KEY)
         setSummary(CycleStreetsPreferences.PREF_MAPSTYLE_KEY)
+        setSummary(CycleStreetsPreferences.PREF_MAPFILE_KEY)
         setSummary(CycleStreetsPreferences.PREF_UPLOAD_SIZE)
         setSummary(CycleStreetsPreferences.PREF_NEARING_TURN)
         setSummary(CycleStreetsPreferences.PREF_OFFTRACK_DISTANCE)
@@ -114,7 +117,28 @@ class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedP
 
     private fun setupMapStyles() {
         findPreference<ListPreference>(CycleStreetsPreferences.PREF_MAPSTYLE_KEY)?.apply {
-           TileSource.configurePreference(this)
+
+            if (this.value == CycleStreetsPreferences.MAPSTYLE_MAPSFORGE && MapPack.availableMapPacks(context).isEmpty()) {
+                Log.i(TAG, "Offline Vector Maps were selected, but there are no available map packs; default to OSM")
+                this.value = CycleStreetsPreferences.MAPSTYLE_OSM
+            }
+
+            TileSource.configurePreference(this)
+        }
+    }
+
+    private fun setupMapFileList() {
+        findPreference<ListPreference>(CycleStreetsPreferences.PREF_MAPFILE_KEY)?.apply {
+            populateMapFileList(this)
+        }
+    }
+
+    private fun populateMapFileList(mapfilePref: ListPreference) {
+        context?.let {
+            val titles = MapPack.availableMapPacks(it).map { pack: MapPack -> pack.title }
+            val ids = MapPack.availableMapPacks(it).map { pack: MapPack -> pack.id }
+            mapfilePref.entries = titles.toTypedArray()
+            mapfilePref.entryValues = ids.toTypedArray()
         }
     }
 
@@ -143,9 +167,36 @@ class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedP
             prefUI.summary = prefUI.entry
         if (prefUI is EditTextPreference)
             prefUI.summary = prefUI.text
-   }
 
-   private fun setAccountSummary() {
+        if (CycleStreetsPreferences.PREF_MAPSTYLE_KEY == key)
+            setMapFileSummary((prefUI as ListPreference).value)
+    }
+
+    private fun setMapFileSummary(style: String) {
+        val pref = findPreference<Preference>(CycleStreetsPreferences.PREF_MAPFILE_KEY) ?: return
+        val mapfilePref = pref as ListPreference
+
+        val enabled = style == CycleStreetsPreferences.MAPSTYLE_MAPSFORGE
+        mapfilePref.isEnabled = enabled
+
+        if (!enabled)
+            return
+
+        if (mapfilePref.entryValues.isEmpty()) {
+            mapfilePref.isEnabled = false
+            return
+        }
+
+        val mapfile = CycleStreetsPreferences.mapfile()
+        var index = mapfilePref.findIndexOfValue(mapfile)
+        if (index == -1)
+            index = 0 // default to something
+
+        mapfilePref.setValueIndex(index)
+        mapfilePref.summary = mapfilePref.entries[index]
+    }
+
+    private fun setAccountSummary() {
         val pref = findPreference<Preference>(CycleStreetsPreferences.PREF_ACCOUNT_KEY) ?: return
         val account = pref as PreferenceScreen
 

@@ -51,19 +51,17 @@ public class TileSource {
       final ITileSource renderer = source.renderer();
 
       if (renderer instanceof MapsforgeOSMTileSource) {
-        final String mapFile = CycleStreetsPreferences.mapfile();
-        final MapPack pack = MapPack.findByPackage(context, mapFile);
-        if (pack.current())
-          ((MapsforgeOSMTileSource)renderer).setMapFile(mapFile);
-        else {
-          MessageBox.YesNo(context,
-              R.string.tiles_map_pack_out_of_date,
-              new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface arg0, int arg1) {
-                  MapPack.searchGooglePlay(context);
-                }
-              });
+        final String mapId = CycleStreetsPreferences.mapfile();
+        final MapPack pack = MapPack.findById(context, mapId);
+        if (pack == null) {
           CycleStreetsPreferences.resetMapstyle();
+          return source(DEFAULT_RENDERER).renderer();
+        }
+
+        if (pack.getDownloaded())
+          ((MapsforgeOSMTileSource)renderer).setMapFile(pack.getPath());
+        else {
+          pack.download(context);
           return source(DEFAULT_RENDERER).renderer();
         }
       }
@@ -197,6 +195,7 @@ public class TileSource {
     addTileSource("OpenCycleMap (shows hills)", OPENCYCLEMAP);
     addTileSource("OpenStreetMap default style", OPENSTREETMAP);
     addTileSource("Ordnance Survey OpenData", OSMAP);
+    addTileSource("Offline Vector Maps", MAPSFORGE);
 
     builtInsAdded_ = true;
   }

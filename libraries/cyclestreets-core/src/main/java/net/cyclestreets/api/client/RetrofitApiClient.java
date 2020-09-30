@@ -7,6 +7,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import net.cyclestreets.api.Blog;
 import net.cyclestreets.api.GeoPlaces;
+import net.cyclestreets.api.Maps;
 import net.cyclestreets.api.POI;
 import net.cyclestreets.api.POICategories;
 import net.cyclestreets.api.PhotomapCategories;
@@ -24,6 +25,7 @@ import net.cyclestreets.api.client.dto.UserAuthenticateResponseDto;
 import net.cyclestreets.api.client.dto.UserCreateResponseDto;
 import net.cyclestreets.api.client.dto.UserJourneysDto;
 import net.cyclestreets.api.client.geojson.GeoPlacesFactory;
+import net.cyclestreets.api.client.geojson.MapsFactory;
 import net.cyclestreets.api.client.geojson.PhotosFactory;
 import net.cyclestreets.api.client.geojson.PoiFactory;
 
@@ -220,6 +222,11 @@ public class RetrofitApiClient {
   public UserJourneys getUserJourneys(final String username) throws IOException {
     Response<UserJourneysDto> response = v2Api.getUserJourneys(username).execute();
     return response.body().toUserJourneys();
+  }
+
+  public Maps getMaps() throws IOException {
+    Response<FeatureCollection> response = v2Api.getMaps().execute();
+    return MapsFactory.Companion.toMaps(response.body());
   }
 
   public Result register(final String username,

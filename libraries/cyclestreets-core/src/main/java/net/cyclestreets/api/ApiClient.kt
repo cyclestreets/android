@@ -5,6 +5,7 @@ import android.content.pm.PackageManager
 
 import net.cyclestreets.api.client.RetrofitApiClient
 import net.cyclestreets.core.R
+import kotlin.collections.Map
 
 interface CycleStreetsApi {
     fun getJourneyJson(plan: String, leaving: String?, arriving: String?, speed: Int, lonLat: DoubleArray): String
@@ -22,6 +23,7 @@ interface CycleStreetsApi {
     fun getPOIs(key: String, lonW: Double, latS: Double, lonE: Double, latN: Double): List<POI>
     fun getPOIs(key: String, lon: Double, lat: Double, radius: Int): List<POI>
     fun getBlogEntries(): Blog
+    fun getMaps(): Maps
 }
 
 object ApiClient : CycleStreetsApi {
@@ -130,7 +132,9 @@ object ApiClient : CycleStreetsApi {
     override fun getBlogEntries(): Blog {
         return delegate.getBlogEntries()
     }
-
+    override fun getMaps(): Maps {
+        return delegate.getMaps()
+    }
 }
 
 class ApiClientImpl(private val retrofitApiClient: RetrofitApiClient): CycleStreetsApi {
@@ -228,6 +232,10 @@ class ApiClientImpl(private val retrofitApiClient: RetrofitApiClient): CycleStre
 
     override fun getBlogEntries(): Blog {
         return retrofitApiClient.blogEntries
+    }
+
+    override fun getMaps(): Maps {
+        return retrofitApiClient.maps
     }
 
     /////////////////////////////////////////////////////
