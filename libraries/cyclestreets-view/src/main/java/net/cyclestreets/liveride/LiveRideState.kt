@@ -58,7 +58,7 @@ internal abstract class LiveRideState(protected val context: Context,
         if (seg.turnInstruction().isNotEmpty()) {
             instruction.append(seg.turnInstruction()).append(" into ")
         }
-        instruction.append(seg.street().replace("un-", "un").replace("Un-", "un"))
+        instruction.append(fixStreet(seg.street()))
         return instruction
     }
 
