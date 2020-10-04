@@ -22,7 +22,7 @@ jdk:
 env:
   global:
     # Remember to keep these four values in sync with values in the root build.gradle file
-    - compileSdkVersion=29
+    - compileSdkVersion=30
     - minSdkVersion=23
     - targetSdkVersion=29
     - toolsVersion=29.0.3

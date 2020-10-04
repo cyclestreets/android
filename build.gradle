@@ -1,5 +1,5 @@
 buildscript {
-  ext.kotlinVersion = '1.4.0'
+  ext.kotlinVersion = '1.4.10'
   repositories {
     google()
     jcenter()
@@ -27,7 +27,7 @@ ext {
   // Android 4.2, 4.2.2  17  JELLY_BEAN_MR1
 
   // Remember to keep these values in sync with .travis.yml
-  compileSdkVersion=29
+  compileSdkVersion=30
   minSdkVersion=23
   targetSdkVersion=29
   buildToolsVersion='29.0.3'
