@@ -43,6 +43,9 @@ android:
 before_install:
   - ./ciLicense.sh
   - sudo pip install requests
+  - touch $HOME/.android/repositories.cfg
+  - yes | sdkmanager "platforms;android-30"
+  - yes | sdkmanager "build-tools;30.0.2"
 
 install:
   - ./checkPoiTypeIcons.sh
