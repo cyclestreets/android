@@ -3,6 +3,7 @@ package net.cyclestreets.liveride
 import android.content.Context
 import android.speech.tts.TextToSpeech
 import androidx.test.core.app.ApplicationProvider
+import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.fasterxml.jackson.databind.ObjectMapper
 import net.cyclestreets.CycleStreetsPreferences
 import net.cyclestreets.TestUtils
@@ -17,12 +18,20 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mockito.*
 import org.osmdroid.util.GeoPoint
-import org.robolectric.RobolectricTestRunner
 import org.robolectric.annotation.Config
+import org.robolectric.annotation.LooperMode
+import org.robolectric.shadows.ShadowLooper.shadowMainLooper
 
 
+/**
+ * The `shadowMainLooper().idle()` calls cause queued background async tasks to be run.
+ * Replanning is an async operation so that's why we call this after every replan we trigger.
+ *
+ * See http://robolectric.org/blog/2019/06/04/paused-looper/ for context.
+ */
+@LooperMode(LooperMode.Mode.PAUSED)
+@RunWith(AndroidJUnit4::class)
 @Config(manifest = Config.NONE, sdk = [28])
-@RunWith(RobolectricTestRunner::class)
 class ReplanFromHereTest {
 
     private lateinit var liveRideState: LiveRideState
@@ -51,11 +60,16 @@ class ReplanFromHereTest {
         val expectedWaypoints = doubleArrayOf(0.0, 52.0, 0.13140, 52.22105, 0.14744, 52.19962)
         val expectedJson = jsonFor(expectedWaypoints)
         `when`(mockApiClient.getJourneyJson("balanced", null, null, 20, expectedWaypoints)).thenReturn(expectedJson)
+
         liveRideState = ReplanFromHere(liveRideState, GeoPoint(52.0, 0.0))
+        shadowMainLooper().idle()
+
         verify(mockApiClient, times(1)).getJourneyJson("balanced", null, null, 20, expectedWaypoints)
 
         // Check multi-replans don't keep adding waypoints
         liveRideState = ReplanFromHere(liveRideState, GeoPoint(53.0, 1.0))
+        shadowMainLooper().idle()
+
         val newExpectedWaypoints: DoubleArray = doubleArrayOf(1.0, 53.0, 0.13140, 52.22105, 0.14744, 52.19962)
         verify(mockApiClient, times(1)).getJourneyJson("balanced", null, null, 20, newExpectedWaypoints)
     }
@@ -70,11 +84,16 @@ class ReplanFromHereTest {
         val expectedWaypoints: DoubleArray = doubleArrayOf(0.0, 52.0, 0.14744, 52.19962)
         val expectedJson = jsonFor(expectedWaypoints)
         `when`(mockApiClient.getJourneyJson("balanced", null, null, 20, expectedWaypoints)).thenReturn(expectedJson)
+
         liveRideState = ReplanFromHere(liveRideState, GeoPoint(52.0, 0.0))
+        shadowMainLooper().idle()
+
         verify(mockApiClient, times(1)).getJourneyJson("balanced", null, null, 20, expectedWaypoints)
 
         // Check multi-replans don't keep adding waypoints
         liveRideState = ReplanFromHere(liveRideState, GeoPoint(53.0, 1.0))
+        shadowMainLooper().idle()
+
         val newExpectedWaypoints: DoubleArray = doubleArrayOf(1.0, 53.0, 0.14744, 52.19962)
         verify(mockApiClient, times(1)).getJourneyJson("balanced", null, null, 20, newExpectedWaypoints)
     }
@@ -91,11 +110,16 @@ Journey time : 26 minutes""")
         val expectedWaypoints: DoubleArray = doubleArrayOf(0.0, 52.0, 0.11783, 52.20530, 0.13140, 52.22105, 0.14744, 52.19962)
         val expectedJson = jsonFor(expectedWaypoints)
         `when`(mockApiClient.getJourneyJson("balanced", null, null, 20, expectedWaypoints)).thenReturn(expectedJson)
+
         liveRideState = ReplanFromHere(liveRideState, GeoPoint(52.0, 0.0))
+        shadowMainLooper().idle()
+
         verify(mockApiClient, times(1)).getJourneyJson("balanced", null, null, 20, expectedWaypoints)
 
         // Check multi-replans don't keep adding waypoints
         liveRideState = ReplanFromHere(liveRideState, GeoPoint(53.0, 1.0))
+        shadowMainLooper().idle()
+
         val newExpectedWaypoints: DoubleArray = doubleArrayOf(1.0, 53.0, 0.11783, 52.20530, 0.13140, 52.22105, 0.14744, 52.19962)
         verify(mockApiClient, times(1)).getJourneyJson("balanced", null, null, 20, newExpectedWaypoints)
     }
@@ -110,11 +134,16 @@ Journey time : 26 minutes""")
         val expectedWaypoints: DoubleArray = doubleArrayOf(0.0, 52.0, 0.13140, 52.22105, 0.14744, 52.19962)
         val expectedJson = jsonFor(expectedWaypoints)
         `when`(mockApiClient.getJourneyJson("balanced", null, null, 20, expectedWaypoints)).thenReturn(expectedJson)
+
         liveRideState = ReplanFromHere(liveRideState, GeoPoint(52.0, 0.0))
+        shadowMainLooper().idle()
+
         verify(mockApiClient, times(1)).getJourneyJson("balanced", null, null, 20, expectedWaypoints)
 
         // Check multi-replans don't keep adding waypoints
         liveRideState = ReplanFromHere(liveRideState, GeoPoint(53.0, 1.0))
+        shadowMainLooper().idle()
+
         val newExpectedWaypoints: DoubleArray = doubleArrayOf(1.0, 53.0, 0.13140, 52.22105, 0.14744, 52.19962)
         verify(mockApiClient, times(1)).getJourneyJson("balanced", null, null, 20, newExpectedWaypoints)
     }
@@ -130,10 +159,14 @@ Journey time : 26 minutes""")
         val expectedJson = jsonFor(expectedWaypoints)
         `when`(mockApiClient.getJourneyJson("balanced", null, null, 20, expectedWaypoints)).thenReturn(expectedJson)
         liveRideState = ReplanFromHere(liveRideState, GeoPoint(52.0, 0.0))
+        shadowMainLooper().idle()
+
         verify(mockApiClient, times(1)).getJourneyJson("balanced", null, null, 20, expectedWaypoints)
 
         // Check multi-replans don't keep adding waypoints
         liveRideState = ReplanFromHere(liveRideState, GeoPoint(53.0, 1.0))
+        shadowMainLooper().idle()
+
         val newExpectedWaypoints: DoubleArray = doubleArrayOf(1.0, 53.0, 0.14744, 52.19962)
         verify(mockApiClient, times(1)).getJourneyJson("balanced", null, null, 20, newExpectedWaypoints)
     }
