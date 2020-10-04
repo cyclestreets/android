@@ -68,3 +68,20 @@ fun speechify(words: String): String {
 
     return updatedWords;
 }
+
+
+fun fixStreet(streetWords: String): String {
+
+    // handling "un-named link" etc
+    var updatedWords = streetWords
+            .replace("un-", "un")
+            .replace("Un-", "un")
+
+    // some Android speech engines get this right; others don't (https://github.com/cyclestreets/android/issues/442)
+    val wordsList = updatedWords.split(" ")
+    if (wordsList.size > 1 && setOf("St.", "st.", "St", "st").contains(wordsList.first())) {
+        updatedWords = "Saint ${wordsList.subList(1, wordsList.size).joinToString(" ")}";
+    }
+
+    return updatedWords;
+}
