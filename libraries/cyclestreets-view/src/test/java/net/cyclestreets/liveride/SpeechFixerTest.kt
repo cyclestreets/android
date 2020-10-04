@@ -133,4 +133,10 @@ class SpeechFixerTest {
                 .isEqualTo("Saint Cross Road, B3335")
     }
 
+    @Test
+    fun testDestinationThodayStreet() {
+        assertThat(fixStreet("Destination Thoday+Street"))
+                .isEqualTo("Destination Thoday+Street")
+    }
+
 }

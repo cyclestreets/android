@@ -79,13 +79,8 @@ fun fixStreet(streetWords: String): String {
 
     // some Android speech engines get this right; others don't (https://github.com/cyclestreets/android/issues/442)
     val wordsList = updatedWords.split(" ")
-    if (wordsList.size > 1) {
-        val fixedFirstWord = wordsList.first()
-                .replace("St.", "Saint")
-                .replace("st.", "Saint")
-                .replace("St", "Saint")
-                .replace("st", "Saint")
-        updatedWords = "$fixedFirstWord ${wordsList.subList(1, wordsList.size).joinToString(" ")}"
+    if (wordsList.size > 1 && setOf("St.", "st.", "St", "st").contains(wordsList.first())) {
+        updatedWords = "Saint ${wordsList.subList(1, wordsList.size).joinToString(" ")}";
     }
 
     return updatedWords;
