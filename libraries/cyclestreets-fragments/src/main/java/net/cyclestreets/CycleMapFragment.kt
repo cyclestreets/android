@@ -1,6 +1,7 @@
 package net.cyclestreets
 
 import android.Manifest
+import android.Manifest.permission.WRITE_EXTERNAL_STORAGE
 import android.content.pm.PackageManager
 import android.graphics.drawable.Drawable
 import android.os.Bundle
@@ -17,12 +18,9 @@ import com.mikepenz.iconics.typeface.library.googlematerial.GoogleMaterial
 
 import net.cyclestreets.fragments.R
 import net.cyclestreets.iconics.IconicsHelper
-import net.cyclestreets.util.AsyncDelete
-import net.cyclestreets.util.Logging
+import net.cyclestreets.util.*
 import net.cyclestreets.util.MenuHelper.createMenuItem
 import net.cyclestreets.util.MenuHelper.enableMenuItem
-import net.cyclestreets.util.Theme
-import net.cyclestreets.util.doOrRequestPermission
 import net.cyclestreets.views.CycleMapView
 import net.cyclestreets.views.CycleMapView.FINDPLACE_ZOOM_LEVEL
 
@@ -50,7 +48,7 @@ open class CycleMapFragment : Fragment(), Undoable {
 
         checkPermissionNoMoreThanOnceEveryFiveMinutes()
 
-        map = CycleMapView(context, this.javaClass.name)
+        map = CycleMapView(context, this.javaClass.name, this)
         searchIcon = IconicsHelper.materialIcon(requireContext(), GoogleMaterial.Icon.gmd_search, Theme.lowlightColorInverse(context))
 
         return map
@@ -61,8 +59,8 @@ open class CycleMapFragment : Fragment(), Undoable {
         val oneMinuteAgo = now - (5 * 60 * 1000)
         if (oneMinuteAgo > permissionLastCheckedTime) {
             permissionLastCheckedTime = now
-            doOrRequestPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) {
-                Log.v(TAG, "Already have ${Manifest.permission.WRITE_EXTERNAL_STORAGE} permission")
+            doOrRequestPermission(null, this, WRITE_EXTERNAL_STORAGE, 1) {
+                Log.v(TAG, "Already have $WRITE_EXTERNAL_STORAGE permission")
             }
         }
     }
@@ -78,19 +76,20 @@ open class CycleMapFragment : Fragment(), Undoable {
 
             // If we have permission to write to external storage, we'll use the default OSMDroid location for caching
             // map tiles.  Therefore, when permission is granted, clear state accordingly so this is possible.
-            if (permission == Manifest.permission.WRITE_EXTERNAL_STORAGE && grantResult == PackageManager.PERMISSION_GRANTED) {
-                val oldCacheLocation: File = Configuration.getInstance().osmdroidTileCache
+            if (permission == WRITE_EXTERNAL_STORAGE)
+                requestPermissionsResultAction(grantResults, grantResult, permission) {
+                    val oldCacheLocation: File = Configuration.getInstance().osmdroidTileCache
 
-                CycleStreetsPreferences.clearOsmdroidCacheLocation()
-                Configuration.setConfigurationProvider(DefaultConfigurationProvider())
-                Configuration.getInstance().load(context, PreferenceManager.getDefaultSharedPreferences(context))
-                val newCacheLocation: File = Configuration.getInstance().osmdroidTileCache
+                    CycleStreetsPreferences.clearOsmdroidCacheLocation()
+                    Configuration.setConfigurationProvider(DefaultConfigurationProvider())
+                    Configuration.getInstance().load(context, PreferenceManager.getDefaultSharedPreferences(context))
+                    val newCacheLocation: File = Configuration.getInstance().osmdroidTileCache
 
-                Log.i(TAG, "Permission ${Manifest.permission.WRITE_EXTERNAL_STORAGE} granted; update OSMDroid cache " +
-                           "location from ${oldCacheLocation.absolutePath} to ${newCacheLocation.absolutePath}")
-                if (newCacheLocation.absolutePath != oldCacheLocation.absolutePath)
-                    AsyncDelete().execute(oldCacheLocation)
-            }
+                    Log.i(TAG, "Permission $WRITE_EXTERNAL_STORAGE granted; update OSMDroid cache " +
+                               "location from ${oldCacheLocation.absolutePath} to ${newCacheLocation.absolutePath}")
+                    if (newCacheLocation.absolutePath != oldCacheLocation.absolutePath)
+                        AsyncDelete().execute(oldCacheLocation)
+                }
         }
     }
 

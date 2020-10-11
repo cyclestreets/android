@@ -1,9 +1,8 @@
 package net.cyclestreets;
 
 import android.Manifest;
-import android.content.Context;
-import android.os.Bundle;
 import android.app.Activity;
+import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
@@ -19,7 +18,10 @@ import net.cyclestreets.views.overlay.ThereOverlay;
 
 import org.osmdroid.api.IGeoPoint;
 
+import java.util.Objects;
+
 import static net.cyclestreets.util.PermissionsKt.hasPermission;
+import static net.cyclestreets.util.PermissionsKt.requestPermissionsResultAction;
 
 
 public class LocationEditorActivity extends Activity
@@ -49,10 +51,25 @@ public class LocationEditorActivity extends Activity
     firstTime_ = true;
   }
 
+  @Override
+  public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+    super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    for (int i = 0; i< permissions.length; i++) {
+      // (No need to check request code here as "follow location" is the only one requested here)
+      if (Objects.equals(permissions[i], Manifest.permission.ACCESS_FINE_LOCATION))  {
+        requestPermissionsResultAction(grantResults, grantResults[i], permissions[i], () -> {
+          map_.doEnableFollowLocation();
+          map_.saveLocationPrefs();
+          return null;
+        });
+      }
+    }
+  }
+
   private void setupMap() {
     final RelativeLayout v = (findViewById(R.id.mapholder));
 
-    map_ = new CycleMapView(this, getClass().getName());
+    map_ = new CycleMapView(this, getClass().getName(), null);
 
     there_ = new ThereOverlay(this);
     there_.setLocationListener(this);

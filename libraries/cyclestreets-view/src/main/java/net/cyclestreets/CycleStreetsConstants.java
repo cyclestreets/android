@@ -7,4 +7,8 @@ public class CycleStreetsConstants {
   public static final String EXTRA_ROUTE_NUMBER = "net.cyclestreets.extra.ROUTE";
 
   public static final String ROUTE_ID = "net.cyclestreets.extra.ROUTE_ID";
+
+  // Permission request codes
+  public static Integer LIVERIDE_LOCATION_PERMISSION_REQUEST = 2;
+  public static Integer FOLLOW_LOCATION_PERMISSION_REQUEST = 3;
 }

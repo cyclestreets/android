@@ -163,7 +163,7 @@ class AddPhotoFragment : Fragment(), View.OnClickListener, Undoable, ThereOverla
             map!!.onPause()
             (map!!.parent as RelativeLayout).removeView(map)
         } else {
-            map = CycleMapView(activity, this.javaClass.name)
+            map = CycleMapView(activity, this.javaClass.name, this)
             map!!.overlayPushTop(there)
         }
 
@@ -461,12 +461,12 @@ class AddPhotoFragment : Fragment(), View.OnClickListener, Undoable, ThereOverla
     override fun onClick(v: View) {
         when (v.id) {
             R.id.takephoto_button -> doOrLogin {
-                doOrRequestPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) {
+                doOrRequestPermission(null, this, Manifest.permission.WRITE_EXTERNAL_STORAGE, 1) {
                     dispatchTakePhotoIntent()
                 }
             }
             R.id.chooseexisting_button -> doOrLogin {
-                doOrRequestPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) {
+                doOrRequestPermission(null, this, Manifest.permission.READ_EXTERNAL_STORAGE, 1) {
                     startActivityForResult(Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI),
                                            CHOOSE_PHOTO)
                 }
@@ -495,6 +495,34 @@ class AddPhotoFragment : Fragment(), View.OnClickListener, Undoable, ThereOverla
                     upload()
                 } else if (step != AddStep.VIEW) {
                     nextStep()
+                }
+            }
+        }
+    }
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+
+        for (i in permissions.indices) {
+            val permission = permissions[i]
+            val grantResult = grantResults[i]
+
+            when (permission) {
+                Manifest.permission.READ_EXTERNAL_STORAGE -> requestPermissionsResultAction(grantResults, grantResult, permission) {
+                    // Putting startActivityForResult here doesn't work as onActivityResult callback can't find fragment,
+                    // because it gets re-initialised in mainNavDrawerActivity.onResume, so I'm removing it for now.
+                    /* startActivityForResult(Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI),
+                            CHOOSE_PHOTO) */
+                }
+                Manifest.permission.WRITE_EXTERNAL_STORAGE -> requestPermissionsResultAction(grantResults, grantResult, permission) {
+                    // As above
+                    //dispatchTakePhotoIntent()
+                }
+                Manifest.permission.ACCESS_FINE_LOCATION -> requestPermissionsResultAction(grantResults, grantResult, permission) {
+                    if (map != null) {
+                        map!!.doEnableFollowLocation()
+                        map!!.saveLocationPrefs()
+                    }
                 }
             }
         }

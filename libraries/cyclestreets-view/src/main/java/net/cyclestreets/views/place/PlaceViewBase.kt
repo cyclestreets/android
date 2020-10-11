@@ -12,10 +12,6 @@ import net.cyclestreets.view.R
 import net.cyclestreets.api.GeoPlace
 import net.cyclestreets.api.GeoPlaces
 import net.cyclestreets.contacts.Contact
-import net.cyclestreets.util.Dialog
-import net.cyclestreets.util.Logging
-import net.cyclestreets.util.MessageBox
-import net.cyclestreets.util.doOrRequestPermission
 
 import android.Manifest
 import android.app.Activity
@@ -29,6 +25,7 @@ import android.view.View.OnClickListener
 import android.widget.ImageButton
 import android.widget.LinearLayout
 import android.widget.Toast
+import net.cyclestreets.util.*
 
 internal val TAG: String = Logging.getTag(PlaceViewBase::class.java)
 
@@ -170,7 +167,7 @@ open class PlaceViewBase protected constructor(private val context_: Context, la
 
         if (CONTACTS == option) {
             if (context_ is Activity)
-                doOrRequestPermission(context_, Manifest.permission.READ_CONTACTS) { pickContact() }
+                doOrRequestPermission(context_, null, Manifest.permission.READ_CONTACTS, 1) { pickContact() }
             else {
                 Toast.makeText(context_, "Error: Unable to request Read Contacts permission", Toast.LENGTH_LONG).show()
                 Log.w(TAG, "Context is not an instance of Activity")

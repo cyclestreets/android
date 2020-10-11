@@ -115,6 +115,8 @@
   <string name="account_pending">Вы уже зарегистрировали аккаунт. Пожалуйста, проверьте свою электронную почту для проверки электронной почты.</string>
   <string name="account_registration_is_free_long">Регистрация абсолютно бесплатна и зарегистрированные пользователи могут добавлять фотографии. Для того, чтобы начать процесс регистрации, пожалуйста, введите свои данные в форму ниже.</string>
 
+  <string name="perm_needed">Permission needs granting in device settings.</string>
+
   <string name="show_remaining_time">Показать оставшееся время</string>
   <string name="show_ETA">Показать расчётное время прибытия</string>
   <string name="remaining">Остаток</string>

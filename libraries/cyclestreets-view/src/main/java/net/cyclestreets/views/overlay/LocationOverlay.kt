@@ -11,12 +11,12 @@ import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
 import androidx.core.content.res.ResourcesCompat
+import androidx.fragment.app.Fragment
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.mikepenz.iconics.typeface.library.googlematerial.GoogleMaterial
+import net.cyclestreets.CycleStreetsConstants
 import net.cyclestreets.iconics.IconicsHelper.materialIcon
-import net.cyclestreets.util.Logging
-import net.cyclestreets.util.Theme
-import net.cyclestreets.util.doOrRequestPermission
+import net.cyclestreets.util.*
 import net.cyclestreets.view.R
 import net.cyclestreets.views.CycleMapView
 import org.osmdroid.util.GeoPoint
@@ -28,7 +28,7 @@ import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay
 private val TAG = Logging.getTag(LocationOverlay::class.java)
 
 
-class LocationOverlay(private val mapView: CycleMapView) :
+class LocationOverlay(private val mapView: CycleMapView, private val fragment: Fragment?) :
         MyLocationNewOverlay(UseEverythingLocationProvider(mapView.context), mapView.mapView()) {
 
     private val button: FloatingActionButton
@@ -73,14 +73,13 @@ class LocationOverlay(private val mapView: CycleMapView) :
         Log.d(TAG, "Location button clicked, enable = $enable")
         if (enable) {
             try {
-                doOrRequestPermission(mapView.context, ACCESS_FINE_LOCATION) {
-                    enableMyLocation()
-                    enableFollowLocation()
-                    val lastFix = lastFix
-                    if (lastFix != null) {
-                        Log.d(TAG, "Setting map centre to $lastFix")
-                        mapView.controller.setCenter(GeoPoint(lastFix))
+                if (fragment != null)
+                    doOrRequestPermission(null, fragment, ACCESS_FINE_LOCATION, CycleStreetsConstants.FOLLOW_LOCATION_PERMISSION_REQUEST) {
+                        doEnableFollowLocation()
                     }
+                else
+                    doOrRequestPermission(mapView.context, ACCESS_FINE_LOCATION, CycleStreetsConstants.FOLLOW_LOCATION_PERMISSION_REQUEST) {
+                        doEnableFollowLocation()
                 }
             } catch (e: RuntimeException) {
                 // might not have location service
@@ -92,6 +91,17 @@ class LocationOverlay(private val mapView: CycleMapView) :
         }
 
         mapView.invalidate()
+    }
+
+    fun doEnableFollowLocation() {
+        enableMyLocation()
+        enableFollowLocation()
+        val lastFix = lastFix
+
+        if (lastFix != null) {
+            Log.d(TAG, "Setting map centre to $lastFix")
+            mapView.controller.setCenter(GeoPoint(lastFix))
+        }
     }
 
     fun lockOnLocation() {
