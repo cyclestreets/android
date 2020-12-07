@@ -180,9 +180,10 @@ public class CycleMapView extends FrameLayout
 
     // These lines effectively shut down the map.
     // This object needs to be discarded and re-created on resuming.
-    getTileProvider().detach();
-    getTileProvider().clearTileCache();
-    BitmapPool.getInstance().clearBitmapPool();
+    // Moved to onDestroy (todo remove commented out lines below)
+    //getTileProvider().detach();
+    //getTileProvider().clearTileCache();
+    //BitmapPool.getInstance().clearBitmapPool();
   }
 
   public void onResume() {
@@ -227,6 +228,11 @@ public class CycleMapView extends FrameLayout
     }.start();
   }
 
+  public void onDestroy() {
+    getTileProvider().detach();
+    //getTileProvider().clearTileCache(); todo not needed as this is in detach
+    BitmapPool.getInstance().clearBitmapPool();
+  }
   ////////////////////////////////////////////////////////////
   ////////////////////////////////////////////////////////////
   public void onCreateOptionsMenu(final Menu menu) {
