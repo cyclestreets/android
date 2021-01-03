@@ -2,6 +2,7 @@ package net.cyclestreets.api
 
 import android.content.Context
 import android.content.pm.PackageManager
+import net.cyclestreets.RoutePlans.PLAN_LEISURE
 
 import net.cyclestreets.api.client.RetrofitApiClient
 import net.cyclestreets.core.R
@@ -9,6 +10,7 @@ import net.cyclestreets.core.R
 interface CycleStreetsApi {
     fun getJourneyJson(plan: String, leaving: String?, arriving: String?, speed: Int, lonLat: DoubleArray): String
     fun getJourneyJson(plan: String, itineraryId: Long): String
+    fun getCircularJourneyJson(lonLat: DoubleArray, distance: Int?, duration: Int?, poiTypes: String?): String
     fun getPhotomapCategories(): PhotomapCategories
     fun getPhoto(photoId: Long): Photos
     fun getPhotos(lonW: Double, latS: Double, lonE: Double, latN: Double): Photos
@@ -91,6 +93,9 @@ object ApiClient : CycleStreetsApi {
     override fun getJourneyJson(plan: String, itineraryId: Long): String {
         return delegate.getJourneyJson(plan, itineraryId)
     }
+    override fun getCircularJourneyJson(lonLat: DoubleArray, distance: Int?, duration: Int?, poiTypes: String?): String {
+        return delegate.getCircularJourneyJson(lonLat, distance, duration, poiTypes)
+    }
     override fun getPhotomapCategories(): PhotomapCategories {
         return delegate.getPhotomapCategories()
     }
@@ -146,6 +151,14 @@ class ApiClientImpl(private val retrofitApiClient: RetrofitApiClient): CycleStre
     override fun getJourneyJson(plan: String,
                                 itineraryId: Long): String {
         return retrofitApiClient.retrievePreviousJourneyJson(plan, itineraryId)
+    }
+
+    override fun getCircularJourneyJson(lonLat: DoubleArray,
+                                    distance: Int?,
+                                    duration: Int?,
+                                    poiTypes: String?): String {
+        val point = itineraryPoints(*lonLat)
+        return retrofitApiClient.getCircularJourneyJson(PLAN_LEISURE, point, distance, duration, poiTypes)
     }
 
     override fun getPhotomapCategories(): PhotomapCategories {

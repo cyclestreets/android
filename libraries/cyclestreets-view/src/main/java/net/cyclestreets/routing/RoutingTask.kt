@@ -2,37 +2,59 @@ package net.cyclestreets.routing
 
 import android.content.Context
 import android.os.AsyncTask
+import android.util.Log
 import android.widget.Toast
+import net.cyclestreets.CycleStreetsPreferences
+import net.cyclestreets.RoutePlans.PLAN_LEISURE
 
 import net.cyclestreets.api.JourneyPlanner
 import net.cyclestreets.content.RouteData
 import net.cyclestreets.util.Dialog
+import net.cyclestreets.util.Logging
 import net.cyclestreets.util.ProgressDialog
+import net.cyclestreets.view.R
 
 abstract class RoutingTask<Params> protected constructor(private val initialMsg: String,
                                                          private val context: Context) : AsyncTask<Params, Int, RouteData>() {
     private var progress: ProgressDialog? = null
     private var error: String? = null
+    private val TAG = Logging.getTag(RoutingTask::class.java)
 
     protected constructor(progressMessageId: Int,
                           context: Context) : this(context.getString(progressMessageId), context)
 
     protected fun fetchRoute(routeType: String,
-                             speed: Int,
-                             waypoints: Waypoints): RouteData? {
-        return fetchRoute(routeType, -1, speed, waypoints)
-    }
-
-    @JvmOverloads
-    protected fun fetchRoute(routeType: String,
                              itinerary: Long,
                              speed: Int,
-                             waypoints: Waypoints? = null): RouteData? {
+                             waypoints: Waypoints? = null,
+                             distance: Int? = null,
+                             duration: Int? = null,
+                             pois: String? = null): RouteData? {
         return try {
-            val json = doFetchRoute(routeType, itinerary, speed, waypoints)
-            RouteData(json, waypoints, null)
+            val json = doFetchRoute(routeType, itinerary, speed, waypoints, distance, duration, pois)
+
+            when {
+                (json == null) -> {
+                    error = context.getString(R.string.route_not_found)
+                    throw Exception(error)
+                }
+                json.contains("Error", ignoreCase = true) -> {
+                    // Put space after ":", remove quotes, drop "{" at start, drop "}" at end
+                    //e.g. {"Error":"The requested itinerary cannot be found."} -> Error: The requested itinerary cannot be found.
+                    error = json.replace(":\"", ": ")
+                                .replace(""""""", "", true)
+                                .drop(1)
+                                .dropLast(1)
+                    throw Exception(error)
+                }
+                else ->
+                    RouteData(json, waypoints, null)
+            }
         } catch (e: Exception) {
-            error = "Could not contact CycleStreets.net : " + e.message
+            if (error == null) {
+                error = context.getString(R.string.could_not_contact_server) + " " + e.message
+            }
+            Log.w(TAG, error, e)
             null
         }
     }
@@ -40,11 +62,24 @@ abstract class RoutingTask<Params> protected constructor(private val initialMsg:
     private fun doFetchRoute(routeType: String,
                              itinerary: Long,
                              speed: Int,
-                             waypoints: Waypoints?): String {
-        return if (itinerary != -1L)
-            JourneyPlanner.getJourneyJson(routeType, itinerary)
+                             waypoints: Waypoints?,
+                             distance: Int?,
+                             duration: Int?,
+                             pois: String?): String {
+        return when {
+            itinerary != -1L -> getRoutebyItineraryNo(routeType, itinerary)
+            routeType == PLAN_LEISURE -> JourneyPlanner.getCircularJourneyJson(waypoints, distance, duration, pois)
+            else -> JourneyPlanner.getJourneyJson(routeType, speed, waypoints!!)
+        }
+    }
+
+    private fun getRoutebyItineraryNo(routeType: String, itinerary: Long): String {
+        val json = JourneyPlanner.getJourneyJson(routeType, itinerary)
+        return if (!json.contains("Error", ignoreCase = true) && (json != "null"))
+            json
         else
-            JourneyPlanner.getJourneyJson(routeType, speed, waypoints!!)
+            // Try again to see if there is a leisure (circular) route with this number:
+            JourneyPlanner.getJourneyJson(PLAN_LEISURE, itinerary)
     }
 
     override fun onPreExecute() {

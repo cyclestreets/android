@@ -50,6 +50,8 @@ public class RetrofitApiClient {
   private final BlogApi blogApi;
   private final Context context;
 
+  private static final String REPORT_ERRORS = "1";
+
   // ~30KB covers /news/feed/, /v2/pois.types and /v2/photomap.categories - allow 200KB for headroom
   private static final int CACHE_MAX_SIZE_BYTES = 200 * 1024;
   private static final String CACHE_DIR_NAME = "RetrofitApiClientCache";
@@ -146,13 +148,22 @@ public class RetrofitApiClient {
                                final String leaving,
                                final String arriving,
                                final int speed) throws IOException {
-    Response<String> response = v1Api.getJourneyJson(plan, itineraryPoints, leaving, arriving, speed).execute();
+    Response<String> response = v1Api.getJourneyJson(plan, itineraryPoints, leaving, arriving, speed, REPORT_ERRORS).execute();
+    return JourneyStringTransformerKt.fromV1ApiJson(response.body());
+  }
+
+  public String getCircularJourneyJson(final String plan,
+                               final String itineraryPoints,
+                               final Integer distance,
+                               final Integer duration,
+                               final String poitypes) throws IOException {
+    Response<String> response = v1Api.getCircularJourneyJson(plan, itineraryPoints, distance, duration, poitypes, REPORT_ERRORS).execute();
     return JourneyStringTransformerKt.fromV1ApiJson(response.body());
   }
 
   public String retrievePreviousJourneyJson(final String plan,
                                             final long itineraryId) throws IOException {
-    Response<String> response = v1Api.retrievePreviousJourneyJson(plan, itineraryId).execute();
+    Response<String> response = v1Api.retrievePreviousJourneyJson(plan, itineraryId, REPORT_ERRORS).execute();
     return JourneyStringTransformerKt.fromV1ApiJson(response.body());
   }
 

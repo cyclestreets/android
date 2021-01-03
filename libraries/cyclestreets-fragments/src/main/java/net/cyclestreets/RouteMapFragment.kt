@@ -8,7 +8,9 @@ import net.cyclestreets.routing.Route
 import net.cyclestreets.routing.Waypoints
 
 import android.Manifest
+import android.app.Activity
 import android.content.DialogInterface
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -40,7 +42,7 @@ class RouteMapFragment : CycleMapFragment(), Route.Listener {
         overlayPushBottom(POIOverlay(mapView()))
         overlayPushBottom(RouteOverlay())
 
-        routeSetter = TapToRouteOverlay(mapView())
+        routeSetter = TapToRouteOverlay(mapView(), this)
         overlayPushTop(routeSetter)
 
         hasGps = GPS.deviceHasGPS(requireContext())
@@ -97,6 +99,19 @@ class RouteMapFragment : CycleMapFragment(), Route.Listener {
             else -> return false
         }
 
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if ((requestCode == TapToRouteOverlay.CIRCULAR_ROUTE_ACTIVITY_REQUEST_CODE) && (resultCode == Activity.RESULT_OK)) {
+            if (data != null) {
+                Route.plotCircularRoute(RoutePlans.PLAN_LEISURE,
+                                        data.getIntExtra("circular_route_distance", 0),
+                                        data.getIntExtra("circular_route_duration", 0),
+                                   null,
+                                        requireContext())
+            }
+        }
     }
 
     private fun startLiveRide() {
