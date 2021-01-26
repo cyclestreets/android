@@ -35,7 +35,11 @@ public class MapPack
     if (!obbDir.exists())
       return packs;
 
-    for (final File mapDir : obbDir.listFiles(new CycleStreetsMapFilter())) {
+    File[] files = obbDir.listFiles(new CycleStreetsMapFilter());
+    if (files == null)
+      return packs;
+
+    for (final File mapDir : files) {
       final File map = findMapFile(mapDir, "main.");
       final Properties props = mapProperties(mapDir);
       final String name = props.getProperty("title");
@@ -57,7 +61,11 @@ public class MapPack
   }
 
   private static File findMapFile(final File mapDir, final String prefix) {
-    for (final File c : mapDir.listFiles())
+    File[] files = mapDir.listFiles();
+    if (files == null)
+      return null;
+
+    for (final File c : files)
       if (c.getName().startsWith(prefix))
         return c;
     return null;
