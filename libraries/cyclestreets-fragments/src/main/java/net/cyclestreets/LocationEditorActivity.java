@@ -57,7 +57,7 @@ public class LocationEditorActivity extends Activity
     for (int i = 0; i< permissions.length; i++) {
       // (No need to check request code here as "follow location" is the only one requested here)
       if (Objects.equals(permissions[i], Manifest.permission.ACCESS_FINE_LOCATION))  {
-        requestPermissionsResultAction(grantResults, grantResults[i], permissions[i], () -> {
+        requestPermissionsResultAction(grantResults[i], permissions[i], () -> {
           map_.doEnableFollowLocation();
           map_.saveLocationPrefs();
           return null;

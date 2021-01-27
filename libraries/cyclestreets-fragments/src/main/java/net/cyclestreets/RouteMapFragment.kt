@@ -161,7 +161,7 @@ class RouteMapFragment : CycleMapFragment(), Route.Listener {
 
             if (permission == Manifest.permission.ACCESS_FINE_LOCATION) {
                 if (requestCode == LIVERIDE_LOCATION_PERMISSION_REQUEST) {
-                    requestPermissionsResultAction(grantResults, grantResult, permission) {
+                    requestPermissionsResultAction(grantResult, permission) {
                         LiveRideActivity.launch(requireContext())
                     }
                 }
@@ -169,7 +169,7 @@ class RouteMapFragment : CycleMapFragment(), Route.Listener {
                     // Sequence of events is: onPause / (Android) permissions box / onRequestPermissionsResult / mainNavDrawerActivity.onResume
                     // After enabling location, need to save values, as mainNavDrawerActivity.onResume will subsequently be called
                     // and Fragments/Overlays will be re-initialised, so these values will be lost otherwise
-                    requestPermissionsResultAction(grantResults, grantResult, permission) {
+                    requestPermissionsResultAction(grantResult, permission) {
                         mapView().doEnableFollowLocation()
                         mapView().saveLocationPrefs()
                     }

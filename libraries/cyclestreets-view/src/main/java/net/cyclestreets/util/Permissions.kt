@@ -6,6 +6,8 @@ import android.content.Context
 import android.content.ContextWrapper
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.content.pm.PackageManager.PERMISSION_DENIED
+import android.content.pm.PackageManager.PERMISSION_GRANTED
 import android.net.Uri
 import android.os.Build
 import android.provider.Settings
@@ -14,6 +16,7 @@ import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat.startActivity
 import androidx.fragment.app.Fragment
+import net.cyclestreets.CycleStreetsConstants.GENERIC_PERMISSION_REQUEST
 import net.cyclestreets.CycleStreetsPreferences.*
 import net.cyclestreets.util.Permissions.justifications
 import net.cyclestreets.view.R
@@ -31,12 +34,18 @@ fun hasPermission(context: Context?, permission: String): Boolean {
 // See https://stackoverflow.com/questions/32347532/android-m-permissions-confused-on-the-usage-of-shouldshowrequestpermissionrati
 // for some details about the different "requesting permissions" context that Android has.
 
-// Do or request permission - from activity, fragment, or (with hackery) context
-
-fun doOrRequestPermission(activity: Activity?, fragment: Fragment?, permission: String, request_code: Int, action: () -> Unit) {
-    var context: Context? = activity
-    if (fragment != null)
-        context = fragment.requireContext()
+/**
+ * Do or request permission - where you only have a context, so use hackery to derive the activity
+ *
+ * @param activity - the activity (if available - fragment is preferred; one or both must be provided)
+ * @param fragment - the fragment (if available - preferred to activity; one or both must be provided)
+ * @param permission - the permission being requested, e.g. [Manifest.permission.ACCESS_FINE_LOCATION]
+ * @param requestCode - can be used for correlating in the onRequestPermissionsResult() callback
+ * @param action - the closure indicating the action to be taken if the permission has already been granted
+ */
+fun doOrRequestPermission(activity: Activity?, fragment: Fragment?, permission: String,
+                          requestCode: Int = GENERIC_PERMISSION_REQUEST, action: () -> Unit) {
+    val context: Context = fragment?.requireContext() ?: activity!!
 
     if (hasPermission(context, permission)) {
         // all good, carry on
@@ -56,8 +65,8 @@ fun doOrRequestPermission(activity: Activity?, fragment: Fragment?, permission: 
             // or after a user clicked "deny" the first time
             Log.d(TAG, "Asking for permission $permission for the first time")
             logPermissionAsRequested(permission)    // Only needed here for when no callback is used
-            MessageBox.OkHtml(context, context?.let { justification(it, permission, R.string.perm_justification_format) }) { _, _ ->
-                requestPermission(activity, fragment, permission, request_code)
+            MessageBox.OkHtml(context, justification(context, permission, R.string.perm_justification_format)) { _, _ ->
+                requestPermission(activity, fragment, permission, requestCode)
             }
         } else {
             if (settingsLastTime(permission)) {
@@ -73,24 +82,30 @@ fun doOrRequestPermission(activity: Activity?, fragment: Fragment?, permission: 
                 // box then wasn't displayed.
                 // Displaying a toast message so user knows why nothing is happening when they press the button.
                 Toast.makeText(context, R.string.perm_needed, Toast.LENGTH_LONG).show()
-                requestPermission(activity, fragment, permission, request_code)
+                requestPermission(activity, fragment, permission, requestCode)
             }
             else {
                 // User has previously denied, and said "don't ask me again".  Tell them they'll have to go into app settings now.
                 logSettingsLastTime(permission)
                 Log.d(TAG, "Asking for permission $permission after previous denial")
-                MessageBox.OkHtml(context, context?.let { justification(it, permission, R.string.perm_justification_after_denial_format) }) { _, _ ->
-                    if (context != null) {
-                        goToSettings(context)
-                    }
+                MessageBox.OkHtml(context, justification(context, permission, R.string.perm_justification_after_denial_format)) { _, _ ->
+                    goToSettings(context)
                 }
             }
         }
     }
 }
 
-fun doOrRequestPermission(context: Context, permission: String, request_code: Int, action: () -> Unit) {
-    doOrRequestPermission(activityFromContext(context)!!, null, permission, request_code, action)
+/**
+ * Do or request permission - where you only have a context, so use hackery to derive the activity
+ *
+ * @param context - the context
+ * @param permission - the permission being requested, e.g. [Manifest.permission.ACCESS_FINE_LOCATION]
+ * @param requestCode - can be used for correlating in the onRequestPermissionsResult() callback
+ * @param action - the closure indicating the action to be taken if the permission has already been granted
+ */
+fun doOrRequestPermission(context: Context, permission: String, requestCode: Int, action: () -> Unit) {
+    doOrRequestPermission(activityFromContext(context)!!, null, permission, requestCode, action)
 }
 
 // See https://stackoverflow.com/questions/8276634/android-get-hosting-activity-from-a-view for a discussion of this hackery
@@ -106,25 +121,30 @@ private fun activityFromContext(initialContext: Context): Activity? {
 }
 
 // Request permissions: activity or fragment
-fun requestPermission(activity: Activity?, fragment: Fragment?, permission: String, request_code: Int) {
+private fun requestPermission(activity: Activity?, fragment: Fragment?, permission: String, requestCode: Int) {
     try {
         if (fragment != null) {
             Log.d(TAG, "Entering Fragment requestPermissions operation for permission $permission")
-            fragment.requestPermissions(arrayOf(permission), request_code)
+            fragment.requestPermissions(arrayOf(permission), requestCode)
         }
         else {
             Log.d(TAG, "Entering Activity requestPermissions operation for permission $permission")
-            if (activity != null) {
-                activity.requestPermissions(arrayOf(permission), request_code)
-            }
+            activity?.requestPermissions(arrayOf(permission), requestCode)
         }
     } catch (e: IllegalStateException) {
         Log.w(TAG, "Unable to request permission $permission from ${if (fragment != null) "fragment $fragment" else "activity $activity"}", e)
     }
 }
 
-fun requestPermissionsResultAction(grantResults: IntArray, grantResult: Int?, permission: String, action: () -> Unit) {
-    if (grantResults.isNotEmpty() && grantResult == PackageManager.PERMISSION_GRANTED) {
+/**
+ * Generic handler for permission Handle
+ *
+ * @param grantResult - either [PERMISSION_GRANTED] or [PERMISSION_DENIED]
+ * @param permission - the string identifier of the permission, e.g. [Manifest.permission.ACCESS_FINE_LOCATION]
+ * @param action - the closure indicating the action to be taken if the permission was granted
+ */
+fun requestPermissionsResultAction(grantResult: Int?, permission: String, action: () -> Unit) {
+    if (grantResult == PERMISSION_GRANTED) {
         clearSettingsLastTime(permission)
         clearPermissionRequested(permission)
         action()

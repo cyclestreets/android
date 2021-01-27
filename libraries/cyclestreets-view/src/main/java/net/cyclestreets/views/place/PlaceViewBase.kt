@@ -1,18 +1,5 @@
 package net.cyclestreets.views.place
 
-import java.util.ArrayList
-
-import net.cyclestreets.views.PlaceAutoCompleteTextView
-import org.osmdroid.api.IGeoPoint
-import org.osmdroid.util.BoundingBox
-
-import net.cyclestreets.content.LocationDatabase
-import net.cyclestreets.content.SavedLocation
-import net.cyclestreets.view.R
-import net.cyclestreets.api.GeoPlace
-import net.cyclestreets.api.GeoPlaces
-import net.cyclestreets.contacts.Contact
-
 import android.Manifest
 import android.app.Activity
 import android.content.Context
@@ -25,7 +12,21 @@ import android.view.View.OnClickListener
 import android.widget.ImageButton
 import android.widget.LinearLayout
 import android.widget.Toast
-import net.cyclestreets.util.*
+import net.cyclestreets.CycleStreetsConstants.GENERIC_PERMISSION_REQUEST
+import net.cyclestreets.api.GeoPlace
+import net.cyclestreets.api.GeoPlaces
+import net.cyclestreets.contacts.Contact
+import net.cyclestreets.content.LocationDatabase
+import net.cyclestreets.content.SavedLocation
+import net.cyclestreets.util.Dialog
+import net.cyclestreets.util.Logging
+import net.cyclestreets.util.MessageBox
+import net.cyclestreets.util.doOrRequestPermission
+import net.cyclestreets.view.R
+import net.cyclestreets.views.PlaceAutoCompleteTextView
+import org.osmdroid.api.IGeoPoint
+import org.osmdroid.util.BoundingBox
+import java.util.*
 
 internal val TAG: String = Logging.getTag(PlaceViewBase::class.java)
 
@@ -47,7 +48,7 @@ open class PlaceViewBase protected constructor(private val context_: Context, la
     }
 
     init {
-        orientation = LinearLayout.HORIZONTAL
+        orientation = HORIZONTAL
         LayoutInflater.from(context_).inflate(layout, this)
 
         textView = findViewById(R.id.placeBox)
@@ -167,7 +168,7 @@ open class PlaceViewBase protected constructor(private val context_: Context, la
 
         if (CONTACTS == option) {
             if (context_ is Activity)
-                doOrRequestPermission(context_, null, Manifest.permission.READ_CONTACTS, 1) { pickContact() }
+                doOrRequestPermission(context_, null, Manifest.permission.READ_CONTACTS) { pickContact() }
             else {
                 Toast.makeText(context_, "Error: Unable to request Read Contacts permission", Toast.LENGTH_LONG).show()
                 Log.w(TAG, "Context is not an instance of Activity")

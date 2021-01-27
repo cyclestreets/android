@@ -77,7 +77,7 @@ open class CycleMapFragment : Fragment(), Undoable {
             // If we have permission to write to external storage, we'll use the default OSMDroid location for caching
             // map tiles.  Therefore, when permission is granted, clear state accordingly so this is possible.
             if (permission == WRITE_EXTERNAL_STORAGE)
-                requestPermissionsResultAction(grantResults, grantResult, permission) {
+                requestPermissionsResultAction(grantResult, permission) {
                     val oldCacheLocation: File = Configuration.getInstance().osmdroidTileCache
 
                     CycleStreetsPreferences.clearOsmdroidCacheLocation()
