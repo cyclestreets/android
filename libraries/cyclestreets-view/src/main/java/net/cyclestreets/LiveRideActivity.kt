@@ -73,7 +73,7 @@ class LiveRideActivity : Activity(), ServiceConnection, LiveRideOverlay.Locator 
     }
 
     private fun initializeMapView() {
-        map = CycleMapView(this, this.javaClass.name).apply {
+        map = CycleMapView(this, this.javaClass.name, null).apply {
             overlayPushBottom(RouteOverlay())
             overlayPushTop(WaymarkOverlay(this))
             overlayPushTop(LockScreenOnOverlay(this))

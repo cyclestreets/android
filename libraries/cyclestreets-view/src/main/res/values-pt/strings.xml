@@ -114,6 +114,8 @@
   <string name="account_registration_is_free_long">O cadastro é gratúito, e usuários registrados podem adicionar fotos. Para iniciar um cadastro digite seus dados no formulário abaixo.</string>
   <string name="placeview_contacts">Contatos</string>
 
+  <string name="perm_needed">A permissão precisa ser concedida nas configurações do dispositivo.</string>
+
   <string name="show_remaining_time">Mostrar tempo restante</string>
   <string name="show_ETA">Mostrar hora prevista de chegada</string>
   <string name="remaining">Restante</string>

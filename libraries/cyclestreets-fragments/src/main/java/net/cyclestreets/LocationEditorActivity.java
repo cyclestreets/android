@@ -1,9 +1,7 @@
 package net.cyclestreets;
 
-import android.Manifest;
-import android.content.Context;
-import android.os.Bundle;
 import android.app.Activity;
+import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
@@ -19,13 +17,16 @@ import net.cyclestreets.views.overlay.ThereOverlay;
 
 import org.osmdroid.api.IGeoPoint;
 
+import static android.Manifest.permission.ACCESS_FINE_LOCATION;
 import static net.cyclestreets.util.PermissionsKt.hasPermission;
+import static net.cyclestreets.util.PermissionsKt.requestPermissionsResultAction;
 
 
 public class LocationEditorActivity extends Activity
     implements ThereOverlay.LocationListener,
                View.OnClickListener,
                TextWatcher {
+
   private CycleMapView map_;
   private ThereOverlay there_;
   private Button save_;
@@ -49,10 +50,25 @@ public class LocationEditorActivity extends Activity
     firstTime_ = true;
   }
 
+  @Override
+  public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+    super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    for (int i = 0; i < permissions.length; i++) {
+      // (No need to check request code here as "follow location" is the only one requested here)
+      if (permissions[i].equals(ACCESS_FINE_LOCATION))  {
+        requestPermissionsResultAction(grantResults[i], permissions[i], () -> {
+          map_.doEnableFollowLocation();
+          map_.saveLocationPrefs();
+          return null;
+        });
+      }
+    }
+  }
+
   private void setupMap() {
     final RelativeLayout v = (findViewById(R.id.mapholder));
 
-    map_ = new CycleMapView(this, getClass().getName());
+    map_ = new CycleMapView(this, getClass().getName(), null);
 
     there_ = new ThereOverlay(this);
     there_.setLocationListener(this);
@@ -60,7 +76,7 @@ public class LocationEditorActivity extends Activity
     map_.overlayPushTop(there_);
 
     v.addView(map_, new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT));
-    if (hasPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)) {
+    if (hasPermission(this, ACCESS_FINE_LOCATION)) {
       map_.enableAndFollowLocation();
     }
     map_.onResume();
@@ -85,7 +101,7 @@ public class LocationEditorActivity extends Activity
 
   private void setupLocation() {
     if (localId_ == -1) {
-      if (hasPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)) {
+      if (hasPermission(this, ACCESS_FINE_LOCATION)) {
         map_.enableAndFollowLocation();
       }
       return;
