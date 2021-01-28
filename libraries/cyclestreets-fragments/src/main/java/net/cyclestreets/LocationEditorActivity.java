@@ -1,6 +1,5 @@
 package net.cyclestreets;
 
-import android.Manifest;
 import android.app.Activity;
 import android.os.Bundle;
 import android.text.Editable;
@@ -18,8 +17,7 @@ import net.cyclestreets.views.overlay.ThereOverlay;
 
 import org.osmdroid.api.IGeoPoint;
 
-import java.util.Objects;
-
+import static android.Manifest.permission.ACCESS_FINE_LOCATION;
 import static net.cyclestreets.util.PermissionsKt.hasPermission;
 import static net.cyclestreets.util.PermissionsKt.requestPermissionsResultAction;
 
@@ -28,6 +26,7 @@ public class LocationEditorActivity extends Activity
     implements ThereOverlay.LocationListener,
                View.OnClickListener,
                TextWatcher {
+
   private CycleMapView map_;
   private ThereOverlay there_;
   private Button save_;
@@ -54,9 +53,9 @@ public class LocationEditorActivity extends Activity
   @Override
   public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
     super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-    for (int i = 0; i< permissions.length; i++) {
+    for (int i = 0; i < permissions.length; i++) {
       // (No need to check request code here as "follow location" is the only one requested here)
-      if (Objects.equals(permissions[i], Manifest.permission.ACCESS_FINE_LOCATION))  {
+      if (permissions[i].equals(ACCESS_FINE_LOCATION))  {
         requestPermissionsResultAction(grantResults[i], permissions[i], () -> {
           map_.doEnableFollowLocation();
           map_.saveLocationPrefs();
@@ -77,7 +76,7 @@ public class LocationEditorActivity extends Activity
     map_.overlayPushTop(there_);
 
     v.addView(map_, new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT));
-    if (hasPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)) {
+    if (hasPermission(this, ACCESS_FINE_LOCATION)) {
       map_.enableAndFollowLocation();
     }
     map_.onResume();
@@ -102,7 +101,7 @@ public class LocationEditorActivity extends Activity
 
   private void setupLocation() {
     if (localId_ == -1) {
-      if (hasPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)) {
+      if (hasPermission(this, ACCESS_FINE_LOCATION)) {
         map_.enableAndFollowLocation();
       }
       return;

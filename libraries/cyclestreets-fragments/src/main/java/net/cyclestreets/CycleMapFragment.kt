@@ -1,8 +1,6 @@
 package net.cyclestreets
 
-import android.Manifest
 import android.Manifest.permission.WRITE_EXTERNAL_STORAGE
-import android.content.pm.PackageManager
 import android.graphics.drawable.Drawable
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -56,10 +54,10 @@ open class CycleMapFragment : Fragment(), Undoable {
 
     private fun checkPermissionNoMoreThanOnceEveryFiveMinutes() {
         val now = Date().time
-        val oneMinuteAgo = now - (5 * 60 * 1000)
-        if (oneMinuteAgo > permissionLastCheckedTime) {
+        val fiveMinutesAgo = now - (5 * 60 * 1000)
+        if (fiveMinutesAgo > permissionLastCheckedTime) {
             permissionLastCheckedTime = now
-            doOrRequestPermission(null, this, WRITE_EXTERNAL_STORAGE, 1) {
+            doOrRequestPermission(null, this, WRITE_EXTERNAL_STORAGE) {
                 Log.v(TAG, "Already have $WRITE_EXTERNAL_STORAGE permission")
             }
         }

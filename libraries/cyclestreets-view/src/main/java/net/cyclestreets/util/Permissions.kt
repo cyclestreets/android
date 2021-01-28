@@ -97,27 +97,25 @@ fun doOrRequestPermission(activity: Activity?, fragment: Fragment?, permission: 
 }
 
 /**
- * Do or request permission - where you only have a context, so use hackery to derive the activity
+ * Do or request permission - where only a context is available (using hackery to derive the activity)
  *
- * @param context - the context
+ * @param providedContext - the context, from which we try to derive an [Activity]
  * @param permission - the permission being requested, e.g. [Manifest.permission.ACCESS_FINE_LOCATION]
  * @param requestCode - can be used for correlating in the onRequestPermissionsResult() callback
  * @param action - the closure indicating the action to be taken if the permission has already been granted
  */
-fun doOrRequestPermission(context: Context, permission: String, requestCode: Int, action: () -> Unit) {
-    doOrRequestPermission(activityFromContext(context)!!, null, permission, requestCode, action)
-}
+fun doOrRequestPermission(providedContext: Context, permission: String, requestCode: Int, action: () -> Unit) {
 
-// See https://stackoverflow.com/questions/8276634/android-get-hosting-activity-from-a-view for a discussion of this hackery
-private fun activityFromContext(initialContext: Context): Activity? {
-    var context = initialContext
+    // See https://stackoverflow.com/questions/8276634/android-get-hosting-activity-from-a-view for a discussion of this hackery
+    var context = providedContext
     while (context is ContextWrapper) {
         if (context is Activity) {
-            return context
+            doOrRequestPermission(context, null, permission, requestCode, action)
         }
         context = context.baseContext
     }
-    return null
+
+    Log.w(TAG, "Unable to retrieve activity from context: ${context}")
 }
 
 // Request permissions: activity or fragment

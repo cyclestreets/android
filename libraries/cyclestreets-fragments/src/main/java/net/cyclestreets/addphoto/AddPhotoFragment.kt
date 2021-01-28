@@ -503,6 +503,8 @@ class AddPhotoFragment : Fragment(), View.OnClickListener, Undoable, ThereOverla
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
 
+        Log.d(TAG, "Permission ${permissions.joinToString()} was ${if (grantResults.joinToString().equals("0")) "granted" else "denied"}")
+
         for (i in permissions.indices) {
             val permission = permissions[i]
             val grantResult = grantResults[i]
