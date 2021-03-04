@@ -10,7 +10,9 @@
   <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
   <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
 
-  <application android:supportsRtl="false">
+  <application
+      android:requestLegacyExternalStorage="true"
+      android:supportsRtl="false">
         <activity
             android:name="net.cyclestreets.views.CircularRouteActivity"
             android:theme="@style/Theme.AppCompat.DayNight.DarkActionBar">
@@ -33,5 +35,4 @@
             android:name="net.cyclestreets.liveride.LiveRideService"
             android:foregroundServiceType="location" />
   </application>
-
 </manifest>

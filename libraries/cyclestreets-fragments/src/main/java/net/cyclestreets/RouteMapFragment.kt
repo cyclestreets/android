@@ -11,6 +11,7 @@ import android.Manifest
 import android.app.Activity
 import android.content.DialogInterface
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -19,6 +20,8 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import net.cyclestreets.CycleStreetsConstants.FOLLOW_LOCATION_PERMISSION_REQUEST
+import net.cyclestreets.CycleStreetsConstants.LIVERIDE_LOCATION_PERMISSION_REQUEST
 
 import net.cyclestreets.util.MenuHelper.enableMenuItem
 import net.cyclestreets.util.MenuHelper.showMenuItem
@@ -115,7 +118,7 @@ class RouteMapFragment : CycleMapFragment(), Route.Listener {
     }
 
     private fun startLiveRide() {
-        doOrRequestPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) {
+        doOrRequestPermission(null, this, Manifest.permission.ACCESS_FINE_LOCATION, LIVERIDE_LOCATION_PERMISSION_REQUEST) {
             LiveRideActivity.launch(requireContext())
         }
     }
@@ -160,5 +163,34 @@ class RouteMapFragment : CycleMapFragment(), Route.Listener {
 
     override fun onResetJourney() {
         mapView().invalidate()
+    }
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+
+        Log.d(TAG, "Permission ${permissions.joinToString()} was ${if (grantResults.joinToString().equals("0")) "granted" else "denied"}")
+
+        for (i in permissions.indices) {
+            val permission = permissions[i]
+            val grantResult = grantResults[i]
+
+            if (permission == Manifest.permission.ACCESS_FINE_LOCATION) {
+                if (requestCode == LIVERIDE_LOCATION_PERMISSION_REQUEST) {
+                    requestPermissionsResultAction(grantResult, permission) {
+                        LiveRideActivity.launch(requireContext())
+                    }
+                }
+                else if (requestCode == FOLLOW_LOCATION_PERMISSION_REQUEST) {
+                    // Sequence of events is: onPause / (Android) permissions box / onRequestPermissionsResult / mainNavDrawerActivity.onResume
+                    // After enabling location, need to save values, as mainNavDrawerActivity.onResume will subsequently be called
+                    // and Fragments/Overlays will be re-initialised, so these values will be lost otherwise
+                    requestPermissionsResultAction(grantResult, permission) {
+                        mapView().doEnableFollowLocation()
+                        mapView().saveLocationPrefs()
+                    }
+                }
+                return
+            }
+        }
     }
 }

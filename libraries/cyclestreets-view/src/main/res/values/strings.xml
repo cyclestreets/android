@@ -171,6 +171,8 @@
     <p>Your contact information is not stored anywhere, locally or remotely, and is only sent to our servers for the purposes of planning a route.</p>
   ]]></string>
 
+  <string name="perm_needed">Permission needs granting in device settings.</string>
+
   <string name="show_remaining_time">Show remaining time</string>
   <string name="show_ETA">Show estimated time of arrival</string>
   <string name="remaining">Remaining</string>

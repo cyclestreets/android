@@ -36,6 +36,7 @@ import org.osmdroid.views.overlay.Overlay;
 
 import java.util.List;
 
+import androidx.fragment.app.Fragment;
 import androidx.preference.PreferenceManager;
 
 import static java.lang.Math.abs;
@@ -70,7 +71,7 @@ public class CycleMapView extends FrameLayout
   private IGeoPoint foundPlace;
   private boolean paused_ = false;
 
-  public CycleMapView(final Context context, final String name) {
+  public CycleMapView(final Context context, final String name, final Fragment fragment) {
     super(context);
 
     // Make sure we can save map tiles, regardless of whether we have the write-external permission granted.
@@ -93,7 +94,7 @@ public class CycleMapView extends FrameLayout
 
     overlayBottomIndex_ = getOverlays().size();
 
-    location_ = new LocationOverlay(this);
+    location_ = new LocationOverlay(this, fragment);
     getOverlays().add(location_);
 
     controllerOverlay_ = new ControllerOverlay(this);
@@ -258,11 +259,20 @@ public class CycleMapView extends FrameLayout
   public void disableFollowLocation() { location_.disableFollowLocation(); }
 
   public void enableAndFollowLocation() { location_.enableAndFollowLocation(true); }
+  public void doEnableFollowLocation() {location_.doEnableFollowLocation();}
   public void lockOnLocation() { location_.lockOnLocation(); }
   public void hideLocationButton() { location_.hideButton(); }
   public void shiftAttribution() { controllerOverlay_.setAttributionShifted(); }
 
   ///////////////////////////////////////////////////////
+
+  public void saveLocationPrefs() {
+    final SharedPreferences.Editor edit = prefs_.edit();
+    edit.putBoolean(PREFS_APP_MY_LOCATION, location_.isMyLocationEnabled());
+    edit.putBoolean(PREFS_APP_FOLLOW_LOCATION, location_.isFollowLocationEnabled());
+    edit.apply();
+  }
+
   public void centreOn(final IGeoPoint place) {
     centreOn_ = place;
     postInvalidate();

@@ -39,6 +39,7 @@ public class CycleStreetsPreferences
   public final static String PREF_SHOW_ETA = "show-ETA";
 
   public static final String PREF_PERMISSION_REQUESTED_PREFIX = "permission-requested-";
+  public static final String PREF_SETTINGS_LAST_TIME_PREFIX = "settings-last-time-";
 
   public final static String MAPSTYLE_OCM = "CycleStreets";
   public final static String MAPSTYLE_OSM = "CycleStreets-OSM";
@@ -154,6 +155,26 @@ public class CycleStreetsPreferences
 
   public static void logPermissionAsRequested(String permission) {
     putBoolean(PREF_PERMISSION_REQUESTED_PREFIX + permission, true);
+  }
+
+  public static void clearPermissionRequested(String permission) {
+    final Editor editor = editor();
+    editor.remove(PREF_PERMISSION_REQUESTED_PREFIX + permission);
+    editor.apply();
+  }
+
+  public static boolean settingsLastTime(String permission) {
+    return getBoolean(PREF_SETTINGS_LAST_TIME_PREFIX + permission, false);
+  }
+
+  public static void logSettingsLastTime(String permission) {
+    putBoolean(PREF_SETTINGS_LAST_TIME_PREFIX + permission, true);
+  }
+
+  public static void clearSettingsLastTime(String permission) {
+    final Editor editor = editor();
+    editor.remove(PREF_SETTINGS_LAST_TIME_PREFIX + permission);
+    editor.apply();
   }
 
   public static boolean uploadSmallImages() {
