@@ -1,5 +1,6 @@
 LiveRide now shows remaining distance and optionally remaining time and/or ETA.
 POI URLs (e.g. bike shop websites) now appear as clickable links.
 Find a Place now puts a marker on the screen instead of just centering the map.
+Compatibility updates to Android 10 & 11 - especially regarding LiveRide voice nav in background.
 
 Various minor bug fixes.
