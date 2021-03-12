@@ -213,7 +213,14 @@ class TapToRouteOverlay(private val mapView: CycleMapView, private val fragment:
         routingInfoRect.apply {
             setBackgroundColor(if (tapState.canRoute()) highlightColour else lowlightColour)
             gravity = Gravity.CENTER
-            text = tapState.actionDescription
+            try {
+                text = context.getString(tapState.actionDescription)
+            }
+            catch (e: Exception) {
+                val actionDescription = tapState.actionDescription
+                Log.w(TAG, "Tap state $tapState resource ID $actionDescription not found in strings.xml", e)
+                text = ""
+            }
             isEnabled = tapState.canRoute()
         }
     }
@@ -280,12 +287,13 @@ class TapToRouteOverlay(private val mapView: CycleMapView, private val fragment:
     }
 
     ////////////////////////////////////
-    private enum class TapToRoute private constructor(val waypointingInProgress: Boolean, val actionDescription: String) {
-        WAITING_FOR_START(false, "Tap map to set Start"),
-        WAITING_FOR_SECOND(true, "Tap map to set Waypoint\nTap here for Circular Route"),
-        WAITING_FOR_NEXT(true, "Tap map to set Waypoint\nTap here to Route"),
-        WAITING_TO_ROUTE(true, "Tap here to Route"),  // When max no of waypoints reached
-        ALL_DONE(false, "");
+    private enum class TapToRoute private constructor(val waypointingInProgress: Boolean, val actionDescription: Int) {
+
+        WAITING_FOR_START(false, R.string.tap_map_set_start),
+        WAITING_FOR_SECOND(true, R.string.tap_map_waypoint_circular_route),
+        WAITING_FOR_NEXT(true, R.string.tap_map_waypoint_route),
+        WAITING_TO_ROUTE(true, R.string.tap_here_route),  // When max no of waypoints reached
+        ALL_DONE(false, 0);
 
         fun previous(count: Int): TapToRoute {
             val previous: TapToRoute

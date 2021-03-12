@@ -20,9 +20,9 @@ public class JourneyPlanner {
   }
 
   public static String getCircularJourneyJson(final Waypoints waypoints,
-                                      Integer distance,
-                                      Integer duration,
-                                      String pois) {
+                                              final Integer distance,
+                                              final Integer duration,
+                                              final String pois) {
     return ApiClient.INSTANCE.getCircularJourneyJson(lonLat(waypoints), distance, duration, pois);
   }
 

@@ -4,9 +4,8 @@ import android.content.Context
 import android.os.AsyncTask
 import android.util.Log
 import android.widget.Toast
-import net.cyclestreets.CycleStreetsPreferences
+import com.fasterxml.jackson.databind.ObjectMapper
 import net.cyclestreets.RoutePlans.PLAN_LEISURE
-
 import net.cyclestreets.api.JourneyPlanner
 import net.cyclestreets.content.RouteData
 import net.cyclestreets.util.Dialog
@@ -19,12 +18,13 @@ abstract class RoutingTask<Params> protected constructor(private val initialMsg:
     private var progress: ProgressDialog? = null
     private var error: String? = null
     private val TAG = Logging.getTag(RoutingTask::class.java)
+    private val NO_ITINERARY = -1L
 
     protected constructor(progressMessageId: Int,
                           context: Context) : this(context.getString(progressMessageId), context)
 
     protected fun fetchRoute(routeType: String,
-                             itinerary: Long,
+                             itinerary: Long = NO_ITINERARY,
                              speed: Int,
                              waypoints: Waypoints? = null,
                              distance: Int? = null,
@@ -36,16 +36,14 @@ abstract class RoutingTask<Params> protected constructor(private val initialMsg:
             when {
                 (json == null) -> {
                     error = context.getString(R.string.route_not_found)
-                    throw Exception(error)
+                    throw ErrorFromServerException(error!!)
                 }
                 json.contains("Error", ignoreCase = true) -> {
-                    // Put space after ":", remove quotes, drop "{" at start, drop "}" at end
-                    //e.g. {"Error":"The requested itinerary cannot be found."} -> Error: The requested itinerary cannot be found.
-                    error = json.replace(":\"", ": ")
-                                .replace(""""""", "", true)
-                                .drop(1)
-                                .dropLast(1)
-                    throw Exception(error)
+                    // Get the error message returned by the server
+                    val objectMapper = ObjectMapper()
+                    val jsonNode = objectMapper.readTree(json)
+                    error = jsonNode.get("Error").asText(context.getString(R.string.route_not_found))
+                    throw ErrorFromServerException(error!!)
                 }
                 else ->
                     RouteData(json, waypoints, null)
@@ -67,7 +65,7 @@ abstract class RoutingTask<Params> protected constructor(private val initialMsg:
                              duration: Int?,
                              pois: String?): String {
         return when {
-            itinerary != -1L -> getRoutebyItineraryNo(routeType, itinerary)
+            itinerary != NO_ITINERARY -> getRoutebyItineraryNo(routeType, itinerary)
             routeType == PLAN_LEISURE -> JourneyPlanner.getCircularJourneyJson(waypoints, distance, duration, pois)
             else -> JourneyPlanner.getJourneyJson(routeType, speed, waypoints!!)
         }
@@ -111,3 +109,5 @@ abstract class RoutingTask<Params> protected constructor(private val initialMsg:
         } catch (e: Exception) {}
     }
 }
+
+class ErrorFromServerException(errorMessage: String): Exception(errorMessage)

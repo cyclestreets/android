@@ -13,6 +13,11 @@ internal open class CycleStreetsRoutingTask(private val routeType: String,
                                             private val pois: String? = null) : RoutingTask<Waypoints>(R.string.route_finding_new, context) {
     override fun doInBackground(vararg waypoints: Waypoints): RouteData? {
         val wp = waypoints[0]
-        return fetchRoute(routeType, -1, speed, wp, distance, duration, pois)
+        return fetchRoute(routeType,
+                          speed = speed,
+                          waypoints = wp,
+                          distance = distance,
+                          duration = duration,
+                          pois = pois)
     }
 }
