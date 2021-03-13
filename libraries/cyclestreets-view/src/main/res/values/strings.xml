@@ -61,7 +61,6 @@
   <string name="tap_map_waypoint_route" translatable="false">Tap map to set Waypoint, or\nTap here to Route</string>
   <string name="tap_here_route" translatable="false">Tap here to Route</string>
 
-
   <string name="route_no_location">Location not currently available.</string>
 
   <string name="photo_upload_hint1">Upload reports of cycling-related problems or of good practice.</string>

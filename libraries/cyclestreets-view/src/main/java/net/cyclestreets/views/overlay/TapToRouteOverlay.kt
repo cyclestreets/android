@@ -288,7 +288,6 @@ class TapToRouteOverlay(private val mapView: CycleMapView, private val fragment:
 
     ////////////////////////////////////
     private enum class TapToRoute private constructor(val waypointingInProgress: Boolean, val actionDescription: Int) {
-
         WAITING_FOR_START(false, R.string.tap_map_set_start),
         WAITING_FOR_SECOND(true, R.string.tap_map_waypoint_circular_route),
         WAITING_FOR_NEXT(true, R.string.tap_map_waypoint_route),
