@@ -1,1 +1,3 @@
-
+Circular leisure routes! Tap your starting waypoint and then choose a duration or distance.
+Bug fixes:
+Various minor bug fixes.
