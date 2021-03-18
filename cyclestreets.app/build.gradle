@@ -1,6 +1,6 @@
 buildscript {
   dependencies {
-    classpath 'me.moallemi.gradle:advanced-build-version:1.7.1'
+    classpath 'me.moallemi.gradle:advanced-build-version:1.7.3'
   }
 }
 
@@ -34,11 +34,11 @@ keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
 
 android {
   defaultConfig {
-    testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
-
     applicationId 'net.cyclestreets'
     versionName advancedVersioning.versionName
     versionCode advancedVersioning.versionCode
+
+    testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
   }
 
   packagingOptions {
