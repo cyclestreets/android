@@ -9,7 +9,5 @@ if [ "$TRAVIS_REPO_SLUG" == "cyclestreets/android" ] &&[ "$CI" == "true" ] && [ 
   openssl aes-256-cbc -k $openssl_file_encryption_key -md md5 -in cyclestreets.app/play-api-key.json.enc -out cyclestreets.app/play-api-key.json -d
   openssl aes-256-cbc -k $openssl_file_encryption_key -md md5 -in libraries/cyclestreets-core/src/test/resources/cyclestreets-api.key.enc -out libraries/cyclestreets-core/src/test/resources/cyclestreets-api.key -d
 else
-  echo "The compiled artifact will have a dummy signature"
-  cp cyclestreets.app/license.properties.dummy cyclestreets.app/license.properties
-  cp cyclestreets.app/keystore.dummy cyclestreets.app/keystore
+  echo "Running a PR or branch build - the compiled artifact will have a dummy signature"
 fi
