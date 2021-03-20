@@ -6,33 +6,13 @@ import android.os.Bundle
 import android.view.View
 import android.widget.SeekBar
 import android.widget.TextView
+import androidx.lifecycle.ViewModelProvider
 import net.cyclestreets.view.R
 import com.google.android.material.tabs.TabLayout
-import net.cyclestreets.CycleStreetsPreferences
-import net.cyclestreets.RoutePlans.PLAN_LEISURE
-import net.cyclestreets.routing.Route
-import java.util.*
 
 class CircularRouteActivity : AppCompatActivity() {
 
-    val CIRCULAR_ROUTE_MIN_MINUTES = 5
-    val CIRCULAR_ROUTE_MAX_MINUTES = 200
-    val CIRCULAR_ROUTE_MIN_MILES = 1
-    val CIRCULAR_ROUTE_MAX_MILES = 30
-    val CIRCULAR_ROUTE_MIN_KM = 1
-    val CIRCULAR_ROUTE_MAX_KM = 50
-
-    val units = CycleStreetsPreferences.units()
-    val minKmOrMiles = if (units == "km") CIRCULAR_ROUTE_MIN_KM else CIRCULAR_ROUTE_MIN_MILES
-    val maxKmOrMiles = if (units == "km") CIRCULAR_ROUTE_MAX_KM else CIRCULAR_ROUTE_MAX_MILES
-
-    val minValues = arrayOf(CIRCULAR_ROUTE_MIN_MINUTES, minKmOrMiles)
-    val maxValues = arrayOf(CIRCULAR_ROUTE_MAX_MINUTES, maxKmOrMiles)
-    // Duration and distance values
-    var values = arrayOf(CIRCULAR_ROUTE_MIN_MINUTES, 0)
-
-    var storeValues = arrayOf(CIRCULAR_ROUTE_MIN_MINUTES, minKmOrMiles)
-    private lateinit var currentValueUnit: Array<String>
+    private lateinit var viewModel: CircularRouteViewModel
 
     private lateinit var seekBarD:SeekBar
     private lateinit var minValueMins:TextView
@@ -42,21 +22,28 @@ class CircularRouteActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_circular_route)
+        viewModel = ViewModelProvider(this).get(CircularRouteViewModel::class.java)
 
         supportActionBar?.title = this.getString(R.string.circular_route)
-        currentValueUnit = arrayOf(this.getString(R.string.mins), units)
+        viewModel.currentValueUnit = arrayOf(this.getString(R.string.mins), viewModel.units)
 
         seekBarD = findViewById(R.id.seekBarDurationDistance)
         minValueMins = findViewById(R.id.seekBarMin)
         maxValueMins = findViewById(R.id.seekBarMax)
         curValueTextView = findViewById(R.id.currentValueTextView)
 
-        doSeekBar(0)
         val aTabLayout = findViewById<TabLayout>(R.id.tablayout)
+        // If screen has been rotated, get previously-selected tab and make sure it is selected
+        val tab = aTabLayout.getTabAt(viewModel.position)
+        if (tab != null) {
+            tab.select()
+            doSeekBar(viewModel.position)
+        }
 
         aTabLayout.addOnTabSelectedListener(object: TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab?) {
                 if (tab != null) {
+                    viewModel.position = tab.position
                     doSeekBar(tab.position)
                 }
             }
@@ -69,31 +56,35 @@ class CircularRouteActivity : AppCompatActivity() {
         })
     }
 
+    // A single Seekbar is used for both duration and distance
+    // Set values and unit according to which tab is selected
     private fun doSeekBar(position: Int) {
-        values[position] = storeValues[position]
+        viewModel.values[position] = viewModel.storeValues[position]
         // If this is duration tab, set distance to 0 and vice versa:
-        values[(position + 1) % 2] = 0
+        viewModel.values[(position + 1) % 2] = 0
 
-        minValueMins.text = minValues[position].toString()
-        maxValueMins.text = maxValues[position].toString()
+        minValueMins.text = viewModel.minValues[position].toString()
+        maxValueMins.text = viewModel.maxValues[position].toString()
         // max must be set before progress
-        seekBarD.max = maxValues[position] - minValues[position]
-        // For below API level 26, seekBar doesn't have min attribute, so need to calculate progress
-        seekBarD.progress = storeValues[position] - minValues[position]
-
-        curValueTextView.text = "${storeValues[position]} ${currentValueUnit[position]}"
+        seekBarD.max = viewModel.maxValues[position] - viewModel.minValues[position]
+        // Below API level 26, seekBar doesn't have min attribute, so need to calculate progress
+        seekBarD.progress = viewModel.storeValues[position] - viewModel.minValues[position]
+        // Show current value of slider, e.g. 15 mins, 10 km
+        curValueTextView.text = "${viewModel.storeValues[position]} ${viewModel.currentValueUnit[position]}"
 
         seekBarD.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(seekbar: SeekBar?, progress: Int, fromUser: Boolean) {
                 if (fromUser == true)
-                    curValueTextView.text = "${(minValues[position] + seekbar?.progress!!)} ${currentValueUnit[position]}"
+                    curValueTextView.text = "${(viewModel.minValues[position] + seekbar?.progress!!)} ${viewModel.currentValueUnit[position]}"
             }
+
             override fun onStartTrackingTouch(seekbar: SeekBar?) {
             }
+
             override fun onStopTrackingTouch(seekbar: SeekBar?) {
-                values[position] = minValues[position] + seekbar?.progress!!
-                curValueTextView.text = "${values[position]} ${currentValueUnit[position]}"
-                storeValues[position] = values[position]
+                viewModel.values[position] = viewModel.minValues[position] + seekbar?.progress!!
+                curValueTextView.text = "${viewModel.values[position]} ${viewModel.currentValueUnit[position]}"
+                viewModel.storeValues[position] = viewModel.values[position]
             }
         })
 
@@ -101,21 +92,9 @@ class CircularRouteActivity : AppCompatActivity() {
 
     fun createButtonOnClick(view: View) {
 
-        // Convert distance
-        val metres: Int
-        if (values[1] == 0) {
-            metres = 0
-        }
-        else {
-            metres = if (units.toLowerCase(Locale.ROOT) == "miles") {
-                (values[1] * 8000 / 5)
-                }
-                else values[1] * 1000
-        }
-
         val returnIntent = Intent()
-        returnIntent.putExtra("circular_route_duration", values[0]*60)
-        returnIntent.putExtra("circular_route_distance", metres)
+        returnIntent.putExtra("circular_route_duration", viewModel.values[0]*60)
+        returnIntent.putExtra("circular_route_distance", viewModel.distanceInMetres())
         setResult(RESULT_OK, returnIntent)
         finish()
     }

@@ -13,6 +13,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:gravity="center_horizontal"
+        android:paddingStart="8dp"
+        android:paddingEnd="8dp"
         android:text="@string/create_circular_route_desc"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 
@@ -23,11 +25,14 @@
         android:layout_below="@id/textView2"
         android:layout_marginTop="16dp"
 
+        android:paddingStart="8dp"
         android:paddingTop="8dp"
+        android:paddingEnd="8dp"
         android:paddingBottom="8dp"
         app:tabGravity="fill"
         app:tabIndicatorColor="@color/apptheme_color"
         app:tabIndicatorHeight="4dp"
+        app:tabMaxWidth="0dp"
         app:tabSelectedTextColor="@color/apptheme_color"
         app:tabTextAppearance="@style/TextAppearance.AppCompat.Large"
         app:tabTextColor="@color/cs_primary_dark_material_light">
