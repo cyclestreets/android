@@ -5,7 +5,7 @@ buildscript {
 }
 
 plugins {
-  id 'com.github.triplet.play' version '2.8.1'
+  id 'com.github.triplet.play' version '3.3.0'
 }
 
 // Use a plugin to derive a version name (e.g. 3.7) and monotonically increasing version code (e.g. 1372)
@@ -72,12 +72,12 @@ android {
 
 play {
   // credentials file decrypted from play-api-key.json.enc by ciLicense.sh
-  serviceAccountCredentials = file('play-api-key.json')
+  serviceAccountCredentials.set(file('play-api-key.json'))
 
-  track = 'beta'
+  track.set('beta')
 
-  // Uncomment the line below if you want to update the screenshots etc.
-  // uploadImages = true
+  // If you want to update screenshots etc, check what 'publish' tasks are available by running
+  // `./gradlew tasks`, and refer to the documentation at https://github.com/Triple-T/gradle-play-publisher
 }
 
 dependencies {
