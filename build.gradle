@@ -31,7 +31,7 @@ ext {
   compileSdkVersion=30
   minSdkVersion=23
   targetSdkVersion=30
-  buildToolsVersion='30.0.2'
+  buildToolsVersion='30.0.3'
 
   // java version
   javaVersion = JavaVersion.VERSION_1_8

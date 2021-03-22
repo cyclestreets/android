@@ -25,7 +25,7 @@ env:
     - compileSdkVersion=30
     - minSdkVersion=23
     - targetSdkVersion=29
-    - toolsVersion=30.0.2
+    - toolsVersion=30.0.3
 
     # For the decryption of secrets needed to sign and publish our artifacts
     - secure: "LipL0wPv0uQrKitaeGxCpoQsx5sl/Pg/DtQv4S7Bi52DxfArgvD2hPB0TWgkgYGJPfENHLEyqg+H+/v2nON3IXY+cnsd+TW+P1T03/52D56ieSKGVtVtSYUOZUgoyxIIvRZWFh/UNg+AmZIjOCTJDLitBTUxD8kWux8NjhIqZow="
@@ -45,7 +45,7 @@ before_install:
   - sudo pip install requests
   - touch $HOME/.android/repositories.cfg
   - yes | sdkmanager "platforms;android-30"
-  - yes | sdkmanager "build-tools;30.0.2"
+  - yes | sdkmanager "build-tools;30.0.3"
 
 install:
   - ./checkPoiTypeIcons.sh
