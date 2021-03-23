@@ -1,1 +1,7 @@
+LiveRide now shows remaining distance and optionally remaining time and/or ETA.
+POI URLs (e.g. bike shop websites) now appear as clickable links.
+Find a Place now puts a marker on the screen instead of just centering the map.
 
+Various minor bug fixes (incl. downloading map tiles).
+
+Please note that the Offline Vector maps support (using the separate "Cyclestreets UK Map Pack" app bundle) has been broken by Android platform changes.  We aim to restore this functionality in a subsequent release.
