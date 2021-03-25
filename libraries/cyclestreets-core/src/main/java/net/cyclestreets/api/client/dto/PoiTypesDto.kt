@@ -42,7 +42,7 @@ class PoiTypesDto {
 }
 
 
-private fun poiIcon(context: Context, id: String): Drawable {
+fun poiIcon(context: Context, id: String): Drawable {
     val key = "poi_${id}"
     val res = context.resources
     val resPackage = res.getResourcePackageName(defaultResId)

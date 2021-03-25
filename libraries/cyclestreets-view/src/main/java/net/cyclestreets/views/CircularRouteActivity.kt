@@ -12,7 +12,11 @@ import net.cyclestreets.view.R
 import com.google.android.material.tabs.TabLayout
 import net.cyclestreets.EXTRA_CIRCULAR_ROUTE_DISTANCE
 import net.cyclestreets.EXTRA_CIRCULAR_ROUTE_DURATION
+import net.cyclestreets.EXTRA_CIRCULAR_ROUTE_POI_CATEGORIES
 import net.cyclestreets.views.CircularRouteViewModel.Companion.DURATION
+import net.cyclestreets.api.POICategories
+import net.cyclestreets.util.Dialog
+import net.cyclestreets.views.overlay.POIOverlay
 
 class CircularRouteActivity : AppCompatActivity() {
 
@@ -22,6 +26,7 @@ class CircularRouteActivity : AppCompatActivity() {
     private lateinit var seekBarMin: TextView
     private lateinit var seekBarMax: TextView
     private lateinit var currentValue: TextView
+    private lateinit var poiTextView:TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,7 +40,9 @@ class CircularRouteActivity : AppCompatActivity() {
         seekBarMin = findViewById(R.id.circularRouteSeekBarMin)
         seekBarMax = findViewById(R.id.circularRouteSeekBarMax)
         currentValue = findViewById(R.id.circularRouteCurrentValue)
+        poiTextView = findViewById(R.id.circularRoutePoiTextView)
 
+        poiTextView.text = String.format(this.getString(R.string.num_poitypes_selected), viewModel.activeCategories.count())
         val durationOrDistanceTab = findViewById<TabLayout>(R.id.circularRouteDurationOrDistanceTab)
         // If screen has been rotated, get previously-selected tab and make sure it is selected
         durationOrDistanceTab.getTabAt(viewModel.currentTab)?.let { tab ->
@@ -89,12 +96,30 @@ class CircularRouteActivity : AppCompatActivity() {
         }
     }
 
+    fun poiButtonOnClick(view: View) {
+
+        val poiAdapter = POIOverlay.POICategoryAdapter(this, POICategories.get(), viewModel.activeCategories)
+
+        Dialog.listViewDialog(this, R.string.poi_menu_title, poiAdapter,
+                { _, _ ->
+                    viewModel.activeCategories = poiAdapter.chosenCategories()
+                    poiTextView.text = String.format(this.getString(R.string.num_poitypes_selected), viewModel.activeCategories.count())
+                },
+                { _, _ ->
+                })
+    }
+
     fun circularRouteGoButtonClick(view: View) {
         val returnIntent = Intent().apply {
+
             if (viewModel.currentTab == DURATION)
                 putExtra(EXTRA_CIRCULAR_ROUTE_DURATION, viewModel.durationInSeconds())
             else
                 putExtra(EXTRA_CIRCULAR_ROUTE_DISTANCE, viewModel.distanceInMetres())
+
+            if (viewModel.activeCategories.isNotEmpty())
+                putExtra(EXTRA_CIRCULAR_ROUTE_POI_CATEGORIES,
+                         viewModel.activeCategories.joinToString(separator = ",") {it.key})
         }
         setResult(RESULT_OK, returnIntent)
         finish()

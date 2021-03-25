@@ -157,8 +157,8 @@ public class RetrofitApiClient {
   public String getCircularJourneyJson(final String itineraryPoints,
                                        final Integer distance,
                                        final Integer duration,
-                                       final String poitypes) throws IOException {
-    Response<String> response = v1Api.getCircularJourneyJson(PLAN_LEISURE, itineraryPoints, distance, duration, poitypes, REPORT_ERRORS).execute();
+                                       final String poiTypes) throws IOException {
+    Response<String> response = v1Api.getCircularJourneyJson(PLAN_LEISURE, itineraryPoints, distance, duration, poiTypes, REPORT_ERRORS).execute();
     return JourneyStringTransformerKt.fromV1ApiJson(response.body());
   }
 

@@ -40,6 +40,7 @@ class RouteMapFragment : CycleMapFragment(), Route.Listener {
 
         overlayPushBottom(RouteHighlightOverlay(requireContext(), mapView()))
         overlayPushBottom(POIOverlay(mapView()))
+        overlayPushBottom(CircularRoutePOIOverlay(mapView()))
         overlayPushBottom(RouteOverlay())
 
         routeSetter = TapToRouteOverlay(mapView(), this)
@@ -110,7 +111,7 @@ class RouteMapFragment : CycleMapFragment(), Route.Listener {
                 Route.plotCircularRoute(RoutePlans.PLAN_LEISURE,
                                         if (distance != 0) distance else null,
                                         if (duration != 0) duration else null,
-                                   null,
+                                        data.getStringExtra(EXTRA_CIRCULAR_ROUTE_POI_CATEGORIES),
                                         requireContext())
             }
         }

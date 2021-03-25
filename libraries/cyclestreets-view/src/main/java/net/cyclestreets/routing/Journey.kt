@@ -1,6 +1,6 @@
 package net.cyclestreets.routing
 
-import android.location.Location
+import android.content.Context
 import java.io.IOException
 
 import android.text.TextUtils
@@ -9,6 +9,10 @@ import com.fasterxml.jackson.databind.DeserializationFeature
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.module.SimpleModule
 import net.cyclestreets.CycleStreetsPreferences
+import net.cyclestreets.api.POI
+import net.cyclestreets.api.POICategories
+import net.cyclestreets.api.POICategory
+import net.cyclestreets.api.client.dto.poiIcon
 
 import net.cyclestreets.routing.domain.GeoPointDeserializer
 import net.cyclestreets.routing.domain.JourneyDomainObject
@@ -16,7 +20,6 @@ import net.cyclestreets.routing.domain.SegmentDomainObject
 import net.cyclestreets.util.Logging
 import net.cyclestreets.util.Turn
 import org.osmdroid.api.IGeoPoint
-import org.osmdroid.util.GeoPoint
 
 private val TAG = Logging.getTag(Journey::class.java)
 
@@ -24,14 +27,15 @@ class Journey private constructor(wp: Waypoints? = null) {
     val waypoints: Waypoints = wp ?: Waypoints.none()
     val segments: Segments = Segments()
     val elevation: ElevationProfile = ElevationProfile()
+    val circularRoutePois = mutableSetOf<POI>()
     private var activeSegment: Int = 0
 
     companion object {
         val NULL_JOURNEY: Journey = Journey()
         init { NULL_JOURNEY.activeSegment = -1 }
 
-        fun loadFromJson(domainJson: String, waypoints: Waypoints?, name: String?): Journey {
-            return JourneyFactory(waypoints, name).parse(domainJson)
+        fun loadFromJson(domainJson: String, waypoints: Waypoints?, name: String?, context: Context): Journey {
+            return JourneyFactory(waypoints, name).parse(domainJson, context)
         }
     }
 
@@ -140,7 +144,7 @@ class Journey private constructor(wp: Waypoints? = null) {
             objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
         }
 
-        internal fun parse(domainJson: String): Journey {
+        internal fun parse(domainJson: String, context: Context): Journey {
             // I guess this is in case the units have changed without the app restarting
             Segment.formatter = DistanceFormatter.formatter(CycleStreetsPreferences.units())
 
@@ -151,8 +155,17 @@ class Journey private constructor(wp: Waypoints? = null) {
                 throw RuntimeException("Coding error - unable to parse domain JSON", e)
             }
 
+
             populateWaypoints(jdo)
             populateSegments(jdo)
+            // Currently (June 2021) the API returns POIs whether or not they were requested.
+            // https://github.com/cyclestreets/android/issues/465#issuecomment-818049555
+            // For simplicity's sake, Will display these, even if not requested,
+            // because, in the event of opening a circular route by number
+            // there is no way of telling whether POIs were requested originally
+            populatePois(jdo, context)
+
+            //
             generateStartAndFinishSegments(jdo)
 
             return journey
@@ -166,11 +179,6 @@ class Journey private constructor(wp: Waypoints? = null) {
                 for (gp in jdo.waypoints) {
                     journey.waypoints.add(gp)
                 }
-            }
-            // For leisure / circular routes there is no waypoint in the json.
-            // Put the start point into waypoints so it can be displayed on the screen.
-            if (journey.waypoints.count() == 0) {
-                journey.waypoints.add(jdo.route.start_latitude, jdo.route.start_longitude)
             }
         }
 
@@ -198,6 +206,29 @@ class Journey private constructor(wp: Waypoints? = null) {
                     )
                 )
                 journey.elevation.add(sdo.segmentProfile)
+            }
+        }
+        // For circular routes.
+        private fun populatePois(jdo: JourneyDomainObject, context: Context) {
+            // For circular route pois, the id isn't returned in the API, so will create an artificial one.
+            var id = 0
+            for (poi in jdo.pois) {
+                val circularRoutePoi = POI(id,
+                        poi.name,
+                        "",
+                        poi.website,
+                        "",
+                        "",
+                        poi.latitude.toDouble(),
+                        poi.longitude.toDouble())
+                // Shouldn't ever have a poi which doesn't have a type,
+                // but if it does happen, don't add it to the list to be displayed:
+                val type = poi.poitypeId
+                if (type != null) {
+                    circularRoutePoi.setCategory(POICategory(type, "", poiIcon(context, type)))
+                    journey.circularRoutePois.add(circularRoutePoi)
+                }
+                id++
             }
         }
 

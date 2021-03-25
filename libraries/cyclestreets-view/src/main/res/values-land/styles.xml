@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- In order to fit everything in on the Nexus One landscape mode, we need a smaller text size... -->
+    <style name="CircularRouteTextSize" parent="Theme.AppCompat.DayNight.DarkActionBar">
+        <item name="android:textSize">15sp</item>
+    </style>
+    <!-- ... and less space between views -->
+    <dimen name="CRmargin">0dp</dimen>
+</resources>

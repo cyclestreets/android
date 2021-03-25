@@ -10,7 +10,7 @@ internal open class CycleStreetsRoutingTask(private val routeType: String,
                                             context: Context,
                                             private val distance: Int? = null,
                                             private val duration: Int? = null,
-                                            private val pois: String? = null) : RoutingTask<Waypoints>(R.string.route_finding_new, context) {
+                                            private val poiTypes: String? = null) : RoutingTask<Waypoints>(R.string.route_finding_new, context) {
     override fun doInBackground(vararg waypoints: Waypoints): RouteData? {
         val wp = waypoints[0]
         return fetchRoute(routeType,
@@ -18,6 +18,6 @@ internal open class CycleStreetsRoutingTask(private val routeType: String,
                           waypoints = wp,
                           distance = distance,
                           duration = duration,
-                          pois = pois)
+                          poiTypes = poiTypes)
     }
 }

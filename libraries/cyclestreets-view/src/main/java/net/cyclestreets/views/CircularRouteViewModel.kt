@@ -2,6 +2,7 @@ package net.cyclestreets.views
 
 import androidx.lifecycle.ViewModel
 import net.cyclestreets.*
+import net.cyclestreets.api.POICategory
 import java.util.*
 
 class CircularRouteViewModel: ViewModel() {
@@ -17,6 +18,7 @@ class CircularRouteViewModel: ViewModel() {
     // mutable by the user
     var currentTab = DURATION
     var values = arrayOf(CIRCULAR_ROUTE_MIN_MINUTES, CIRCULAR_ROUTE_MIN_DISTANCE)
+    var activeCategories: List<POICategory> = ArrayList()
 
     fun durationInSeconds(): Int {
         return values[DURATION] * 60

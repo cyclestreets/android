@@ -17,8 +17,8 @@ public class JourneyPlanner {
   public static String getCircularJourneyJson(final Waypoints waypoints,
                                               final Integer distance,
                                               final Integer duration,
-                                              final String pois) {
-    return ApiClient.INSTANCE.getCircularJourneyJson(lonLat(waypoints), distance, duration, pois);
+                                              final String poiTypes) {
+    return ApiClient.INSTANCE.getCircularJourneyJson(lonLat(waypoints), distance, duration, poiTypes);
   }
 
   public static String retrievePreviousJourneyJson(final String plan,

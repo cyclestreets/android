@@ -30,9 +30,9 @@ abstract class RoutingTask<Params> protected constructor(private val initialMsg:
                              waypoints: Waypoints? = null,
                              distance: Int? = null,
                              duration: Int? = null,
-                             pois: String? = null): RouteData? {
+                             poiTypes: String? = null): RouteData? {
         return try {
-            val json = doFetchRoute(routeType, itinerary, speed, waypoints, distance, duration, pois)
+            val json = doFetchRoute(routeType, itinerary, speed, waypoints, distance, duration, poiTypes)
 
             when {
                 (json == "null") -> {
@@ -61,10 +61,10 @@ abstract class RoutingTask<Params> protected constructor(private val initialMsg:
                              waypoints: Waypoints?,
                              distance: Int?,
                              duration: Int?,
-                             pois: String?): String {
+                             poiTypes: String?): String {
         return when {
             itinerary != NO_ITINERARY -> getRoutebyItineraryNo(routeType, itinerary)
-            routeType == PLAN_LEISURE -> JourneyPlanner.getCircularJourneyJson(waypoints, distance, duration, pois)
+            routeType == PLAN_LEISURE -> JourneyPlanner.getCircularJourneyJson(waypoints, distance, duration, poiTypes)
             else -> JourneyPlanner.getJourneyJson(routeType, speed, waypoints!!)
         }
     }

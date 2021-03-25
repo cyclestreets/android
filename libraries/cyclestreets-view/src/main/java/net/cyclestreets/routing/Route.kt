@@ -44,9 +44,9 @@ object Route {
     fun plotCircularRoute(plan: String,
                           distance: Int?,
                           duration: Int?,
-                          pois: String?,
+                          poiTypes: String?,
                           context: Context) {
-        val query = CycleStreetsRoutingTask(plan, 0, context, distance, duration, pois)
+        val query = CycleStreetsRoutingTask(plan, 0, context, distance, duration, poiTypes)
         query.execute(waypoints_)
     }
 
@@ -150,7 +150,7 @@ object Route {
             clearRouteLoaded()
             return
         }
-        plannedRoute_ = loadFromJson(route.json(), route.points(), route.name())
+        plannedRoute_ = loadFromJson(route.json(), route.points(), route.name(), context_)
         db_.saveRoute(plannedRoute_, route.json())
         waypoints_ = plannedRoute_.waypoints
         listeners_.onNewJourney(plannedRoute_, waypoints_)

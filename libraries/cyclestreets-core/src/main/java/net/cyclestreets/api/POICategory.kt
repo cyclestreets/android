@@ -4,7 +4,7 @@ import android.graphics.drawable.Drawable
 import net.cyclestreets.api.ApiClient.getPOIs
 import org.osmdroid.api.IGeoPoint
 
-class POICategory(private val key: String,
+class POICategory(val key: String,
                   val name: String,
                   val icon: Drawable) {
 
