@@ -22,6 +22,9 @@ import java.util.List;
 
 import android.util.Log;
 
+import static net.cyclestreets.CycleStreetsConstantsKt.MAX_ZOOM_LEVEL;
+import static net.cyclestreets.CycleStreetsConstantsKt.MIN_ZOOM_LEVEL;
+
 public class TileSource {
 
   private static final String TAG = Logging.getTag(TileSource.class);
@@ -134,8 +137,8 @@ public class TileSource {
                                                 final String extension,
                                                 final String[] baseUrls) {
     return new XYTileSource(name,
-                            0,
-                            CycleMapView.MAX_ZOOM_LEVEL,
+                            (int) MIN_ZOOM_LEVEL,
+                            (int) MAX_ZOOM_LEVEL,
                             tileSize,
                             extension,
                             baseUrls,

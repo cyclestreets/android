@@ -20,7 +20,6 @@ import net.cyclestreets.util.*
 import net.cyclestreets.util.MenuHelper.createMenuItem
 import net.cyclestreets.util.MenuHelper.enableMenuItem
 import net.cyclestreets.views.CycleMapView
-import net.cyclestreets.views.CycleMapView.FINDPLACE_ZOOM_LEVEL
 
 import org.osmdroid.config.Configuration
 import org.osmdroid.config.DefaultConfigurationProvider

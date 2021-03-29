@@ -13,18 +13,26 @@
   <application
       android:requestLegacyExternalStorage="true"
       android:supportsRtl="false">
-    <activity android:name="net.cyclestreets.AccountDetailsActivity"
-              android:label="Account Details"
-              android:windowSoftInputMode="stateVisible|adjustResize" />
-    <activity android:name="net.cyclestreets.FeedbackActivity"
-              android:label="Route Comments"
-              android:windowSoftInputMode="stateVisible|adjustResize" />
-    <activity android:name="net.cyclestreets.LiveRideActivity"
-              android:label="LiveRide"
-              android:launchMode="singleTop"
-              android:screenOrientation="portrait" />
+        <activity
+            android:name="net.cyclestreets.views.CircularRouteActivity"
+            android:theme="@style/Theme.AppCompat.DayNight.DarkActionBar">
+        </activity>
+        <activity
+            android:name="net.cyclestreets.AccountDetailsActivity"
+            android:label="Account Details"
+            android:windowSoftInputMode="stateVisible|adjustResize" />
+        <activity
+            android:name="net.cyclestreets.FeedbackActivity"
+            android:label="Route Comments"
+            android:windowSoftInputMode="stateVisible|adjustResize" />
+        <activity
+            android:name="net.cyclestreets.LiveRideActivity"
+            android:label="LiveRide"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait" />
 
-    <service android:name="net.cyclestreets.liveride.LiveRideService"
-        android:foregroundServiceType="location"/>
+        <service
+            android:name="net.cyclestreets.liveride.LiveRideService"
+            android:foregroundServiceType="location" />
   </application>
 </manifest>

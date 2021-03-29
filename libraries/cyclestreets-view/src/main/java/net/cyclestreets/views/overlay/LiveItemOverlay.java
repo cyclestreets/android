@@ -20,7 +20,8 @@ import android.graphics.Rect;
 
 import net.cyclestreets.util.Brush;
 import net.cyclestreets.views.CycleMapView;
-import static net.cyclestreets.views.CycleMapView.ITEM_ZOOM_LEVEL;
+
+import static net.cyclestreets.CycleStreetsConstantsKt.ITEM_ZOOM_LEVEL;
 
 public abstract class LiveItemOverlay<T extends OverlayItem>
           extends ItemizedOverlay<T>

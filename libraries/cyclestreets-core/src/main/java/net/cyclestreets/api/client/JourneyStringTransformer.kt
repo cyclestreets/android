@@ -60,6 +60,7 @@ private const val V1API_JSON_JOLT_SPEC = """[{
           }
         }
       }
-    }
+    },
+    "error": "Error"
   }
 }]"""

@@ -9,12 +9,10 @@ import android.view.*
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.Toast
+import androidx.fragment.app.Fragment
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.mikepenz.iconics.typeface.library.googlematerial.GoogleMaterial
-import net.cyclestreets.CycleStreetsPreferences
-import net.cyclestreets.FeedbackActivity
-import net.cyclestreets.RoutePlans
-import net.cyclestreets.Undoable
+import net.cyclestreets.*
 import net.cyclestreets.iconics.IconicsHelper.materialIcon
 import net.cyclestreets.routing.Journey
 import net.cyclestreets.routing.Route
@@ -28,6 +26,7 @@ import net.cyclestreets.util.Theme
 import net.cyclestreets.util.Theme.lowlightColor
 import net.cyclestreets.util.Theme.lowlightColorInverse
 import net.cyclestreets.view.R
+import net.cyclestreets.views.CircularRouteActivity
 import net.cyclestreets.views.CycleMapView
 import org.osmdroid.api.IGeoPoint
 import org.osmdroid.util.GeoPoint
@@ -35,7 +34,7 @@ import org.osmdroid.views.MapView
 import org.osmdroid.views.overlay.Overlay
 
 
-class TapToRouteOverlay(private val mapView: CycleMapView) : Overlay(), TapListener, ContextMenuListener,
+class TapToRouteOverlay(private val mapView: CycleMapView, private val fragment: Fragment) : Overlay(), TapListener, ContextMenuListener,
                                                              Undoable, PauseResumeListener, Route.Listener {
 
     private val routingInfoRect: Button
@@ -89,10 +88,16 @@ class TapToRouteOverlay(private val mapView: CycleMapView) : Overlay(), TapListe
     }
 
     private fun onRouteNow(waypoints: Waypoints) {
-        Route.PlotRoute(CycleStreetsPreferences.routeType(),
-                CycleStreetsPreferences.speed(),
-                context,
-                waypoints)
+        if (waypoints.count() > 1) {
+            Route.PlotRoute(CycleStreetsPreferences.routeType(),
+                    CycleStreetsPreferences.speed(),
+                    context,
+                    waypoints)
+        } else {
+            // Only 1 Waypoint so must be a circular route
+            fragment.startActivityForResult(Intent(context, CircularRouteActivity::class.java), CIRCULAR_ROUTE_ACTIVITY_REQUEST_CODE)
+            // onActivityResult is handled in RouteMapFragment
+        }
     }
 
     ////////////////////////////////////////////
@@ -107,12 +112,15 @@ class TapToRouteOverlay(private val mapView: CycleMapView) : Overlay(), TapListe
     ////////////////////////////////////////////
     override fun onCreateOptionsMenu(menu: Menu) {
         createMenuItem(menu, R.string.route_menu_change, Menu.FIRST, changeRouteTypeIcon)
+        createMenuItem(menu, R.string.route_menu_alternative, Menu.FIRST, changeRouteTypeIcon)
         createMenuItem(menu, R.string.route_menu_change_share, Menu.NONE, shareIcon)
         createMenuItem(menu, R.string.route_menu_change_comment, Menu.NONE, commentIcon)
     }
 
     override fun onPrepareOptionsMenu(menu: Menu) {
-        showMenuItem(menu, R.string.route_menu_change, tapState.routeIsPlanned())
+        val currentPlanLeisure = if (tapState.routeIsPlanned()) (RoutePlans.PLAN_LEISURE in Route.journey().plan()) else false
+        showMenuItem(menu, R.string.route_menu_change, (tapState.routeIsPlanned() && !currentPlanLeisure))
+        showMenuItem(menu, R.string.route_menu_alternative, (tapState.routeIsPlanned() && currentPlanLeisure))
         showMenuItem(menu, R.string.route_menu_change_share, tapState.routeIsPlanned())
         showMenuItem(menu, R.string.route_menu_change_comment, tapState.routeIsPlanned())
     }
@@ -122,6 +130,15 @@ class TapToRouteOverlay(private val mapView: CycleMapView) : Overlay(), TapListe
             return
 
         val currentPlan = Route.journey().plan()
+        if (RoutePlans.PLAN_LEISURE in currentPlan) {
+            val otherRoutesString = Route.journey().otherRoutes()
+
+            ALTERNATIVE_CIRCULAR_ROUTE_IDS
+                    .filter { id -> otherRoutesString.contains(ALTERNATIVE_CIRCULAR_ROUTE_PLANS[id].toString()) }
+                    .filter { id -> currentPlan != ALTERNATIVE_CIRCULAR_ROUTE_PLANS[id]}
+                    .forEach { id -> createMenuItem(menu, id)}
+            return
+        }
         REPLAN_MENU_IDS
                 .filter { id -> currentPlan != REPLAN_MENU_PLANS[id] }
                 .forEach { id -> createMenuItem(menu, id)}
@@ -136,7 +153,7 @@ class TapToRouteOverlay(private val mapView: CycleMapView) : Overlay(), TapListe
         val menuId = item.itemId
 
         when (menuId) {
-            R.string.route_menu_change ->
+            R.string.route_menu_change, R.string.route_menu_alternative ->
                 mapView.showContextMenu()
             R.string.route_menu_change_reroute_from_here ->
                 mapView.lastFix.apply {
@@ -155,10 +172,14 @@ class TapToRouteOverlay(private val mapView: CycleMapView) : Overlay(), TapListe
             R.string.route_menu_change_comment ->
                 context.startActivity(Intent(context, FeedbackActivity::class.java))
             else ->
-                if (REPLAN_MENU_PLANS.containsKey(menuId))
-                    Route.RePlotRoute(REPLAN_MENU_PLANS[menuId]!!, context)
-                else
-                    return false
+                when {
+                    (REPLAN_MENU_PLANS.containsKey(menuId)) ->
+                        Route.RePlotRoute(REPLAN_MENU_PLANS[menuId]!!, context)
+                    (ALTERNATIVE_CIRCULAR_ROUTE_PLANS.containsKey(menuId)) ->
+                        Route.RePlotRoute(ALTERNATIVE_CIRCULAR_ROUTE_PLANS[menuId]!!, context)
+                    else ->
+                        return false
+                }
         }
 
         return true // we handled it!
@@ -189,7 +210,14 @@ class TapToRouteOverlay(private val mapView: CycleMapView) : Overlay(), TapListe
         routingInfoRect.apply {
             setBackgroundColor(if (tapState.canRoute()) highlightColour else lowlightColour)
             gravity = Gravity.CENTER
-            text = tapState.actionDescription
+            try {
+                text = context.getString(tapState.actionDescription)
+            }
+            catch (e: Exception) {
+                val actionDescription = tapState.actionDescription
+                Log.w(TAG, "Tap state $tapState resource ID $actionDescription not found in strings.xml", e)
+                text = ""
+            }
             isEnabled = tapState.canRoute()
         }
     }
@@ -256,12 +284,12 @@ class TapToRouteOverlay(private val mapView: CycleMapView) : Overlay(), TapListe
     }
 
     ////////////////////////////////////
-    private enum class TapToRoute private constructor(val waypointingInProgress: Boolean, val actionDescription: String) {
-        WAITING_FOR_START(false, "Tap map to set Start"),
-        WAITING_FOR_SECOND(true, "Tap map to set Waypoint"),
-        WAITING_FOR_NEXT(true, "Tap map to set Waypoint\nTap here to Route"),
-        WAITING_TO_ROUTE(true, "Tap here to Route"),
-        ALL_DONE(false, "");
+    private enum class TapToRoute private constructor(val waypointingInProgress: Boolean, val actionDescription: Int) {
+        WAITING_FOR_START(false, R.string.tap_map_set_start),
+        WAITING_FOR_SECOND(true, R.string.tap_map_waypoint_circular_route),
+        WAITING_FOR_NEXT(true, R.string.tap_map_waypoint_route),
+        WAITING_TO_ROUTE(true, R.string.tap_here_route),  // When max no of waypoints reached
+        ALL_DONE(false, 0);
 
         fun previous(count: Int): TapToRoute {
             val previous: TapToRoute
@@ -287,7 +315,7 @@ class TapToRouteOverlay(private val mapView: CycleMapView) : Overlay(), TapListe
         }
 
         fun canRoute(): Boolean {
-            return this == TapToRoute.WAITING_FOR_NEXT || this == TapToRoute.WAITING_TO_ROUTE
+            return this == TapToRoute.WAITING_FOR_NEXT || this == TapToRoute.WAITING_TO_ROUTE || this == TapToRoute.WAITING_FOR_SECOND
         }
         fun noFurtherWaypoints(): Boolean {
             return this == TapToRoute.WAITING_TO_ROUTE || this == TapToRoute.ALL_DONE
@@ -341,6 +369,27 @@ class TapToRouteOverlay(private val mapView: CycleMapView) : Overlay(), TapListe
             R.string.route_menu_change_replan_balanced to RoutePlans.PLAN_BALANCED,
             R.string.route_menu_change_replan_fastest to RoutePlans.PLAN_FASTEST,
             R.string.route_menu_change_replan_shortest to RoutePlans.PLAN_SHORTEST
+        )
+
+        private val ALTERNATIVE_CIRCULAR_ROUTE_IDS = arrayOf(
+                R.string.leisure1,
+                R.string.leisure2,
+                R.string.leisure3,
+                R.string.leisure4,
+                R.string.leisure5,
+                R.string.leisure6,
+                R.string.leisure7,
+                R.string.leisure8,
+        )
+        private val ALTERNATIVE_CIRCULAR_ROUTE_PLANS = mapOf(
+                R.string.leisure1 to "leisure1",
+                R.string.leisure2 to "leisure2",
+                R.string.leisure3 to "leisure3",
+                R.string.leisure4 to "leisure4",
+                R.string.leisure5 to "leisure5",
+                R.string.leisure6 to "leisure6",
+                R.string.leisure7 to "leisure7",
+                R.string.leisure8 to "leisure8",
         )
         private const val MAX_WAYPOINTS = 30
     }

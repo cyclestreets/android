@@ -43,12 +43,16 @@ import retrofit2.Retrofit;
 import retrofit2.converter.jackson.JacksonConverterFactory;
 import retrofit2.converter.scalars.ScalarsConverterFactory;
 
+import static net.cyclestreets.RoutePlans.PLAN_LEISURE;
+
 public class RetrofitApiClient {
 
   private final V1Api v1Api;
   private final V2Api v2Api;
   private final BlogApi blogApi;
   private final Context context;
+
+  private static final String REPORT_ERRORS = "1";
 
   // ~30KB covers /news/feed/, /v2/pois.types and /v2/photomap.categories - allow 200KB for headroom
   private static final int CACHE_MAX_SIZE_BYTES = 200 * 1024;
@@ -146,13 +150,21 @@ public class RetrofitApiClient {
                                final String leaving,
                                final String arriving,
                                final int speed) throws IOException {
-    Response<String> response = v1Api.getJourneyJson(plan, itineraryPoints, leaving, arriving, speed).execute();
+    Response<String> response = v1Api.getJourneyJson(plan, itineraryPoints, leaving, arriving, speed, REPORT_ERRORS).execute();
+    return JourneyStringTransformerKt.fromV1ApiJson(response.body());
+  }
+
+  public String getCircularJourneyJson(final String itineraryPoints,
+                                       final Integer distance,
+                                       final Integer duration,
+                                       final String poitypes) throws IOException {
+    Response<String> response = v1Api.getCircularJourneyJson(PLAN_LEISURE, itineraryPoints, distance, duration, poitypes, REPORT_ERRORS).execute();
     return JourneyStringTransformerKt.fromV1ApiJson(response.body());
   }
 
   public String retrievePreviousJourneyJson(final String plan,
                                             final long itineraryId) throws IOException {
-    Response<String> response = v1Api.retrievePreviousJourneyJson(plan, itineraryId).execute();
+    Response<String> response = v1Api.retrievePreviousJourneyJson(plan, itineraryId, REPORT_ERRORS).execute();
     return JourneyStringTransformerKt.fromV1ApiJson(response.body());
   }
 

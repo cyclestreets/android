@@ -40,6 +40,16 @@ object Route {
         query.execute(waypoints)
     }
 
+    @JvmStatic
+    fun plotCircularRoute(plan: String,
+                          distance: Int?,
+                          duration: Int?,
+                          pois: String?,
+                          context: Context) {
+        val query = CycleStreetsRoutingTask(plan, 0, context, distance, duration, pois)
+        query.execute(waypoints_)
+    }
+
     fun LiveReplanRoute(plan: String,
                         speed: Int,
                         context: Context,
