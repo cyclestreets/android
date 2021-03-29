@@ -12,7 +12,6 @@ import android.view.View.OnClickListener
 import android.widget.ImageButton
 import android.widget.LinearLayout
 import android.widget.Toast
-import net.cyclestreets.CycleStreetsConstants.GENERIC_PERMISSION_REQUEST
 import net.cyclestreets.api.GeoPlace
 import net.cyclestreets.api.GeoPlaces
 import net.cyclestreets.contacts.Contact

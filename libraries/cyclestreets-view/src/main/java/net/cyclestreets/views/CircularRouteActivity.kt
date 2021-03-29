@@ -9,6 +9,8 @@ import android.widget.TextView
 import androidx.lifecycle.ViewModelProvider
 import net.cyclestreets.view.R
 import com.google.android.material.tabs.TabLayout
+import net.cyclestreets.EXTRA_CIRCULAR_ROUTE_DISTANCE
+import net.cyclestreets.EXTRA_CIRCULAR_ROUTE_DURATION
 
 class CircularRouteActivity : AppCompatActivity() {
 
@@ -92,9 +94,10 @@ class CircularRouteActivity : AppCompatActivity() {
 
     fun createButtonOnClick(view: View) {
 
-        val returnIntent = Intent()
-        returnIntent.putExtra("circular_route_duration", viewModel.values[0]*60)
-        returnIntent.putExtra("circular_route_distance", viewModel.distanceInMetres())
+        val returnIntent = Intent().apply {
+            putExtra(EXTRA_CIRCULAR_ROUTE_DURATION, viewModel.values[0] * 60)
+            putExtra(EXTRA_CIRCULAR_ROUTE_DISTANCE, viewModel.distanceInMetres())
+        }
         setResult(RESULT_OK, returnIntent)
         finish()
     }

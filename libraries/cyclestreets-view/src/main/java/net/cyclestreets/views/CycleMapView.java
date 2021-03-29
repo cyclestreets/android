@@ -40,15 +40,11 @@ import androidx.fragment.app.Fragment;
 import androidx.preference.PreferenceManager;
 
 import static java.lang.Math.abs;
+import static net.cyclestreets.CycleStreetsConstantsKt.*;
 import static net.cyclestreets.util.PermissionsKt.hasPermission;
 
 public class CycleMapView extends FrameLayout
 {
-  public static final int DEFAULT_ZOOM_LEVEL = 14;
-  public static final int FINDPLACE_ZOOM_LEVEL = 16;
-  public static final int ITEM_ZOOM_LEVEL = 16;
-  public static final int MAX_ZOOM_LEVEL = 19;
-  public static final double MIN_ZOOM_LEVEL = 2;
   private static final String TAG = Logging.getTag(CycleMapView.class);
 
   private static final String PREFS_APP_CENTRE_LON = "centreLon";
@@ -88,9 +84,9 @@ public class CycleMapView extends FrameLayout
 
     mapView_.getZoomController().setVisibility(CustomZoomButtonsController.Visibility.NEVER);
     mapView_.setMultiTouchControls(true);
-    mapView_.setMaxZoomLevel((double)MAX_ZOOM_LEVEL);
+    mapView_.setMaxZoomLevel(MAX_ZOOM_LEVEL);
     mapView_.setMinZoomLevel(MIN_ZOOM_LEVEL);
-    mapView_.setScrollableAreaLimitLatitude(80, -80, 0);
+    mapView_.setScrollableAreaLimitLatitude(MAX_LATITUDE_NORTH, MAX_LATITUDE_SOUTH, 0);
 
     overlayBottomIndex_ = getOverlays().size();
 
@@ -193,8 +189,8 @@ public class CycleMapView extends FrameLayout
       setTileSource(renderer_);
     }
 
-    boolean locationEnabled = pref(PREFS_APP_MY_LOCATION, CycleMapDefaults.gps());
-    boolean locationFollow = pref(PREFS_APP_FOLLOW_LOCATION, CycleMapDefaults.gps());
+    boolean locationEnabled = pref(PREFS_APP_MY_LOCATION, DEFAULT_GPS_STATE);
+    boolean locationFollow = pref(PREFS_APP_FOLLOW_LOCATION, DEFAULT_GPS_STATE);
     location_.disableFollowLocation();
     location_.enableLocation(locationEnabled);
     if (locationFollow && hasPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION))
@@ -209,10 +205,9 @@ public class CycleMapView extends FrameLayout
       foundPlace = null;
     }
 
-    GeoPoint defCentre = CycleMapDefaults.centre();
-    int lat = pref(PREFS_APP_CENTRE_LAT, (int)(defCentre.getLatitude() * 1E6));
-    int lon = pref(PREFS_APP_CENTRE_LON, (int)(defCentre.getLongitude() * 1E6));
-    int zoom = pref(PREFS_APP_ZOOM_LEVEL, DEFAULT_ZOOM_LEVEL);
+    int lat = pref(PREFS_APP_CENTRE_LAT, DEFAULT_MAP_CENTRE_LATITUDE);
+    int lon = pref(PREFS_APP_CENTRE_LON, DEFAULT_MAP_CENTRE_LONGITUDE);
+    int zoom = pref(PREFS_APP_ZOOM_LEVEL, (int)DEFAULT_ZOOM_LEVEL);
     Log.d(TAG, "onResume: Loading lat/lon=" + lat + "/" + lon + ", zoom=" + zoom);
     final GeoPoint centre = new GeoPoint(lat / 1e6, lon / 1e6);
     getScroller().abortAnimation();
@@ -278,10 +273,10 @@ public class CycleMapView extends FrameLayout
     postInvalidate();
   }
 
-  public void centreOn(final IGeoPoint place, final int minZoomLevel, final boolean foundPlaceTrue) {
+  public void centreOn(final IGeoPoint place, final double minZoomLevel, final boolean foundPlaceTrue) {
     centreOn(place);
     if (this.getZoomLevel() < minZoomLevel)
-      getController().setZoom((double)minZoomLevel);
+      getController().setZoom(minZoomLevel);
     foundPlace = null;
     if (foundPlaceTrue) {
       foundPlace = place;

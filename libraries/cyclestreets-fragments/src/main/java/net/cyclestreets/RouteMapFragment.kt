@@ -11,7 +11,6 @@ import android.Manifest
 import android.app.Activity
 import android.content.DialogInterface
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -20,8 +19,6 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
-import net.cyclestreets.CycleStreetsConstants.FOLLOW_LOCATION_PERMISSION_REQUEST
-import net.cyclestreets.CycleStreetsConstants.LIVERIDE_LOCATION_PERMISSION_REQUEST
 
 import net.cyclestreets.util.MenuHelper.enableMenuItem
 import net.cyclestreets.util.MenuHelper.showMenuItem
@@ -109,8 +106,8 @@ class RouteMapFragment : CycleMapFragment(), Route.Listener {
         if ((requestCode == TapToRouteOverlay.CIRCULAR_ROUTE_ACTIVITY_REQUEST_CODE) && (resultCode == Activity.RESULT_OK)) {
             if (data != null) {
                 Route.plotCircularRoute(RoutePlans.PLAN_LEISURE,
-                                        data.getIntExtra("circular_route_distance", 0),
-                                        data.getIntExtra("circular_route_duration", 0),
+                                        data.getIntExtra(EXTRA_CIRCULAR_ROUTE_DISTANCE, 0),
+                                        data.getIntExtra(EXTRA_CIRCULAR_ROUTE_DURATION, 0),
                                    null,
                                         requireContext())
             }

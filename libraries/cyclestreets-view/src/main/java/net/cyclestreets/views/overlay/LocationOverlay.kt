@@ -14,7 +14,7 @@ import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.mikepenz.iconics.typeface.library.googlematerial.GoogleMaterial
-import net.cyclestreets.CycleStreetsConstants
+import net.cyclestreets.FOLLOW_LOCATION_PERMISSION_REQUEST
 import net.cyclestreets.iconics.IconicsHelper.materialIcon
 import net.cyclestreets.util.*
 import net.cyclestreets.view.R
@@ -74,11 +74,11 @@ class LocationOverlay(private val mapView: CycleMapView, private val fragment: F
         if (enable) {
             try {
                 if (fragment != null)
-                    doOrRequestPermission(null, fragment, ACCESS_FINE_LOCATION, CycleStreetsConstants.FOLLOW_LOCATION_PERMISSION_REQUEST) {
+                    doOrRequestPermission(null, fragment, ACCESS_FINE_LOCATION, FOLLOW_LOCATION_PERMISSION_REQUEST) {
                         doEnableFollowLocation()
                     }
                 else
-                    doOrRequestPermission(mapView.context, ACCESS_FINE_LOCATION, CycleStreetsConstants.FOLLOW_LOCATION_PERMISSION_REQUEST) {
+                    doOrRequestPermission(mapView.context, ACCESS_FINE_LOCATION, FOLLOW_LOCATION_PERMISSION_REQUEST) {
                         doEnableFollowLocation()
                 }
             } catch (e: RuntimeException) {
