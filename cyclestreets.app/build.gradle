@@ -25,6 +25,10 @@ evaluationDependsOn(':libraries:cyclestreets-fragments')
 
 // derive signing config from license.properties (decrypted from license.properties.enc by ciLicense.sh)
 def keystorePropertiesFile = file('license.properties')
+if (!keystorePropertiesFile.exists()) {
+  logger.warn('NOTE: license.properties file not found: falling back to license.properties.dummy; the compiled artifact will have a dummy signature')
+  keystorePropertiesFile = file('license.properties.dummy')
+}
 def keystoreProperties = new Properties()
 keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
 

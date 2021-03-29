@@ -12,6 +12,7 @@ buildscript {
 
 ext {
   // From e.g. https://source.android.com/setup/start/build-numbers
+  // Android 11          30  R
   // Android 10          29  Q
   // Android 9.0         28  PIE
   // Android 8.1         27  OREO_MR1
