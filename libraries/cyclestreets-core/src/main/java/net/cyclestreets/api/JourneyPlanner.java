@@ -14,16 +14,16 @@ public class JourneyPlanner {
                                              lonLat(waypoints));
   }
 
-  public static String getJourneyJson(final String plan,
-                                      final long itinerary) {
-    return ApiClient.INSTANCE.getJourneyJson(plan, itinerary);
-  }
-
   public static String getCircularJourneyJson(final Waypoints waypoints,
                                               final Integer distance,
                                               final Integer duration,
                                               final String pois) {
     return ApiClient.INSTANCE.getCircularJourneyJson(lonLat(waypoints), distance, duration, pois);
+  }
+
+  public static String retrievePreviousJourneyJson(final String plan,
+                                                   final long itinerary) {
+    return ApiClient.INSTANCE.retrievePreviousJourneyJson(plan, itinerary);
   }
 
   private static double[] lonLat(Waypoints waypoints) {

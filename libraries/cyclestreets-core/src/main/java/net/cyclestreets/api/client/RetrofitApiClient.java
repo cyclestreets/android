@@ -43,6 +43,8 @@ import retrofit2.Retrofit;
 import retrofit2.converter.jackson.JacksonConverterFactory;
 import retrofit2.converter.scalars.ScalarsConverterFactory;
 
+import static net.cyclestreets.RoutePlans.PLAN_LEISURE;
+
 public class RetrofitApiClient {
 
   private final V1Api v1Api;
@@ -152,12 +154,11 @@ public class RetrofitApiClient {
     return JourneyStringTransformerKt.fromV1ApiJson(response.body());
   }
 
-  public String getCircularJourneyJson(final String plan,
-                               final String itineraryPoints,
-                               final Integer distance,
-                               final Integer duration,
-                               final String poitypes) throws IOException {
-    Response<String> response = v1Api.getCircularJourneyJson(plan, itineraryPoints, distance, duration, poitypes, REPORT_ERRORS).execute();
+  public String getCircularJourneyJson(final String itineraryPoints,
+                                       final Integer distance,
+                                       final Integer duration,
+                                       final String poitypes) throws IOException {
+    Response<String> response = v1Api.getCircularJourneyJson(PLAN_LEISURE, itineraryPoints, distance, duration, poitypes, REPORT_ERRORS).execute();
     return JourneyStringTransformerKt.fromV1ApiJson(response.body());
   }
 

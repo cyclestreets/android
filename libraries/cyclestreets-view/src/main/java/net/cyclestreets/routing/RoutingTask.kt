@@ -15,6 +15,7 @@ import net.cyclestreets.view.R
 
 abstract class RoutingTask<Params> protected constructor(private val initialMsg: String,
                                                          private val context: Context) : AsyncTask<Params, Int, RouteData>() {
+    private val objectMapper: ObjectMapper = ObjectMapper()
     private var progress: ProgressDialog? = null
     private var error: String? = null
     private val TAG = Logging.getTag(RoutingTask::class.java)
@@ -34,15 +35,12 @@ abstract class RoutingTask<Params> protected constructor(private val initialMsg:
             val json = doFetchRoute(routeType, itinerary, speed, waypoints, distance, duration, pois)
 
             when {
-                (json == null) -> {
+                (json == "null") -> {
                     error = context.getString(R.string.route_not_found)
                     throw ErrorFromServerException(error!!)
                 }
-                json.contains("Error", ignoreCase = true) -> {
-                    // Get the error message returned by the server
-                    val objectMapper = ObjectMapper()
-                    val jsonNode = objectMapper.readTree(json)
-                    error = jsonNode.get("Error").asText(context.getString(R.string.route_not_found))
+                containsError(json) -> {
+                    // Show the error message returned by the server
                     throw ErrorFromServerException(error!!)
                 }
                 else ->
@@ -72,12 +70,22 @@ abstract class RoutingTask<Params> protected constructor(private val initialMsg:
     }
 
     private fun getRoutebyItineraryNo(routeType: String, itinerary: Long): String {
-        val json = JourneyPlanner.getJourneyJson(routeType, itinerary)
-        return if (!json.contains("Error", ignoreCase = true) && (json != "null"))
+        val json = JourneyPlanner.retrievePreviousJourneyJson(routeType, itinerary)
+        return if (json != "null" && !containsError(json))
             json
-        else
-            // Try again to see if there is a leisure (circular) route with this number:
-            JourneyPlanner.getJourneyJson(PLAN_LEISURE, itinerary)
+        else {
+            // In normal circumstance, this branch should only be hit on retrieving a route by ID,
+            // where type is not known.
+            // Clear the error, and try again to see if there is a leisure (circular) route with this number
+            error = null
+            JourneyPlanner.retrievePreviousJourneyJson(PLAN_LEISURE, itinerary)
+        }
+    }
+
+    private fun containsError(json: String): Boolean {
+        val jsonNode = objectMapper.readTree(json)
+        error = jsonNode.get("Error")?.asText(context.getString(R.string.route_not_found))
+        return (error != null)
     }
 
     override fun onPreExecute() {
