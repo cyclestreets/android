@@ -12,10 +12,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.mikepenz.iconics.typeface.library.googlematerial.GoogleMaterial
-import net.cyclestreets.CycleStreetsPreferences
-import net.cyclestreets.FeedbackActivity
-import net.cyclestreets.RoutePlans
-import net.cyclestreets.Undoable
+import net.cyclestreets.*
 import net.cyclestreets.iconics.IconicsHelper.materialIcon
 import net.cyclestreets.routing.Journey
 import net.cyclestreets.routing.Route
@@ -395,6 +392,5 @@ class TapToRouteOverlay(private val mapView: CycleMapView, private val fragment:
                 R.string.leisure8 to "leisure8",
         )
         private const val MAX_WAYPOINTS = 30
-        const val CIRCULAR_ROUTE_ACTIVITY_REQUEST_CODE = 1
     }
 }

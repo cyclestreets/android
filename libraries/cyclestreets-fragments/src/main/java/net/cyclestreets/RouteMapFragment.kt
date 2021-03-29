@@ -103,7 +103,7 @@ class RouteMapFragment : CycleMapFragment(), Route.Listener {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if ((requestCode == TapToRouteOverlay.CIRCULAR_ROUTE_ACTIVITY_REQUEST_CODE) && (resultCode == Activity.RESULT_OK)) {
+        if ((requestCode == CIRCULAR_ROUTE_ACTIVITY_REQUEST_CODE) && (resultCode == Activity.RESULT_OK)) {
             if (data != null) {
                 Route.plotCircularRoute(RoutePlans.PLAN_LEISURE,
                                         data.getIntExtra(EXTRA_CIRCULAR_ROUTE_DISTANCE, 0),

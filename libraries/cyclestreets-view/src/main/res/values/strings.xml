@@ -47,14 +47,14 @@
   <string name="route_menu_change_replan_shortest">Replan as shortest</string>
   <string name="route_menu_change_reroute_from_here">Reroute from current location</string>
 
-  <string name="leisure1" translatable="false">Alternative 1</string>
-  <string name="leisure2" translatable="false">Alternative 2</string>
-  <string name="leisure3" translatable="false">Alternative 3</string>
-  <string name="leisure4" translatable="false">Alternative 4</string>
-  <string name="leisure5" translatable="false">Alternative 5</string>
-  <string name="leisure6" translatable="false">Alternative 6</string>
-  <string name="leisure7" translatable="false">Alternative 7</string>
-  <string name="leisure8" translatable="false">Alternative 8</string>
+  <string name="leisure1" translatable="false">Circular Route 1</string>
+  <string name="leisure2" translatable="false">Circular Route 2</string>
+  <string name="leisure3" translatable="false">Circular Route 3</string>
+  <string name="leisure4" translatable="false">Circular Route 4</string>
+  <string name="leisure5" translatable="false">Circular Route 5</string>
+  <string name="leisure6" translatable="false">Circular Route 6</string>
+  <string name="leisure7" translatable="false">Circular Route 7</string>
+  <string name="leisure8" translatable="false">Circular Route 8</string>
 
   <string name="tap_map_set_start" translatable="false">Tap map to set Start</string>
   <string name="tap_map_waypoint_circular_route" translatable="false">Tap map to set Waypoint, or\nTap here for Circular Route</string>
