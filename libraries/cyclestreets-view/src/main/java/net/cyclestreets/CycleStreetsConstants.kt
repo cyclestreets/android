@@ -14,6 +14,13 @@ const val DEFAULT_MAP_CENTRE_LATITUDE = 51477841
 const val MAX_LATITUDE_NORTH = 80
 const val MAX_LATITUDE_SOUTH = -80
 
+// Circular routing
+const val CIRCULAR_ROUTE_MIN_MINUTES = 5
+const val CIRCULAR_ROUTE_MAX_MINUTES = 200
+const val CIRCULAR_ROUTE_MIN_DISTANCE = 1
+const val CIRCULAR_ROUTE_MAX_DISTANCE_KM = 50
+const val CIRCULAR_ROUTE_MAX_DISTANCE_MILES = 30
+
 // Intent constants
 const val EXTRA_ROUTE_TYPE = "net.cyclestreets.extra.ROUTE_TYPE"
 const val EXTRA_ROUTE_SPEED = "net.cyclestreets.extra.ROUTE_SPEED"
