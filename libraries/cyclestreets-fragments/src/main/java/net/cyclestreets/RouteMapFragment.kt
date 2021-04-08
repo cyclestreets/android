@@ -105,9 +105,11 @@ class RouteMapFragment : CycleMapFragment(), Route.Listener {
         super.onActivityResult(requestCode, resultCode, data)
         if ((requestCode == CIRCULAR_ROUTE_ACTIVITY_REQUEST_CODE) && (resultCode == Activity.RESULT_OK)) {
             if (data != null) {
+                val distance = data.getIntExtra(EXTRA_CIRCULAR_ROUTE_DISTANCE, 0)
+                val duration = data.getIntExtra(EXTRA_CIRCULAR_ROUTE_DURATION, 0)
                 Route.plotCircularRoute(RoutePlans.PLAN_LEISURE,
-                                        data.getIntExtra(EXTRA_CIRCULAR_ROUTE_DISTANCE, 0),
-                                        data.getIntExtra(EXTRA_CIRCULAR_ROUTE_DURATION, 0),
+                                        if (distance != 0) distance else null,
+                                        if (duration != 0) duration else null,
                                    null,
                                         requireContext())
             }
