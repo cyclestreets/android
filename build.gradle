@@ -62,7 +62,7 @@ subprojects {
         showCauses true
         showExceptions true
         showStackTraces true
-        events = ['failed', 'skipped']
+        events = ['passed', 'failed', 'skipped']
       }
     }
   }
