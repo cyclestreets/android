@@ -58,7 +58,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 
-@Config(manifest=Config.NONE, sdk = 28)
+@Config(manifest = Config.NONE, sdk = 30)
 @RunWith(RobolectricTestRunner.class)
 public class RetrofitApiClientTest {
 

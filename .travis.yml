@@ -18,7 +18,7 @@ git:
 
 language: android
 jdk:
-  - oraclejdk8
+  - oraclejdk9
 env:
   global:
     # Remember to keep these four values in sync with values in the root build.gradle file
