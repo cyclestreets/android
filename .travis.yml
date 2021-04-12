@@ -55,7 +55,7 @@ install:
   - ls -l /usr/lib/jvm/
   - ls -l /home/travis
   - ./checkPoiTypeIcons.sh
-  - ./gradlew build -DjavaExecutable64=${JAVA11_HOME}/bin/java
+  - ./gradlew build -Dorg.gradle.java.home=${JAVA11_HOME}
 
 script:
   - ./ciPublish.sh

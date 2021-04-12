@@ -56,6 +56,15 @@ subprojects {
     tasks.withType(JavaCompile) {
       options.compilerArgs << "-Xlint:unchecked" << "-Xlint:deprecation"
     }
+    tasks.withType(Test) {
+      testLogging {
+        exceptionFormat 'full'
+        showCauses true
+        showExceptions true
+        showStackTraces true
+        events = ['failed', 'skipped']
+      }
+    }
   }
 
   buildscript {
