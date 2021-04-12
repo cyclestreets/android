@@ -18,6 +18,7 @@ git:
 
 language: android
 jdk:
+  - oraclejdk8
   - oraclejdk9
 env:
   global:
@@ -44,12 +45,16 @@ before_install:
   - ./ciLicense.sh
   - sudo pip install requests
   - touch $HOME/.android/repositories.cfg
+  - jdk_switcher use oraclejdk8
   - yes | sdkmanager "platforms;android-30"
   - yes | sdkmanager "build-tools;30.0.3"
+  - jdk_switcher use oraclejdk9
 
 install:
+  - jdk_switcher use oraclejdk9
   - ./checkPoiTypeIcons.sh
   - ./gradlew build
 
 script:
+  - jdk_switcher use oraclejdk9
   - ./ciPublish.sh
