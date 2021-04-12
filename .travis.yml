@@ -18,8 +18,7 @@ git:
 
 language: android
 jdk:
-  - oraclejdk8
-  - oraclejdk9
+  - openjdk8
 env:
   global:
     # Remember to keep these four values in sync with values in the root build.gradle file
@@ -45,16 +44,17 @@ before_install:
   - ./ciLicense.sh
   - sudo pip install requests
   - touch $HOME/.android/repositories.cfg
-  - jdk_switcher use oraclejdk8
+  - jdk_switcher use openjdk8
   - yes | sdkmanager "platforms;android-30"
   - yes | sdkmanager "build-tools;30.0.3"
-  - jdk_switcher use oraclejdk9
 
 install:
-  - jdk_switcher use oraclejdk9
+  - jdk_switcher use openjdk9
+  - ls -l /usr/lib/jvm/
+  - ls -l /home/travis
+  - jdk_switcher use openjdk8
   - ./checkPoiTypeIcons.sh
   - ./gradlew build
 
 script:
-  - jdk_switcher use oraclejdk9
   - ./ciPublish.sh
