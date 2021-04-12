@@ -47,6 +47,7 @@ class Journey private constructor(wp: Waypoints? = null) {
     fun speed(): Int { return start().speed() }
     fun totalDistance(): Int { return end().totalDistance() }
     fun totalTime(): Int { return end().totalTime() }
+    fun otherRoutes(): String {return start().otherRoutes()}
 
     fun remainingDistance(distanceUntilTurn: Int): Int {
         val actSeg = activeSegment()
@@ -158,10 +159,18 @@ class Journey private constructor(wp: Waypoints? = null) {
         }
 
         private fun populateWaypoints(jdo: JourneyDomainObject) {
+            // waypoints will have the points tapped on the screen.  But if we are retrieving an existing route
+            // (e.g. by number) then it will be empty, so needs to be populated from the json - the route
+            // retrieved from the server.
             if (journey.waypoints.count() == 0) {
                 for (gp in jdo.waypoints) {
                     journey.waypoints.add(gp)
                 }
+            }
+            // For leisure / circular routes there is no waypoint in the json.
+            // Put the start point into waypoints so it can be displayed on the screen.
+            if (journey.waypoints.count() == 0) {
+                journey.waypoints.add(jdo.route.start_latitude, jdo.route.start_longitude)
             }
         }
 
@@ -205,7 +214,7 @@ class Journey private constructor(wp: Waypoints? = null) {
 
         private fun generateStartAndFinishSegments(jdo: JourneyDomainObject) {
             val from = journey.waypoints.first()
-            val to = journey.waypoints.last()
+            val to = if (journey.waypoints.isEmpty()) null else journey.waypoints.last()
 
             val pStart = journey.segments.startPoint()
             val pEnd = journey.segments.finishPoint()
@@ -219,6 +228,7 @@ class Journey private constructor(wp: Waypoints? = null) {
                 totalDistance,
                 jdo.route.calories,
                 jdo.route.grammesCO2saved,
+                jdo.route.otherRoutes,
                 listOf(pD(from, pStart), pStart)
             )
             val endSeg = Segment.End(

@@ -6,6 +6,7 @@ public class RoutePlans {
   public final static String PLAN_FASTEST = "fastest";
   public final static String PLAN_QUIETEST = "quietest";
   public final static String PLAN_SHORTEST = "shortest";
+  public final static String PLAN_LEISURE = "leisure";
 
   private final static String[] Plans = new String[] {
       PLAN_QUIETEST, PLAN_BALANCED, PLAN_FASTEST, PLAN_SHORTEST

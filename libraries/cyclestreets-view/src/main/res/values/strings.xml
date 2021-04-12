@@ -33,8 +33,11 @@
   <string name="route_fetching_existing">Fetching route from CycleStreets.net, please wait</string>
   <string name="route_finding_failed">Route finding failed</string>
   <string name="route_loading">Loading route, please wait</string>
+  <string name="route_not_found" translatable="false">Route not found</string>
+  <string name="could_not_contact_server" translatable="false">Could not contact CycleStreets.net : </string>
 
   <string name="route_menu_change">Change route type</string>
+  <string name="route_menu_alternative" translatable="false">Alternative route</string>
   <string name="route_menu_change_reverse">Reverse route</string>
   <string name="route_menu_change_share">Share this route</string>
   <string name="route_menu_change_comment">Comment on this route</string>
@@ -43,6 +46,20 @@
   <string name="route_menu_change_replan_quietest">Replan as quietest</string>
   <string name="route_menu_change_replan_shortest">Replan as shortest</string>
   <string name="route_menu_change_reroute_from_here">Reroute from current location</string>
+
+  <string name="leisure1" translatable="false">Circular Route 1</string>
+  <string name="leisure2" translatable="false">Circular Route 2</string>
+  <string name="leisure3" translatable="false">Circular Route 3</string>
+  <string name="leisure4" translatable="false">Circular Route 4</string>
+  <string name="leisure5" translatable="false">Circular Route 5</string>
+  <string name="leisure6" translatable="false">Circular Route 6</string>
+  <string name="leisure7" translatable="false">Circular Route 7</string>
+  <string name="leisure8" translatable="false">Circular Route 8</string>
+
+  <string name="tap_map_set_start" translatable="false">Tap map to set Start</string>
+  <string name="tap_map_waypoint_circular_route" translatable="false">Tap map to set Waypoint, or\nTap here for Circular Route</string>
+  <string name="tap_map_waypoint_route" translatable="false">Tap map to set Waypoint, or\nTap here to Route</string>
+  <string name="tap_here_route" translatable="false">Tap here to Route</string>
 
   <string name="route_no_location">Location not currently available.</string>
 
@@ -165,5 +182,12 @@
   <string name="show_ETA">Show estimated time of arrival</string>
   <string name="remaining">Remaining</string>
   <string name="slash_ETA">/ ETA</string>
+
+  <string name="duration" translatable="false">Duration</string>
+  <string name="distance" translatable="false">Distance</string>
+  <string name="circular_route" translatable="false">Circular Route</string>
+  <string name="create_circular_route_desc" translatable="false">Create a circular route based on a duration or distance</string>
+  <string name="create_circular_route_button" translatable="false">Create circular route</string>
+  <string name="mins" translatable="false">mins</string>
 
 </resources>

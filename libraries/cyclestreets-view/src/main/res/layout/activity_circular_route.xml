@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:paddingBottom="48dp"
+    tools:context="net.cyclestreets.views.CircularRouteActivity">
+
+    <TextView
+        android:id="@+id/circularRouteHeader"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:gravity="center_horizontal"
+        android:paddingStart="8dp"
+        android:paddingEnd="8dp"
+        android:text="@string/create_circular_route_desc"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/circularRouteDurationOrDistanceTab"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/circularRouteHeader"
+        android:layout_marginTop="16dp"
+
+        android:paddingStart="8dp"
+        android:paddingTop="8dp"
+        android:paddingEnd="8dp"
+        android:paddingBottom="8dp"
+        app:tabGravity="fill"
+        app:tabIndicatorColor="@color/apptheme_color"
+        app:tabIndicatorHeight="4dp"
+        app:tabMaxWidth="0dp"
+        app:tabSelectedTextColor="@color/apptheme_color"
+        app:tabTextAppearance="@style/TextAppearance.AppCompat.Large"
+        app:tabTextColor="@color/cs_primary_dark_material_light">
+
+        <com.google.android.material.tabs.TabItem
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/apptheme_color"
+            android:backgroundTintMode="add"
+            android:text="@string/duration" />
+
+        <com.google.android.material.tabs.TabItem
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/distance" />
+
+    </com.google.android.material.tabs.TabLayout>
+
+    <TextView
+        android:id="@+id/circularRouteSeekBarMin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/circularRouteDurationOrDistanceTab"
+        android:layout_alignTop="@id/circularRouteSeekBarMax"
+        android:layout_alignParentLeft="true"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        android:textColor="@color/cs_primary_dark_material_light" />
+
+    <TextView
+        android:id="@+id/circularRouteSeekBarMax"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/circularRouteDurationOrDistanceTab"
+        android:layout_alignParentRight="true"
+        android:paddingRight="16dp"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        android:textColor="@color/cs_primary_dark_material_light" />
+
+    <SeekBar
+        android:id="@+id/circularRouteSeekBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/circularRouteSeekBarMin"
+        android:layout_marginTop="8dp"
+        android:max="240" />
+
+
+    <TextView
+        android:id="@+id/circularRouteCurrentValue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/circularRouteSeekBar"
+        android:layout_centerInParent="false"
+        android:layout_centerHorizontal="true"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+
+    <Button
+        android:id="@+id/circularRouteGoButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="48dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="48dp"
+        android:backgroundTint="@color/apptheme_color"
+        android:onClick="circularRouteGoButtonClick"
+        android:text="@string/create_circular_route_button"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        android:textColor="@color/cs_white" />
+
+
+</RelativeLayout>

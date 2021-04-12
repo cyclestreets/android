@@ -16,8 +16,8 @@ import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat.startActivity
 import androidx.fragment.app.Fragment
-import net.cyclestreets.CycleStreetsConstants.GENERIC_PERMISSION_REQUEST
 import net.cyclestreets.CycleStreetsPreferences.*
+import net.cyclestreets.GENERIC_PERMISSION_REQUEST
 import net.cyclestreets.util.Permissions.justifications
 import net.cyclestreets.view.R
 

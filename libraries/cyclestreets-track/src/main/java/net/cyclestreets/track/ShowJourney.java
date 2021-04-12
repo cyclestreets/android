@@ -7,7 +7,7 @@ import android.widget.TextView;
 
 import net.cyclestreets.views.CycleMapView;
 
-import static net.cyclestreets.views.CycleMapView.DEFAULT_ZOOM_LEVEL;
+import static net.cyclestreets.CycleStreetsConstantsKt.DEFAULT_ZOOM_LEVEL;
 
 public class ShowJourney extends Activity {
   private CycleMapView mapView_;
@@ -34,7 +34,7 @@ public class ShowJourney extends Activity {
     setText(R.id.journey_start, trip.fancyStart());
 
     // zoomToBoundingBox works better if setZoom first
-    mapView_.getController().setZoom((double)DEFAULT_ZOOM_LEVEL);
+    mapView_.getController().setZoom(DEFAULT_ZOOM_LEVEL);
     mapView_.overlayPushTop(JourneyOverlay.CompletedJourneyOverlay(this, mapView_, trip));
   }
 

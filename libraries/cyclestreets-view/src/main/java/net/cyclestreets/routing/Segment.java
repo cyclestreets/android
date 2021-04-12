@@ -233,6 +233,7 @@ public abstract class Segment {
     private final int speed;
     private final int calories;
     private final int co2;
+    private String otherRoutes;
 
     Start(final int itinerary,
           final String journey,
@@ -242,6 +243,7 @@ public abstract class Segment {
           final int totalDistance,
           final int calories,
           final int co2,
+          final String otherRoutes,
           final List<IGeoPoint> points) {
       super(journey, Integer.MIN_VALUE, Turn.turnFor(""), "", false, totalTime, 0, totalDistance, points, true);
       this.itinerary = itinerary;
@@ -249,12 +251,14 @@ public abstract class Segment {
       this.speed = speed;
       this.calories = calories;
       this.co2 = co2;
+      this.otherRoutes = otherRoutes;
     }
 
     public String name() { return super.street(); }
     public int itinerary() { return itinerary; }
     public String plan() { return plan; }
     public int speed() { return speed; }
+    public String otherRoutes() {return otherRoutes;}
 
     public String toString() {
       return street();

@@ -11,9 +11,20 @@ public interface V1Api {
                               @Query("itinerarypoints") String itineraryPoints,
                               @Query("leaving") String leaving,
                               @Query("arriving") String arriving,
-                              @Query("speed") int speed);
+                              @Query("speed") int speed,
+                              @Query("reporterrors") String reportErrors);
 
   @GET("/api/journey.json")
   Call<String> retrievePreviousJourneyJson(@Query("plan") String plan,
-                                           @Query("itinerary") long itineraryId);
+                                           @Query("itinerary") long itineraryId,
+                                           @Query("reporterrors") String reportErrors);
+
+  @GET("/api/journey.json")
+  Call<String> getCircularJourneyJson(@Query("plan") String plan,
+                                      @Query("itinerarypoints") String itineraryPoints,
+                                      @Query("distance") Integer distance,
+                                      @Query("duration") Integer duration,
+                                      @Query("poitypes") String poitypes,
+                                      @Query("reporterrors") String reportErrors);
+
 }
