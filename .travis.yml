@@ -17,12 +17,12 @@ git:
   depth: false
 
 language: android
-addons:
-  apt:
-    packages:
-      - openjdk-11-jdk
-jdk:
-  - openjdk11
+#addons:
+#  apt:
+#    packages:
+#      - openjdk-11-jdk
+#jdk:
+#  - openjdk11
 env:
   global:
     # Remember to keep these four values in sync with values in the root build.gradle file
@@ -55,7 +55,8 @@ before_install:
 install:
   - ls -l /usr/lib/jvm/
   - ls -l /home/travis
-  - jdk_switcher use openjdk8
+  - jdk_switcher
+  - jdk_switcher use openjdk11
   - ./checkPoiTypeIcons.sh
   - ./gradlew build
 
