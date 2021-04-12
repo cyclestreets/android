@@ -17,8 +17,12 @@ git:
   depth: false
 
 language: android
+addons:
+  apt:
+    packages:
+      - openjdk-11-jdk
 jdk:
-  - openjdk8
+  - openjdk11
 env:
   global:
     # Remember to keep these four values in sync with values in the root build.gradle file
@@ -49,7 +53,6 @@ before_install:
   - yes | sdkmanager "build-tools;30.0.3"
 
 install:
-  - jdk_switcher use openjdk9
   - ls -l /usr/lib/jvm/
   - ls -l /home/travis
   - jdk_switcher use openjdk8
