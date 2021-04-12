@@ -1,3 +1,11 @@
+android {
+  testOptions {
+    unitTests {
+      includeAndroidResources = true
+    }
+  }
+}
+
 configurations {
   compile.exclude module: 'commons-logging'
   compile.exclude module: 'httpclient'
