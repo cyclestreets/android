@@ -31,7 +31,7 @@ import org.robolectric.shadows.ShadowLooper.shadowMainLooper
  */
 @LooperMode(LooperMode.Mode.PAUSED)
 @RunWith(AndroidJUnit4::class)
-@Config(manifest = Config.NONE, sdk = [28])
+@Config(manifest = Config.NONE, sdk = [30])
 class ReplanFromHereTest {
 
     private lateinit var liveRideState: LiveRideState

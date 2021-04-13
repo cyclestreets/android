@@ -1,11 +1,11 @@
 buildscript {
-  ext.kotlinVersion = '1.4.10'
+  ext.kotlinVersion = '1.4.31'
   repositories {
     google()
     jcenter()
   }
   dependencies {
-    classpath 'com.android.tools.build:gradle:4.0.1'
+    classpath 'com.android.tools.build:gradle:4.1.3'
     classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
   }
 }
@@ -31,17 +31,20 @@ ext {
   compileSdkVersion=30
   minSdkVersion=23
   targetSdkVersion=30
-  buildToolsVersion='30.0.2'
+  buildToolsVersion='30.0.3'
+
+  // java version
+  javaVersion = JavaVersion.VERSION_1_8
 
   // centrally manage some other dependencies
   mapsforgeVersion = '0.13.0' // TODO: 0.14.0 is available
   osmdroidVersion = '6.1.6'   // TODO: 6.1.8 is available - test and remove our own implementation of https://github.com/osmdroid/osmdroid/issues/1578
 
   // test dependencies
-  assertjVersion = '3.17.2'
-  junitVersion = '4.13'
-  mockitoVersion = '2.28.2'
-  robolectricVersion = '4.4'
+  assertjVersion = '3.19.0'
+  junitVersion = '4.13.2'
+  mockitoVersion = '3.8.0'
+  robolectricVersion = '4.5.1'
 }
 
 // Configure common settings in all projects
@@ -53,19 +56,35 @@ subprojects {
     tasks.withType(JavaCompile) {
       options.compilerArgs << "-Xlint:unchecked" << "-Xlint:deprecation"
     }
+    tasks.withType(Test) {
+      testLogging {
+        exceptionFormat 'full'
+        showCauses true
+        showExceptions true
+        showStackTraces true
+        events = ['passed', 'failed', 'skipped']
+      }
+    }
   }
 
   buildscript {
     repositories {
-      google()
-      jcenter()
+      mavenCentral()
+      google() // required for Android plugins
     }
   }
 
   repositories {
-    google()
-    jcenter()
-    maven { url "https://jitpack.io" }
+    mavenCentral()
+    google() // required for Android libraries
+    maven { url "https://jitpack.io" } // required for https://github.com/smart-fun/XmlToJson
+    jcenter {
+      content {
+        // JCenter goes down on 1st Feb 2022, see https://www.infoq.com/news/2021/02/jfrog-jcenter-bintray-closure/
+        // we still need it for this artifact as per https://youtrack.jetbrains.com/issue/IDEA-261387
+        includeModule("org.jetbrains.trove4j", "trove4j")
+      }
+    }
   }
 
   if (projectDir.getName().equals('cyclestreets.app')) {
@@ -81,8 +100,8 @@ subprojects {
     buildToolsVersion rootProject.ext.buildToolsVersion
 
     compileOptions {
-      sourceCompatibility JavaVersion.VERSION_1_8
-      targetCompatibility JavaVersion.VERSION_1_8
+      sourceCompatibility rootProject.ext.javaVersion
+      targetCompatibility rootProject.ext.javaVersion
     }
 
     defaultConfig {

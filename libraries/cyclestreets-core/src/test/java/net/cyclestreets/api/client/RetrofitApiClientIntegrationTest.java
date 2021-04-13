@@ -28,7 +28,7 @@ import static org.mockito.Mockito.when;
 
 // Useful for manual testing that operations do work with the real API, and not just WireMock.
 @Ignore("Only meant for manual testing")
-@Config(manifest=Config.NONE, sdk = 28)
+@Config(manifest = Config.NONE, sdk = 30)
 @RunWith(RobolectricTestRunner.class)
 public class RetrofitApiClientIntegrationTest {
 

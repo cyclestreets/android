@@ -1,5 +1,13 @@
 evaluationDependsOn(':libraries:cyclestreets-view')
 
+android {
+  testOptions {
+    unitTests {
+      includeAndroidResources = true
+    }
+  }
+}
+
 dependencies {
   api project(':libraries:cyclestreets-view')
   implementation 'com.jjoe64:graphview:4.2.2'

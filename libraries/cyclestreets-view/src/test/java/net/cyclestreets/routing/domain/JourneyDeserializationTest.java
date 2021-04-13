@@ -28,6 +28,6 @@ public class JourneyDeserializationTest {
   public void basicTest() throws IOException {
     String rawJson = TestUtils.fromResourceFile("journey-domain.json");
     JourneyDomainObject jdo = om.readValue(rawJson, JourneyDomainObject.class);
-    System.out.println(jdo);
+//    System.out.println(jdo);
   }
 }
