@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+          xmlns:tools="http://schemas.android.com/tools"
   package="net.cyclestreets"
   android:installLocation="preferExternal">
 
@@ -103,6 +104,13 @@
         android:name="android.support.FILE_PROVIDER_PATHS"
         android:resource="@xml/file_paths" />
     </provider>
+
+    <!-- Required for app not to die on startup; see https://stackoverflow.com/a/65456866/2108057
+         and https://developer.android.com/topic/libraries/app-startup -->
+    <provider
+        android:name="androidx.startup.InitializationProvider"
+        android:authorities="${applicationId}.androidx-startup"
+        tools:node="remove" />
 
     <meta-data android:name="CycleStreetsAPIKey" android:value="b26a0d6b45e00612" />
   </application>
