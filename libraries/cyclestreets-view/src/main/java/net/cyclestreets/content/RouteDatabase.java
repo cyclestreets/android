@@ -150,7 +150,8 @@ public class RouteDatabase
       do  {
         r = new RouteData(cursor.getString(0),
                           new Waypoints(deserializeWaypoints(cursor.getString(1))),
-                          cursor.getString(2));
+                          cursor.getString(2),
+                          true);
       }
       while (cursor.moveToNext());
 
