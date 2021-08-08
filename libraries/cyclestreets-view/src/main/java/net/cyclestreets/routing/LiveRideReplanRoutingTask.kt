@@ -6,7 +6,7 @@ import net.cyclestreets.content.RouteData
 
 internal class LiveRideReplanRoutingTask(routeType: String,
                                          speed: Int,
-                                         context: Context) : CycleStreetsRoutingTask(routeType, speed, context) {
+                                         context: Context) : CycleStreetsRoutingTask(routeType, speed, context, saveRoute = false) {
     override fun onPostExecute(route: RouteData?) {
         super.onPostExecute(route)
         if (route != null)
