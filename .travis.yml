@@ -14,7 +14,7 @@ branches:
 
 # Get the full commit history (required to derive our version code, see the root build.gradle)
 git:
-  depth: false
+  depth: 3
 
 language: android
 addons:
