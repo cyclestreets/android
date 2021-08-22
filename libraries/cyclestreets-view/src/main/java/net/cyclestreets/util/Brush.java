@@ -39,7 +39,7 @@ public class Brush {
   }
 
   public static Paint createTextBrush(final int size) {
-    return createTextBrush(size, 255, 255, 255);
+    return createTextBrush(size, 255, 255, 255);  // White
   }
 
   public static Paint createTextBrush(final int size, final int r, final int g, final int b) {
@@ -48,6 +48,15 @@ public class Brush {
     paint.setTextAlign(Paint.Align.CENTER);
     paint.setTypeface(Typeface.DEFAULT);
     paint.setTextSize(size * 2);
+
+    return paint;
+  }
+
+  public static Paint createBoldTextBrush(final int size) {
+
+    final Paint paint = createTextBrush(size, 0, 0, 0); // Black
+
+    paint.setTypeface(Typeface.defaultFromStyle(Typeface.BOLD));
 
     return paint;
   }
