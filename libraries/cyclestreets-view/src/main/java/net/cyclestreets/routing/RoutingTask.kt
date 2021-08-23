@@ -30,7 +30,8 @@ abstract class RoutingTask<Params> protected constructor(private val initialMsg:
                              waypoints: Waypoints? = null,
                              distance: Int? = null,
                              duration: Int? = null,
-                             poiTypes: String? = null): RouteData? {
+                             poiTypes: String? = null,
+                             saveRoute: Boolean = true): RouteData? {
         return try {
             val json = doFetchRoute(routeType, itinerary, speed, waypoints, distance, duration, poiTypes)
 
@@ -44,7 +45,7 @@ abstract class RoutingTask<Params> protected constructor(private val initialMsg:
                     throw ErrorFromServerException(error!!)
                 }
                 else ->
-                    RouteData(json, waypoints, null)
+                    RouteData(json, waypoints, null, saveRoute)
             }
         } catch (e: Exception) {
             if (error == null) {

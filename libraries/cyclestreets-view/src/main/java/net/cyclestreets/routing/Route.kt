@@ -151,7 +151,8 @@ object Route {
             return
         }
         plannedRoute_ = loadFromJson(route.json(), route.points(), route.name(), context_)
-        db_.saveRoute(plannedRoute_, route.json())
+        if (route.saveRoute())
+            db_.saveRoute(plannedRoute_, route.json())
         waypoints_ = plannedRoute_.waypoints
         listeners_.onNewJourney(plannedRoute_, waypoints_)
         setRouteLoaded()
