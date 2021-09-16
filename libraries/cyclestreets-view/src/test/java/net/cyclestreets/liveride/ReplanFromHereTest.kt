@@ -173,7 +173,7 @@ Journey time : 26 minutes""")
 
     private fun loadJourneyFrom(domainJsonFile: String) {
         val rawJson = TestUtils.fromResourceFile(domainJsonFile)
-        val routeData = RouteData(rawJson, null, "test route")
+        val routeData = RouteData(rawJson, null, "test route", false)
         Route.onNewJourney(routeData)
         journey = Route.journey()
     }
