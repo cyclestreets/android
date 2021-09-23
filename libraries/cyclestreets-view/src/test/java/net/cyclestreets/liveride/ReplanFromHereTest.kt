@@ -36,6 +36,7 @@ class ReplanFromHereTest {
 
     private lateinit var liveRideState: LiveRideState
     private lateinit var journey: Journey
+    private lateinit var currentPlan: String
 
     private val roboContext = ApplicationProvider.getApplicationContext<Context>()
     private val mockTts = mock(TextToSpeech::class.java)
@@ -48,59 +49,57 @@ class ReplanFromHereTest {
         Route.initialise(roboContext)
 
         liveRideState = LiveRideStart(roboContext, mockTts)
+        loadJourneyFrom("journey-domain.json")
     }
 
     @Test
     fun remainingIntermediateWaypointsAreKeptWhenReplanning() {
-        loadJourneyFrom("journey-domain.json")
         journey.setActiveSegmentIndex(13)
         assertThat(journey.activeSegment()!!.street()).isEqualTo("lcn (unknown cycle network)")
         assertThat(journey.activeSegment()!!.legNumber()).isEqualTo(1)
 
         val expectedWaypoints = doubleArrayOf(0.0, 52.0, 0.13140, 52.22105, 0.14744, 52.19962)
         val expectedJson = jsonFor(expectedWaypoints)
-        `when`(mockApiClient.getJourneyJson("balanced", null, null, 20, expectedWaypoints)).thenReturn(expectedJson)
+        `when`(mockApiClient.getJourneyJson(currentPlan, null, null, 20, expectedWaypoints)).thenReturn(expectedJson)
 
         liveRideState = ReplanFromHere(liveRideState, GeoPoint(52.0, 0.0))
         shadowMainLooper().idle()
 
-        verify(mockApiClient, times(1)).getJourneyJson("balanced", null, null, 20, expectedWaypoints)
+        verify(mockApiClient, times(1)).getJourneyJson(currentPlan, null, null, 20, expectedWaypoints)
 
         // Check multi-replans don't keep adding waypoints
         liveRideState = ReplanFromHere(liveRideState, GeoPoint(53.0, 1.0))
         shadowMainLooper().idle()
 
         val newExpectedWaypoints: DoubleArray = doubleArrayOf(1.0, 53.0, 0.13140, 52.22105, 0.14744, 52.19962)
-        verify(mockApiClient, times(1)).getJourneyJson("balanced", null, null, 20, newExpectedWaypoints)
+        verify(mockApiClient, times(1)).getJourneyJson(currentPlan, null, null, 20, newExpectedWaypoints)
     }
 
     @Test
     fun ifNoRemainingIntermediateWaypointsThenHeadForTheFinish() {
-        loadJourneyFrom("journey-domain.json")
         journey.setActiveSegmentIndex(34)
         assertThat(journey.activeSegment()!!.street()).isEqualTo("Pye Alley")
         assertThat(journey.activeSegment()!!.legNumber()).isEqualTo(2)
 
         val expectedWaypoints: DoubleArray = doubleArrayOf(0.0, 52.0, 0.14744, 52.19962)
         val expectedJson = jsonFor(expectedWaypoints)
-        `when`(mockApiClient.getJourneyJson("balanced", null, null, 20, expectedWaypoints)).thenReturn(expectedJson)
+        `when`(mockApiClient.getJourneyJson(currentPlan, null, null, 20, expectedWaypoints)).thenReturn(expectedJson)
 
         liveRideState = ReplanFromHere(liveRideState, GeoPoint(52.0, 0.0))
         shadowMainLooper().idle()
 
-        verify(mockApiClient, times(1)).getJourneyJson("balanced", null, null, 20, expectedWaypoints)
+        verify(mockApiClient, times(1)).getJourneyJson(currentPlan, null, null, 20, expectedWaypoints)
 
         // Check multi-replans don't keep adding waypoints
         liveRideState = ReplanFromHere(liveRideState, GeoPoint(53.0, 1.0))
         shadowMainLooper().idle()
 
         val newExpectedWaypoints: DoubleArray = doubleArrayOf(1.0, 53.0, 0.14744, 52.19962)
-        verify(mockApiClient, times(1)).getJourneyJson("balanced", null, null, 20, newExpectedWaypoints)
+        verify(mockApiClient, times(1)).getJourneyJson(currentPlan, null, null, 20, newExpectedWaypoints)
     }
 
     @Test
     fun replanFromStartKeepsAllOriginalWaypoints() {
-        loadJourneyFrom("journey-domain.json")
         journey.setActiveSegmentIndex(0)
         assertThat(journey.activeSegment()!!.street()).isEqualTo("""test route
 Quietest route : 6.25km
@@ -109,66 +108,64 @@ Journey time : 26 minutes""")
 
         val expectedWaypoints: DoubleArray = doubleArrayOf(0.0, 52.0, 0.11783, 52.20530, 0.13140, 52.22105, 0.14744, 52.19962)
         val expectedJson = jsonFor(expectedWaypoints)
-        `when`(mockApiClient.getJourneyJson("balanced", null, null, 20, expectedWaypoints)).thenReturn(expectedJson)
+        `when`(mockApiClient.getJourneyJson(currentPlan, null, null, 20, expectedWaypoints)).thenReturn(expectedJson)
 
         liveRideState = ReplanFromHere(liveRideState, GeoPoint(52.0, 0.0))
         shadowMainLooper().idle()
 
-        verify(mockApiClient, times(1)).getJourneyJson("balanced", null, null, 20, expectedWaypoints)
+        verify(mockApiClient, times(1)).getJourneyJson(currentPlan, null, null, 20, expectedWaypoints)
 
         // Check multi-replans don't keep adding waypoints
         liveRideState = ReplanFromHere(liveRideState, GeoPoint(53.0, 1.0))
         shadowMainLooper().idle()
 
         val newExpectedWaypoints: DoubleArray = doubleArrayOf(1.0, 53.0, 0.11783, 52.20530, 0.13140, 52.22105, 0.14744, 52.19962)
-        verify(mockApiClient, times(1)).getJourneyJson("balanced", null, null, 20, newExpectedWaypoints)
+        verify(mockApiClient, times(1)).getJourneyJson(currentPlan, null, null, 20, newExpectedWaypoints)
     }
 
     @Test
     fun replanFromWaymarkKeepsAllWaypointsFromTheCurrentOne() {
-        loadJourneyFrom("journey-domain.json")
         journey.setActiveSegmentIndex(32)
         assertThat(journey.activeSegment()!!.street()).isEqualTo("Waypoint 1")
         assertThat(journey.activeSegment()!!.legNumber()).isEqualTo(1)
 
         val expectedWaypoints: DoubleArray = doubleArrayOf(0.0, 52.0, 0.13140, 52.22105, 0.14744, 52.19962)
         val expectedJson = jsonFor(expectedWaypoints)
-        `when`(mockApiClient.getJourneyJson("balanced", null, null, 20, expectedWaypoints)).thenReturn(expectedJson)
+        `when`(mockApiClient.getJourneyJson(currentPlan, null, null, 20, expectedWaypoints)).thenReturn(expectedJson)
 
         liveRideState = ReplanFromHere(liveRideState, GeoPoint(52.0, 0.0))
         shadowMainLooper().idle()
 
-        verify(mockApiClient, times(1)).getJourneyJson("balanced", null, null, 20, expectedWaypoints)
+        verify(mockApiClient, times(1)).getJourneyJson(currentPlan, null, null, 20, expectedWaypoints)
 
         // Check multi-replans don't keep adding waypoints
         liveRideState = ReplanFromHere(liveRideState, GeoPoint(53.0, 1.0))
         shadowMainLooper().idle()
 
         val newExpectedWaypoints: DoubleArray = doubleArrayOf(1.0, 53.0, 0.13140, 52.22105, 0.14744, 52.19962)
-        verify(mockApiClient, times(1)).getJourneyJson("balanced", null, null, 20, newExpectedWaypoints)
+        verify(mockApiClient, times(1)).getJourneyJson(currentPlan, null, null, 20, newExpectedWaypoints)
     }
 
     @Test
     fun replanFromEndJustAimsForTheArrivee() {
-        loadJourneyFrom("journey-domain.json")
         journey.setActiveSegmentIndex(journey.segments.count() - 1)
         assertThat(journey.activeSegment()!!.street()).isEqualTo("Destination Thoday+Street")
         assertThat(journey.activeSegment()!!.legNumber()).isEqualTo(Int.MAX_VALUE)
 
         val expectedWaypoints: DoubleArray = doubleArrayOf(0.0, 52.0, 0.14744, 52.19962)
         val expectedJson = jsonFor(expectedWaypoints)
-        `when`(mockApiClient.getJourneyJson("balanced", null, null, 20, expectedWaypoints)).thenReturn(expectedJson)
+        `when`(mockApiClient.getJourneyJson(currentPlan, null, null, 20, expectedWaypoints)).thenReturn(expectedJson)
         liveRideState = ReplanFromHere(liveRideState, GeoPoint(52.0, 0.0))
         shadowMainLooper().idle()
 
-        verify(mockApiClient, times(1)).getJourneyJson("balanced", null, null, 20, expectedWaypoints)
+        verify(mockApiClient, times(1)).getJourneyJson(currentPlan, null, null, 20, expectedWaypoints)
 
         // Check multi-replans don't keep adding waypoints
         liveRideState = ReplanFromHere(liveRideState, GeoPoint(53.0, 1.0))
         shadowMainLooper().idle()
 
         val newExpectedWaypoints: DoubleArray = doubleArrayOf(1.0, 53.0, 0.14744, 52.19962)
-        verify(mockApiClient, times(1)).getJourneyJson("balanced", null, null, 20, newExpectedWaypoints)
+        verify(mockApiClient, times(1)).getJourneyJson(currentPlan, null, null, 20, newExpectedWaypoints)
     }
 
     private fun loadJourneyFrom(domainJsonFile: String) {
@@ -176,6 +173,7 @@ Journey time : 26 minutes""")
         val routeData = RouteData(rawJson, null, "test route", false)
         Route.onNewJourney(routeData)
         journey = Route.journey()
+        currentPlan = Route.currentJourneyPlan()
     }
 
     // Create a dummy domain object - populated just enough that the waypoints are usable

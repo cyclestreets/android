@@ -181,6 +181,11 @@ object Route {
         return plannedRoute_
     }
 
+    @JvmStatic
+    fun currentJourneyPlan(): String {
+        return currentJourneyPlan
+    }
+
     private fun loadLastJourney() {
         val routeSummaries = storedRoutes()
         if (!storedRoutes().isEmpty()) {
