@@ -5,6 +5,7 @@ import android.content.SharedPreferences
 import android.util.Log
 import android.widget.Toast
 import net.cyclestreets.CycleStreetsPreferences
+import net.cyclestreets.RoutePlans
 import net.cyclestreets.content.RouteData
 import net.cyclestreets.content.RouteDatabase
 import net.cyclestreets.content.RouteSummary
@@ -17,6 +18,7 @@ import java.util.*
 object Route {
     private val TAG = Logging.getTag(Route::class.java)
     private val listeners_ = Listeners()
+    private var currentJourneyPlan: String = ""
     @JvmStatic
     fun registerListener(l: Listener) {
         listeners_.register(l)
@@ -50,11 +52,17 @@ object Route {
         query.execute(waypoints_)
     }
 
-    fun LiveReplanRoute(plan: String,
-                        speed: Int,
+    fun LiveReplanRoute(speed: Int,
                         context: Context,
                         waypoints: Waypoints) {
-        val query = LiveRideReplanRoutingTask(plan, speed, context)
+        var newPlan: String
+        // Check current plan is a linear route plan.
+        if (currentJourneyPlan in RoutePlans.allPlans())
+            newPlan = currentJourneyPlan
+        else
+            newPlan = RoutePlans.PLAN_QUIETEST
+
+        val query = LiveRideReplanRoutingTask(newPlan, speed, context)
         query.execute(waypoints)
     }
 
@@ -151,6 +159,7 @@ object Route {
             return
         }
         plannedRoute_ = loadFromJson(route.json(), route.points(), route.name())
+        currentJourneyPlan = plannedRoute_.plan()
         if (route.saveRoute())
             db_.saveRoute(plannedRoute_, route.json())
         waypoints_ = plannedRoute_.waypoints
@@ -170,6 +179,11 @@ object Route {
     @JvmStatic
     fun journey(): Journey {
         return plannedRoute_
+    }
+
+    @JvmStatic
+    fun currentJourneyPlan(): String {
+        return currentJourneyPlan
     }
 
     private fun loadLastJourney() {
