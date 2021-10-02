@@ -165,7 +165,6 @@ class Journey private constructor(wp: Waypoints? = null) {
             // there is no way of telling whether POIs were requested originally
             populatePois(jdo, context)
 
-            //
             generateStartAndFinishSegments(jdo)
 
             return journey
