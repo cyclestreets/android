@@ -120,3 +120,8 @@ subprojects {
     buildFeatures.viewBinding = true
   }
 }
+allprojects {
+    tasks.withType(Test).configureEach {
+        forkEvery = 100
+    }
+}
