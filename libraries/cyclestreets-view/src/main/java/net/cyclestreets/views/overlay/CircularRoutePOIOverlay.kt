@@ -15,8 +15,10 @@ import org.osmdroid.util.BoundingBox
 
 private val TAG = Logging.getTag(CircularRoutePOIOverlay::class.java)
 
-class CircularRoutePOIOverlay(mapView: CycleMapView): PauseResumeListener, Route.Listener,
-        LiveItemOverlay<POIOverlay.POIOverlayItem?>(mapView, false), Undoable {
+class CircularRoutePOIOverlay(mapView: CycleMapView):   PauseResumeListener,
+                                                        Route.Listener,
+                                                        ItemizedOverlay<POIOverlay.POIOverlayItem>(mapView.mapView(), ArrayList()),
+                                                        Undoable {
 
     private var currentJourney: Journey? = null
 
@@ -31,11 +33,9 @@ class CircularRoutePOIOverlay(mapView: CycleMapView): PauseResumeListener, Route
     override fun onNewJourney(journey: Journey, waypoints: Waypoints) {
             removePois()
             currentJourney = journey
-            val items: MutableList<POIOverlay.POIOverlayItem> = ArrayList()
             for (poi in currentJourney!!.circularRoutePois) {
-                items.add(POIOverlay.POIOverlayItem(poi))
+                items().add(POIOverlay.POIOverlayItem(poi))
             }
-            setItems(items as List<POIOverlay.POIOverlayItem?>?)
     }
 
     override fun onResetJourney() {
@@ -51,33 +51,15 @@ class CircularRoutePOIOverlay(mapView: CycleMapView): PauseResumeListener, Route
         }
     }
 
-    // This won't ever be called
-    override fun fetchItemsInBackground(mapCentre: IGeoPoint,
-                                        zoom: Int,
-                                        boundingBox: BoundingBox): Boolean {
-        // Return false so that "Loading" message doesn't appear
-        return false
-    }
-
-    override fun onZoom(event: ZoomEvent): Boolean {
-        // Don't want any of the functionality in the superclass so override and do nothing / return true
-        return true
-    }
-
-    override fun onScroll(event: ScrollEvent): Boolean {
-        // Don't want any of the functionality in the superclass, so override and do nothing / return true
-        return true
-    }
-
     override fun onItemSingleTap(item: POIOverlay.POIOverlayItem?): Boolean {
         Bubble.hideOrShowBubble(item, this)
-        redraw()
+        mapView().postInvalidate()
         return true
     }
 
     override fun onBackPressed(): Boolean {
         Bubble.hideBubble(this)
-        redraw()
+        mapView().postInvalidate()
         return true
     }
 }
