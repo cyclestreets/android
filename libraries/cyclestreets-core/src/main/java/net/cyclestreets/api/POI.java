@@ -33,7 +33,7 @@ public class POI
     pos = new GeoPoint(lat, lon);
   }
 
-  void setCategory(final POICategory category) { this.category = category; }
+  public void setCategory(final POICategory category) { this.category = category; }
 
   public int id() { return id; }
   public String name() { return stringOrBlank(name); }

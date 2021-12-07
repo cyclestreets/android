@@ -23,6 +23,8 @@ import net.cyclestreets.views.CycleMapView;
 
 import static net.cyclestreets.CycleStreetsConstantsKt.ITEM_ZOOM_LEVEL;
 
+// This class handles Scroll (moving the map around), Zoom and reloading of items for the new bit of displayed map
+
 public abstract class LiveItemOverlay<T extends OverlayItem>
           extends ItemizedOverlay<T>
           implements MapListener
@@ -102,7 +104,7 @@ public abstract class LiveItemOverlay<T extends OverlayItem>
 
   @Override
   public boolean onZoom(final ZoomEvent event) {
-    if (event.getZoomLevel() < zoomLevel_)
+    if (event.getZoomLevel() < zoomLevel_)  // Zoomed out
       items().clear();
     zoomLevel_ = (int)event.getZoomLevel();
     refreshItems();

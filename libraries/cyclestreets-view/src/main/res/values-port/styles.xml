@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- In portrait mode there is more space for larger text size -->
+    <style name="CircularRouteTextSize" parent="Theme.AppCompat.DayNight.DarkActionBar">
+        <item name="android:textSize">18sp</item>
+    </style>
+</resources>

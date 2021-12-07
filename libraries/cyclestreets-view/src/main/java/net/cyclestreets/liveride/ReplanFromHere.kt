@@ -43,8 +43,7 @@ internal class ReplanFromHere(previous: LiveRideState, whereIam: GeoPoint) : Liv
             }
         }
         Route.softRegisterListener(this)
-        Route.LiveReplanRoute(CycleStreetsPreferences.routeType(),
-                              CycleStreetsPreferences.speed(),
+        Route.LiveReplanRoute(CycleStreetsPreferences.speed(),
                               context,
                               remainingWaypoints)
     }

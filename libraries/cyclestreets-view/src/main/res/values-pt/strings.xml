@@ -121,4 +121,13 @@
   <string name="remaining">Restante</string>
   <string name="slash_ETA">/ Chegada</string>
 
+  <string name="duration">Duration</string>
+  <string name="distance">Distance</string>
+  <string name="circular_route">Circular Route</string>
+  <string name="create_circular_route_desc">Create a circular route based on a duration or distance</string>
+  <string name="create_circular_route_button">Create circular route</string>
+  <string name="mins">mins</string>
+  <string name="choose_pois_to_route_via">Optionally, choose Points of Interest to route via:</string>
+  <string name="pois">POIs</string>
+  <string name="num_poitypes_selected">%1$s selected</string>
 </resources>

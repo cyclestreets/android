@@ -9,4 +9,7 @@
     <item name="android:windowBackground">@android:color/transparent</item>
     <item name="android:backgroundDimEnabled">true</item>
   </style>
+
+  <dimen name="CRmargin">8dp</dimen>
+
 </resources>
