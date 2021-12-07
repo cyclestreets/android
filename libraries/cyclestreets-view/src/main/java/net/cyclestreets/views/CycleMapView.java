@@ -58,7 +58,7 @@ public class CycleMapView extends FrameLayout
   private MapView mapView_;
   private ITileSource renderer_;
   private final SharedPreferences prefs_;
-  private final ControllerOverlay controllerOverlay_;
+  public final ControllerOverlay controllerOverlay_;
   private final LocationOverlay location_;
   private final FindPlaceOverlay findPlaceOverlay_;
   private final int overlayBottomIndex_;

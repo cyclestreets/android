@@ -1,22 +1,15 @@
 package net.cyclestreets.views.overlay
 
 import android.content.Context
-import android.content.Intent
 import android.content.SharedPreferences
 import android.graphics.Canvas
-import android.graphics.Matrix
-import android.graphics.Point
-import android.graphics.Rect
-import android.net.Uri
 import android.os.AsyncTask
 import android.util.Log
 import android.view.*
-import android.webkit.URLUtil
 import android.widget.BaseAdapter
 import android.widget.CheckBox
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.core.content.ContextCompat.startActivity
 import com.mikepenz.iconics.typeface.library.googlematerial.GoogleMaterial
 import net.cyclestreets.Undoable
 import net.cyclestreets.api.POI
@@ -26,9 +19,10 @@ import net.cyclestreets.iconics.IconicsHelper.materialIcon
 import net.cyclestreets.util.*
 import net.cyclestreets.view.R
 import net.cyclestreets.views.CycleMapView
+import net.cyclestreets.views.overlay.Bubble.hideBubble
+import net.cyclestreets.views.overlay.Bubble.hideOrShowBubble
 import net.cyclestreets.views.overlay.POIOverlay.POIOverlayItem
 import org.osmdroid.api.IGeoPoint
-import org.osmdroid.api.IProjection
 import org.osmdroid.events.MapListener
 import org.osmdroid.events.ZoomEvent
 import org.osmdroid.util.BoundingBox
@@ -45,15 +39,15 @@ class POIOverlay(mapView: CycleMapView) : LiveItemOverlay<POIOverlayItem?>(mapVi
     private val context: Context = mapView.context
     private val activeCategories: MutableList<POICategory> = ArrayList()
     private val overlays: OverlayHelper = OverlayHelper(mapView)
-    private val curScreenCoords = Point()
 
     private val poiIcon = materialIcon(context, GoogleMaterial.Icon.gmd_place)
 
-    private var activeItem: POIOverlayItem? = null
     private var lastFix: IGeoPoint? = null
-    private var bubble: Rect? = null
     private var chooserShowing: Boolean = false
-    private val tapHereText = context.getString(R.string.tap_here)
+
+    init {
+        Bubble.initialise(context, mapView)
+    }
 
     /////////////////////////////////////////////////////
     private fun allCategories(): POICategories {
@@ -62,10 +56,6 @@ class POIOverlay(mapView: CycleMapView) : LiveItemOverlay<POIOverlayItem?>(mapVi
 
     private fun routeOverlay(): TapToRouteOverlay? {
         return overlays.get(TapToRouteOverlay::class.java)
-    }
-
-    private fun controller(): ControllerOverlay {
-        return overlays.controller()
     }
 
     /////////////////////////////////////////////////////
@@ -92,7 +82,7 @@ class POIOverlay(mapView: CycleMapView) : LiveItemOverlay<POIOverlayItem?>(mapVi
         if (firstTime) {
             items().clear()
             clearLastFix()
-            activeItem = null
+            Bubble.activeItem = null
             refreshItems()
         }
     }
@@ -120,61 +110,17 @@ class POIOverlay(mapView: CycleMapView) : LiveItemOverlay<POIOverlayItem?>(mapVi
 
     ///////////////////////////////////////////////////
     override fun onSingleTap(event: MotionEvent): Boolean {
-        if (activeItem != null && tappedInBubble(event))
+        // Check whether tapped in bubble
+        if (Bubble.onSingleTap(event, mapView().projection, context, this))
             return true
-
+        // The following checks whether tap was on a displayed POI:
         return super.onSingleTap(event)
     }
 
-    private fun tappedInBubble(event: MotionEvent): Boolean {
-        val pj = mapView().projection
-        val screenRect = pj.intrinsicScreenRect
-        val eventX = screenRect.left + event.x.toInt()
-        val eventY = screenRect.top + event.y.toInt()
-
-        if (!bubble!!.contains(eventX, eventY))
-            return false
-        // Check if tapped on link
-        if (eventY < Draw.titleSectionY) {
-            showWebpage(activeItem)
-            return true
-        }
-
-        return routeMarkerAtItem(activeItem)
-    }
-
-    private fun showWebpage(item: POIOverlayItem?) {
-        val url = item!!.poi.url()
-
-        if (url != "") {
-            val webpage = Uri.parse(url)
-            val intent = Intent(Intent.ACTION_VIEW, webpage)
-
-            if (intent.resolveActivity(context.getPackageManager()) != null) {
-                startActivity(context, intent, null)
-            }
-        }
-    }
-
     override fun onItemSingleTap(item: POIOverlayItem?): Boolean {
-        if (activeItem === item)
-            hideBubble()
-        else
-            showBubble(item!!)
+        hideOrShowBubble(item, this)
         redraw()
-
         return true
-    }
-
-    private fun showBubble(item: POIOverlayItem) {
-        hideBubble()
-        activeItem = item
-        controller().pushUndo(this)
-    }
-
-    private fun hideBubble() {
-        activeItem = null
-        controller().flushUndo(this)
     }
 
     override fun onItemDoubleTap(item: POIOverlayItem?): Boolean {
@@ -182,7 +128,7 @@ class POIOverlay(mapView: CycleMapView) : LiveItemOverlay<POIOverlayItem?>(mapVi
     }
 
     private fun routeMarkerAtItem(item: POIOverlayItem?): Boolean {
-        hideBubble()
+        hideBubble(this)
         val o = routeOverlay() ?: return false
         o.setNextMarker(item!!.point)
         return true
@@ -190,54 +136,13 @@ class POIOverlay(mapView: CycleMapView) : LiveItemOverlay<POIOverlayItem?>(mapVi
 
     /////////////////////////////////////////////////////
     override fun draw(canvas: Canvas, mapView: MapView, shadow: Boolean) {
-        if (activeCategories.isEmpty())
+        if (activeCategories.isNotEmpty()) {
+            super.draw(canvas, mapView, shadow)
+        }
+
+        if (Bubble.activeItem == null)
             return
-
-        super.draw(canvas, mapView, shadow)
-
-        if (activeItem == null)
-            return
-
-        drawBubble(canvas, mapView)
-    }
-
-    private fun drawBubble(canvas: Canvas, mapView: MapView) {
-        var url = activeItem!!.poi.url()
-        url = if (URLUtil.isValidUrl(url)) url else ""
-        val title = if (activeItem!!.title.isNullOrEmpty() && (activeItem!!.poi.url().isNotBlank())) tapHereText else activeItem!!.title
-
-        val bubbleText = listOf(
-            title,
-            activeItem!!.snippet,
-            activeItem!!.poi.phone(),
-            activeItem!!.poi.openingHours()
-        ).filterNot { it.isNullOrBlank() }.joinToString("\n")
-
-        // find the right place
-        val pj: IProjection = mapView.projection
-        pj.toPixels(activeItem!!.point, curScreenCoords)
-
-        val x = curScreenCoords.x
-        val y = curScreenCoords.y
-
-        val matrix = mapView.matrix
-        val matrixValues = FloatArray(9)
-        matrix.getValues(matrixValues)
-
-        val scaleX = Math.sqrt(matrixValues[Matrix.MSCALE_X]
-                * matrixValues[Matrix.MSCALE_X] + matrixValues[Matrix.MSKEW_Y]
-                * matrixValues[Matrix.MSKEW_Y].toDouble()).toFloat()
-        val scaleY = Math.sqrt(matrixValues[Matrix.MSCALE_Y]
-                * matrixValues[Matrix.MSCALE_Y] + matrixValues[Matrix.MSKEW_X]
-                * matrixValues[Matrix.MSKEW_X].toDouble()).toFloat()
-
-        canvas.save()
-        canvas.rotate(-mapView.mapOrientation, x.toFloat(), y.toFloat())
-        canvas.scale(1 / scaleX, 1 / scaleY, x.toFloat(), y.toFloat())
-
-        bubble = Draw.drawBubble(canvas, textBrush(), urlBrush(), offset(), cornerRadius(), curScreenCoords, bubbleText, url, title)
-
-        canvas.restore()
+        Bubble.drawBubble(canvas, mapView, textBrush(), urlBrush(), offset())
     }
 
     private fun updateCategories(newCategories: List<POICategory>) {
@@ -272,8 +177,8 @@ class POIOverlay(mapView: CycleMapView) : LiveItemOverlay<POIOverlayItem?>(mapVi
             }
         }
 
-        if (activeItem != null && cat == activeItem!!.category())
-            activeItem = null
+        if (Bubble.activeItem != null && cat == Bubble.activeItem!!.category())
+            Bubble.activeItem = null
     }
 
     private fun notIn(c1: List<POICategory>,
@@ -335,7 +240,7 @@ class POIOverlay(mapView: CycleMapView) : LiveItemOverlay<POIOverlayItem?>(mapVi
     }
 
     override fun onBackPressed(): Boolean {
-        hideBubble()
+        hideBubble(this)
         redraw()
         return true
     }

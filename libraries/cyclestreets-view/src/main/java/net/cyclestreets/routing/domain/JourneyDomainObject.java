@@ -14,6 +14,8 @@ public class JourneyDomainObject {
   public final RouteDomainObject route = new RouteDomainObject();
   @JsonProperty
   public final List<SegmentDomainObject> segments = new ArrayList<>();
+  @JsonProperty
+  public final List<PoiDomainObject> pois = new ArrayList<>();
 
   @Override
   public String toString() {

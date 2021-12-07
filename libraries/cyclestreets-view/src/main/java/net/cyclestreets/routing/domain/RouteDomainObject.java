@@ -18,10 +18,6 @@ public final class RouteDomainObject {
   @JsonProperty
   public String finish;
   @JsonProperty
-  public double start_longitude;
-  @JsonProperty
-  public double start_latitude;
-  @JsonProperty
   public String otherRoutes;
 
   @Override

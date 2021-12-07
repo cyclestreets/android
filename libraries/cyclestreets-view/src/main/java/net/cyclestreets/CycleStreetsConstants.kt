@@ -28,6 +28,7 @@ const val EXTRA_ROUTE_SPEED = "net.cyclestreets.extra.ROUTE_SPEED"
 const val EXTRA_ROUTE_NUMBER = "net.cyclestreets.extra.ROUTE"
 const val EXTRA_CIRCULAR_ROUTE_DISTANCE = "net.cyclestreets.extra.CIRCULAR_ROUTE_DISTANCE"
 const val EXTRA_CIRCULAR_ROUTE_DURATION = "net.cyclestreets.extra.CIRCULAR_ROUTE_DURATION"
+const val EXTRA_CIRCULAR_ROUTE_POI_CATEGORIES = "net.cyclestreets.extra.CIRCULAR_ROUTE_POI_CATEGORIES"
 const val ROUTE_ID = "net.cyclestreets.extra.ROUTE_ID"
 
 // Permission request codes
