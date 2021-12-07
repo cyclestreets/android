@@ -29,7 +29,7 @@ class WaymarkOverlay(private val mapView: CycleMapView) : Overlay(), PauseResume
     private val screenPos = Point()
     private val bitmapTransform = Matrix()
     private val bitmapPaint = Paint()
-    private val boldTextBrush = Brush.createBoldTextBrush((offset(mapView.getContext())*0.8).toInt())
+    private val waymarkNumberTextBrush = Brush.createBoldTextBrush((offset(mapView.getContext())*0.8).toInt())
 
     private val waymarkers = ArrayList<OverlayItem>()
 
@@ -106,7 +106,7 @@ class WaymarkOverlay(private val mapView: CycleMapView) : Overlay(), PauseResume
                            index: Int,
                            size: Int) {
 
-        val waymarkPosition = when (index) {
+        val waymarkNumber = when (index) {
                                     0 -> "S"                    // Starting waymark
                                     size - 1 -> "F"             // Finishing waymark
                                     else -> {index.toString()}  // Numbered intermediate waymark
@@ -136,11 +136,15 @@ class WaymarkOverlay(private val mapView: CycleMapView) : Overlay(), PauseResume
 
         val x = screenPos.x.toFloat()
         val y = screenPos.y.toFloat()
+        // Coordinates for Waymark number (position it within body of wisp):
+        val wmNumXCoord = x - halfWidth/10
+        val wmNumYCoord = (y - halfHeight/1.8).toFloat()
+
         canvas.apply {
             save()
             rotate(-projection.orientation, x, y)
             drawBitmap(bitmap, bitmapTransform, bitmapPaint)
-            drawText(waymarkPosition, x - halfWidth/10, (y - halfHeight/1.8).toFloat(), boldTextBrush)
+            drawText(waymarkNumber, wmNumXCoord, wmNumYCoord, waymarkNumberTextBrush)
             restore()
         }
     }
