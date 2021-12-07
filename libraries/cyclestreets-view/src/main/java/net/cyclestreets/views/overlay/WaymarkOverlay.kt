@@ -23,13 +23,18 @@ import java.util.ArrayList
 
 class WaymarkOverlay(private val mapView: CycleMapView) : Overlay(), PauseResumeListener, Route.Listener {
 
+    val INCREASE_WAYMARK_SIZE = 1.5
+    val HORIZONTAL_TEXT_POSITION_ADJUSTMENT = 10
+    val VERTICAL_TEXT_POSITION_ADJUSTMENT = 1.8
+    val REDUCE_TEXT_SIZE = 0.8
+
     private val wispWpStart = makeWisp(R.drawable.wp_green_wisp)
     private val wispWpMid = makeWisp(R.drawable.wp_orange_wisp)
     private val wispWpFinish = makeWisp(R.drawable.wp_red_wisp)
     private val screenPos = Point()
     private val bitmapTransform = Matrix()
     private val bitmapPaint = Paint()
-    private val waymarkNumberTextBrush = Brush.createBoldTextBrush((offset(mapView.getContext())*0.8).toInt())
+    private val waymarkNumberTextBrush = Brush.createBoldTextBrush((offset(mapView.getContext())*REDUCE_TEXT_SIZE).toInt())
 
     private val waymarkers = ArrayList<OverlayItem>()
 
@@ -111,7 +116,6 @@ class WaymarkOverlay(private val mapView: CycleMapView) : Overlay(), PauseResume
                                     size - 1 -> "F"             // Finishing waymark
                                     else -> {index.toString()}  // Numbered intermediate waymark
         }
-        val INCREASE_WAYMARK_SIZE = 1.5
 
         projection.toPixels(marker.point, screenPos)
 
@@ -137,8 +141,8 @@ class WaymarkOverlay(private val mapView: CycleMapView) : Overlay(), PauseResume
         val x = screenPos.x.toFloat()
         val y = screenPos.y.toFloat()
         // Coordinates for Waymark number (position it within body of wisp):
-        val wmNumXCoord = x - halfWidth/10
-        val wmNumYCoord = (y - halfHeight/1.8).toFloat()
+        val wmNumXCoord = x - halfWidth/HORIZONTAL_TEXT_POSITION_ADJUSTMENT
+        val wmNumYCoord = (y - halfHeight/VERTICAL_TEXT_POSITION_ADJUSTMENT).toFloat()
 
         canvas.apply {
             save()
