@@ -21,7 +21,9 @@ import org.osmdroid.views.overlay.OverlayItem
 
 import java.util.ArrayList
 
-class WaymarkOverlay(private val mapView: CycleMapView) : Overlay(), PauseResumeListener, Route.Listener {
+class WaymarkOverlay(private val mapView: CycleMapView) : ItemizedOverlay<OverlayItem>(mapView.mapView(), ArrayList(), true),
+                                                            PauseResumeListener,
+                                                            Route.Listener {
 
     val INCREASE_WAYMARK_SIZE = 1.5
     val HORIZONTAL_TEXT_POSITION_ADJUSTMENT = 10
@@ -29,14 +31,12 @@ class WaymarkOverlay(private val mapView: CycleMapView) : Overlay(), PauseResume
     val REDUCE_TEXT_SIZE = 0.8
 
     private val wispWpStart = makeWisp(R.drawable.wp_green_wisp)
-    private val wispWpMid = makeWisp(R.drawable.wp_orange_wisp)
+    private val wispWpMid = makeWisp(R.drawable.test_wisp2)  //makeWisp(R.drawable.wp_orange_wisp)
     private val wispWpFinish = makeWisp(R.drawable.wp_red_wisp)
     private val screenPos = Point()
     private val bitmapTransform = Matrix()
     private val bitmapPaint = Paint()
     private val waymarkNumberTextBrush = Brush.createBoldTextBrush((offset(mapView.getContext())*REDUCE_TEXT_SIZE).toInt())
-
-    private val waymarkers = ArrayList<OverlayItem>()
 
     private fun makeWisp(drawable: Int) : Drawable? {
         return ResourcesCompat.getDrawable(mapView.context.resources, drawable, null)
@@ -44,15 +44,15 @@ class WaymarkOverlay(private val mapView: CycleMapView) : Overlay(), PauseResume
 
     //////////////////////////////////////
     fun waymarkersCount(): Int {
-        return waymarkers.size
+        return items().size
     }
 
     fun waypoints(): Waypoints {
-        return Waypoints(waymarkers.map { wp -> wp.point })
+        return Waypoints(items().map { wp -> wp.point })
     }
 
     fun finish(): IGeoPoint {
-        return waymarkers.last().point
+        return items().last().point
     }
 
     fun addWaypoint(point: IGeoPoint?) {
@@ -84,11 +84,11 @@ class WaymarkOverlay(private val mapView: CycleMapView) : Overlay(), PauseResume
     }
 
     private fun pushMarker(point: IGeoPoint, label: String, icon: Drawable?) {
-        waymarkers.add(makeMarker(point, label, icon))
+        items().add(makeMarker(point, label, icon))
     }
 
     private fun popMarker() {
-        waymarkers.removeAt(waymarkers.lastIndex)
+        items().removeAt(items().lastIndex)
     }
 
     private fun makeMarker(point: IGeoPoint, label: String, icon: Drawable?): OverlayItem {
@@ -100,9 +100,7 @@ class WaymarkOverlay(private val mapView: CycleMapView) : Overlay(), PauseResume
 
     ////////////////////////////////////////////
     override fun draw(canvas: Canvas, mapView: MapView, shadow: Boolean) {
-        val projection = mapView.projection
-
-        waymarkers.forEach { wp -> drawMarker(canvas, projection, wp, waymarkers.indexOf(wp), waymarkers.size) }
+        super.draw(canvas, mapView, shadow)
     }
 
     private fun drawMarker(canvas: Canvas,
@@ -161,7 +159,7 @@ class WaymarkOverlay(private val mapView: CycleMapView) : Overlay(), PauseResume
     }
 
     private fun resetWaypoints() {
-        waymarkers.clear()
+        items().clear()
     }
 
     ////////////////////////////////////

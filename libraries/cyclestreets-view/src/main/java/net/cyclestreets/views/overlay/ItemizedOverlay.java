@@ -1,11 +1,16 @@
 package net.cyclestreets.views.overlay;
 
+import static net.cyclestreets.views.overlay.DrawingHelperKt.offset;
+
 import android.graphics.Canvas;
 import android.graphics.Matrix;
+import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.view.MotionEvent;
+
+import net.cyclestreets.util.Brush;
 
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.Projection;
@@ -25,6 +30,17 @@ public class ItemizedOverlay<Item extends OverlayItem> extends Overlay implement
   private final Point screenCoords = new Point();
 
   protected MapView mapView() { return mapView_; }
+
+  private boolean showWaymarkNumbers = false;
+  private Paint boldTextBrush;
+
+  public ItemizedOverlay(final MapView mapView,
+                         final List<Item> items,
+                         final boolean showNumbers) {
+    this(mapView, items);
+    showWaymarkNumbers = showNumbers;
+    boldTextBrush = Brush.createBoldTextBrush((int) (offset(mapView.getContext())*0.8));
+  }
 
   public ItemizedOverlay(final MapView mapView,
                          final List<Item> items) {
@@ -47,12 +63,13 @@ public class ItemizedOverlay<Item extends OverlayItem> extends Overlay implement
     for (int i = items_.size() -1; i >= 0; --i) {
       final Item item = items_.get(i);
       pj.toPixels(item.getPoint(), screenCoords);
-      onDrawItem(canvas, item, screenCoords, scale, orientation);
+      onDrawItem(canvas, item, i, screenCoords, scale, orientation);
     }
   }
 
   private void onDrawItem(final Canvas canvas,
                           final Item item,
+                          final int index,
                           final Point curScreenCoords,
                           final float scale,
                           final float mapOrientation) {
@@ -81,10 +98,24 @@ public class ItemizedOverlay<Item extends OverlayItem> extends Overlay implement
     marker.copyBounds(rect_);
     marker.setBounds(rect_.left + x, rect_.top + y, rect_.right + x, rect_.bottom + y);
     marker.draw(canvas);
+    if (showWaymarkNumbers) {
+      canvas.drawText(waymarkNumber(index),
+              (float) (x - marker.getIntrinsicWidth()/2),
+              (float) (y - marker.getIntrinsicHeight()/0.65),
+              boldTextBrush);
+    }
+    // todo temp, to see icon boundary:
+    canvas.drawRect(marker.getBounds(), Brush.BlackOutline);
     marker.setBounds(rect_);
 
     canvas.restore();
   }
+
+  private String waymarkNumber(final int index) {
+    if (index == 0) {return "S";}                 // Starting waymark
+    if (index == items_.size() - 1) {return "F";} // Finishing waymark
+    return Integer.toString(index);               // Numbered intermediate waymark
+    }
 
   private boolean hitTest(final Drawable marker,
                           final int hitX,
