@@ -109,8 +109,7 @@ public class ItemizedOverlay<Item extends OverlayItem> extends Overlay implement
               (float) (y - marker.getIntrinsicHeight()/VERTICAL_TEXT_POSITION_ADJUSTMENT),
               boldTextBrush);
     }
-    // todo temp, to see icon boundary:
-    canvas.drawRect(marker.getBounds(), Brush.BlackOutline);
+
     marker.setBounds(rect_);
 
     canvas.restore();
