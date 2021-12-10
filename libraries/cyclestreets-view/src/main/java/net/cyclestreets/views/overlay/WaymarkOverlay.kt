@@ -97,59 +97,6 @@ class WaymarkOverlay(private val mapView: CycleMapView) : ItemizedOverlay<Overla
         }
     }
 
-    ////////////////////////////////////////////
-    override fun draw(canvas: Canvas, mapView: MapView, shadow: Boolean) {
-        super.draw(canvas, mapView, shadow)
-    }
-
-    private fun drawMarker(canvas: Canvas,
-                           projection: Projection,
-                           marker: OverlayItem,
-                           index: Int,
-                           size: Int) {
-
-        val waymarkNumber = when (index) {
-                                    0 -> "S"                    // Starting waymark
-                                    size - 1 -> "F"             // Finishing waymark
-                                    else -> {index.toString()}  // Numbered intermediate waymark
-        }
-
-        projection.toPixels(marker.point, screenPos)
-
-        val transform = mapView.matrix
-        val transformValues = FloatArray(9)
-        transform.getValues(transformValues)
-
-        val originalSizeBitmap = getBitmapFromDrawable(marker.drawable)
-        val bitmap = createScaledBitmap(originalSizeBitmap,
-                    (originalSizeBitmap.width * INCREASE_WAYMARK_SIZE).toInt(),
-                    (originalSizeBitmap.height * INCREASE_WAYMARK_SIZE).toInt(),
-                true)
-
-        val halfWidth = bitmap.width / 2
-        val halfHeight = bitmap.height / 2
-
-        bitmapTransform.apply {
-            setTranslate((-halfWidth).toFloat(), (-halfHeight).toFloat())
-            postScale(1 / transformValues[Matrix.MSCALE_X], 1 / transformValues[Matrix.MSCALE_Y])
-            postTranslate(screenPos.x.toFloat(), screenPos.y.toFloat())
-        }
-
-        val x = screenPos.x.toFloat()
-        val y = screenPos.y.toFloat()
-        // Coordinates for Waymark number (position it within body of wisp):
-        val wmNumXCoord = x - halfWidth/HORIZONTAL_TEXT_POSITION_ADJUSTMENT
-        val wmNumYCoord = (y - halfHeight/VERTICAL_TEXT_POSITION_ADJUSTMENT).toFloat()
-
-        canvas.apply {
-            save()
-            rotate(-projection.orientation, x, y)
-            drawBitmap(bitmap, bitmapTransform, bitmapPaint)
-            drawText(waymarkNumber, wmNumXCoord, wmNumYCoord, waymarkNumberTextBrush)
-            restore()
-        }
-    }
-
     ////////////////////////////////////
     private fun setWaypoints(waypoints: Waypoints) {
         resetWaypoints()
