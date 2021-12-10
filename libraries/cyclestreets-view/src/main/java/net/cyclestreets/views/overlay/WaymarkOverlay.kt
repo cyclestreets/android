@@ -16,7 +16,6 @@ import org.osmdroid.api.IGeoPoint
 import org.osmdroid.util.GeoPoint
 import org.osmdroid.views.MapView
 import org.osmdroid.views.Projection
-import org.osmdroid.views.overlay.Overlay
 import org.osmdroid.views.overlay.OverlayItem
 
 import java.util.ArrayList
@@ -30,9 +29,9 @@ class WaymarkOverlay(private val mapView: CycleMapView) : ItemizedOverlay<Overla
     val VERTICAL_TEXT_POSITION_ADJUSTMENT = 1.8
     val REDUCE_TEXT_SIZE = 0.8
 
-    private val wispWpStart = makeWisp(R.drawable.wp_green_wisp)
-    private val wispWpMid = makeWisp(R.drawable.test_wisp2)  //makeWisp(R.drawable.wp_orange_wisp)
-    private val wispWpFinish = makeWisp(R.drawable.wp_red_wisp)
+    private val wispWpStart = makeWisp(R.drawable.wp_start_wisp)
+    private val wispWpMid = makeWisp(R.drawable.wp_mid_wisp)
+    private val wispWpFinish = makeWisp(R.drawable.wp_finish_wisp)
     private val screenPos = Point()
     private val bitmapTransform = Matrix()
     private val bitmapPaint = Paint()

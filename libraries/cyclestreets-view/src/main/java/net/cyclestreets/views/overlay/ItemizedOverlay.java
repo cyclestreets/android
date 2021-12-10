@@ -21,6 +21,11 @@ import org.osmdroid.views.overlay.OverlayItem.HotspotPlace;
 import java.util.List;
 
 public class ItemizedOverlay<Item extends OverlayItem> extends Overlay implements TapListener {
+
+  private final float HORIZONTAL_TEXT_POSITION_ADJUSTMENT = 2.5F;
+  private final float VERTICAL_TEXT_POSITION_ADJUSTMENT = 0.6F;
+  private final float REDUCE_TEXT_SIZE = 0.8F;
+
   private final MapView mapView_;
   private final List<Item> items_;
 
@@ -39,7 +44,7 @@ public class ItemizedOverlay<Item extends OverlayItem> extends Overlay implement
                          final boolean showNumbers) {
     this(mapView, items);
     showWaymarkNumbers = showNumbers;
-    boldTextBrush = Brush.createBoldTextBrush((int) (offset(mapView.getContext())*0.8));
+    boldTextBrush = Brush.createBoldTextBrush((int) (offset(mapView.getContext())*REDUCE_TEXT_SIZE));
   }
 
   public ItemizedOverlay(final MapView mapView,
@@ -100,8 +105,8 @@ public class ItemizedOverlay<Item extends OverlayItem> extends Overlay implement
     marker.draw(canvas);
     if (showWaymarkNumbers) {
       canvas.drawText(waymarkNumber(index),
-              (float) (x - marker.getIntrinsicWidth()/2),
-              (float) (y - marker.getIntrinsicHeight()/0.65),
+              (float) (x - marker.getIntrinsicWidth()/HORIZONTAL_TEXT_POSITION_ADJUSTMENT),
+              (float) (y - marker.getIntrinsicHeight()/VERTICAL_TEXT_POSITION_ADJUSTMENT),
               boldTextBrush);
     }
     // todo temp, to see icon boundary:
