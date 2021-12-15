@@ -26,12 +26,19 @@ class WaymarkOverlay(private val mapView: CycleMapView, private val TTROverlay: 
 
     // TODO: check waymark / waypoint terminology (will change screen text to waypoint for consistency)
 
+    private val REMOVE_WAYPOINT_OPTION = 0
     private val res = mapView.context.resources
     private var options = mutableListOf(res.getString(R.string.remove_waymark))
 
     private val wispWpStart = makeWisp(R.drawable.wp_start_wisp)
     private val wispWpMid = makeWisp(R.drawable.wp_mid_wisp)
     private val wispWpFinish = makeWisp(R.drawable.wp_finish_wisp)
+
+    private var activeItem: OverlayItem? = null
+    private var itemIndex = 0
+
+    private val startLabel = res.getString(R.string.waymark_start)
+    private val finishLabel = res.getString(R.string.waymark_finish)
 
     private fun makeWisp(drawable: Int) : Drawable? {
         return ResourcesCompat.getDrawable(mapView.context.resources, drawable, null)
@@ -55,8 +62,8 @@ class WaymarkOverlay(private val mapView: CycleMapView, private val TTROverlay: 
             return
         val count = waymarkersCount() - 1
         when (waymarkersCount()) {
-            0 -> pushMarker(point, res.getString(R.string.waymark_start), wispWpStart)
-            1 -> pushMarker(point, res.getString(R.string.waymark_finish), wispWpFinish)
+            0 -> pushMarker(point, startLabel, wispWpStart)
+            1 -> pushMarker(point, finishLabel, wispWpFinish)
             else -> {
                 val prevFinished = finish()
                 popMarker()
@@ -139,11 +146,26 @@ class WaymarkOverlay(private val mapView: CycleMapView, private val TTROverlay: 
         return true
     }
 
-    override fun onClick(dialog: DialogInterface, whichButton: Int) {
+    override fun onClick(dialog: DialogInterface, optionTapped: Int) {
+        if (optionTapped == REMOVE_WAYPOINT_OPTION) {
+            // Finish waypoint
+            if (itemIndex == waymarkersCount() - 1) {
+                TTROverlay?.stepBack(false)
+                return
+            }
+            items().removeAt(itemIndex)
+            if (itemIndex == 0) {
+                //  Start waypoint removed, so change first item to a start item
+                val startPoint = items().first().point
+                items().removeAt(0)
+                items().add(0, makeMarker(startPoint, startLabel, wispWpStart))
+            }
+            TTROverlay?.tapState = TTROverlay?.tapState?.previous(waymarkersCount())!!
+        }
 
-        val option = options[whichButton]
+        val option = options[optionTapped]
 
-        Toast.makeText(mapView.context, "Option $whichButton selected", Toast.LENGTH_LONG).show()
+        Toast.makeText(mapView.context, "Option $optionTapped selected", Toast.LENGTH_LONG).show()
     }
 
     /* Example:
@@ -160,10 +182,10 @@ class WaymarkOverlay(private val mapView: CycleMapView, private val TTROverlay: 
      */
 
     private fun setUpOptions(item: OverlayItem?): List<String> {
-        val itemIndex = items().indexOf(item)
+        itemIndex = items().indexOf(item)
         // todo check it works if just 2 wps, Start and Finish
         // Convert OverlayItem to a string, e.g. "Move before waypoint 4"
-        val itemsAsOptions = items().map { wp -> res.getString(R.string.move_waymark_before) + wp.snippet }
+        val itemsAsOptions = items().mapIndexed { index, wp -> res.getString(R.string.move_waymark_before) + wp.snippet + " " + waypointNumber(wp.snippet, index) }
 
         val optionsList = mutableListOf(res.getString(R.string.remove_waymark))
         optionsList.apply {
@@ -172,7 +194,13 @@ class WaymarkOverlay(private val mapView: CycleMapView, private val TTROverlay: 
         }
         // Remove current item and the one after it
         return optionsList.filterIndexed { index, _ -> (index < itemIndex + 1) || (index > itemIndex + 2) }
-        }
-
     }
 
+    private fun waypointNumber(snippet: String, index: Int): String {
+        if (snippet.contains( "waypoint", true))
+            return index.toString()
+        else
+            return ""
+        // or use index to check if 0 or size of list
+    }
+}

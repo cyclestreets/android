@@ -244,7 +244,7 @@ class TapToRouteOverlay(private val mapView: CycleMapView, private val fragment:
         return stepBack(false)
     }
 
-    private fun stepBack(tap: Boolean): Boolean {
+    fun stepBack(tap: Boolean): Boolean {
         if (!tap && !tapState.waypointingInProgress)
             return false
 
