@@ -194,13 +194,13 @@
   <string name="num_poitypes_selected">%1$s selected</string>
 
   <!-- Waymark labels -->
-  <string name="waymark_move_title">Remove or move waymark</string>
-  <string name="waymark_start_initial">S</string>
-  <string name="waymark_finish_initial">F</string>
-  <string name="waymark_start">Start</string>
-  <string name="waymark_finish">Finish</string>
-  <string name="remove_waymark">Remove waymark</string>
-  <string name="move_waymark_before">"Move before "</string>
-  <string name="move_waymark_after">"Move after "</string>
+  <string name="waypoint_renumber_title">Remove or renumber waypoint</string>
+  <string name="waypoint_start_initial">S</string>
+  <string name="waypoint_finish_initial">F</string>
+  <string name="waypoint_start">Start</string>
+  <string name="waypoint">waypoint</string>
+  <string name="waypoint_finish">Finish</string>
+  <string name="remove_waypoint">Remove waypoint</string>
+  <string name="change_to">"Change to "</string>
 
 </resources>

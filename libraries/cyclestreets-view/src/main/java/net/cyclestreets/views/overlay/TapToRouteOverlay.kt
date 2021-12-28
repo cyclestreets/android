@@ -252,7 +252,7 @@ class TapToRouteOverlay(private val mapView: CycleMapView, private val fragment:
             TapToRoute.WAITING_FOR_START -> return true
             TapToRoute.WAITING_TO_ROUTE,
             TapToRoute.WAITING_FOR_SECOND,
-            TapToRoute.WAITING_FOR_NEXT -> waymarks.removeWaypoint()
+            TapToRoute.WAITING_FOR_NEXT -> waymarks.removeLastWaypoint()
             TapToRoute.ALL_DONE -> Route.resetJourney()
         }
 

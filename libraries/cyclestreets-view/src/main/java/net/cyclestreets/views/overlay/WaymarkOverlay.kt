@@ -4,12 +4,14 @@ import android.content.DialogInterface
 import android.content.SharedPreferences
 import android.content.SharedPreferences.Editor
 import android.graphics.drawable.Drawable
+import android.util.Log
 import android.widget.Toast
 import androidx.core.content.res.ResourcesCompat
 import net.cyclestreets.routing.Journey
 import net.cyclestreets.routing.Route
 import net.cyclestreets.routing.Waypoints
 import net.cyclestreets.util.Dialog
+import net.cyclestreets.util.Logging
 import net.cyclestreets.view.R
 import net.cyclestreets.views.CycleMapView
 import org.osmdroid.api.IGeoPoint
@@ -17,6 +19,8 @@ import org.osmdroid.util.GeoPoint
 import org.osmdroid.views.overlay.OverlayItem
 
 import java.util.ArrayList
+
+private val TAG = Logging.getTag(WaymarkOverlay::class.java)
 
 class WaymarkOverlay(private val mapView: CycleMapView, private val TTROverlay: TapToRouteOverlay? = null) :
                                                             ItemizedOverlay<OverlayItem>(mapView.mapView(), ArrayList(), true),
@@ -28,7 +32,7 @@ class WaymarkOverlay(private val mapView: CycleMapView, private val TTROverlay: 
 
     private val REMOVE_WAYPOINT_OPTION = 0
     private val res = mapView.context.resources
-    private var options = mutableListOf(res.getString(R.string.remove_waymark))
+    private var options = mutableListOf(res.getString(R.string.remove_waypoint))
 
     private val wispWpStart = makeWisp(R.drawable.wp_start_wisp)
     private val wispWpMid = makeWisp(R.drawable.wp_mid_wisp)
@@ -37,8 +41,9 @@ class WaymarkOverlay(private val mapView: CycleMapView, private val TTROverlay: 
     private var activeItem: OverlayItem? = null
     private var itemIndex = 0
 
-    private val startLabel = res.getString(R.string.waymark_start)
-    private val finishLabel = res.getString(R.string.waymark_finish)
+    private val startLabel = res.getString(R.string.waypoint_start)
+    private val waypointLabel = res.getString(R.string.waypoint)
+    private val finishLabel = res.getString(R.string.waypoint_finish)
 
     private fun makeWisp(drawable: Int) : Drawable? {
         return ResourcesCompat.getDrawable(mapView.context.resources, drawable, null)
@@ -60,20 +65,20 @@ class WaymarkOverlay(private val mapView: CycleMapView, private val TTROverlay: 
     fun addWaypoint(point: IGeoPoint?) {
         if (point == null)
             return
-        val count = waymarkersCount() - 1
         when (waymarkersCount()) {
             0 -> pushMarker(point, startLabel, wispWpStart)
             1 -> pushMarker(point, finishLabel, wispWpFinish)
             else -> {
                 val prevFinished = finish()
                 popMarker()
-                pushMarker(prevFinished, "waypoint $count", wispWpMid)
-                pushMarker(point, res.getString(R.string.waymark_finish), wispWpFinish)
+                pushMarker(prevFinished, waypointLabel, wispWpMid)
+                pushMarker(point, res.getString(R.string.waypoint_finish), wispWpFinish)
             }
         }
+        Log.d(TAG, "Added waypoint $point")
     }
 
-    fun removeWaypoint() {
+    fun removeLastWaypoint() {
         when (waymarkersCount()) {
             0 -> { }
             1, 2 -> popMarker()
@@ -81,19 +86,17 @@ class WaymarkOverlay(private val mapView: CycleMapView, private val TTROverlay: 
                 popMarker()
                 val prevFinished = finish()
                 popMarker()
-                pushMarker(prevFinished, "finish", wispWpFinish)
+                pushMarker(prevFinished, finishLabel, wispWpFinish)
             }
         }
     }
 
     private fun pushMarker(point: IGeoPoint, label: String, icon: Drawable?) {
         items().add(makeMarker(point, label, icon))
-        // todo remove line options.add(res.getString(R.string.move_waymark_before) + label)
     }
 
     private fun popMarker() {
         items().removeAt(items().lastIndex)
-        // todo remove line options.removeAt(options.lastIndex)
     }
 
     private fun makeMarker(point: IGeoPoint, label: String, icon: Drawable?): OverlayItem {
@@ -137,15 +140,16 @@ class WaymarkOverlay(private val mapView: CycleMapView, private val TTROverlay: 
         if (TTROverlay.tapState.routeIsPlanned())
             return false
 
-        Toast.makeText(mapView.context, "Waymark tapped", Toast.LENGTH_LONG).show()
+        activeItem = item
         // todo: put waypoint number (label) in title
         Dialog.listViewDialog(mapView.context,
-            R.string.waymark_move_title,
+            R.string.waypoint_renumber_title,
             setUpOptions(item),
             this)
         return true
     }
 
+    // Option on waypoint menu tapped
     override fun onClick(dialog: DialogInterface, optionTapped: Int) {
         if (optionTapped == REMOVE_WAYPOINT_OPTION) {
             // Finish waypoint
@@ -156,51 +160,82 @@ class WaymarkOverlay(private val mapView: CycleMapView, private val TTROverlay: 
             items().removeAt(itemIndex)
             if (itemIndex == 0) {
                 //  Start waypoint removed, so change first item to a start item
-                val startPoint = items().first().point
-                items().removeAt(0)
-                items().add(0, makeMarker(startPoint, startLabel, wispWpStart))
+                correctLabelAndIcon(items().first().snippet, startLabel, 0, wispWpStart)
             }
             TTROverlay?.tapState = TTROverlay?.tapState?.previous(waymarkersCount())!!
         }
+        else {
+            items().removeAt(itemIndex)
+            if (optionTapped <= itemIndex) {
+                items().add(optionTapped - 1, activeItem)
+            }
+            else {
+                items().add(optionTapped, activeItem)
+            }
+            // Now check items are of correct waypoint type (Start / waypoint / Finish)
+            reorderWaypoints()
+        }
 
-        val option = options[optionTapped]
+        activeItem = null
+    }
 
-        Toast.makeText(mapView.context, "Option $optionTapped selected", Toast.LENGTH_LONG).show()
+    // Check waypoints have correct labels and icons
+    private fun reorderWaypoints() {
+        correctLabelAndIcon(items().first().snippet, startLabel, 0, wispWpStart)
+
+        // todo test size 1
+        for (i in 1 .. waymarkersCount() - 2){
+            // Intermediate waypoints
+                correctLabelAndIcon(items().get(i).snippet, waypointLabel, i, wispWpMid)
+        }
+        // Finish waypoint
+        if (waymarkersCount() > 1) {
+            correctLabelAndIcon(items().last().snippet, finishLabel, items().lastIndex, wispWpFinish)
+        }
+    }
+
+    private fun correctLabelAndIcon(snippet: String?, label: String, i: Int, wisp: Drawable?) {
+        if (snippet != label) {
+            val prevPoint = items().get(i).point
+            items().removeAt(i)
+            items().add(i, makeMarker(prevPoint, label, wisp))
+        }
     }
 
     /* Example:
     Waypoints: Start, 1, 2, 3, 4, Finish.
     Tapped on Waypoint 2.
-    Remove "Move before Waypoint 2" and "Move before Waypoint 3" from list of options as this wouldn't result in a move.
     List of options should be:
         Remove waypoint
-        Move before Start
-        Move before waypoint 1
-        Move before waypoint 4
-        Move before Finish
-        Move after Finish
+        Change to Start
+        Change to 1
+        Change to 3
+        Change to 4
+        Change to Finish
      */
 
     private fun setUpOptions(item: OverlayItem?): List<String> {
         itemIndex = items().indexOf(item)
         // todo check it works if just 2 wps, Start and Finish
         // Convert OverlayItem to a string, e.g. "Move before waypoint 4"
-        val itemsAsOptions = items().mapIndexed { index, wp -> res.getString(R.string.move_waymark_before) + wp.snippet + " " + waypointNumber(wp.snippet, index) }
+        val itemsAsOptions = items().mapIndexed {
+                index, wp ->
+                res.getString(R.string.change_to) + wp.snippet + " " + waypointNumber(wp.snippet, index)
+        }
 
-        val optionsList = mutableListOf(res.getString(R.string.remove_waymark))
+        val optionsList = mutableListOf(res.getString(R.string.remove_waypoint))
         optionsList.apply {
             addAll(itemsAsOptions)
-            add(res.getString(R.string.move_waymark_after) + res.getString(R.string.waymark_finish))
         }
-        // Remove current item and the one after it
-        return optionsList.filterIndexed { index, _ -> (index < itemIndex + 1) || (index > itemIndex + 2) }
+        // Remove current item
+        return optionsList.filterIndexed { index, _ -> (index != itemIndex + 1) }
     }
 
     private fun waypointNumber(snippet: String, index: Int): String {
-        if (snippet.contains( "waypoint", true))
-            return index.toString()
+        return if (snippet.contains( waypointLabel, true))
+            index.toString()
         else
-            return ""
+            ""
         // or use index to check if 0 or size of list
     }
 }
