@@ -68,7 +68,7 @@ class WaymarkOverlay(private val mapView: CycleMapView, private val TTROverlay: 
                 val prevFinished = finish()
                 popMarker()
                 pushMarker(prevFinished, waypointLabel, wispWpMid)
-                pushMarker(point, res.getString(R.string.waypoint_finish), wispWpFinish)
+                pushMarker(point, finishLabel, wispWpFinish)
             }
         }
         Log.d(TAG, "Added waypoint $point")
