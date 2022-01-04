@@ -5,7 +5,6 @@ import android.content.SharedPreferences
 import android.content.SharedPreferences.Editor
 import android.graphics.drawable.Drawable
 import android.util.Log
-import android.widget.Toast
 import androidx.core.content.res.ResourcesCompat
 import net.cyclestreets.routing.Journey
 import net.cyclestreets.routing.Route
@@ -28,11 +27,8 @@ class WaymarkOverlay(private val mapView: CycleMapView, private val TTROverlay: 
                                                             Route.Listener,
                                                             DialogInterface.OnClickListener {
 
-    // TODO: check waymark / waypoint terminology (will change screen text to waypoint for consistency)
-
     private val REMOVE_WAYPOINT_OPTION = 0
     private val res = mapView.context.resources
-    private var options = mutableListOf(res.getString(R.string.remove_waypoint))
 
     private val wispWpStart = makeWisp(R.drawable.wp_start_wisp)
     private val wispWpMid = makeWisp(R.drawable.wp_mid_wisp)
@@ -141,7 +137,8 @@ class WaymarkOverlay(private val mapView: CycleMapView, private val TTROverlay: 
             return false
 
         activeItem = item
-        // todo: put waypoint number (label) in title
+        // If a route is being planned and a waypoint is tapped,
+        // show a menu to remove or renumber the waypoint:
         Dialog.listViewDialog(mapView.context,
             R.string.waypoint_renumber_title,
             setUpOptions(item),
@@ -149,46 +146,54 @@ class WaymarkOverlay(private val mapView: CycleMapView, private val TTROverlay: 
         return true
     }
 
-    // Option on waypoint menu tapped
+    // Option on waypoint menu tapped:
     override fun onClick(dialog: DialogInterface, optionTapped: Int) {
         if (optionTapped == REMOVE_WAYPOINT_OPTION) {
-            // Finish waypoint
-            if (itemIndex == waymarkersCount() - 1) {
-                TTROverlay?.stepBack(false)
-                return
-            }
-            items().removeAt(itemIndex)
-            if (itemIndex == 0) {
-                //  Start waypoint removed, so change first item to a start item
-                correctLabelAndIcon(items().first().snippet, startLabel, 0, wispWpStart)
-            }
-            TTROverlay?.tapState = TTROverlay?.tapState?.previous(waymarkersCount())!!
+            removeWaypoint()
         }
         else {
-            items().removeAt(itemIndex)
-            if (optionTapped <= itemIndex) {
-                items().add(optionTapped - 1, activeItem)
-            }
-            else {
-                items().add(optionTapped, activeItem)
-            }
-            // Now check items are of correct waypoint type (Start / waypoint / Finish)
-            reorderWaypoints()
+            renumberWaypoints(optionTapped)
         }
-
         activeItem = null
+        mapView.invalidate()
+    }
+
+    private fun removeWaypoint() {
+        // If Finish waypoint to be removed:
+        if (itemIndex == waymarkersCount() - 1) {
+            TTROverlay?.stepBack(false)
+            return
+        }
+        items().removeAt(itemIndex)
+        if (itemIndex == 0) {
+            //  Start waypoint removed, so change first item to a start item
+            correctLabelAndIcon(items().first().snippet, startLabel, 0, wispWpStart)
+        }
+        TTROverlay?.tapState = TTROverlay?.tapState?.previous(waymarkersCount())!!
+    }
+
+    private fun renumberWaypoints(optionTapped: Int) {
+        // Remove waypoint from list and put it back at desired position
+        items().removeAt(itemIndex)
+        if (optionTapped <= itemIndex) {
+            items().add(optionTapped - 1, activeItem)
+        }
+        else {
+            items().add(optionTapped, activeItem)
+        }
+        // Now check items are of correct waypoint type (Start / waypoint / Finish)
+        checkWaypoints()
     }
 
     // Check waypoints have correct labels and icons
-    private fun reorderWaypoints() {
+    private fun checkWaypoints() {
         correctLabelAndIcon(items().first().snippet, startLabel, 0, wispWpStart)
 
-        // todo test size 1
+        // Intermediate waypoints
         for (i in 1 .. waymarkersCount() - 2){
-            // Intermediate waypoints
                 correctLabelAndIcon(items().get(i).snippet, waypointLabel, i, wispWpMid)
         }
-        // Finish waypoint
+
         if (waymarkersCount() > 1) {
             correctLabelAndIcon(items().last().snippet, finishLabel, items().lastIndex, wispWpFinish)
         }
@@ -216,8 +221,7 @@ class WaymarkOverlay(private val mapView: CycleMapView, private val TTROverlay: 
 
     private fun setUpOptions(item: OverlayItem?): List<String> {
         itemIndex = items().indexOf(item)
-        // todo check it works if just 2 wps, Start and Finish
-        // Convert OverlayItem to a string, e.g. "Move before waypoint 4"
+        // Get appropriate string from each OverlayItem, e.g. "Change to Start", "Change to waypoint 4"
         val itemsAsOptions = items().mapIndexed {
                 index, wp ->
                 res.getString(R.string.change_to) + wp.snippet + " " + waypointNumber(wp.snippet, index)
@@ -235,7 +239,7 @@ class WaymarkOverlay(private val mapView: CycleMapView, private val TTROverlay: 
         return if (snippet.contains( waypointLabel, true))
             index.toString()
         else
+            // It's a Start or Finish waypoint, so no number
             ""
-        // or use index to check if 0 or size of list
     }
 }
