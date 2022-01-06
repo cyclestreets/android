@@ -2,15 +2,14 @@ package net.cyclestreets.views.overlay
 
 import android.content.SharedPreferences
 import android.content.SharedPreferences.Editor
-import android.graphics.Canvas
-import android.graphics.Matrix
-import android.graphics.Paint
-import android.graphics.Point
+import android.graphics.*
+import android.graphics.Bitmap.createScaledBitmap
 import android.graphics.drawable.Drawable
 import androidx.core.content.res.ResourcesCompat
 import net.cyclestreets.routing.Journey
 import net.cyclestreets.routing.Route
 import net.cyclestreets.routing.Waypoints
+import net.cyclestreets.util.Brush
 import net.cyclestreets.view.R
 import net.cyclestreets.views.CycleMapView
 import org.osmdroid.api.IGeoPoint
@@ -24,12 +23,18 @@ import java.util.ArrayList
 
 class WaymarkOverlay(private val mapView: CycleMapView) : Overlay(), PauseResumeListener, Route.Listener {
 
+    val INCREASE_WAYMARK_SIZE = 1.5
+    val HORIZONTAL_TEXT_POSITION_ADJUSTMENT = 10
+    val VERTICAL_TEXT_POSITION_ADJUSTMENT = 1.8
+    val REDUCE_TEXT_SIZE = 0.8
+
     private val wispWpStart = makeWisp(R.drawable.wp_green_wisp)
     private val wispWpMid = makeWisp(R.drawable.wp_orange_wisp)
     private val wispWpFinish = makeWisp(R.drawable.wp_red_wisp)
     private val screenPos = Point()
     private val bitmapTransform = Matrix()
     private val bitmapPaint = Paint()
+    private val waymarkNumberTextBrush = Brush.createBoldTextBrush((offset(mapView.getContext())*REDUCE_TEXT_SIZE).toInt())
 
     private val waymarkers = ArrayList<OverlayItem>()
 
@@ -97,19 +102,32 @@ class WaymarkOverlay(private val mapView: CycleMapView) : Overlay(), PauseResume
     override fun draw(canvas: Canvas, mapView: MapView, shadow: Boolean) {
         val projection = mapView.projection
 
-        waymarkers.forEach { wp -> drawMarker(canvas, projection, wp) }
+        waymarkers.forEach { wp -> drawMarker(canvas, projection, wp, waymarkers.indexOf(wp), waymarkers.size) }
     }
 
     private fun drawMarker(canvas: Canvas,
                            projection: Projection,
-                           marker: OverlayItem) {
+                           marker: OverlayItem,
+                           index: Int,
+                           size: Int) {
+
+        val waymarkNumber = when (index) {
+                                    0 -> "S"                    // Starting waymark
+                                    size - 1 -> "F"             // Finishing waymark
+                                    else -> {index.toString()}  // Numbered intermediate waymark
+        }
+
         projection.toPixels(marker.point, screenPos)
 
         val transform = mapView.matrix
         val transformValues = FloatArray(9)
         transform.getValues(transformValues)
 
-        val bitmap = getBitmapFromDrawable(marker.drawable)
+        val originalSizeBitmap = getBitmapFromDrawable(marker.drawable)
+        val bitmap = createScaledBitmap(originalSizeBitmap,
+                    (originalSizeBitmap.width * INCREASE_WAYMARK_SIZE).toInt(),
+                    (originalSizeBitmap.height * INCREASE_WAYMARK_SIZE).toInt(),
+                true)
 
         val halfWidth = bitmap.width / 2
         val halfHeight = bitmap.height / 2
@@ -120,10 +138,17 @@ class WaymarkOverlay(private val mapView: CycleMapView) : Overlay(), PauseResume
             postTranslate(screenPos.x.toFloat(), screenPos.y.toFloat())
         }
 
+        val x = screenPos.x.toFloat()
+        val y = screenPos.y.toFloat()
+        // Coordinates for Waymark number (position it within body of wisp):
+        val wmNumXCoord = x - halfWidth/HORIZONTAL_TEXT_POSITION_ADJUSTMENT
+        val wmNumYCoord = (y - halfHeight/VERTICAL_TEXT_POSITION_ADJUSTMENT).toFloat()
+
         canvas.apply {
             save()
-            rotate(-projection.orientation, screenPos.x.toFloat(), screenPos.y.toFloat())
+            rotate(-projection.orientation, x, y)
             drawBitmap(bitmap, bitmapTransform, bitmapPaint)
+            drawText(waymarkNumber, wmNumXCoord, wmNumYCoord, waymarkNumberTextBrush)
             restore()
         }
     }
