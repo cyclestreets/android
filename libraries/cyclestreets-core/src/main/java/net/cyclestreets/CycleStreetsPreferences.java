@@ -23,6 +23,7 @@ public class CycleStreetsPreferences
   public final static String PREF_CONFIRM_NEW_ROUTE = "confirm-new-route";
   public final static String PREF_USERNAME_KEY = "username";
   public final static String PREF_PASSWORD_KEY = "password";
+  public final static String PREF_CONFIRM_PASSWORD_KEY = "confirm_password";
   public final static String PREF_EMAIL_KEY = "email";
   public final static String PREF_NAME_KEY = "name";
   public final static String PREF_VALIDATED_KEY = "signed-in";
@@ -283,14 +284,39 @@ public class CycleStreetsPreferences
     editor.commit();
   }
 
+  public static void setTempUsernamePassword(final String username,
+                                                final String password,
+                                                final String confirmPassword,
+                                                final String name,
+                                                final String email) {
+    final Editor editor = editor();
+    editor.putString(PREF_USERNAME_KEY, username);
+    editor.putString(PREF_PASSWORD_KEY, password);
+    editor.putString(PREF_CONFIRM_PASSWORD_KEY, confirmPassword);
+    editor.putString(PREF_NAME_KEY, name);
+    editor.putString(PREF_EMAIL_KEY, email);
+    editor.commit();
+  }
+
   public static void clearUsernamePassword() {
     final Editor editor = editor();
     editor.putString(PREF_USERNAME_KEY, "");
     editor.putString(PREF_PASSWORD_KEY, "");
     editor.putString(PREF_NAME_KEY, "");
     editor.putString(PREF_EMAIL_KEY, "");
+    editor.putString(PREF_CONFIRM_PASSWORD_KEY, "");
     editor.putBoolean(PREF_PENDING_KEY, false);
     editor.putBoolean(PREF_VALIDATED_KEY, false);
+    editor.commit();
+  }
+
+  public static void clearTempUsernamePassword() {
+    final Editor editor = editor();
+    editor.putString(PREF_USERNAME_KEY, "");
+    editor.putString(PREF_PASSWORD_KEY, "");
+    editor.putString(PREF_NAME_KEY, "");
+    editor.putString(PREF_EMAIL_KEY, "");
+    editor.putString(PREF_CONFIRM_PASSWORD_KEY, "");
     editor.commit();
   }
 
