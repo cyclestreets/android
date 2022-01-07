@@ -89,7 +89,7 @@ public class AccountDetailsActivity extends Activity
         super.onPause();
         if (isSubmit) {
             //If successfully registered, clear user details.
-            CycleStreetsPreferences.clearUsernamePassword();
+            CycleStreetsPreferences.clearTempUsernamePassword();
         } else {
             saveUserData();
         }
@@ -104,8 +104,8 @@ public class AccountDetailsActivity extends Activity
     @Override
     public void onBackPressed() {
         if (isSubmit) {
-            //If successfully registered, clear user details.
-            CycleStreetsPreferences.clearUsernamePassword();
+            //If successfully registered, clear user details.z
+            CycleStreetsPreferences.clearTempUsernamePassword();
         } else {
             saveUserData();
         }
