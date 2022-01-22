@@ -181,7 +181,7 @@ class WaymarkOverlay(private val mapView: CycleMapView, private val TTROverlay: 
         else {
             items().add(optionTapped, activeItem)
         }
-        // Now check items are of correct waypoint type (Start / waypoint / Finish)
+        // Now check items are of correct waypoint type (Start / intermediate waypoint / Finish)
         checkWaypoints()
     }
 

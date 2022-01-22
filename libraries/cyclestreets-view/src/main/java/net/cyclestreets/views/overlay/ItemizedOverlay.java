@@ -2,6 +2,7 @@ package net.cyclestreets.views.overlay;
 
 import static net.cyclestreets.views.overlay.DrawingHelperKt.offset;
 
+import android.content.res.Resources;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.graphics.Paint;
@@ -11,6 +12,7 @@ import android.graphics.drawable.Drawable;
 import android.view.MotionEvent;
 
 import net.cyclestreets.util.Brush;
+import net.cyclestreets.view.R;
 
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.Projection;
@@ -38,6 +40,9 @@ public class ItemizedOverlay<Item extends OverlayItem> extends Overlay implement
 
   private boolean showWaymarkNumbers = false;
   private Paint boldTextBrush;
+  private Resources res;
+  private String wpStartInitial;
+  private String wpFinishInitial;
 
   public ItemizedOverlay(final MapView mapView,
                          final List<Item> items,
@@ -45,6 +50,9 @@ public class ItemizedOverlay<Item extends OverlayItem> extends Overlay implement
     this(mapView, items);
     showWaymarkNumbers = showNumbers;
     boldTextBrush = Brush.createBoldTextBrush((int) (offset(mapView.getContext())*REDUCE_TEXT_SIZE));
+    res = mapView_.getResources();
+    wpStartInitial = res.getString(R.string.waypoint_start_initial);
+    wpFinishInitial = res.getString(R.string.waypoint_finish_initial);
   }
 
   public ItemizedOverlay(final MapView mapView,
@@ -105,8 +113,8 @@ public class ItemizedOverlay<Item extends OverlayItem> extends Overlay implement
     marker.draw(canvas);
     if (showWaymarkNumbers) {
       canvas.drawText(waymarkNumber(index),
-              (float) (x - marker.getIntrinsicWidth()/HORIZONTAL_TEXT_POSITION_ADJUSTMENT),
-              (float) (y - marker.getIntrinsicHeight()/VERTICAL_TEXT_POSITION_ADJUSTMENT),
+              (x - marker.getIntrinsicWidth()/HORIZONTAL_TEXT_POSITION_ADJUSTMENT),
+              (y - marker.getIntrinsicHeight()/VERTICAL_TEXT_POSITION_ADJUSTMENT),
               boldTextBrush);
     }
 
@@ -116,8 +124,8 @@ public class ItemizedOverlay<Item extends OverlayItem> extends Overlay implement
   }
 
   private String waymarkNumber(final int index) {
-    if (index == 0) {return "S";}                 // Starting waymark
-    if (index == items_.size() - 1) {return "F";} // Finishing waymark
+    if (index == 0) {return wpStartInitial;}                 // Start waymark
+    if (index == items_.size() - 1) {return wpFinishInitial;} // Finish waymark
     return Integer.toString(index);               // Numbered intermediate waymark
     }
 
