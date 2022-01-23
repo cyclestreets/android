@@ -65,34 +65,35 @@ class WaymarkOverlay(private val mapView: CycleMapView, private val TTROverlay: 
             0 -> pushMarker(point, startLabel, wispWpStart)
             1 -> pushMarker(point, finishLabel, wispWpFinish)
             else -> {
-                val prevFinished = finish()
-                popMarker()
-                pushMarker(prevFinished, waypointLabel, wispWpMid)
+                // Change current Finish waypoint to an intermediate one
+                correctLabelAndIcon(
+                    items().last().snippet,
+                    waypointLabel,
+                    items().lastIndex,
+                    wispWpMid
+                )
                 pushMarker(point, finishLabel, wispWpFinish)
             }
         }
         Log.d(TAG, "Added waypoint $point")
     }
 
-    fun removeLastWaypoint() {
-        when (waymarkersCount()) {
-            0 -> { }
-            1, 2 -> popMarker()
-            else -> {
-                popMarker()
-                val prevFinished = finish()
-                popMarker()
-                pushMarker(prevFinished, finishLabel, wispWpFinish)
-            }
-        }
+    fun removeWaypoint(index: Int) {
+        // Shouldn't happen:
+        if (waymarkersCount() == 0)
+            return
+
+        popMarker(index)
+        checkWaypoints()
+
     }
 
     private fun pushMarker(point: IGeoPoint, label: String, icon: Drawable?) {
         items().add(makeMarker(point, label, icon))
     }
 
-    private fun popMarker() {
-        items().removeAt(items().lastIndex)
+    private fun popMarker(index: Int) {
+        items().removeAt(index)
     }
 
     private fun makeMarker(point: IGeoPoint, label: String, icon: Drawable?): OverlayItem {
@@ -149,7 +150,7 @@ class WaymarkOverlay(private val mapView: CycleMapView, private val TTROverlay: 
     // Option on waypoint menu tapped:
     override fun onClick(dialog: DialogInterface, optionTapped: Int) {
         if (optionTapped == REMOVE_WAYPOINT_OPTION) {
-            removeWaypoint()
+            TTROverlay?.stepBack(false, itemIndex)
         }
         else {
             renumberWaypoints(optionTapped)
@@ -158,23 +159,9 @@ class WaymarkOverlay(private val mapView: CycleMapView, private val TTROverlay: 
         mapView.invalidate()
     }
 
-    private fun removeWaypoint() {
-        // If Finish waypoint to be removed:
-        if (itemIndex == waymarkersCount() - 1) {
-            TTROverlay?.stepBack(false)
-            return
-        }
-        items().removeAt(itemIndex)
-        if (itemIndex == 0) {
-            //  Start waypoint removed, so change first item to a start item
-            correctLabelAndIcon(items().first().snippet, startLabel, 0, wispWpStart)
-        }
-        TTROverlay?.tapState = TTROverlay?.tapState?.previous(waymarkersCount())!!
-    }
-
     private fun renumberWaypoints(optionTapped: Int) {
         // Remove waypoint from list and put it back at desired position
-        items().removeAt(itemIndex)
+        popMarker(itemIndex)
         if (optionTapped <= itemIndex) {
             items().add(optionTapped - 1, activeItem)
         }
@@ -187,6 +174,9 @@ class WaymarkOverlay(private val mapView: CycleMapView, private val TTROverlay: 
 
     // Check waypoints have correct labels and icons
     private fun checkWaypoints() {
+        if (waymarkersCount() == 0)
+            return
+
         correctLabelAndIcon(items().first().snippet, startLabel, 0, wispWpStart)
 
         // Intermediate waypoints
@@ -202,7 +192,7 @@ class WaymarkOverlay(private val mapView: CycleMapView, private val TTROverlay: 
     private fun correctLabelAndIcon(snippet: String?, label: String, i: Int, wisp: Drawable?) {
         if (snippet != label) {
             val prevPoint = items().get(i).point
-            items().removeAt(i)
+            popMarker(i)
             items().add(i, makeMarker(prevPoint, label, wisp))
         }
     }

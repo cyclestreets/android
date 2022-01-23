@@ -244,7 +244,7 @@ class TapToRouteOverlay(private val mapView: CycleMapView, private val fragment:
         return stepBack(false)
     }
 
-    fun stepBack(tap: Boolean): Boolean {
+    fun stepBack(tap: Boolean, index: Int = waypointsCount() - 1): Boolean {
         if (!tap && !tapState.waypointingInProgress)
             return false
 
@@ -252,7 +252,7 @@ class TapToRouteOverlay(private val mapView: CycleMapView, private val fragment:
             TapToRoute.WAITING_FOR_START -> return true
             TapToRoute.WAITING_TO_ROUTE,
             TapToRoute.WAITING_FOR_SECOND,
-            TapToRoute.WAITING_FOR_NEXT -> waymarks.removeLastWaypoint()
+            TapToRoute.WAITING_FOR_NEXT -> waymarks.removeWaypoint(index)
             TapToRoute.ALL_DONE -> Route.resetJourney()
         }
 
