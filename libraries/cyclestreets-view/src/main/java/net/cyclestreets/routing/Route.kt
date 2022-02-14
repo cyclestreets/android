@@ -113,8 +113,8 @@ object Route {
             restoreWaypoints()
     }
 
-    fun resetJourney() {
-        onNewJourney(null)
+    fun resetJourney(clearWaypoints: Boolean) {
+        onNewJourney(null, clearWaypoints)
     }
 
     fun onPause(waypoints: Waypoints) {
@@ -139,9 +139,9 @@ object Route {
     }
 
     /////////////////////////////////////
-    fun onNewJourney(route: RouteData?): Boolean {
+    fun onNewJourney(route: RouteData?, clearWaypoints: Boolean = true): Boolean {
         try {
-            doOnNewJourney(route)
+            doOnNewJourney(route, clearWaypoints)
             return true
         } catch (e: Exception) {
             Log.w(TAG, "Route finding failed", e)
@@ -150,10 +150,11 @@ object Route {
         return false
     }
 
-    private fun doOnNewJourney(route: RouteData?) {
+    private fun doOnNewJourney(route: RouteData?, clearWaypoints: Boolean) {
         if (route == null) {
             plannedRoute_ = NULL_JOURNEY
-            waypoints_ = NULL_WAYPOINTS
+            if (clearWaypoints)
+                waypoints_ = NULL_WAYPOINTS
             listeners_.onReset()
             clearRouteLoaded()
             return

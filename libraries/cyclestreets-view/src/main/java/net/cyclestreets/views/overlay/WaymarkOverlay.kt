@@ -104,7 +104,7 @@ class WaymarkOverlay(private val mapView: CycleMapView, private val TTROverlay: 
     }
 
     ////////////////////////////////////
-    private fun setWaypoints(waypoints: Waypoints) {
+    fun setWaypoints(waypoints: Waypoints) {
         resetWaypoints()
 
         waypoints.forEach { wp -> addWaypoint(wp) }
