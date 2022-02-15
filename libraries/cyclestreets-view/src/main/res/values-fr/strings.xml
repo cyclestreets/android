@@ -33,7 +33,8 @@
   <string name="route_loading">Chargement de la route, s\'il vous plaît patienter</string>
 
   <string name="route_menu_change">Changer le type d\'itinéraire</string>
-  <string name="route_menu_change_reverse">Acheminées en sens inverse</string>
+  <string name="route_menu_change_reverse">Itinéraire en sens inverse</string>
+  <string name="route_menu_change_waypoints">Add / Remove waypoints</string>
   <string name="route_menu_change_share">Partager cet itinéraire</string>
   <string name="route_menu_change_comment">Donnez votre avis sur cet itinéraire</string>
   <string name="route_menu_change_replan_fastest">Replanifier le plus rapide</string>

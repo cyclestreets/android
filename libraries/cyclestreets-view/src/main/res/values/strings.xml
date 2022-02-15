@@ -39,7 +39,7 @@
   <string name="route_menu_change">Change route type</string>
   <string name="route_menu_alternative" translatable="false">Alternative route</string>
   <string name="route_menu_change_reverse">Reverse route</string>
-  <string name="route_menu_change_waypoints">Add/Remove waypoints</string>
+  <string name="route_menu_change_waypoints">Add / Remove waypoints</string>
   <string name="route_menu_change_share">Share this route</string>
   <string name="route_menu_change_comment">Comment on this route</string>
   <string name="route_menu_change_replan_fastest">Replan as fastest</string>
