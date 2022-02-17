@@ -10,6 +10,7 @@ import net.cyclestreets.routing.Journey
 import net.cyclestreets.routing.Route
 import net.cyclestreets.routing.Waypoints
 import net.cyclestreets.util.Dialog
+import net.cyclestreets.util.GeoHelper
 import net.cyclestreets.util.Logging
 import net.cyclestreets.view.R
 import net.cyclestreets.views.CycleMapView
@@ -153,13 +154,13 @@ class WaymarkOverlay(private val mapView: CycleMapView, private val TTROverlay: 
             TTROverlay?.stepBack(false, itemIndex)
         }
         else {
-            renumberWaypoints(optionTapped)
+            renumberWaypoints(optionTapped, itemIndex, activeItem)
         }
         activeItem = null
         mapView.invalidate()
     }
 
-    private fun renumberWaypoints(optionTapped: Int) {
+    fun renumberWaypoints(optionTapped: Int, itemIndex: Int, activeItem: OverlayItem?) {
         // Remove waypoint from list and put it back at desired position
         popMarker(itemIndex)
         if (optionTapped <= itemIndex) {
@@ -181,7 +182,7 @@ class WaymarkOverlay(private val mapView: CycleMapView, private val TTROverlay: 
 
         // Intermediate waypoints
         for (i in 1 .. waymarkersCount() - 2){
-                correctLabelAndIcon(items().get(i).snippet, waypointLabel, i, wispWpMid)
+                correctLabelAndIcon(items()[i].snippet, waypointLabel, i, wispWpMid)
         }
 
         if (waymarkersCount() > 1) {
@@ -191,7 +192,7 @@ class WaymarkOverlay(private val mapView: CycleMapView, private val TTROverlay: 
 
     private fun correctLabelAndIcon(snippet: String?, label: String, i: Int, wisp: Drawable?) {
         if (snippet != label) {
-            val prevPoint = items().get(i).point
+            val prevPoint = items()[i].point
             popMarker(i)
             items().add(i, makeMarker(prevPoint, label, wisp))
         }
@@ -231,5 +232,85 @@ class WaymarkOverlay(private val mapView: CycleMapView, private val TTROverlay: 
         else
             // It's a Start or Finish waypoint, so no number
             ""
+    }
+
+    fun getWaypointPosition(point: IGeoPoint): Int {
+
+        val closestIndex = getClosestIndex(point)
+
+        when (closestIndex) {
+            // If Start is closest waypoint, new waypoint will be after Start
+            0 -> return 1
+            // If Finish point is closest, new waypoint will be before Finish
+            waymarkersCount() - 1 -> return (closestIndex)
+            // Otherwise, determine whether point is before or after closest one
+            else -> {
+                val prevPointLat = items()[closestIndex - 1].point.latitude
+                val closestPointLat = items()[closestIndex].point.latitude
+                val nextPointLat = items()[closestIndex + 1].point.latitude
+                // Latitudes are in increasing order
+                if (latlonIncreasing(prevPointLat, closestPointLat, nextPointLat, point.latitude))
+                    return if (point.latitude <= closestPointLat)
+                        closestIndex
+                    else
+                        closestIndex + 1
+                // Latitudes are in decreasing order
+                if (latlonDecreasing(prevPointLat, closestPointLat, nextPointLat, point.latitude))
+                    return if (point.latitude >= closestPointLat)
+                        closestIndex
+                    else
+                        closestIndex + 1
+
+                val prevPointLon = items()[closestIndex - 1].point.longitude
+                val closestPointLon = items()[closestIndex].point.longitude
+                val nextPointLon = items()[closestIndex + 1].point.longitude
+                // Longitudes are in increasing order
+                if (latlonIncreasing(prevPointLon, closestPointLon, nextPointLon, point.longitude))
+                    return if (point.longitude <= closestPointLon)
+                        closestIndex
+                    else
+                        closestIndex + 1
+                // Longitudes are in decreasing order
+                if (latlonDecreasing(prevPointLon, closestPointLon, nextPointLon, point.longitude))
+                    return if (point.longitude >= closestPointLon)
+                        closestIndex
+                    else
+                        closestIndex + 1
+                // Points aren't in a very logical order so just stick new point after closest one!
+                return closestIndex + 1
+            }
+        }
+    }
+
+    private fun getClosestIndex(point: IGeoPoint): Int {
+        var minDistance = Int.MAX_VALUE
+        var closestIndex = 0
+        for (item in items()) {
+            val distance = GeoHelper.distanceBetween(point, item.point)
+            if (distance < minDistance) {
+                minDistance = distance
+                closestIndex = items().indexOf(item)
+            }
+        }
+        return closestIndex
+    }
+
+    private fun latlonIncreasing(prevPointLatlon: Double, closestPointLatlon: Double, nextPointLatlon: Double, pointLatlon: Double): Boolean {
+        // Latitudes are in increasing order
+        return ((prevPointLatlon <= closestPointLatlon)
+                && (closestPointLatlon <= nextPointLatlon)
+                // ... and new point's latitude is between them
+                && (prevPointLatlon <= pointLatlon)
+                && ( pointLatlon <= nextPointLatlon))
+
+    }
+
+    private fun latlonDecreasing(prevPointLatlon: Double, closestPointLatlon: Double, nextPointLatlon: Double, pointLatlon: Double): Boolean {
+        return ((prevPointLatlon >= closestPointLatlon)
+                && (closestPointLatlon >= nextPointLatlon)
+                // ... and new point's latitude is between them
+                && (prevPointLatlon >= pointLatlon)
+                && (pointLatlon >= nextPointLatlon)
+                )
     }
 }

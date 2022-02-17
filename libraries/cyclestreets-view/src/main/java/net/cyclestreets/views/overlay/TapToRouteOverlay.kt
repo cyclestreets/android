@@ -11,6 +11,7 @@ import android.widget.ImageView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.android.material.snackbar.Snackbar
 import com.mikepenz.iconics.typeface.library.googlematerial.GoogleMaterial
 import net.cyclestreets.*
 import net.cyclestreets.iconics.IconicsHelper.materialIcon
@@ -37,6 +38,7 @@ import org.osmdroid.views.overlay.Overlay
 class TapToRouteOverlay(private val mapView: CycleMapView, private val fragment: Fragment) : Overlay(), TapListener, ContextMenuListener,
                                                              Undoable, PauseResumeListener, Route.Listener {
 
+    private lateinit var routeView: View
     private val routingInfoRect: Button
     private val routeNowIcon: ImageView
     private val restartButton: FloatingActionButton
@@ -60,7 +62,7 @@ class TapToRouteOverlay(private val mapView: CycleMapView, private val fragment:
 
         // The view is shared, and has already been added by the RouteHighlightOverlay.
         // So find that, and don't inflate a second copy.
-        val routeView = mapView.findViewById<View>(R.id.route_view)
+        routeView = mapView.findViewById<View>(R.id.route_view)
 
         routingInfoRect = routeView.findViewById(R.id.routing_info_rect)
         routingInfoRect.setOnClickListener { _ -> onRouteNow(waypoints()) }
@@ -285,11 +287,22 @@ class TapToRouteOverlay(private val mapView: CycleMapView, private val fragment:
     }
 
     private fun tapAction(point: IGeoPoint) {
+        var waypointPosition: Int
+        // todo change this to  waiting_to_route i.e. max waypoints reached
         if (tapState.noFurtherWaypoints()) {
             return
         }
+        if (tapState.routeIsPlanned()) {
+            val originalWaymarks = waymarks.items().toList()
+        }
+        waypointPosition = waymarks.getWaypointPosition(point)
 
         waymarks.addWaypoint(point)
+        if (tapState.routeIsPlanned()) {
+            val originalWaymarks = waymarks.items().toList()
+            waymarks.renumberWaypoints(waypointPosition + 1, waypointsCount() - 1, waymarks.items().last())
+        }
+
         controller.pushUndo(this)
         tapState = tapState.next(waypointsCount())
         mapView.invalidate()
@@ -330,7 +343,8 @@ class TapToRouteOverlay(private val mapView: CycleMapView, private val fragment:
             return this == TapToRoute.WAITING_FOR_NEXT || this == TapToRoute.WAITING_TO_ROUTE || this == TapToRoute.WAITING_FOR_SECOND
         }
         fun noFurtherWaypoints(): Boolean {
-            return this == TapToRoute.WAITING_TO_ROUTE || this == TapToRoute.ALL_DONE
+            //return this == TapToRoute.WAITING_TO_ROUTE || this == TapToRoute.ALL_DONE
+            return this == WAITING_TO_ROUTE
         }
         fun routeIsPlanned(): Boolean {
             return this == TapToRoute.ALL_DONE
@@ -362,6 +376,15 @@ class TapToRouteOverlay(private val mapView: CycleMapView, private val fragment:
 
     override fun onNewJourney(journey: Journey, waypoints: Waypoints) {
         setRoute(journey.isEmpty(), waypoints.count())
+        // Check for hints pref.
+        // todo add action to turn off hints
+        // https://developer.android.com/training/snackbar/action
+//        Snackbar.make(
+//            routeView,
+//            R.string.route_hint1,
+//            Snackbar.LENGTH_LONG
+//        ).show()
+
     }
 
     override fun onResetJourney() {
