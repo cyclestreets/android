@@ -277,6 +277,8 @@ class WaymarkOverlay(private val mapView: CycleMapView, private val TTROverlay: 
                     else
                         closestIndex + 1
                 // Points aren't in a very logical order so just stick new point after closest one!
+                // todo could probably calc nearest segment (see HuntForSegment) and work out from that if it should be
+                //  before or after the waypoint
                 return closestIndex + 1
             }
         }

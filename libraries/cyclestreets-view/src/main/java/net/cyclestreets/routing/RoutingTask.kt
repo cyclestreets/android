@@ -20,9 +20,11 @@ abstract class RoutingTask<Params> protected constructor(private val initialMsg:
     private var error: String? = null
     private val TAG = Logging.getTag(RoutingTask::class.java)
     private val NO_ITINERARY = -1L
+    private var rtAltRoute: Boolean = false
 
     protected constructor(progressMessageId: Int,
-                          context: Context) : this(context.getString(progressMessageId), context)
+                          context: Context, cAltRoute: Boolean = false) : this(context.getString(progressMessageId), context)
+                          {rtAltRoute = cAltRoute}
 
     protected fun fetchRoute(routeType: String,
                              itinerary: Long = NO_ITINERARY,
@@ -91,22 +93,33 @@ abstract class RoutingTask<Params> protected constructor(private val initialMsg:
 
     override fun onPreExecute() {
         super.onPreExecute()
-        try {
-            progress = Dialog.createProgressDialog(context, initialMsg)
-            progress!!.show()
-        } catch (e: Exception) {
-            progress = null
+        // Don't show progress or block input for alternative route
+        if (!rtAltRoute) {
+            try {
+                progress = Dialog.createProgressDialog(context, initialMsg)
+                progress!!.show()
+            } catch (e: Exception) {
+                progress = null
+            }
         }
     }
 
     override fun onProgressUpdate(vararg p: Int?) {
-        progress?.setMessage(context.getString(p[0]!!))
+        if (!rtAltRoute)
+            progress?.setMessage(context.getString(p[0]!!))
     }
 
     override fun onPostExecute(route: RouteData?) {
-        if (route != null)
-            Route.onNewJourney(route)
-        progressDismiss()
+        if (rtAltRoute) {
+            Route.doOnNewAltJourney(route)
+        }
+        else
+        {
+            if (route != null)
+                Route.onNewJourney(route)
+            progressDismiss()
+        }
+
         if (error != null)
             Toast.makeText(context, error, Toast.LENGTH_LONG).show()
     }

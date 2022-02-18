@@ -41,7 +41,9 @@ class RouteMapFragment : CycleMapFragment(), Route.Listener {
         overlayPushBottom(RouteHighlightOverlay(requireContext(), mapView()))
         overlayPushBottom(POIOverlay(mapView()))
         overlayPushBottom(CircularRoutePOIOverlay(mapView()))
-        overlayPushBottom(RouteOverlay())
+        overlayPushBottom(RouteOverlay(mapView(),false))
+        // Alternative route overlay:
+        overlayPushBottom(RouteOverlay(mapView(),true))
 
         routeSetter = TapToRouteOverlay(mapView(), this)
         overlayPushTop(routeSetter)

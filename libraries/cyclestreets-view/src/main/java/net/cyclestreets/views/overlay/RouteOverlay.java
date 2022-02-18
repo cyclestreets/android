@@ -9,6 +9,7 @@ import net.cyclestreets.routing.Route;
 import net.cyclestreets.routing.Segment;
 import net.cyclestreets.routing.Segments;
 import net.cyclestreets.routing.Waypoints;
+import net.cyclestreets.views.CycleMapView;
 
 import org.osmdroid.api.IGeoPoint;
 import org.osmdroid.views.MapView;
@@ -23,17 +24,24 @@ import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.Point;
 
+// Overlay is used for main route and alternative route (2 instances)
 public class RouteOverlay extends Overlay implements PauseResumeListener, Route.Listener
 {
+  private CycleMapView cMapView;
+
   private static int ROUTE_COLOUR = 0x80ff00ff;
   private static int HIGHLIGHT_COLOUR = 0xA000ff00;
 
+  private static int ALT_ROUTE_COLOUR = 0x808080ff;
+
+  private boolean altRoute;
+
   private Segments route_;
 
-  private final Paint rideBrush_;
-  private final Paint walkBrush_;
-  private final Paint hiRideBrush_;
-  private final Paint hiWalkBrush_;
+  private Paint rideBrush_;
+  private Paint walkBrush_;
+  private Paint hiRideBrush_;
+  private Paint hiWalkBrush_;
 
   private List<Path> ridePath_;
   private List<Path> walkPath_;
@@ -43,20 +51,30 @@ public class RouteOverlay extends Overlay implements PauseResumeListener, Route.
   private Segment highlight_;
   private IGeoPoint mapCentre_;
 
-  public RouteOverlay() {
+  public RouteOverlay(CycleMapView cycleMapView, boolean pAltRoute) {
     super();
+    cMapView = cycleMapView;
+    altRoute = pAltRoute;
+    if (altRoute) {
+      createBrushes(ALT_ROUTE_COLOUR);
+    }
+    else {
+      createBrushes(ROUTE_COLOUR);
+      hiRideBrush_ = createBrush(HIGHLIGHT_COLOUR);
+      hiWalkBrush_ = createBrush(HIGHLIGHT_COLOUR);
+      hiWalkBrush_.setPathEffect(new DashPathEffect(new float[] {5, 5}, 0));
 
-    rideBrush_ = createBrush(ROUTE_COLOUR);
-    walkBrush_ = createBrush(ROUTE_COLOUR);
-    walkBrush_.setPathEffect(new DashPathEffect(new float[] {5, 5}, 0));
-
-    hiRideBrush_ = createBrush(HIGHLIGHT_COLOUR);
-    hiWalkBrush_ = createBrush(HIGHLIGHT_COLOUR);
-    hiWalkBrush_.setPathEffect(new DashPathEffect(new float[] {5, 5}, 0));
-
-    highlight_ = null;
+      highlight_ = null;
+    }
 
     reset();
+  }
+
+  private void createBrushes(int colour) {
+    rideBrush_ = createBrush(colour);
+    walkBrush_ = createBrush(colour);
+    walkBrush_.setPathEffect(new DashPathEffect(new float[] {5, 5}, 0));
+
   }
 
   private Paint createBrush(int colour) {
@@ -70,9 +88,10 @@ public class RouteOverlay extends Overlay implements PauseResumeListener, Route.
     return brush;
   }
 
-  private void setRoute(final Segments routeSegments) {
+  public void setRoute(final Segments routeSegments) {
     reset();
     route_ = routeSegments;
+    if (altRoute) cMapView.postInvalidate();
   }
 
   private void reset() {
@@ -151,6 +170,8 @@ public class RouteOverlay extends Overlay implements PauseResumeListener, Route.
   @Override
   public void onResume(SharedPreferences prefs) {
     Route.registerListener(this);
+    if (altRoute)
+      Route.setAltRouteOverlay(this);
   }
 
   @Override
@@ -160,7 +181,9 @@ public class RouteOverlay extends Overlay implements PauseResumeListener, Route.
 
   @Override
   public void onNewJourney(final Journey journey, final Waypoints waypoints) {
-    setRoute(journey.getSegments());
+    if (!altRoute)
+      setRoute(journey.getSegments());
+    // todo else clear alt route?
   }
 
   @Override

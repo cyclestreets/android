@@ -38,7 +38,7 @@ import org.osmdroid.views.overlay.Overlay
 class TapToRouteOverlay(private val mapView: CycleMapView, private val fragment: Fragment) : Overlay(), TapListener, ContextMenuListener,
                                                              Undoable, PauseResumeListener, Route.Listener {
 
-    private lateinit var routeView: View
+    private var routeView: View
     private val routingInfoRect: Button
     private val routeNowIcon: ImageView
     private val restartButton: FloatingActionButton
@@ -287,22 +287,25 @@ class TapToRouteOverlay(private val mapView: CycleMapView, private val fragment:
     }
 
     private fun tapAction(point: IGeoPoint) {
-        var waypointPosition: Int
+        var waypointPosition = 0
         // todo change this to  waiting_to_route i.e. max waypoints reached
         if (tapState.noFurtherWaypoints()) {
             return
         }
         if (tapState.routeIsPlanned()) {
-            val originalWaymarks = waymarks.items().toList()
+            // todo can't save this here - prob need to do it in onNewJourney
+            //val originalWaymarks = waymarks.items().toList()
+            waypointPosition = waymarks.getWaypointPosition(point)
         }
-        waypointPosition = waymarks.getWaypointPosition(point)
 
         waymarks.addWaypoint(point)
         if (tapState.routeIsPlanned()) {
-            val originalWaymarks = waymarks.items().toList()
             waymarks.renumberWaypoints(waypointPosition + 1, waypointsCount() - 1, waymarks.items().last())
+            Route.PlotAltRoute(CycleStreetsPreferences.routeType(),
+                CycleStreetsPreferences.speed(),
+                context,
+                waypoints())
         }
-
         controller.pushUndo(this)
         tapState = tapState.next(waypointsCount())
         mapView.invalidate()
@@ -314,7 +317,8 @@ class TapToRouteOverlay(private val mapView: CycleMapView, private val fragment:
         WAITING_FOR_SECOND(true, R.string.tap_map_waypoint_circular_route),
         WAITING_FOR_NEXT(true, R.string.tap_map_waypoint_route),
         WAITING_TO_ROUTE(true, R.string.tap_here_route),  // When max no of waypoints reached
-        ALL_DONE(false, 0);
+        ALL_DONE(false, 0),
+        WAITING_TO_REROUTE(true, R.string.tap_here_reroute);  // todo
 
         fun previous(count: Int): TapToRoute {
             val previous: TapToRoute
@@ -322,6 +326,7 @@ class TapToRouteOverlay(private val mapView: CycleMapView, private val fragment:
                 WAITING_FOR_START, WAITING_FOR_SECOND, ALL_DONE -> previous = WAITING_FOR_START
                 WAITING_FOR_NEXT -> previous = if (count == 1) WAITING_FOR_SECOND else WAITING_FOR_NEXT
                 WAITING_TO_ROUTE -> previous = WAITING_FOR_NEXT
+                WAITING_TO_REROUTE -> previous = ALL_DONE  // todo - not sure about this one yet
             }
             Log.d(TAG, "Moving to previous TapToRoute state=${previous.name} with waypoints=$count")
             return previous
@@ -334,6 +339,7 @@ class TapToRouteOverlay(private val mapView: CycleMapView, private val fragment:
                 WAITING_FOR_SECOND -> next = WAITING_FOR_NEXT
                 WAITING_FOR_NEXT -> next = if (count == MAX_WAYPOINTS) WAITING_TO_ROUTE else WAITING_FOR_NEXT
                 WAITING_TO_ROUTE, ALL_DONE -> next = ALL_DONE
+                WAITING_TO_REROUTE -> next = if (count == MAX_WAYPOINTS) WAITING_TO_ROUTE else WAITING_TO_REROUTE // todo - not sure about this one yet
             }
             Log.d(TAG, "Moving to next TapToRoute state=${next.name} with waypoints=$count")
             return next

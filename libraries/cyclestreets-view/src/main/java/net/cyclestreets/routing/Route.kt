@@ -13,12 +13,18 @@ import net.cyclestreets.routing.Journey.Companion.NULL_JOURNEY
 import net.cyclestreets.routing.Journey.Companion.loadFromJson
 import net.cyclestreets.util.Logging
 import net.cyclestreets.view.R
+import net.cyclestreets.views.overlay.RouteOverlay
 import java.util.*
 
 object Route {
+    @kotlin.jvm.JvmStatic
+    lateinit var altRouteOverlay: RouteOverlay
+
     private val TAG = Logging.getTag(Route::class.java)
     private val listeners_ = Listeners()
     private var currentJourneyPlan: String = ""
+    private lateinit var altRouteQuery: CycleStreetsRoutingTask
+
     @JvmStatic
     fun registerListener(l: Listener) {
         listeners_.register(l)
@@ -40,6 +46,16 @@ object Route {
                   waypoints: Waypoints) {
         val query = CycleStreetsRoutingTask(plan, speed, context)
         query.execute(waypoints)
+    }
+
+    @JvmStatic
+    fun PlotAltRoute(plan: String,
+                  speed: Int,
+                  context: Context,
+                  waypoints: Waypoints) {
+        // todo cancel previous query here
+        altRouteQuery = CycleStreetsRoutingTask(plan, speed, context, pAltRoute = true)
+        altRouteQuery.execute(waypoints)
     }
 
     @JvmStatic
@@ -100,6 +116,7 @@ object Route {
 
     /////////////////////////////////////////
     private var plannedRoute_ = NULL_JOURNEY
+    private var altRoute = NULL_JOURNEY
     private var waypoints_ = plannedRoute_.waypoints
     private lateinit var db_: RouteDatabase
     private lateinit var context_: Context
@@ -151,6 +168,7 @@ object Route {
     }
 
     private fun doOnNewJourney(route: RouteData?, clearWaypoints: Boolean) {
+        // Null route is passed if new route requested
         if (route == null) {
             plannedRoute_ = NULL_JOURNEY
             if (clearWaypoints)
@@ -166,6 +184,18 @@ object Route {
         waypoints_ = plannedRoute_.waypoints
         listeners_.onNewJourney(plannedRoute_, waypoints_)
         setRouteLoaded()
+    }
+
+    fun doOnNewAltJourney(route: RouteData?) {
+        try {
+            if (route != null) {
+                altRoute = loadFromJson(route.json(), route.points(), route.name(), context_)
+            }
+            altRouteOverlay.setRoute(altRoute.segments)
+        } catch (e: Exception) {
+            Log.w(TAG, "Alternative route finding failed", e)
+            Toast.makeText(context_, R.string.route_finding_failed, Toast.LENGTH_LONG).show()
+        }
     }
 
     fun waypoints(): Waypoints {
