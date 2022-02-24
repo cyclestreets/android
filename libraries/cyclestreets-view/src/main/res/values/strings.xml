@@ -61,6 +61,7 @@
   <string name="tap_map_set_start" translatable="false">Tap map to set Start</string>
   <string name="tap_map_waypoint_circular_route" translatable="false">Tap map to set Waypoint, or\nTap here for Circular Route</string>
   <string name="tap_map_waypoint_route" translatable="false">Tap map to set Waypoint, or\nTap here to Route</string>
+  <string name="tap_map_waypoint_route_alt" translatable="false">Tap map to add Waypoint, or\nTap here to accept alternative route</string>
   <string name="tap_here_route" translatable="false">Tap here to Route</string>
   <string name="tap_here_reroute" translatable="false">Tap here to Re-route</string>
 

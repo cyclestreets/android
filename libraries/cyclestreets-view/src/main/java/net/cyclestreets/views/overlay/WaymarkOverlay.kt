@@ -135,6 +135,7 @@ class WaymarkOverlay(private val mapView: CycleMapView, private val TTROverlay: 
     override fun onItemSingleTap(item: OverlayItem?): Boolean {
         if (TTROverlay == null) // LiveRide
             return false
+        // todo need to consider whether to allow this if alt route started and if so how to distinguish between main and alt route waypoints
         if (TTROverlay.tapState.routeIsPlanned())
             return false
 
@@ -151,7 +152,7 @@ class WaymarkOverlay(private val mapView: CycleMapView, private val TTROverlay: 
     // Option on waypoint menu tapped:
     override fun onClick(dialog: DialogInterface, optionTapped: Int) {
         if (optionTapped == REMOVE_WAYPOINT_OPTION) {
-            TTROverlay?.stepBack(false, itemIndex)
+            TTROverlay?.stepBack(itemIndex)
         }
         else {
             renumberWaypoints(optionTapped, itemIndex, activeItem)
@@ -234,7 +235,7 @@ class WaymarkOverlay(private val mapView: CycleMapView, private val TTROverlay: 
             ""
     }
 
-    fun getWaypointPosition(point: IGeoPoint): Int {
+    fun getWaypointSequence(point: IGeoPoint): Int {
 
         val closestIndex = getClosestIndex(point)
 

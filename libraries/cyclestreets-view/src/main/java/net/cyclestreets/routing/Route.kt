@@ -2,6 +2,7 @@ package net.cyclestreets.routing
 
 import android.content.Context
 import android.content.SharedPreferences
+import android.os.AsyncTask
 import android.util.Log
 import android.widget.Toast
 import net.cyclestreets.CycleStreetsPreferences
@@ -23,7 +24,7 @@ object Route {
     private val TAG = Logging.getTag(Route::class.java)
     private val listeners_ = Listeners()
     private var currentJourneyPlan: String = ""
-    private lateinit var altRouteQuery: CycleStreetsRoutingTask
+    private var altRouteQuery: CycleStreetsRoutingTask? = null
 
     @JvmStatic
     fun registerListener(l: Listener) {
@@ -53,10 +54,19 @@ object Route {
                   speed: Int,
                   context: Context,
                   waypoints: Waypoints) {
-        // todo cancel previous query here
+        // Cancel previous query as it no longer has any use now user has added another waypoint
+        if (altRouteQuery != null) {
+            val status = altRouteQuery!!.status
+            Log.d(TAG, "altRouteQuery $status")
+            if (status != AsyncTask.Status.FINISHED)
+                Log.d(TAG, "Cancelling alt RoutingTask query")
+                altRouteQuery!!.cancel(true)
+        }
         altRouteQuery = CycleStreetsRoutingTask(plan, speed, context, pAltRoute = true)
-        altRouteQuery.execute(waypoints)
+        altRouteQuery!!.execute(waypoints)
     }
+
+    // todo need to define onCancelled for altRoute?  Or call it in CycleStreetsRoutingTask?
 
     @JvmStatic
     fun plotCircularRoute(plan: String,
@@ -168,7 +178,7 @@ object Route {
     }
 
     private fun doOnNewJourney(route: RouteData?, clearWaypoints: Boolean) {
-        // Null route is passed if new route requested
+        // Null route is passed when user requests new route
         if (route == null) {
             plannedRoute_ = NULL_JOURNEY
             if (clearWaypoints)

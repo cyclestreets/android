@@ -34,6 +34,7 @@ abstract class RoutingTask<Params> protected constructor(private val initialMsg:
                              duration: Int? = null,
                              poiTypes: String? = null,
                              saveRoute: Boolean = true): RouteData? {
+        Log.d(TAG, "Starting fetchRoute")
         return try {
             val json = doFetchRoute(routeType, itinerary, speed, waypoints, distance, duration, poiTypes)
 
@@ -93,6 +94,7 @@ abstract class RoutingTask<Params> protected constructor(private val initialMsg:
 
     override fun onPreExecute() {
         super.onPreExecute()
+        Log.d(TAG, "RoutingTask PreExecute")
         // Don't show progress or block input for alternative route
         if (!rtAltRoute) {
             try {
@@ -105,11 +107,13 @@ abstract class RoutingTask<Params> protected constructor(private val initialMsg:
     }
 
     override fun onProgressUpdate(vararg p: Int?) {
+        Log.d(TAG, "RoutingTask onProgressUpdate")
         if (!rtAltRoute)
             progress?.setMessage(context.getString(p[0]!!))
     }
 
     override fun onPostExecute(route: RouteData?) {
+        Log.d(TAG, "Start RoutingTask onPostExecute")
         if (rtAltRoute) {
             Route.doOnNewAltJourney(route)
         }
@@ -122,6 +126,7 @@ abstract class RoutingTask<Params> protected constructor(private val initialMsg:
 
         if (error != null)
             Toast.makeText(context, error, Toast.LENGTH_LONG).show()
+        Log.d(TAG, "RoutingTask Finish onPostExecute")
     }
 
     private fun progressDismiss() {
