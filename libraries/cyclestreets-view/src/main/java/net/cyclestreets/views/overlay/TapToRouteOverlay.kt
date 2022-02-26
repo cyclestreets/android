@@ -92,6 +92,10 @@ class TapToRouteOverlay(private val mapView: CycleMapView, private val fragment:
     private fun onRouteNow(waypoints: Waypoints) {
         // todo If WAITING_TO_REROUTE, populate current route with alt route and clear alt route.
         // todo Display appropriate route (clear other route)
+        if (tapState.altRouteIsPlanned()) {
+            Route.acceptAltRoute()
+            return
+        }
         if (waypoints.count() > 1) {
             Route.PlotRoute(CycleStreetsPreferences.routeType(),
                     CycleStreetsPreferences.speed(),
@@ -216,14 +220,11 @@ class TapToRouteOverlay(private val mapView: CycleMapView, private val fragment:
     }
 
     private fun drawRoutingInfoRect() {
-
         if (tapState.routeIsPlanned()) {
             // In this case, populating the routing info is done by the RouteHighlightOverlay
-            tapState = TapToRoute.WAITING_FOR_NEXT_ALT // todo temp
-            // todo put back:
-         //   return
-
+            return
         }
+
 // todo could use Route.journey().activeSegment().toString() to get route summary
         val cText = Route.journey().activeSegment().toString()
         val actText = context.getString(tapState.actionDescription)
@@ -275,6 +276,7 @@ class TapToRouteOverlay(private val mapView: CycleMapView, private val fragment:
     // 4) waypoint removed (tap = false)
     // I've moved 1 and 2 to another fun todo remove these comments
     fun stepBack(index: Int = waypointsCount() - 1): Boolean {
+        // todo following is true if start or all_done.  Move to when statement below?
         if (!tapState.waypointingInProgress)
             return false
 
@@ -388,7 +390,7 @@ class TapToRouteOverlay(private val mapView: CycleMapView, private val fragment:
 
         fun canRoute(): Boolean {
             return this == WAITING_FOR_NEXT || this == WAITING_TO_ROUTE || this == WAITING_FOR_SECOND
-                    || this == WAITING_TO_REROUTE
+                    || this == WAITING_FOR_NEXT_ALT || this == WAITING_TO_REROUTE
         }
         fun noFurtherWaypoints(): Boolean {
             //return this == TapToRoute.WAITING_TO_ROUTE || this == TapToRoute.ALL_DONE

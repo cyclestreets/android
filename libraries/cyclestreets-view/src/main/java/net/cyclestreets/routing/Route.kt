@@ -208,6 +208,14 @@ object Route {
         }
     }
 
+    fun acceptAltRoute() {
+        plannedRoute_ = altRoute
+        altRoute = NULL_JOURNEY
+        // db_.saveRoute(plannedRoute_, route.json()) todo need this but need to get json (may need to save it)
+        waypoints_ = plannedRoute_.waypoints // todo not sure if this needed
+        listeners_.onNewJourney(plannedRoute_, waypoints_)
+    }
+
     fun waypoints(): Waypoints {
         return waypoints_
     }
