@@ -50,10 +50,9 @@ object Route {
     }
 
     @JvmStatic
-    fun PlotAltRoute(plan: String,
-                  speed: Int,
-                  context: Context,
-                  waypoints: Waypoints) {
+    fun plotAltRoute(speed: Int,
+                     context: Context,
+                     waypoints: Waypoints) {
         // Cancel previous query as it no longer has any use now user has added another waypoint
         if (altRouteQuery != null) {
             val status = altRouteQuery!!.status
@@ -62,7 +61,7 @@ object Route {
                 Log.d(TAG, "Cancelling alt RoutingTask query")
                 altRouteQuery!!.cancel(true)
         }
-        altRouteQuery = CycleStreetsRoutingTask(plan, speed, context, pAltRoute = true)
+        altRouteQuery = CycleStreetsRoutingTask(currentJourneyPlan, speed, context, pAltRoute = true)
         altRouteQuery!!.execute(waypoints)
     }
 
@@ -214,6 +213,11 @@ object Route {
         // db_.saveRoute(plannedRoute_, route.json()) todo need this but need to get json (may need to save it)
         waypoints_ = plannedRoute_.waypoints // todo not sure if this needed
         listeners_.onNewJourney(plannedRoute_, waypoints_)
+    }
+
+    fun clearAltRoute() {
+        altRoute = NULL_JOURNEY
+        altRouteOverlay.onResetJourney()
     }
 
     fun waypoints(): Waypoints {

@@ -59,6 +59,11 @@ class WaymarkOverlay(private val mapView: CycleMapView, private val TTROverlay: 
         return items().last().point
     }
 
+    fun addAltWaypoint(point: IGeoPoint, index: Int, uid: String) {
+        pushMarker(point, waypointLabel, wispWpMid, uid, index)
+        Log.d(TAG, "Added alternative waypoint $point")
+    }
+
     fun addWaypoint(point: IGeoPoint?) {
         if (point == null)
             return
@@ -89,16 +94,20 @@ class WaymarkOverlay(private val mapView: CycleMapView, private val TTROverlay: 
 
     }
 
-    private fun pushMarker(point: IGeoPoint, label: String, icon: Drawable?) {
-        items().add(makeMarker(point, label, icon))
+    fun removeAltWaypoint(uid: String) {
+        items().removeAll { it.uid == uid }
+    }
+
+    private fun pushMarker(point: IGeoPoint, label: String, icon: Drawable?, uid: String? = null, index: Int = waymarkersCount()) {
+        items().add(index, makeMarker(uid, point, label, icon))
     }
 
     private fun popMarker(index: Int) {
         items().removeAt(index)
     }
 
-    private fun makeMarker(point: IGeoPoint, label: String, icon: Drawable?): OverlayItem {
-        return OverlayItem(label, label, GeoPoint(point.latitude, point.longitude)).apply {
+    private fun makeMarker(uid: String?, point: IGeoPoint, label: String, icon: Drawable?): OverlayItem {
+        return OverlayItem(uid, label, label, GeoPoint(point.latitude, point.longitude)).apply {
             setMarker(icon)
             markerHotspot = OverlayItem.HotspotPlace.BOTTOM_CENTER
         }
@@ -195,7 +204,7 @@ class WaymarkOverlay(private val mapView: CycleMapView, private val TTROverlay: 
         if (snippet != label) {
             val prevPoint = items()[i].point
             popMarker(i)
-            items().add(i, makeMarker(prevPoint, label, wisp))
+            items().add(i, makeMarker(null, prevPoint, label, wisp))
         }
     }
 
