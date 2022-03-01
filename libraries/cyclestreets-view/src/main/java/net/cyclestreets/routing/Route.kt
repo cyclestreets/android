@@ -54,18 +54,23 @@ object Route {
                      context: Context,
                      waypoints: Waypoints) {
         // Cancel previous query as it no longer has any use now user has added another waypoint
-        if (altRouteQuery != null) {
-            val status = altRouteQuery!!.status
-            Log.d(TAG, "altRouteQuery $status")
-            if (status != AsyncTask.Status.FINISHED)
-                Log.d(TAG, "Cancelling alt RoutingTask query")
-                altRouteQuery!!.cancel(true)
-        }
+        cancelPreviousQuery()
+
         altRouteQuery = CycleStreetsRoutingTask(currentJourneyPlan, speed, context, pAltRoute = true)
         altRouteQuery!!.execute(waypoints)
     }
 
     // todo need to define onCancelled for altRoute?  Or call it in CycleStreetsRoutingTask?
+    @JvmStatic
+    private fun cancelPreviousQuery() {
+        if (altRouteQuery != null) {
+            val status = altRouteQuery!!.status
+            Log.d(TAG, "altRouteQuery $status")
+            if (status != AsyncTask.Status.FINISHED)
+                Log.d(TAG, "Cancelling alt RoutingTask query")
+            altRouteQuery!!.cancel(true)
+        }
+    }
 
     @JvmStatic
     fun plotCircularRoute(plan: String,
@@ -211,11 +216,12 @@ object Route {
         plannedRoute_ = altRoute
         altRoute = NULL_JOURNEY
         // db_.saveRoute(plannedRoute_, route.json()) todo need this but need to get json (may need to save it)
-        waypoints_ = plannedRoute_.waypoints // todo not sure if this needed
+        waypoints_ = plannedRoute_.waypoints
         listeners_.onNewJourney(plannedRoute_, waypoints_)
     }
 
     fun clearAltRoute() {
+        cancelPreviousQuery()
         altRoute = NULL_JOURNEY
         altRouteOverlay.onResetJourney()
     }

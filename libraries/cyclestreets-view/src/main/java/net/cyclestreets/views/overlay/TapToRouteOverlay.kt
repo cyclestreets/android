@@ -220,14 +220,14 @@ class TapToRouteOverlay(private val mapView: CycleMapView, private val fragment:
     }
 
     private fun drawRoutingInfoRect() {
-        if (tapState.routeIsPlanned()) {
-            // In this case, populating the routing info is done by the RouteHighlightOverlay
-            return
-        }
+        var actText: String = ""
+        // todo: temp(?) remove as if ALL_DONE then action desc text needs removing
+//        if (tapState.routeIsPlanned()) {
+//            // In this case, populating the routing info is done by the RouteHighlightOverlay
+//            return
+//        }
 
 // todo could use Route.journey().activeSegment().toString() to get route summary
-        val cText = Route.journey().activeSegment().toString()
-        val actText = context.getString(tapState.actionDescription)
 
         routeNowIcon.visibility = if (tapState.canRoute()) View.VISIBLE else View.INVISIBLE
 
@@ -235,7 +235,13 @@ class TapToRouteOverlay(private val mapView: CycleMapView, private val fragment:
             setBackgroundColor(if (tapState.canRoute()) highlightColour else lowlightColour)
             gravity = Gravity.CENTER
             try {
-                text = "$cText \n$actText"
+                // todo this is clunky, but will prob create extra text box for route summary
+                val cText = Route.journey().activeSegment().toString()
+                text = cText
+                if (tapState.actionDescription !=0) {
+                    actText = context.getString(tapState.actionDescription)
+                    text = "$cText \n$actText"
+                }
             }
             catch (e: Exception) {
                 val actionDescription = tapState.actionDescription
@@ -326,8 +332,7 @@ class TapToRouteOverlay(private val mapView: CycleMapView, private val fragment:
     }
 
     private fun tapAction(point: IGeoPoint) {
-        // todo change this to  waiting_to_route i.e. max waypoints reached
-        if (tapState.noFurtherWaypoints()) {
+        if (waypointsCount() == MAX_WAYPOINTS) {
             // todo: put a toast in to say max number of waypoints reached
             return
         }
@@ -351,6 +356,7 @@ class TapToRouteOverlay(private val mapView: CycleMapView, private val fragment:
 
     ////////////////////////////////////
     enum class TapToRoute private constructor(val waypointingInProgress: Boolean, val actionDescription: Int) {
+        // todo remove waypointingInProgress if not needed
         WAITING_FOR_START(false, R.string.tap_map_set_start),
         WAITING_FOR_SECOND(true, R.string.tap_map_waypoint_circular_route),
         WAITING_FOR_NEXT(true, R.string.tap_map_waypoint_route),
@@ -383,7 +389,7 @@ class TapToRouteOverlay(private val mapView: CycleMapView, private val fragment:
                 WAITING_FOR_NEXT -> next = if (count == MAX_WAYPOINTS) WAITING_TO_ROUTE else WAITING_FOR_NEXT
                 WAITING_TO_ROUTE -> next = ALL_DONE
                 // todo - not sure about these yet.
-                ALL_DONE -> next = WAITING_FOR_NEXT_ALT
+                ALL_DONE,
                 WAITING_FOR_NEXT_ALT -> next = if (count == MAX_WAYPOINTS) WAITING_TO_REROUTE else WAITING_FOR_NEXT_ALT
                 WAITING_TO_REROUTE -> next = WAITING_TO_REROUTE
             }
@@ -399,9 +405,10 @@ class TapToRouteOverlay(private val mapView: CycleMapView, private val fragment:
             return this == WAITING_FOR_NEXT || this == WAITING_TO_ROUTE || this == WAITING_FOR_SECOND
                     || this == WAITING_FOR_NEXT_ALT || this == WAITING_TO_REROUTE
         }
+        // TODO: delete this if not needed:
         fun noFurtherWaypoints(): Boolean {
             //return this == TapToRoute.WAITING_TO_ROUTE || this == TapToRoute.ALL_DONE
-            return this == WAITING_TO_ROUTE
+            return this == WAITING_TO_ROUTE || this == WAITING_TO_REROUTE
         }
         fun routeIsPlanned(): Boolean {
             return this == TapToRoute.ALL_DONE
