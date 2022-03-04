@@ -229,26 +229,29 @@ class TapToRouteOverlay(private val mapView: CycleMapView, private val fragment:
 
 // todo could use Route.journey().activeSegment().toString() to get route summary
 
-        routeNowIcon.visibility = if (tapState.canRoute()) View.VISIBLE else View.INVISIBLE
+        routeNowIcon.visibility = if (tapState.routeIsPlanned()) View.INVISIBLE else View.VISIBLE
 
         routingInfoRect.apply {
+            // todo temp setBackgroundColor(if (tapState.canRoute()) highlightColour else lowlightColour)
             setBackgroundColor(if (tapState.canRoute()) highlightColour else lowlightColour)
             gravity = Gravity.CENTER
             try {
-                // todo this is clunky, but will prob create extra text box for route summary
-                val cText = Route.journey().activeSegment().toString()
-                text = cText
+                // todo remove:
+//                val cText = Route.journey().activeSegment().toString()
+//                text = cText
                 if (tapState.actionDescription !=0) {
                     actText = context.getString(tapState.actionDescription)
-                    text = "$cText \n$actText"
+                    text = actText
                 }
+                else
+                    text = ""
             }
             catch (e: Exception) {
                 val actionDescription = tapState.actionDescription
                 Log.w(TAG, "Tap state $tapState resource ID $actionDescription not found in strings.xml", e)
                 text = ""
             }
-            isEnabled = tapState.canRoute()
+            visibility = if (tapState.routeIsPlanned()) View.GONE else View.VISIBLE
         }
     }
 
@@ -296,7 +299,7 @@ class TapToRouteOverlay(private val mapView: CycleMapView, private val fragment:
         }
 
         tapState = tapState.previous(waypointsCount(), altRouteWpCount)
-        mapView.postInvalidate()
+        mapView.invalidate()
 
         return true
     }
