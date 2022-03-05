@@ -2,6 +2,7 @@ package net.cyclestreets.views.overlay
 
 import android.content.SharedPreferences
 import android.content.SharedPreferences.Editor
+import android.graphics.Rect
 import android.graphics.drawable.Drawable
 import androidx.core.content.res.ResourcesCompat
 import net.cyclestreets.routing.Journey
@@ -12,12 +13,19 @@ import net.cyclestreets.views.CycleMapView
 import org.osmdroid.api.IGeoPoint
 import org.osmdroid.util.GeoPoint
 import org.osmdroid.views.overlay.OverlayItem
+import org.osmdroid.views.MapView
+import android.graphics.Canvas
+import net.cyclestreets.util.Brush
 
 import java.util.ArrayList
 
-class WaymarkOverlay(private val mapView: CycleMapView) : ItemizedOverlay<OverlayItem>(mapView.mapView(), ArrayList(), true),
+class WaymarkOverlay(private val mapView: CycleMapView) : ItemizedOverlay<OverlayItem>(mapView.mapView(), ArrayList()),
                                                             PauseResumeListener,
                                                             Route.Listener {
+
+    private val HORIZONTAL_TEXT_POSITION_ADJUSTMENT = 6.0f
+    private val VERTICAL_TEXT_POSITION_ADJUSTMENT = 1.7f
+    private val REDUCE_TEXT_SIZE = 0.8f
 
     private val wispWpStart = makeWisp(R.drawable.wp_start_wisp)
     private val wispWpMid = makeWisp(R.drawable.wp_mid_wisp)
@@ -109,5 +117,34 @@ class WaymarkOverlay(private val mapView: CycleMapView) : ItemizedOverlay<Overla
 
     override fun onResetJourney() {
         resetWaypoints()
+    }
+
+    // Waymark has already been scaled when added to List - no need to scale again
+    override  fun scale(mapView: MapView): Float {
+        return 1.0F
+    }
+
+    override fun drawTextOnMarker(canvas: Canvas, rect: Rect, x: Int, y: Int, index: Int) {
+        super.drawTextOnMarker(canvas, rect, x, y, index)
+
+        val boldTextBrush = Brush.createBoldTextBrush((offset(mapView.getContext()) * REDUCE_TEXT_SIZE).toInt())
+        val height = rect.height()
+        val width = rect.width()
+
+        canvas.drawText(
+            waymarkNumber(index),
+            x - width / HORIZONTAL_TEXT_POSITION_ADJUSTMENT,
+            y - height / VERTICAL_TEXT_POSITION_ADJUSTMENT,
+            boldTextBrush
+        )
+    }
+
+    private fun waymarkNumber(index: Int): String {
+        val finishIndex = (items().size - 1)
+        return when (index) {
+            0 -> "S" // Starting waymark
+            finishIndex -> "F" // Finishing waymark
+            else -> Integer.toString(index) // Numbered intermediate waymark
+        }
     }
 }
