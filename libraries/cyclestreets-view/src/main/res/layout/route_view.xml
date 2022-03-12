@@ -12,7 +12,7 @@
         android:layout_gravity="top|left"
         android:background="@drawable/textviewrectangle"
         android:padding="4dp"
-        android:text="TextView"
+        android:text=""
         android:textAppearance="@android:style/TextAppearance.Material.Body1"
         android:textColor="@android:color/white"
         android:textSize="16sp"
@@ -20,9 +20,9 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <!-- Tap to Route rectangle -->
+    <!-- Tap to Route button -->
     <Button
-        android:id="@+id/routing_info_rect"
+        android:id="@+id/tap_to_route_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
@@ -38,8 +38,8 @@
         android:id="@+id/route_now_icon"
         android:layout_width="48dp"
         android:layout_height="48dp"
-        app:layout_constraintEnd_toEndOf="@+id/routing_info_rect"
-        app:layout_constraintTop_toTopOf="@id/routing_info_rect"
+        app:layout_constraintEnd_toEndOf="@+id/tap_to_route_button"
+        app:layout_constraintTop_toTopOf="@id/tap_to_route_button"
         android:padding="6dp"
         app:iiv_color="?android:textColorSecondaryInverse"
         app:iiv_icon="gmd-play-arrow"

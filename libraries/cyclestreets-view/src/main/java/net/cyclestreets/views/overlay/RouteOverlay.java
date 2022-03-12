@@ -169,9 +169,14 @@ public class RouteOverlay extends Overlay implements PauseResumeListener, Route.
   // pause/resume
   @Override
   public void onResume(SharedPreferences prefs) {
-    Route.registerListener(this);
-    if (altRoute)
+    if (altRoute) {
+      // Just do softregister for alt routeoverlay so that OnNewJourney below doesn't get called for alt route
+      Route.softRegisterListener(this);
       Route.setAltRouteOverlay(this);
+      Route.reloadAltRoute();
+    }
+    else
+      Route.registerListener(this);
   }
 
   @Override

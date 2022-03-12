@@ -31,8 +31,6 @@ class RouteHighlightOverlay(context: Context, private val mapView: CycleMapView)
     private val prevButton: FloatingActionButton
     private val nextButton: FloatingActionButton
 
-    private val highlightColour: Int
-
     init {
         val routeView = LayoutInflater.from(mapView.context).inflate(R.layout.route_view, null)
 
@@ -58,7 +56,6 @@ class RouteHighlightOverlay(context: Context, private val mapView: CycleMapView)
 
         mapView.addView(routeView)
 
-        highlightColour = highlightColor(context) or -0x1000000
     }
 
     override fun draw(canvas: Canvas, mapView: MapView, shadow: Boolean) {
@@ -112,10 +109,9 @@ class RouteHighlightOverlay(context: Context, private val mapView: CycleMapView)
 //        routingInfoRect.isEnabled = false
         routeSummaryInfo.apply {
             //setBackgroundColor(highlightColour)
-            gravity = Gravity.LEFT
+            //gravity = Gravity.LEFT
             text = seg.toString()
-            //isEnabled = true
-            routeSummaryInfo.visibility = View.VISIBLE
+            visibility = View.VISIBLE
         }
         // todo need to clear text when planning route
     }

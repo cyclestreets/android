@@ -130,11 +130,20 @@ class WaymarkOverlay(private val mapView: CycleMapView, private val TTROverlay: 
     }
 
     override fun onPause(prefs: Editor) {
+        // If there are any alt waymarks, save them so they can be restored when app resumes
+        if (items().filter { it.uid != null }.size > 0)
+            Route.saveWaymarks(items())
         Route.unregisterListener(this)
     }
 
     override fun onNewJourney(journey: Journey, waypoints: Waypoints) {
-        setWaypoints(waypoints)
+        if (Route.altRouteInProgress()) {
+            val items = Route.restoreWaymarks().toMutableList()
+            for (item in items)
+                items().add(item)
+        }
+        else
+            setWaypoints(waypoints)
     }
 
     override fun onResetJourney() {
@@ -144,9 +153,9 @@ class WaymarkOverlay(private val mapView: CycleMapView, private val TTROverlay: 
     override fun onItemSingleTap(item: OverlayItem?): Boolean {
         if (TTROverlay == null) // LiveRide
             return false
-        // todo need to consider whether to allow this if alt route started and if so how to distinguish between main and alt route waypoints
-        if (TTROverlay.tapState.routeIsPlanned())
-            return false
+        // Don't allow if a route has been planned.  Return true so a waypoint won't be added.
+        if ((TTROverlay.tapState.routeIsPlanned()) || (TTROverlay.tapState.altRouteIsPlanned()))
+            return true
 
         activeItem = item
         // If a route is being planned and a waypoint is tapped,
