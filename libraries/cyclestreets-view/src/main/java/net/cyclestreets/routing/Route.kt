@@ -109,6 +109,7 @@ object Route {
         query.execute(itinerary)
     }
 
+    // Same route, different plan
     fun RePlotRoute(plan: String,
                     context: Context) {
         val query = ReplanRoutingTask(plan, db_, context)
@@ -138,7 +139,7 @@ object Route {
     private var waypoints_ = plannedRoute_.waypoints
     private lateinit var db_: RouteDatabase
     private lateinit var context_: Context
-    private lateinit var waymarksList: MutableList<OverlayItem>
+    private var waymarksListAtPause = mutableListOf<OverlayItem>()
 
     @JvmStatic
     fun initialise(context: Context) {
@@ -148,18 +149,6 @@ object Route {
             loadLastJourney()
         else
             restoreWaypoints()
-        /* todo remove this? as we aren't going to restore alt route if app destroyed:
-        // Check if an alternative route was being planned
-        val storedWaypoints = restoreWaypoints()
-        if (storedWaypoints.count() > waypoints_.count()) {
-            waypoints_ = storedWaypoints
-            altJson = prefs().getString(altJsonPref, "").toString()
-            // todo may not need to do this as it is being done in onResume:
-            //reloadAltRoute()
-            // todo remove plotAltRoute(context, waypoints_)
-        }
-
-         */
     }
 
     fun resetJourney(clearWaypoints: Boolean) {
@@ -171,17 +160,6 @@ object Route {
         if (!isLoaded) {
             stashWaypoints()
         }
-        /*
-        // todo remove this code - don't bother to save alt waypoints - it's OK for them to be lost if app destroyed
-        waypoints_ = waypoints
-        if (!isLoaded) {
-            stashWaypoints(waypoints)
-            return
-        }
-        if (altJson != "")
-            storeAltJson()
-
-         */
     }
 
     fun onResume() {
@@ -235,6 +213,7 @@ object Route {
             if (route != null) {
                 altJson = route.json()
                 altRoute = loadFromJson(altJson, route.points(), route.name(), context_)
+                // todo set altRouteQuery to null?
             }
             altRouteOverlay.setRoute(altRoute.segments)
         } catch (e: Exception) {
@@ -244,10 +223,16 @@ object Route {
     }
 
     fun acceptAltRoute() {
+        // todo First check that alt route has been retrieved (e.g. there may be no internet)
+        // todo To know this, check count of waypoints against alt route?
+        // todo if not, call PlotRoute with alt waypoints?
+        // todo What then happens if still no internet or it fails?  Would need to leave alt waypoints and "Accept Route" button on screen?
+        //if (altRoute.waypoints.count() == )
         plannedRoute_ = altRoute
         db_.saveRoute(plannedRoute_, altJson)
         altRoute = NULL_JOURNEY
         altJson = ""
+        altRouteWpCount = 0
         clearAltJson()
         waypoints_ = plannedRoute_.waypoints
         listeners_.onNewJourney(plannedRoute_, waypoints_)
@@ -257,6 +242,7 @@ object Route {
         cancelPreviousQuery()
         altRoute = NULL_JOURNEY
         altJson = ""
+        altRouteWpCount = 0
         clearAltJson()
         altRouteOverlay.onResetJourney()
     }
@@ -266,11 +252,13 @@ object Route {
     }
 
     fun saveWaymarks(waymarks: MutableList<OverlayItem>) {
-        waymarksList = waymarks.toMutableList()
+        waymarksListAtPause = waymarks.toMutableList()
     }
 
     fun restoreWaymarks(): MutableList<OverlayItem> {
-        return waymarksList
+        val restoredWaymarksList = waymarksListAtPause.toMutableList()
+        waymarksListAtPause.clear()
+        return restoredWaymarksList
     }
 
     @JvmStatic
@@ -282,7 +270,7 @@ object Route {
     fun journey(): Journey {
         return plannedRoute_
     }
-
+// todo remove if not needed:
     @JvmStatic
     fun altRoute(): Journey {
         return altRoute
@@ -359,13 +347,17 @@ object Route {
         if (altRouteWpCount > 0) {
             if (altJson != "") { // todo but what if app paused before route retrieved?  Need to look at no of alt wps
                 // todo waypoints_ may not be the right thing to use here as it might not match no of alt waypoints?
-                altRoute = loadFromJson(altJson, waypoints_, null, context_)
+                //altRoute = loadFromJson(altJson, waypoints_, null, context_)
+                // Passing null for the waypoints means that the waypoints from the json will be loaded to altRoute,
+                //  which may not be the same as those currently displayed on the screen
+                altRoute = loadFromJson(altJson, null, null, context_)
             }
             //  It's possible the app could have been paused before latest alt route was retrieved.
             //  In that case, retrieve the route
             if ((altRoute.waypoints.count() < waypoints_.count()) || (altJson == ""))
                 plotAltRoute(context_, waypoints_)
-            altRouteOverlay.setRoute(altRoute.segments)
+            else
+                altRouteOverlay.setRoute(altRoute.segments)
         }
     }
 
@@ -374,7 +366,7 @@ object Route {
 
     private const val routeLoadedPref = "route"
     private const val waypointsInProgressPref = "waypoints-in-progress"
-    private const val altJsonPref = "alt-json"
+    private const val altJsonPref = "alt-json" // todo prob don't need this
     private fun prefs(): SharedPreferences {
         return context_.getSharedPreferences("net.cyclestreets.CycleStreets", Context.MODE_PRIVATE)
     }

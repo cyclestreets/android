@@ -100,6 +100,7 @@ class TapToRouteOverlay(private val mapView: CycleMapView, private val fragment:
         // todo Display appropriate route (clear other route)
         if (tapState.altRouteIsPlanned()) {
             Route.acceptAltRoute()
+            altRouteWpCount = 0
             return
         }
         if (waypoints.count() > 1) {
@@ -447,7 +448,6 @@ class TapToRouteOverlay(private val mapView: CycleMapView, private val fragment:
     }
 
     override fun onNewJourney(journey: Journey, waypoints: Waypoints) {
-        // todo note that waypoints could have alt waypoints if this has been called from onResume
         setRoute(journey.isEmpty(), waypoints.count())
         // Check for hints pref.
         // todo add action to turn off hints

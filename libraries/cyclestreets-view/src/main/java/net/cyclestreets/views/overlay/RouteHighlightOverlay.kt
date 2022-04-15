@@ -102,14 +102,8 @@ class RouteHighlightOverlay(context: Context, private val mapView: CycleMapView)
 
         routeNowIcon.visibility = View.INVISIBLE
 
-        // todo remove lines:
-//        routingInfoRect.setBackgroundColor(highlightColour)
-//        routingInfoRect.gravity = Gravity.LEFT
-//        routingInfoRect.text = seg.toString()
-//        routingInfoRect.isEnabled = false
         routeSummaryInfo.apply {
-            //setBackgroundColor(highlightColour)
-            //gravity = Gravity.LEFT
+            gravity = Gravity.CENTER
             text = seg.toString()
             visibility = View.VISIBLE
         }
