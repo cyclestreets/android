@@ -99,8 +99,8 @@ class TapToRouteOverlay(private val mapView: CycleMapView, private val fragment:
         // todo If WAITING_TO_REROUTE, populate current route with alt route and clear alt route.
         // todo Display appropriate route (clear other route)
         if (tapState.altRouteIsPlanned()) {
-            Route.acceptAltRoute()
-            altRouteWpCount = 0
+            if (Route.acceptAltRoute(waypoints))
+                altRouteWpCount = 0
             return
         }
         if (waypoints.count() > 1) {

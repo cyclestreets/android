@@ -222,12 +222,18 @@ object Route {
         }
     }
 
-    fun acceptAltRoute() {
-        // todo First check that alt route has been retrieved (e.g. there may be no internet)
-        // todo To know this, check count of waypoints against alt route?
-        // todo if not, call PlotRoute with alt waypoints?
-        // todo What then happens if still no internet or it fails?  Would need to leave alt waypoints and "Accept Route" button on screen?
-        //if (altRoute.waypoints.count() == )
+    fun acceptAltRoute(waypoints: Waypoints): Boolean {
+        if (altJson != "") {
+            // Passing null for the waypoints means that the waypoints from the json will be loaded to altRoute,
+            //  which allows us to check the number of waypoints in the latest alt route retrieval
+            altRoute = loadFromJson(altJson, null, null, context_)
+        }
+        //  It's possible the latest alt route retrieval may have failed, in which case don't accept the alt route.
+        if ((altJson == "") || (altRoute.waypoints.count() < waypoints.count())) {
+            Toast.makeText(context_, R.string.alt_route_finding_failed, Toast.LENGTH_LONG).show()
+            return false
+        }
+
         plannedRoute_ = altRoute
         db_.saveRoute(plannedRoute_, altJson)
         altRoute = NULL_JOURNEY
@@ -236,6 +242,7 @@ object Route {
         clearAltJson()
         waypoints_ = plannedRoute_.waypoints
         listeners_.onNewJourney(plannedRoute_, waypoints_)
+        return true
     }
 
     fun clearAltRoute() {
@@ -345,17 +352,21 @@ object Route {
     @JvmStatic
     fun reloadAltRoute() {
         if (altRouteWpCount > 0) {
-            if (altJson != "") { // todo but what if app paused before route retrieved?  Need to look at no of alt wps
-                // todo waypoints_ may not be the right thing to use here as it might not match no of alt waypoints?
-                //altRoute = loadFromJson(altJson, waypoints_, null, context_)
+            if (altJson != "") {
                 // Passing null for the waypoints means that the waypoints from the json will be loaded to altRoute,
-                //  which may not be the same as those currently displayed on the screen
+                //  which may not be (quite) the same as those tapped on the screen
+                // (the ones in the json may be in a slightly different location)
                 altRoute = loadFromJson(altJson, null, null, context_)
             }
             //  It's possible the app could have been paused before latest alt route was retrieved.
-            //  In that case, retrieve the route
-            if ((altRoute.waypoints.count() < waypoints_.count()) || (altJson == ""))
-                plotAltRoute(context_, waypoints_)
+            //  In that case, retrieve the route, but only if a task isn't still running
+            //  (there's no need to do plotAltRoute at all if there is a task running)
+            // todo test all these conditions!
+            if ((altJson == "") || (altRoute.waypoints.count() < waypoints_.count())) {
+                if ((altRouteQuery != null) && (altRouteQuery!!.status == AsyncTask.Status.FINISHED)) {
+                    plotAltRoute(context_, waypoints_)
+                }
+            }
             else
                 altRouteOverlay.setRoute(altRoute.segments)
         }
