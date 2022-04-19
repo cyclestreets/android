@@ -20,8 +20,8 @@ import net.cyclestreets.util.Brush
 import java.util.ArrayList
 
 class WaymarkOverlay(private val mapView: CycleMapView) : ItemizedOverlay<OverlayItem>(mapView.mapView(), ArrayList()),
-                                                            PauseResumeListener,
-                                                            Route.Listener {
+                                                           PauseResumeListener,
+                                                           Route.Listener {
 
     private val HORIZONTAL_TEXT_POSITION_ADJUSTMENT = 6.0f
     private val VERTICAL_TEXT_POSITION_ADJUSTMENT = 1.7f
@@ -120,19 +120,19 @@ class WaymarkOverlay(private val mapView: CycleMapView) : ItemizedOverlay<Overla
     }
 
     // Waymark has already been scaled when added to List - no need to scale again
-    override  fun scale(mapView: MapView): Float {
+    override fun scale(mapView: MapView): Float {
         return 1.0F
     }
 
-    override fun drawTextOnMarker(canvas: Canvas, rect: Rect, x: Int, y: Int, index: Int) {
-        super.drawTextOnMarker(canvas, rect, x, y, index)
+    override fun drawTextOnMarker(canvas: Canvas, rect: Rect, x: Int, y: Int, itemIndex: Int) {
+        super.drawTextOnMarker(canvas, rect, x, y, itemIndex)
 
         val boldTextBrush = Brush.createBoldTextBrush((offset(mapView.getContext()) * REDUCE_TEXT_SIZE).toInt())
         val height = rect.height()
         val width = rect.width()
 
         canvas.drawText(
-            waymarkNumber(index),
+            waymarkNumber(itemIndex),
             x - width / HORIZONTAL_TEXT_POSITION_ADJUSTMENT,
             y - height / VERTICAL_TEXT_POSITION_ADJUSTMENT,
             boldTextBrush

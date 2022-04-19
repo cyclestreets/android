@@ -62,7 +62,7 @@ public class ItemizedOverlay<Item extends OverlayItem> extends Overlay implement
 
   private void onDrawItem(final Canvas canvas,
                           final Item item,
-                          final int index,
+                          final int itemIndex,
                           final Point curScreenCoords,
                           final float scale,
                           final float mapOrientation) {
@@ -92,14 +92,14 @@ public class ItemizedOverlay<Item extends OverlayItem> extends Overlay implement
     marker.setBounds(rect_.left + x, rect_.top + y, rect_.right + x, rect_.bottom + y);
     marker.draw(canvas);
 
-    drawTextOnMarker(canvas, rect_, x, y, index);
+    drawTextOnMarker(canvas, rect_, x, y, itemIndex);
 
     marker.setBounds(rect_);
 
     canvas.restore();
   }
 
-  void drawTextOnMarker(Canvas canvas, Rect rect_, int x, int y, int index) {
+  void drawTextOnMarker(Canvas canvas, Rect rect_, int x, int y, int itemIndex) {
   }
 
   private boolean hitTest(final Drawable marker,
