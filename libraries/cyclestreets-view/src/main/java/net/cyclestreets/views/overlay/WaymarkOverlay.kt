@@ -3,6 +3,7 @@ package net.cyclestreets.views.overlay
 import android.content.DialogInterface
 import android.content.SharedPreferences
 import android.content.SharedPreferences.Editor
+import android.graphics.Rect
 import android.graphics.drawable.Drawable
 import android.util.Log
 import androidx.core.content.res.ResourcesCompat
@@ -16,17 +17,23 @@ import net.cyclestreets.views.CycleMapView
 import org.osmdroid.api.IGeoPoint
 import org.osmdroid.util.GeoPoint
 import org.osmdroid.views.overlay.OverlayItem
+import org.osmdroid.views.MapView
+import android.graphics.Canvas
+import net.cyclestreets.util.Brush
 
 import java.util.ArrayList
 
 private val TAG = Logging.getTag(WaymarkOverlay::class.java)
 
 class WaymarkOverlay(private val mapView: CycleMapView, private val TTROverlay: TapToRouteOverlay? = null) :
-                                                            ItemizedOverlay<OverlayItem>(mapView.mapView(), ArrayList(), true),
+                                                            ItemizedOverlay<OverlayItem>(mapView.mapView(), ArrayList()),
                                                             PauseResumeListener,
                                                             Route.Listener,
                                                             DialogInterface.OnClickListener {
 
+    private val HORIZONTAL_TEXT_POSITION_ADJUSTMENT = 6.0f
+    private val VERTICAL_TEXT_POSITION_ADJUSTMENT = 1.7f
+    private val REDUCE_TEXT_SIZE = 0.8f
     private val REMOVE_WAYPOINT_OPTION = 0
     private val res = mapView.context.resources
 
@@ -36,7 +43,8 @@ class WaymarkOverlay(private val mapView: CycleMapView, private val TTROverlay: 
 
     private var activeItem: OverlayItem? = null
     private var itemIndex = 0
-
+    private val wpStartInitial: String = res.getString(R.string.waypoint_start_initial)
+    private val wpFinishInitial: String = res.getString(R.string.waypoint_finish_initial)
     private val startLabel = res.getString(R.string.waypoint_start)
     private val waypointLabel = res.getString(R.string.waypoint)
     private val finishLabel = res.getString(R.string.waypoint_finish)
@@ -129,6 +137,35 @@ class WaymarkOverlay(private val mapView: CycleMapView, private val TTROverlay: 
 
     override fun onResetJourney() {
         resetWaypoints()
+    }
+
+    // Waymark has already been scaled when added to List - no need to scale again
+    override fun scale(mapView: MapView): Float {
+        return 1.0F
+    }
+
+    override fun drawTextOnMarker(canvas: Canvas, rect: Rect, x: Int, y: Int, itemIndex: Int) {
+        super.drawTextOnMarker(canvas, rect, x, y, itemIndex)
+
+        val boldTextBrush = Brush.createBoldTextBrush((offset(mapView.getContext()) * REDUCE_TEXT_SIZE).toInt())
+        val height = rect.height()
+        val width = rect.width()
+
+        canvas.drawText(
+            waymarkNumber(itemIndex),
+            x - width / HORIZONTAL_TEXT_POSITION_ADJUSTMENT,
+            y - height / VERTICAL_TEXT_POSITION_ADJUSTMENT,
+            boldTextBrush
+        )
+    }
+
+    private fun waymarkNumber(index: Int): String {
+        val finishIndex = (items().size - 1)
+        return when (index) {
+            0 -> wpStartInitial // Start waymark
+            finishIndex -> wpFinishInitial // Finish waymark
+            else -> Integer.toString(index) // Numbered intermediate waymark
+        }
     }
 
     override fun onItemSingleTap(item: OverlayItem?): Boolean {
