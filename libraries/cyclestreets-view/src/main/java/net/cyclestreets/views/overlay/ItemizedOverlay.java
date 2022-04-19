@@ -1,11 +1,16 @@
 package net.cyclestreets.views.overlay;
 
+import static net.cyclestreets.views.overlay.DrawingHelperKt.offset;
+
 import android.graphics.Canvas;
 import android.graphics.Matrix;
+import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.view.MotionEvent;
+
+import net.cyclestreets.util.Brush;
 
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.Projection;
@@ -16,6 +21,7 @@ import org.osmdroid.views.overlay.OverlayItem.HotspotPlace;
 import java.util.List;
 
 public class ItemizedOverlay<Item extends OverlayItem> extends Overlay implements TapListener {
+
   private final MapView mapView_;
   private final List<Item> items_;
 
@@ -40,19 +46,23 @@ public class ItemizedOverlay<Item extends OverlayItem> extends Overlay implement
     if (shadow)
       return;
 
-    final float scale = mapView.getContext().getResources().getDisplayMetrics().density;
     final float orientation = mapView.getMapOrientation();
 
     final Projection pj = mapView.getProjection();
     for (int i = items_.size() -1; i >= 0; --i) {
       final Item item = items_.get(i);
       pj.toPixels(item.getPoint(), screenCoords);
-      onDrawItem(canvas, item, screenCoords, scale, orientation);
+      onDrawItem(canvas, item, i, screenCoords, scale(mapView), orientation);
     }
+  }
+
+  float scale(final MapView mapView) {
+    return mapView.getContext().getResources().getDisplayMetrics().density;
   }
 
   private void onDrawItem(final Canvas canvas,
                           final Item item,
+                          final int itemIndex,
                           final Point curScreenCoords,
                           final float scale,
                           final float mapOrientation) {
@@ -81,9 +91,15 @@ public class ItemizedOverlay<Item extends OverlayItem> extends Overlay implement
     marker.copyBounds(rect_);
     marker.setBounds(rect_.left + x, rect_.top + y, rect_.right + x, rect_.bottom + y);
     marker.draw(canvas);
+
+    drawTextOnMarker(canvas, rect_, x, y, itemIndex);
+
     marker.setBounds(rect_);
 
     canvas.restore();
+  }
+
+  void drawTextOnMarker(Canvas canvas, Rect rect_, int x, int y, int itemIndex) {
   }
 
   private boolean hitTest(final Drawable marker,
