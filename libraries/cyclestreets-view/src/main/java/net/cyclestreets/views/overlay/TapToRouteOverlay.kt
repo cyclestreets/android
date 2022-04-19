@@ -50,10 +50,10 @@ class TapToRouteOverlay(private val mapView: CycleMapView, private val fragment:
     private val highlightColour = Theme.highlightColor(context) or 0xFF000000.toInt()
     private val lowlightColour = Theme.lowlightColor(context) or 0xFF000000.toInt()
 
-    private val waymarks = WaymarkOverlay(mapView)
+    private val waymarks = WaymarkOverlay(mapView, this)
     private val controller = OverlayHelper(mapView).controller()
 
-    private var tapState = TapToRoute.WAITING_FOR_START
+    internal var tapState = TapToRoute.WAITING_FOR_START
 
     init {
         mapView.overlayPushTop(waymarks)
@@ -244,7 +244,7 @@ class TapToRouteOverlay(private val mapView: CycleMapView, private val fragment:
         return stepBack(false)
     }
 
-    private fun stepBack(tap: Boolean): Boolean {
+    fun stepBack(tap: Boolean, index: Int = waypointsCount() - 1): Boolean {
         if (!tap && !tapState.waypointingInProgress)
             return false
 
@@ -252,7 +252,7 @@ class TapToRouteOverlay(private val mapView: CycleMapView, private val fragment:
             TapToRoute.WAITING_FOR_START -> return true
             TapToRoute.WAITING_TO_ROUTE,
             TapToRoute.WAITING_FOR_SECOND,
-            TapToRoute.WAITING_FOR_NEXT -> waymarks.removeWaypoint()
+            TapToRoute.WAITING_FOR_NEXT -> waymarks.removeWaypoint(index)
             TapToRoute.ALL_DONE -> Route.resetJourney()
         }
 
@@ -284,7 +284,7 @@ class TapToRouteOverlay(private val mapView: CycleMapView, private val fragment:
     }
 
     ////////////////////////////////////
-    private enum class TapToRoute private constructor(val waypointingInProgress: Boolean, val actionDescription: Int) {
+    enum class TapToRoute private constructor(val waypointingInProgress: Boolean, val actionDescription: Int) {
         WAITING_FOR_START(false, R.string.tap_map_set_start),
         WAITING_FOR_SECOND(true, R.string.tap_map_waypoint_circular_route),
         WAITING_FOR_NEXT(true, R.string.tap_map_waypoint_route),

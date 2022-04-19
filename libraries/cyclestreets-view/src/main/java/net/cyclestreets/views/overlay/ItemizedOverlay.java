@@ -1,16 +1,11 @@
 package net.cyclestreets.views.overlay;
 
-import static net.cyclestreets.views.overlay.DrawingHelperKt.offset;
-
 import android.graphics.Canvas;
 import android.graphics.Matrix;
-import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.view.MotionEvent;
-
-import net.cyclestreets.util.Brush;
 
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.Projection;
