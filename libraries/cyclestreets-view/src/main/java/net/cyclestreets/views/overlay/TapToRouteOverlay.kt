@@ -147,6 +147,7 @@ class TapToRouteOverlay(private val mapView: CycleMapView, private val fragment:
             createMenuItem(menu, R.string.route_menu_change_reroute_from_here)
 
         createMenuItem(menu, R.string.route_menu_change_reverse)
+        createMenuItem(menu, R.string.route_menu_change_waypoints)
     }
 
     override fun onMenuItemSelected(featureId: Int, item: MenuItem): Boolean {
@@ -164,6 +165,8 @@ class TapToRouteOverlay(private val mapView: CycleMapView, private val fragment:
                 }
             R.string.route_menu_change_reverse ->
                 onRouteNow(waypoints().reversed())
+            R.string.route_menu_change_waypoints ->
+                changeWaypoints()
             R.string.route_menu_change_share ->
                 Share.Url(mapView,
                           Route.journey().url(),
@@ -183,6 +186,15 @@ class TapToRouteOverlay(private val mapView: CycleMapView, private val fragment:
         }
 
         return true // we handled it!
+    }
+
+    private fun changeWaypoints() {
+        // Clear route, but leave waypoints
+        stepBack(true, clearWaypoints = false)
+        // Put the waypoints back:
+        waymarks.setWaypoints(Route.waypoints())
+        // Determine appropriate message for top of screen and populate Undo list:
+        setRoute(true, Route.waypoints().count())
     }
 
     ////////////////////////////////////////////
@@ -244,7 +256,7 @@ class TapToRouteOverlay(private val mapView: CycleMapView, private val fragment:
         return stepBack(false)
     }
 
-    fun stepBack(tap: Boolean, index: Int = waypointsCount() - 1): Boolean {
+    fun stepBack(tap: Boolean, index: Int = waypointsCount() - 1, clearWaypoints: Boolean = true): Boolean {
         if (!tap && !tapState.waypointingInProgress)
             return false
 
@@ -253,7 +265,7 @@ class TapToRouteOverlay(private val mapView: CycleMapView, private val fragment:
             TapToRoute.WAITING_TO_ROUTE,
             TapToRoute.WAITING_FOR_SECOND,
             TapToRoute.WAITING_FOR_NEXT -> waymarks.removeWaypoint(index)
-            TapToRoute.ALL_DONE -> Route.resetJourney()
+            TapToRoute.ALL_DONE -> Route.resetJourney(clearWaypoints)
         }
 
         tapState = tapState.previous(waypointsCount())

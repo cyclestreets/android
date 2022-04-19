@@ -34,6 +34,7 @@
 
   <string name="route_menu_change">Ändere Tourtyp</string>
   <string name="route_menu_change_reverse">Tour umkehren</string>
+  <string name="route_menu_change_waypoints">Add / Remove waypoints</string>
   <string name="route_menu_change_share">Tour teilen</string>
   <string name="route_menu_change_comment">Diese Tour kommentieren</string>
   <string name="route_menu_change_replan_fastest">Neuplanen als schnellste</string>

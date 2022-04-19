@@ -34,12 +34,13 @@
 
   <string name="route_menu_change">Cambia tipo de ruta</string>
   <string name="route_menu_change_reverse">Ruta inversa</string>
+  <string name="route_menu_change_waypoints">Add / Remove waypoints</string>
   <string name="route_menu_change_share">Compartir ruta</string>
   <string name="route_menu_change_comment">Comentar ruta</string>
-  <string name="route_menu_change_replan_fastest">Replantear como ruta rápida</string>
-  <string name="route_menu_change_replan_balanced">Replantear como ruta equilibrada</string>
-  <string name="route_menu_change_replan_quietest">Replantear como ruta tranquila</string>
-  <string name="route_menu_change_replan_shortest">Replantear como ruta corta</string>
+  <string name="route_menu_change_replan_fastest">Replanear como ruta rápida</string>
+  <string name="route_menu_change_replan_balanced">Replanear como ruta equilibrada</string>
+  <string name="route_menu_change_replan_quietest">Replanear como ruta tranquila</string>
+  <string name="route_menu_change_replan_shortest">Replanear como ruta corta</string>
   <string name="route_menu_change_reroute_from_here">Retrazar desde la localización actual</string>
 
   <string name="route_no_location">La localización no está disponible actualmente.</string>

@@ -33,6 +33,7 @@
 
   <string name="route_menu_change">Cambia tipo percorso</string>
   <string name="route_menu_change_reverse">Percorso inverso</string>
+  <string name="route_menu_change_waypoints">Add / Remove waypoints</string>
   <string name="route_menu_change_share">Condividi queto percorso</string>
   <string name="route_menu_change_comment">Commenta percorso</string>
   <string name="route_menu_change_replan_fastest">Ricalcola come più veloce</string>
