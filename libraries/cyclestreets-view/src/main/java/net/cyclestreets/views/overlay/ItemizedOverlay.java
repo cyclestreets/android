@@ -38,23 +38,6 @@ public class ItemizedOverlay<Item extends OverlayItem> extends Overlay implement
 
   protected MapView mapView() { return mapView_; }
 
-  private boolean showWaymarkNumbers = false;
-  private Paint boldTextBrush;
-  private Resources res;
-  private String wpStartInitial;
-  private String wpFinishInitial;
-
-  public ItemizedOverlay(final MapView mapView,
-                         final List<Item> items,
-                         final boolean showNumbers) {
-    this(mapView, items);
-    showWaymarkNumbers = showNumbers;
-    boldTextBrush = Brush.createBoldTextBrush((int) (offset(mapView.getContext())*REDUCE_TEXT_SIZE));
-    res = mapView_.getResources();
-    wpStartInitial = res.getString(R.string.waypoint_start_initial);
-    wpFinishInitial = res.getString(R.string.waypoint_finish_initial);
-  }
-
   public ItemizedOverlay(final MapView mapView,
                          final List<Item> items) {
     super();
@@ -69,20 +52,23 @@ public class ItemizedOverlay<Item extends OverlayItem> extends Overlay implement
     if (shadow)
       return;
 
-    final float scale = mapView.getContext().getResources().getDisplayMetrics().density;
     final float orientation = mapView.getMapOrientation();
 
     final Projection pj = mapView.getProjection();
     for (int i = items_.size() -1; i >= 0; --i) {
       final Item item = items_.get(i);
       pj.toPixels(item.getPoint(), screenCoords);
-      onDrawItem(canvas, item, i, screenCoords, scale, orientation);
+      onDrawItem(canvas, item, i, screenCoords, scale(mapView), orientation);
     }
+  }
+
+  float scale(final MapView mapView) {
+    return mapView.getContext().getResources().getDisplayMetrics().density;
   }
 
   private void onDrawItem(final Canvas canvas,
                           final Item item,
-                          final int index,
+                          final int itemIndex,
                           final Point curScreenCoords,
                           final float scale,
                           final float mapOrientation) {
@@ -111,23 +97,16 @@ public class ItemizedOverlay<Item extends OverlayItem> extends Overlay implement
     marker.copyBounds(rect_);
     marker.setBounds(rect_.left + x, rect_.top + y, rect_.right + x, rect_.bottom + y);
     marker.draw(canvas);
-    if (showWaymarkNumbers) {
-      canvas.drawText(waymarkNumber(index),
-              (x - marker.getIntrinsicWidth()/HORIZONTAL_TEXT_POSITION_ADJUSTMENT),
-              (y - marker.getIntrinsicHeight()/VERTICAL_TEXT_POSITION_ADJUSTMENT),
-              boldTextBrush);
-    }
+
+    drawTextOnMarker(canvas, rect_, x, y, itemIndex);
 
     marker.setBounds(rect_);
 
     canvas.restore();
   }
 
-  private String waymarkNumber(final int index) {
-    if (index == 0) {return wpStartInitial;}                 // Start waymark
-    if (index == items_.size() - 1) {return wpFinishInitial;} // Finish waymark
-    return Integer.toString(index);               // Numbered intermediate waymark
-    }
+  void drawTextOnMarker(Canvas canvas, Rect rect_, int x, int y, int itemIndex) {
+  }
 
   private boolean hitTest(final Drawable marker,
                           final int hitX,
