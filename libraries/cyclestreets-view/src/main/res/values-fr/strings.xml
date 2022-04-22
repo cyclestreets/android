@@ -29,8 +29,10 @@
   <string name="route_type">Type d\'itinéraire</string>
   <string name="route_finding_new">Obtenir itinéraire de CycleStreets.net, s\'il vous plaît patienter</string>
   <string name="route_fetching_existing">Récupération itinéraire de CycleStreets.net, s\'il vous plaît patienter</string>
-  <string name="route_finding_failed">Le recherche de l\'itinéraire a échoué</string>
+  <string name="route_finding_failed">La recherche de l\'itinéraire a échoué</string>
+  <string name="alt_route_finding_failed">Alternative route could not be retrieved.  Try pressing the back button to remove last waypoint.</string>
   <string name="route_loading">Chargement de la route, s\'il vous plaît patienter</string>
+  <string name="route_max_waypoints">Maximum number of waypoints reached.</string>
 
   <string name="route_menu_change">Changer le type d\'itinéraire</string>
   <string name="route_menu_change_reverse">Itinéraire en sens inverse</string>

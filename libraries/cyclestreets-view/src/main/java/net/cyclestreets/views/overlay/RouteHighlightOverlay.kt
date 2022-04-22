@@ -65,9 +65,6 @@ class RouteHighlightOverlay(context: Context, private val mapView: CycleMapView)
             return
 
         current = journey().activeSegment()
-        // todo remove lines below?
-//        if (current == null)
-//            return
 
         drawSegmentInfo()
         if (current != null)
@@ -89,13 +86,10 @@ class RouteHighlightOverlay(context: Context, private val mapView: CycleMapView)
 
     private fun drawSegmentInfo() {
         // If there's no active segment, populating the routing info is done by the TapToRouteOverlay
-        // todo remove val seg = journey().activeSegment() ?: return
         val seg = journey().activeSegment()
         if (seg == null) {
             routeSummaryInfo.text = ""
-            //routeSummaryInfo.isEnabled = false
-            // Visibility = GONE means view will not take any space, so button below will take its place without any gap
-            // todo GONE also needs setting at beginning
+            // Visibility = GONE means view will not take any space, so button below it will take its place without any gap
             routeSummaryInfo.visibility = View.GONE
             return
         }
@@ -107,7 +101,6 @@ class RouteHighlightOverlay(context: Context, private val mapView: CycleMapView)
             text = seg.toString()
             visibility = View.VISIBLE
         }
-        // todo need to clear text when planning route
     }
 
     private fun regressActiveSegment(stepsToMove: Int): Boolean {

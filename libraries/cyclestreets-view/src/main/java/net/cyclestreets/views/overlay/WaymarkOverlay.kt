@@ -18,8 +18,6 @@ import net.cyclestreets.views.CycleMapView
 import org.osmdroid.api.IGeoPoint
 import org.osmdroid.util.GeoPoint
 import org.osmdroid.views.MapView
-import org.osmdroid.views.Projection
-import org.osmdroid.views.overlay.Overlay
 import org.osmdroid.views.overlay.OverlayItem
 import android.graphics.Canvas
 import net.cyclestreets.util.Brush

@@ -80,7 +80,6 @@ class TapToRouteOverlay(private val mapView: CycleMapView, private val fragment:
         altRouteWpCount = waymarks.items().filter { it.uid != null }.size
         val alt = (altRouteWpCount != 0)
         val count = if (alt) altRouteWpCount else waypointCount
-        // todo test this with max waypoints (main journey not yet planned), route planned and total wps = max, other varying numbers of alt wps
         controller.flushUndo(this)
         if ((noJourney) || (alt)) {
             tapState = TapToRoute.fromCount(count, alt)
@@ -97,7 +96,6 @@ class TapToRouteOverlay(private val mapView: CycleMapView, private val fragment:
 
     private fun onRouteNow(waypoints: Waypoints) {
         // todo If WAITING_TO_REROUTE, populate current route with alt route and clear alt route.
-        // todo Display appropriate route (clear other route)
         if (tapState.altRouteIsPlanned()) {
             if (Route.acceptAltRoute(waypoints))
                 altRouteWpCount = 0
@@ -270,25 +268,16 @@ class TapToRouteOverlay(private val mapView: CycleMapView, private val fragment:
         return stepBack()
     }
 
-    // stepBack called when:
-    // 1) User wants to start new journey but keep waypoints (tap = true)
-    // 2) User wants to start new journey (tap = true)
-    // 3) Back button pressed (tap = false)
-    // 4) waypoint removed (tap = false)
-    // I've moved 1 and 2 to another fun todo remove these comments
+    // stepBack is called when Back button pressed or waypoint removed
     fun stepBack(index: Int = waypointsCount() - 1): Boolean {
-        // todo following is true if start or all_done.  Move to when statement below?
-        if (!tapState.waypointingInProgress)
-            return false
-
         when (tapState) {
-            TapToRoute.WAITING_FOR_START -> return true
-            TapToRoute.WAITING_TO_ROUTE,
             TapToRoute.WAITING_FOR_SECOND,
-            TapToRoute.WAITING_FOR_NEXT -> waymarks.removeWaypoint(index)
-            TapToRoute.WAITING_FOR_NEXT_ALT,    // todo note that index will be different for alt route and reroute
+            TapToRoute.WAITING_FOR_NEXT,
+            TapToRoute.WAITING_TO_ROUTE  -> waymarks.removeWaypoint(index)
+            TapToRoute.WAITING_FOR_NEXT_ALT,
             TapToRoute.WAITING_TO_REROUTE -> stepBackAlt()
-            else -> return false    // todo - or true? check this
+            // If no waypoints or route planned, back button will take user out of app:
+            else -> return false
         }
 
         tapState = tapState.previous(waypointsCount(), altRouteWpCount)
@@ -308,11 +297,9 @@ class TapToRouteOverlay(private val mapView: CycleMapView, private val fragment:
     }
 
     fun startNewRoute(clearWaypoints: Boolean = true): Boolean {
-
         Route.resetJourney(clearWaypoints)
         tapState = TapToRoute.WAITING_FOR_START
         mapView.postInvalidate()
-
         return true
     }
 
@@ -328,7 +315,7 @@ class TapToRouteOverlay(private val mapView: CycleMapView, private val fragment:
 
     private fun tapAction(point: IGeoPoint) {
         if (waypointsCount() == MAX_WAYPOINTS) {
-            // todo: put a toast in to say max number of waypoints reached
+            Toast.makeText(context, R.string.route_max_waypoints, Toast.LENGTH_LONG).show()
             return
         }
         if (tapState.circularRouteIsPlanned(waypointsCount()))
@@ -336,7 +323,7 @@ class TapToRouteOverlay(private val mapView: CycleMapView, private val fragment:
 
         if (tapState.routeIsPlanned() || tapState.altRouteIsPlanned()) {
             val waypointSequence = waymarks.getWaypointSequence(point)
-            // altRouteCount will be stored in uid so we know which wp to remove if Back button pressed
+            // altRouteWpCount will be stored in uid so we know which wp to remove if Back button pressed
             altRouteWpCount++
             waymarks.addAltWaypoint(point, waypointSequence, altRouteWpCount.toString())
             Route.plotAltRoute(context,
@@ -351,20 +338,18 @@ class TapToRouteOverlay(private val mapView: CycleMapView, private val fragment:
     }
 
     ////////////////////////////////////
-    enum class TapToRoute private constructor(val waypointingInProgress: Boolean, val actionDescription: Int) {
-        // todo remove waypointingInProgress if not needed
-        WAITING_FOR_START(false, R.string.tap_map_set_start),
-        WAITING_FOR_SECOND(true, R.string.tap_map_waypoint_circular_route),
-        WAITING_FOR_NEXT(true, R.string.tap_map_waypoint_route),
-        WAITING_TO_ROUTE(true, R.string.tap_here_route),  // When max no of waypoints reached
-        ALL_DONE(false, 0),
-        WAITING_FOR_NEXT_ALT(true, R.string.tap_map_waypoint_route_alt),
-        WAITING_TO_REROUTE(true, R.string.tap_here_reroute);  // Max no of waypoints reached on alt route
+    enum class TapToRoute private constructor(val actionDescription: Int) {
+        WAITING_FOR_START(R.string.tap_map_set_start),
+        WAITING_FOR_SECOND(R.string.tap_map_waypoint_circular_route),
+        WAITING_FOR_NEXT(R.string.tap_map_waypoint_route),
+        WAITING_TO_ROUTE(R.string.tap_here_route),  // When max no of waypoints reached
+        ALL_DONE(0),
+        WAITING_FOR_NEXT_ALT(R.string.tap_map_waypoint_route_alt),
+        WAITING_TO_REROUTE(R.string.tap_here_reroute);  // Max no of waypoints reached on alt route
 
         fun previous(count: Int, altWpCount: Int): TapToRoute {
             val previous: TapToRoute
             when (this) {
-                // todo (remove comment) ALL_DONE removed as it shouldn't happen here
                 WAITING_FOR_START, WAITING_FOR_SECOND -> previous = WAITING_FOR_START
                 WAITING_FOR_NEXT -> previous = if (count == 1) WAITING_FOR_SECOND else WAITING_FOR_NEXT
                 WAITING_TO_ROUTE -> previous = WAITING_FOR_NEXT

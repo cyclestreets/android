@@ -29,7 +29,9 @@
   <string name="route_finding_new">Ottenendo il percorso da CycleStreets.net, attendere</string>
   <string name="route_fetching_existing">Richiamando il percorso da CycleStreets.net, attendere</string>
   <string name="route_finding_failed">Ricerca del percorso fallita</string>
+  <string name="alt_route_finding_failed">Alternative route could not be retrieved.  Try pressing the back button to remove last waypoint.</string>
   <string name="route_loading">Percorso in caricamento, attendee</string>
+  <string name="route_max_waypoints">Maximum number of waypoints reached.</string>
 
   <string name="route_menu_change">Cambia tipo percorso</string>
   <string name="route_menu_change_reverse">Percorso inverso</string>

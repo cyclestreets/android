@@ -57,14 +57,13 @@ object Route {
     fun plotAltRoute(context: Context,
                      waypoints: Waypoints) {
         val speed = CycleStreetsPreferences.speed()
-        // Cancel previous query as it no longer has any use now user has added another waypoint
+        // Cancel previous query, if there is one, as it no longer has any use now user has added another waypoint
         cancelPreviousQuery()
 
         altRouteQuery = CycleStreetsRoutingTask(currentJourneyPlan, speed, context, pAltRoute = true)
         altRouteQuery!!.execute(waypoints)
     }
 
-    // todo need to define onCancelled for altRoute?  Or call it in CycleStreetsRoutingTask?
     @JvmStatic
     private fun cancelPreviousQuery() {
         if (altRouteQuery != null) {
@@ -276,11 +275,6 @@ object Route {
     @JvmStatic
     fun journey(): Journey {
         return plannedRoute_
-    }
-// todo remove if not needed:
-    @JvmStatic
-    fun altRoute(): Journey {
-        return altRoute
     }
 
     @JvmStatic

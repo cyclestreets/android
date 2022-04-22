@@ -30,7 +30,9 @@
   <string name="route_finding_new">Obtendo rotas de CycleStreets.net, favor esperar</string>
   <string name="route_fetching_existing">Buscando rotas de CycleStreets.net, favor esperar</string>
   <string name="route_finding_failed">A busca da rota falhou</string>
+  <string name="alt_route_finding_failed">Alternative route could not be retrieved.  Try pressing the back button to remove last waypoint.</string>
   <string name="route_loading">Carregando rota, favor esperar</string>
+  <string name="route_max_waypoints">Maximum number of waypoints reached.</string>
 
   <string name="route_menu_change">Mudar tipo de rota</string>
   <string name="route_menu_change_reverse">Inverter rota</string>

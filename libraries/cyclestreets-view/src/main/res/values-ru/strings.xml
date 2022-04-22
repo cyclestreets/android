@@ -30,7 +30,9 @@
   <string name="route_finding_new">Получение маршрута от CycleStreets.net, пожалуйста, подождите</string>
   <string name="route_fetching_existing">Получение маршрута от CycleStreets.net, пожалуйста, подождите</string>
   <string name="route_finding_failed">Маршрут не удалось найти</string>
+  <string name="alt_route_finding_failed">Alternative route could not be retrieved.  Try pressing the back button to remove last waypoint.</string>
   <string name="route_loading">Загрузка маршрута, пожалуйста, подождите</string>
+  <string name="route_max_waypoints">Maximum number of waypoints reached.</string>
 
   <string name="route_menu_change">Изменить тип маршрута</string>
   <string name="route_menu_change_reverse">Обратный маршрут</string>

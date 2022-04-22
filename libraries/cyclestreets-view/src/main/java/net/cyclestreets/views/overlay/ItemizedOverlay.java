@@ -1,18 +1,11 @@
 package net.cyclestreets.views.overlay;
 
-import static net.cyclestreets.views.overlay.DrawingHelperKt.offset;
-
-import android.content.res.Resources;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
-import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.view.MotionEvent;
-
-import net.cyclestreets.util.Brush;
-import net.cyclestreets.view.R;
 
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.Projection;
@@ -23,10 +16,6 @@ import org.osmdroid.views.overlay.OverlayItem.HotspotPlace;
 import java.util.List;
 
 public class ItemizedOverlay<Item extends OverlayItem> extends Overlay implements TapListener {
-
-  private final float HORIZONTAL_TEXT_POSITION_ADJUSTMENT = 2.5F;
-  private final float VERTICAL_TEXT_POSITION_ADJUSTMENT = 0.6F;
-  private final float REDUCE_TEXT_SIZE = 0.8F;
 
   private final MapView mapView_;
   private final List<Item> items_;
