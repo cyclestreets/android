@@ -353,10 +353,9 @@ class TapToRouteOverlay(private val mapView: CycleMapView, private val fragment:
                 WAITING_FOR_START, WAITING_FOR_SECOND -> previous = WAITING_FOR_START
                 WAITING_FOR_NEXT -> previous = if (count == 1) WAITING_FOR_SECOND else WAITING_FOR_NEXT
                 WAITING_TO_ROUTE -> previous = WAITING_FOR_NEXT
-                //WAITING_FOR_NEXT_ALT -> previous = WAITING_FOR_NEXT_ALT // todo this needs more calculation - need ALL_DONE if all alt wps removed
                 WAITING_FOR_NEXT_ALT,
                 WAITING_TO_REROUTE -> previous = if (altWpCount == 0) ALL_DONE else WAITING_FOR_NEXT_ALT
-                ALL_DONE -> previous = ALL_DONE // todo not sure if this will happen, but needed for completeness
+                ALL_DONE -> previous = ALL_DONE // This shouldn't happen, but needed for completeness
             }
             Log.d(TAG, "Moving to previous TapToRoute state=${previous.name} with waypoints=$count")
             return previous
@@ -369,7 +368,6 @@ class TapToRouteOverlay(private val mapView: CycleMapView, private val fragment:
                 WAITING_FOR_SECOND -> next = WAITING_FOR_NEXT
                 WAITING_FOR_NEXT -> next = if (count == MAX_WAYPOINTS) WAITING_TO_ROUTE else WAITING_FOR_NEXT
                 WAITING_TO_ROUTE -> next = ALL_DONE
-                // todo - not sure about these yet.
                 ALL_DONE,
                 WAITING_FOR_NEXT_ALT -> next = if (count == MAX_WAYPOINTS) WAITING_TO_REROUTE else WAITING_FOR_NEXT_ALT
                 WAITING_TO_REROUTE -> next = WAITING_TO_REROUTE
@@ -378,19 +376,11 @@ class TapToRouteOverlay(private val mapView: CycleMapView, private val fragment:
             return next
         }
 
-        /* todo fun mainRouteWpCount(): Int {
-
-        } */
-
         fun canRoute(): Boolean {
             return this == WAITING_FOR_NEXT || this == WAITING_TO_ROUTE || this == WAITING_FOR_SECOND
                     || this == WAITING_FOR_NEXT_ALT || this == WAITING_TO_REROUTE
         }
-        // TODO: delete this if not needed:
-        fun noFurtherWaypoints(): Boolean {
-            //return this == TapToRoute.WAITING_TO_ROUTE || this == TapToRoute.ALL_DONE
-            return this == WAITING_TO_ROUTE || this == WAITING_TO_REROUTE
-        }
+
         fun routeIsPlanned(): Boolean {
             return this == ALL_DONE
         }
@@ -425,11 +415,6 @@ class TapToRouteOverlay(private val mapView: CycleMapView, private val fragment:
     override fun onPause(edit: Editor) {
         Route.unregisterListener(this)
         Route.altRouteWpCount = altRouteWpCount
-        /* todo remove as we aren't keeping alt route if app destroyed:
-        if (tapState.altRouteIsPlanned())
-            Route.stashWaypoints(waypoints())
-
-         */
     }
 
     override fun onNewJourney(journey: Journey, waypoints: Waypoints) {

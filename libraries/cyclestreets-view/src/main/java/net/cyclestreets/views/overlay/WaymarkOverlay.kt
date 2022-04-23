@@ -146,8 +146,8 @@ class WaymarkOverlay(private val mapView: CycleMapView, private val ttrOverlay: 
 
     override fun onNewJourney(journey: Journey, waypoints: Waypoints) {
         if (Route.altRouteInProgress()) {
-            val items = Route.restoreWaymarks().toMutableList()
-            for (item in items)
+            val restoredWaymarks = Route.restoreWaymarks().toMutableList()
+            for (item in restoredWaymarks)
                 items().add(item)
         }
         else
@@ -216,16 +216,16 @@ class WaymarkOverlay(private val mapView: CycleMapView, private val ttrOverlay: 
             ttrOverlay?.stepBack(activeItemIndex)
         }
         else {
-            renumberWaypoints(optionTapped, activeItemIndex, activeItem)
+            renumberWaypoints(optionTapped)
         }
         activeItem = null
         mapView.invalidate()
     }
 
-    fun renumberWaypoints(optionTapped: Int, itemIndex: Int, activeItem: OverlayItem?) {
+    private fun renumberWaypoints(optionTapped: Int) {
         // Remove waypoint from list and put it back at desired position
-        removeMarker(itemIndex)
-        if (optionTapped <= itemIndex) {
+        removeMarker(activeItemIndex)
+        if (optionTapped <= activeItemIndex) {
             items().add(optionTapped - 1, activeItem)
         }
         else {
