@@ -138,17 +138,22 @@ class WaymarkOverlay(private val mapView: CycleMapView, private val ttrOverlay: 
     }
 
     override fun onPause(prefs: Editor) {
-        // If there are any alt waymarks, save them so they can be restored when app resumes
+        // If there are any alt waymarks, save them so they can be restored when Overlay resumes
         if (items().filter { it.uid != null }.size > 0)
-            Route.saveWaymarks(items())
+            Route.saveAltWaymarks(items())
         Route.unregisterListener(this)
     }
 
     override fun onNewJourney(journey: Journey, waypoints: Waypoints) {
         if (Route.altRouteInProgress()) {
-            val restoredWaymarks = Route.restoreWaymarks().toMutableList()
+            val restoredWaymarks = Route.restoreAltWaymarks().toList()
+            // If we're in LiveRide don't clear the alt waypoints - they will be needed when we exit LiveRide
+            if (!liveRide())
+                Route.clearAltWaymarks()
             for (item in restoredWaymarks)
-                items().add(item)
+                // For LiveRide (ttrOverlay = null), don't add alt waypoints
+                if ((item.uid == null) || !liveRide())
+                    items().add(item)
         }
         else
             setWaypoints(waypoints)
@@ -188,10 +193,10 @@ class WaymarkOverlay(private val mapView: CycleMapView, private val ttrOverlay: 
     }
 
     override fun onItemSingleTap(item: OverlayItem?): Boolean {
-        if (ttrOverlay == null) // LiveRide
+        if (liveRide())
             return false
         // Don't allow if a route has been planned.  Return true so a waypoint won't be added.
-        if ((ttrOverlay.tapState.routeIsPlanned()) || (ttrOverlay.tapState.altRouteIsPlanned()))
+        if ((ttrOverlay!!.tapState.routeIsPlanned()) || (ttrOverlay.tapState.altRouteIsPlanned()))
             return true
 
         activeItem = item
@@ -295,6 +300,10 @@ class WaymarkOverlay(private val mapView: CycleMapView, private val ttrOverlay: 
         else
         // It's a Start or Finish waypoint, so no number
             ""
+    }
+
+    private fun liveRide(): Boolean {
+        return (ttrOverlay == null)
     }
 
     fun getWaypointSequence(point: IGeoPoint): Int {

@@ -257,14 +257,16 @@ object Route {
         return waypoints_
     }
 
-    fun saveWaymarks(waymarks: MutableList<OverlayItem>) {
+    fun saveAltWaymarks(waymarks: MutableList<OverlayItem>) {
         waymarksListAtPause = waymarks.toMutableList()
     }
 
-    fun restoreWaymarks(): MutableList<OverlayItem> {
-        val restoredWaymarksList = waymarksListAtPause.toMutableList()
+    fun restoreAltWaymarks(): MutableList<OverlayItem> {
+        return waymarksListAtPause
+    }
+
+    fun clearAltWaymarks() {
         waymarksListAtPause.clear()
-        return restoredWaymarksList
     }
 
     @JvmStatic
