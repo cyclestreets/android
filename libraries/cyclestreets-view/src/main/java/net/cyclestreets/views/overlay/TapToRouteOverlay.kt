@@ -94,7 +94,6 @@ class TapToRouteOverlay(private val mapView: CycleMapView, private val fragment:
     }
 
     private fun onRouteNow(waypoints: Waypoints) {
-        // todo If WAITING_TO_REROUTE, populate current route with alt route and clear alt route.
         if (tapState.altRouteIsPlanned()) {
             if (Route.acceptAltRoute(waypoints))
                 altRouteWpCount = 0
