@@ -34,7 +34,7 @@ object Route {
         listeners_.register(l)
     }
 
-    @JvmStatic // todo need to understand what adding this does to ReplanFromHere and test it
+    @JvmStatic
     fun softRegisterListener(l: Listener) {
         listeners_.softRegister(l)
     }
@@ -44,11 +44,14 @@ object Route {
         listeners_.unregister(l)
     }
 
+    // Called when user has tapped waypoints on screen and then taps button to route,
+    // or when button at top to plan a route by address tapped
     @JvmStatic
     fun PlotRoute(plan: String,
                   speed: Int,
                   context: Context,
                   waypoints: Waypoints) {
+        clearAltRoute()
         val query = CycleStreetsRoutingTask(plan, speed, context)
         query.execute(waypoints)
     }
@@ -81,6 +84,7 @@ object Route {
                           duration: Int?,
                           poiTypes: String?,
                           context: Context) {
+        clearAltRoute()
         val query = CycleStreetsRoutingTask(plan, 0, context, distance, duration, poiTypes)
         query.execute(waypoints_)
     }
@@ -88,6 +92,7 @@ object Route {
     fun LiveReplanRoute(speed: Int,
                         context: Context,
                         waypoints: Waypoints) {
+        clearAltRoute()
         var newPlan: String
         // Check current plan is a linear route plan.
         if (currentJourneyPlan in RoutePlans.allPlans())
@@ -99,11 +104,13 @@ object Route {
         query.execute(waypoints)
     }
 
+    // Open route by number (could also be a route no which has come via sms)
     @JvmStatic
     fun FetchRoute(plan: String,
                    itinerary: Long,
                    speed: Int,
                    context: Context) {
+        clearAltRoute()
         val query = FetchCycleStreetsRouteTask(plan, speed, context)
         query.execute(itinerary)
     }
@@ -115,9 +122,11 @@ object Route {
         query.execute(plannedRoute_)
     }
 
+    // Saved route
     @JvmStatic
     fun PlotStoredRoute(localId: Int,
                         context: Context) {
+        clearAltRoute()
         val query = StoredRoutingTask(db_, context)
         query.execute(localId)
     }
@@ -212,7 +221,6 @@ object Route {
             if (route != null) {
                 altJson = route.json()
                 altRoute = loadFromJson(altJson, route.points(), route.name(), context_)
-                // todo set altRouteQuery to null?
             }
             altRouteOverlay.setRoute(altRoute.segments)
         } catch (e: Exception) {
@@ -238,7 +246,6 @@ object Route {
         altRoute = NULL_JOURNEY
         altJson = ""
         altRouteWpCount = 0
-        clearAltJson()
         waypoints_ = plannedRoute_.waypoints
         listeners_.onNewJourney(plannedRoute_, waypoints_)
         return true
@@ -249,7 +256,6 @@ object Route {
         altRoute = NULL_JOURNEY
         altJson = ""
         altRouteWpCount = 0
-        clearAltJson()
         altRouteOverlay.onResetJourney()
     }
 
@@ -321,28 +327,10 @@ object Route {
                 .apply()
     }
 
-    private fun restoreWaypoints(): Waypoints {
+    private fun restoreWaypoints() {
         val stash = prefs().getString(waypointsInProgressPref, "")
-        if (stash != null && stash.isNotEmpty()) {
-            return Waypoints(RouteDatabase.deserializeWaypoints(stash))
-        }
-        else
-            return NULL_WAYPOINTS
-    }
-
-// todo might not need this or clearAltJson
-    private fun storeAltJson() {
-        prefs()
-            .edit()
-            .putString(altJsonPref, altJson)
-            .apply()
-    }
-
-    private fun clearAltJson() {
-        prefs()
-            .edit()
-            .remove(altJsonPref)
-            .apply()
+        if (stash != null && stash.isNotEmpty())
+            waypoints_ = Waypoints(RouteDatabase.deserializeWaypoints(stash))
     }
 
     @JvmStatic
@@ -357,7 +345,6 @@ object Route {
             //  It's possible the app could have been paused before latest alt route was retrieved.
             //  In that case, retrieve the route, but only if a task isn't still running
             //  (there's no need to do plotAltRoute at all if there is a task running)
-            // todo test all these conditions!
             if ((altJson == "") || (altRoute.waypoints.count() < waypoints_.count())) {
                 if ((altRouteQuery != null) && (altRouteQuery!!.status == AsyncTask.Status.FINISHED)) {
                     plotAltRoute(context_, waypoints_)
@@ -373,7 +360,6 @@ object Route {
 
     private const val routeLoadedPref = "route"
     private const val waypointsInProgressPref = "waypoints-in-progress"
-    private const val altJsonPref = "alt-json" // todo prob don't need this
     private fun prefs(): SharedPreferences {
         return context_.getSharedPreferences("net.cyclestreets.CycleStreets", Context.MODE_PRIVATE)
     }
