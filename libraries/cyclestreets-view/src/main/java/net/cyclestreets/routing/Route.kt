@@ -256,7 +256,12 @@ object Route {
         altRoute = NULL_JOURNEY
         altJson = ""
         altRouteWpCount = 0
-        altRouteOverlay.onResetJourney()
+        try {
+            altRouteOverlay.onResetJourney()
+        }
+        catch(e: Exception) {
+            // This will error if called from test - no need to do anything
+        }
     }
 
     fun waypoints(): Waypoints {
