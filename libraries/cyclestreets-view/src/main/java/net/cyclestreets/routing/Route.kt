@@ -260,7 +260,7 @@ object Route {
             altRouteOverlay.onResetJourney()
         }
         catch(e: Exception) {
-            // This will error if called from test - no need to do anything
+            // This will error if called from test - no need to do anythingwh
         }
     }
 

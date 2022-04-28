@@ -1,3 +1,19 @@
+When you've planned a route you can tap on the screen to add more waypoints.  This will show the new alternative route in a slightly different colour.
+If you change your mind, pressing the back button will remove the waypoints you have added, one at a time.
+Once you are happy with the new route, tap the button at the top of the screen to accept it.
+
+If you've planned a route and want to modify it, you can long-press the route and take the option to Add / Remove waypoints.
+This will take you back to the Journey Planner, keeping the waypoints from the route, and allowing to remove any or add more.
+
+When planning a journey, tapping on any waypoint allows you to remove it (rather than having to tap the back button and remove subsequent waypoints) or change its sequence.
+
+Intermediate waymarks are now numbered on the screen.
+
+LiveRide replans are no longer saved in your list of saved routes.
+
+When a route is replanned in LiveRide, the plan for the current route (fastest/balanced etc) is used, rather than the one in your preferences.
+
 Circular leisure routes! Tap your starting waypoint and then choose a duration or distance.
+You can optionally choose to specify POIs to include on the circular route.
 
 Various minor bug fixes.
