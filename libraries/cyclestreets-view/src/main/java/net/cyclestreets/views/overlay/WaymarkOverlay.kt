@@ -11,13 +11,14 @@ import net.cyclestreets.routing.Journey
 import net.cyclestreets.routing.Route
 import net.cyclestreets.routing.Waypoints
 import net.cyclestreets.util.Dialog
+import net.cyclestreets.util.GeoHelper
 import net.cyclestreets.util.Logging
 import net.cyclestreets.view.R
 import net.cyclestreets.views.CycleMapView
 import org.osmdroid.api.IGeoPoint
 import org.osmdroid.util.GeoPoint
-import org.osmdroid.views.overlay.OverlayItem
 import org.osmdroid.views.MapView
+import org.osmdroid.views.overlay.OverlayItem
 import android.graphics.Canvas
 import net.cyclestreets.util.Brush
 
@@ -43,6 +44,7 @@ class WaymarkOverlay(private val mapView: CycleMapView, private val ttrOverlay: 
 
     private var activeItem: OverlayItem? = null
     private var activeItemIndex = 0
+
     private val wpStartInitial: String = res.getString(R.string.waypoint_start_initial)
     private val wpFinishInitial: String = res.getString(R.string.waypoint_finish_initial)
     private val startLabel = res.getString(R.string.waypoint_start)
@@ -64,6 +66,11 @@ class WaymarkOverlay(private val mapView: CycleMapView, private val ttrOverlay: 
 
     fun finish(): IGeoPoint {
         return items().last().point
+    }
+
+    fun addAltWaypoint(point: IGeoPoint, index: Int, uid: String) {
+        pushMarker(point, waypointLabel, wispWpMid, uid, index)
+        Log.d(TAG, "Added alternative waypoint $point")
     }
 
     fun addWaypoint(point: IGeoPoint?) {
@@ -95,16 +102,20 @@ class WaymarkOverlay(private val mapView: CycleMapView, private val ttrOverlay: 
         checkWaypoints()
     }
 
-    private fun pushMarker(point: IGeoPoint, label: String, icon: Drawable?) {
-        items().add(makeMarker(point, label, icon))
+    fun removeAltWaypoint(uid: String) {
+        items().removeAll { it.uid == uid }
+    }
+
+    private fun pushMarker(point: IGeoPoint, label: String, icon: Drawable?, uid: String? = null, index: Int = waymarkersCount()) {
+        items().add(index, makeMarker(uid, point, label, icon))
     }
 
     private fun removeMarker(index: Int) {
         items().removeAt(index)
     }
 
-    private fun makeMarker(point: IGeoPoint, label: String, icon: Drawable?): OverlayItem {
-        return OverlayItem(label, label, GeoPoint(point.latitude, point.longitude)).apply {
+    private fun makeMarker(uid: String?, point: IGeoPoint, label: String, icon: Drawable?): OverlayItem {
+        return OverlayItem(uid, label, label, GeoPoint(point.latitude, point.longitude)).apply {
             setMarker(icon)
             markerHotspot = OverlayItem.HotspotPlace.BOTTOM_CENTER
         }
@@ -127,11 +138,25 @@ class WaymarkOverlay(private val mapView: CycleMapView, private val ttrOverlay: 
     }
 
     override fun onPause(prefs: Editor) {
+        // If there are any alt waymarks, save them so they can be restored when Overlay resumes
+        if (items().filter { it.uid != null }.size > 0)
+            Route.saveAltWaymarks(items())
         Route.unregisterListener(this)
     }
 
     override fun onNewJourney(journey: Journey, waypoints: Waypoints) {
-        setWaypoints(waypoints)
+        if (Route.altRouteInProgress()) {
+            val restoredWaymarks = Route.restoreAltWaymarks().toList()
+            // If we're in LiveRide don't clear the alt waypoints - they will be needed when we exit LiveRide
+            if (!liveRide())
+                Route.clearAltWaymarks()
+            for (item in restoredWaymarks)
+                // For LiveRide (ttrOverlay = null), don't add alt waypoints
+                if ((item.uid == null) || !liveRide())
+                    items().add(item)
+        }
+        else
+            setWaypoints(waypoints)
     }
 
     override fun onResetJourney() {
@@ -168,10 +193,11 @@ class WaymarkOverlay(private val mapView: CycleMapView, private val ttrOverlay: 
     }
 
     override fun onItemSingleTap(item: OverlayItem?): Boolean {
-        if (ttrOverlay == null) // LiveRide
+        if (liveRide())
             return false
-        if (ttrOverlay.tapState.routeIsPlanned())
-            return false
+        // Don't allow if a route has been planned.  Return true so a waypoint won't be added.
+        if ((ttrOverlay!!.tapState.routeIsPlanned()) || (ttrOverlay.tapState.altRouteIsPlanned()))
+            return true
 
         activeItem = item
         activeItemIndex = items().indexOf(item)
@@ -192,7 +218,7 @@ class WaymarkOverlay(private val mapView: CycleMapView, private val ttrOverlay: 
      */
     override fun onClick(dialog: DialogInterface, optionTapped: Int) {
         if (optionTapped == REMOVE_WAYPOINT_OPTION) {
-            ttrOverlay?.stepBack(false, activeItemIndex)
+            ttrOverlay?.stepBack(activeItemIndex)
         }
         else {
             renumberWaypoints(optionTapped)
@@ -233,9 +259,9 @@ class WaymarkOverlay(private val mapView: CycleMapView, private val ttrOverlay: 
 
     private fun correctLabelAndIcon(snippet: String?, label: String, i: Int, wisp: Drawable?) {
         if (snippet != label) {
-            val prevPoint = items().get(i).point
+            val prevPoint = items()[i].point
             removeMarker(i)
-            items().add(i, makeMarker(prevPoint, label, wisp))
+            items().add(i, makeMarker(null, prevPoint, label, wisp))
         }
     }
 
@@ -256,7 +282,7 @@ class WaymarkOverlay(private val mapView: CycleMapView, private val ttrOverlay: 
         // Get appropriate string from each OverlayItem, e.g. "Change to Start", "Change to waypoint 4"
         val itemsAsOptions = items().mapIndexed {
                 index, wp ->
-                res.getString(R.string.change_to) + wp.snippet + " " + waypointNumber(wp.snippet, index)
+            res.getString(R.string.change_to) + wp.snippet + " " + waypointNumber(wp.snippet, index)
         }
 
         val optionsList: List<String> = listOf(
@@ -272,7 +298,91 @@ class WaymarkOverlay(private val mapView: CycleMapView, private val ttrOverlay: 
         return if (snippet.contains( waypointLabel, true))
             index.toString()
         else
-            // It's a Start or Finish waypoint, so no number
+        // It's a Start or Finish waypoint, so no number
             ""
+    }
+
+    private fun liveRide(): Boolean {
+        return (ttrOverlay == null)
+    }
+
+    fun getWaypointSequence(point: IGeoPoint): Int {
+
+        val closestIndex = getClosestIndex(point)
+
+        when (closestIndex) {
+            // If Start is closest waypoint, new waypoint will be after Start
+            0 -> return 1
+            // If Finish point is closest, new waypoint will be before Finish
+            waymarkersCount() - 1 -> return (closestIndex)
+            // Otherwise, determine whether point is before or after closest one
+            else -> {
+                val prevPointLat = items()[closestIndex - 1].point.latitude
+                val closestPointLat = items()[closestIndex].point.latitude
+                val nextPointLat = items()[closestIndex + 1].point.latitude
+                // Latitudes are in increasing order
+                if (latlonIncreasing(prevPointLat, closestPointLat, nextPointLat, point.latitude))
+                    return if (point.latitude <= closestPointLat)
+                        closestIndex
+                    else
+                        closestIndex + 1
+                // Latitudes are in decreasing order
+                if (latlonDecreasing(prevPointLat, closestPointLat, nextPointLat, point.latitude))
+                    return if (point.latitude >= closestPointLat)
+                        closestIndex
+                    else
+                        closestIndex + 1
+
+                val prevPointLon = items()[closestIndex - 1].point.longitude
+                val closestPointLon = items()[closestIndex].point.longitude
+                val nextPointLon = items()[closestIndex + 1].point.longitude
+                // Longitudes are in increasing order
+                if (latlonIncreasing(prevPointLon, closestPointLon, nextPointLon, point.longitude))
+                    return if (point.longitude <= closestPointLon)
+                        closestIndex
+                    else
+                        closestIndex + 1
+                // Longitudes are in decreasing order
+                if (latlonDecreasing(prevPointLon, closestPointLon, nextPointLon, point.longitude))
+                    return if (point.longitude >= closestPointLon)
+                        closestIndex
+                    else
+                        closestIndex + 1
+                // Points aren't in a very logical order so just stick new point after closest one!
+                return closestIndex + 1
+            }
+        }
+    }
+
+    private fun getClosestIndex(point: IGeoPoint): Int {
+        var minDistance = Int.MAX_VALUE
+        var closestIndex = 0
+        for (item in items()) {
+            val distance = GeoHelper.distanceBetween(point, item.point)
+            if (distance < minDistance) {
+                minDistance = distance
+                closestIndex = items().indexOf(item)
+            }
+        }
+        return closestIndex
+    }
+
+    private fun latlonIncreasing(prevPointLatlon: Double, closestPointLatlon: Double, nextPointLatlon: Double, pointLatlon: Double): Boolean {
+        // Latitudes are in increasing order
+        return ((prevPointLatlon <= closestPointLatlon)
+                && (closestPointLatlon <= nextPointLatlon)
+                // ... and new point's latitude is between them
+                && (prevPointLatlon <= pointLatlon)
+                && ( pointLatlon <= nextPointLatlon))
+
+    }
+
+    private fun latlonDecreasing(prevPointLatlon: Double, closestPointLatlon: Double, nextPointLatlon: Double, pointLatlon: Double): Boolean {
+        return ((prevPointLatlon >= closestPointLatlon)
+                && (closestPointLatlon >= nextPointLatlon)
+                // ... and new point's latitude is between them
+                && (prevPointLatlon >= pointLatlon)
+                && (pointLatlon >= nextPointLatlon)
+                )
     }
 }

@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.widget.Button
 import android.widget.ImageView
+import android.widget.TextView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.mikepenz.iconics.typeface.library.googlematerial.GoogleMaterial
 import net.cyclestreets.iconics.IconicsHelper.materialIcons
@@ -25,17 +26,16 @@ class RouteHighlightOverlay(context: Context, private val mapView: CycleMapView)
 
     private var current: Segment? = null
 
-    private val routingInfoRect: Button
+    private val routeSummaryInfo: TextView
     private val routeNowIcon: ImageView
     private val prevButton: FloatingActionButton
     private val nextButton: FloatingActionButton
 
-    private val highlightColour: Int
-
     init {
         val routeView = LayoutInflater.from(mapView.context).inflate(R.layout.route_view, null)
 
-        routingInfoRect = routeView.findViewById(R.id.routing_info_rect)
+        routeSummaryInfo = routeView.findViewById(R.id.route_summary_info)
+        routeSummaryInfo.visibility = View.GONE
         routeNowIcon = routeView.findViewById(R.id.route_now_icon)
 
         val (prevIcon, nextIcon) = materialIcons(context, listOf(GoogleMaterial.Icon.gmd_chevron_left, GoogleMaterial.Icon.gmd_chevron_right), lowlightColor(context))
@@ -56,7 +56,6 @@ class RouteHighlightOverlay(context: Context, private val mapView: CycleMapView)
 
         mapView.addView(routeView)
 
-        highlightColour = highlightColor(context) or -0x1000000
     }
 
     override fun draw(canvas: Canvas, mapView: MapView, shadow: Boolean) {
@@ -66,11 +65,10 @@ class RouteHighlightOverlay(context: Context, private val mapView: CycleMapView)
             return
 
         current = journey().activeSegment()
-        if (current == null)
-            return
 
         drawSegmentInfo()
-        this.mapView.controller.animateTo(current!!.start())
+        if (current != null)
+            this.mapView.controller.animateTo(current!!.start())
     }
 
     private fun drawButtons() {
@@ -88,14 +86,21 @@ class RouteHighlightOverlay(context: Context, private val mapView: CycleMapView)
 
     private fun drawSegmentInfo() {
         // If there's no active segment, populating the routing info is done by the TapToRouteOverlay
-        val seg = journey().activeSegment() ?: return
+        val seg = journey().activeSegment()
+        if (seg == null) {
+            routeSummaryInfo.text = ""
+            // Visibility = GONE means view will not take any space, so button below it will take its place without any gap
+            routeSummaryInfo.visibility = View.GONE
+            return
+        }
 
         routeNowIcon.visibility = View.INVISIBLE
 
-        routingInfoRect.setBackgroundColor(highlightColour)
-        routingInfoRect.gravity = Gravity.LEFT
-        routingInfoRect.text = seg.toString()
-        routingInfoRect.isEnabled = false
+        routeSummaryInfo.apply {
+            gravity = Gravity.CENTER
+            text = seg.toString()
+            visibility = View.VISIBLE
+        }
     }
 
     private fun regressActiveSegment(stepsToMove: Int): Boolean {

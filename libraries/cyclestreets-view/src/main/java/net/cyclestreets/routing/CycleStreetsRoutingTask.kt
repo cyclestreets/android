@@ -11,7 +11,9 @@ internal open class CycleStreetsRoutingTask(private val routeType: String,
                                             private val distance: Int? = null,
                                             private val duration: Int? = null,
                                             private val poiTypes: String? = null,
-                                            private val saveRoute: Boolean = true) : RoutingTask<Waypoints>(R.string.route_finding_new, context) {
+                                            private val saveRoute: Boolean = true,
+                                            pAltRoute: Boolean = false) : RoutingTask<Waypoints>(R.string.route_finding_new, context, pAltRoute) {
+
     override fun doInBackground(vararg waypoints: Waypoints): RouteData? {
         val wp = waypoints[0]
         return fetchRoute(routeType,

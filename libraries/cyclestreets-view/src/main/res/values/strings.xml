@@ -32,9 +32,12 @@
   <string name="route_finding_new">Obtaining route from CycleStreets.net, please wait</string>
   <string name="route_fetching_existing">Fetching route from CycleStreets.net, please wait</string>
   <string name="route_finding_failed">Route finding failed</string>
+  <string name="alt_route_finding_failed">Alternative route could not be retrieved.  Try pressing the back button to remove last waypoint.</string>
   <string name="route_loading">Loading route, please wait</string>
   <string name="route_not_found" translatable="false">Route not found</string>
   <string name="could_not_contact_server" translatable="false">Could not contact CycleStreets.net : </string>
+  <string name="route_hint1">Hint: Tap screen to add waypoint or long press for options</string>
+  <string name="route_max_waypoints">Maximum number of waypoints reached.</string>
 
   <string name="route_menu_change">Change route type</string>
   <string name="route_menu_alternative" translatable="false">Alternative route</string>
@@ -60,7 +63,9 @@
   <string name="tap_map_set_start" translatable="false">Tap map to set Start</string>
   <string name="tap_map_waypoint_circular_route" translatable="false">Tap map to set Waypoint, or\nTap here for Circular Route</string>
   <string name="tap_map_waypoint_route" translatable="false">Tap map to set Waypoint, or\nTap here to Route</string>
+  <string name="tap_map_waypoint_route_alt" translatable="false">Tap map to add Waypoint, or\nTap here to accept alternative route</string>
   <string name="tap_here_route" translatable="false">Tap here to Route</string>
+  <string name="tap_here_reroute" translatable="false">Tap here to accept alternative route</string>
 
   <string name="route_no_location">Location not currently available.</string>
 

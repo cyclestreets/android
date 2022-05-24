@@ -37,7 +37,9 @@ import org.osmdroid.views.overlay.Overlay
 class TapToRouteOverlay(private val mapView: CycleMapView, private val fragment: Fragment) : Overlay(), TapListener, ContextMenuListener,
                                                              Undoable, PauseResumeListener, Route.Listener {
 
-    private val routingInfoRect: Button
+    private var altRouteWpCount: Int = 0
+    private var routeView: View
+    private val tapToRouteButton: Button
     private val routeNowIcon: ImageView
     private val restartButton: FloatingActionButton
 
@@ -60,10 +62,10 @@ class TapToRouteOverlay(private val mapView: CycleMapView, private val fragment:
 
         // The view is shared, and has already been added by the RouteHighlightOverlay.
         // So find that, and don't inflate a second copy.
-        val routeView = mapView.findViewById<View>(R.id.route_view)
+        routeView = mapView.findViewById<View>(R.id.route_view)
 
-        routingInfoRect = routeView.findViewById(R.id.routing_info_rect)
-        routingInfoRect.setOnClickListener { _ -> onRouteNow(waypoints()) }
+        tapToRouteButton = routeView.findViewById(R.id.tap_to_route_button)
+        tapToRouteButton.setOnClickListener { _ -> onRouteNow(waypoints()) }
 
         restartButton = routeView.findViewById<FloatingActionButton>(R.id.restartbutton).apply {
             setImageDrawable(materialIcon(context, GoogleMaterial.Icon.gmd_replay, lowlightColor(context!!)))
@@ -74,11 +76,15 @@ class TapToRouteOverlay(private val mapView: CycleMapView, private val fragment:
     }
 
     private fun setRoute(noJourney: Boolean, waypointCount: Int) {
+        altRouteWpCount = waymarks.items().filter { it.uid != null }.size
+        val alt = (altRouteWpCount != 0)
+        val count = if (alt) altRouteWpCount else waypointCount
         controller.flushUndo(this)
-        if (noJourney) {
-            tapState = TapToRoute.fromCount(waypointCount)
-            for (i in 1..waypointCount) controller.pushUndo(this)
-        } else
+        if ((noJourney) || (alt)) {
+            tapState = TapToRoute.fromCount(count, alt)
+            for (i in 1..count) controller.pushUndo(this)
+        }
+        else
             tapState = TapToRoute.ALL_DONE
     }
 
@@ -88,6 +94,11 @@ class TapToRouteOverlay(private val mapView: CycleMapView, private val fragment:
     }
 
     private fun onRouteNow(waypoints: Waypoints) {
+        if (tapState.altRouteIsPlanned()) {
+            if (Route.acceptAltRoute(waypoints))
+                altRouteWpCount = 0
+            return
+        }
         if (waypoints.count() > 1) {
             Route.PlotRoute(CycleStreetsPreferences.routeType(),
                     CycleStreetsPreferences.speed(),
@@ -190,7 +201,7 @@ class TapToRouteOverlay(private val mapView: CycleMapView, private val fragment:
 
     private fun changeWaypoints() {
         // Clear route, but leave waypoints
-        stepBack(true, clearWaypoints = false)
+        startNewRoute(clearWaypoints = false)
         // Put the waypoints back:
         waymarks.setWaypoints(Route.waypoints())
         // Determine appropriate message for top of screen and populate Undo list:
@@ -199,38 +210,37 @@ class TapToRouteOverlay(private val mapView: CycleMapView, private val fragment:
 
     ////////////////////////////////////////////
     override fun draw(canvas: Canvas, mapView: MapView, shadow: Boolean) {
-        drawRoutingInfoRect()
+        drawTapToRouteButton()
         drawRestartButton()
     }
 
     private fun drawRestartButton() {
-        if (tapState.routeIsPlanned()) {
+        if (tapState.routeIsPlanned() || tapState.altRouteIsPlanned()) {
             restartButton.show()
         } else {
             restartButton.hide()
         }
     }
 
-    private fun drawRoutingInfoRect() {
-        if (tapState.routeIsPlanned()) {
-            // In this case, populating the routing info is done by the RouteHighlightOverlay
-            return
-        }
-
+    private fun drawTapToRouteButton() {
         routeNowIcon.visibility = if (tapState.canRoute()) View.VISIBLE else View.INVISIBLE
 
-        routingInfoRect.apply {
+        tapToRouteButton.apply {
             setBackgroundColor(if (tapState.canRoute()) highlightColour else lowlightColour)
             gravity = Gravity.CENTER
             try {
-                text = context.getString(tapState.actionDescription)
+                if (tapState.actionDescription !=0) {
+                    text = context.getString(tapState.actionDescription)
+                }
+                else
+                    text = ""
             }
             catch (e: Exception) {
                 val actionDescription = tapState.actionDescription
                 Log.w(TAG, "Tap state $tapState resource ID $actionDescription not found in strings.xml", e)
                 text = ""
             }
-            isEnabled = tapState.canRoute()
+            visibility = if (tapState.routeIsPlanned()) View.GONE else View.VISIBLE
         }
     }
 
@@ -245,32 +255,49 @@ class TapToRouteOverlay(private val mapView: CycleMapView, private val fragment:
 
     private fun tapRestart(): Boolean {
         if (!CycleStreetsPreferences.confirmNewRoute())
-            return stepBack(true)
+            return startNewRoute(true)
 
-        MessageBox.YesNo(mapView, "Start a new route?") { _, _ -> stepBack(true) }
+        MessageBox.YesNo(mapView, "Start a new route?") { _, _ -> startNewRoute(true) }
 
         return true
     }
 
     override fun onBackPressed(): Boolean {
-        return stepBack(false)
+        return stepBack()
     }
 
-    fun stepBack(tap: Boolean, index: Int = waypointsCount() - 1, clearWaypoints: Boolean = true): Boolean {
-        if (!tap && !tapState.waypointingInProgress)
-            return false
-
+    // stepBack is called when Back button pressed or waypoint removed
+    fun stepBack(index: Int = waypointsCount() - 1): Boolean {
         when (tapState) {
-            TapToRoute.WAITING_FOR_START -> return true
-            TapToRoute.WAITING_TO_ROUTE,
             TapToRoute.WAITING_FOR_SECOND,
-            TapToRoute.WAITING_FOR_NEXT -> waymarks.removeWaypoint(index)
-            TapToRoute.ALL_DONE -> Route.resetJourney(clearWaypoints)
+            TapToRoute.WAITING_FOR_NEXT,
+            TapToRoute.WAITING_TO_ROUTE  -> waymarks.removeWaypoint(index)
+            TapToRoute.WAITING_FOR_NEXT_ALT,
+            TapToRoute.WAITING_TO_REROUTE -> stepBackAlt()
+            // If no waypoints or route planned, back button will take user out of app:
+            else -> return false
         }
 
-        tapState = tapState.previous(waypointsCount())
-        mapView.postInvalidate()
+        tapState = tapState.previous(waypointsCount(), altRouteWpCount)
+        mapView.invalidate()
 
+        return true
+    }
+
+    private fun stepBackAlt() {
+        waymarks.removeAltWaypoint(altRouteWpCount.toString())
+        altRouteWpCount--
+        if (altRouteWpCount > 0)
+            Route.plotAltRoute(context,
+                waypoints())
+        else
+            Route.clearAltRoute()
+    }
+
+    fun startNewRoute(clearWaypoints: Boolean = true): Boolean {
+        Route.resetJourney(clearWaypoints)
+        tapState = TapToRoute.WAITING_FOR_START
+        mapView.postInvalidate()
         return true
     }
 
@@ -285,30 +312,48 @@ class TapToRouteOverlay(private val mapView: CycleMapView, private val fragment:
     }
 
     private fun tapAction(point: IGeoPoint) {
-        if (tapState.noFurtherWaypoints()) {
+        if (waypointsCount() == MAX_WAYPOINTS) {
+            Toast.makeText(context, R.string.route_max_waypoints, Toast.LENGTH_LONG).show()
             return
         }
+        if (tapState.circularRouteIsPlanned(waypointsCount()))
+            return
 
-        waymarks.addWaypoint(point)
+        if (tapState.routeIsPlanned() || tapState.altRouteIsPlanned()) {
+            val waypointSequence = waymarks.getWaypointSequence(point)
+            // altRouteWpCount will be stored in uid so we know which wp to remove if Back button pressed
+            altRouteWpCount++
+            waymarks.addAltWaypoint(point, waypointSequence, altRouteWpCount.toString())
+            Route.plotAltRoute(context,
+                waypoints())
+        }
+        else
+            waymarks.addWaypoint(point)
+
         controller.pushUndo(this)
         tapState = tapState.next(waypointsCount())
         mapView.invalidate()
     }
 
     ////////////////////////////////////
-    enum class TapToRoute private constructor(val waypointingInProgress: Boolean, val actionDescription: Int) {
-        WAITING_FOR_START(false, R.string.tap_map_set_start),
-        WAITING_FOR_SECOND(true, R.string.tap_map_waypoint_circular_route),
-        WAITING_FOR_NEXT(true, R.string.tap_map_waypoint_route),
-        WAITING_TO_ROUTE(true, R.string.tap_here_route),  // When max no of waypoints reached
-        ALL_DONE(false, 0);
+    enum class TapToRoute private constructor(val actionDescription: Int) {
+        WAITING_FOR_START(R.string.tap_map_set_start),
+        WAITING_FOR_SECOND(R.string.tap_map_waypoint_circular_route),
+        WAITING_FOR_NEXT(R.string.tap_map_waypoint_route),
+        WAITING_TO_ROUTE(R.string.tap_here_route),  // When max no of waypoints reached
+        ALL_DONE(0),
+        WAITING_FOR_NEXT_ALT(R.string.tap_map_waypoint_route_alt),
+        WAITING_TO_REROUTE(R.string.tap_here_reroute);  // Max no of waypoints reached on alt route
 
-        fun previous(count: Int): TapToRoute {
+        fun previous(count: Int, altWpCount: Int): TapToRoute {
             val previous: TapToRoute
             when (this) {
-                WAITING_FOR_START, WAITING_FOR_SECOND, ALL_DONE -> previous = WAITING_FOR_START
+                WAITING_FOR_START, WAITING_FOR_SECOND -> previous = WAITING_FOR_START
                 WAITING_FOR_NEXT -> previous = if (count == 1) WAITING_FOR_SECOND else WAITING_FOR_NEXT
                 WAITING_TO_ROUTE -> previous = WAITING_FOR_NEXT
+                WAITING_FOR_NEXT_ALT,
+                WAITING_TO_REROUTE -> previous = if (altWpCount == 0) ALL_DONE else WAITING_FOR_NEXT_ALT
+                ALL_DONE -> previous = ALL_DONE // This shouldn't happen, but needed for completeness
             }
             Log.d(TAG, "Moving to previous TapToRoute state=${previous.name} with waypoints=$count")
             return previous
@@ -320,30 +365,39 @@ class TapToRouteOverlay(private val mapView: CycleMapView, private val fragment:
                 WAITING_FOR_START -> next = WAITING_FOR_SECOND
                 WAITING_FOR_SECOND -> next = WAITING_FOR_NEXT
                 WAITING_FOR_NEXT -> next = if (count == MAX_WAYPOINTS) WAITING_TO_ROUTE else WAITING_FOR_NEXT
-                WAITING_TO_ROUTE, ALL_DONE -> next = ALL_DONE
+                WAITING_TO_ROUTE -> next = ALL_DONE
+                ALL_DONE,
+                WAITING_FOR_NEXT_ALT -> next = if (count == MAX_WAYPOINTS) WAITING_TO_REROUTE else WAITING_FOR_NEXT_ALT
+                WAITING_TO_REROUTE -> next = WAITING_TO_REROUTE
             }
             Log.d(TAG, "Moving to next TapToRoute state=${next.name} with waypoints=$count")
             return next
         }
 
         fun canRoute(): Boolean {
-            return this == TapToRoute.WAITING_FOR_NEXT || this == TapToRoute.WAITING_TO_ROUTE || this == TapToRoute.WAITING_FOR_SECOND
+            return this == WAITING_FOR_NEXT || this == WAITING_TO_ROUTE || this == WAITING_FOR_SECOND
+                    || this == WAITING_FOR_NEXT_ALT || this == WAITING_TO_REROUTE
         }
-        fun noFurtherWaypoints(): Boolean {
-            return this == TapToRoute.WAITING_TO_ROUTE || this == TapToRoute.ALL_DONE
-        }
+
         fun routeIsPlanned(): Boolean {
-            return this == TapToRoute.ALL_DONE
+            return this == ALL_DONE
+        }
+
+        fun circularRouteIsPlanned(count: Int): Boolean {
+            return (this == ALL_DONE) && (count == 1)
+        }
+        fun altRouteIsPlanned(): Boolean {
+            return (this == WAITING_FOR_NEXT_ALT) || (this == WAITING_TO_REROUTE)
         }
 
         companion object {
-            fun fromCount(count: Int): TapToRoute {
+            fun fromCount(count: Int, alt: Boolean): TapToRoute {
                 val next: TapToRoute
                 when (count) {
                     0 -> next = WAITING_FOR_START
-                    1 -> next = WAITING_FOR_SECOND
-                    MAX_WAYPOINTS -> next = WAITING_TO_ROUTE
-                    else -> next = WAITING_FOR_NEXT
+                    1 -> next = if (alt) WAITING_FOR_NEXT_ALT else WAITING_FOR_SECOND
+                    MAX_WAYPOINTS -> next = if (alt) WAITING_TO_REROUTE else WAITING_TO_ROUTE
+                    else -> next = if (alt) WAITING_FOR_NEXT_ALT else WAITING_FOR_NEXT
                 }
                 Log.d(TAG, "Restoring to TapToRoute state=" + next.name + " with waypoints=" + count)
                 return next
@@ -358,6 +412,7 @@ class TapToRouteOverlay(private val mapView: CycleMapView, private val fragment:
 
     override fun onPause(edit: Editor) {
         Route.unregisterListener(this)
+        Route.altRouteWpCount = altRouteWpCount
     }
 
     override fun onNewJourney(journey: Journey, waypoints: Waypoints) {
