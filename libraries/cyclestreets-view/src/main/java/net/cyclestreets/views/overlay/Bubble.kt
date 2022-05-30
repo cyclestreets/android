@@ -56,9 +56,11 @@ object Bubble {
             val webpage = Uri.parse(url)
             val intent = Intent(Intent.ACTION_VIEW, webpage)
 
-            if (intent.resolveActivity(context.getPackageManager()) != null) {
+            try {
                 ContextCompat.startActivity(context, intent, null)
             }
+            // If there is no app to launch the URL then an error will occur.  No need to do anything in that case.
+            catch(e: Exception) {}
         }
     }
 
