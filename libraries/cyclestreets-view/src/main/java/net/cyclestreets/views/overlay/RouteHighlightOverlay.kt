@@ -5,16 +5,16 @@ import android.graphics.Canvas
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
-import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.mikepenz.iconics.typeface.library.googlematerial.GoogleMaterial
 import net.cyclestreets.iconics.IconicsHelper.materialIcons
+import net.cyclestreets.routing.Journey
+import net.cyclestreets.routing.Route.altJourney
 import net.cyclestreets.routing.Route.journey
 import net.cyclestreets.routing.Route.routeAvailable
 import net.cyclestreets.routing.Segment
-import net.cyclestreets.util.Theme.highlightColor
 import net.cyclestreets.util.Theme.lowlightColor
 import net.cyclestreets.view.R
 import net.cyclestreets.views.CycleMapView
@@ -23,8 +23,12 @@ import org.osmdroid.views.overlay.Overlay
 
 
 class RouteHighlightOverlay(context: Context, private val mapView: CycleMapView) : Overlay() {
+// This class highlights the current section of route and displays the turn instruction at the top,
+// either in LiveRide, or when the user is pressing the left and right arrow buttons to go through the route.
+// Alternatively, it shows the route summary at the top of the screen.
 
     private var current: Segment? = null
+    private var currentAlt: Journey? = null
 
     private val routeSummaryInfo: TextView
     private val routeNowIcon: ImageView
@@ -61,9 +65,10 @@ class RouteHighlightOverlay(context: Context, private val mapView: CycleMapView)
     override fun draw(canvas: Canvas, mapView: MapView, shadow: Boolean) {
         drawButtons()
 
-        if (current === journey().activeSegment())
+        if ((current === journey().activeSegment()) && (currentAlt === altJourney()))
             return
 
+        currentAlt = altJourney()
         current = journey().activeSegment()
 
         drawSegmentInfo()
@@ -85,8 +90,10 @@ class RouteHighlightOverlay(context: Context, private val mapView: CycleMapView)
     }
 
     private fun drawSegmentInfo() {
-        // If there's no active segment, populating the routing info is done by the TapToRouteOverlay
         val seg = journey().activeSegment()
+        val altJourney = altJourney()
+        val summaryText: String
+        // If there's no active segment, hide the box
         if (seg == null) {
             routeSummaryInfo.text = ""
             // Visibility = GONE means view will not take any space, so button below it will take its place without any gap
@@ -96,9 +103,19 @@ class RouteHighlightOverlay(context: Context, private val mapView: CycleMapView)
 
         routeNowIcon.visibility = View.INVISIBLE
 
+        // Checking if segment is a Start saves having to define dummy summaryText methods in the other Segment classes
+        if ((altJourney == Journey.NULL_JOURNEY) || (seg !is Segment.Start)) {
+            summaryText = seg.toString()
+        }
+        else {
+            // The active segment is the Start segment and there is an alt journey.
+            summaryText = altJourney?.totalDistance()?.let { seg.summaryText(it, altJourney?.totalTime()) }
+                .toString()
+        }
+
         routeSummaryInfo.apply {
             gravity = Gravity.CENTER
-            text = seg.toString()
+            text = summaryText
             visibility = View.VISIBLE
         }
     }

@@ -291,6 +291,11 @@ object Route {
     }
 
     @JvmStatic
+    fun altJourney(): Journey? {
+        return altRoute
+    }
+
+    @JvmStatic
     fun altRouteInProgress(): Boolean {
         return altRouteWpCount != 0
     }
