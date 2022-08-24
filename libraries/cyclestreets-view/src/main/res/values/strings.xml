@@ -36,11 +36,11 @@
   <string name="route_loading">Loading route, please wait</string>
   <string name="route_not_found" translatable="false">Route not found</string>
   <string name="could_not_contact_server" translatable="false">Could not contact CycleStreets.net : </string>
-  <string name="route_hint1">Hint: Tap screen to add waypoint or long press for options</string>
   <string name="route_max_waypoints">Maximum number of waypoints reached.</string>
 
   <string name="route_menu_change">Change route type</string>
-  <string name="route_menu_alternative" translatable="false">Alternative route</string>
+  <string name="route_menu_alternative">Alternative route</string>
+  <string name="alt_route_details">alt:</string>
   <string name="route_menu_change_reverse">Reverse route</string>
   <string name="route_menu_change_waypoints">Add / Remove waypoints</string>
   <string name="route_menu_change_share">Share this route</string>

@@ -265,12 +265,12 @@ public abstract class Segment {
       return street();
     }
 
-    public String summaryText(int altDist, int altTime) {
+    public String summaryText(int altDist, int altTime, String altText) {
       if (altDist != 0) {
           // Format the alt distance and time, and put brackets around them,
           // so they can be displayed next to the main distance and time
-          String altDistanceString = String.format("(%s)", super.formatAltDistance(altDist));
-          String altTimeString = String.format("(%s)", formatTime(altTime, true));
+          String altDistanceString = String.format("(%s %s)", altText, super.formatAltDistance(altDist));
+          String altTimeString = String.format("(%s %s)", altText, formatTime(altTime, true));
           return street(altDistanceString, altTimeString);
       }
       else {

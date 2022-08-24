@@ -35,6 +35,8 @@ class RouteHighlightOverlay(context: Context, private val mapView: CycleMapView)
     private val prevButton: FloatingActionButton
     private val nextButton: FloatingActionButton
 
+    private val altText = context.getString(R.string.alt_route_details)
+
     init {
         val routeView = LayoutInflater.from(mapView.context).inflate(R.layout.route_view, null)
 
@@ -109,7 +111,7 @@ class RouteHighlightOverlay(context: Context, private val mapView: CycleMapView)
         }
         else {
             // The active segment is the Start segment and there is an alt journey.
-            summaryText = altJourney?.totalDistance()?.let { seg.summaryText(it, altJourney?.totalTime()) }
+            summaryText = altJourney?.totalDistance()?.let { seg.summaryText(it, altJourney?.totalTime(), altText) }
                 .toString()
         }
 
