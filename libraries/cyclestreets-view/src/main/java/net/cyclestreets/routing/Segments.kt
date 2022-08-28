@@ -44,8 +44,26 @@ class Segments : Iterable<Segment> {
             if (previous.distance < 20) {
                 CROSSROAD_MELDS[Pair(previous.turn, seg.turn)]?.let {
                     segments.remove(previous)
-                    segments.add(Segment.Step(previous, seg, it, it.textInstruction))
-                    return
+                    if (previous.walk == seg.walk) {
+                        // Combine the 2 segments:
+                        segments.add(Segment.Step(previous, seg, it, it.textInstruction))
+                        return
+                    }
+                    else {
+                    // Add previous with combined turn instruction and current street,
+                        segments.add(Segment.Step(
+                            seg.name,
+                            previous.legNumber,
+                            it,
+                            it.textInstruction,
+                            previous.walk,
+                            previous.cumulativeTime,
+                            previous.distance,
+                            previous.cumulativeDistance,
+                            previous.points
+                        ))
+                    }
+                    // then add current with current details (not combined) - which is done below so no need to do it here
                 }
             }
 
