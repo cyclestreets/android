@@ -86,8 +86,10 @@ internal class SegmentAdapter(context: Context) : BaseAdapter() {
         val icon = TurnIcons.icon(turn)
         iv.setImageDrawable(icon)
         iv.setBackgroundColor(backgroundColor)
-        if (walk)
+        if (walk) {
+            footprints.setTint(Color.BLACK)
             iv.background = footprints
+        }
     }
 
     private fun getTextView(id: Int): TextView? {
