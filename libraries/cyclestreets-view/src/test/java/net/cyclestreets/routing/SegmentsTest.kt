@@ -29,14 +29,28 @@ class SegmentsTest {
         loadJourneyFrom("journey-rightleft-walkcycle-domain.json")
 
         val seg1 = journey.segments[5]
-        Assertions.assertThat(seg1.street()).isEqualTo("Crossing")
+        assertEquals(seg1.street(),"Crossing")
         assertEquals(seg1.turn().textInstruction, "turn right then turn left")
         assertFalse(seg1.walk())
 
         val seg2 = journey.segments[6]
-        Assertions.assertThat(seg2.street()).isEqualTo("Crossing")
+        assertEquals(seg2.street(), "Crossing")
         assertEquals(seg2.turn().textInstruction, "turn left")
         assertTrue(seg2.walk())
+    }
+    @Test
+    fun overBridgeWalkCycleCreatesTwoSegments() {
+        loadJourneyFrom("journey-overbridge-walkcycle-domain.json")
+
+        val seg1 = journey.segments[4]
+        assertEquals(seg1.street(),"Odney Common")
+        assertEquals(seg1.turnInstruction, "Straight on over Bridge")
+        assertTrue(seg1.walk())
+
+        val seg2 = journey.segments[5]
+        assertEquals(seg2.street(),"Odney Common")
+        assertEquals(seg2.turnInstruction, "Straight on")
+        assertFalse(seg2.walk())
     }
 
     private fun loadJourneyFrom(domainJsonFile: String) {

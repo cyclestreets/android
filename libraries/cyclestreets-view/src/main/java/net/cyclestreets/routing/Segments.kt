@@ -72,8 +72,28 @@ class Segments : Iterable<Segment> {
             // Meld bridges, e.g. #83784189
             if (previous.distance < 100 && "Bridge".equals(previous.name, ignoreCase = true) && Turn.STRAIGHT_ON === seg.turn) {
                 segments.remove(previous)
-                segments.add(Segment.Step(previous, seg, previous.turn, previous.turnInstruction + " over Bridge"))
-                return
+                if (previous.walk == seg.walk) {
+                    // Combine the 2 segments:
+                    segments.add(Segment.Step(previous, seg, previous.turn, previous.turnInstruction + " over Bridge"))
+                    return
+                }
+                else {
+                    // If the 2 segments aren't both walking or both cycling, keep the segments separate.
+                    // Add previous segment with combined turn instruction and CURRENT street,
+                    // so user still gets warning of the double instruction:
+                    segments.add(Segment.Step(
+                        seg.name,
+                        previous.legNumber,
+                        previous.turn,
+                        previous.turnInstruction + " over Bridge",
+                        previous.walk,
+                        previous.cumulativeTime,
+                        previous.distance,
+                        previous.cumulativeDistance,
+                        previous.points
+                    ))
+                }
+                // then add current seg with current details (not combined) - which is done below so no need to do it here
             }
         }
 
