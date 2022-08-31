@@ -269,8 +269,8 @@ public abstract class Segment {
       if (altDist != 0) {
           // Format the alt distance and time, and put brackets around them,
           // so they can be displayed next to the main distance and time
-          String altDistanceString = String.format("(%s %s)", altText, super.formatAltDistance(altDist));
-          String altTimeString = String.format("(%s %s)", altText, formatTime(altTime, true));
+          String altDistanceString = String.format(" (%s %s)", altText, super.formatAltDistance(altDist));
+          String altTimeString = String.format(" (%s %s)", altText, formatTime(altTime, true));
           return street(altDistanceString, altTimeString);
       }
       else {
@@ -281,7 +281,7 @@ public abstract class Segment {
           return street("", "");
     }
     private String street(String altDistance, String altTime) {
-        return String.format("%s\n%s route : %s %s\nJourney time : %s %s", super.street(), initCap(plan),
+        return String.format("%s\n%s route : %s%s\nJourney time : %s%s", super.street(), initCap(plan),
               super.runningDistance(), altDistance,
               super.runningTime(), altTime);
     }
