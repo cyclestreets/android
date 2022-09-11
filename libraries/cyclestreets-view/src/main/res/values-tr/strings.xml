@@ -36,7 +36,7 @@
 
   <string name="route_menu_change">Güzergâh tipini değiştir</string>
   <string name="route_menu_alternative">Alternative route</string>
-  <string name="alt_route_details">alt: </string>
+  <string name="alt_route_details">alt:</string>
   <string name="route_menu_change_reverse">Güzergahı ters çevir</string>
   <string name="route_menu_change_waypoints">Add / Remove waypoints</string>
   <string name="route_menu_change_share">Güzergahı paylaş</string>
