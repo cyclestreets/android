@@ -34,6 +34,8 @@
   <string name="route_max_waypoints">Maximum number of waypoints reached.</string>
 
   <string name="route_menu_change">Cambia tipo percorso</string>
+  <string name="route_menu_alternative">Alternative route</string>
+  <string name="alt_route_details">alt:</string>
   <string name="route_menu_change_reverse">Percorso inverso</string>
   <string name="route_menu_change_waypoints">Add / Remove waypoints</string>
   <string name="route_menu_change_share">Condividi queto percorso</string>

@@ -224,6 +224,7 @@ public abstract class Segment {
   public String runningTime() { return runningTime; }
   public String formattedDistance() { return formatter.distance(distance); }
   public String runningDistance() { return formatter.totalDistance(cumulativeDistance); }
+  public String formatAltDistance(int altDistance) {return formatter.totalDistance(altDistance);}
   public String extraInfo() { return ""; }
   public IterableIterator<IGeoPoint> points() { return new IterableIterator<>(points.iterator()); }
 
@@ -264,8 +265,25 @@ public abstract class Segment {
       return street();
     }
 
+    public String summaryText(int altDist, int altTime, String altText) {
+      if (altDist != 0) {
+          // Format the alt distance and time, and put brackets around them,
+          // so they can be displayed next to the main distance and time
+          String altDistanceString = String.format(" (%s %s)", altText, super.formatAltDistance(altDist));
+          String altTimeString = String.format(" (%s %s)", altText, formatTime(altTime, true));
+          return street(altDistanceString, altTimeString);
+      }
+      else {
+          return street();
+      }
+    }
     public String street() {
-      return String.format("%s\n%s route : %s\nJourney time : %s", super.street(), initCap(plan), super.runningDistance(), super.runningTime());
+          return street("", "");
+    }
+    private String street(String altDistance, String altTime) {
+        return String.format("%s\n%s route : %s%s\nJourney time : %s%s", super.street(), initCap(plan),
+              super.runningDistance(), altDistance,
+              super.runningTime(), altTime);
     }
     public String formattedDistance() { return ""; }
     public String runningDistance() { return ""; }
