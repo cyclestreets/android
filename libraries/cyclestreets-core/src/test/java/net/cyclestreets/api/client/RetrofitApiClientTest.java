@@ -110,7 +110,7 @@ public class RetrofitApiClientTest {
                     .withHeader("Content-Type", "application/json")
                     .withHeader("Cache-Control", "public, max-age=604800")
                     .withBodyFile("pois-types.json")));
-    when(testResources.getResourcePackageName(R.drawable.poi_bedsforcyclists)).thenReturn("drawable-xxhdpi");
+    when(testResources.getResourcePackageName(R.drawable.poi_attractions)).thenReturn("drawable-xxhdpi");
     when(testResources.getDrawable(anyInt(), eq(null))).thenReturn(mock(Drawable.class));
 
     // when
