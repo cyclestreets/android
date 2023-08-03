@@ -1,11 +1,11 @@
 buildscript {
   dependencies {
-    classpath 'me.moallemi.gradle:advanced-build-version:1.7.3'
+    classpath 'me.moallemi.gradle:advanced-build-version:2.0.1'
   }
 }
 
 plugins {
-  id 'com.github.triplet.play' version '3.5.0'
+  id 'com.github.triplet.play' version '3.6.0'
 }
 
 // Use a plugin to derive a version name (e.g. 3.7) and monotonically increasing version code (e.g. 1372)
