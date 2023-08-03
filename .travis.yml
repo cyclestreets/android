@@ -46,7 +46,6 @@ before_install:
   - ./ciLicense.sh
   - sudo pip install requests
   - touch $HOME/.android/repositories.cfg
-  - jdk_switcher use openjdk11
   - yes | sdkmanager "platforms;android-31"
   - yes | sdkmanager "build-tools;30.0.3"
 
