@@ -50,7 +50,7 @@ before_install:
   - sudo pip install requests
   - touch $HOME/.android/repositories.cfg
   - jdk_switcher use openjdk8
-  - yes | sdkmanager "platforms;android-30"
+  - yes | sdkmanager "platforms;android-31"
   - yes | sdkmanager "build-tools;30.0.3"
 
 install:
