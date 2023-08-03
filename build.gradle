@@ -103,6 +103,9 @@ subprojects {
       sourceCompatibility rootProject.ext.javaVersion
       targetCompatibility rootProject.ext.javaVersion
     }
+    kotlinOptions {
+      jvmTarget = '11'
+    }
 
     defaultConfig {
       minSdkVersion rootProject.ext.minSdkVersion
