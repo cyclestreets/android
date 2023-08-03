@@ -25,9 +25,9 @@ addons:
 env:
   global:
     # Remember to keep these four values in sync with values in the root build.gradle file
-    - compileSdkVersion=30
+    - compileSdkVersion=31
     - minSdkVersion=23
-    - targetSdkVersion=29
+    - targetSdkVersion=31
     - toolsVersion=30.0.3
     - JAVA8_HOME=/usr/lib/jvm/java-8-openjdk-amd64
     - JAVA9_HOME=/usr/lib/jvm/java-9-openjdk-amd64
@@ -50,7 +50,7 @@ before_install:
   - sudo pip install requests
   - touch $HOME/.android/repositories.cfg
   - jdk_switcher use openjdk8
-  - yes | sdkmanager "platforms;android-30"
+  - yes | sdkmanager "platforms;android-31"
   - yes | sdkmanager "build-tools;30.0.3"
 
 install:
