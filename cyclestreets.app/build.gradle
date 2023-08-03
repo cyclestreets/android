@@ -5,7 +5,7 @@ buildscript {
 }
 
 plugins {
-  id 'com.github.triplet.play' version '3.3.0'
+  id 'com.github.triplet.play' version '3.5.0'
 }
 
 // Use a plugin to derive a version name (e.g. 3.7) and monotonically increasing version code (e.g. 1372)
