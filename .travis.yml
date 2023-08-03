@@ -56,7 +56,7 @@ before_install:
 install:
   - ls -l /usr/lib/jvm/
   - ./checkPoiTypeIcons.sh
-  - JAVA_HOME=${JAVA9_HOME} ./gradlew build -Dorg.gradle.java.home=${JAVA9_HOME} -x lint
+  - JAVA_HOME=${JAVA8_HOME} ./gradlew build -Dorg.gradle.java.home=${JAVA8_HOME} -x lint
 
 script:
   - ./ciPublish.sh
