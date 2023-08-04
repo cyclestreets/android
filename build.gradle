@@ -34,7 +34,7 @@ ext {
   buildToolsVersion='33.0.2'
 
   // java version
-  javaVersion = JavaVersion.VERSION_1_8
+  javaVersion = JavaVersion.VERSION_11
 
   // centrally manage some other dependencies
   mapsforgeVersion = '0.13.0' // TODO: 0.14.0 is available
@@ -102,6 +102,9 @@ subprojects {
     compileOptions {
       sourceCompatibility rootProject.ext.javaVersion
       targetCompatibility rootProject.ext.javaVersion
+    }
+    kotlinOptions {
+      jvmTarget = '11'
     }
 
     defaultConfig {

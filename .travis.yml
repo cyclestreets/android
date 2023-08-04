@@ -20,7 +20,6 @@ language: android
 addons:
   apt:
     packages:
-      - openjdk-9-jdk
       - openjdk-11-jdk
 env:
   global:
@@ -29,8 +28,6 @@ env:
     - minSdkVersion=23
     - targetSdkVersion=31
     - toolsVersion=33.0.2
-    - JAVA8_HOME=/usr/lib/jvm/java-8-openjdk-amd64
-    - JAVA9_HOME=/usr/lib/jvm/java-9-openjdk-amd64
     - JAVA11_HOME=/usr/lib/jvm/java-11-openjdk-amd64
     # For the decryption of secrets needed to sign and publish our artifacts
     - secure: "LipL0wPv0uQrKitaeGxCpoQsx5sl/Pg/DtQv4S7Bi52DxfArgvD2hPB0TWgkgYGJPfENHLEyqg+H+/v2nON3IXY+cnsd+TW+P1T03/52D56ieSKGVtVtSYUOZUgoyxIIvRZWFh/UNg+AmZIjOCTJDLitBTUxD8kWux8NjhIqZow="
@@ -49,14 +46,13 @@ before_install:
   - ./ciLicense.sh
   - sudo pip install requests
   - touch $HOME/.android/repositories.cfg
-  - jdk_switcher use openjdk8
   - yes | sdkmanager "platforms;android-31"
   - yes | sdkmanager "build-tools;33.0.2"
 
 install:
   - ls -l /usr/lib/jvm/
   - ./checkPoiTypeIcons.sh
-  - JAVA_HOME=${JAVA9_HOME} ./gradlew build -Dorg.gradle.java.home=${JAVA9_HOME} -x lint
+  - JAVA_HOME=${JAVA11_HOME} ./gradlew build -Dorg.gradle.java.home=${JAVA11_HOME} -x lint
 
 script:
   - ./ciPublish.sh
