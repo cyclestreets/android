@@ -86,7 +86,11 @@ internal abstract class LiveRideState(protected val context: Context,
 
     private fun getNotification(text: String, ticker: String, directionIcon: Int? = null): Notification {
         val notificationIntent = Intent(context, LiveRideActivity::class.java)
-        val contentIntent = PendingIntent.getActivity(context, 0, notificationIntent, PendingIntent.FLAG_CANCEL_CURRENT)
+        val contentIntent = PendingIntent.getActivity(
+                context,
+                0,
+                notificationIntent,
+                PendingIntent.FLAG_CANCEL_CURRENT or PendingIntent.FLAG_IMMUTABLE)
 
         val notificationBuilder = CycleStreetsNotifications.getBuilder(context, CHANNEL_LIVERIDE_ID)
                 .setSmallIcon(materialIcon(context, GoogleMaterial.Icon.gmd_directions_bike).toAndroidIconCompat().toIcon(context))
