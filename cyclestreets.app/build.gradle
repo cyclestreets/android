@@ -14,7 +14,7 @@ advancedVersioning {
   nameOptions {
     versionMajor 3
     versionMinor 10
-    versionPatch 0
+    versionPatch 1
   }
   codeOptions {
     versionCodeType 'GIT_COMMIT_COUNT'
