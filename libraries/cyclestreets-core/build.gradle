@@ -4,6 +4,7 @@ android {
       includeAndroidResources = true
     }
   }
+    namespace 'net.cyclestreets.core'
 }
 
 configurations {

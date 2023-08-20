@@ -6,6 +6,7 @@ android {
       includeAndroidResources = true
     }
   }
+    namespace 'net.cyclestreets.view'
 }
 
 dependencies {
