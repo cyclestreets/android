@@ -42,7 +42,13 @@ android {
   }
   packagingOptions {
     resources {
-      excludes += ['META-INF/LICENSE', 'META-INF/LICENSE.txt', 'META-INF/DEPENDENCIES', 'META-INF/NOTICE', 'META-INF/NOTICE.txt']
+      excludes += [
+        'META-INF/LICENSE',
+        'META-INF/LICENSE.txt',
+        'META-INF/DEPENDENCIES',
+        'META-INF/NOTICE',
+        'META-INF/NOTICE.txt'
+      ]
     }
   }
 

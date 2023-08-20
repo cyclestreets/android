@@ -2,7 +2,7 @@ buildscript {
   ext.kotlinVersion = '1.8.21'
   repositories {
     google()
-    jcenter()
+    mavenCentral()
   }
   dependencies {
     classpath 'com.android.tools.build:gradle:8.1.0'
@@ -41,10 +41,10 @@ ext {
   osmdroidVersion = '6.1.6'   // TODO: 6.1.8 is available - test and remove our own implementation of https://github.com/osmdroid/osmdroid/issues/1578
 
   // test dependencies
-  assertjVersion = '3.19.0'
+  assertjVersion = '3.24.2'
   junitVersion = '4.13.2'
-  mockitoVersion = '3.8.0'
-  robolectricVersion = '4.5.1'
+  mockitoVersion = '5.4.0'
+  robolectricVersion = '4.10.3'
 }
 
 // Configure common settings in all projects
@@ -53,16 +53,18 @@ subprojects {
     return
 
   gradle.projectsEvaluated {
-    tasks.withType(JavaCompile) {
+    tasks.withType(JavaCompile).configureEach {
       options.compilerArgs << "-Xlint:unchecked" << "-Xlint:deprecation"
     }
-    tasks.withType(Test) {
-      testLogging {
-        exceptionFormat 'full'
-        showCauses true
-        showExceptions true
-        showStackTraces true
-        events = ['passed', 'failed', 'skipped']
+    tasks.withType(Test).tap {
+      configureEach {
+        testLogging {
+          exceptionFormat 'full'
+          showCauses true
+          showExceptions true
+          showStackTraces true
+          events = ['passed', 'failed', 'skipped']
+        }
       }
     }
   }
@@ -78,13 +80,6 @@ subprojects {
     mavenCentral()
     google() // required for Android libraries
     maven { url "https://jitpack.io" } // required for https://github.com/smart-fun/XmlToJson
-    jcenter {
-      content {
-        // JCenter goes down on 1st Feb 2022, see https://www.infoq.com/news/2021/02/jfrog-jcenter-bintray-closure/
-        // we still need it for this artifact as per https://youtrack.jetbrains.com/issue/IDEA-261387
-        includeModule("org.jetbrains.trove4j", "trove4j")
-      }
-    }
   }
 
   if (projectDir.getName().equals('cyclestreets.app')) {
