@@ -111,7 +111,7 @@ class RouteHighlightOverlay(context: Context, private val mapView: CycleMapView)
         }
         else {
             // The active segment is the Start segment and there is an alt journey.
-            summaryText = altJourney?.totalDistance()?.let { seg.summaryText(it, altJourney?.totalTime(), altRoutePrefix) }
+            summaryText = altJourney?.totalDistance()?.let { seg.summaryText(it, altJourney?.totalTime()!!, altRoutePrefix) }
                 .toString()
         }
 
