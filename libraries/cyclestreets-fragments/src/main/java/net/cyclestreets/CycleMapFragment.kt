@@ -79,7 +79,7 @@ open class CycleMapFragment : Fragment(), Undoable {
 
                     CycleStreetsPreferences.clearOsmdroidCacheLocation()
                     Configuration.setConfigurationProvider(DefaultConfigurationProvider())
-                    Configuration.getInstance().load(context, PreferenceManager.getDefaultSharedPreferences(context))
+                    Configuration.getInstance().load(context, PreferenceManager.getDefaultSharedPreferences(requireContext()))
                     val newCacheLocation: File = Configuration.getInstance().osmdroidTileCache
 
                     Log.i(TAG, "Permission $WRITE_EXTERNAL_STORAGE granted; update OSMDroid cache " +
