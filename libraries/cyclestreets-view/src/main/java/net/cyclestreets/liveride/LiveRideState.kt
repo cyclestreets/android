@@ -118,7 +118,7 @@ internal abstract class LiveRideState(protected val context: Context,
     }
 
     private fun speak(words: String) {
-        tts?.speak(speechify(words), TextToSpeech.QUEUE_ADD, null, UUID.randomUUID().toString())
+        tts?.speak(speechify(words), TextToSpeech.QUEUE_FLUSH, null, UUID.randomUUID().toString())
     }
 
 }
