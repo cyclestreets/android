@@ -20,6 +20,7 @@ import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.GestureDetector;
 import android.view.Menu;
@@ -80,8 +81,9 @@ public class ControllerOverlay extends Overlay implements OnDoubleTapListener, O
 
   public boolean onMenuItemSelected(final int featureId, final MenuItem item) {
     for (final Iterator<MenuListener> overlays = menuOverlays(); overlays.hasNext(); )
-      if (overlays.next().onMenuItemSelected(featureId, item))
+      if (overlays.next().onMenuItemSelected(featureId, item)) {
         return true;
+      }
     return false;
   }
 

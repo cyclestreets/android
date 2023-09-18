@@ -8,6 +8,7 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.drawable.Icon
 import android.speech.tts.TextToSpeech
+import android.speech.tts.UtteranceProgressListener
 import android.util.Log
 import com.mikepenz.iconics.typeface.library.googlematerial.GoogleMaterial
 import com.mikepenz.iconics.utils.toAndroidIconCompat
@@ -43,6 +44,7 @@ internal abstract class LiveRideState(protected val context: Context,
     abstract fun isStopped(): Boolean
     abstract fun arePedalling(): Boolean
 
+    // set canFlush param on each notify to state if this command can flush everything or just be appended
     protected fun notify(seg: Segment) {
         notification(seg.street() + " " + seg.formattedDistance(), seg.toString())
 
@@ -64,19 +66,19 @@ internal abstract class LiveRideState(protected val context: Context,
 
     protected fun notify(text: String, directionIcon: Int) {
         notification(text, text, directionIcon)
-        speak(text)
+        speak(text, true)
     }
 
     @JvmOverloads
     protected fun notify(text: String, ticker: String = text) {
         notification(text, ticker)
-        speak(text)
+        speak(text, true)
     }
 
     protected fun notifyAndSetServiceForeground(service: Service, text: String) {
         val notification = getNotification(text, text, null)
         service.startForeground(NOTIFICATION_ID, notification)
-        speak(text)
+        speak(text, true)
     }
 
     private fun notification(text: String, ticker: String, directionIcon: Int? = null) {
@@ -117,8 +119,11 @@ internal abstract class LiveRideState(protected val context: Context,
         return context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
     }
 
-    private fun speak(words: String) {
-        tts?.speak(speechify(words), TextToSpeech.QUEUE_FLUSH, null, UUID.randomUUID().toString())
+    private fun speak(words: String, important: Boolean = false) {
+        if (important) {
+            tts?.speak(speechify(words), TextToSpeech.QUEUE_FLUSH, null, UUID.randomUUID().toString())
+        } else {
+            tts?.speak(speechify(words), TextToSpeech.QUEUE_ADD, null, UUID.randomUUID().toString())
+        }
     }
-
 }
