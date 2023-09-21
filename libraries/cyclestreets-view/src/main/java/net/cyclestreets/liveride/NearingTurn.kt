@@ -14,7 +14,7 @@ internal class NearingTurn(previous: LiveRideState, journey: Journey) :
         if (!segment.turnInstruction().isNullOrEmpty()) {
             notify("Get ready to ${turnInto(segment)}", TurnIcons.iconId(segment.turn()))
         } else {
-            notify("You are approaching the ${Arrivee.ARRIVEE}")
+            notify("You are approaching the ${Arrivee.ARRIVEE}", important = true)
         }
     }
 

@@ -44,15 +44,15 @@ internal abstract class LiveRideState(protected val context: Context,
     abstract fun isStopped(): Boolean
     abstract fun arePedalling(): Boolean
 
-    // set canFlush param on each notify to state if this command can flush everything or just be appended
-    protected fun notify(seg: Segment) {
+    protected fun notify(seg: Segment, important: Boolean = false) {
         notification(seg.street() + " " + seg.formattedDistance(), seg.toString())
 
         val instruction = turnInto(seg)
         if (seg.turnInstruction().isNotEmpty()) {
             instruction.append(". Continue ").append(seg.formattedDistance())
         }
-        speak(instruction.toString())
+
+        speak(instruction.toString(), important)
     }
 
     protected fun turnInto(seg: Segment): StringBuilder {
@@ -64,15 +64,16 @@ internal abstract class LiveRideState(protected val context: Context,
         return instruction
     }
 
-    protected fun notify(text: String, directionIcon: Int) {
+    // checked
+    protected fun notify(text: String, directionIcon: Int, important: Boolean = false) {
         notification(text, text, directionIcon)
-        speak(text, true)
+        speak(text, important)
     }
 
     @JvmOverloads
-    protected fun notify(text: String, ticker: String = text) {
+    protected fun notify(text: String, ticker: String = text, important: Boolean = false) {
         notification(text, ticker)
-        speak(text, true)
+        speak(text, important)
     }
 
     protected fun notifyAndSetServiceForeground(service: Service, text: String) {

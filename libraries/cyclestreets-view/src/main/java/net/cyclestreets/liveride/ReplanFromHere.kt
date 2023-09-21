@@ -16,7 +16,7 @@ internal class ReplanFromHere(previous: LiveRideState, whereIam: GeoPoint) : Liv
     private var next: LiveRideState? = null
 
     init {
-        notify("Too far away. Re-planning the journey.")
+        notify("Too far away. Re-planning the journey.", important = true)
 
         next = this
 
