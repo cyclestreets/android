@@ -8,7 +8,7 @@ import org.osmdroid.util.GeoPoint
 internal class GoingOffCourse(previous: LiveRideState) : LiveRideState(previous) {
 
     init {
-        notify("Moving away from route")
+        notify("Moving away from route", important = true)
     }
 
     override fun update(journey: Journey, myLocation: GeoPoint, accuracy: Int): LiveRideState {
@@ -32,7 +32,7 @@ internal class GoingOffCourse(previous: LiveRideState) : LiveRideState(previous)
             return AdvanceToSegment(this, journey, nearestSeg)
         }
         if (distance <= CycleStreetsPreferences.offtrackDistance() - 5) {
-            notify("Getting back on track")
+            notify("Getting back on track", important = true)
             return OnTheMove(this)
         }
 

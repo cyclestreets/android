@@ -6,7 +6,7 @@ import org.osmdroid.util.GeoPoint
 internal class PassingWaypoint(previous: LiveRideState?) : LiveRideState(previous!!) {
 
     init {
-        notify("Passing waypoint")
+        notify("Passing waypoint", important = true)
     }
 
     override fun update(journey: Journey, myLocation: GeoPoint, accuracy: Int): LiveRideState {
