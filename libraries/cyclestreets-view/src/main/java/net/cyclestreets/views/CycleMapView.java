@@ -66,6 +66,7 @@ public class CycleMapView extends FrameLayout
   private IGeoPoint centreOn_ = null;
   private IGeoPoint foundPlace;
   private boolean paused_ = false;
+  public boolean muteAudio;
 
   public CycleMapView(final Context context, final String name, final Fragment fragment) {
     super(context);

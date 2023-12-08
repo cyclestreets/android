@@ -18,7 +18,11 @@ internal class LiveRideStart(context: Context, tts: TextToSpeech?) : LiveRideSta
         journey.setActiveSegmentIndex(0)
         Log.d("importantTest", "LiveRideStart Update: ${journey.activeSegment()!!.toString()}")
         notify(journey.activeSegment()!!, true)
+
+
         return HuntForSegment(this)
+
+
     }
 
     override fun isStopped(): Boolean { return false }
