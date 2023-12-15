@@ -91,6 +91,22 @@ class MuteButtonOverlay(private val mapView: CycleMapView) : Overlay(), PauseRes
     override fun draw(c: Canvas, osmv: MapView, shadow: Boolean) {}
 
     /////////////////////////////////////////
+
+
+  /*  override fun onStart(prefs: SharedPreferences) {
+
+        mapView.muteAudio = prefs.getBoolean(LOCK_PREF, mapView.muteAudio)
+
+        if(mapView.muteAudio) {
+            audioMuteButton.setImageDrawable(offIcon)
+        } else {
+            audioMuteButton.setImageDrawable(onIcon)
+        }
+
+    }*/
+
+
+
     override fun onResume(prefs: SharedPreferences) {
 
         mapView.muteAudio = prefs.getBoolean(LOCK_PREF, mapView.muteAudio)
