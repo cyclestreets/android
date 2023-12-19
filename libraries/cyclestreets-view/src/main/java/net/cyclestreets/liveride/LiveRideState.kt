@@ -6,6 +6,7 @@ import android.app.PendingIntent
 import android.app.Service
 import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.graphics.drawable.Icon
 import android.speech.tts.TextToSpeech
 import android.speech.tts.UtteranceProgressListener
@@ -20,18 +21,25 @@ import net.cyclestreets.routing.Journey
 import net.cyclestreets.routing.Segment
 import net.cyclestreets.util.Logging
 import net.cyclestreets.view.R
+import net.cyclestreets.views.overlay.MuteButtonOverlay
 import org.osmdroid.util.GeoPoint
 import java.util.*
+import org.osmdroid.views.MapView
 
 private val TAG = Logging.getTag(LiveRideState::class.java)
 private const val NOTIFICATION_ID = 1
-
 
 internal abstract class LiveRideState(protected val context: Context,
                                       val tts: TextToSpeech?,
                                       private val title: String) {
     init {
         Log.d(TAG, "New State: " + this.javaClass.simpleName)
+
+
+    }
+
+    private val sharedPreferences: SharedPreferences by lazy{
+        context.getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
     }
 
     protected constructor(context: Context, tts: TextToSpeech?):
@@ -66,14 +74,20 @@ internal abstract class LiveRideState(protected val context: Context,
 
     // checked
     protected fun notify(text: String, directionIcon: Int, important: Boolean = false) {
-        notification(text, text, directionIcon)
-        speak(text, important)
+
+
+
+             notification(text, text, directionIcon)
+             speak(text, important)
+
     }
 
     @JvmOverloads
     protected fun notify(text: String, ticker: String = text, important: Boolean = false) {
-        notification(text, ticker)
-        speak(text, important)
+
+            notification(text, ticker)
+            speak(text, important)
+
     }
 
     protected fun notifyAndSetServiceForeground(service: Service, text: String) {
@@ -120,11 +134,53 @@ internal abstract class LiveRideState(protected val context: Context,
         return context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
     }
 
-    private fun speak(words: String, important: Boolean = false) {
-        if (important) {
-            tts?.speak(speechify(words), TextToSpeech.QUEUE_FLUSH, null, UUID.randomUUID().toString())
+    /*fun onResume(prefs: SharedPreferences) {
+
+        MapView mapView = new MapView()
+        mapView.muteAudio = prefs.getBoolean(MuteButtonOverlay.LOCK_PREF, mapView.muteAudio)
+
+        if(mapView.muteAudio) {
+            audioMuteButton.setImageDrawable(offIcon)
         } else {
-            tts?.speak(speechify(words), TextToSpeech.QUEUE_ADD, null, UUID.randomUUID().toString())
+            audioMuteButton.setImageDrawable(onIcon)
         }
+
+
+
+
+    }*/
+
+    companion object {
+        private const val LOCK_PREF = "muteButton"
+    }
+
+
+
+    private fun speak(words: String, important: Boolean = false) {
+       //mute = false
+        val muteAudio: Boolean = sharedPreferences.getBoolean("MuteAudio", false)
+
+
+
+
+       // tts?.speak(speechify(words), TextToSpeech.QUEUE_FLUSH, null, UUID.randomUUID().toString())
+        if(!muteAudio){
+            Log.e("Is it mute: " , muteAudio.toString())
+            if (important) {
+                tts?.speak(speechify(words), TextToSpeech.QUEUE_FLUSH, null, UUID.randomUUID().toString())
+            } else {
+                tts?.speak(speechify(words), TextToSpeech.QUEUE_ADD, null, UUID.randomUUID().toString())
+            }
+       } else {
+            Log.e("Is it mute: " , muteAudio.toString())
+
+            //tts?.stop()
+
+            //textToSpeech.stop();
+
+
+        }
+
+
     }
 }
