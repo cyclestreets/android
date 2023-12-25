@@ -5,16 +5,14 @@ import android.app.Activity
 import android.content.Context
 import android.content.ContextWrapper
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.content.pm.PackageManager.PERMISSION_DENIED
 import android.content.pm.PackageManager.PERMISSION_GRANTED
 import android.net.Uri
-import android.os.Build
 import android.provider.Settings
 import android.util.Log
 import android.widget.Toast
-import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat.startActivity
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import net.cyclestreets.CycleStreetsPreferences.*
 import net.cyclestreets.GENERIC_PERMISSION_REQUEST
@@ -27,7 +25,7 @@ private val TAG = Logging.getTag(Permissions::class.java)
 // Check for permissions
 fun hasPermission(context: Context?, permission: String): Boolean {
     return if (context != null)
-        context.checkSelfPermission(permission) == PackageManager.PERMISSION_GRANTED
+        ContextCompat.checkSelfPermission(context, permission) == PERMISSION_GRANTED
     else false
 }
 
@@ -153,7 +151,6 @@ fun requestPermissionsResultAction(grantResult: Int?, permission: String, action
 }
 
 // Go to settings - if dynamic permission requesting is no long an option
-@RequiresApi(api = Build.VERSION_CODES.M)
 private fun goToSettings(context: Context) {
     Log.d(TAG, "Opening Settings screen to allow user to update permissions")
     val androidAppSettingsIntent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS, Uri.parse("package:net.cyclestreets"))
@@ -172,6 +169,7 @@ private fun justification(context: Context, permission: String, justificationFor
 private object Permissions {
     val justifications: Map<String, Int> = hashMapOf(
         Manifest.permission.READ_EXTERNAL_STORAGE to R.string.perm_justification_read_external_storage,
+        // todo - update this :
         Manifest.permission.WRITE_EXTERNAL_STORAGE to R.string.perm_justification_write_external_storage,
         Manifest.permission.ACCESS_FINE_LOCATION to R.string.perm_justification_access_fine_location,
         Manifest.permission.READ_CONTACTS to R.string.perm_justification_read_contacts
