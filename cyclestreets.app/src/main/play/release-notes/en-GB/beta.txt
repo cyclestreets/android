@@ -1,0 +1,2 @@
+- If there are queued voice instructions, these are replaced with the latest instruction.
+- Update permissions for Android 13 so map tiles can be cached and photos added.

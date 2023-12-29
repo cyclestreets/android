@@ -169,7 +169,7 @@ private fun justification(context: Context, permission: String, justificationFor
 private object Permissions {
     val justifications: Map<String, Int> = hashMapOf(
         Manifest.permission.READ_EXTERNAL_STORAGE to R.string.perm_justification_read_external_storage,
-        // todo - update this :
+        Manifest.permission.READ_MEDIA_IMAGES to R.string.perm_justification_read_media_images,
         Manifest.permission.WRITE_EXTERNAL_STORAGE to R.string.perm_justification_write_external_storage,
         Manifest.permission.ACCESS_FINE_LOCATION to R.string.perm_justification_access_fine_location,
         Manifest.permission.READ_CONTACTS to R.string.perm_justification_read_contacts
