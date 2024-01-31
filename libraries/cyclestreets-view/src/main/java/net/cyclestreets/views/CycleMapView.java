@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Canvas;
 import android.location.Location;
+import android.os.Build;
 import android.os.CountDownTimer;
 import android.util.Log;
 import android.view.ContextMenu;
@@ -72,10 +73,12 @@ public class CycleMapView extends FrameLayout
 
     // Make sure we can save map tiles, regardless of whether we have the write-external permission granted.
     boolean hasWritePermission = PermissionsKt.hasPermission(context, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+    // WRITE_EXTERNAL_STORAGE deprecated in Android 13. Permission not req'd for app-specific storage
+    boolean android13Plus = Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU;
     Configuration.getInstance().load(context, PreferenceManager.getDefaultSharedPreferences(context));
-    Log.i(TAG, "Creating map view. App has write-external permission? " + hasWritePermission +
-        "; osmdroid base path: " + Configuration.getInstance().getOsmdroidBasePath().getAbsolutePath() +
-        "; osmdroid tile cache location: " + Configuration.getInstance().getOsmdroidTileCache().getAbsolutePath());
+    Log.i(TAG, String.format("Creating map view" + (android13Plus ?";":". App has write-external permission? " + hasWritePermission + ";") +
+            " osmdroid base path: " + Configuration.getInstance().getOsmdroidBasePath().getAbsolutePath() +
+            "; osmdroid tile cache location: " + Configuration.getInstance().getOsmdroidTileCache().getAbsolutePath()));
 
     mapView_ = new MapView(context, TileSource.mapTileProvider(context));
     addView(mapView_);

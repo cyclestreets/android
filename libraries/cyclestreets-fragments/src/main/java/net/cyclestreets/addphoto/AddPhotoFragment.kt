@@ -1,6 +1,9 @@
 package net.cyclestreets.addphoto
 
-import android.Manifest.permission.*
+import android.Manifest.permission.ACCESS_FINE_LOCATION
+import android.Manifest.permission.READ_EXTERNAL_STORAGE
+import android.Manifest.permission.READ_MEDIA_IMAGES
+import android.Manifest.permission.WRITE_EXTERNAL_STORAGE
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
@@ -9,13 +12,26 @@ import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.Point
 import android.os.AsyncTask
+import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
-import android.view.*
+import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
+import android.view.View
+import android.view.ViewGroup
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.view.inputmethod.InputMethodManager
-import android.widget.*
+import android.widget.Button
+import android.widget.EditText
+import android.widget.ImageView
+import android.widget.LinearLayout
+import android.widget.RelativeLayout
+import android.widget.Spinner
+import android.widget.TextView
+import android.widget.Toast
 import androidx.core.content.FileProvider
 import androidx.exifinterface.media.ExifInterface
 import androidx.fragment.app.Fragment
@@ -27,15 +43,24 @@ import net.cyclestreets.api.PhotomapCategories
 import net.cyclestreets.api.Upload
 import net.cyclestreets.fragments.R
 import net.cyclestreets.iconics.IconicsHelper.materialIcons
-import net.cyclestreets.util.*
+import net.cyclestreets.util.AsyncDelete
+import net.cyclestreets.util.Bitmaps
+import net.cyclestreets.util.Dialog
+import net.cyclestreets.util.Logging
 import net.cyclestreets.util.MenuHelper.createMenuItem
 import net.cyclestreets.util.MenuHelper.enableMenuItem
+import net.cyclestreets.util.MessageBox
+import net.cyclestreets.util.ProgressDialog
+import net.cyclestreets.util.Share
+import net.cyclestreets.util.doOrRequestPermission
+import net.cyclestreets.util.hasPermission
+import net.cyclestreets.util.requestPermissionsResultAction
 import net.cyclestreets.views.CycleMapView
 import net.cyclestreets.views.overlay.ThereOverlay
 import org.osmdroid.api.IGeoPoint
 import org.osmdroid.util.GeoPoint
 import java.io.File
-import java.util.*
+import java.util.Date
 
 
 internal val TAG = Logging.getTag(AddPhotoFragment::class.java)
@@ -461,15 +486,24 @@ class AddPhotoFragment : Fragment(), View.OnClickListener, Undoable, ThereOverla
     override fun onClick(v: View) {
         when (v.id) {
             R.id.takephoto_button -> doOrLogin {
-                doOrRequestPermission(null, this, WRITE_EXTERNAL_STORAGE) {
+                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU)
+                    doOrRequestPermission(null, this, WRITE_EXTERNAL_STORAGE) {
+                        dispatchTakePhotoIntent()
+                    }
+                else
                     dispatchTakePhotoIntent()
-                }
             }
             R.id.chooseexisting_button -> doOrLogin {
-                doOrRequestPermission(null, this, READ_EXTERNAL_STORAGE) {
-                    startActivityForResult(Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI),
+                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU)
+                    doOrRequestPermission(null, this, READ_EXTERNAL_STORAGE) {
+                        startActivityForResult(Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI),
                                            CHOOSE_PHOTO)
                 }
+                else
+                    doOrRequestPermission(null, this, READ_MEDIA_IMAGES) {
+                        startActivityForResult(Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI),
+                            CHOOSE_PHOTO)
+                    }
             }
             R.id.textonly_button -> doOrLogin {
                 photo = null
@@ -516,6 +550,7 @@ class AddPhotoFragment : Fragment(), View.OnClickListener, Undoable, ThereOverla
                     /* startActivityForResult(Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI),
                             CHOOSE_PHOTO) */
                 }
+                READ_MEDIA_IMAGES -> requestPermissionsResultAction(grantResult, permission){}
                 WRITE_EXTERNAL_STORAGE -> requestPermissionsResultAction(grantResult, permission) {
                     // As above
                     //dispatchTakePhotoIntent()
