@@ -134,21 +134,6 @@ internal abstract class LiveRideState(protected val context: Context,
         return context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
     }
 
-    /*fun onResume(prefs: SharedPreferences) {
-
-        MapView mapView = new MapView()
-        mapView.muteAudio = prefs.getBoolean(MuteButtonOverlay.LOCK_PREF, mapView.muteAudio)
-
-        if(mapView.muteAudio) {
-            audioMuteButton.setImageDrawable(offIcon)
-        } else {
-            audioMuteButton.setImageDrawable(onIcon)
-        }
-
-
-
-
-    }*/
 
     companion object {
         private const val LOCK_PREF = "muteButton"
@@ -160,25 +145,15 @@ internal abstract class LiveRideState(protected val context: Context,
        //mute = false
         val muteAudio: Boolean = sharedPreferences.getBoolean("MuteAudio", false)
 
-
-
-
-       // tts?.speak(speechify(words), TextToSpeech.QUEUE_FLUSH, null, UUID.randomUUID().toString())
         if(!muteAudio){
-            Log.e("Is it mute: " , muteAudio.toString())
+            Log.i("Is it mute: " , muteAudio.toString())
             if (important) {
                 tts?.speak(speechify(words), TextToSpeech.QUEUE_FLUSH, null, UUID.randomUUID().toString())
             } else {
                 tts?.speak(speechify(words), TextToSpeech.QUEUE_ADD, null, UUID.randomUUID().toString())
             }
        } else {
-            Log.e("Is it mute: " , muteAudio.toString())
-
-            //tts?.stop()
-
-            //textToSpeech.stop();
-
-
+            Log.i("Is it mute: " , muteAudio.toString())
         }
 
 
