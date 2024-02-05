@@ -1,21 +1,15 @@
 package net.cyclestreets.views.overlay
 
-//import kotlinx.coroutines.flow.internal.NoOpContinuation.context
 
-import android.R.id.message
-import android.R.layout
 import android.content.Context
 import android.content.SharedPreferences
-import android.graphics.Canvas
-import android.graphics.PixelFormat
+
 import android.graphics.drawable.Drawable
-import android.os.Build
+
 import android.speech.tts.TextToSpeech
-import android.view.Gravity
+
 import android.view.LayoutInflater
-import android.view.View
-import android.view.WindowManager
-import android.widget.TextView
+
 import android.widget.Toast
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.mikepenz.iconics.typeface.library.googlematerial.GoogleMaterial.Icon.gmd_volume_mute
@@ -25,9 +19,9 @@ import net.cyclestreets.util.Theme.highlightColor
 import net.cyclestreets.util.Theme.lowlightColor
 import net.cyclestreets.view.R
 import net.cyclestreets.views.CycleMapView
-import org.osmdroid.views.MapView
+
 import org.osmdroid.views.overlay.Overlay
-import java.util.Locale
+
 
 
 private var isAudioOn: Boolean = true
