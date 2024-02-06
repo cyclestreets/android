@@ -161,6 +161,11 @@
       <li>&nbsp; allow you to select photographs from your image library for use in the Add Photo feature.</li>
     </ul>
   ]]></string>
+  <string name="perm_justification_read_media_images" translatable="false"><![CDATA[
+    <ul>
+      <li>&nbsp; allow you to select photographs from your image library for use in the Add Photo feature.</li>
+    </ul>
+  ]]></string>
   <string name="perm_justification_write_external_storage" translatable="false"><![CDATA[
     <ul>
       <li>&nbsp; cache downloaded map tiles <b>(without this the app will function poorly and consume much more data)</b></li>

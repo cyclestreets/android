@@ -2,9 +2,8 @@ package net.cyclestreets
 
 import android.Manifest.permission.WRITE_EXTERNAL_STORAGE
 import android.graphics.drawable.Drawable
+import android.os.Build
 import android.os.Bundle
-import androidx.fragment.app.Fragment
-import androidx.preference.PreferenceManager
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.Menu
@@ -12,19 +11,22 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
+import androidx.preference.PreferenceManager
 import com.mikepenz.iconics.typeface.library.googlematerial.GoogleMaterial
-
 import net.cyclestreets.fragments.R
 import net.cyclestreets.iconics.IconicsHelper
-import net.cyclestreets.util.*
+import net.cyclestreets.util.AsyncDelete
+import net.cyclestreets.util.Logging
 import net.cyclestreets.util.MenuHelper.createMenuItem
 import net.cyclestreets.util.MenuHelper.enableMenuItem
+import net.cyclestreets.util.Theme
+import net.cyclestreets.util.doOrRequestPermission
+import net.cyclestreets.util.requestPermissionsResultAction
 import net.cyclestreets.views.CycleMapView
-
 import org.osmdroid.config.Configuration
 import org.osmdroid.config.DefaultConfigurationProvider
 import org.osmdroid.views.overlay.Overlay
-
 import java.io.File
 import java.util.Date
 
@@ -43,7 +45,8 @@ open class CycleMapFragment : Fragment(), Undoable {
 
         forceMenuRebuild = true
 
-        checkPermissionNoMoreThanOnceEveryFiveMinutes()
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU)
+            checkPermissionNoMoreThanOnceEveryFiveMinutes()
 
         map = CycleMapView(context, this.javaClass.name, this)
         searchIcon = IconicsHelper.materialIcon(requireContext(), GoogleMaterial.Icon.gmd_search, Theme.lowlightColorInverse(context))
