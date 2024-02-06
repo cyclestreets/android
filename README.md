@@ -35,7 +35,7 @@ https://www.cyclestreets.org/contacts/
 
 ## License
 
-CycleStreets Android App Copyright 2010-2023 CycleStreets Ltd.
+CycleStreets Android App Copyright 2010-2024 CycleStreets Ltd.
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
