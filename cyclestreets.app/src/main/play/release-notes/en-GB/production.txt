@@ -12,4 +12,8 @@ When a route is replanned in LiveRide, the plan for the current route is used, r
 
 Circular leisure routes! Tap start waypoint and then choose duration or distance and POIs.
 
+If there are queued voice instructions, these are replaced with the latest instruction.
+
+Update permissions for Android 13 so map tiles can be cached and photos added.
+
 Various minor bug fixes.
