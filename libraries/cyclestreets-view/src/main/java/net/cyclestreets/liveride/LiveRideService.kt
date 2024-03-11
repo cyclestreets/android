@@ -109,5 +109,6 @@ class LiveRideService : Service(), LocationListener, TextToSpeech.OnInitListener
 
     override fun onProviderDisabled(arg0: String) {}
     override fun onProviderEnabled(arg0: String) {}
+    @Deprecated("Deprecated in Java")
     override fun onStatusChanged(arg0: String, arg1: Int, arg2: Bundle) {}
 }

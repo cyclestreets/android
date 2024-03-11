@@ -332,6 +332,7 @@ class AddPhotoFragment : Fragment(), View.OnClickListener, Undoable, ThereOverla
     }
 
     ///////////// Fragment methods - Activity result processing
+    @Deprecated("Deprecated in Java")
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (resultCode != Activity.RESULT_OK)
             return
@@ -534,6 +535,7 @@ class AddPhotoFragment : Fragment(), View.OnClickListener, Undoable, ThereOverla
         }
     }
 
+    @Deprecated("Deprecated in Java")
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
 
@@ -649,6 +651,7 @@ class AddPhotoFragment : Fragment(), View.OnClickListener, Undoable, ThereOverla
 
     ///////////// Tasks
     private inner class GetPhotomapCategoriesTask : AsyncTask<Any, Void, PhotomapCategories>() {
+        @Deprecated("Deprecated in Java")
         override fun doInBackground(vararg params: Any): PhotomapCategories? {
             return try {
                 PhotomapCategories.get()
@@ -657,6 +660,7 @@ class AddPhotoFragment : Fragment(), View.OnClickListener, Undoable, ThereOverla
             }
         }
 
+        @Deprecated("Deprecated in Java")
         override fun onPostExecute(categories: PhotomapCategories?) {
             if (categories == null) {
                 if (activity != null) {
@@ -687,11 +691,13 @@ class AddPhotoFragment : Fragment(), View.OnClickListener, Undoable, ThereOverla
             progress = Dialog.createProgressDialog(context, R.string.photo_uploading)
         }
 
+        @Deprecated("Deprecated in Java")
         override fun onPreExecute() {
             super.onPreExecute()
             progress.show()
         }
 
+        @Deprecated("Deprecated in Java")
         override fun doInBackground(vararg params: Any): Upload.Result {
             return try {
                 Upload.photo(filename, username, password, location,
@@ -701,6 +707,7 @@ class AddPhotoFragment : Fragment(), View.OnClickListener, Undoable, ThereOverla
             }
         }
 
+        @Deprecated("Deprecated in Java")
         override fun onPostExecute(result: Upload.Result) {
             if (smallImage)
                 AsyncDelete().execute(File(filename))

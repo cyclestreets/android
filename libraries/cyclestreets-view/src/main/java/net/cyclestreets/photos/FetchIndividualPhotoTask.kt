@@ -10,6 +10,7 @@ private val TAG = Logging.getTag(FetchIndividualPhotoTask::class.java)
 
 internal class FetchIndividualPhotoTask constructor() : AsyncTask<Long, Int, Photo>() {
 
+    @Deprecated("Deprecated in Java")
     override fun doInBackground(vararg params: Long?): Photo? {
         val photoId = params[0]!!
         return try {
@@ -22,6 +23,7 @@ internal class FetchIndividualPhotoTask constructor() : AsyncTask<Long, Int, Pho
         }
     }
 
+    @Deprecated("Deprecated in Java")
     override fun onPostExecute(photo: Photo?) {
         if (photo != null)
             IndividualPhoto.onPhotoLoaded(photo)

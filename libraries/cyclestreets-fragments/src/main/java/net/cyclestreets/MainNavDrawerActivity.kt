@@ -144,6 +144,7 @@ abstract class MainNavDrawerActivity : AppCompatActivity(), OnNavigationItemSele
         catch (e: IllegalAccessException) { throw RuntimeException(e) }
     }
 
+    @Deprecated("Deprecated in Java")
     override fun onBackPressed() {
         if (drawerLayout.isDrawerOpen(navigationView)) {
             drawerLayout.closeDrawers()

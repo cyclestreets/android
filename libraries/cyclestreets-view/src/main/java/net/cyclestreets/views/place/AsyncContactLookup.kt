@@ -12,10 +12,12 @@ internal class AsyncContactLookup(private val view: PlaceViewBase,
                                   private val listener: PlaceViewBase.OnResolveListener) : AsyncTask<Any, Void, GeoPlaces>() {
     private val progress: ProgressDialog = Dialog.createProgressDialog(view.context, R.string.placeview_location_search)
 
+    @Deprecated("Deprecated in Java")
     override fun onPreExecute() {
         progress.show()
     }
 
+    @Deprecated("Deprecated in Java")
     override fun doInBackground(vararg params: Any): GeoPlaces {
         val bounds = params[1] as BoundingBox
         return if (params[0] is String)
@@ -24,6 +26,7 @@ internal class AsyncContactLookup(private val view: PlaceViewBase,
             doContactSearch(params[0] as Contact, bounds)
     }
 
+    @Deprecated("Deprecated in Java")
     override fun onPostExecute(result: GeoPlaces) {
         progress.dismiss()
         view.resolvedContacts(result, listener)
