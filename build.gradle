@@ -40,8 +40,8 @@ ext {
   javaVersion = JavaVersion.VERSION_11
 
   // centrally manage some other dependencies
-  mapsforgeVersion = '0.13.0' // TODO: 0.14.0 is available
-  osmdroidVersion = '6.1.6'   // TODO: 6.1.8 is available - test and remove our own implementation of https://github.com/osmdroid/osmdroid/issues/1578
+  mapsforgeVersion = '0.20.0'
+  osmdroidVersion = '6.1.18'
 
   // test dependencies
   assertjVersion = '3.25.3'
