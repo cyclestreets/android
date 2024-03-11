@@ -76,13 +76,19 @@ class LiveRideActivity : Activity(), ServiceConnection, LiveRideOverlay.Locator 
         map = CycleMapView(this, this.javaClass.name, null).apply {
             overlayPushBottom(RouteOverlay(this,false))
             overlayPushTop(WaymarkOverlay(this))
+
             overlayPushTop(LockScreenOnOverlay(this))
             overlayPushTop(RotateMapOverlay(this))
+            overlayPushTop(MuteButtonOverlay(this))
+
             overlayPushTop(LiveRideOverlay(this@LiveRideActivity, this@LiveRideActivity))
             lockOnLocation()
             hideLocationButton()
             shiftAttribution()
         }
+
+        Log.e("we are here ", "we are here")
+
         RelativeLayout(this).apply {
             addView(map,
                     RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT,
