@@ -31,7 +31,6 @@ ext {
   compileSdkVersion=33
   minSdkVersion=23
   targetSdkVersion=33
-  buildToolsVersion='33.0.2'
 
   // java version
   javaVersion = JavaVersion.VERSION_11
@@ -92,7 +91,6 @@ subprojects {
 
   android {
     compileSdkVersion rootProject.ext.compileSdkVersion
-    buildToolsVersion rootProject.ext.buildToolsVersion
 
     compileOptions {
       sourceCompatibility rootProject.ext.javaVersion

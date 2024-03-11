@@ -33,10 +33,6 @@ def keystoreProperties = new Properties()
 keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
 
 android {
-
-  buildFeatures {
-    buildConfig true
-  }
   defaultConfig {
     applicationId 'net.cyclestreets'
     versionName advancedVersioning.versionName
