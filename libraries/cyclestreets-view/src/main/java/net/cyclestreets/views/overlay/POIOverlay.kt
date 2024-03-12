@@ -251,6 +251,7 @@ class POIOverlay(mapView: CycleMapView) : LiveItemOverlay<POIOverlayItem?>(mapVi
         // take snapshot of categories to avoid later contention
         private val activeCategories: List<POICategory> = ArrayList(overlay.activeCategories)
 
+        @Deprecated("Deprecated in Java")
         override fun doInBackground(vararg params: Any): List<POI> {
             val centre = params[0] as IGeoPoint
             val radius = params[1] as Int
@@ -264,6 +265,7 @@ class POIOverlay(mapView: CycleMapView) : LiveItemOverlay<POIOverlayItem?>(mapVi
             return pois
         }
 
+        @Deprecated("Deprecated in Java")
         override fun onPostExecute(pois: List<POI>) {
             val items: MutableList<POIOverlayItem> = ArrayList()
             for (poi in pois) {

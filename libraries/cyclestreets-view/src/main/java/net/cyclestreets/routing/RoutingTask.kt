@@ -92,6 +92,7 @@ abstract class RoutingTask<Params> protected constructor(private val initialMsg:
         return (error != null)
     }
 
+    @Deprecated("Deprecated in Java")
     override fun onPreExecute() {
         super.onPreExecute()
         Log.d(TAG, "RoutingTask PreExecute")
@@ -106,12 +107,14 @@ abstract class RoutingTask<Params> protected constructor(private val initialMsg:
         }
     }
 
+    @Deprecated("Deprecated in Java")
     override fun onProgressUpdate(vararg p: Int?) {
         Log.d(TAG, "RoutingTask onProgressUpdate")
         if (!rtAltRoute)
             progress?.setMessage(context.getString(p[0]!!))
     }
 
+    @Deprecated("Deprecated in Java")
     override fun onPostExecute(route: RouteData?) {
         Log.d(TAG, "Start RoutingTask onPostExecute")
         if (rtAltRoute) {

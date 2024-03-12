@@ -14,6 +14,7 @@ internal open class CycleStreetsRoutingTask(private val routeType: String,
                                             private val saveRoute: Boolean = true,
                                             pAltRoute: Boolean = false) : RoutingTask<Waypoints>(R.string.route_finding_new, context, pAltRoute) {
 
+    @Deprecated("Deprecated in Java")
     override fun doInBackground(vararg waypoints: Waypoints): RouteData? {
         val wp = waypoints[0]
         return fetchRoute(routeType,

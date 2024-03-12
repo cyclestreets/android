@@ -1,5 +1,5 @@
 buildscript {
-  ext.kotlinVersion = '1.8.21'
+  ext.kotlinVersion = '1.9.10'
   repositories {
     google()
     mavenCentral()
@@ -12,8 +12,12 @@ buildscript {
 
 ext {
   // From e.g. https://source.android.com/setup/start/build-numbers
-  // Android 11          30  R
-  // Android 10          29  Q
+  // Android 14 	     34  Android14
+  // Android 13 	     33  Android13
+  // Android 12L         32  Android12L
+  // Android 12 	     31  Android12
+  // Android 11          30  Android11
+  // Android 10          29  Android10
   // Android 9.0         28  PIE
   // Android 8.1         27  OREO_MR1
   // Android 8.0         26  OREO
@@ -28,7 +32,7 @@ ext {
   // Android 4.2, 4.2.2  17  JELLY_BEAN_MR1
 
   // Remember to keep these values in sync with .travis.yml
-  compileSdkVersion=33
+  compileSdkVersion=34
   minSdkVersion=23
   targetSdkVersion=33
 
@@ -36,14 +40,14 @@ ext {
   javaVersion = JavaVersion.VERSION_11
 
   // centrally manage some other dependencies
-  mapsforgeVersion = '0.13.0' // TODO: 0.14.0 is available
-  osmdroidVersion = '6.1.6'   // TODO: 6.1.8 is available - test and remove our own implementation of https://github.com/osmdroid/osmdroid/issues/1578
+  mapsforgeVersion = '0.20.0'
+  osmdroidVersion = '6.1.18'
 
   // test dependencies
-  assertjVersion = '3.24.2'
+  assertjVersion = '3.25.3'
   junitVersion = '4.13.2'
-  mockitoVersion = '5.4.0'
-  robolectricVersion = '4.10.3'
+  mockitoVersion = '5.11.0'
+  robolectricVersion = '4.11.1'
 }
 
 // Configure common settings in all projects

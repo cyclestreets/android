@@ -133,8 +133,9 @@ class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedP
         preferenceScreen.sharedPreferences?.unregisterOnSharedPreferenceChangeListener(this)
     }
 
-    override fun onSharedPreferenceChanged(prefs: SharedPreferences, key: String) {
-        setSummary(key)
+    override fun onSharedPreferenceChanged(prefs: SharedPreferences, key: String?) {
+        if (key != null)
+            setSummary(key)
     }
 
     private fun setSummary(key: String) {

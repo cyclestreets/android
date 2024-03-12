@@ -9,6 +9,7 @@ import net.cyclestreets.view.R
 internal class ReplanRoutingTask(private val newPlan: String,
                                  private val db: RouteDatabase,
                                  context: Context) : RoutingTask<Journey>(R.string.route_loading, context) {
+    @Deprecated("Deprecated in Java")
     override fun doInBackground(vararg params: Journey): RouteData? {
         val pr = params[0]
         val rd = db.route(pr.itinerary(), newPlan)
