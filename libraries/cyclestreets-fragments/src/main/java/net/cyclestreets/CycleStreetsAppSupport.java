@@ -10,9 +10,7 @@ import android.content.SharedPreferences;
 import android.util.Log;
 
 public final class CycleStreetsAppSupport {
-
   private static final String TAG = Logging.getTag(CycleStreetsAppSupport.class);
-
   private static boolean isFirstRun;
   private static boolean isNew;
   private static String version;
@@ -86,7 +84,7 @@ public final class CycleStreetsAppSupport {
   private static void migratePreferences(Integer previousVersionCode, Integer versionCode) {
     Log.i(TAG, "Upgrading from " + previousVersion + " (" + previousVersionCode + ") to " + version + " (" + versionCode + ")");
 
-    if (previousVersionCode < 1621 && versionCode >= 1621) {
+    if (previousVersionCode < 1667 && versionCode >= 1667) {
       Log.i(TAG, "Clearing OSMDroid cache location after upgrade to target Android 10 (SDK 29) or higher changed accessible paths");
       CycleStreetsPreferences.clearOsmdroidCacheLocation();
     }
