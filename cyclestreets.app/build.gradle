@@ -41,7 +41,8 @@ android {
     testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
   }
   packagingOptions {
-    resources {
+    resourceThere are no new features in this release. We are updated a number of our
+dependencies, including our underlying maps display.s {
       excludes += [
         'META-INF/LICENSE',
         'META-INF/LICENSE.txt',
