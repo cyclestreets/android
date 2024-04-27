@@ -32,7 +32,7 @@ public class PoiFactory {
     if (TextUtils.isEmpty(website))
       website = osmTags.get("url");
 
-    return new POI(Integer.parseInt(feature.getProperty("id")),
+    return new POI(feature.getProperty("id"),
                    feature.getProperty("name"),
                    feature.getProperty("notes"),
                    website,

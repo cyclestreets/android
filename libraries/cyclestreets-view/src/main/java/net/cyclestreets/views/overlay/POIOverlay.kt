@@ -360,7 +360,7 @@ class POIOverlay(mapView: CycleMapView) : LiveItemOverlay<POIOverlayItem?>(mapVi
     }
 
 
-    class POIOverlayItem(val poi: POI) : OverlayItem(poi.id().toString(), poi.name(),
+    class POIOverlayItem(val poi: POI) : OverlayItem(poi.id(), poi.name(),
                                                      poi.notes(), poi.position()) {
 
         init {
@@ -376,10 +376,6 @@ class POIOverlay(mapView: CycleMapView) : LiveItemOverlay<POIOverlayItem?>(mapVi
         override fun equals(other: Any?): Boolean {
             if (other !is POIOverlayItem) return false
             return (poi.id() == other.poi.id())
-        }
-
-        override fun hashCode(): Int {
-            return poi.id()
         }
 
         override fun toString(): String {
