@@ -378,6 +378,10 @@ class POIOverlay(mapView: CycleMapView) : LiveItemOverlay<POIOverlayItem?>(mapVi
             return (poi.id() == other.poi.id())
         }
 
+        override fun hashCode(): Int {
+            return poi.id().hashCode()
+        }
+
         override fun toString(): String {
             return "POIItem [poi=${poi}]"
         }
