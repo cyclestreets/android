@@ -8,6 +8,7 @@ import net.cyclestreets.view.R
 
 internal class StoredRoutingTask (private val db: RouteDatabase,
                                   context: Context) : RoutingTask<Int>(R.string.route_loading, context) {
+    @Deprecated("Deprecated in Java")
     override fun doInBackground(vararg params: Int?): RouteData {
         return db.route(params[0]!!)
     }

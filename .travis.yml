@@ -24,10 +24,10 @@ addons:
 env:
   global:
     # Remember to keep these four values in sync with values in the root build.gradle file
-    - compileSdkVersion=33
+    - compileSdkVersion=34
     - minSdkVersion=23
     - targetSdkVersion=33
-    - toolsVersion=33.0.2
+    - toolsVersion=34.0.0 # default for Android Gradle Plugin 8.2.2
     - JAVA17_HOME=/usr/lib/jvm/java-17-openjdk-amd64
     # For the decryption of secrets needed to sign and publish our artifacts
     - secure: "LipL0wPv0uQrKitaeGxCpoQsx5sl/Pg/DtQv4S7Bi52DxfArgvD2hPB0TWgkgYGJPfENHLEyqg+H+/v2nON3IXY+cnsd+TW+P1T03/52D56ieSKGVtVtSYUOZUgoyxIIvRZWFh/UNg+AmZIjOCTJDLitBTUxD8kWux8NjhIqZow="
@@ -47,7 +47,7 @@ before_install:
   - sudo pip install requests
   - touch $HOME/.android/repositories.cfg
   - yes | sdkmanager "platforms;android-33"
-  - yes | sdkmanager "build-tools;33.0.2"
+  - yes | sdkmanager "build-tools;34.0.0"
 
 install:
   - ls -l /usr/lib/jvm/

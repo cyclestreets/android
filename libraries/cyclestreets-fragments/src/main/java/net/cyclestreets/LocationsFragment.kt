@@ -45,6 +45,7 @@ class LocationsFragment : ListFragment() {
         return layout
     }
 
+    @Deprecated("Deprecated in Java")
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         setHasOptionsMenu(true)
@@ -85,6 +86,7 @@ class LocationsFragment : ListFragment() {
         startActivityForResult(edit, 0)
     }
 
+    @Deprecated("Deprecated in Java")
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 

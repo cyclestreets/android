@@ -1,15 +1,2 @@
-Tap on the screen to add more waypoints to a planned route.
-
-New long-press option on route to Add / Remove waypoints.
-
-Tap on a waypoint to remove it or change its sequence.
-
-Intermediate waymarks are now numbered.
-
-LiveRide replans are no longer saved.
-
-When a route is replanned in LiveRide, the plan for the current route is used, rather than the one in your preferences.
-
-Circular leisure routes! Tap start waypoint and then choose duration or distance and POIs.
-
-Various minor bug fixes.
+There are no new features in this release. We are updated a number of our
+dependencies, including our underlying maps display.

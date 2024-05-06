@@ -1,2 +1,2 @@
-- If there are queued voice instructions, these are replaced with the latest instruction.
-- Update permissions for Android 13 so map tiles can be cached and photos added.
+There are no new features in this release. We are updated a number of our
+dependencies, including our underlying maps display.
