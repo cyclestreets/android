@@ -212,7 +212,7 @@ class Journey private constructor(wp: Waypoints? = null) {
             // For circular route pois, the id isn't returned in the API, so will create an artificial one.
             var id = 0
             for (poi in jdo.pois) {
-                val circularRoutePoi = POI(id,
+                val circularRoutePoi = POI(id.toString(),
                         poi.name,
                         "",
                         poi.website,

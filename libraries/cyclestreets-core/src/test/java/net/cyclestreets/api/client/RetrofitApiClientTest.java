@@ -193,7 +193,7 @@ public class RetrofitApiClientTest {
 
     // happy path
     POI poi = pois.get(0);
-    assertThat(poi.id()).isEqualTo(101399);
+    assertThat(poi.id()).isEqualTo("alpha_101399");
     assertThat(poi.name()).isEqualTo("Chris's Bikes");
     assertThat(poi.notes()).isEqualTo("The notes section");
     assertThat(poi.phone()).isEqualTo("01234 567890");
@@ -203,7 +203,7 @@ public class RetrofitApiClientTest {
 
     // website provided within `osmTags.url`, but not in `website`
     poi = pois.get(6);
-    assertThat(poi.id()).isEqualTo(113267);
+    assertThat(poi.id()).isEqualTo("some-other-characters-113267");
     assertThat(poi.name()).isEqualTo("Bicycle Ambulance");
     assertThat(poi.notes()).isEqualTo("");
     assertThat(poi.phone()).isEqualTo("");

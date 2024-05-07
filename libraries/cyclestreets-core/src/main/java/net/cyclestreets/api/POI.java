@@ -6,7 +6,7 @@ import org.osmdroid.util.GeoPoint;
 
 public class POI
 {
-  private final int id;
+  private final String id;
   private final String name;
   private final String notes;
   private final String url;
@@ -16,7 +16,7 @@ public class POI
 
   private POICategory category;
 
-  public POI(final int id,
+  public POI(final String id,
              final String name,
              final String notes,
              final String url,
@@ -35,7 +35,7 @@ public class POI
 
   public void setCategory(final POICategory category) { this.category = category; }
 
-  public int id() { return id; }
+  public String id() { return id; }
   public String name() { return stringOrBlank(name); }
   public String notes() { return stringOrBlank(notes); }
   public String url() { return stringOrBlank(url); }
