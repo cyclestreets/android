@@ -4,7 +4,7 @@
     {
       "type": "Feature",
       "properties": {
-        "id": "101399",
+        "id": "alpha_101399",
         "name": "Chris's Bikes",
         "notes": "The notes section",
         "osmTags": {
@@ -113,7 +113,7 @@
     {
       "type": "Feature",
       "properties": {
-        "id": "113267",
+        "id": "some-other-characters-113267",
         "name": "Bicycle Ambulance",
         "notes": "",
         "osmTags": {
