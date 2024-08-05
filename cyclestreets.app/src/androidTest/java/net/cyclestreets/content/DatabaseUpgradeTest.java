@@ -40,7 +40,7 @@ public class DatabaseUpgradeTest {
       Log.d(TAG, "Testing upgrade from version:" + i);
       copyDatabase(i);
 
-      DatabaseHelper databaseHelper = new DatabaseHelper(InstrumentationRegistry.getTargetContext());
+      DatabaseHelper databaseHelper = new DatabaseHelper(InstrumentationRegistry.getInstrumentation().getTargetContext());
       Log.d(TAG, " New Database Version:" + databaseHelper.getWritableDatabase().getVersion());
       Assert.assertEquals(DatabaseHelper.DATABASE_VERSION, databaseHelper.getWritableDatabase().getVersion());
       logTableContents(databaseHelper.getReadableDatabase(), ROUTE_TABLE_OLD);
@@ -55,10 +55,10 @@ public class DatabaseUpgradeTest {
   }
 
   private void copyDatabase(int version) throws IOException {
-    String dbPath = InstrumentationRegistry.getTargetContext().getDatabasePath(DatabaseHelper.DATABASE_NAME).getAbsolutePath();
+    String dbPath = InstrumentationRegistry.getInstrumentation().getTargetContext().getDatabasePath(DatabaseHelper.DATABASE_NAME).getAbsolutePath();
 
     String dbName = String.format("cyclestreets_v%d.db", version);
-    InputStream mInput = InstrumentationRegistry.getContext().getAssets().open(dbName);
+    InputStream mInput = InstrumentationRegistry.getInstrumentation().getContext().getAssets().open(dbName);
 
     File db = new File(dbPath);
     if (db.exists()) {

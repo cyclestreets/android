@@ -15,7 +15,7 @@ configurations {
 dependencies {
   api "org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion"
 
-  implementation 'androidx.core:core:1.12.0'
+  implementation 'androidx.core:core:1.13.1'
   implementation 'androidx.preference:preference:1.2.1'
 
   api "org.osmdroid:osmdroid-android:${rootProject.ext.osmdroidVersion}"
