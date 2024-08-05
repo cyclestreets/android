@@ -1,3 +1,2 @@
-There are no new features in this release. We are updated a number of our
-dependencies, including our underlying maps display.
-POI issue fixed.
+There are no new features in this release. We have updated some of our
+dependencies.
