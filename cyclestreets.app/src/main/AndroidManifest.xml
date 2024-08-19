@@ -77,7 +77,7 @@
     </activity>
     <activity android:name="net.cyclestreets.AboutActivity"
               android:label="About"
-              android:exported="false">
+              android:exported="true">
       <intent-filter>
         <action android:name="net.cyclestreets.AboutActivity" />
         <category android:name="android.intent.category.DEFAULT" />
