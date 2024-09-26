@@ -89,6 +89,11 @@ abstract class MainNavDrawerActivity : AppCompatActivity(), OnNavigationItemSele
         else if (CycleStreetsAppSupport.isNewVersion())
             onNewVersion()
         CycleStreetsAppSupport.splashScreenSeen()
+
+        val selectedItem = prefs().getInt(DRAWER_ITEMID_SELECTED_KEY, R.id.nav_journey_planner)
+        // If menu item not found, show journey planner
+        if (!showPage(selectedItem))
+            showPage(R.id.nav_journey_planner)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -185,9 +190,6 @@ abstract class MainNavDrawerActivity : AppCompatActivity(), OnNavigationItemSele
     }
 
     public override fun onResume() {
-        val selectedItem = prefs().getInt(DRAWER_ITEMID_SELECTED_KEY, R.id.nav_journey_planner)
-        if (!showPage(selectedItem))
-            showPage(R.id.nav_journey_planner)
         super.onResume()
         Route.registerListener(this)
         setBlogStateTitle()

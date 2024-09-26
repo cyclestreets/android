@@ -108,6 +108,11 @@ open class CycleMapFragment : Fragment(), Undoable {
         map!!.onResume()
     }
 
+    override fun onDestroy() {
+        map!!.onDestroy()
+        super.onDestroy()
+    }
+
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         if (map != null)
             map!!.onCreateOptionsMenu(menu)
