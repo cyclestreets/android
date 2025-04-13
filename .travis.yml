@@ -6,7 +6,7 @@
 # > Android builds are only supported on our Trusty image at this time hence you’ll need to explicitly
 #   specify dist: trusty in your .travis.yml file.
 sudo: false
-dist: trusty
+dist: jammy
 
 branches:
   only:
