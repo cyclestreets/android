@@ -25,7 +25,7 @@ enum class Turn(val textInstruction: String) {
 
         @JvmStatic
         fun turnFor(turn: String): Turn {
-            return mapping[turn.toLowerCase()] ?: DEFAULT
+            return mapping[turn.lowercase()] ?: DEFAULT
         }
     }
 }

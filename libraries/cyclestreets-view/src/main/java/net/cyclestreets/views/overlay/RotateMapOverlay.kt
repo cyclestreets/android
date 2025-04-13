@@ -95,7 +95,8 @@ class RotateMapOverlay(private val mapView: CycleMapView) : Overlay(), PauseResu
         val gf = GeomagneticField(lat, lon, alt, timeOfFix)
 
         var trueNorth = orientationToMagneticNorth + gf.declination
-        synchronized(trueNorth) {
+
+        synchronized(gf) {
             if (trueNorth > 360) trueNorth -= 360
 
             setMapOrientation(trueNorth)
