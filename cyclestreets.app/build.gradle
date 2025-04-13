@@ -13,8 +13,8 @@ apply plugin: 'me.moallemi.advanced-build-version'
 advancedVersioning {
   nameOptions {
     versionMajor 3
-    versionMinor 13
-    versionPatch 2
+    versionMinor 14
+    versionPatch 0
   }
   codeOptions {
     versionCodeType 'GIT_COMMIT_COUNT'
