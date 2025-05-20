@@ -25,7 +25,7 @@ env:
   global:
     # Remember to keep these four values in sync with values in the root build.gradle file
     - compileSdkVersion=34
-    - minSdkVersion=23
+    - minSdkVersion=33
     - targetSdkVersion=34
     - toolsVersion=36.0.0 # default for Android Gradle Plugin 8.9.1
     - JAVA17_HOME=/usr/lib/jvm/java-17-openjdk-amd64
