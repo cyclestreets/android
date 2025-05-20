@@ -1,6 +1,7 @@
 package net.cyclestreets.api.client;
 
 import android.content.Context;
+import android.net.Uri;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -31,6 +32,7 @@ import org.geojson.FeatureCollection;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 
 import okhttp3.Cache;
@@ -264,12 +266,12 @@ public class RetrofitApiClient {
                                    final String category,
                                    final String metaCat,
                                    final String caption,
-                                   final String filename) throws IOException {
+                                   final Uri photoUri) throws IOException {
     MultipartBody.Part filePart = null;
-    if (filename != null) {
-      File file = new File(filename);
-      RequestBody fileBody = RequestBody.create(MediaType.parse("multipart/form-data"), file);
-      filePart = MultipartBody.Part.createFormData("mediaupload", file.getName(), fileBody);
+    if (photoUri != null) {
+      InputStream is = context.getContentResolver().openInputStream(photoUri);
+      RequestBody fileBody = RequestBody.create(MediaType.parse("multipart/form-data"), is.readAllBytes());
+      filePart = MultipartBody.Part.createFormData("mediaupload", "photo", fileBody);
     }
     // Unfortunately we have to do all this faff, otherwise the JSON converter will insert quotes!
     RequestBody usernamePart = RequestBody.create(MediaType.parse("text/plain"), username);

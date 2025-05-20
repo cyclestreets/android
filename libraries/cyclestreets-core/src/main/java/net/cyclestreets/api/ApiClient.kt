@@ -2,6 +2,7 @@ package net.cyclestreets.api
 
 import android.content.Context
 import android.content.pm.PackageManager
+import android.net.Uri
 import net.cyclestreets.RoutePlans.PLAN_LEISURE
 
 import net.cyclestreets.api.client.RetrofitApiClient
@@ -17,7 +18,7 @@ interface CycleStreetsApi {
     fun getUserJourneys(username: String): UserJourneys
     fun geoCoder(search: String, lonW: Double, latS: Double, lonE: Double, latN: Double): GeoPlaces
     fun sendFeedback(itinerary: Int, comments: String, name: String, email: String): Result
-    fun uploadPhoto(filename: String, username: String, password: String, lon: Double, lat: Double, metaCat: String, category: String, dateTime: String, caption: String): Upload.Result
+    fun uploadPhoto(photoUri: Uri, username: String, password: String, lon: Double, lat: Double, metaCat: String, category: String, dateTime: String, caption: String): Upload.Result
     fun signin(username: String, password: String): Signin.Result
     fun register(username: String, password: String, name: String, email: String): Result
     fun getPOICategories(): POICategories
@@ -114,8 +115,8 @@ object ApiClient : CycleStreetsApi {
     override fun sendFeedback(itinerary: Int, comments: String, name: String, email: String): Result {
         return delegate.sendFeedback(itinerary, comments, name, email)
     }
-    override fun uploadPhoto(filename: String, username: String, password: String, lon: Double, lat: Double, metaCat: String, category: String, dateTime: String, caption: String): Upload.Result {
-        return delegate.uploadPhoto(filename, username, password, lon, lat, metaCat, category, dateTime, caption)
+    override fun uploadPhoto(photoUri: Uri, username: String, password: String, lon: Double, lat: Double, metaCat: String, category: String, dateTime: String, caption: String): Upload.Result {
+        return delegate.uploadPhoto(photoUri, username, password, lon, lat, metaCat, category, dateTime, caption)
     }
     override fun signin(username: String, password: String): Signin.Result {
         return delegate.signin(username, password)
@@ -195,7 +196,7 @@ class ApiClientImpl(private val retrofitApiClient: RetrofitApiClient): CycleStre
         return retrofitApiClient.sendFeedback(itinerary, comments, name, email)
     }
 
-    override fun uploadPhoto(filename: String,
+    override fun uploadPhoto(photoUri: Uri,
                              username: String,
                              password: String,
                              lon: Double,
@@ -205,7 +206,7 @@ class ApiClientImpl(private val retrofitApiClient: RetrofitApiClient): CycleStre
                              dateTime: String,
                              caption: String): Upload.Result {
         return retrofitApiClient.uploadPhoto(username, password, lon, lat, java.lang.Long.valueOf(dateTime),
-                                             category, metaCat, caption, filename)
+                                             category, metaCat, caption, photoUri)
     }
 
     override fun signin(username: String,

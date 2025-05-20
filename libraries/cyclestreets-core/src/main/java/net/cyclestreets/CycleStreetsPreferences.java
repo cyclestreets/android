@@ -178,15 +178,6 @@ public class CycleStreetsPreferences
     editor.apply();
   }
 
-  public static boolean uploadSmallImages() {
-    if ("640px".equals(uploadSize()))
-      return true;
-    if ("big".equals(uploadSize()))
-      return false;
-
-    return !onFastConnection();
-  }
-
   private static boolean onFastConnection() {
     final ConnectivityManager connMgr = (ConnectivityManager)context_.getSystemService(Context.CONNECTIVITY_SERVICE);
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {

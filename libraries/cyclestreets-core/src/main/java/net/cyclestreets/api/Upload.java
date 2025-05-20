@@ -1,5 +1,7 @@
 package net.cyclestreets.api;
 
+import android.net.Uri;
+
 import net.cyclestreets.core.R;
 
 import org.osmdroid.api.IGeoPoint;
@@ -28,7 +30,7 @@ public class Upload {
     public String url() { return url; }
   }
 
-  public static Upload.Result photo(final String filename,
+  public static Upload.Result photo(final Uri photoUri,
                                     final String username,
                                     final String password,
                                     final IGeoPoint location,
@@ -36,7 +38,7 @@ public class Upload {
                                     final String category,
                                     final String dateTime,
                                     final String caption) {
-    return ApiClient.INSTANCE.uploadPhoto(filename,
+    return ApiClient.INSTANCE.uploadPhoto(photoUri,
                                           username,
                                           password,
                                           location.getLongitude(),

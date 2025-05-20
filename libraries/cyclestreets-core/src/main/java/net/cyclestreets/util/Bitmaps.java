@@ -1,13 +1,16 @@
 package net.cyclestreets.util;
 
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FilterInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
+import android.net.Uri;
 
 public class Bitmaps
 {
@@ -17,8 +20,9 @@ public class Bitmaps
     return decodeOptions;
   }
 
-  public static Bitmap loadFile(final String fileName) {
-    return BitmapFactory.decodeFile(fileName, decodeOptions());
+  public static Bitmap LoadUri(final Context context, final Uri uri) throws FileNotFoundException {
+    final InputStream str = context.getContentResolver().openInputStream(uri);
+    return loadStream(str);
   }
 
   public static Bitmap loadStream(final InputStream stream) {
