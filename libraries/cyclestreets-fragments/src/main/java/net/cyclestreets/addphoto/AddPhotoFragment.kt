@@ -11,6 +11,7 @@ import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.Point
+import android.net.Uri
 import android.os.AsyncTask
 import android.os.Build
 import android.os.Bundle
@@ -32,6 +33,9 @@ import android.widget.RelativeLayout
 import android.widget.Spinner
 import android.widget.TextView
 import android.widget.Toast
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.PickVisualMediaRequest
+import androidx.activity.result.contract.ActivityResultContracts.PickVisualMedia
 import androidx.core.content.FileProvider
 import androidx.exifinterface.media.ExifInterface
 import androidx.fragment.app.Fragment
@@ -99,6 +103,8 @@ class AddPhotoFragment : Fragment(), View.OnClickListener, Undoable, ThereOverla
     private var geolocated: Boolean = false
     private var uploadedUrl: String? = null
 
+    private lateinit var pickMedia: ActivityResultLauncher<PickVisualMediaRequest>
+
     companion object {
         private var photomapCategories: PhotomapCategories? = null
     }
@@ -106,6 +112,12 @@ class AddPhotoFragment : Fragment(), View.OnClickListener, Undoable, ThereOverla
     ///////////// Fragment methods - views
     override fun onCreate(savedInstanceState: Bundle?) {
         setHasOptionsMenu(true)
+
+        pickMedia = registerForActivityResult(PickVisualMedia()) {
+            uri -> photoPicked(uri)
+        }
+
+
         super.onCreate(savedInstanceState)
     }
 
@@ -338,10 +350,25 @@ class AddPhotoFragment : Fragment(), View.OnClickListener, Undoable, ThereOverla
             return
         if (requestCode != TAKE_PHOTO && requestCode != CHOOSE_PHOTO)
             return
+    }
+
+    private fun launchPhotoPicker() {
+        try {
+            // Launching the photo picker (photos & video included)
+            pickMedia.launch(
+                PickVisualMediaRequest(PickVisualMedia.ImageOnly)
+            )
+        } catch (e: Exception) {
+            Toast.makeText(activity, "There was a problem launching the photo picker : " + e.message, Toast.LENGTH_LONG).show()
+        }
+    }
+
+    private fun photoPicked(uri: Uri?) {
+        if (uri == null)
+            return
 
         try {
-            if (requestCode == CHOOSE_PHOTO)
-                photoFilename = getImageFilePath(data!!, activity)
+            photoFilename = uri.toString()
 
             photo?.recycle()
             photo = Bitmaps.loadFile(photoFilename)
@@ -354,12 +381,6 @@ class AddPhotoFragment : Fragment(), View.OnClickListener, Undoable, ThereOverla
             nextStep()
         } catch (e: Exception) {
             Toast.makeText(activity, "There was a problem grabbing the photo : " + e.message, Toast.LENGTH_LONG).show()
-            Log.w(TAG, "onActivityResult threw exception when processing requestCode $requestCode", e)
-            if (requestCode == TAKE_PHOTO)
-                startActivityForResult(
-                    Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI),
-                    CHOOSE_PHOTO
-                )
         }
     }
 
@@ -495,16 +516,7 @@ class AddPhotoFragment : Fragment(), View.OnClickListener, Undoable, ThereOverla
                     dispatchTakePhotoIntent()
             }
             R.id.chooseexisting_button -> doOrLogin {
-                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU)
-                    doOrRequestPermission(null, this, READ_EXTERNAL_STORAGE) {
-                        startActivityForResult(Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI),
-                                           CHOOSE_PHOTO)
-                }
-                else
-                    doOrRequestPermission(null, this, READ_MEDIA_IMAGES) {
-                        startActivityForResult(Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI),
-                            CHOOSE_PHOTO)
-                    }
+                launchPhotoPicker()
             }
             R.id.textonly_button -> doOrLogin {
                 photo = null

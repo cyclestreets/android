@@ -67,18 +67,6 @@ private fun storageDir(context: Context?): File {
     return context?.getExternalFilesDir(Environment.DIRECTORY_PICTURES)!!
 }
 
-internal fun getImageFilePath(data: Intent, activity: Activity?): String {
-    val selectedImage = data.data
-    val filePathColumn = arrayOf(MediaStore.Images.Media.DATA)
-
-    activity!!.contentResolver
-            .query(selectedImage!!, filePathColumn, null, null, null)!!
-            .use { cursor ->
-        cursor.moveToFirst()
-        return cursor.getString(cursor.getColumnIndex(filePathColumn[0]))
-    }
-}
-
 internal fun photoLocation(photoExif: ExifInterface): GeoPoint? {
     val coords: DoubleArray? = photoExif.latLong
     return if (coords != null) GeoPoint(coords[0], coords[1]) else null
