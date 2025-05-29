@@ -13,7 +13,6 @@ import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.annotation.Config
 
-@Config(manifest = Config.NONE, sdk = [33])
 @RunWith(RobolectricTestRunner::class)
 class SegmentsTest {
 
@@ -27,7 +26,7 @@ class SegmentsTest {
     }
 
     @Test
-    @Config(sdk=[30])
+    @Config(sdk=[33])
     fun rightThenLeftWalkCycleCreatesTwoSegments() {
         loadJourneyFrom("journey-rightleft-walkcycle-domain.json")
 
@@ -42,7 +41,7 @@ class SegmentsTest {
         assertTrue(seg2.walk())
     }
     @Test
-    @Config(sdk=[30])
+    @Config(sdk=[33])
     fun overBridgeWalkCycleCreatesTwoSegments() {
         loadJourneyFrom("journey-overbridge-walkcycle-domain.json")
 
