@@ -75,13 +75,11 @@ android {
   namespace 'net.cyclestreets'
 }
 
-import com.github.triplet.gradle.androidpublisher.ReleaseStatus
 play {
   // credentials file decrypted from play-api-key.json.enc by ciLicense.sh
   serviceAccountCredentials.set(file('play-api-key.json'))
 
   track.set('beta')
-  releaseStatus.set(ReleaseStatus.DRAFT)
 
   // If you want to update screenshots etc, check what 'publish' tasks are available by running
   // `./gradlew tasks`, and refer to the documentation at https://github.com/Triple-T/gradle-play-publisher
