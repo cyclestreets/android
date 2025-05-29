@@ -1,6 +1,7 @@
 language: android
 sudo: false
 dist: focal
+jdk: openjdk17
 
 branches:
   only:
