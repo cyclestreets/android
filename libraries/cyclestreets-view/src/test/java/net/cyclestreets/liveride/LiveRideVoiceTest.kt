@@ -20,7 +20,7 @@ import org.robolectric.RobolectricTestRunner
 import org.robolectric.annotation.Config
 
 
-@Config(manifest = Config.NONE, sdk = [30])
+@Config(manifest = Config.NONE, sdk = [33])
 @RunWith(RobolectricTestRunner::class)
 class LiveRideVoiceTest {
 
