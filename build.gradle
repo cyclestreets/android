@@ -47,7 +47,7 @@ ext {
   assertjVersion = '3.25.3'
   junitVersion = '4.13.2'
   mockitoVersion = '5.11.0'
-  robolectricVersion = '4.11.1'
+  robolectricVersion = '4.14.1'
 }
 
 // Configure common settings in all projects
@@ -85,7 +85,7 @@ subprojects {
     maven { url "https://jitpack.io" } // required for https://github.com/smart-fun/XmlToJson
   }
 
-  if (projectDir.getName().equals('cyclestreets.app')) {
+  if (projectDir.getName() == 'cyclestreets.app') {
     apply plugin: 'com.android.application'
   } else {
     apply plugin: 'com.android.library'

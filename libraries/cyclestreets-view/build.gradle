@@ -16,26 +16,26 @@ android {
 dependencies {
   api project(':libraries:cyclestreets-core')
   implementation 'com.fasterxml.jackson.core:jackson-databind:2.13.4'
-  implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.7.0'
+  implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.9.0'
   api "org.mapsforge:mapsforge-map-android:${rootProject.ext.mapsforgeVersion}"
   api "org.mapsforge:mapsforge-themes:${rootProject.ext.mapsforgeVersion}"
   // there is some suggestion (https://github.com/osmdroid/osmdroid/wiki/Mapsforge) that the below may be necessary
 //  api "org.osmdroid:osmdroid-mapsforge:${rootProject.ext.osmdroidVersion}@aar"
 // Icons disappear with 5.2.8 so reverting to 5.0.3 for now
   api 'com.mikepenz:iconics-core:5.0.3@aar'
-  api 'com.mikepenz:iconics-typeface-api:5.0.3@aar'
+  api 'com.mikepenz:iconics-typeface-api:5.1.1@aar'
   implementation 'com.mikepenz:iconics-views:5.0.3@aar'
   api 'com.mikepenz:google-material-typeface:3.0.1.6.original-kotlin@aar'
 
-  api 'com.google.android.material:material:1.11.0'
-  api 'androidx.exifinterface:exifinterface:1.3.7'
+  api 'com.google.android.material:material:1.12.0'
+  api 'androidx.exifinterface:exifinterface:1.4.1'
   api 'androidx.preference:preference:1.2.1'
 
-  testImplementation 'androidx.test:core:1.5.0'
-  testImplementation 'androidx.test.ext:junit:1.1.5'
+  testImplementation 'androidx.test:core:1.6.1'
+  testImplementation 'androidx.test.ext:junit:1.2.1'
   testImplementation "junit:junit:${rootProject.ext.junitVersion}"
   testImplementation "org.assertj:assertj-core:${rootProject.ext.assertjVersion}"
   testImplementation "org.mockito:mockito-core:${rootProject.ext.mockitoVersion}"
   testImplementation "org.robolectric:robolectric:${rootProject.ext.robolectricVersion}"
-  testImplementation 'commons-io:commons-io:2.13.0'
+  testImplementation 'commons-io:commons-io:2.16.1'
 }
