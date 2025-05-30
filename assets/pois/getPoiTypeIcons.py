@@ -22,12 +22,13 @@
 import glob
 import os
 import requests
+import base64
+import urllib3
+urllib3.disable_warnings()
 
 # Note that it's important to use our app's key, specifically.  Other keys will return a different
 # set of POI types.
-apikey = 'redacted'
-with open('../../libraries/cyclestreets-core/src/test/resources/cyclestreets-api.key', 'r') as apikey_file:
-    apikey = apikey_file.read().replace('\n', '')
+apikey = 'b26a0d6b45e00612'
 session = requests.Session()
 session.params.update({'key': apikey})
 
@@ -51,7 +52,7 @@ for size, density in iconSizes.items():
 
     for id, type in types.items():
         # Remove base64 encoding
-        decoded_img = type['icon'].decode('base64')
+        decoded_img = base64.b64decode(type['icon'])
         with open('../../libraries/cyclestreets-core/src/main/res/drawable-{}/poi_{}.png'.format(density, id), 'wb') as fh:
             fh.write(decoded_img)
         print('.'),
