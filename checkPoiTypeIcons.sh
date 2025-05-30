@@ -5,6 +5,7 @@ if [ "$TRAVIS_REPO_SLUG" == "cyclestreets/android" ] &&[ "$CI" == "true" ] && [ 
   echo "Running a non-PR build on master - check whether POI type icons are up-to-date"
   pushd assets/pois
   python --version
+  pip3 install requests
   python getPoiTypeIcons.py
   if [[ $? -ne 0 ]]
   then
