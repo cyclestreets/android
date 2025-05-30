@@ -150,8 +150,7 @@ class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedP
         val pref = findPreference<Preference>(CycleStreetsPreferences.PREF_ACCOUNT_KEY) ?: return
         val account = pref as PreferenceScreen
 
-        when {
-            CycleStreetsPreferences.accountOK() -> account.setSummary(R.string.settings_signed_in)
+        when {CycleStreetsPreferences.accountOK() -> account.setSummary(R.string.settings_signed_in)
             CycleStreetsPreferences.accountPending() -> account.setSummary(R.string.settings_awaiting)
             else -> account.summary = ""
         }

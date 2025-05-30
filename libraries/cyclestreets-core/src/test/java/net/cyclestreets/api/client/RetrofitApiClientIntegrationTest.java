@@ -1,6 +1,7 @@
 package net.cyclestreets.api.client;
 
 import android.content.Context;
+import android.net.Uri;
 
 import net.cyclestreets.api.*;
 import net.cyclestreets.core.R;
@@ -28,7 +29,7 @@ import static org.mockito.Mockito.when;
 
 // Useful for manual testing that operations do work with the real API, and not just WireMock.
 @Ignore("Only meant for manual testing")
-@Config(manifest = Config.NONE, sdk = 30)
+@Config(manifest = Config.NONE, sdk = 33)
 @RunWith(RobolectricTestRunner.class)
 public class RetrofitApiClientIntegrationTest {
 
@@ -178,8 +179,13 @@ public class RetrofitApiClientIntegrationTest {
 
   @Test
   public void hitUploadPhotoApiWithPhoto() throws Exception {
-    Upload.Result result = apiClient.uploadPhoto("test66137", "pwd1234", 0, 52, 1467394411,
-            "cycleparking", "good", "Caption: THIS IS TEST DATA and should not be on the map", "/tmp/test-image.png");
+    Upload.Result result = apiClient.uploadPhoto(
+            "test66137", "pwd1234",
+            0, 52,
+            1467394411,
+            "cycleparking", "good",
+            "Caption: THIS IS TEST DATA and should not be on the map",
+            Uri.parse("/tmp/test-image.png"));
     System.out.println(result.ok());
     System.out.println(result.url());
     System.out.println(result.message());

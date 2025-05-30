@@ -1,12 +1,7 @@
-# Use container-based Travis, with the Trusty image (Ubuntu 14.04).
-# See https://docs.travis-ci.com/user/reference/overview/ and https://docs.travis-ci.com/user/reference/trusty/
-#
-# Before trying to upgrade this, check the 'android' language support at https://docs.travis-ci.com/user/languages/android/
-# At the time of writing, this says:
-# > Android builds are only supported on our Trusty image at this time hence you’ll need to explicitly
-#   specify dist: trusty in your .travis.yml file.
+language: android
 sudo: false
-dist: trusty
+dist: focal
+jdk: openjdk17
 
 branches:
   only:
@@ -16,28 +11,21 @@ branches:
 git:
   depth: false
 
-language: android
-addons:
-  apt:
-    packages:
-      - openjdk-17-jdk
 env:
   global:
     # Remember to keep these four values in sync with values in the root build.gradle file
     - compileSdkVersion=34
-    - minSdkVersion=23
+    - minSdkVersion=33
     - targetSdkVersion=34
-    - toolsVersion=34.0.0 # default for Android Gradle Plugin 8.2.2
-    - JAVA17_HOME=/usr/lib/jvm/java-17-openjdk-amd64
     # For the decryption of secrets needed to sign and publish our artifacts
     - secure: "LipL0wPv0uQrKitaeGxCpoQsx5sl/Pg/DtQv4S7Bi52DxfArgvD2hPB0TWgkgYGJPfENHLEyqg+H+/v2nON3IXY+cnsd+TW+P1T03/52D56ieSKGVtVtSYUOZUgoyxIIvRZWFh/UNg+AmZIjOCTJDLitBTUxD8kWux8NjhIqZow="
+
 android:
   components:
-    # Android tools - it's deliberate that `tools` is in there twice, see https://docs.travis-ci.com/user/languages/android/#Installing-a-newer-SDK-Platform-Tools-revision
     - tools  # to download the latest listing of what's available to download
     - platform-tools
     - tools  # to install up-to-date Android SDK tools
-    - build-tools-${toolsVersion}
+    - build-tools
 
     # SDK versions
     - android-${compileSdkVersion}
@@ -52,7 +40,7 @@ before_install:
 install:
   - ls -l /usr/lib/jvm/
   - ./checkPoiTypeIcons.sh
-  - JAVA_HOME=${JAVA17_HOME} ./gradlew build -Dorg.gradle.java.home=${JAVA17_HOME} -x lint
+  - ./gradlew build -x lint
 
 script:
   - ./ciPublish.sh

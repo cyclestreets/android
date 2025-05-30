@@ -57,8 +57,6 @@ public class AccountDetailsActivity extends Activity
     private View signinDetails_;
     private Button signinButton_;
 
-    private boolean isSubmit;
-
     @Override
     public void onCreate(final Bundle saved) {
         super.onCreate(saved);
@@ -83,47 +81,14 @@ public class AccountDetailsActivity extends Activity
         setupView();
     }
 
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        if (isSubmit) {
-            //If successfully registered, clear user details.
-            CycleStreetsPreferences.clearTempUsernamePassword();
-        } else {
-            saveUserData();
-        }
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        isSubmit = false;
-    }
-
     @Override
     public void onBackPressed() {
-        if (isSubmit) {
-            //If successfully registered, clear user details.z
-            CycleStreetsPreferences.clearTempUsernamePassword();
-        } else {
-            saveUserData();
-        }
         step_ = step_.prev();
 
         if (step_ != null)
             setupView();
         else
             super.onBackPressed();
-    }
-
-    private void saveUserData(){
-        final String username = getText(registerDetails_, R.id.username);
-        final String password = getText(registerDetails_, R.id.password);
-        final String confirmPassword = getText(registerDetails_, R.id.confirm_password);
-        final String name = getText(registerDetails_, R.id.name);
-        final String email = getText(registerDetails_, R.id.email);
-        CycleStreetsPreferences.setTempUsernamePassword(username, password, confirmPassword, name, email);
     }
 
     private void setupView() {
@@ -368,7 +333,6 @@ public class AccountDetailsActivity extends Activity
         protected void onPostExecute(final Result result) {
             progress_.dismiss();
             CycleStreetsPreferences.setPendingUsernamePassword(username_, password_, name_, email_, result.ok());
-            isSubmit = result.ok();
             MessageBox(result.message(), result.ok());
         }
     }

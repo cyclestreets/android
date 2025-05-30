@@ -9,6 +9,8 @@ import android.os.Build;
 import androidx.preference.PreferenceManager;
 import android.telephony.TelephonyManager;
 
+import java.util.Objects;
+
 public class CycleStreetsPreferences
 {
   private static Context context_;
@@ -103,7 +105,8 @@ public class CycleStreetsPreferences
   }
 
   public static boolean accountOK() {
-    return getBoolean(PREF_VALIDATED_KEY, false);
+    return getBoolean(PREF_VALIDATED_KEY, false) &&
+            (!Objects.equals(password(), ""));
   }
 
   public static boolean accountPending() {
@@ -176,15 +179,6 @@ public class CycleStreetsPreferences
     final Editor editor = editor();
     editor.remove(PREF_SETTINGS_LAST_TIME_PREFIX + permission);
     editor.apply();
-  }
-
-  public static boolean uploadSmallImages() {
-    if ("640px".equals(uploadSize()))
-      return true;
-    if ("big".equals(uploadSize()))
-      return false;
-
-    return !onFastConnection();
   }
 
   private static boolean onFastConnection() {
@@ -284,20 +278,6 @@ public class CycleStreetsPreferences
     editor.commit();
   }
 
-  public static void setTempUsernamePassword(final String username,
-                                                final String password,
-                                                final String confirmPassword,
-                                                final String name,
-                                                final String email) {
-    final Editor editor = editor();
-    editor.putString(PREF_USERNAME_KEY, username);
-    editor.putString(PREF_PASSWORD_KEY, password);
-    editor.putString(PREF_CONFIRM_PASSWORD_KEY, confirmPassword);
-    editor.putString(PREF_NAME_KEY, name);
-    editor.putString(PREF_EMAIL_KEY, email);
-    editor.commit();
-  }
-
   public static void clearUsernamePassword() {
     final Editor editor = editor();
     editor.putString(PREF_USERNAME_KEY, "");
@@ -307,16 +287,6 @@ public class CycleStreetsPreferences
     editor.putString(PREF_CONFIRM_PASSWORD_KEY, "");
     editor.putBoolean(PREF_PENDING_KEY, false);
     editor.putBoolean(PREF_VALIDATED_KEY, false);
-    editor.commit();
-  }
-
-  public static void clearTempUsernamePassword() {
-    final Editor editor = editor();
-    editor.putString(PREF_USERNAME_KEY, "");
-    editor.putString(PREF_PASSWORD_KEY, "");
-    editor.putString(PREF_NAME_KEY, "");
-    editor.putString(PREF_EMAIL_KEY, "");
-    editor.putString(PREF_CONFIRM_PASSWORD_KEY, "");
     editor.commit();
   }
 

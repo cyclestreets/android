@@ -25,7 +25,7 @@ class CircularRouteViewModel: ViewModel() {
     }
 
     fun distanceInMetres(): Int {
-        return if (distanceUnits.toLowerCase(Locale.ROOT) == "miles") {
+        return if (distanceUnits.lowercase(Locale.ROOT) == "miles") {
             (values[DISTANCE] * 8000 / 5)
         }
         else values[DISTANCE] * 1000

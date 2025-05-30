@@ -22,7 +22,7 @@ dependencies {
   api 'org.slf4j:slf4j-android:1.7.30'
 
   // Retrofit for HTTP Client activities
-  api 'com.squareup.retrofit2:retrofit:2.9.0'
+  api 'com.squareup.retrofit2:retrofit:2.11.0'
   implementation 'com.squareup.retrofit2:converter-scalars:2.9.0'
   implementation('com.squareup.retrofit2:converter-simplexml:2.9.0') {
     // Exclusions required as per https://github.com/square/retrofit/issues/1796
@@ -44,5 +44,5 @@ dependencies {
   testImplementation 'org.skyscreamer:jsonassert:1.5.1'
   testImplementation "org.mockito:mockito-core:${rootProject.ext.mockitoVersion}"
   testImplementation "org.robolectric:robolectric:${rootProject.ext.robolectricVersion}"
-  testImplementation 'commons-io:commons-io:2.13.0'
+  testImplementation 'commons-io:commons-io:2.16.1'
 }

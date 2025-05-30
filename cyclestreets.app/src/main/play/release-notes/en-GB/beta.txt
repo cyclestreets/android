@@ -1,2 +1,6 @@
-There are no new features in this release. We have updated some of our
-dependencies.
+Corrected a problem saving the account details. You may need
+to sign in again to upload photos to the Photomap.
+
+Using the Saved Locations setting no longer causes a crash.
+
+We have updated some of our dependencies.

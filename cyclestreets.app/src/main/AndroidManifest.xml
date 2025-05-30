@@ -85,7 +85,7 @@
     </activity>
     <activity android:name="net.cyclestreets.LocationsActivity"
               android:label="Locations"
-              android:exported="false">
+              android:exported="true">
       <intent-filter>
         <action android:name="net.cyclestreets.LocationsActivity" />
         <category android:name="android.intent.category.DEFAULT" />

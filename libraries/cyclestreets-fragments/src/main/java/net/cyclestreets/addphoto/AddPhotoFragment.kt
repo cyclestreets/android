@@ -2,7 +2,6 @@ package net.cyclestreets.addphoto
 
 import android.Manifest.permission.ACCESS_FINE_LOCATION
 import android.Manifest.permission.READ_EXTERNAL_STORAGE
-import android.Manifest.permission.READ_MEDIA_IMAGES
 import android.Manifest.permission.WRITE_EXTERNAL_STORAGE
 import android.app.Activity
 import android.content.Context
@@ -11,6 +10,7 @@ import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.Point
+import android.net.Uri
 import android.os.AsyncTask
 import android.os.Build
 import android.os.Bundle
@@ -32,6 +32,9 @@ import android.widget.RelativeLayout
 import android.widget.Spinner
 import android.widget.TextView
 import android.widget.Toast
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.PickVisualMediaRequest
+import androidx.activity.result.contract.ActivityResultContracts.PickVisualMedia
 import androidx.core.content.FileProvider
 import androidx.exifinterface.media.ExifInterface
 import androidx.fragment.app.Fragment
@@ -61,6 +64,7 @@ import org.osmdroid.api.IGeoPoint
 import org.osmdroid.util.GeoPoint
 import java.io.File
 import java.util.Date
+import androidx.core.net.toUri
 
 
 internal val TAG = Logging.getTag(AddPhotoFragment::class.java)
@@ -90,7 +94,7 @@ class AddPhotoFragment : Fragment(), View.OnClickListener, Undoable, ThereOverla
 
     // State
     private var step: AddStep = AddStep.START
-    private var photoFilename: String? = null
+    private var photoUri: Uri? = null
     private var photo: Bitmap? = null
     private var dateTime: String? = ""
     private lateinit var caption: String
@@ -99,6 +103,8 @@ class AddPhotoFragment : Fragment(), View.OnClickListener, Undoable, ThereOverla
     private var geolocated: Boolean = false
     private var uploadedUrl: String? = null
 
+    private lateinit var pickMedia: ActivityResultLauncher<PickVisualMediaRequest>
+
     companion object {
         private var photomapCategories: PhotomapCategories? = null
     }
@@ -106,6 +112,12 @@ class AddPhotoFragment : Fragment(), View.OnClickListener, Undoable, ThereOverla
     ///////////// Fragment methods - views
     override fun onCreate(savedInstanceState: Bundle?) {
         setHasOptionsMenu(true)
+
+        pickMedia = registerForActivityResult(PickVisualMedia()) {
+            uri -> photoPicked(uri)
+        }
+
+
         super.onCreate(savedInstanceState)
     }
 
@@ -336,17 +348,33 @@ class AddPhotoFragment : Fragment(), View.OnClickListener, Undoable, ThereOverla
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (resultCode != Activity.RESULT_OK)
             return
-        if (requestCode != TAKE_PHOTO && requestCode != CHOOSE_PHOTO)
+        if (requestCode == TAKE_PHOTO)
+            photoPicked(photoUri)
+    }
+
+    private fun launchPhotoPicker() {
+        try {
+            // Launching the photo picker (photos & video included)
+            pickMedia.launch(
+                PickVisualMediaRequest(PickVisualMedia.ImageOnly)
+            )
+        } catch (e: Exception) {
+            Toast.makeText(activity, "There was a problem launching the photo picker : " + e.message, Toast.LENGTH_LONG).show()
+        }
+    }
+
+    private fun photoPicked(uri: Uri?) {
+        if (uri == null)
             return
 
         try {
-            if (requestCode == CHOOSE_PHOTO)
-                photoFilename = getImageFilePath(data!!, activity)
+            photoUri = uri
 
             photo?.recycle()
-            photo = Bitmaps.loadFile(photoFilename)
+            photo = Bitmaps.LoadUri(context, photoUri)
 
-            val exif = ExifInterface(photoFilename!!)
+            val photoStream = context?.contentResolver?.openInputStream(photoUri!!)
+            val exif = ExifInterface(photoStream!!)
             dateTime = photoTimestamp(exif)
             val photoLoc = photoLocation(exif)
             geolocated = photoLoc != null
@@ -354,12 +382,6 @@ class AddPhotoFragment : Fragment(), View.OnClickListener, Undoable, ThereOverla
             nextStep()
         } catch (e: Exception) {
             Toast.makeText(activity, "There was a problem grabbing the photo : " + e.message, Toast.LENGTH_LONG).show()
-            Log.w(TAG, "onActivityResult threw exception when processing requestCode $requestCode", e)
-            if (requestCode == TAKE_PHOTO)
-                startActivityForResult(
-                    Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI),
-                    CHOOSE_PHOTO
-                )
         }
     }
 
@@ -390,7 +412,7 @@ class AddPhotoFragment : Fragment(), View.OnClickListener, Undoable, ThereOverla
     private fun store() {
         prefs().edit().apply {
             putInt("STEP", step.id)
-            putString("PHOTOFILE", photoFilename)
+            putString("PHOTOFILE", photoUri?.toString())
             putString("DATETIME", dateTime)
             putString("CAPTION", caption)
             putBoolean("GEOLOC", geolocated)
@@ -412,10 +434,11 @@ class AddPhotoFragment : Fragment(), View.OnClickListener, Undoable, ThereOverla
         prefs().apply {
             step = AddStep.fromId(getInt("STEP", 1))!!
 
-            photoFilename = getString("PHOTOFILE", photoFilename)
+            val photoFilename = getString("PHOTOFILE", null)
             if (photo == null && photoFilename != null) {
                 // TODO scaling?
-                photo = Bitmaps.loadFile(photoFilename)
+                photoUri = photoFilename.toUri()
+                photo = Bitmaps.LoadUri(context, photoUri)
             }
             dateTime = getString("DATETIME", "")
 
@@ -495,20 +518,11 @@ class AddPhotoFragment : Fragment(), View.OnClickListener, Undoable, ThereOverla
                     dispatchTakePhotoIntent()
             }
             R.id.chooseexisting_button -> doOrLogin {
-                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU)
-                    doOrRequestPermission(null, this, READ_EXTERNAL_STORAGE) {
-                        startActivityForResult(Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI),
-                                           CHOOSE_PHOTO)
-                }
-                else
-                    doOrRequestPermission(null, this, READ_MEDIA_IMAGES) {
-                        startActivityForResult(Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI),
-                            CHOOSE_PHOTO)
-                    }
+                launchPhotoPicker()
             }
             R.id.textonly_button -> doOrLogin {
                 photo = null
-                photoFilename = null
+                photoUri = null
                 dateTime = null
                 nextStep()
             }
@@ -552,7 +566,6 @@ class AddPhotoFragment : Fragment(), View.OnClickListener, Undoable, ThereOverla
                     /* startActivityForResult(Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI),
                             CHOOSE_PHOTO) */
                 }
-                READ_MEDIA_IMAGES -> requestPermissionsResultAction(grantResult, permission){}
                 WRITE_EXTERNAL_STORAGE -> requestPermissionsResultAction(grantResult, permission) {
                     // As above
                     //dispatchTakePhotoIntent()
@@ -591,10 +604,7 @@ class AddPhotoFragment : Fragment(), View.OnClickListener, Undoable, ThereOverla
         try {
             // Create the File where the photo should go
             val photoFile: File = createImageFile(activity)
-            // Save a file: path for use with ACTION_VIEW intents
-            photoFilename = photoFile.absolutePath
-
-            val photoUri = FileProvider.getUriForFile(requireActivity(), "net.cyclestreets.fileprovider", photoFile)
+            photoUri = FileProvider.getUriForFile(requireActivity(), "net.cyclestreets.fileprovider", photoFile)
             takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri)
             startActivityForResult(takePictureIntent, TAKE_PHOTO)
         } catch (e: Exception) {
@@ -617,7 +627,7 @@ class AddPhotoFragment : Fragment(), View.OnClickListener, Undoable, ThereOverla
     private fun upload() {
         try {
             UploadPhotoTask(requireActivity(),
-                            photoFilename!!,
+                            photoUri!!,
                             CycleStreetsPreferences.username(),
                             CycleStreetsPreferences.password(),
                             there.there(),
@@ -674,7 +684,7 @@ class AddPhotoFragment : Fragment(), View.OnClickListener, Undoable, ThereOverla
     }
 
     private inner class UploadPhotoTask(context: Context,
-                                        filename: String,
+                                        uri: Uri,
                                         private val username: String,
                                         private val password: String,
                                         private val location: IGeoPoint,
@@ -682,12 +692,11 @@ class AddPhotoFragment : Fragment(), View.OnClickListener, Undoable, ThereOverla
                                         private val category: String,
                                         private val dateTime: String,
                                         private val caption: String) : AsyncTask<Any, Void, Upload.Result>() {
-        private val smallImage: Boolean = CycleStreetsPreferences.uploadSmallImages()
-        private val filename: String
+        private val photoUri: Uri
         private val progress: ProgressDialog
 
         init {
-            this.filename = if (smallImage) Bitmaps.resizePhoto(filename) else filename
+            photoUri = uri
             progress = Dialog.createProgressDialog(context, R.string.photo_uploading)
         }
 
@@ -700,7 +709,7 @@ class AddPhotoFragment : Fragment(), View.OnClickListener, Undoable, ThereOverla
         @Deprecated("Deprecated in Java")
         override fun doInBackground(vararg params: Any): Upload.Result {
             return try {
-                Upload.photo(filename, username, password, location,
+                Upload.photo(photoUri, username, password, location,
                     metaCat, category, dateTime, caption)
             } catch (e: Exception) {
                 Upload.Result.error(e.message)
@@ -709,8 +718,6 @@ class AddPhotoFragment : Fragment(), View.OnClickListener, Undoable, ThereOverla
 
         @Deprecated("Deprecated in Java")
         override fun onPostExecute(result: Upload.Result) {
-            if (smallImage)
-                AsyncDelete().execute(File(filename))
             progress.dismiss()
 
             if (result.ok())
