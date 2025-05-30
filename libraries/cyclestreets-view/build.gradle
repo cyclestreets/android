@@ -23,7 +23,7 @@ dependencies {
 //  api "org.osmdroid:osmdroid-mapsforge:${rootProject.ext.osmdroidVersion}@aar"
 // Icons disappear with 5.2.8 so reverting to 5.0.3 for now
   api 'com.mikepenz:iconics-core:5.0.3@aar'
-  api 'com.mikepenz:iconics-typeface-api:5.1.1@aar'
+  api 'com.mikepenz:iconics-typeface-api:5.0.3@aar'
   implementation 'com.mikepenz:iconics-views:5.0.3@aar'
   api 'com.mikepenz:google-material-typeface:3.0.1.6.original-kotlin@aar'
 
